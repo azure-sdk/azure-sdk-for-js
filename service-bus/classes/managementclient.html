@@ -1,0 +1,1259 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>ManagementClient | @azure/service-bus</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/service-bus</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="managementclient.html">ManagementClient</a>
+				</li>
+			</ul>
+			<h1>Class ManagementClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>internal</dt>
+						<dd></dd>
+						<dt>class</dt>
+						<dd><p>ManagementClient
+								Descibes the ServiceBus Management Client that talks
+							to the $management endpoint over AMQP connection.</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="linkentity.html" class="tsd-signature-type">LinkEntity</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">ManagementClient</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="managementclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="managementclient.html#_context" class="tsd-kind-icon">_context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="managementclient.html#_tokenrenewaltimer" class="tsd-kind-icon">_token<wbr>Renewal<wbr>Timer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="managementclient.html#address" class="tsd-kind-icon">address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="managementclient.html#audience" class="tsd-kind-icon">audience</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="managementclient.html#entitypath" class="tsd-kind-icon">entity<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="managementclient.html#isconnecting" class="tsd-kind-icon">is<wbr>Connecting</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="managementclient.html#managementlock" class="tsd-kind-icon">management<wbr>Lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="managementclient.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="managementclient.html#replyto" class="tsd-kind-icon">reply<wbr>To</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="managementclient.html#_closelink" class="tsd-kind-icon">_close<wbr>Link</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="managementclient.html#_ensuretokenrenewal" class="tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="managementclient.html#_negotiateclaim" class="tsd-kind-icon">_negotiate<wbr>Claim</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#addrule" class="tsd-kind-icon">add<wbr>Rule</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#cancelscheduledmessages" class="tsd-kind-icon">cancel<wbr>Scheduled<wbr>Messages</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#getrules" class="tsd-kind-icon">get<wbr>Rules</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#getsessionstate" class="tsd-kind-icon">get<wbr>Session<wbr>State</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#listmessagesessions" class="tsd-kind-icon">list<wbr>Message<wbr>Sessions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#peek" class="tsd-kind-icon">peek</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#peekbysequencenumber" class="tsd-kind-icon">peek<wbr>BySequence<wbr>Number</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#peekmessagesbysession" class="tsd-kind-icon">peek<wbr>Messages<wbr>BySession</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#receivedeferredmessages" class="tsd-kind-icon">receive<wbr>Deferred<wbr>Messages</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#removerule" class="tsd-kind-icon">remove<wbr>Rule</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#renewlock" class="tsd-kind-icon">renew<wbr>Lock</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#renewsessionlock" class="tsd-kind-icon">renew<wbr>Session<wbr>Lock</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#schedulemessages" class="tsd-kind-icon">schedule<wbr>Messages</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#setsessionstate" class="tsd-kind-icon">set<wbr>Session<wbr>State</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="managementclient.html#updatedispositionstatus" class="tsd-kind-icon">update<wbr>Disposition<wbr>Status</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Management<wbr>Client<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/managementclientoptions.html" class="tsd-signature-type">ManagementClientOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="managementclient.html" class="tsd-signature-type">ManagementClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L188">core/managementClient.ts:188</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>constructor</dt>
+									<dd><p>Instantiates the management client.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The client entity context.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/managementclientoptions.html" class="tsd-signature-type">ManagementClientOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="managementclient.html" class="tsd-signature-type">ManagementClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_context" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _context</h3>
+					<div class="tsd-signature tsd-kind-icon">_context<span class="tsd-signature-symbol">:</span> <a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_context">_context</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L77">core/linkEntity.ts:77</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{ClientEntityContext} _context Provides relevant information about the amqp connection,
+								cbs and $management sessions, token provider, sender and receivers.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_tokenrenewaltimer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> _token<wbr>Renewal<wbr>Timer</h3>
+					<div class="tsd-signature tsd-kind-icon">_token<wbr>Renewal<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.Timer</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_tokenrenewaltimer">_tokenRenewalTimer</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L83">core/linkEntity.ts:83</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
+								the Client Entity is due for token renewal.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="address" class="tsd-anchor"></a>
+					<h3>address</h3>
+					<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#address">address</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L50">core/linkEntity.ts:50</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} address The client entity address in one of the following forms:</p>
+								<p><strong>Sender</strong></p>
+								<ul>
+									<li><code>&quot;&lt;queue-name&gt;&quot;</code>.</li>
+									<li><code>&quot;&lt;topic-name&gt;&quot;</code>.</li>
+								</ul>
+								<p><strong>Receiver</strong></p>
+								<ul>
+									<li><code>&quot;&lt;queue-name&gt;&quot;</code>.</li>
+									<li><code>&quot;&lt;topic-name&gt;&quot;</code>.</li>
+								</ul>
+								<p><strong>ManagementClient</strong>
+								-<code>&quot;$management&quot;</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="audience" class="tsd-anchor"></a>
+					<h3>audience</h3>
+					<div class="tsd-signature tsd-kind-icon">audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#audience">audience</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L66">core/linkEntity.ts:66</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} audience The client entity token audience in one of the following forms:</p>
+								<p><strong>Sender</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;queue-name&gt;&quot;</code></li>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;topic-name&gt;&quot;</code></li>
+								</ul>
+								<p><strong>Receiver</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;queue-name&gt;&quot;</code></li>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;topic-name&gt;&quot;</code></li>
+								</ul>
+								<p><strong>ManagementClient</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;queue-name&gt;/$management&quot;</code>.</li>
+									<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;topic-name&gt;/$management&quot;</code>.</li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="entitypath" class="tsd-anchor"></a>
+					<h3>entity<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">entity<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L174">core/managementClient.ts:174</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} entityPath - The name/path of the entity (queue/topic/subscription name)
+								for which the management request needs to be made.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="isconnecting" class="tsd-anchor"></a>
+					<h3>is<wbr>Connecting</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#isconnecting">isConnecting</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L71">core/linkEntity.ts:71</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{boolean} isConnecting Indicates whether the link is in the process of connecting
+								(establishing) itself. Default value: <code>false</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="managementlock" class="tsd-anchor"></a>
+					<h3>management<wbr>Lock</h3>
+					<div class="tsd-signature tsd-kind-icon">management<wbr>Lock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&#x60;${Constants.managementRequestKey}-${generate_uuid()}&#x60;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L169">core/managementClient.ts:169</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#name">name</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L35">core/linkEntity.ts:35</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} id The unique name for the entity in the format:
+								<code>${name of the entity}-${guid}</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="replyto" class="tsd-anchor"></a>
+					<h3>reply<wbr>To</h3>
+					<div class="tsd-signature tsd-kind-icon">reply<wbr>To<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;generate_uuid()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L178">core/managementClient.ts:178</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} replyTo The reply to Guid for the management client.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_closelink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _close<wbr>Link</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_close<wbr>Link<span class="tsd-signature-symbol">(</span>link<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Sender</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Receiver</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_closelink">_closeLink</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L195">core/linkEntity.ts:195</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Closes the Sender|Receiver link and it&#39;s underlying session and also removes it from the
+									internal map.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> link: <span class="tsd-signature-type">Sender</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Receiver</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_ensuretokenrenewal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _ensure<wbr>Token<wbr>Renewal</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_ensuretokenrenewal">_ensureTokenRenewal</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L157">core/linkEntity.ts:157</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ensures that the token is renewed within the predefined renewal margin.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_negotiateclaim" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _negotiate<wbr>Claim</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_negotiate<wbr>Claim<span class="tsd-signature-symbol">(</span>setTokenRenewal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_negotiateclaim">_negotiateClaim</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L104">core/linkEntity.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Negotiates the cbs claim for the ClientEntity.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> setTokenRenewal: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addrule" class="tsd-anchor"></a>
+					<h3>add<wbr>Rule</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Rule<span class="tsd-signature-symbol">(</span>ruleName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, filter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/correlationfilter.html" class="tsd-signature-type">CorrelationFilter</a>, sqlRuleActionExpression<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L1253">core/managementClient.ts:1253</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds a rule on the subscription as defined by the given rule name, filter and action</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ruleName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the rule</p>
+									</div>
+								</li>
+								<li>
+									<h5>filter: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/correlationfilter.html" class="tsd-signature-type">CorrelationFilter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A Boolean, SQL expression or a Correlation filter</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> sqlRuleActionExpression: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Action to perform if the message satisfies the filtering expression</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cancelscheduledmessages" class="tsd-anchor"></a>
+					<h3>cancel<wbr>Scheduled<wbr>Messages</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cancel<wbr>Scheduled<wbr>Messages<span class="tsd-signature-symbol">(</span>sequenceNumbers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L623">core/managementClient.ts:623</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancels an array of messages that were scheduled.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sequenceNumbers: <span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An Array of sequence numbers of the message to be cancelled.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L289">core/managementClient.ts:289</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Closes the AMQP management session to the ServiceBus namespace for this client,
+									returning a promise that will be resolved when disconnection is completed.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getrules" class="tsd-anchor"></a>
+					<h3>get<wbr>Rules</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Rules<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ruledescription.html" class="tsd-signature-type">RuleDescription</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L1085">core/managementClient.ts:1085</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get all the rules on the Subscription.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ruledescription.html" class="tsd-signature-type">RuleDescription</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;RuleDescription[]&gt; A list of rules.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getsessionstate" class="tsd-anchor"></a>
+					<h3>get<wbr>Session<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Session<wbr>State<span class="tsd-signature-symbol">(</span>sessionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, associatedLinkName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L979">core/managementClient.ts:979</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the state of the specified session.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sessionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The session for which the state needs to be retrieved.</p>
+									</div>
+								</li>
+								<li>
+									<h5>associatedLinkName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<any> The state of that session</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listmessagesessions" class="tsd-anchor"></a>
+					<h3>list<wbr>Message<wbr>Sessions</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Message<wbr>Sessions<span class="tsd-signature-symbol">(</span>skip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, lastUpdatedTime<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L1028">core/managementClient.ts:1028</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists the sessions on the ServiceBus Queue/Topic.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>skip: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The number of sessions to skip</p>
+									</div>
+								</li>
+								<li>
+									<h5>top: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Maximum numer of sessions.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> lastUpdatedTime: <span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;string[]&gt; A list of session ids.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="peek" class="tsd-anchor"></a>
+					<h3>peek</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">peek<span class="tsd-signature-symbol">(</span>messageCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L319">core/managementClient.ts:319</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches the next batch of active messages. The first call to <code>peek()</code> fetches the first
+										active message for this client. Each subsequent call fetches the subsequent message in the
+									entity.</p>
+								</div>
+								<p>Unlike a <code>received</code> message, <code>peeked</code> message will not have lock token associated with it,
+									and hence it cannot be <code>Completed/Abandoned/Deferred/Deadlettered/Renewed</code>. This method will
+								also fetch even Deferred messages (but not Deadlettered message).</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> messageCount: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;ReceivedSBMessage[]&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="peekbysequencenumber" class="tsd-anchor"></a>
+					<h3>peek<wbr>BySequence<wbr>Number</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">peek<wbr>BySequence<wbr>Number<span class="tsd-signature-symbol">(</span>fromSequenceNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Long</span>, maxMessageCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, sessionId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L362">core/managementClient.ts:362</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Peeks the desired number of messages from the specified sequence number.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fromSequenceNumber: <span class="tsd-signature-type">Long</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The sequence number from where to read the message.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> maxMessageCount: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> sessionId: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The sessionId from which messages need to be peeked.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;ReceivedMessageInfo[]&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="peekmessagesbysession" class="tsd-anchor"></a>
+					<h3>peek<wbr>Messages<wbr>BySession</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">peek<wbr>Messages<wbr>BySession<span class="tsd-signature-symbol">(</span>sessionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, associatedLinkName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, messageCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L341">core/managementClient.ts:341</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches the next batch of active messages in the current MessageSession. The first call to
+										<code>peek()</code> fetches the first active message for this client. Each subsequent call fetches the
+									subsequent message in the entity.</p>
+								</div>
+								<p>Unlike a <code>received</code> message, <code>peeked</code> message will not have lock token associated with it,
+									and hence it cannot be <code>Completed/Abandoned/Deferred/Deadlettered/Renewed</code>.  This method will
+								also fetch even Deferred messages (but not Deadlettered message).</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sessionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The sessionId from which messages need to be peeked.</p>
+									</div>
+								</li>
+								<li>
+									<h5>associatedLinkName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> messageCount: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/receivedmessageinfo.html" class="tsd-signature-type">ReceivedMessageInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;ReceivedMessageInfo[]&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="receivedeferredmessages" class="tsd-anchor"></a>
+					<h3>receive<wbr>Deferred<wbr>Messages</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">receive<wbr>Deferred<wbr>Messages<span class="tsd-signature-symbol">(</span>sequenceNumbers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span>, receiveMode<span class="tsd-signature-symbol">: </span><a href="../enums/receivemode.html" class="tsd-signature-type">ReceiveMode</a>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, sessionId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="servicebusmessage.html" class="tsd-signature-type">ServiceBusMessage</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L697">core/managementClient.ts:697</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Receives a list of deferred messages identified by <code>sequenceNumbers</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sequenceNumbers: <span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A list containing the sequence numbers to receive.</p>
+									</div>
+								</li>
+								<li>
+									<h5>receiveMode: <a href="../enums/receivemode.html" class="tsd-signature-type">ReceiveMode</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The mode in which the receiver was created.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> sessionId: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="servicebusmessage.html" class="tsd-signature-type">ServiceBusMessage</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;ServiceBusMessage[]&gt;</p>
+							<ul>
+								<li>Returns a list of messages identified by the given sequenceNumbers.</li>
+								<li>Returns an empty list if no messages are found.</li>
+								<li>Throws an error if the messages have not been deferred.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="removerule" class="tsd-anchor"></a>
+					<h3>remove<wbr>Rule</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">remove<wbr>Rule<span class="tsd-signature-symbol">(</span>ruleName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L1201">core/managementClient.ts:1201</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Removes the rule on the Subscription identified by the given rule name.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ruleName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="renewlock" class="tsd-anchor"></a>
+					<h3>renew<wbr>Lock</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">renew<wbr>Lock<span class="tsd-signature-symbol">(</span>lockToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SendRequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L461">core/managementClient.ts:461</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Renews the lock on the message. The lock will be renewed based on the setting specified on
+									the queue.</p>
+								</div>
+								<p>When a message is received in <code>PeekLock</code> mode, the message is locked on the server for this
+									receiver instance for a duration as specified during the Queue/Subscription creation
+									(LockDuration). If processing of the message requires longer than this duration, the
+									lock needs to be renewed. For each renewal, it resets the time the message is locked by the
+								LockDuration set on the Entity.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lockToken: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Lock token of the message</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>associated link name on which operation is to be executed, if applicable</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">SendRequestOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<Date> New lock token expiry date and time in UTC format.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="renewsessionlock" class="tsd-anchor"></a>
+					<h3>renew<wbr>Session<wbr>Lock</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">renew<wbr>Session<wbr>Lock<span class="tsd-signature-symbol">(</span>sessionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">SendRequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L872">core/managementClient.ts:872</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Renews the lock for the specified session.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sessionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Id of the session for which the lock needs to be renewed</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>associated link name on which operation is to be executed, if applicable</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">SendRequestOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Options that can be set while sending the request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<Date> New lock token expiry date and time in UTC format.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="schedulemessages" class="tsd-anchor"></a>
+					<h3>schedule<wbr>Messages</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">schedule<wbr>Messages<span class="tsd-signature-symbol">(</span>scheduledEnqueueTimeUtc<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, messages<span class="tsd-signature-symbol">: </span><a href="../interfaces/sendablemessageinfo.html" class="tsd-signature-type">SendableMessageInfo</a><span class="tsd-signature-symbol">[]</span>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L523">core/managementClient.ts:523</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Schedules an array of messages to appear on Service Bus at a later time.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>scheduledEnqueueTimeUtc: <span class="tsd-signature-type">Date</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The UTC time at which the messages should be enqueued.</p>
+									</div>
+								</li>
+								<li>
+									<h5>messages: <a href="../interfaces/sendablemessageinfo.html" class="tsd-signature-type">SendableMessageInfo</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An array of messages that needs to be scheduled.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Long</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<number> The sequence numbers of messages that were scheduled.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setsessionstate" class="tsd-anchor"></a>
+					<h3>set<wbr>Session<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Session<wbr>State<span class="tsd-signature-symbol">(</span>sessionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, associatedLinkName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L933">core/managementClient.ts:933</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the state of the specified session.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>sessionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The session for which the state needs to be set</p>
+									</div>
+								</li>
+								<li>
+									<h5>state: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The state that needs to be set.</p>
+									</div>
+								</li>
+								<li>
+									<h5>associatedLinkName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatedispositionstatus" class="tsd-anchor"></a>
+					<h3>update<wbr>Disposition<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Disposition<wbr>Status<span class="tsd-signature-symbol">(</span>lockToken<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, dispositionStatus<span class="tsd-signature-symbol">: </span><a href="../enums/dispositionstatus.html" class="tsd-signature-type">DispositionStatus</a>, associatedLinkName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">DispositionStatusOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/managementClient.ts#L802">core/managementClient.ts:802</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates the disposition status of deferred messages.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lockToken: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>dispositionStatus: <a href="../enums/dispositionstatus.html" class="tsd-signature-type">DispositionStatus</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The disposition status to be set</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> associatedLinkName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">DispositionStatusOptions</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters that can be provided while updating the disposition status.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="managementclient.html" class="tsd-kind-icon">Management<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="managementclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="managementclient.html#_context" class="tsd-kind-icon">_context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="managementclient.html#_tokenrenewaltimer" class="tsd-kind-icon">_token<wbr>Renewal<wbr>Timer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="managementclient.html#address" class="tsd-kind-icon">address</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="managementclient.html#audience" class="tsd-kind-icon">audience</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="managementclient.html#entitypath" class="tsd-kind-icon">entity<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="managementclient.html#isconnecting" class="tsd-kind-icon">is<wbr>Connecting</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="managementclient.html#managementlock" class="tsd-kind-icon">management<wbr>Lock</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="managementclient.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="managementclient.html#replyto" class="tsd-kind-icon">reply<wbr>To</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="managementclient.html#_closelink" class="tsd-kind-icon">_close<wbr>Link</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="managementclient.html#_ensuretokenrenewal" class="tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="managementclient.html#_negotiateclaim" class="tsd-kind-icon">_negotiate<wbr>Claim</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#addrule" class="tsd-kind-icon">add<wbr>Rule</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#cancelscheduledmessages" class="tsd-kind-icon">cancel<wbr>Scheduled<wbr>Messages</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#getrules" class="tsd-kind-icon">get<wbr>Rules</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#getsessionstate" class="tsd-kind-icon">get<wbr>Session<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#listmessagesessions" class="tsd-kind-icon">list<wbr>Message<wbr>Sessions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#peek" class="tsd-kind-icon">peek</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#peekbysequencenumber" class="tsd-kind-icon">peek<wbr>BySequence<wbr>Number</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#peekmessagesbysession" class="tsd-kind-icon">peek<wbr>Messages<wbr>BySession</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#receivedeferredmessages" class="tsd-kind-icon">receive<wbr>Deferred<wbr>Messages</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#removerule" class="tsd-kind-icon">remove<wbr>Rule</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#renewlock" class="tsd-kind-icon">renew<wbr>Lock</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#renewsessionlock" class="tsd-kind-icon">renew<wbr>Session<wbr>Lock</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#schedulemessages" class="tsd-kind-icon">schedule<wbr>Messages</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#setsessionstate" class="tsd-kind-icon">set<wbr>Session<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="managementclient.html#updatedispositionstatus" class="tsd-kind-icon">update<wbr>Disposition<wbr>Status</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

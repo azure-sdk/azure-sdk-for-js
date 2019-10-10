@@ -1,0 +1,759 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>EventHubConnectionConfig | @azure/core-amqp</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/core-amqp</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="eventhubconnectionconfig.html">EventHubConnectionConfig</a>
+				</li>
+			</ul>
+			<h1>Module EventHubConnectionConfig</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Describes the connection config object that is created after parsing an EventHub connection
+							string. It also provides some convenience methods for getting the address and audience for
+						different entities.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>module</dt>
+						<dd><p>EventHubConnectionConfig</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#connectionstring" class="tsd-kind-icon">connection<wbr>String</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#endpoint" class="tsd-kind-icon">endpoint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-overwrite"><a href="eventhubconnectionconfig.html#entitypath" class="tsd-kind-icon">entity<wbr>Path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#host" class="tsd-kind-icon">host</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#sharedaccesskey" class="tsd-kind-icon">shared<wbr>Access<wbr>Key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#sharedaccesskeyname" class="tsd-kind-icon">shared<wbr>Access<wbr>Key<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#websocket" class="tsd-kind-icon">web<wbr>Socket</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#websocketconstructoroptions" class="tsd-kind-icon">web<wbr>Socket<wbr>Constructor<wbr>Options</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-module tsd-is-inherited"><a href="eventhubconnectionconfig.html#websocketendpointpath" class="tsd-kind-icon">web<wbr>Socket<wbr>Endpoint<wbr>Path</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#createfromconnectionconfig" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>Config</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getmanagementaddress" class="tsd-kind-icon">get<wbr>Management<wbr>Address</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getmanagementaudience" class="tsd-kind-icon">get<wbr>Management<wbr>Audience</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getreceiveraddress" class="tsd-kind-icon">get<wbr>Receiver<wbr>Address</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getreceiveraudience" class="tsd-kind-icon">get<wbr>Receiver<wbr>Audience</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getsenderaddress" class="tsd-kind-icon">get<wbr>Sender<wbr>Address</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#getsenderaudience" class="tsd-kind-icon">get<wbr>Sender<wbr>Audience</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-module"><a href="eventhubconnectionconfig.html#validate" class="tsd-kind-icon">validate</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="connectionstring" class="tsd-anchor"></a>
+					<h3>connection<wbr>String</h3>
+					<div class="tsd-signature tsd-kind-icon">connection<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#connectionstring">connectionString</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L37">connectionConfig/connectionConfig.ts:37</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} connectionString - The connection string.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="endpoint" class="tsd-anchor"></a>
+					<h3>endpoint</h3>
+					<div class="tsd-signature tsd-kind-icon">endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#endpoint">endpoint</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L29">connectionConfig/connectionConfig.ts:29</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} endpoint - The service bus endpoint
+								&quot;sb://<yournamespace>.servicebus.windows.net/&quot;.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-overwrite">
+					<a name="entitypath" class="tsd-anchor"></a>
+					<h3>entity<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">entity<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Overrides <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#entitypath">entityPath</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L17">connectionConfig/eventhubConnectionConfig.ts:17</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} entityPath - The name/path of the entity (event hub name) to which the
+								connection needs to happen.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="host" class="tsd-anchor"></a>
+					<h3>host</h3>
+					<div class="tsd-signature tsd-kind-icon">host<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#host">host</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L33">connectionConfig/connectionConfig.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} host - The host &quot;<yournamespace>.servicebus.windows.net&quot;.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="sharedaccesskey" class="tsd-anchor"></a>
+					<h3>shared<wbr>Access<wbr>Key</h3>
+					<div class="tsd-signature tsd-kind-icon">shared<wbr>Access<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#sharedaccesskey">sharedAccessKey</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L50">connectionConfig/connectionConfig.ts:50</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} sharedAccessKey - The secret value of the access key.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="sharedaccesskeyname" class="tsd-anchor"></a>
+					<h3>shared<wbr>Access<wbr>Key<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">shared<wbr>Access<wbr>Key<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#sharedaccesskeyname">sharedAccessKeyName</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L46">connectionConfig/connectionConfig.ts:46</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} sharedAccessKeyName - The name of the access key.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="websocket" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> web<wbr>Socket</h3>
+					<div class="tsd-signature tsd-kind-icon">web<wbr>Socket<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WebSocketImpl</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#websocket">webSocket</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L57">connectionConfig/connectionConfig.ts:57</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{WebSocketImpl} [webSocket] - The WebSocket constructor used to create an AMQP connection
+									over a WebSocket. In browsers, the built-in WebSocket will be  used by default. In Node, a
+								TCP socket will be used if a WebSocket constructor is not provided.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="websocketconstructoroptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> web<wbr>Socket<wbr>Constructor<wbr>Options</h3>
+					<div class="tsd-signature tsd-kind-icon">web<wbr>Socket<wbr>Constructor<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#websocketconstructoroptions">webSocketConstructorOptions</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L68">connectionConfig/connectionConfig.ts:68</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{any} [webSocketConstructorOptions] - Options to be passed to the WebSocket constructor</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+					<a name="websocketendpointpath" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> web<wbr>Socket<wbr>Endpoint<wbr>Path</h3>
+					<div class="tsd-signature tsd-kind-icon">web<wbr>Socket<wbr>Endpoint<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="connectionconfig.html">ConnectionConfig</a>.<a href="connectionconfig.html#websocketendpointpath">webSocketEndpointPath</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L63">connectionConfig/connectionConfig.ts:63</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} [webSocketEndpointPath] - The path for the endpoint that accepts an AMQP
+								connection over WebSockets.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="createfromconnectionconfig" class="tsd-anchor"></a>
+					<h3>create<wbr>From<wbr>Connection<wbr>Config</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>Config<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventhubconnectionconfig.html" class="tsd-signature-type">EventHubConnectionConfig</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L97">connectionConfig/eventhubConnectionConfig.ts:97</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventHubConnectionConfig from the provided base ConnectionConfig.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The base connection config from which the EventHubConnectionConfig needs to be
+										created.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventhubconnectionconfig.html" class="tsd-signature-type">EventHubConnectionConfig</a></h4>
+							<p>EventHubConnectionConfig</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>connectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L85">connectionConfig/connectionConfig.ts:85</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates the connection config.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The connection string for a given service like
+											EventHub/ServiceBus.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> path: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a></h4>
+							<p>ConnectionConfig</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getmanagementaddress" class="tsd-anchor"></a>
+					<h3>get<wbr>Management<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Management<wbr>Address<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L56">connectionConfig/eventhubConnectionConfig.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Management address.</p>
+									<ul>
+										<li><code>&quot;&lt;hub-name&gt;/$management&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getmanagementaudience" class="tsd-anchor"></a>
+					<h3>get<wbr>Management<wbr>Audience</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Management<wbr>Audience<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L61">connectionConfig/eventhubConnectionConfig.ts:61</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Management audience.</p>
+									<ul>
+										<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;hub-name&gt;/$management&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getreceiveraddress" class="tsd-anchor"></a>
+					<h3>get<wbr>Receiver<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Receiver<wbr>Address<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, consumergroup<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L42">connectionConfig/eventhubConnectionConfig.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Receiver address:</p>
+									<ul>
+										<li><code>&quot;&lt;hub-name&gt;/ConsumerGroups/&lt;consumer-group-name&gt;/Partitions/&lt;partition-id&gt;&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>partitionId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The partitionId in the EventHub from which messages will be received.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> consumergroup: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The consumergoup in the EventHub from which the messages will
+										be received. Default: <code>$default</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getreceiveraudience" class="tsd-anchor"></a>
+					<h3>get<wbr>Receiver<wbr>Audience</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Receiver<wbr>Audience<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, consumergroup<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L51">connectionConfig/eventhubConnectionConfig.ts:51</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Receiver audience.</p>
+									<ul>
+										<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;hub-name&gt;/ConsumerGroups/&lt;consumer-group-name&gt;/Partitions/&lt;partition-id&gt;&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>partitionId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The partitionId in the EventHub from which messages will be received.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> consumergroup: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The consumergoup in the EventHub from which the messages will
+										be received. Default: <code>$default</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getsenderaddress" class="tsd-anchor"></a>
+					<h3>get<wbr>Sender<wbr>Address</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sender<wbr>Address<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L25">connectionConfig/eventhubConnectionConfig.ts:25</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Sender address in one of the following forms based on the input:</p>
+									<ul>
+										<li><code>&quot;&lt;hubName&gt;&quot;</code></li>
+										<li><code>&quot;&lt;hubName&gt;/Partitions/&lt;partitionId&gt;&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> partitionId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The partitionId in the EventHub to which messages will be sent.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="getsenderaudience" class="tsd-anchor"></a>
+					<h3>get<wbr>Sender<wbr>Audience</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sender<wbr>Audience<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/eventhubConnectionConfig.ts#L33">connectionConfig/eventhubConnectionConfig.ts:33</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the EventHub Sender audience in one of the following forms based on the input:</p>
+									<ul>
+										<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;hubName&gt;&quot;</code></li>
+										<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;hubName&gt;/Partitions/&lt;partitionId&gt;&quot;</code></li>
+									</ul>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> partitionId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The partitionId in the EventHub to which messages will be sent.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-module">
+					<a name="validate" class="tsd-anchor"></a>
+					<h3>validate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">validate<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/connectionconfigoptions.html" class="tsd-signature-type">ConnectionConfigOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/core/core-amqp/src/connectionConfig/connectionConfig.ts#L114">connectionConfig/connectionConfig.ts:114</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Validates the properties of connection config.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>config: <a href="connectionconfig.html" class="tsd-signature-type">ConnectionConfig</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The connection config to be validated.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/connectionconfigoptions.html" class="tsd-signature-type">ConnectionConfigOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<p>void</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="connectionconfig.html">Connection<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="connectioncontextbase.html">Connection<wbr>Context<wbr>Base</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="eventhubconnectionconfig.html">Event<wbr>Hub<wbr>Connection<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="messageheader.html">Message<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="messageproperties.html">Message<wbr>Properties</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#connectionstring" class="tsd-kind-icon">connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-overwrite">
+						<a href="eventhubconnectionconfig.html#entitypath" class="tsd-kind-icon">entity<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#host" class="tsd-kind-icon">host</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#sharedaccesskey" class="tsd-kind-icon">shared<wbr>Access<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#sharedaccesskeyname" class="tsd-kind-icon">shared<wbr>Access<wbr>Key<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#websocket" class="tsd-kind-icon">web<wbr>Socket</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#websocketconstructoroptions" class="tsd-kind-icon">web<wbr>Socket<wbr>Constructor<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-property tsd-parent-kind-module tsd-is-inherited">
+						<a href="eventhubconnectionconfig.html#websocketendpointpath" class="tsd-kind-icon">web<wbr>Socket<wbr>Endpoint<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#createfromconnectionconfig" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#create" class="tsd-kind-icon">create</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getmanagementaddress" class="tsd-kind-icon">get<wbr>Management<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getmanagementaudience" class="tsd-kind-icon">get<wbr>Management<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getreceiveraddress" class="tsd-kind-icon">get<wbr>Receiver<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getreceiveraudience" class="tsd-kind-icon">get<wbr>Receiver<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getsenderaddress" class="tsd-kind-icon">get<wbr>Sender<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#getsenderaudience" class="tsd-kind-icon">get<wbr>Sender<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-method tsd-parent-kind-module">
+						<a href="eventhubconnectionconfig.html#validate" class="tsd-kind-icon">validate</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,1733 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-mediaservices</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-mediaservices</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-mediaservices</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-azuremediaservices-sdk-for-javascript" id="azure-azuremediaservices-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure AzureMediaServices SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for AzureMediaServices.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-mediaservices</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-accountfilters-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-accountfilters-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list accountFilters as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { AzureMediaServices, AzureMediaServicesModels, AzureMediaServicesMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-mediaservices"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> AzureMediaServices(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+  client.accountFilters.list(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-accountfilters-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-accountfilters-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list accountFilters as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-mediaservices sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-mediaservices/dist/arm-mediaservices.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmMediaservices.AzureMediaServices(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+      client.accountFilters.list(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/accountfilters.html" class="tsd-kind-icon">Account<wbr>Filters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/assetfilters.html" class="tsd-kind-icon">Asset<wbr>Filters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/assets.html" class="tsd-kind-icon">Assets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/azuremediaservicescontext.html" class="tsd-kind-icon">Azure<wbr>Media<wbr>Services<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/contentkeypolicies.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jobs.html" class="tsd-kind-icon">Jobs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/liveevents.html" class="tsd-kind-icon">Live<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/liveoutputs.html" class="tsd-kind-icon">Live<wbr>Outputs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/locations.html" class="tsd-kind-icon">Locations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/mediaservices.html" class="tsd-kind-icon">Mediaservices</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streamingendpoints.html" class="tsd-kind-icon">Streaming<wbr>Endpoints</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streaminglocators.html" class="tsd-kind-icon">Streaming<wbr>Locators</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streamingpolicies.html" class="tsd-kind-icon">Streaming<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transforms.html" class="tsd-kind-icon">Transforms</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/aacaudio.html" class="tsd-kind-icon">Aac<wbr>Audio</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountfilter.html" class="tsd-kind-icon">Account<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountfiltercollection.html" class="tsd-kind-icon">Account<wbr>Filter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/akamaiaccesscontrol.html" class="tsd-kind-icon">Akamai<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/akamaisignatureheaderauthenticationkey.html" class="tsd-kind-icon">Akamai<wbr>Signature<wbr>Header<wbr>Authentication<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apierror.html" class="tsd-kind-icon">Api<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/asset.html" class="tsd-kind-icon">Asset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetcollection.html" class="tsd-kind-icon">Asset<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetcontainersas.html" class="tsd-kind-icon">Asset<wbr>Container<wbr>Sas</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetfileencryptionmetadata.html" class="tsd-kind-icon">Asset<wbr>File<wbr>Encryption<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetfilter.html" class="tsd-kind-icon">Asset<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetfiltercollection.html" class="tsd-kind-icon">Asset<wbr>Filter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetstreaminglocator.html" class="tsd-kind-icon">Asset<wbr>Streaming<wbr>Locator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assetslistoptionalparams.html" class="tsd-kind-icon">Assets<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/audio.html" class="tsd-kind-icon">Audio</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/audioanalyzerpreset.html" class="tsd-kind-icon">Audio<wbr>Analyzer<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/audiooverlay.html" class="tsd-kind-icon">Audio<wbr>Overlay</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremediaservicesoptions.html" class="tsd-kind-icon">Azure<wbr>Media<wbr>Services<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/builtinstandardencoderpreset.html" class="tsd-kind-icon">Built<wbr>InStandard<wbr>Encoder<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cbcsdrmconfiguration.html" class="tsd-kind-icon">Cbcs<wbr>Drm<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cencdrmconfiguration.html" class="tsd-kind-icon">Cenc<wbr>Drm<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checknameavailabilityinput.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/codec.html" class="tsd-kind-icon">Codec</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commonencryptioncbcs.html" class="tsd-kind-icon">Common<wbr>Encryption<wbr>Cbcs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commonencryptioncenc.html" class="tsd-kind-icon">Common<wbr>Encryption<wbr>Cenc</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicieslistoptionalparams.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicy.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyclearkeyconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Clear<wbr>Key<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicycollection.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyfairplayconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Fair<wbr>Play<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyopenrestriction.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Open<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyoption.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadyconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadycontentencryptionkeyfromheader.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Encryption<wbr>Key<wbr>From<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadycontentencryptionkeyfromkeyidentifier.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Encryption<wbr>Key<wbr>From<wbr>Key<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadycontentkeylocation.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Key<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadyexplicitanalogtelevisionrestriction.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Explicit<wbr>Analog<wbr>Television<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadylicense.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>License</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyplayreadyplayright.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Play<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyproperties.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyrestriction.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyrestrictiontokenkey.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyrsatokenkey.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Rsa<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicysymmetrictokenkey.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Symmetric<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicytokenclaim.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Token<wbr>Claim</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicytokenrestriction.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Token<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyunknownconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Unknown<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyunknownrestriction.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Unknown<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicywidevineconfiguration.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Widevine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contentkeypolicyx509certificatetokenkey.html" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>X509<wbr>Certificate<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copyaudio.html" class="tsd-kind-icon">Copy<wbr>Audio</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copyvideo.html" class="tsd-kind-icon">Copy<wbr>Video</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/crosssiteaccesspolicies.html" class="tsd-kind-icon">Cross<wbr>Site<wbr>Access<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/defaultkey.html" class="tsd-kind-icon">Default<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deinterlace.html" class="tsd-kind-icon">Deinterlace</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enabledprotocols.html" class="tsd-kind-icon">Enabled<wbr>Protocols</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entitynameavailabilitycheckoutput.html" class="tsd-kind-icon">Entity<wbr>Name<wbr>Availability<wbr>Check<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/envelopeencryption.html" class="tsd-kind-icon">Envelope<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facedetectorpreset.html" class="tsd-kind-icon">Face<wbr>Detector<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filtertrackpropertycondition.html" class="tsd-kind-icon">Filter<wbr>Track<wbr>Property<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filtertrackselection.html" class="tsd-kind-icon">Filter<wbr>Track<wbr>Selection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filters.html" class="tsd-kind-icon">Filters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/firstquality.html" class="tsd-kind-icon">First<wbr>Quality</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/format.html" class="tsd-kind-icon">Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/h264layer.html" class="tsd-kind-icon">H264<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/h264video.html" class="tsd-kind-icon">H264<wbr>Video</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hls.html" class="tsd-kind-icon">Hls</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipaccesscontrol.html" class="tsd-kind-icon">IPAccess<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iprange.html" class="tsd-kind-icon">IPRange</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image.html" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageformat.html" class="tsd-kind-icon">Image<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/job.html" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobcollection.html" class="tsd-kind-icon">Job<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joberror.html" class="tsd-kind-icon">Job<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joberrordetail.html" class="tsd-kind-icon">Job<wbr>Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobinput.html" class="tsd-kind-icon">Job<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobinputasset.html" class="tsd-kind-icon">Job<wbr>Input<wbr>Asset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobinputclip.html" class="tsd-kind-icon">Job<wbr>Input<wbr>Clip</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobinputhttp.html" class="tsd-kind-icon">Job<wbr>Input<wbr>Http</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobinputs.html" class="tsd-kind-icon">Job<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joboutput.html" class="tsd-kind-icon">Job<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joboutputasset.html" class="tsd-kind-icon">Job<wbr>Output<wbr>Asset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobslistoptionalparams.html" class="tsd-kind-icon">Jobs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jpgformat.html" class="tsd-kind-icon">Jpg<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jpgimage.html" class="tsd-kind-icon">Jpg<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jpglayer.html" class="tsd-kind-icon">Jpg<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/layer.html" class="tsd-kind-icon">Layer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listcontainersasinput.html" class="tsd-kind-icon">List<wbr>Container<wbr>Sas<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listcontentkeysresponse.html" class="tsd-kind-icon">List<wbr>Content<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listpathsresponse.html" class="tsd-kind-icon">List<wbr>Paths<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liststreaminglocatorsresponse.html" class="tsd-kind-icon">List<wbr>Streaming<wbr>Locators<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveevent.html" class="tsd-kind-icon">Live<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventactioninput.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Action<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventencoding.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Encoding</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventendpoint.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventinput.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventinputaccesscontrol.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Input<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventlistresult.html" class="tsd-kind-icon">Live<wbr>Event<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventpreview.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Preview</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventpreviewaccesscontrol.html" class="tsd-kind-icon">Live<wbr>Event<wbr>Preview<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventsbegincreateoptionalparams.html" class="tsd-kind-icon">Live<wbr>Events<wbr>Begin<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveeventscreateoptionalparams.html" class="tsd-kind-icon">Live<wbr>Events<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveoutput.html" class="tsd-kind-icon">Live<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/liveoutputlistresult.html" class="tsd-kind-icon">Live<wbr>Output<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mediaservice.html" class="tsd-kind-icon">Media<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mediaservicecollection.html" class="tsd-kind-icon">Media<wbr>Service<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metric.html" class="tsd-kind-icon">Metric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricdimension.html" class="tsd-kind-icon">Metric<wbr>Dimension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricproperties.html" class="tsd-kind-icon">Metric<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mp4format.html" class="tsd-kind-icon">Mp4<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/multibitrateformat.html" class="tsd-kind-icon">Multi<wbr>Bitrate<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/noencryption.html" class="tsd-kind-icon">No<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/odataerror.html" class="tsd-kind-icon">OData<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationcollection.html" class="tsd-kind-icon">Operation<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputfile.html" class="tsd-kind-icon">Output<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/overlay.html" class="tsd-kind-icon">Overlay</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pngformat.html" class="tsd-kind-icon">Png<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pngimage.html" class="tsd-kind-icon">Png<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pnglayer.html" class="tsd-kind-icon">Png<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/presentationtimerange.html" class="tsd-kind-icon">Presentation<wbr>Time<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/preset.html" class="tsd-kind-icon">Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/provider.html" class="tsd-kind-icon">Provider</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/proxyresource.html" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rectangle.html" class="tsd-kind-icon">Rectangle</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicespecification.html" class="tsd-kind-icon">Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/standardencoderpreset.html" class="tsd-kind-icon">Standard<wbr>Encoder<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageaccount.html" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageencryptedassetdecryptiondata.html" class="tsd-kind-icon">Storage<wbr>Encrypted<wbr>Asset<wbr>Decryption<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingendpoint.html" class="tsd-kind-icon">Streaming<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingendpointaccesscontrol.html" class="tsd-kind-icon">Streaming<wbr>Endpoint<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingendpointlistresult.html" class="tsd-kind-icon">Streaming<wbr>Endpoint<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingendpointsbegincreateoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Begin<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingendpointscreateoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingentityscaleunit.html" class="tsd-kind-icon">Streaming<wbr>Entity<wbr>Scale<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminglocator.html" class="tsd-kind-icon">Streaming<wbr>Locator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminglocatorcollection.html" class="tsd-kind-icon">Streaming<wbr>Locator<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminglocatorcontentkey.html" class="tsd-kind-icon">Streaming<wbr>Locator<wbr>Content<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminglocatorslistoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpath.html" class="tsd-kind-icon">Streaming<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicieslistoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Policies<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicy.html" class="tsd-kind-icon">Streaming<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicycollection.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicycontentkey.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Content<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicycontentkeys.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Content<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicyfairplayconfiguration.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Fair<wbr>Play<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicyplayreadyconfiguration.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Play<wbr>Ready<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingpolicywidevineconfiguration.html" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Widevine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subscriptionmediaservice.html" class="tsd-kind-icon">Subscription<wbr>Media<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subscriptionmediaservicecollection.html" class="tsd-kind-icon">Subscription<wbr>Media<wbr>Service<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/syncstoragekeysinput.html" class="tsd-kind-icon">Sync<wbr>Storage<wbr>Keys<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trackpropertycondition.html" class="tsd-kind-icon">Track<wbr>Property<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trackselection.html" class="tsd-kind-icon">Track<wbr>Selection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trackedresource.html" class="tsd-kind-icon">Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transform.html" class="tsd-kind-icon">Transform</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformcollection.html" class="tsd-kind-icon">Transform<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformoutput.html" class="tsd-kind-icon">Transform<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformslistoptionalparams.html" class="tsd-kind-icon">Transforms<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transportstreamformat.html" class="tsd-kind-icon">Transport<wbr>Stream<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/video.html" class="tsd-kind-icon">Video</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videoanalyzerpreset.html" class="tsd-kind-icon">Video<wbr>Analyzer<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videolayer.html" class="tsd-kind-icon">Video<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videooverlay.html" class="tsd-kind-icon">Video<wbr>Overlay</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aacaudioprofile" class="tsd-kind-icon">Aac<wbr>Audio<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountfilterscreateorupdateresponse" class="tsd-kind-icon">Account<wbr>Filters<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountfiltersgetresponse" class="tsd-kind-icon">Account<wbr>Filters<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountfilterslistnextresponse" class="tsd-kind-icon">Account<wbr>Filters<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountfilterslistresponse" class="tsd-kind-icon">Account<wbr>Filters<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountfiltersupdateresponse" class="tsd-kind-icon">Account<wbr>Filters<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#analysisresolution" class="tsd-kind-icon">Analysis<wbr>Resolution</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetcontainerpermission" class="tsd-kind-icon">Asset<wbr>Container<wbr>Permission</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetfilterscreateorupdateresponse" class="tsd-kind-icon">Asset<wbr>Filters<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetfiltersgetresponse" class="tsd-kind-icon">Asset<wbr>Filters<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetfilterslistnextresponse" class="tsd-kind-icon">Asset<wbr>Filters<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetfilterslistresponse" class="tsd-kind-icon">Asset<wbr>Filters<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetfiltersupdateresponse" class="tsd-kind-icon">Asset<wbr>Filters<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetstorageencryptionformat" class="tsd-kind-icon">Asset<wbr>Storage<wbr>Encryption<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetscreateorupdateresponse" class="tsd-kind-icon">Assets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetsgetencryptionkeyresponse" class="tsd-kind-icon">Assets<wbr>Get<wbr>Encryption<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetsgetresponse" class="tsd-kind-icon">Assets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetslistcontainersasresponse" class="tsd-kind-icon">Assets<wbr>List<wbr>Container<wbr>Sas<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetslistnextresponse" class="tsd-kind-icon">Assets<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetslistresponse" class="tsd-kind-icon">Assets<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetsliststreaminglocatorsresponse" class="tsd-kind-icon">Assets<wbr>List<wbr>Streaming<wbr>Locators<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assetsupdateresponse" class="tsd-kind-icon">Assets<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#audioanalyzerpresetunion" class="tsd-kind-icon">Audio<wbr>Analyzer<wbr>Preset<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#audiounion" class="tsd-kind-icon">Audio<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#codecunion" class="tsd-kind-icon">Codec<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypoliciescreateorupdateresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypoliciesgetpolicypropertieswithsecretsresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>Get<wbr>Policy<wbr>Properties<wbr>With<wbr>Secrets<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypoliciesgetresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicieslistnextresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicieslistresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypoliciesupdateresponse" class="tsd-kind-icon">Content<wbr>Key<wbr>Policies<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyconfigurationunion" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Configuration<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyfairplayrentalandleasekeytype" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Fair<wbr>Play<wbr>Rental<wbr>And<wbr>Lease<wbr>Key<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyplayreadycontentkeylocationunion" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Key<wbr>Location<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyplayreadycontenttype" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyplayreadylicensetype" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>License<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyplayreadyunknownoutputpassingoption" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Unknown<wbr>Output<wbr>Passing<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyrestrictiontokenkeyunion" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction<wbr>Token<wbr>Key<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyrestrictiontokentype" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction<wbr>Token<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contentkeypolicyrestrictionunion" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#deinterlacemode" class="tsd-kind-icon">Deinterlace<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#deinterlaceparity" class="tsd-kind-icon">Deinterlace<wbr>Parity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#encodernamedpreset" class="tsd-kind-icon">Encoder<wbr>Named<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#encryptionscheme" class="tsd-kind-icon">Encryption<wbr>Scheme</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#entropymode" class="tsd-kind-icon">Entropy<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filtertrackpropertycompareoperation" class="tsd-kind-icon">Filter<wbr>Track<wbr>Property<wbr>Compare<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filtertrackpropertytype" class="tsd-kind-icon">Filter<wbr>Track<wbr>Property<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formatunion" class="tsd-kind-icon">Format<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#h264complexity" class="tsd-kind-icon">H264<wbr>Complexity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#h264videoprofile" class="tsd-kind-icon">H264<wbr>Video<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageformatunion" class="tsd-kind-icon">Image<wbr>Format<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageunion" class="tsd-kind-icon">Image<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#insightstype" class="tsd-kind-icon">Insights<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#joberrorcategory" class="tsd-kind-icon">Job<wbr>Error<wbr>Category</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#joberrorcode" class="tsd-kind-icon">Job<wbr>Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobinputclipunion" class="tsd-kind-icon">Job<wbr>Input<wbr>Clip<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobinputunion" class="tsd-kind-icon">Job<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#joboutputunion" class="tsd-kind-icon">Job<wbr>Output<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobretry" class="tsd-kind-icon">Job<wbr>Retry</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobstate" class="tsd-kind-icon">Job<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobscreateresponse" class="tsd-kind-icon">Jobs<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobsgetresponse" class="tsd-kind-icon">Jobs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobslistnextresponse" class="tsd-kind-icon">Jobs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobslistresponse" class="tsd-kind-icon">Jobs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobsupdateresponse" class="tsd-kind-icon">Jobs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#layerunion" class="tsd-kind-icon">Layer<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventencodingtype" class="tsd-kind-icon">Live<wbr>Event<wbr>Encoding<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventinputprotocol" class="tsd-kind-icon">Live<wbr>Event<wbr>Input<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventresourcestate" class="tsd-kind-icon">Live<wbr>Event<wbr>Resource<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventsbegincreateresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventsbeginupdateresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventscreateresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventsgetresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventslistnextresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventslistresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveeventsupdateresponse" class="tsd-kind-icon">Live<wbr>Events<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputresourcestate" class="tsd-kind-icon">Live<wbr>Output<wbr>Resource<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputsbegincreateresponse" class="tsd-kind-icon">Live<wbr>Outputs<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputscreateresponse" class="tsd-kind-icon">Live<wbr>Outputs<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputsgetresponse" class="tsd-kind-icon">Live<wbr>Outputs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputslistnextresponse" class="tsd-kind-icon">Live<wbr>Outputs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#liveoutputslistresponse" class="tsd-kind-icon">Live<wbr>Outputs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationschecknameavailabilityresponse" class="tsd-kind-icon">Locations<wbr>Check<wbr>Name<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaservicescreateorupdateresponse" class="tsd-kind-icon">Mediaservices<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaservicesgetbysubscriptionresponse" class="tsd-kind-icon">Mediaservices<wbr>Get<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaservicesgetresponse" class="tsd-kind-icon">Mediaservices<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaserviceslistbysubscriptionnextresponse" class="tsd-kind-icon">Mediaservices<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaserviceslistbysubscriptionresponse" class="tsd-kind-icon">Mediaservices<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaserviceslistnextresponse" class="tsd-kind-icon">Mediaservices<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaserviceslistresponse" class="tsd-kind-icon">Mediaservices<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mediaservicesupdateresponse" class="tsd-kind-icon">Mediaservices<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricaggregationtype" class="tsd-kind-icon">Metric<wbr>Aggregation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricunit" class="tsd-kind-icon">Metric<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#multibitrateformatunion" class="tsd-kind-icon">Multi<wbr>Bitrate<wbr>Format<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onerrortype" class="tsd-kind-icon">On<wbr>Error<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#overlayunion" class="tsd-kind-icon">Overlay<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#presetunion" class="tsd-kind-icon">Preset<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#priority" class="tsd-kind-icon">Priority</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rotation" class="tsd-kind-icon">Rotation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageaccounttype" class="tsd-kind-icon">Storage<wbr>Account<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamoptionsflag" class="tsd-kind-icon">Stream<wbr>Options<wbr>Flag</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointresourcestate" class="tsd-kind-icon">Streaming<wbr>Endpoint<wbr>Resource<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointsbegincreateresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointsbeginupdateresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointscreateresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointsgetresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointslistnextresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointslistresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingendpointsupdateresponse" class="tsd-kind-icon">Streaming<wbr>Endpoints<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorcontentkeytype" class="tsd-kind-icon">Streaming<wbr>Locator<wbr>Content<wbr>Key<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorscreateresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorsgetresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorslistcontentkeysresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>List<wbr>Content<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorslistnextresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorslistpathsresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>List<wbr>Paths<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminglocatorslistresponse" class="tsd-kind-icon">Streaming<wbr>Locators<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingpoliciescreateresponse" class="tsd-kind-icon">Streaming<wbr>Policies<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingpoliciesgetresponse" class="tsd-kind-icon">Streaming<wbr>Policies<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingpolicieslistnextresponse" class="tsd-kind-icon">Streaming<wbr>Policies<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingpolicieslistresponse" class="tsd-kind-icon">Streaming<wbr>Policies<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingpolicystreamingprotocol" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Streaming<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#stretchmode" class="tsd-kind-icon">Stretch<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trackpropertycompareoperation" class="tsd-kind-icon">Track<wbr>Property<wbr>Compare<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trackpropertytype" class="tsd-kind-icon">Track<wbr>Property<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformscreateorupdateresponse" class="tsd-kind-icon">Transforms<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformsgetresponse" class="tsd-kind-icon">Transforms<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformslistnextresponse" class="tsd-kind-icon">Transforms<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformslistresponse" class="tsd-kind-icon">Transforms<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformsupdateresponse" class="tsd-kind-icon">Transforms<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#videolayerunion" class="tsd-kind-icon">Video<wbr>Layer<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#videounion" class="tsd-kind-icon">Video<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#aacaudio" class="tsd-kind-icon">Aac<wbr>Audio</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accountfilter" class="tsd-kind-icon">Account<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accountfiltercollection" class="tsd-kind-icon">Account<wbr>Filter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#akamaiaccesscontrol" class="tsd-kind-icon">Akamai<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#akamaisignatureheaderauthenticationkey" class="tsd-kind-icon">Akamai<wbr>Signature<wbr>Header<wbr>Authentication<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apierror" class="tsd-kind-icon">Api<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#asset" class="tsd-kind-icon">Asset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetcollection" class="tsd-kind-icon">Asset<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetcontainersas" class="tsd-kind-icon">Asset<wbr>Container<wbr>Sas</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetfileencryptionmetadata" class="tsd-kind-icon">Asset<wbr>File<wbr>Encryption<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetfilter" class="tsd-kind-icon">Asset<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetfiltercollection" class="tsd-kind-icon">Asset<wbr>Filter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetstreaminglocator" class="tsd-kind-icon">Asset<wbr>Streaming<wbr>Locator</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#audio" class="tsd-kind-icon">Audio</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#audioanalyzerpreset" class="tsd-kind-icon">Audio<wbr>Analyzer<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#audiooverlay" class="tsd-kind-icon">Audio<wbr>Overlay</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#builtinstandardencoderpreset" class="tsd-kind-icon">Built<wbr>InStandard<wbr>Encoder<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cbcsdrmconfiguration" class="tsd-kind-icon">Cbcs<wbr>Drm<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cencdrmconfiguration" class="tsd-kind-icon">Cenc<wbr>Drm<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#checknameavailabilityinput" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#codec" class="tsd-kind-icon">Codec</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#commonencryptioncbcs" class="tsd-kind-icon">Common<wbr>Encryption<wbr>Cbcs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#commonencryptioncenc" class="tsd-kind-icon">Common<wbr>Encryption<wbr>Cenc</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicy" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyclearkeyconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Clear<wbr>Key<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicycollection" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyfairplayconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Fair<wbr>Play<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyopenrestriction" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Open<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyoption" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadyconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadycontentencryptionkeyfromheader" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Encryption<wbr>Key<wbr>From<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadycontentencryptionkeyfromkeyidentifier" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Encryption<wbr>Key<wbr>From<wbr>Key<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadycontentkeylocation" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Content<wbr>Key<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadyexplicitanalogtelevisionrestriction" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Explicit<wbr>Analog<wbr>Television<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadylicense" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>License</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyplayreadyplayright" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Play<wbr>Ready<wbr>Play<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyproperties" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyrestriction" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyrestrictiontokenkey" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Restriction<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyrsatokenkey" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Rsa<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicysymmetrictokenkey" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Symmetric<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicytokenclaim" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Token<wbr>Claim</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicytokenrestriction" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Token<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyunknownconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Unknown<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyunknownrestriction" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Unknown<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicywidevineconfiguration" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>Widevine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyx509certificatetokenkey" class="tsd-kind-icon">Content<wbr>Key<wbr>Policy<wbr>X509<wbr>Certificate<wbr>Token<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyaudio" class="tsd-kind-icon">Copy<wbr>Audio</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyvideo" class="tsd-kind-icon">Copy<wbr>Video</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#crosssiteaccesspolicies" class="tsd-kind-icon">Cross<wbr>Site<wbr>Access<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#defaultkey" class="tsd-kind-icon">Default<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deinterlace" class="tsd-kind-icon">Deinterlace</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enabledprotocols" class="tsd-kind-icon">Enabled<wbr>Protocols</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entitynameavailabilitycheckoutput" class="tsd-kind-icon">Entity<wbr>Name<wbr>Availability<wbr>Check<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#envelopeencryption" class="tsd-kind-icon">Envelope<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facedetectorpreset" class="tsd-kind-icon">Face<wbr>Detector<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filtertrackpropertycondition" class="tsd-kind-icon">Filter<wbr>Track<wbr>Property<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filtertrackselection" class="tsd-kind-icon">Filter<wbr>Track<wbr>Selection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filters" class="tsd-kind-icon">Filters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#firstquality" class="tsd-kind-icon">First<wbr>Quality</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#format" class="tsd-kind-icon">Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#h264layer" class="tsd-kind-icon">H264<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#h264video" class="tsd-kind-icon">H264<wbr>Video</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hls" class="tsd-kind-icon">Hls</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipaccesscontrol" class="tsd-kind-icon">IPAccess<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iprange" class="tsd-kind-icon">IPRange</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#image" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageformat" class="tsd-kind-icon">Image<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#job" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobcollection" class="tsd-kind-icon">Job<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joberror" class="tsd-kind-icon">Job<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joberrordetail" class="tsd-kind-icon">Job<wbr>Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobinput" class="tsd-kind-icon">Job<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobinputasset" class="tsd-kind-icon">Job<wbr>Input<wbr>Asset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobinputclip" class="tsd-kind-icon">Job<wbr>Input<wbr>Clip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobinputhttp" class="tsd-kind-icon">Job<wbr>Input<wbr>Http</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobinputs" class="tsd-kind-icon">Job<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joboutput" class="tsd-kind-icon">Job<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joboutputasset" class="tsd-kind-icon">Job<wbr>Output<wbr>Asset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jpgformat" class="tsd-kind-icon">Jpg<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jpgimage" class="tsd-kind-icon">Jpg<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jpglayer" class="tsd-kind-icon">Jpg<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#layer" class="tsd-kind-icon">Layer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listcontainersasinput" class="tsd-kind-icon">List<wbr>Container<wbr>Sas<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listcontentkeysresponse" class="tsd-kind-icon">List<wbr>Content<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listpathsresponse" class="tsd-kind-icon">List<wbr>Paths<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liststreaminglocatorsresponse" class="tsd-kind-icon">List<wbr>Streaming<wbr>Locators<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveevent" class="tsd-kind-icon">Live<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventactioninput" class="tsd-kind-icon">Live<wbr>Event<wbr>Action<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventencoding" class="tsd-kind-icon">Live<wbr>Event<wbr>Encoding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventendpoint" class="tsd-kind-icon">Live<wbr>Event<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventinput" class="tsd-kind-icon">Live<wbr>Event<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventinputaccesscontrol" class="tsd-kind-icon">Live<wbr>Event<wbr>Input<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventlistresult" class="tsd-kind-icon">Live<wbr>Event<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventpreview" class="tsd-kind-icon">Live<wbr>Event<wbr>Preview</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventpreviewaccesscontrol" class="tsd-kind-icon">Live<wbr>Event<wbr>Preview<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveoutput" class="tsd-kind-icon">Live<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveoutputlistresult" class="tsd-kind-icon">Live<wbr>Output<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mediaservice" class="tsd-kind-icon">Media<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mediaservicecollection" class="tsd-kind-icon">Media<wbr>Service<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metric" class="tsd-kind-icon">Metric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricdimension" class="tsd-kind-icon">Metric<wbr>Dimension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricproperties" class="tsd-kind-icon">Metric<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mp4format" class="tsd-kind-icon">Mp4<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#multibitrateformat" class="tsd-kind-icon">Multi<wbr>Bitrate<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#noencryption" class="tsd-kind-icon">No<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#odataerror" class="tsd-kind-icon">OData<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationcollection" class="tsd-kind-icon">Operation<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputfile" class="tsd-kind-icon">Output<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#overlay" class="tsd-kind-icon">Overlay</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pngformat" class="tsd-kind-icon">Png<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pngimage" class="tsd-kind-icon">Png<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pnglayer" class="tsd-kind-icon">Png<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#presentationtimerange" class="tsd-kind-icon">Presentation<wbr>Time<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#preset" class="tsd-kind-icon">Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#provider" class="tsd-kind-icon">Provider</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proxyresource" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rectangle" class="tsd-kind-icon">Rectangle</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicespecification" class="tsd-kind-icon">Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#standardencoderpreset" class="tsd-kind-icon">Standard<wbr>Encoder<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageaccount" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageencryptedassetdecryptiondata" class="tsd-kind-icon">Storage<wbr>Encrypted<wbr>Asset<wbr>Decryption<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingendpoint" class="tsd-kind-icon">Streaming<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingendpointaccesscontrol" class="tsd-kind-icon">Streaming<wbr>Endpoint<wbr>Access<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingendpointlistresult" class="tsd-kind-icon">Streaming<wbr>Endpoint<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingentityscaleunit" class="tsd-kind-icon">Streaming<wbr>Entity<wbr>Scale<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminglocator" class="tsd-kind-icon">Streaming<wbr>Locator</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminglocatorcollection" class="tsd-kind-icon">Streaming<wbr>Locator<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminglocatorcontentkey" class="tsd-kind-icon">Streaming<wbr>Locator<wbr>Content<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpath" class="tsd-kind-icon">Streaming<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicy" class="tsd-kind-icon">Streaming<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicycollection" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicycontentkey" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Content<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicycontentkeys" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Content<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicyfairplayconfiguration" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Fair<wbr>Play<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicyplayreadyconfiguration" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Play<wbr>Ready<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicywidevineconfiguration" class="tsd-kind-icon">Streaming<wbr>Policy<wbr>Widevine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionmediaservice" class="tsd-kind-icon">Subscription<wbr>Media<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionmediaservicecollection" class="tsd-kind-icon">Subscription<wbr>Media<wbr>Service<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#syncstoragekeysinput" class="tsd-kind-icon">Sync<wbr>Storage<wbr>Keys<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trackpropertycondition" class="tsd-kind-icon">Track<wbr>Property<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trackselection" class="tsd-kind-icon">Track<wbr>Selection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trackedresource" class="tsd-kind-icon">Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transform" class="tsd-kind-icon">Transform</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformcollection" class="tsd-kind-icon">Transform<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformoutput" class="tsd-kind-icon">Transform<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transportstreamformat" class="tsd-kind-icon">Transport<wbr>Stream<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#video" class="tsd-kind-icon">Video</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videoanalyzerpreset" class="tsd-kind-icon">Video<wbr>Analyzer<wbr>Preset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videolayer" class="tsd-kind-icon">Video<wbr>Layer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videooverlay" class="tsd-kind-icon">Video<wbr>Overlay</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accountname" class="tsd-kind-icon">account<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assetname" class="tsd-kind-icon">asset<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autostart" class="tsd-kind-icon">auto<wbr>Start</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentkeypolicyname" class="tsd-kind-icon">content<wbr>Key<wbr>Policy<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filtername" class="tsd-kind-icon">filter<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobname" class="tsd-kind-icon">job<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveeventname" class="tsd-kind-icon">live<wbr>Event<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#liveoutputname" class="tsd-kind-icon">live<wbr>Output<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#locationname" class="tsd-kind-icon">location<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby" class="tsd-kind-icon">orderby</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingendpointname" class="tsd-kind-icon">streaming<wbr>Endpoint<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminglocatorname" class="tsd-kind-icon">streaming<wbr>Locator<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingpolicyname" class="tsd-kind-icon">streaming<wbr>Policy<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformname" class="tsd-kind-icon">transform<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

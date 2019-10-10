@@ -1,0 +1,2945 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-datafactory</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-datafactory</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-datafactory</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-datafactorymanagementclient-sdk-for-javascript" id="azure-datafactorymanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure DataFactoryManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for DataFactoryManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">arm</span>-<span class="hljs-keyword">datafactory</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { DataFactoryManagementClient, DataFactoryManagementModels, DataFactoryManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-datafactory"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> DataFactoryManagementClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-datafactory sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-datafactory/dist/arm-datafactory.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmDatafactory.DataFactoryManagementClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/datafactory/arm-datafactory/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/activityruns.html" class="tsd-kind-icon">Activity<wbr>Runs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/datafactorymanagementclientcontext.html" class="tsd-kind-icon">Data<wbr>Factory<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/datasets.html" class="tsd-kind-icon">Datasets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/factories.html" class="tsd-kind-icon">Factories</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/integrationruntimenodes.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Nodes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/integrationruntimes.html" class="tsd-kind-icon">Integration<wbr>Runtimes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/linkedservices.html" class="tsd-kind-icon">Linked<wbr>Services</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pipelineruns.html" class="tsd-kind-icon">Pipeline<wbr>Runs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pipelines.html" class="tsd-kind-icon">Pipelines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reruntriggers.html" class="tsd-kind-icon">Rerun<wbr>Triggers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/triggerruns.html" class="tsd-kind-icon">Trigger<wbr>Runs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/triggers.html" class="tsd-kind-icon">Triggers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activity.html" class="tsd-kind-icon">Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activitydependency.html" class="tsd-kind-icon">Activity<wbr>Dependency</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activitypolicy.html" class="tsd-kind-icon">Activity<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activityrun.html" class="tsd-kind-icon">Activity<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activityrunsqueryresponse.html" class="tsd-kind-icon">Activity<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazonmwslinkedservice.html" class="tsd-kind-icon">AmazonMWSLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazonmwsobjectdataset.html" class="tsd-kind-icon">AmazonMWSObject<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazonmwssource.html" class="tsd-kind-icon">AmazonMWSSource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazonredshiftlinkedservice.html" class="tsd-kind-icon">Amazon<wbr>Redshift<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazonredshiftsource.html" class="tsd-kind-icon">Amazon<wbr>Redshift<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazons3dataset.html" class="tsd-kind-icon">Amazon<wbr>S3Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/amazons3linkedservice.html" class="tsd-kind-icon">Amazon<wbr>S3Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appendvariableactivity.html" class="tsd-kind-icon">Append<wbr>Variable<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/avroformat.html" class="tsd-kind-icon">Avro<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurebatchlinkedservice.html" class="tsd-kind-icon">Azure<wbr>Batch<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureblobdataset.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureblobstoragelinkedservice.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakeanalyticslinkedservice.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Analytics<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakestoredataset.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakestorelinkedservice.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakestoresink.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakestoresource.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatabrickslinkedservice.html" class="tsd-kind-icon">Azure<wbr>Databricks<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurekeyvaultlinkedservice.html" class="tsd-kind-icon">Azure<wbr>Key<wbr>Vault<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurekeyvaultsecretreference.html" class="tsd-kind-icon">Azure<wbr>Key<wbr>Vault<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremlbatchexecutionactivity.html" class="tsd-kind-icon">AzureMLBatch<wbr>Execution<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremllinkedservice.html" class="tsd-kind-icon">AzureMLLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremlupdateresourceactivity.html" class="tsd-kind-icon">AzureMLUpdate<wbr>Resource<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremlwebservicefile.html" class="tsd-kind-icon">AzureMLWeb<wbr>Service<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremysqllinkedservice.html" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremysqlsource.html" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremysqltabledataset.html" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurepostgresqllinkedservice.html" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurepostgresqlsource.html" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurepostgresqltabledataset.html" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurequeuesink.html" class="tsd-kind-icon">Azure<wbr>Queue<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresearchindexdataset.html" class="tsd-kind-icon">Azure<wbr>Search<wbr>Index<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresearchindexsink.html" class="tsd-kind-icon">Azure<wbr>Search<wbr>Index<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresearchlinkedservice.html" class="tsd-kind-icon">Azure<wbr>Search<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqldwlinkedservice.html" class="tsd-kind-icon">Azure<wbr>SqlDWLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqldwtabledataset.html" class="tsd-kind-icon">Azure<wbr>SqlDWTable<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqldatabaselinkedservice.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqltabledataset.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestoragelinkedservice.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretabledataset.html" class="tsd-kind-icon">Azure<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretablesink.html" class="tsd-kind-icon">Azure<wbr>Table<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretablesource.html" class="tsd-kind-icon">Azure<wbr>Table<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretablestoragelinkedservice.html" class="tsd-kind-icon">Azure<wbr>Table<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobeventstrigger.html" class="tsd-kind-icon">Blob<wbr>Events<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsink.html" class="tsd-kind-icon">Blob<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobsource.html" class="tsd-kind-icon">Blob<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobtrigger.html" class="tsd-kind-icon">Blob<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandralinkedservice.html" class="tsd-kind-icon">Cassandra<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrasource.html" class="tsd-kind-icon">Cassandra<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandratabledataset.html" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/concurlinkedservice.html" class="tsd-kind-icon">Concur<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/concurobjectdataset.html" class="tsd-kind-icon">Concur<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/concursource.html" class="tsd-kind-icon">Concur<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/controlactivity.html" class="tsd-kind-icon">Control<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copyactivity.html" class="tsd-kind-icon">Copy<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copysink.html" class="tsd-kind-icon">Copy<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copysource.html" class="tsd-kind-icon">Copy<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/copytranslator.html" class="tsd-kind-icon">Copy<wbr>Translator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cosmosdblinkedservice.html" class="tsd-kind-icon">Cosmos<wbr>DbLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/couchbaselinkedservice.html" class="tsd-kind-icon">Couchbase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/couchbasesource.html" class="tsd-kind-icon">Couchbase<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/couchbasetabledataset.html" class="tsd-kind-icon">Couchbase<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createlinkedintegrationruntimerequest.html" class="tsd-kind-icon">Create<wbr>Linked<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createrunresponse.html" class="tsd-kind-icon">Create<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customactivity.html" class="tsd-kind-icon">Custom<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customactivityreferenceobject.html" class="tsd-kind-icon">Custom<wbr>Activity<wbr>Reference<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customdatasourcelinkedservice.html" class="tsd-kind-icon">Custom<wbr>Data<wbr>Source<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customdataset.html" class="tsd-kind-icon">Custom<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datafactorymanagementclientoptions.html" class="tsd-kind-icon">Data<wbr>Factory<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datalakeanalyticsusqlactivity.html" class="tsd-kind-icon">Data<wbr>Lake<wbr>AnalyticsUSQLActivity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databricksnotebookactivity.html" class="tsd-kind-icon">Databricks<wbr>Notebook<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databrickssparkjaractivity.html" class="tsd-kind-icon">Databricks<wbr>Spark<wbr>Jar<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databrickssparkpythonactivity.html" class="tsd-kind-icon">Databricks<wbr>Spark<wbr>Python<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dataset.html" class="tsd-kind-icon">Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetbzip2compression.html" class="tsd-kind-icon">DatasetBZip2<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetcompression.html" class="tsd-kind-icon">Dataset<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetdeflatecompression.html" class="tsd-kind-icon">Dataset<wbr>Deflate<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetfolder.html" class="tsd-kind-icon">Dataset<wbr>Folder</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetgzipcompression.html" class="tsd-kind-icon">DatasetGZip<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetlistresponse.html" class="tsd-kind-icon">Dataset<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetreference.html" class="tsd-kind-icon">Dataset<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetresource.html" class="tsd-kind-icon">Dataset<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetstorageformat.html" class="tsd-kind-icon">Dataset<wbr>Storage<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetzipdeflatecompression.html" class="tsd-kind-icon">Dataset<wbr>Zip<wbr>Deflate<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetscreateorupdateoptionalparams.html" class="tsd-kind-icon">Datasets<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datasetsgetoptionalparams.html" class="tsd-kind-icon">Datasets<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/db2linkedservice.html" class="tsd-kind-icon">Db2<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deleteactivity.html" class="tsd-kind-icon">Delete<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dependencyreference.html" class="tsd-kind-icon">Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/distcpsettings.html" class="tsd-kind-icon">Distcp<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/documentdbcollectiondataset.html" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/documentdbcollectionsink.html" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/documentdbcollectionsource.html" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/drilllinkedservice.html" class="tsd-kind-icon">Drill<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/drillsource.html" class="tsd-kind-icon">Drill<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/drilltabledataset.html" class="tsd-kind-icon">Drill<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dynamicsentitydataset.html" class="tsd-kind-icon">Dynamics<wbr>Entity<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dynamicslinkedservice.html" class="tsd-kind-icon">Dynamics<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dynamicssink.html" class="tsd-kind-icon">Dynamics<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dynamicssource.html" class="tsd-kind-icon">Dynamics<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eloqualinkedservice.html" class="tsd-kind-icon">Eloqua<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eloquaobjectdataset.html" class="tsd-kind-icon">Eloqua<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eloquasource.html" class="tsd-kind-icon">Eloqua<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/executepipelineactivity.html" class="tsd-kind-icon">Execute<wbr>Pipeline<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/executessispackageactivity.html" class="tsd-kind-icon">ExecuteSSISPackage<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/executionactivity.html" class="tsd-kind-icon">Execution<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/expression.html" class="tsd-kind-icon">Expression</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoriescreateorupdateoptionalparams.html" class="tsd-kind-icon">Factories<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoriesgetoptionalparams.html" class="tsd-kind-icon">Factories<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factory.html" class="tsd-kind-icon">Factory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factorygithubconfiguration.html" class="tsd-kind-icon">Factory<wbr>Git<wbr>Hub<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoryidentity.html" class="tsd-kind-icon">Factory<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factorylistresponse.html" class="tsd-kind-icon">Factory<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoryrepoconfiguration.html" class="tsd-kind-icon">Factory<wbr>Repo<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoryrepoupdate.html" class="tsd-kind-icon">Factory<wbr>Repo<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoryupdateparameters.html" class="tsd-kind-icon">Factory<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/factoryvstsconfiguration.html" class="tsd-kind-icon">FactoryVSTSConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileserverlinkedservice.html" class="tsd-kind-icon">File<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesharedataset.html" class="tsd-kind-icon">File<wbr>Share<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesystemsink.html" class="tsd-kind-icon">File<wbr>System<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesystemsource.html" class="tsd-kind-icon">File<wbr>System<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filteractivity.html" class="tsd-kind-icon">Filter<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/foreachactivity.html" class="tsd-kind-icon">For<wbr>Each<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ftpserverlinkedservice.html" class="tsd-kind-icon">Ftp<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/getmetadataactivity.html" class="tsd-kind-icon">Get<wbr>Metadata<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/githubaccesstokenrequest.html" class="tsd-kind-icon">Git<wbr>Hub<wbr>Access<wbr>Token<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/githubaccesstokenresponse.html" class="tsd-kind-icon">Git<wbr>Hub<wbr>Access<wbr>Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/googlebigquerylinkedservice.html" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/googlebigqueryobjectdataset.html" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/googlebigquerysource.html" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/greenplumlinkedservice.html" class="tsd-kind-icon">Greenplum<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/greenplumsource.html" class="tsd-kind-icon">Greenplum<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/greenplumtabledataset.html" class="tsd-kind-icon">Greenplum<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hbaselinkedservice.html" class="tsd-kind-icon">HBase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hbaseobjectdataset.html" class="tsd-kind-icon">HBase<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hbasesource.html" class="tsd-kind-icon">HBase<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsighthiveactivity.html" class="tsd-kind-icon">HDInsight<wbr>Hive<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightlinkedservice.html" class="tsd-kind-icon">HDInsight<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightmapreduceactivity.html" class="tsd-kind-icon">HDInsight<wbr>Map<wbr>Reduce<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightondemandlinkedservice.html" class="tsd-kind-icon">HDInsight<wbr>OnDemand<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightpigactivity.html" class="tsd-kind-icon">HDInsight<wbr>Pig<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightsparkactivity.html" class="tsd-kind-icon">HDInsight<wbr>Spark<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightstreamingactivity.html" class="tsd-kind-icon">HDInsight<wbr>Streaming<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdfslinkedservice.html" class="tsd-kind-icon">Hdfs<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdfssource.html" class="tsd-kind-icon">Hdfs<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hivelinkedservice.html" class="tsd-kind-icon">Hive<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hiveobjectdataset.html" class="tsd-kind-icon">Hive<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hivesource.html" class="tsd-kind-icon">Hive<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/httpdataset.html" class="tsd-kind-icon">Http<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/httplinkedservice.html" class="tsd-kind-icon">Http<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/httpsource.html" class="tsd-kind-icon">Http<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hubspotlinkedservice.html" class="tsd-kind-icon">Hubspot<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hubspotobjectdataset.html" class="tsd-kind-icon">Hubspot<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hubspotsource.html" class="tsd-kind-icon">Hubspot<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ifconditionactivity.html" class="tsd-kind-icon">If<wbr>Condition<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/impalalinkedservice.html" class="tsd-kind-icon">Impala<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/impalaobjectdataset.html" class="tsd-kind-icon">Impala<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/impalasource.html" class="tsd-kind-icon">Impala<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntime.html" class="tsd-kind-icon">Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimeauthkeys.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Auth<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimecomputeproperties.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Compute<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimeconnectioninfo.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Connection<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimecustomsetupscriptproperties.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Custom<wbr>Setup<wbr>Script<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimelistresponse.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimemonitoringdata.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Monitoring<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimenodeipaddress.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Node<wbr>IpAddress</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimenodemonitoringdata.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Node<wbr>Monitoring<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimereference.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimeregeneratekeyparameters.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimeresource.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimessiscataloginfo.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Ssis<wbr>Catalog<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimessisproperties.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Ssis<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimestatus.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimestatuslistresponse.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimestatusresponse.html" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimevnetproperties.html" class="tsd-kind-icon">Integration<wbr>RuntimeVNet<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimescreateorupdateoptionalparams.html" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/integrationruntimesgetoptionalparams.html" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jiralinkedservice.html" class="tsd-kind-icon">Jira<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jiraobjectdataset.html" class="tsd-kind-icon">Jira<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jirasource.html" class="tsd-kind-icon">Jira<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonformat.html" class="tsd-kind-icon">Json<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedintegrationruntime.html" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedintegrationruntimekeyauthorization.html" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Key<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedintegrationruntimerbacauthorization.html" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Rbac<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedintegrationruntimerequest.html" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedintegrationruntimetype.html" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedservice.html" class="tsd-kind-icon">Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedservicelistresponse.html" class="tsd-kind-icon">Linked<wbr>Service<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedservicereference.html" class="tsd-kind-icon">Linked<wbr>Service<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedserviceresource.html" class="tsd-kind-icon">Linked<wbr>Service<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedservicescreateorupdateoptionalparams.html" class="tsd-kind-icon">Linked<wbr>Services<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkedservicesgetoptionalparams.html" class="tsd-kind-icon">Linked<wbr>Services<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lookupactivity.html" class="tsd-kind-icon">Lookup<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/magentolinkedservice.html" class="tsd-kind-icon">Magento<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/magentoobjectdataset.html" class="tsd-kind-icon">Magento<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/magentosource.html" class="tsd-kind-icon">Magento<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedintegrationruntime.html" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedintegrationruntimeerror.html" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedintegrationruntimenode.html" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedintegrationruntimeoperationresult.html" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedintegrationruntimestatus.html" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mariadblinkedservice.html" class="tsd-kind-icon">MariaDBLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mariadbsource.html" class="tsd-kind-icon">MariaDBSource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mariadbtabledataset.html" class="tsd-kind-icon">MariaDBTable<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/marketolinkedservice.html" class="tsd-kind-icon">Marketo<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/marketoobjectdataset.html" class="tsd-kind-icon">Marketo<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/marketosource.html" class="tsd-kind-icon">Marketo<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbcollectiondataset.html" class="tsd-kind-icon">Mongo<wbr>DbCollection<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodblinkedservice.html" class="tsd-kind-icon">Mongo<wbr>DbLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbsource.html" class="tsd-kind-icon">Mongo<wbr>DbSource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/multiplepipelinetrigger.html" class="tsd-kind-icon">Multiple<wbr>Pipeline<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mysqllinkedservice.html" class="tsd-kind-icon">My<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/netezzalinkedservice.html" class="tsd-kind-icon">Netezza<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/netezzasource.html" class="tsd-kind-icon">Netezza<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/netezzatabledataset.html" class="tsd-kind-icon">Netezza<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/odatalinkedservice.html" class="tsd-kind-icon">OData<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/odataresourcedataset.html" class="tsd-kind-icon">OData<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/odbclinkedservice.html" class="tsd-kind-icon">Odbc<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/odbcsink.html" class="tsd-kind-icon">Odbc<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresponse.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlogspecification.html" class="tsd-kind-icon">Operation<wbr>Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetricavailability.html" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetricdimension.html" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Dimension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetricspecification.html" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationservicespecification.html" class="tsd-kind-icon">Operation<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/oraclelinkedservice.html" class="tsd-kind-icon">Oracle<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/oraclesink.html" class="tsd-kind-icon">Oracle<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/oraclesource.html" class="tsd-kind-icon">Oracle<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/oracletabledataset.html" class="tsd-kind-icon">Oracle<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/orcformat.html" class="tsd-kind-icon">Orc<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parameterspecification.html" class="tsd-kind-icon">Parameter<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parquetformat.html" class="tsd-kind-icon">Parquet<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/paypallinkedservice.html" class="tsd-kind-icon">Paypal<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/paypalobjectdataset.html" class="tsd-kind-icon">Paypal<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/paypalsource.html" class="tsd-kind-icon">Paypal<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phoenixlinkedservice.html" class="tsd-kind-icon">Phoenix<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phoenixobjectdataset.html" class="tsd-kind-icon">Phoenix<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phoenixsource.html" class="tsd-kind-icon">Phoenix<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinefolder.html" class="tsd-kind-icon">Pipeline<wbr>Folder</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinelistresponse.html" class="tsd-kind-icon">Pipeline<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinereference.html" class="tsd-kind-icon">Pipeline<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelineresource.html" class="tsd-kind-icon">Pipeline<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinerun.html" class="tsd-kind-icon">Pipeline<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelineruninvokedby.html" class="tsd-kind-icon">Pipeline<wbr>Run<wbr>Invoked<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinerunscanceloptionalparams.html" class="tsd-kind-icon">Pipeline<wbr>Runs<wbr>Cancel<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinerunsqueryresponse.html" class="tsd-kind-icon">Pipeline<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinescreateorupdateoptionalparams.html" class="tsd-kind-icon">Pipelines<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinescreaterunoptionalparams.html" class="tsd-kind-icon">Pipelines<wbr>Create<wbr>Run<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelinesgetoptionalparams.html" class="tsd-kind-icon">Pipelines<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/polybasesettings.html" class="tsd-kind-icon">Polybase<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/postgresqllinkedservice.html" class="tsd-kind-icon">Postgre<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prestolinkedservice.html" class="tsd-kind-icon">Presto<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prestoobjectdataset.html" class="tsd-kind-icon">Presto<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prestosource.html" class="tsd-kind-icon">Presto<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quickbookslinkedservice.html" class="tsd-kind-icon">Quick<wbr>Books<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quickbooksobjectdataset.html" class="tsd-kind-icon">Quick<wbr>Books<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quickbookssource.html" class="tsd-kind-icon">Quick<wbr>Books<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recurrenceschedule.html" class="tsd-kind-icon">Recurrence<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recurrencescheduleoccurrence.html" class="tsd-kind-icon">Recurrence<wbr>Schedule<wbr>Occurrence</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/redirectincompatiblerowsettings.html" class="tsd-kind-icon">Redirect<wbr>Incompatible<wbr>Row<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/redshiftunloadsettings.html" class="tsd-kind-icon">Redshift<wbr>Unload<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/relationalsource.html" class="tsd-kind-icon">Relational<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/relationaltabledataset.html" class="tsd-kind-icon">Relational<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reruntriggerlistresponse.html" class="tsd-kind-icon">Rerun<wbr>Trigger<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reruntriggerresource.html" class="tsd-kind-icon">Rerun<wbr>Trigger<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reruntumblingwindowtrigger.html" class="tsd-kind-icon">Rerun<wbr>Tumbling<wbr>Window<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reruntumblingwindowtriggeractionparameters.html" class="tsd-kind-icon">Rerun<wbr>Tumbling<wbr>Window<wbr>Trigger<wbr>Action<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/responsyslinkedservice.html" class="tsd-kind-icon">Responsys<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/responsysobjectdataset.html" class="tsd-kind-icon">Responsys<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/responsyssource.html" class="tsd-kind-icon">Responsys<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retrypolicy.html" class="tsd-kind-icon">Retry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runfilterparameters.html" class="tsd-kind-icon">Run<wbr>Filter<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runqueryfilter.html" class="tsd-kind-icon">Run<wbr>Query<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runqueryorderby.html" class="tsd-kind-icon">Run<wbr>Query<wbr>Order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ssisexecutionparameter.html" class="tsd-kind-icon">SSISExecution<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ssispackagelocation.html" class="tsd-kind-icon">SSISPackage<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ssispropertyoverride.html" class="tsd-kind-icon">SSISProperty<wbr>Override</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcelinkedservice.html" class="tsd-kind-icon">Salesforce<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcemarketingcloudlinkedservice.html" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcemarketingcloudobjectdataset.html" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcemarketingcloudsource.html" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforceobjectdataset.html" class="tsd-kind-icon">Salesforce<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcesink.html" class="tsd-kind-icon">Salesforce<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/salesforcesource.html" class="tsd-kind-icon">Salesforce<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapbwlinkedservice.html" class="tsd-kind-icon">SapBWLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapcloudforcustomerlinkedservice.html" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapcloudforcustomerresourcedataset.html" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapcloudforcustomersink.html" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapcloudforcustomersource.html" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapecclinkedservice.html" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapeccresourcedataset.html" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sapeccsource.html" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/saphanalinkedservice.html" class="tsd-kind-icon">Sap<wbr>Hana<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scheduletrigger.html" class="tsd-kind-icon">Schedule<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scheduletriggerrecurrence.html" class="tsd-kind-icon">Schedule<wbr>Trigger<wbr>Recurrence</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptaction.html" class="tsd-kind-icon">Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretbase.html" class="tsd-kind-icon">Secret<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/securestring.html" class="tsd-kind-icon">Secure<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/selfdependencytumblingwindowtriggerreference.html" class="tsd-kind-icon">Self<wbr>Dependency<wbr>Tumbling<wbr>Window<wbr>Trigger<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/selfhostedintegrationruntime.html" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/selfhostedintegrationruntimenode.html" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/selfhostedintegrationruntimestatus.html" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicenowlinkedservice.html" class="tsd-kind-icon">Service<wbr>Now<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicenowobjectdataset.html" class="tsd-kind-icon">Service<wbr>Now<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicenowsource.html" class="tsd-kind-icon">Service<wbr>Now<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setvariableactivity.html" class="tsd-kind-icon">Set<wbr>Variable<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sftpserverlinkedservice.html" class="tsd-kind-icon">Sftp<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shopifylinkedservice.html" class="tsd-kind-icon">Shopify<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shopifyobjectdataset.html" class="tsd-kind-icon">Shopify<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shopifysource.html" class="tsd-kind-icon">Shopify<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sparklinkedservice.html" class="tsd-kind-icon">Spark<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sparkobjectdataset.html" class="tsd-kind-icon">Spark<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sparksource.html" class="tsd-kind-icon">Spark<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldwsink.html" class="tsd-kind-icon">SqlDWSink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldwsource.html" class="tsd-kind-icon">SqlDWSource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlserverlinkedservice.html" class="tsd-kind-icon">Sql<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlserverstoredprocedureactivity.html" class="tsd-kind-icon">Sql<wbr>Server<wbr>Stored<wbr>Procedure<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlservertabledataset.html" class="tsd-kind-icon">Sql<wbr>Server<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlsink.html" class="tsd-kind-icon">Sql<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlsource.html" class="tsd-kind-icon">Sql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/squarelinkedservice.html" class="tsd-kind-icon">Square<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/squareobjectdataset.html" class="tsd-kind-icon">Square<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/squaresource.html" class="tsd-kind-icon">Square<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/stagingsettings.html" class="tsd-kind-icon">Staging<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storedprocedureparameter.html" class="tsd-kind-icon">Stored<wbr>Procedure<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresource.html" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sybaselinkedservice.html" class="tsd-kind-icon">Sybase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tabulartranslator.html" class="tsd-kind-icon">Tabular<wbr>Translator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/teradatalinkedservice.html" class="tsd-kind-icon">Teradata<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textformat.html" class="tsd-kind-icon">Text<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trigger.html" class="tsd-kind-icon">Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerdependencyreference.html" class="tsd-kind-icon">Trigger<wbr>Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerlistresponse.html" class="tsd-kind-icon">Trigger<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerpipelinereference.html" class="tsd-kind-icon">Trigger<wbr>Pipeline<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerreference.html" class="tsd-kind-icon">Trigger<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerresource.html" class="tsd-kind-icon">Trigger<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerrun.html" class="tsd-kind-icon">Trigger<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerrunsqueryresponse.html" class="tsd-kind-icon">Trigger<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerscreateorupdateoptionalparams.html" class="tsd-kind-icon">Triggers<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggersgetoptionalparams.html" class="tsd-kind-icon">Triggers<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tumblingwindowtrigger.html" class="tsd-kind-icon">Tumbling<wbr>Window<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tumblingwindowtriggerdependencyreference.html" class="tsd-kind-icon">Tumbling<wbr>Window<wbr>Trigger<wbr>Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/untilactivity.html" class="tsd-kind-icon">Until<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateintegrationruntimenoderequest.html" class="tsd-kind-icon">Update<wbr>Integration<wbr>Runtime<wbr>Node<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateintegrationruntimerequest.html" class="tsd-kind-icon">Update<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/userproperty.html" class="tsd-kind-icon">User<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/variablespecification.html" class="tsd-kind-icon">Variable<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verticalinkedservice.html" class="tsd-kind-icon">Vertica<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verticasource.html" class="tsd-kind-icon">Vertica<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verticatabledataset.html" class="tsd-kind-icon">Vertica<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/waitactivity.html" class="tsd-kind-icon">Wait<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webactivity.html" class="tsd-kind-icon">Web<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webactivityauthentication.html" class="tsd-kind-icon">Web<wbr>Activity<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webanonymousauthentication.html" class="tsd-kind-icon">Web<wbr>Anonymous<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webbasicauthentication.html" class="tsd-kind-icon">Web<wbr>Basic<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webclientcertificateauthentication.html" class="tsd-kind-icon">Web<wbr>Client<wbr>Certificate<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weblinkedservice.html" class="tsd-kind-icon">Web<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weblinkedservicetypeproperties.html" class="tsd-kind-icon">Web<wbr>Linked<wbr>Service<wbr>Type<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/websource.html" class="tsd-kind-icon">Web<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webtabledataset.html" class="tsd-kind-icon">Web<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/xerolinkedservice.html" class="tsd-kind-icon">Xero<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/xeroobjectdataset.html" class="tsd-kind-icon">Xero<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/xerosource.html" class="tsd-kind-icon">Xero<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/zoholinkedservice.html" class="tsd-kind-icon">Zoho<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/zohoobjectdataset.html" class="tsd-kind-icon">Zoho<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/zohosource.html" class="tsd-kind-icon">Zoho<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#activityrunsquerybypipelinerunresponse" class="tsd-kind-icon">Activity<wbr>Runs<wbr>Query<wbr>ByPipeline<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#activityunion" class="tsd-kind-icon">Activity<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azuresearchindexwritebehaviortype" class="tsd-kind-icon">Azure<wbr>Search<wbr>Index<wbr>Write<wbr>Behavior<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blobeventtypes" class="tsd-kind-icon">Blob<wbr>Event<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cassandrasourcereadconsistencylevels" class="tsd-kind-icon">Cassandra<wbr>Source<wbr>Read<wbr>Consistency<wbr>Levels</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#controlactivityunion" class="tsd-kind-icon">Control<wbr>Activity<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copybehaviortype" class="tsd-kind-icon">Copy<wbr>Behavior<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copysinkunion" class="tsd-kind-icon">Copy<wbr>Sink<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copysourceunion" class="tsd-kind-icon">Copy<wbr>Source<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copytranslatorunion" class="tsd-kind-icon">Copy<wbr>Translator<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetcompressionlevel" class="tsd-kind-icon">Dataset<wbr>Compression<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetcompressionunion" class="tsd-kind-icon">Dataset<wbr>Compression<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetstorageformatunion" class="tsd-kind-icon">Dataset<wbr>Storage<wbr>Format<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetunion" class="tsd-kind-icon">Dataset<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetscreateorupdateresponse" class="tsd-kind-icon">Datasets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetsgetresponse" class="tsd-kind-icon">Datasets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetslistbyfactorynextresponse" class="tsd-kind-icon">Datasets<wbr>List<wbr>ByFactory<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasetslistbyfactoryresponse" class="tsd-kind-icon">Datasets<wbr>List<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dayofweek" class="tsd-kind-icon">Day<wbr>OfWeek</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#daysofweek" class="tsd-kind-icon">Days<wbr>OfWeek</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#db2authenticationtype" class="tsd-kind-icon">Db2<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dependencycondition" class="tsd-kind-icon">Dependency<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dependencyreferenceunion" class="tsd-kind-icon">Dependency<wbr>Reference<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#executionactivityunion" class="tsd-kind-icon">Execution<wbr>Activity<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoriesconfigurefactoryreporesponse" class="tsd-kind-icon">Factories<wbr>Configure<wbr>Factory<wbr>Repo<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoriescreateorupdateresponse" class="tsd-kind-icon">Factories<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoriesgetgithubaccesstokenresponse" class="tsd-kind-icon">Factories<wbr>Get<wbr>Git<wbr>Hub<wbr>Access<wbr>Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoriesgetresponse" class="tsd-kind-icon">Factories<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factorieslistbyresourcegroupnextresponse" class="tsd-kind-icon">Factories<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factorieslistbyresourcegroupresponse" class="tsd-kind-icon">Factories<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factorieslistnextresponse" class="tsd-kind-icon">Factories<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factorieslistresponse" class="tsd-kind-icon">Factories<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoriesupdateresponse" class="tsd-kind-icon">Factories<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#factoryrepoconfigurationunion" class="tsd-kind-icon">Factory<wbr>Repo<wbr>Configuration<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ftpauthenticationtype" class="tsd-kind-icon">Ftp<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#googlebigqueryauthenticationtype" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hbaseauthenticationtype" class="tsd-kind-icon">HBase<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hdinsightactivitydebuginfooption" class="tsd-kind-icon">HDInsight<wbr>Activity<wbr>Debug<wbr>Info<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hiveauthenticationtype" class="tsd-kind-icon">Hive<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hiveservertype" class="tsd-kind-icon">Hive<wbr>Server<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hivethrifttransportprotocol" class="tsd-kind-icon">Hive<wbr>Thrift<wbr>Transport<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#httpauthenticationtype" class="tsd-kind-icon">Http<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#impalaauthenticationtype" class="tsd-kind-icon">Impala<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeauthkeyname" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Auth<wbr>Key<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeautoupdate" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Auto<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeedition" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Edition</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeinternalchannelencryptionmode" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Internal<wbr>Channel<wbr>Encryption<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimelicensetype" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>License<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimenodesgetipaddressresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Nodes<wbr>Get<wbr>IpAddress<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimenodesgetresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Nodes<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimenodesupdateresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Nodes<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimessiscatalogpricingtier" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Ssis<wbr>Catalog<wbr>Pricing<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimestate" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimestatusunion" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimetype" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeunion" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeupdateresult" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Update<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesbeginstartresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Begin<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimescreatelinkedintegrationruntimeresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Create<wbr>Linked<wbr>Integration<wbr>Runtime<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimescreateorupdateresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesgetconnectioninforesponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Get<wbr>Connection<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesgetmonitoringdataresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Get<wbr>Monitoring<wbr>Data<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesgetresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesgetstatusresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Get<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeslistauthkeysresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>List<wbr>Auth<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeslistbyfactorynextresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>List<wbr>ByFactory<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimeslistbyfactoryresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>List<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesregenerateauthkeyresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Regenerate<wbr>Auth<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesstartresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#integrationruntimesupdateresponse" class="tsd-kind-icon">Integration<wbr>Runtimes<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jsonformatfilepattern" class="tsd-kind-icon">Json<wbr>Format<wbr>File<wbr>Pattern</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedintegrationruntimetypeunion" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Type<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedserviceunion" class="tsd-kind-icon">Linked<wbr>Service<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedservicescreateorupdateresponse" class="tsd-kind-icon">Linked<wbr>Services<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedservicesgetresponse" class="tsd-kind-icon">Linked<wbr>Services<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedserviceslistbyfactorynextresponse" class="tsd-kind-icon">Linked<wbr>Services<wbr>List<wbr>ByFactory<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linkedserviceslistbyfactoryresponse" class="tsd-kind-icon">Linked<wbr>Services<wbr>List<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedintegrationruntimenodestatus" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Node<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mongodbauthenticationtype" class="tsd-kind-icon">Mongo<wbr>DbAuthentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#multiplepipelinetriggerunion" class="tsd-kind-icon">Multiple<wbr>Pipeline<wbr>Trigger<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#odataauthenticationtype" class="tsd-kind-icon">OData<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#parametertype" class="tsd-kind-icon">Parameter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#phoenixauthenticationtype" class="tsd-kind-icon">Phoenix<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelinerunsgetresponse" class="tsd-kind-icon">Pipeline<wbr>Runs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelinerunsquerybyfactoryresponse" class="tsd-kind-icon">Pipeline<wbr>Runs<wbr>Query<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelinescreateorupdateresponse" class="tsd-kind-icon">Pipelines<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelinescreaterunresponse" class="tsd-kind-icon">Pipelines<wbr>Create<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelinesgetresponse" class="tsd-kind-icon">Pipelines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelineslistbyfactorynextresponse" class="tsd-kind-icon">Pipelines<wbr>List<wbr>ByFactory<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pipelineslistbyfactoryresponse" class="tsd-kind-icon">Pipelines<wbr>List<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#polybasesettingsrejecttype" class="tsd-kind-icon">Polybase<wbr>Settings<wbr>Reject<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#prestoauthenticationtype" class="tsd-kind-icon">Presto<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recurrencefrequency" class="tsd-kind-icon">Recurrence<wbr>Frequency</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reruntriggerscreateresponse" class="tsd-kind-icon">Rerun<wbr>Triggers<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reruntriggerslistbytriggernextresponse" class="tsd-kind-icon">Rerun<wbr>Triggers<wbr>List<wbr>ByTrigger<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reruntriggerslistbytriggerresponse" class="tsd-kind-icon">Rerun<wbr>Triggers<wbr>List<wbr>ByTrigger<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runqueryfilteroperand" class="tsd-kind-icon">Run<wbr>Query<wbr>Filter<wbr>Operand</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runqueryfilteroperator" class="tsd-kind-icon">Run<wbr>Query<wbr>Filter<wbr>Operator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runqueryorder" class="tsd-kind-icon">Run<wbr>Query<wbr>Order</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runqueryorderbyfield" class="tsd-kind-icon">Run<wbr>Query<wbr>Order<wbr>ByField</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ssisexecutionruntime" class="tsd-kind-icon">SSISExecution<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#salesforcesinkwritebehavior" class="tsd-kind-icon">Salesforce<wbr>Sink<wbr>Write<wbr>Behavior</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#salesforcesourcereadbehavior" class="tsd-kind-icon">Salesforce<wbr>Source<wbr>Read<wbr>Behavior</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sapcloudforcustomersinkwritebehavior" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Sink<wbr>Write<wbr>Behavior</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#saphanaauthenticationtype" class="tsd-kind-icon">Sap<wbr>Hana<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretbaseunion" class="tsd-kind-icon">Secret<wbr>Base<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#selfhostedintegrationruntimenodestatus" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime<wbr>Node<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicenowauthenticationtype" class="tsd-kind-icon">Service<wbr>Now<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sftpauthenticationtype" class="tsd-kind-icon">Sftp<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sparkauthenticationtype" class="tsd-kind-icon">Spark<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sparkservertype" class="tsd-kind-icon">Spark<wbr>Server<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sparkthrifttransportprotocol" class="tsd-kind-icon">Spark<wbr>Thrift<wbr>Transport<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storedprocedureparametertype" class="tsd-kind-icon">Stored<wbr>Procedure<wbr>Parameter<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sybaseauthenticationtype" class="tsd-kind-icon">Sybase<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#teradataauthenticationtype" class="tsd-kind-icon">Teradata<wbr>Authentication<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerdependencyreferenceunion" class="tsd-kind-icon">Trigger<wbr>Dependency<wbr>Reference<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerrunstatus" class="tsd-kind-icon">Trigger<wbr>Run<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerrunsquerybyfactoryresponse" class="tsd-kind-icon">Trigger<wbr>Runs<wbr>Query<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerruntimestate" class="tsd-kind-icon">Trigger<wbr>Runtime<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerunion" class="tsd-kind-icon">Trigger<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerscreateorupdateresponse" class="tsd-kind-icon">Triggers<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggersgetresponse" class="tsd-kind-icon">Triggers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerslistbyfactorynextresponse" class="tsd-kind-icon">Triggers<wbr>List<wbr>ByFactory<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerslistbyfactoryresponse" class="tsd-kind-icon">Triggers<wbr>List<wbr>ByFactory<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tumblingwindowfrequency" class="tsd-kind-icon">Tumbling<wbr>Window<wbr>Frequency</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#variabletype" class="tsd-kind-icon">Variable<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webactivitymethod" class="tsd-kind-icon">Web<wbr>Activity<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#weblinkedservicetypepropertiesunion" class="tsd-kind-icon">Web<wbr>Linked<wbr>Service<wbr>Type<wbr>Properties<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activity" class="tsd-kind-icon">Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activitydependency" class="tsd-kind-icon">Activity<wbr>Dependency</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activitypolicy" class="tsd-kind-icon">Activity<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activityrun" class="tsd-kind-icon">Activity<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activityrunsqueryresponse" class="tsd-kind-icon">Activity<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazonmwslinkedservice" class="tsd-kind-icon">AmazonMWSLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazonmwsobjectdataset" class="tsd-kind-icon">AmazonMWSObject<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazonmwssource" class="tsd-kind-icon">AmazonMWSSource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazonredshiftlinkedservice" class="tsd-kind-icon">Amazon<wbr>Redshift<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazonredshiftsource" class="tsd-kind-icon">Amazon<wbr>Redshift<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazons3dataset" class="tsd-kind-icon">Amazon<wbr>S3Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#amazons3linkedservice" class="tsd-kind-icon">Amazon<wbr>S3Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appendvariableactivity" class="tsd-kind-icon">Append<wbr>Variable<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#avroformat" class="tsd-kind-icon">Avro<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurebatchlinkedservice" class="tsd-kind-icon">Azure<wbr>Batch<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureblobdataset" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureblobstoragelinkedservice" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakeanalyticslinkedservice" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Analytics<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakestoredataset" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakestorelinkedservice" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakestoresink" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakestoresource" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatabrickslinkedservice" class="tsd-kind-icon">Azure<wbr>Databricks<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurekeyvaultlinkedservice" class="tsd-kind-icon">Azure<wbr>Key<wbr>Vault<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurekeyvaultsecretreference" class="tsd-kind-icon">Azure<wbr>Key<wbr>Vault<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremlbatchexecutionactivity" class="tsd-kind-icon">AzureMLBatch<wbr>Execution<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremllinkedservice" class="tsd-kind-icon">AzureMLLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremlupdateresourceactivity" class="tsd-kind-icon">AzureMLUpdate<wbr>Resource<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremlwebservicefile" class="tsd-kind-icon">AzureMLWeb<wbr>Service<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremysqllinkedservice" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremysqlsource" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremysqltabledataset" class="tsd-kind-icon">Azure<wbr>MySql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurepostgresqllinkedservice" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurepostgresqlsource" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurepostgresqltabledataset" class="tsd-kind-icon">Azure<wbr>Postgre<wbr>Sql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurequeuesink" class="tsd-kind-icon">Azure<wbr>Queue<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresearchindexdataset" class="tsd-kind-icon">Azure<wbr>Search<wbr>Index<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresearchindexsink" class="tsd-kind-icon">Azure<wbr>Search<wbr>Index<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresearchlinkedservice" class="tsd-kind-icon">Azure<wbr>Search<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqldwlinkedservice" class="tsd-kind-icon">Azure<wbr>SqlDWLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqldwtabledataset" class="tsd-kind-icon">Azure<wbr>SqlDWTable<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqldatabaselinkedservice" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqltabledataset" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestoragelinkedservice" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretabledataset" class="tsd-kind-icon">Azure<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretablesink" class="tsd-kind-icon">Azure<wbr>Table<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretablesource" class="tsd-kind-icon">Azure<wbr>Table<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretablestoragelinkedservice" class="tsd-kind-icon">Azure<wbr>Table<wbr>Storage<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobeventstrigger" class="tsd-kind-icon">Blob<wbr>Events<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsink" class="tsd-kind-icon">Blob<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobsource" class="tsd-kind-icon">Blob<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobtrigger" class="tsd-kind-icon">Blob<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandralinkedservice" class="tsd-kind-icon">Cassandra<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrasource" class="tsd-kind-icon">Cassandra<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandratabledataset" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#concurlinkedservice" class="tsd-kind-icon">Concur<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#concurobjectdataset" class="tsd-kind-icon">Concur<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#concursource" class="tsd-kind-icon">Concur<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#controlactivity" class="tsd-kind-icon">Control<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyactivity" class="tsd-kind-icon">Copy<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copysink" class="tsd-kind-icon">Copy<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copysource" class="tsd-kind-icon">Copy<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copytranslator" class="tsd-kind-icon">Copy<wbr>Translator</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cosmosdblinkedservice" class="tsd-kind-icon">Cosmos<wbr>DbLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#couchbaselinkedservice" class="tsd-kind-icon">Couchbase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#couchbasesource" class="tsd-kind-icon">Couchbase<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#couchbasetabledataset" class="tsd-kind-icon">Couchbase<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createlinkedintegrationruntimerequest" class="tsd-kind-icon">Create<wbr>Linked<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createrunresponse" class="tsd-kind-icon">Create<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customactivity" class="tsd-kind-icon">Custom<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customactivityreferenceobject" class="tsd-kind-icon">Custom<wbr>Activity<wbr>Reference<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customdatasourcelinkedservice" class="tsd-kind-icon">Custom<wbr>Data<wbr>Source<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customdataset" class="tsd-kind-icon">Custom<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datalakeanalyticsusqlactivity" class="tsd-kind-icon">Data<wbr>Lake<wbr>AnalyticsUSQLActivity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databricksnotebookactivity" class="tsd-kind-icon">Databricks<wbr>Notebook<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databrickssparkjaractivity" class="tsd-kind-icon">Databricks<wbr>Spark<wbr>Jar<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databrickssparkpythonactivity" class="tsd-kind-icon">Databricks<wbr>Spark<wbr>Python<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dataset" class="tsd-kind-icon">Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetbzip2compression" class="tsd-kind-icon">DatasetBZip2<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetcompression" class="tsd-kind-icon">Dataset<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetdeflatecompression" class="tsd-kind-icon">Dataset<wbr>Deflate<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetfolder" class="tsd-kind-icon">Dataset<wbr>Folder</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetgzipcompression" class="tsd-kind-icon">DatasetGZip<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetlistresponse" class="tsd-kind-icon">Dataset<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetreference" class="tsd-kind-icon">Dataset<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetresource" class="tsd-kind-icon">Dataset<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetstorageformat" class="tsd-kind-icon">Dataset<wbr>Storage<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetzipdeflatecompression" class="tsd-kind-icon">Dataset<wbr>Zip<wbr>Deflate<wbr>Compression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#db2linkedservice" class="tsd-kind-icon">Db2<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deleteactivity" class="tsd-kind-icon">Delete<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dependencyreference" class="tsd-kind-icon">Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#distcpsettings" class="tsd-kind-icon">Distcp<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#documentdbcollectiondataset" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#documentdbcollectionsink" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#documentdbcollectionsource" class="tsd-kind-icon">Document<wbr>DbCollection<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#drilllinkedservice" class="tsd-kind-icon">Drill<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#drillsource" class="tsd-kind-icon">Drill<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#drilltabledataset" class="tsd-kind-icon">Drill<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dynamicsentitydataset" class="tsd-kind-icon">Dynamics<wbr>Entity<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dynamicslinkedservice" class="tsd-kind-icon">Dynamics<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dynamicssink" class="tsd-kind-icon">Dynamics<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dynamicssource" class="tsd-kind-icon">Dynamics<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eloqualinkedservice" class="tsd-kind-icon">Eloqua<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eloquaobjectdataset" class="tsd-kind-icon">Eloqua<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eloquasource" class="tsd-kind-icon">Eloqua<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#executepipelineactivity" class="tsd-kind-icon">Execute<wbr>Pipeline<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#executessispackageactivity" class="tsd-kind-icon">ExecuteSSISPackage<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#executionactivity" class="tsd-kind-icon">Execution<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expression" class="tsd-kind-icon">Expression</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factory" class="tsd-kind-icon">Factory</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factorygithubconfiguration" class="tsd-kind-icon">Factory<wbr>Git<wbr>Hub<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryidentity" class="tsd-kind-icon">Factory<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factorylistresponse" class="tsd-kind-icon">Factory<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryrepoconfiguration" class="tsd-kind-icon">Factory<wbr>Repo<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryrepoupdate" class="tsd-kind-icon">Factory<wbr>Repo<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryupdateparameters" class="tsd-kind-icon">Factory<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryvstsconfiguration" class="tsd-kind-icon">FactoryVSTSConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileserverlinkedservice" class="tsd-kind-icon">File<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesharedataset" class="tsd-kind-icon">File<wbr>Share<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesystemsink" class="tsd-kind-icon">File<wbr>System<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesystemsource" class="tsd-kind-icon">File<wbr>System<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filteractivity" class="tsd-kind-icon">Filter<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#foreachactivity" class="tsd-kind-icon">For<wbr>Each<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ftpserverlinkedservice" class="tsd-kind-icon">Ftp<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#getmetadataactivity" class="tsd-kind-icon">Get<wbr>Metadata<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#githubaccesstokenrequest" class="tsd-kind-icon">Git<wbr>Hub<wbr>Access<wbr>Token<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#githubaccesstokenresponse" class="tsd-kind-icon">Git<wbr>Hub<wbr>Access<wbr>Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#googlebigquerylinkedservice" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#googlebigqueryobjectdataset" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#googlebigquerysource" class="tsd-kind-icon">Google<wbr>Big<wbr>Query<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#greenplumlinkedservice" class="tsd-kind-icon">Greenplum<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#greenplumsource" class="tsd-kind-icon">Greenplum<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#greenplumtabledataset" class="tsd-kind-icon">Greenplum<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hbaselinkedservice" class="tsd-kind-icon">HBase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hbaseobjectdataset" class="tsd-kind-icon">HBase<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hbasesource" class="tsd-kind-icon">HBase<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsighthiveactivity" class="tsd-kind-icon">HDInsight<wbr>Hive<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightlinkedservice" class="tsd-kind-icon">HDInsight<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightmapreduceactivity" class="tsd-kind-icon">HDInsight<wbr>Map<wbr>Reduce<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightondemandlinkedservice" class="tsd-kind-icon">HDInsight<wbr>OnDemand<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightpigactivity" class="tsd-kind-icon">HDInsight<wbr>Pig<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightsparkactivity" class="tsd-kind-icon">HDInsight<wbr>Spark<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdinsightstreamingactivity" class="tsd-kind-icon">HDInsight<wbr>Streaming<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdfslinkedservice" class="tsd-kind-icon">Hdfs<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hdfssource" class="tsd-kind-icon">Hdfs<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hivelinkedservice" class="tsd-kind-icon">Hive<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hiveobjectdataset" class="tsd-kind-icon">Hive<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hivesource" class="tsd-kind-icon">Hive<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httpdataset" class="tsd-kind-icon">Http<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httplinkedservice" class="tsd-kind-icon">Http<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httpsource" class="tsd-kind-icon">Http<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hubspotlinkedservice" class="tsd-kind-icon">Hubspot<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hubspotobjectdataset" class="tsd-kind-icon">Hubspot<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hubspotsource" class="tsd-kind-icon">Hubspot<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifconditionactivity" class="tsd-kind-icon">If<wbr>Condition<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#impalalinkedservice" class="tsd-kind-icon">Impala<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#impalaobjectdataset" class="tsd-kind-icon">Impala<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#impalasource" class="tsd-kind-icon">Impala<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntime" class="tsd-kind-icon">Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimeauthkeys" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Auth<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimecomputeproperties" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Compute<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimeconnectioninfo" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Connection<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimecustomsetupscriptproperties" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Custom<wbr>Setup<wbr>Script<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimelistresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimemonitoringdata" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Monitoring<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimenodeipaddress" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Node<wbr>IpAddress</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimenodemonitoringdata" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Node<wbr>Monitoring<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimereference" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimeregeneratekeyparameters" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimeresource" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimessiscataloginfo" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Ssis<wbr>Catalog<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimessisproperties" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Ssis<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimestatus" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimestatuslistresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimestatusresponse" class="tsd-kind-icon">Integration<wbr>Runtime<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimevnetproperties" class="tsd-kind-icon">Integration<wbr>RuntimeVNet<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jiralinkedservice" class="tsd-kind-icon">Jira<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jiraobjectdataset" class="tsd-kind-icon">Jira<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jirasource" class="tsd-kind-icon">Jira<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonformat" class="tsd-kind-icon">Json<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedintegrationruntime" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedintegrationruntimekeyauthorization" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Key<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedintegrationruntimerbacauthorization" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Rbac<wbr>Authorization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedintegrationruntimerequest" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedintegrationruntimetype" class="tsd-kind-icon">Linked<wbr>Integration<wbr>Runtime<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedservice" class="tsd-kind-icon">Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedservicelistresponse" class="tsd-kind-icon">Linked<wbr>Service<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedservicereference" class="tsd-kind-icon">Linked<wbr>Service<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedserviceresource" class="tsd-kind-icon">Linked<wbr>Service<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#lookupactivity" class="tsd-kind-icon">Lookup<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#magentolinkedservice" class="tsd-kind-icon">Magento<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#magentoobjectdataset" class="tsd-kind-icon">Magento<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#magentosource" class="tsd-kind-icon">Magento<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedintegrationruntime" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedintegrationruntimeerror" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedintegrationruntimenode" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedintegrationruntimeoperationresult" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedintegrationruntimestatus" class="tsd-kind-icon">Managed<wbr>Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mariadblinkedservice" class="tsd-kind-icon">MariaDBLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mariadbsource" class="tsd-kind-icon">MariaDBSource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mariadbtabledataset" class="tsd-kind-icon">MariaDBTable<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marketolinkedservice" class="tsd-kind-icon">Marketo<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marketoobjectdataset" class="tsd-kind-icon">Marketo<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marketosource" class="tsd-kind-icon">Marketo<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbcollectiondataset" class="tsd-kind-icon">Mongo<wbr>DbCollection<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodblinkedservice" class="tsd-kind-icon">Mongo<wbr>DbLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbsource" class="tsd-kind-icon">Mongo<wbr>DbSource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#multiplepipelinetrigger" class="tsd-kind-icon">Multiple<wbr>Pipeline<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mysqllinkedservice" class="tsd-kind-icon">My<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#netezzalinkedservice" class="tsd-kind-icon">Netezza<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#netezzasource" class="tsd-kind-icon">Netezza<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#netezzatabledataset" class="tsd-kind-icon">Netezza<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#odatalinkedservice" class="tsd-kind-icon">OData<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#odataresourcedataset" class="tsd-kind-icon">OData<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#odbclinkedservice" class="tsd-kind-icon">Odbc<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#odbcsink" class="tsd-kind-icon">Odbc<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresponse" class="tsd-kind-icon">Operation<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlogspecification" class="tsd-kind-icon">Operation<wbr>Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetricavailability" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetricdimension" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Dimension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetricspecification" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationservicespecification" class="tsd-kind-icon">Operation<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oraclelinkedservice" class="tsd-kind-icon">Oracle<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oraclesink" class="tsd-kind-icon">Oracle<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oraclesource" class="tsd-kind-icon">Oracle<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oracletabledataset" class="tsd-kind-icon">Oracle<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orcformat" class="tsd-kind-icon">Orc<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#parameterspecification" class="tsd-kind-icon">Parameter<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#parquetformat" class="tsd-kind-icon">Parquet<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#paypallinkedservice" class="tsd-kind-icon">Paypal<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#paypalobjectdataset" class="tsd-kind-icon">Paypal<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#paypalsource" class="tsd-kind-icon">Paypal<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phoenixlinkedservice" class="tsd-kind-icon">Phoenix<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phoenixobjectdataset" class="tsd-kind-icon">Phoenix<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phoenixsource" class="tsd-kind-icon">Phoenix<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinefolder" class="tsd-kind-icon">Pipeline<wbr>Folder</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinelistresponse" class="tsd-kind-icon">Pipeline<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinereference" class="tsd-kind-icon">Pipeline<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelineresource" class="tsd-kind-icon">Pipeline<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinerun" class="tsd-kind-icon">Pipeline<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelineruninvokedby" class="tsd-kind-icon">Pipeline<wbr>Run<wbr>Invoked<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinerunsqueryresponse" class="tsd-kind-icon">Pipeline<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#polybasesettings" class="tsd-kind-icon">Polybase<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#postgresqllinkedservice" class="tsd-kind-icon">Postgre<wbr>Sql<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prestolinkedservice" class="tsd-kind-icon">Presto<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prestoobjectdataset" class="tsd-kind-icon">Presto<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prestosource" class="tsd-kind-icon">Presto<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quickbookslinkedservice" class="tsd-kind-icon">Quick<wbr>Books<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quickbooksobjectdataset" class="tsd-kind-icon">Quick<wbr>Books<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quickbookssource" class="tsd-kind-icon">Quick<wbr>Books<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recurrenceschedule" class="tsd-kind-icon">Recurrence<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recurrencescheduleoccurrence" class="tsd-kind-icon">Recurrence<wbr>Schedule<wbr>Occurrence</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#redirectincompatiblerowsettings" class="tsd-kind-icon">Redirect<wbr>Incompatible<wbr>Row<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#redshiftunloadsettings" class="tsd-kind-icon">Redshift<wbr>Unload<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#relationalsource" class="tsd-kind-icon">Relational<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#relationaltabledataset" class="tsd-kind-icon">Relational<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reruntriggerlistresponse" class="tsd-kind-icon">Rerun<wbr>Trigger<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reruntriggerresource" class="tsd-kind-icon">Rerun<wbr>Trigger<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reruntumblingwindowtrigger" class="tsd-kind-icon">Rerun<wbr>Tumbling<wbr>Window<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reruntumblingwindowtriggeractionparameters" class="tsd-kind-icon">Rerun<wbr>Tumbling<wbr>Window<wbr>Trigger<wbr>Action<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#responsyslinkedservice" class="tsd-kind-icon">Responsys<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#responsysobjectdataset" class="tsd-kind-icon">Responsys<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#responsyssource" class="tsd-kind-icon">Responsys<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retrypolicy" class="tsd-kind-icon">Retry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runfilterparameters" class="tsd-kind-icon">Run<wbr>Filter<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runqueryfilter" class="tsd-kind-icon">Run<wbr>Query<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runqueryorderby" class="tsd-kind-icon">Run<wbr>Query<wbr>Order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ssisexecutionparameter" class="tsd-kind-icon">SSISExecution<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ssispackagelocation" class="tsd-kind-icon">SSISPackage<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ssispropertyoverride" class="tsd-kind-icon">SSISProperty<wbr>Override</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcelinkedservice" class="tsd-kind-icon">Salesforce<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcemarketingcloudlinkedservice" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcemarketingcloudobjectdataset" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcemarketingcloudsource" class="tsd-kind-icon">Salesforce<wbr>Marketing<wbr>Cloud<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforceobjectdataset" class="tsd-kind-icon">Salesforce<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcesink" class="tsd-kind-icon">Salesforce<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#salesforcesource" class="tsd-kind-icon">Salesforce<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapbwlinkedservice" class="tsd-kind-icon">SapBWLinked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapcloudforcustomerlinkedservice" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapcloudforcustomerresourcedataset" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapcloudforcustomersink" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapcloudforcustomersource" class="tsd-kind-icon">Sap<wbr>Cloud<wbr>For<wbr>Customer<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapecclinkedservice" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapeccresourcedataset" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Resource<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sapeccsource" class="tsd-kind-icon">Sap<wbr>Ecc<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#saphanalinkedservice" class="tsd-kind-icon">Sap<wbr>Hana<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scheduletrigger" class="tsd-kind-icon">Schedule<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scheduletriggerrecurrence" class="tsd-kind-icon">Schedule<wbr>Trigger<wbr>Recurrence</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptaction" class="tsd-kind-icon">Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#secretbase" class="tsd-kind-icon">Secret<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#securestring" class="tsd-kind-icon">Secure<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#selfdependencytumblingwindowtriggerreference" class="tsd-kind-icon">Self<wbr>Dependency<wbr>Tumbling<wbr>Window<wbr>Trigger<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#selfhostedintegrationruntime" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#selfhostedintegrationruntimenode" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#selfhostedintegrationruntimestatus" class="tsd-kind-icon">Self<wbr>Hosted<wbr>Integration<wbr>Runtime<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicenowlinkedservice" class="tsd-kind-icon">Service<wbr>Now<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicenowobjectdataset" class="tsd-kind-icon">Service<wbr>Now<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicenowsource" class="tsd-kind-icon">Service<wbr>Now<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#setvariableactivity" class="tsd-kind-icon">Set<wbr>Variable<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sftpserverlinkedservice" class="tsd-kind-icon">Sftp<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shopifylinkedservice" class="tsd-kind-icon">Shopify<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shopifyobjectdataset" class="tsd-kind-icon">Shopify<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shopifysource" class="tsd-kind-icon">Shopify<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sparklinkedservice" class="tsd-kind-icon">Spark<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sparkobjectdataset" class="tsd-kind-icon">Spark<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sparksource" class="tsd-kind-icon">Spark<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldwsink" class="tsd-kind-icon">SqlDWSink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldwsource" class="tsd-kind-icon">SqlDWSource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlserverlinkedservice" class="tsd-kind-icon">Sql<wbr>Server<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlserverstoredprocedureactivity" class="tsd-kind-icon">Sql<wbr>Server<wbr>Stored<wbr>Procedure<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlservertabledataset" class="tsd-kind-icon">Sql<wbr>Server<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlsink" class="tsd-kind-icon">Sql<wbr>Sink</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlsource" class="tsd-kind-icon">Sql<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#squarelinkedservice" class="tsd-kind-icon">Square<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#squareobjectdataset" class="tsd-kind-icon">Square<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#squaresource" class="tsd-kind-icon">Square<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#stagingsettings" class="tsd-kind-icon">Staging<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storedprocedureparameter" class="tsd-kind-icon">Stored<wbr>Procedure<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresource" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sybaselinkedservice" class="tsd-kind-icon">Sybase<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tabulartranslator" class="tsd-kind-icon">Tabular<wbr>Translator</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#teradatalinkedservice" class="tsd-kind-icon">Teradata<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#textformat" class="tsd-kind-icon">Text<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trigger" class="tsd-kind-icon">Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerdependencyreference" class="tsd-kind-icon">Trigger<wbr>Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerlistresponse" class="tsd-kind-icon">Trigger<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerpipelinereference" class="tsd-kind-icon">Trigger<wbr>Pipeline<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerreference" class="tsd-kind-icon">Trigger<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerresource" class="tsd-kind-icon">Trigger<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerrun" class="tsd-kind-icon">Trigger<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerrunsqueryresponse" class="tsd-kind-icon">Trigger<wbr>Runs<wbr>Query<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tumblingwindowtrigger" class="tsd-kind-icon">Tumbling<wbr>Window<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tumblingwindowtriggerdependencyreference" class="tsd-kind-icon">Tumbling<wbr>Window<wbr>Trigger<wbr>Dependency<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#untilactivity" class="tsd-kind-icon">Until<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateintegrationruntimenoderequest" class="tsd-kind-icon">Update<wbr>Integration<wbr>Runtime<wbr>Node<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateintegrationruntimerequest" class="tsd-kind-icon">Update<wbr>Integration<wbr>Runtime<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#userproperty" class="tsd-kind-icon">User<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#variablespecification" class="tsd-kind-icon">Variable<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verticalinkedservice" class="tsd-kind-icon">Vertica<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verticasource" class="tsd-kind-icon">Vertica<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verticatabledataset" class="tsd-kind-icon">Vertica<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#waitactivity" class="tsd-kind-icon">Wait<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webactivity" class="tsd-kind-icon">Web<wbr>Activity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webactivityauthentication" class="tsd-kind-icon">Web<wbr>Activity<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webanonymousauthentication" class="tsd-kind-icon">Web<wbr>Anonymous<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webbasicauthentication" class="tsd-kind-icon">Web<wbr>Basic<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webclientcertificateauthentication" class="tsd-kind-icon">Web<wbr>Client<wbr>Certificate<wbr>Authentication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weblinkedservice" class="tsd-kind-icon">Web<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weblinkedservicetypeproperties" class="tsd-kind-icon">Web<wbr>Linked<wbr>Service<wbr>Type<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#websource" class="tsd-kind-icon">Web<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webtabledataset" class="tsd-kind-icon">Web<wbr>Table<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#xerolinkedservice" class="tsd-kind-icon">Xero<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#xeroobjectdataset" class="tsd-kind-icon">Xero<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#xerosource" class="tsd-kind-icon">Xero<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#zoholinkedservice" class="tsd-kind-icon">Zoho<wbr>Linked<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#zohoobjectdataset" class="tsd-kind-icon">Zoho<wbr>Object<wbr>Dataset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#zohosource" class="tsd-kind-icon">Zoho<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datasetname" class="tsd-kind-icon">dataset<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#factoryname" class="tsd-kind-icon">factory<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch" class="tsd-kind-icon">if<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifnonematch" class="tsd-kind-icon">if<wbr>None<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#integrationruntimename" class="tsd-kind-icon">integration<wbr>Runtime<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#isrecursive" class="tsd-kind-icon">is<wbr>Recursive</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linkedservicename" class="tsd-kind-icon">linked<wbr>Service<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#locationid" class="tsd-kind-icon">location<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nodename" class="tsd-kind-icon">node<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pipelinename" class="tsd-kind-icon">pipeline<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#referencepipelinerunid" class="tsd-kind-icon">reference<wbr>Pipeline<wbr>Run<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reruntriggername" class="tsd-kind-icon">rerun<wbr>Trigger<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runid" class="tsd-kind-icon">run<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggername" class="tsd-kind-icon">trigger<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

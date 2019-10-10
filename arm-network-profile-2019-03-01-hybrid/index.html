@@ -1,0 +1,1591 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-network-profile-2019-03-01-hybrid</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-network-profile-2019-03-01-hybrid</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-network-profile-2019-03-01-hybrid</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-networkmanagementclient-sdk-for-javascript" id="azure-networkmanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure NetworkManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for NetworkManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-network-profile-2019-03-01-hybrid</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-loadbalancers-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-loadbalancers-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get loadBalancers as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { NetworkManagementClient, NetworkManagementModels, NetworkManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-network-profile-2019-03-01-hybrid"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> NetworkManagementClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> loadBalancerName = <span class="hljs-string">"testloadBalancerName"</span>;
+  <span class="hljs-keyword">const</span> expand = <span class="hljs-string">"testexpand"</span>;
+  client.loadBalancers.get(resourceGroupName, loadBalancerName, expand).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-loadbalancers-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-loadbalancers-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get loadBalancers as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-network-profile-2019-03-01-hybrid sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-network-profile-2019-03-01-hybrid/dist/arm-network-profile-2019-03-01-hybrid.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmNetworkProfile20190301Hybrid.NetworkManagementClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> loadBalancerName = <span class="hljs-string">"testloadBalancerName"</span>;
+      <span class="hljs-keyword">const</span> expand = <span class="hljs-string">"testexpand"</span>;
+      client.loadBalancers.get(resourceGroupName, loadBalancerName, expand).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/defaultsecurityrules.html" class="tsd-kind-icon">Default<wbr>Security<wbr>Rules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/inboundnatrules.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancerbackendaddresspools.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pools</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancerfrontendipconfigurations.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfigurations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancerloadbalancingrules.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancernetworkinterfaces.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Network<wbr>Interfaces</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancerprobes.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loadbalancers.html" class="tsd-kind-icon">Load<wbr>Balancers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/localnetworkgateways.html" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/networkinterfaceipconfigurations.html" class="tsd-kind-icon">Network<wbr>InterfaceIPConfigurations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/networkinterfaceloadbalancers.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Load<wbr>Balancers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/networkinterfaces.html" class="tsd-kind-icon">Network<wbr>Interfaces</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/networkmanagementclientcontext.html" class="tsd-kind-icon">Network<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/networksecuritygroups.html" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/publicipaddresses.html" class="tsd-kind-icon">PublicIPAddresses</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/routetables.html" class="tsd-kind-icon">Route<wbr>Tables</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/routes.html" class="tsd-kind-icon">Routes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/securityrules.html" class="tsd-kind-icon">Security<wbr>Rules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/subnets.html" class="tsd-kind-icon">Subnets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworkgatewayconnections.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworkgateways.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworkpeerings.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworks.html" class="tsd-kind-icon">Virtual<wbr>Networks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/addressspace.html" class="tsd-kind-icon">Address<wbr>Space</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationgatewaybackendaddress.html" class="tsd-kind-icon">Application<wbr>Gateway<wbr>Backend<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationgatewaybackendaddresspool.html" class="tsd-kind-icon">Application<wbr>Gateway<wbr>Backend<wbr>Address<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationsecuritygroup.html" class="tsd-kind-icon">Application<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availability.html" class="tsd-kind-icon">Availability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureasyncoperationresult.html" class="tsd-kind-icon">Azure<wbr>Async<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backendaddresspool.html" class="tsd-kind-icon">Backend<wbr>Address<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bgppeerstatus.html" class="tsd-kind-icon">Bgp<wbr>Peer<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bgppeerstatuslistresult.html" class="tsd-kind-icon">Bgp<wbr>Peer<wbr>Status<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bgpsettings.html" class="tsd-kind-icon">Bgp<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionresetsharedkey.html" class="tsd-kind-icon">Connection<wbr>Reset<wbr>Shared<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionsharedkey.html" class="tsd-kind-icon">Connection<wbr>Shared<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dhcpoptions.html" class="tsd-kind-icon">Dhcp<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dimension.html" class="tsd-kind-icon">Dimension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectivenetworksecuritygroup.html" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectivenetworksecuritygroupassociation.html" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group<wbr>Association</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectivenetworksecuritygrouplistresult.html" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectivenetworksecurityrule.html" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectiveroute.html" class="tsd-kind-icon">Effective<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/effectiveroutelistresult.html" class="tsd-kind-icon">Effective<wbr>Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errordetails.html" class="tsd-kind-icon">Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errormodel.html" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/frontendipconfiguration.html" class="tsd-kind-icon">FrontendIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gatewayroute.html" class="tsd-kind-icon">Gateway<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gatewayroutelistresult.html" class="tsd-kind-icon">Gateway<wbr>Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipaddressavailabilityresult.html" class="tsd-kind-icon">IPAddress<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipconfiguration.html" class="tsd-kind-icon">IPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatpool.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatrule.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatrulelistresult.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatrulesgetoptionalparams.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipsecpolicy.html" class="tsd-kind-icon">Ipsec<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancer.html" class="tsd-kind-icon">Load<wbr>Balancer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancerbackendaddresspoollistresult.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pool<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancerfrontendipconfigurationlistresult.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfiguration<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancerlistresult.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancerloadbalancingrulelistresult.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancerprobelistresult.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probe<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancersku.html" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancersgetoptionalparams.html" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loadbalancingrule.html" class="tsd-kind-icon">Load<wbr>Balancing<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/localnetworkgateway.html" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateway</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/localnetworkgatewaylistresult.html" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateway<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logspecification.html" class="tsd-kind-icon">Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricspecification.html" class="tsd-kind-icon">Metric<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterface.html" class="tsd-kind-icon">Network<wbr>Interface</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfacednssettings.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfaceipconfiguration.html" class="tsd-kind-icon">Network<wbr>InterfaceIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfaceipconfigurationlistresult.html" class="tsd-kind-icon">Network<wbr>InterfaceIPConfiguration<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfacelistresult.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfaceloadbalancerlistresult.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Load<wbr>Balancer<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfacesgetoptionalparams.html" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkmanagementclientoptions.html" class="tsd-kind-icon">Network<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networksecuritygroup.html" class="tsd-kind-icon">Network<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networksecuritygrouplistresult.html" class="tsd-kind-icon">Network<wbr>Security<wbr>Group<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networksecuritygroupsgetoptionalparams.html" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationpropertiesformatservicespecification.html" class="tsd-kind-icon">Operation<wbr>Properties<wbr>Format<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outboundnatrule.html" class="tsd-kind-icon">Outbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/probe.html" class="tsd-kind-icon">Probe</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicipaddress.html" class="tsd-kind-icon">PublicIPAddress</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicipaddressdnssettings.html" class="tsd-kind-icon">PublicIPAddress<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicipaddresslistresult.html" class="tsd-kind-icon">PublicIPAddress<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicipaddresssku.html" class="tsd-kind-icon">PublicIPAddress<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicipaddressesgetoptionalparams.html" class="tsd-kind-icon">PublicIPAddresses<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcenavigationlink.html" class="tsd-kind-icon">Resource<wbr>Navigation<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/route.html" class="tsd-kind-icon">Route</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routelistresult.html" class="tsd-kind-icon">Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routetable.html" class="tsd-kind-icon">Route<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routetablelistresult.html" class="tsd-kind-icon">Route<wbr>Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routetablesgetoptionalparams.html" class="tsd-kind-icon">Route<wbr>Tables<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/securityrule.html" class="tsd-kind-icon">Security<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/securityrulelistresult.html" class="tsd-kind-icon">Security<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/serviceendpointpropertiesformat.html" class="tsd-kind-icon">Service<wbr>Endpoint<wbr>Properties<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresource.html" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnet.html" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetlistresult.html" class="tsd-kind-icon">Subnet<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetsgetoptionalparams.html" class="tsd-kind-icon">Subnets<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tagsobject.html" class="tsd-kind-icon">Tags<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tunnelconnectionhealth.html" class="tsd-kind-icon">Tunnel<wbr>Connection<wbr>Health</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetwork.html" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkconnectiongatewayreference.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Connection<wbr>Gateway<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgateway.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewayconnection.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewayconnectionlistentity.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>List<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewayconnectionlistresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewayipconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>GatewayIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>List<wbr>Connections<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaylistresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaysku.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaysbegingetbgppeerstatusoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaysbeginresetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Reset<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaysgetbgppeerstatusoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkgatewaysresetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Reset<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworklistresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworklistusageresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Usage<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkpeering.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peering</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkpeeringlistresult.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peering<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkusage.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkusagename.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkscheckipaddressavailabilityoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>CheckIPAddress<wbr>Availability<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworksgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vpnclientconfiguration.html" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vpnclientparameters.html" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vpnclientrevokedcertificate.html" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Revoked<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vpnclientrootcertificate.html" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Root<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vpndevicescriptparameters.html" class="tsd-kind-icon">Vpn<wbr>Device<wbr>Script<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#authenticationmethod" class="tsd-kind-icon">Authentication<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#bgppeerstate" class="tsd-kind-icon">Bgp<wbr>Peer<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultsecurityrulesgetresponse" class="tsd-kind-icon">Default<wbr>Security<wbr>Rules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultsecurityruleslistnextresponse" class="tsd-kind-icon">Default<wbr>Security<wbr>Rules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultsecurityruleslistresponse" class="tsd-kind-icon">Default<wbr>Security<wbr>Rules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dhgroup" class="tsd-kind-icon">Dh<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#effectiveroutesource" class="tsd-kind-icon">Effective<wbr>Route<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#effectiveroutestate" class="tsd-kind-icon">Effective<wbr>Route<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#effectivesecurityruleprotocol" class="tsd-kind-icon">Effective<wbr>Security<wbr>Rule<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipallocationmethod" class="tsd-kind-icon">IPAllocation<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipversion" class="tsd-kind-icon">IPVersion</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ikeencryption" class="tsd-kind-icon">Ike<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ikeintegrity" class="tsd-kind-icon">Ike<wbr>Integrity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundnatrulesbegincreateorupdateresponse" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundnatrulescreateorupdateresponse" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundnatrulesgetresponse" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundnatruleslistnextresponse" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundnatruleslistresponse" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipsecencryption" class="tsd-kind-icon">Ipsec<wbr>Encryption</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipsecintegrity" class="tsd-kind-icon">Ipsec<wbr>Integrity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerbackendaddresspoolsgetresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pools<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerbackendaddresspoolslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pools<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerbackendaddresspoolslistresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pools<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerfrontendipconfigurationsgetresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfigurations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerfrontendipconfigurationslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfigurations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerfrontendipconfigurationslistresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfigurations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerloadbalancingrulesgetresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerloadbalancingruleslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerloadbalancingruleslistresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancernetworkinterfaceslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Network<wbr>Interfaces<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancernetworkinterfaceslistresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Network<wbr>Interfaces<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerprobesgetresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probes<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerprobeslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probes<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerprobeslistresponse" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probes<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerskuname" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancersbegincreateorupdateresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancersbeginupdatetagsresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerscreateorupdateresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancersgetresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerslistallnextresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerslistallresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerslistnextresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancerslistresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancersupdatetagsresponse" class="tsd-kind-icon">Load<wbr>Balancers<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loaddistribution" class="tsd-kind-icon">Load<wbr>Distribution</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewaysbegincreateorupdateresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewaysbeginupdatetagsresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewayscreateorupdateresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewaysgetresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewayslistnextresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewayslistresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#localnetworkgatewaysupdatetagsresponse" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateways<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceipconfigurationsgetresponse" class="tsd-kind-icon">Network<wbr>InterfaceIPConfigurations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceipconfigurationslistnextresponse" class="tsd-kind-icon">Network<wbr>InterfaceIPConfigurations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceipconfigurationslistresponse" class="tsd-kind-icon">Network<wbr>InterfaceIPConfigurations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceloadbalancerslistnextresponse" class="tsd-kind-icon">Network<wbr>Interface<wbr>Load<wbr>Balancers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceloadbalancerslistresponse" class="tsd-kind-icon">Network<wbr>Interface<wbr>Load<wbr>Balancers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesbegincreateorupdateresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesbegingeteffectiveroutetableresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Begin<wbr>Get<wbr>Effective<wbr>Route<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesbeginlisteffectivenetworksecuritygroupsresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Begin<wbr>List<wbr>Effective<wbr>Network<wbr>Security<wbr>Groups<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesbeginupdatetagsresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacescreateorupdateresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesgeteffectiveroutetableresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Get<wbr>Effective<wbr>Route<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesgetresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceslistallnextresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceslistallresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceslisteffectivenetworksecuritygroupsresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>List<wbr>Effective<wbr>Network<wbr>Security<wbr>Groups<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceslistnextresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfaceslistresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkinterfacesupdatetagsresponse" class="tsd-kind-icon">Network<wbr>Interfaces<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkoperationstatus" class="tsd-kind-icon">Network<wbr>Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupsbegincreateorupdateresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupsbeginupdatetagsresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupscreateorupdateresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupsgetresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupslistallnextresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupslistallresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupslistnextresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupslistresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupsupdatetagsresponse" class="tsd-kind-icon">Network<wbr>Security<wbr>Groups<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pfsgroup" class="tsd-kind-icon">Pfs<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#probeprotocol" class="tsd-kind-icon">Probe<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#processorarchitecture" class="tsd-kind-icon">Processor<wbr>Architecture</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressskuname" class="tsd-kind-icon">PublicIPAddress<wbr>Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressesbegincreateorupdateresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressesbeginupdatetagsresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressescreateorupdateresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressesgetresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddresseslistallnextresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddresseslistallresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddresseslistnextresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddresseslistresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publicipaddressesupdatetagsresponse" class="tsd-kind-icon">PublicIPAddresses<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routenexthoptype" class="tsd-kind-icon">Route<wbr>Next<wbr>Hop<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetablesbegincreateorupdateresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetablesbeginupdatetagsresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetablescreateorupdateresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetablesgetresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetableslistallnextresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetableslistallresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetableslistnextresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetableslistresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routetablesupdatetagsresponse" class="tsd-kind-icon">Route<wbr>Tables<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routesbegincreateorupdateresponse" class="tsd-kind-icon">Routes<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routescreateorupdateresponse" class="tsd-kind-icon">Routes<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routesgetresponse" class="tsd-kind-icon">Routes<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routeslistnextresponse" class="tsd-kind-icon">Routes<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routeslistresponse" class="tsd-kind-icon">Routes<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityruleaccess" class="tsd-kind-icon">Security<wbr>Rule<wbr>Access</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityruledirection" class="tsd-kind-icon">Security<wbr>Rule<wbr>Direction</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityruleprotocol" class="tsd-kind-icon">Security<wbr>Rule<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityrulesbegincreateorupdateresponse" class="tsd-kind-icon">Security<wbr>Rules<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityrulescreateorupdateresponse" class="tsd-kind-icon">Security<wbr>Rules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityrulesgetresponse" class="tsd-kind-icon">Security<wbr>Rules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityruleslistnextresponse" class="tsd-kind-icon">Security<wbr>Rules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securityruleslistresponse" class="tsd-kind-icon">Security<wbr>Rules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subnetsbegincreateorupdateresponse" class="tsd-kind-icon">Subnets<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subnetscreateorupdateresponse" class="tsd-kind-icon">Subnets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subnetsgetresponse" class="tsd-kind-icon">Subnets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subnetslistnextresponse" class="tsd-kind-icon">Subnets<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subnetslistresponse" class="tsd-kind-icon">Subnets<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transportprotocol" class="tsd-kind-icon">Transport<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionstatus" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectiontype" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsbeginresetsharedkeyresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Begin<wbr>Reset<wbr>Shared<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsbeginsetsharedkeyresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Begin<wbr>Set<wbr>Shared<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsbeginupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsgetresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsgetsharedkeyresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Get<wbr>Shared<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionslistresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsresetsharedkeyresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Reset<wbr>Shared<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionssetsharedkeyresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Set<wbr>Shared<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayconnectionsupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connections<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayskuname" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayskutier" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Sku<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaytype" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegingeneratevpnclientpackageresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Generatevpnclientpackage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegingetadvertisedroutesresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Get<wbr>Advertised<wbr>Routes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegingetbgppeerstatusresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegingetlearnedroutesresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Get<wbr>Learned<wbr>Routes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbegingetvpnprofilepackageurlresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbeginresetresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Reset<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysbeginupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgeneratevpnprofileresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Generate<wbr>Vpn<wbr>Profile<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgeneratevpnclientpackageresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Generatevpnclientpackage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgetadvertisedroutesresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Advertised<wbr>Routes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgetbgppeerstatusresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgetlearnedroutesresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Learned<wbr>Routes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgetresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysgetvpnprofilepackageurlresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayslistconnectionsnextresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>List<wbr>Connections<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayslistconnectionsresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>List<wbr>Connections<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayslistresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysresetresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Reset<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewayssupportedvpndevicesresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Supported<wbr>Vpn<wbr>Devices<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkgatewaysvpndeviceconfigurationscriptresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways<wbr>Vpn<wbr>Device<wbr>Configuration<wbr>Script<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringstate" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peering<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringsbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringsgetresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkpeeringslistresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peerings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksbeginupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkscheckipaddressavailabilityresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>CheckIPAddress<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksgetresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistallnextresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistallresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistusagenextresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Usage<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistusageresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Usage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksupdatetagsresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#vpnclientprotocol" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#vpntype" class="tsd-kind-icon">Vpn<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#addressspace" class="tsd-kind-icon">Address<wbr>Space</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationgatewaybackendaddress" class="tsd-kind-icon">Application<wbr>Gateway<wbr>Backend<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationgatewaybackendaddresspool" class="tsd-kind-icon">Application<wbr>Gateway<wbr>Backend<wbr>Address<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationsecuritygroup" class="tsd-kind-icon">Application<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availability" class="tsd-kind-icon">Availability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureasyncoperationresult" class="tsd-kind-icon">Azure<wbr>Async<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backendaddresspool" class="tsd-kind-icon">Backend<wbr>Address<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bgppeerstatus" class="tsd-kind-icon">Bgp<wbr>Peer<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bgppeerstatuslistresult" class="tsd-kind-icon">Bgp<wbr>Peer<wbr>Status<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bgpsettings" class="tsd-kind-icon">Bgp<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#connectionresetsharedkey" class="tsd-kind-icon">Connection<wbr>Reset<wbr>Shared<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#connectionsharedkey" class="tsd-kind-icon">Connection<wbr>Shared<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dhcpoptions" class="tsd-kind-icon">Dhcp<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dimension" class="tsd-kind-icon">Dimension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectivenetworksecuritygroup" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectivenetworksecuritygroupassociation" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group<wbr>Association</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectivenetworksecuritygrouplistresult" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Group<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectivenetworksecurityrule" class="tsd-kind-icon">Effective<wbr>Network<wbr>Security<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectiveroute" class="tsd-kind-icon">Effective<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#effectiveroutelistresult" class="tsd-kind-icon">Effective<wbr>Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errordetails" class="tsd-kind-icon">Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errormodel" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#frontendipconfiguration" class="tsd-kind-icon">FrontendIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gatewayroute" class="tsd-kind-icon">Gateway<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gatewayroutelistresult" class="tsd-kind-icon">Gateway<wbr>Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipaddressavailabilityresult" class="tsd-kind-icon">IPAddress<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipconfiguration" class="tsd-kind-icon">IPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatpool" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatrule" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatrulelistresult" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipsecpolicy" class="tsd-kind-icon">Ipsec<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancer" class="tsd-kind-icon">Load<wbr>Balancer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancerbackendaddresspoollistresult" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Backend<wbr>Address<wbr>Pool<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancerfrontendipconfigurationlistresult" class="tsd-kind-icon">Load<wbr>Balancer<wbr>FrontendIPConfiguration<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancerlistresult" class="tsd-kind-icon">Load<wbr>Balancer<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancerloadbalancingrulelistresult" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Load<wbr>Balancing<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancerprobelistresult" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Probe<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancersku" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancingrule" class="tsd-kind-icon">Load<wbr>Balancing<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#localnetworkgateway" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateway</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#localnetworkgatewaylistresult" class="tsd-kind-icon">Local<wbr>Network<wbr>Gateway<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logspecification" class="tsd-kind-icon">Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricspecification" class="tsd-kind-icon">Metric<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterface" class="tsd-kind-icon">Network<wbr>Interface</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfacednssettings" class="tsd-kind-icon">Network<wbr>Interface<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfaceipconfiguration" class="tsd-kind-icon">Network<wbr>InterfaceIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfaceipconfigurationlistresult" class="tsd-kind-icon">Network<wbr>InterfaceIPConfiguration<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfacelistresult" class="tsd-kind-icon">Network<wbr>Interface<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfaceloadbalancerlistresult" class="tsd-kind-icon">Network<wbr>Interface<wbr>Load<wbr>Balancer<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networksecuritygroup" class="tsd-kind-icon">Network<wbr>Security<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networksecuritygrouplistresult" class="tsd-kind-icon">Network<wbr>Security<wbr>Group<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationpropertiesformatservicespecification" class="tsd-kind-icon">Operation<wbr>Properties<wbr>Format<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outboundnatrule" class="tsd-kind-icon">Outbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#probe" class="tsd-kind-icon">Probe</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publicipaddress" class="tsd-kind-icon">PublicIPAddress</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publicipaddressdnssettings" class="tsd-kind-icon">PublicIPAddress<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publicipaddresslistresult" class="tsd-kind-icon">PublicIPAddress<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publicipaddresssku" class="tsd-kind-icon">PublicIPAddress<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcenavigationlink" class="tsd-kind-icon">Resource<wbr>Navigation<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#route" class="tsd-kind-icon">Route</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routelistresult" class="tsd-kind-icon">Route<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routetable" class="tsd-kind-icon">Route<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routetablelistresult" class="tsd-kind-icon">Route<wbr>Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#securityrule" class="tsd-kind-icon">Security<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#securityrulelistresult" class="tsd-kind-icon">Security<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#serviceendpointpropertiesformat" class="tsd-kind-icon">Service<wbr>Endpoint<wbr>Properties<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresource" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnet" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetlistresult" class="tsd-kind-icon">Subnet<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagsobject" class="tsd-kind-icon">Tags<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tunnelconnectionhealth" class="tsd-kind-icon">Tunnel<wbr>Connection<wbr>Health</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetwork" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkconnectiongatewayreference" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Connection<wbr>Gateway<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgateway" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayconnection" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayconnectionlistentity" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>List<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayconnectionlistresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayipconfiguration" class="tsd-kind-icon">Virtual<wbr>Network<wbr>GatewayIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewaylistconnectionsresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>List<wbr>Connections<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewaylistresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewaysku" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateway<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworklistresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworklistusageresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Usage<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkpeering" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peering</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkpeeringlistresult" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Peering<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkusage" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkusagename" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vpnclientconfiguration" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vpnclientparameters" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vpnclientrevokedcertificate" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Revoked<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vpnclientrootcertificate" class="tsd-kind-icon">Vpn<wbr>Client<wbr>Root<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vpndevicescriptparameters" class="tsd-kind-icon">Vpn<wbr>Device<wbr>Script<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backendaddresspoolname" class="tsd-kind-icon">backend<wbr>Address<wbr>Pool<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#defaultsecurityrulename" class="tsd-kind-icon">default<wbr>Security<wbr>Rule<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand" class="tsd-kind-icon">expand</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#frontendipconfigurationname" class="tsd-kind-icon">frontendIPConfiguration<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gatewayvip" class="tsd-kind-icon">gateway<wbr>Vip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatrulename" class="tsd-kind-icon">inbound<wbr>Nat<wbr>Rule<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipaddress" class="tsd-kind-icon">ip<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipconfigurationname" class="tsd-kind-icon">ip<wbr>Configuration<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancername" class="tsd-kind-icon">load<wbr>Balancer<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loadbalancingrulename" class="tsd-kind-icon">load<wbr>Balancing<wbr>Rule<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#localnetworkgatewayname" class="tsd-kind-icon">local<wbr>Network<wbr>Gateway<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfacename" class="tsd-kind-icon">network<wbr>Interface<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networksecuritygroupname" class="tsd-kind-icon">network<wbr>Security<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#peer0" class="tsd-kind-icon">peer0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#peer1" class="tsd-kind-icon">peer1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#probename" class="tsd-kind-icon">probe<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publicipaddressname" class="tsd-kind-icon">public<wbr>IpAddress<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routename" class="tsd-kind-icon">route<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routetablename" class="tsd-kind-icon">route<wbr>Table<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#securityrulename" class="tsd-kind-icon">security<wbr>Rule<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetname" class="tsd-kind-icon">subnet<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayconnectionname" class="tsd-kind-icon">virtual<wbr>Network<wbr>Gateway<wbr>Connection<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkgatewayname" class="tsd-kind-icon">virtual<wbr>Network<wbr>Gateway<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkname" class="tsd-kind-icon">virtual<wbr>Network<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkpeeringname" class="tsd-kind-icon">virtual<wbr>Network<wbr>Peering<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

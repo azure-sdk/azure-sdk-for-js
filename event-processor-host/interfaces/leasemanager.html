@@ -1,0 +1,751 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>LeaseManager | @azure/event-processor-host</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/event-processor-host</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="leasemanager.html">LeaseManager</a>
+				</li>
+			</ul>
+			<h1>Interface LeaseManager</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>interface</dt>
+						<dd><p>LeaseManager
+								If you wish to have EventProcessorHost store leases somewhere other than Azure Storage,
+							you can write your own lease manager using this interface.</p>
+							<p>The Azure Storage managers use the same storage for both lease and checkpoints, so both
+								interfaces are implemented by the same class. You are free to do the same thing if you have
+							a unified store for both types of data.</p>
+							<p>This interface does not specify initialization methods because we have no way of knowing what
+							information your implementation will require.</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">LeaseManager</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="leasemanager.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="leasemanager.html#leaserenewinterval" class="tsd-kind-icon">lease<wbr>Renew<wbr>Interval</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#acquirelease" class="tsd-kind-icon">acquire<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#createallleasesifnotexists" class="tsd-kind-icon">create<wbr>All<wbr>Leases<wbr>IfNot<wbr>Exists</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#createleasestoreifnotexists" class="tsd-kind-icon">create<wbr>Lease<wbr>Store<wbr>IfNot<wbr>Exists</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#deletelease" class="tsd-kind-icon">delete<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#deleteleasestore" class="tsd-kind-icon">delete<wbr>Lease<wbr>Store</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#getallleases" class="tsd-kind-icon">get<wbr>All<wbr>Leases</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#getlease" class="tsd-kind-icon">get<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#leasestoreexists" class="tsd-kind-icon">lease<wbr>Store<wbr>Exists</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#releaselease" class="tsd-kind-icon">release<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#renewlease" class="tsd-kind-icon">renew<wbr>Lease</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="leasemanager.html#updatelease" class="tsd-kind-icon">update<wbr>Lease</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leaseduration" class="tsd-anchor"></a>
+					<h3>lease<wbr>Duration</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<wbr>Duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L33">leaseManager.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} leaseDuration Duration of a lease <strong>in seconds</strong> before it expires
+								unless renewed.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leaserenewinterval" class="tsd-anchor"></a>
+					<h3>lease<wbr>Renew<wbr>Interval</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<wbr>Renew<wbr>Interval<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L28">leaseManager.ts:28</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} leaseRenewInterval The sleep interval <strong>in seconds</strong> between scans.</p>
+								<p>Allows a lease manager implementation to specify to PartitionManager how often it should
+									scan leases and renew them. In order to redistribute leases in a timely fashion after a host
+									ceases operating, we recommend a relatively short interval, such as ten seconds. Obviously it
+								should be less than half of the lease length, to prevent accidental expiration.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="acquirelease" class="tsd-anchor"></a>
+					<h3>acquire<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">acquire<wbr>Lease<span class="tsd-signature-symbol">(</span>lease<span class="tsd-signature-symbol">: </span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L98">leaseManager.ts:98</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Acquire the lease on the desired partition for this EventProcessorHost.</p>
+								</div>
+								<p>Note that it is legal to acquire a lease that is already owned by another host.
+								Lease-stealing is how partitions are redistributed when additional hosts are started.</p>
+								<p>The existing Azure Storage implementation can experience races between two host instances
+									attempting to acquire or steal the lease at the same time. To avoid situations where two host
+									instances both believe that they own the lease, acquisition can fail without errors by
+									returning false and should do so when there is any doubt -- the worst that can happen is that
+									no host instance owns the lease for a short time. This is qualitatively different from,
+								for example, the underlying store throwing an access exception, which is an error.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lease: <a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Lease info for the desired partition as previously obtained from
+										<code>getLease()</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<boolean> <code>true</code> if acquired successfully; <code>false</code> otherwise.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="createallleasesifnotexists" class="tsd-anchor"></a>
+					<h3>create<wbr>All<wbr>Leases<wbr>IfNot<wbr>Exists</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>All<wbr>Leases<wbr>IfNot<wbr>Exists<span class="tsd-signature-symbol">(</span>partitionIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L71">leaseManager.ts:71</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create in the store the lease info for the given partition, if it does not exist. Do nothing
+									if it does exist in the store already.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>partitionIds: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>ids of partitions to create lease info for</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void> undefined on success, rejects on error.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="createleasestoreifnotexists" class="tsd-anchor"></a>
+					<h3>create<wbr>Lease<wbr>Store<wbr>IfNot<wbr>Exists</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Lease<wbr>Store<wbr>IfNot<wbr>Exists<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L43">leaseManager.ts:43</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create the lease store if it doesn&#39;t exist. Do nothing if it does exist.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void>  resolves with <code>undefined</code>; rejects with an <code>Error</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="deletelease" class="tsd-anchor"></a>
+					<h3>delete<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Lease<span class="tsd-signature-symbol">(</span>lease<span class="tsd-signature-symbol">: </span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L80">leaseManager.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete the lease info for the given partition from the store. If there is no stored lease for
+									the given partition, that is treated as success.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lease: <a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Lease info for the desired partition as previously obtained from
+										<code>getLease()</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void> resolves with <code>undefined</code>; rejects with an <code>Error</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="deleteleasestore" class="tsd-anchor"></a>
+					<h3>delete<wbr>Lease<wbr>Store</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Lease<wbr>Store<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L48">leaseManager.ts:48</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete lease store.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void> resolves with <code>undefined</code>; rejects with an <code>Error</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="getallleases" class="tsd-anchor"></a>
+					<h3>get<wbr>All<wbr>Leases</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Leases<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/baselease.html" class="tsd-signature-type">BaseLease</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L63">leaseManager.ts:63</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns lightweight BaseLease for all leases, which includes name of owning host and whether
+										lease is expired. An implementation is free to return CompleteLease or its own class derived
+										from CompleteLease, but it is important that getAllLeases run as fast as possible. If it is
+									faster to obtain only the information required for a BaseLease, we heavily recommend doing that.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/baselease.html" class="tsd-signature-type">BaseLease</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;BaseLease[]&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="getlease" class="tsd-anchor"></a>
+					<h3>get<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Lease<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L55">leaseManager.ts:55</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the lease info for the specified partition. Can return <code>undefined</code> if no lease has been
+									created in the store for the specified partition.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>partitionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Partition id to get the lease for.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Lease | undefined&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="leasestoreexists" class="tsd-anchor"></a>
+					<h3>lease<wbr>Store<wbr>Exists</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">lease<wbr>Store<wbr>Exists<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L38">leaseManager.ts:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Does the lease store exist?</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<boolean> <code>true</code> if it exists, <code>false</code> if it does not exist.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="releaselease" class="tsd-anchor"></a>
+					<h3>release<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">release<wbr>Lease<span class="tsd-signature-symbol">(</span>lease<span class="tsd-signature-symbol">: </span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L122">leaseManager.ts:122</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Give up a lease currently held by this host.</p>
+								</div>
+								<p>If the lease has been stolen, or expired, releasing it is unnecessary, and will fail if
+								attempted.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lease: <a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Lease info for the desired partition as previously obtained from
+										<code>getLease()</code>.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void> resolves with <code>undefined</code>; rejects with an <code>Error</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="renewlease" class="tsd-anchor"></a>
+					<h3>renew<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">renew<wbr>Lease<span class="tsd-signature-symbol">(</span>lease<span class="tsd-signature-symbol">: </span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L111">leaseManager.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Renew a lease currently held by this host.</p>
+								</div>
+								<p>If the lease has been taken by another host instance (either stolen or after expiration)
+									or explicitly released, renewLease must return false. With the Azure Storage-based
+									implementation, it IS possible to renew an expired lease that has not been taken by another
+									host, so your implementation can allow that or not, whichever is convenient. If it does not,
+								renewLease should return false.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lease: <a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>lease to be renewed.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<boolean> <code>true</code> if renewed successfully; <code>false</code> otherwise.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+					<a name="updatelease" class="tsd-anchor"></a>
+					<h3>update<wbr>Lease</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Lease<span class="tsd-signature-symbol">(</span>lease<span class="tsd-signature-symbol">: </span><a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/leaseManager.ts#L133">leaseManager.ts:133</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Update the store with the information in the provided lease.</p>
+								</div>
+								<p>It is necessary to currently hold a lease in order to update it. If the lease has been stolen,
+									or expired, or released, it cannot be updated. Lease manager implementations should renew the
+								lease before performing the update to avoid lease expiration during the process.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>lease: <a href="../classes/completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>New lease information to be stored.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<boolean> <code>true</code> if updated successfully; <code>false</code> otherwise.</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="../classes/azurebloblease.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/baselease.html" class="tsd-kind-icon">Base<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/completelease.html" class="tsd-kind-icon">Complete<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/eventprocessorhost.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="../classes/partitioncontext.html" class="tsd-kind-icon">Partition<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="azureblobleaseinfo.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="baseleaseinfo.html" class="tsd-kind-icon">Base<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="checkpointmanager.html" class="tsd-kind-icon">Checkpoint<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="completeleaseinfo.html" class="tsd-kind-icon">Complete<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="ephdiagnosticinfo.html" class="tsd-kind-icon">EPHDiagnostic<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="eventprocessorhostoptions.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="fromconnectionstringoptions.html" class="tsd-kind-icon">From<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="fromtokenprovideroptions.html" class="tsd-kind-icon">From<wbr>Token<wbr>Provider<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="hostcontextwithpumpmanager.html" class="tsd-kind-icon">Host<wbr>Context<wbr>With<wbr>Pump<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="leaseinfo.html" class="tsd-kind-icon">Lease<wbr>Info</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="leasemanager.html" class="tsd-kind-icon">Lease<wbr>Manager</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="leasemanager.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="leasemanager.html#leaserenewinterval" class="tsd-kind-icon">lease<wbr>Renew<wbr>Interval</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#acquirelease" class="tsd-kind-icon">acquire<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#createallleasesifnotexists" class="tsd-kind-icon">create<wbr>All<wbr>Leases<wbr>IfNot<wbr>Exists</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#createleasestoreifnotexists" class="tsd-kind-icon">create<wbr>Lease<wbr>Store<wbr>IfNot<wbr>Exists</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#deletelease" class="tsd-kind-icon">delete<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#deleteleasestore" class="tsd-kind-icon">delete<wbr>Lease<wbr>Store</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#getallleases" class="tsd-kind-icon">get<wbr>All<wbr>Leases</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#getlease" class="tsd-kind-icon">get<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#leasestoreexists" class="tsd-kind-icon">lease<wbr>Store<wbr>Exists</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#releaselease" class="tsd-kind-icon">release<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#renewlease" class="tsd-kind-icon">renew<wbr>Lease</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-interface">
+								<a href="leasemanager.html#updatelease" class="tsd-kind-icon">update<wbr>Lease</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-kind-icon">From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onepherror" class="tsd-kind-icon">On<wbr>Eph<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivederror" class="tsd-kind-icon">On<wbr>Received<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivedmessage" class="tsd-kind-icon">On<wbr>Received<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultcheckpointtimeoutinseconds" class="tsd-kind-icon">default<wbr>Checkpoint<wbr>Timeout<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultconsumergroup" class="tsd-kind-icon">default<wbr>Consumer<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultfastscanintervalinseconds" class="tsd-kind-icon">default<wbr>Fast<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleasedurationinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleaserenewintervalinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Renew<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultmaximumexecutiontimeinms" class="tsd-kind-icon">default<wbr>Maximum<wbr>Execution<wbr>Time<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultslowscanintervalinseconds" class="tsd-kind-icon">default<wbr>Slow<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultstartupscandelayinseconds" class="tsd-kind-icon">default<wbr>Startup<wbr>Scan<wbr>Delay<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithbloboperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Blob<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithleaseoperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Lease<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaselost" class="tsd-kind-icon">lease<wbr>Lost</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maxleasedurationinseconds" class="tsd-kind-icon">max<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maximumexecutiontimeinmsforleaserenewal" class="tsd-kind-icon">maximum<wbr>Execution<wbr>Time<wbr>InMs<wbr>For<wbr>Lease<wbr>Renewal</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#metadataownername" class="tsd-kind-icon">metadata<wbr>Owner<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#minleasedurationinseconds" class="tsd-kind-icon">min<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#randomnumberfrominterval" class="tsd-kind-icon">random<wbr>Number<wbr>From<wbr>Interval</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#validatetype" class="tsd-kind-icon">validate<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#packageinfo" class="tsd-kind-icon">package<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

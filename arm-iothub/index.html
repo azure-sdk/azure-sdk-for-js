@@ -1,0 +1,898 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-iothub</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-iothub</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-iothub</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-iothubclient-sdk-for-javascript" id="azure-iothubclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure IotHubClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for IotHubClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-iothub</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { IotHubClient, IotHubModels, IotHubMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-iothub"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> IotHubClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-iothub sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-iothub/dist/arm-iothub.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmIothub.IotHubClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/certificates.html" class="tsd-kind-icon">Certificates</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/iothub.html" class="tsd-kind-icon">Iot<wbr>Hub</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/iothubclientcontext.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/iothubresource.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/resourceprovidercommon.html" class="tsd-kind-icon">Resource<wbr>Provider<wbr>Common</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatebodydescription.html" class="tsd-kind-icon">Certificate<wbr>Body<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatedescription.html" class="tsd-kind-icon">Certificate<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatelistdescription.html" class="tsd-kind-icon">Certificate<wbr>List<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificateproperties.html" class="tsd-kind-icon">Certificate<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatepropertieswithnonce.html" class="tsd-kind-icon">Certificate<wbr>Properties<wbr>With<wbr>Nonce</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificateverificationdescription.html" class="tsd-kind-icon">Certificate<wbr>Verification<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatewithnoncedescription.html" class="tsd-kind-icon">Certificate<wbr>With<wbr>Nonce<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatescreateorupdateoptionalparams.html" class="tsd-kind-icon">Certificates<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatesverifyoptionalparams.html" class="tsd-kind-icon">Certificates<wbr>Verify<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cloudtodeviceproperties.html" class="tsd-kind-icon">Cloud<wbr>ToDevice<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/endpointhealthdata.html" class="tsd-kind-icon">Endpoint<wbr>Health<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/endpointhealthdatalistresult.html" class="tsd-kind-icon">Endpoint<wbr>Health<wbr>Data<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enrichmentproperties.html" class="tsd-kind-icon">Enrichment<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errordetails.html" class="tsd-kind-icon">Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubconsumergroupinfo.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer<wbr>Group<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubconsumergroupslistresult.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer<wbr>Groups<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubproperties.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exportdevicesrequest.html" class="tsd-kind-icon">Export<wbr>Devices<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverinput.html" class="tsd-kind-icon">Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fallbackrouteproperties.html" class="tsd-kind-icon">Fallback<wbr>Route<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/feedbackproperties.html" class="tsd-kind-icon">Feedback<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/importdevicesrequest.html" class="tsd-kind-icon">Import<wbr>Devices<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubcapacity.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubclientoptions.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubdescription.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubdescriptionlistresult.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Description<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubnameavailabilityinfo.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Name<wbr>Availability<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubproperties.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubpropertiesdevicestreams.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Properties<wbr>Device<wbr>Streams</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubquotametricinfo.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Quota<wbr>Metric<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubquotametricinfolistresult.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Quota<wbr>Metric<wbr>Info<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubresourcebegincreateorupdateoptionalparams.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubresourcebeginupdateoptionalparams.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Begin<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubresourcecreateorupdateoptionalparams.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Create<wbr>OrUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubresourceupdateoptionalparams.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubskudescription.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubskudescriptionlistresult.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Description<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubskuinfo.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipfilterrule.html" class="tsd-kind-icon">Ip<wbr>Filter<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobresponse.html" class="tsd-kind-icon">Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobresponselistresult.html" class="tsd-kind-icon">Job<wbr>Response<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/matchedroute.html" class="tsd-kind-icon">Matched<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagingendpointproperties.html" class="tsd-kind-icon">Messaging<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/name.html" class="tsd-kind-icon">Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationinputs.html" class="tsd-kind-icon">Operation<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrystatistics.html" class="tsd-kind-icon">Registry<wbr>Statistics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routecompilationerror.html" class="tsd-kind-icon">Route<wbr>Compilation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routeerrorposition.html" class="tsd-kind-icon">Route<wbr>Error<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routeerrorrange.html" class="tsd-kind-icon">Route<wbr>Error<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routeproperties.html" class="tsd-kind-icon">Route<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingendpoints.html" class="tsd-kind-icon">Routing<wbr>Endpoints</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingeventhubproperties.html" class="tsd-kind-icon">Routing<wbr>Event<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingmessage.html" class="tsd-kind-icon">Routing<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingproperties.html" class="tsd-kind-icon">Routing<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingservicebusqueueendpointproperties.html" class="tsd-kind-icon">Routing<wbr>Service<wbr>Bus<wbr>Queue<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingservicebustopicendpointproperties.html" class="tsd-kind-icon">Routing<wbr>Service<wbr>Bus<wbr>Topic<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingstoragecontainerproperties.html" class="tsd-kind-icon">Routing<wbr>Storage<wbr>Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingtwin.html" class="tsd-kind-icon">Routing<wbr>Twin</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/routingtwinproperties.html" class="tsd-kind-icon">Routing<wbr>Twin<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedaccesssignatureauthorizationrule.html" class="tsd-kind-icon">Shared<wbr>Access<wbr>Signature<wbr>Authorization<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedaccesssignatureauthorizationrulelistresult.html" class="tsd-kind-icon">Shared<wbr>Access<wbr>Signature<wbr>Authorization<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageendpointproperties.html" class="tsd-kind-icon">Storage<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tagsresource.html" class="tsd-kind-icon">Tags<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testallroutesinput.html" class="tsd-kind-icon">Test<wbr>All<wbr>Routes<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testallroutesresult.html" class="tsd-kind-icon">Test<wbr>All<wbr>Routes<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testrouteinput.html" class="tsd-kind-icon">Test<wbr>Route<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testrouteresult.html" class="tsd-kind-icon">Test<wbr>Route<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testrouteresultdetails.html" class="tsd-kind-icon">Test<wbr>Route<wbr>Result<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usersubscriptionquota.html" class="tsd-kind-icon">User<wbr>Subscription<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usersubscriptionquotalistresult.html" class="tsd-kind-icon">User<wbr>Subscription<wbr>Quota<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accessrights" class="tsd-kind-icon">Access<wbr>Rights</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#capabilities" class="tsd-kind-icon">Capabilities</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatescreateorupdateresponse" class="tsd-kind-icon">Certificates<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatesgenerateverificationcoderesponse" class="tsd-kind-icon">Certificates<wbr>Generate<wbr>Verification<wbr>Code<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatesgetresponse" class="tsd-kind-icon">Certificates<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificateslistbyiothubresponse" class="tsd-kind-icon">Certificates<wbr>List<wbr>ByIot<wbr>Hub<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatesverifyresponse" class="tsd-kind-icon">Certificates<wbr>Verify<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#encoding" class="tsd-kind-icon">Encoding</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#endpointhealthstatus" class="tsd-kind-icon">Endpoint<wbr>Health<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubnameunavailabilityreason" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Name<wbr>Unavailability<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcebegincreateorupdateresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcebegindeletemethodresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcebeginupdateresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcechecknameavailabilityresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Check<wbr>Name<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcecreateeventhubconsumergroupresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Create<wbr>Event<wbr>Hub<wbr>Consumer<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcecreateorupdateresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcedeletemethodresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourceexportdevicesresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Export<wbr>Devices<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetendpointhealthnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Endpoint<wbr>Health<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetendpointhealthresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Endpoint<wbr>Health<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegeteventhubconsumergroupresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Event<wbr>Hub<wbr>Consumer<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetjobresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetkeysforkeynameresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Keys<wbr>For<wbr>Key<wbr>Name<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetquotametricsnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Quota<wbr>Metrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetquotametricsresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Quota<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetstatsresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Stats<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetvalidskusnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Valid<wbr>Skus<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcegetvalidskusresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Get<wbr>Valid<wbr>Skus<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourceimportdevicesresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Import<wbr>Devices<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistbyresourcegroupnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistbyresourcegroupresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistbysubscriptionnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistbysubscriptionresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelisteventhubconsumergroupsnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Event<wbr>Hub<wbr>Consumer<wbr>Groups<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelisteventhubconsumergroupsresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Event<wbr>Hub<wbr>Consumer<wbr>Groups<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistjobsnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Jobs<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistjobsresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Jobs<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistkeysnextresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Keys<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcelistkeysresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>List<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcetestallroutesresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Test<wbr>All<wbr>Routes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourcetestrouteresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Test<wbr>Route<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubresourceupdateresponse" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Resource<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubscaletype" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Scale<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubsku" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iothubskutier" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipfilteractiontype" class="tsd-kind-icon">Ip<wbr>Filter<wbr>Action<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobstatus" class="tsd-kind-icon">Job<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobtype" class="tsd-kind-icon">Job<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourceprovidercommongetsubscriptionquotaresponse" class="tsd-kind-icon">Resource<wbr>Provider<wbr>Common<wbr>Get<wbr>Subscription<wbr>Quota<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routeerrorseverity" class="tsd-kind-icon">Route<wbr>Error<wbr>Severity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#routingsource" class="tsd-kind-icon">Routing<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#testresultstatus" class="tsd-kind-icon">Test<wbr>Result<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatebodydescription" class="tsd-kind-icon">Certificate<wbr>Body<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatedescription" class="tsd-kind-icon">Certificate<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatelistdescription" class="tsd-kind-icon">Certificate<wbr>List<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificateproperties" class="tsd-kind-icon">Certificate<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatepropertieswithnonce" class="tsd-kind-icon">Certificate<wbr>Properties<wbr>With<wbr>Nonce</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificateverificationdescription" class="tsd-kind-icon">Certificate<wbr>Verification<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatewithnoncedescription" class="tsd-kind-icon">Certificate<wbr>With<wbr>Nonce<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cloudtodeviceproperties" class="tsd-kind-icon">Cloud<wbr>ToDevice<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpointhealthdata" class="tsd-kind-icon">Endpoint<wbr>Health<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpointhealthdatalistresult" class="tsd-kind-icon">Endpoint<wbr>Health<wbr>Data<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enrichmentproperties" class="tsd-kind-icon">Enrichment<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errordetails" class="tsd-kind-icon">Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubconsumergroupinfo" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer<wbr>Group<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubconsumergroupslistresult" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer<wbr>Groups<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubproperties" class="tsd-kind-icon">Event<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exportdevicesrequest" class="tsd-kind-icon">Export<wbr>Devices<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverinput" class="tsd-kind-icon">Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fallbackrouteproperties" class="tsd-kind-icon">Fallback<wbr>Route<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#feedbackproperties" class="tsd-kind-icon">Feedback<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#importdevicesrequest" class="tsd-kind-icon">Import<wbr>Devices<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubcapacity" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubdescription" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubdescriptionlistresult" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Description<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubnameavailabilityinfo" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Name<wbr>Availability<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubproperties" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubpropertiesdevicestreams" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Properties<wbr>Device<wbr>Streams</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubquotametricinfo" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Quota<wbr>Metric<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubquotametricinfolistresult" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Quota<wbr>Metric<wbr>Info<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubskudescription" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubskudescriptionlistresult" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Description<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubskuinfo" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Sku<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipfilterrule" class="tsd-kind-icon">Ip<wbr>Filter<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobresponse" class="tsd-kind-icon">Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobresponselistresult" class="tsd-kind-icon">Job<wbr>Response<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#matchedroute" class="tsd-kind-icon">Matched<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagingendpointproperties" class="tsd-kind-icon">Messaging<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#name" class="tsd-kind-icon">Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationinputs" class="tsd-kind-icon">Operation<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrystatistics" class="tsd-kind-icon">Registry<wbr>Statistics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routecompilationerror" class="tsd-kind-icon">Route<wbr>Compilation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routeerrorposition" class="tsd-kind-icon">Route<wbr>Error<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routeerrorrange" class="tsd-kind-icon">Route<wbr>Error<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routeproperties" class="tsd-kind-icon">Route<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingendpoints" class="tsd-kind-icon">Routing<wbr>Endpoints</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingeventhubproperties" class="tsd-kind-icon">Routing<wbr>Event<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingmessage" class="tsd-kind-icon">Routing<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingproperties" class="tsd-kind-icon">Routing<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingservicebusqueueendpointproperties" class="tsd-kind-icon">Routing<wbr>Service<wbr>Bus<wbr>Queue<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingservicebustopicendpointproperties" class="tsd-kind-icon">Routing<wbr>Service<wbr>Bus<wbr>Topic<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingstoragecontainerproperties" class="tsd-kind-icon">Routing<wbr>Storage<wbr>Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingtwin" class="tsd-kind-icon">Routing<wbr>Twin</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#routingtwinproperties" class="tsd-kind-icon">Routing<wbr>Twin<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharedaccesssignatureauthorizationrule" class="tsd-kind-icon">Shared<wbr>Access<wbr>Signature<wbr>Authorization<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharedaccesssignatureauthorizationrulelistresult" class="tsd-kind-icon">Shared<wbr>Access<wbr>Signature<wbr>Authorization<wbr>Rule<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageendpointproperties" class="tsd-kind-icon">Storage<wbr>Endpoint<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagsresource" class="tsd-kind-icon">Tags<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testallroutesinput" class="tsd-kind-icon">Test<wbr>All<wbr>Routes<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testallroutesresult" class="tsd-kind-icon">Test<wbr>All<wbr>Routes<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testrouteinput" class="tsd-kind-icon">Test<wbr>Route<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testrouteresult" class="tsd-kind-icon">Test<wbr>Route<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testrouteresultdetails" class="tsd-kind-icon">Test<wbr>Route<wbr>Result<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usersubscriptionquota" class="tsd-kind-icon">User<wbr>Subscription<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usersubscriptionquotalistresult" class="tsd-kind-icon">User<wbr>Subscription<wbr>Quota<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatename" class="tsd-kind-icon">certificate<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubendpointname" class="tsd-kind-icon">event<wbr>Hub<wbr>Endpoint<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch0" class="tsd-kind-icon">if<wbr>Match0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch1" class="tsd-kind-icon">if<wbr>Match1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubname" class="tsd-kind-icon">iot<wbr>Hub<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobid" class="tsd-kind-icon">job<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyname" class="tsd-kind-icon">key<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#name" class="tsd-kind-icon">name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcename" class="tsd-kind-icon">resource<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

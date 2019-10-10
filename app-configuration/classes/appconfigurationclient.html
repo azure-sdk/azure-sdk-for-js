@@ -1,0 +1,559 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AppConfigurationClient | @azure/app-configuration</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/app-configuration</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="appconfigurationclient.html">AppConfigurationClient</a>
+				</li>
+			</ul>
+			<h1>Class AppConfigurationClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Client for the Azure App Configuration service.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">AppConfigurationClient</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="appconfigurationclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#addconfigurationsetting" class="tsd-kind-icon">add<wbr>Configuration<wbr>Setting</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#clearreadonly" class="tsd-kind-icon">clear<wbr>Read<wbr>Only</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#deleteconfigurationsetting" class="tsd-kind-icon">delete<wbr>Configuration<wbr>Setting</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#getconfigurationsetting" class="tsd-kind-icon">get<wbr>Configuration<wbr>Setting</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#listconfigurationsettings" class="tsd-kind-icon">list<wbr>Configuration<wbr>Settings</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#listrevisions" class="tsd-kind-icon">list<wbr>Revisions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#setconfigurationsetting" class="tsd-kind-icon">set<wbr>Configuration<wbr>Setting</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="appconfigurationclient.html#setreadonly" class="tsd-kind-icon">set<wbr>Read<wbr>Only</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>App<wbr>Configuration<wbr>Client<span class="tsd-signature-symbol">(</span>connectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="appconfigurationclient.html" class="tsd-signature-type">AppConfigurationClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L60">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:60</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initializes a new instance of the AppConfigurationClient class.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Connection string needed for a client to connect to Azure.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="appconfigurationclient.html" class="tsd-signature-type">AppConfigurationClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addconfigurationsetting" class="tsd-anchor"></a>
+					<h3>add<wbr>Configuration<wbr>Setting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Configuration<wbr>Setting<span class="tsd-signature-symbol">(</span>configurationSetting<span class="tsd-signature-symbol">: </span><a href="../interfaces/addconfigurationsettingparam.html" class="tsd-signature-type">AddConfigurationSettingParam</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/addconfigurationsettingoptions.html" class="tsd-signature-type">AddConfigurationSettingOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/addconfigurationsettingresponse.html" class="tsd-signature-type">AddConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L93">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Add a setting into the Azure App Configuration service, failing if it
+									already exists.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> client.addConfigurationSetting({ key: <span class="hljs-string">"MyKey"</span>, label: <span class="hljs-string">"MyLabel"</span>, value: <span class="hljs-string">"MyValue"</span> });</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>configurationSetting: <a href="../interfaces/addconfigurationsettingparam.html" class="tsd-signature-type">AddConfigurationSettingParam</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A configuration setting.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/addconfigurationsettingoptions.html" class="tsd-signature-type">AddConfigurationSettingOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/addconfigurationsettingresponse.html" class="tsd-signature-type">AddConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clearreadonly" class="tsd-anchor"></a>
+					<h3>clear<wbr>Read<wbr>Only</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clear<wbr>Read<wbr>Only<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/clearreadonlyoptions.html" class="tsd-signature-type">ClearReadOnlyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/clearreadonlyresponse.html" class="tsd-signature-type">ClearReadOnlyResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L377">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:377</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Makes the key&#39;s value writable again</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the configuration setting to make writable.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/clearreadonlyoptions.html" class="tsd-signature-type">ClearReadOnlyOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/clearreadonlyresponse.html" class="tsd-signature-type">ClearReadOnlyResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deleteconfigurationsetting" class="tsd-anchor"></a>
+					<h3>delete<wbr>Configuration<wbr>Setting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Configuration<wbr>Setting<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/deleteconfigurationsettingoptions.html" class="tsd-signature-type">DeleteConfigurationSettingOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deleteconfigurationsettingresponse.html" class="tsd-signature-type">DeleteConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L117">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Delete a setting from the Azure App Configuration service</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> deletedSetting = <span class="hljs-keyword">await</span> client.deleteConfigurationSetting({ key: <span class="hljs-string">"MyKey"</span>, label: <span class="hljs-string">"MyLabel"</span> });</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the configuration setting to delete.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/deleteconfigurationsettingoptions.html" class="tsd-signature-type">DeleteConfigurationSettingOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request (ex: etag, label)</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deleteconfigurationsettingresponse.html" class="tsd-signature-type">DeleteConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getconfigurationsetting" class="tsd-anchor"></a>
+					<h3>get<wbr>Configuration<wbr>Setting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Configuration<wbr>Setting<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/getconfigurationsettingoptions.html" class="tsd-signature-type">GetConfigurationSettingOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/getconfigurationsettingresponse.html" class="tsd-signature-type">GetConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L140">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:140</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a setting from the Azure App Configuration service.</p>
+								</div>
+								<p>Example code:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> setting = <span class="hljs-keyword">await</span> client.getConfigurationSetting({ key: <span class="hljs-string">"MyKey"</span>, label: <span class="hljs-string">"MyLabel"</span> });</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the configuration setting to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/getconfigurationsettingoptions.html" class="tsd-signature-type">GetConfigurationSettingOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/getconfigurationsettingresponse.html" class="tsd-signature-type">GetConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listconfigurationsettings" class="tsd-anchor"></a>
+					<h3>list<wbr>Configuration<wbr>Settings</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Configuration<wbr>Settings<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/listconfigurationsettingsoptions.html" class="tsd-signature-type">ListConfigurationSettingsOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/pagedasynciterableiterator.html" class="tsd-signature-type">PagedAsyncIterableIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/configurationsetting.html" class="tsd-signature-type">ConfigurationSetting</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/listconfigurationsettingpage.html" class="tsd-signature-type">ListConfigurationSettingPage</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L179">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:179</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists settings from the Azure App Configuration service, optionally
+									filtered by key names, labels and accept datetime.</p>
+								</div>
+								<p>Example code:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> allSettingsWithLabel = <span class="hljs-keyword">await</span> client.listConfigurationSettings({ labels: [ <span class="hljs-string">"MyLabel"</span> ] });</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/listconfigurationsettingsoptions.html" class="tsd-signature-type">ListConfigurationSettingsOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/pagedasynciterableiterator.html" class="tsd-signature-type">PagedAsyncIterableIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/configurationsetting.html" class="tsd-signature-type">ConfigurationSetting</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/listconfigurationsettingpage.html" class="tsd-signature-type">ListConfigurationSettingPage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listrevisions" class="tsd-anchor"></a>
+					<h3>list<wbr>Revisions</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Revisions<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/listrevisionsoptions.html" class="tsd-signature-type">ListRevisionsOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/pagedasynciterableiterator.html" class="tsd-signature-type">PagedAsyncIterableIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/configurationsetting.html" class="tsd-signature-type">ConfigurationSetting</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/listrevisionspage.html" class="tsd-signature-type">ListRevisionsPage</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L265">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:265</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists revisions of a set of keys, optionally filtered by key names,
+									labels and accept datetime.</p>
+								</div>
+								<p>Example code:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> revisionsIterator = <span class="hljs-keyword">await</span> client.listRevisions({ keys: [<span class="hljs-string">"MyKey"</span>] });</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/listrevisionsoptions.html" class="tsd-signature-type">ListRevisionsOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/pagedasynciterableiterator.html" class="tsd-signature-type">PagedAsyncIterableIterator</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/configurationsetting.html" class="tsd-signature-type">ConfigurationSetting</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/listrevisionspage.html" class="tsd-signature-type">ListRevisionsPage</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setconfigurationsetting" class="tsd-anchor"></a>
+					<h3>set<wbr>Configuration<wbr>Setting</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Configuration<wbr>Setting<span class="tsd-signature-symbol">(</span>configurationSetting<span class="tsd-signature-symbol">: </span><a href="../interfaces/setconfigurationsettingparam.html" class="tsd-signature-type">SetConfigurationSettingParam</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/setconfigurationsettingoptions.html" class="tsd-signature-type">SetConfigurationSettingOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/setconfigurationsettingresponse.html" class="tsd-signature-type">SetConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L343">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:343</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the value of a key in the Azure App Configuration service, allowing for an optional etag.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>configurationSetting: <a href="../interfaces/setconfigurationsettingparam.html" class="tsd-signature-type">SetConfigurationSettingParam</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A configuration value.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/setconfigurationsettingoptions.html" class="tsd-signature-type">SetConfigurationSettingOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters for the request.</p>
+										<p>Example code:</p>
+										<pre><code class="language-ts"><span class="hljs-keyword">await</span> client.setConfigurationSetting({ key: <span class="hljs-string">"MyKey"</span>, value: <span class="hljs-string">"MyValue"</span> });</code></pre>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/setconfigurationsettingresponse.html" class="tsd-signature-type">SetConfigurationSettingResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setreadonly" class="tsd-anchor"></a>
+					<h3>set<wbr>Read<wbr>Only</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Read<wbr>Only<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/setreadonlyoptions.html" class="tsd-signature-type">SetReadOnlyOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/setreadonlyresponse.html" class="tsd-signature-type">SetReadOnlyResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts#L361">sdk/appconfiguration/app-configuration/src/appConfigurationClient.ts:361</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a key&#39;s value to read only</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>id: <a href="../interfaces/configurationsettingid.html" class="tsd-signature-type">ConfigurationSettingId</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the configuration setting to set to read-only.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/setreadonlyoptions.html" class="tsd-signature-type">SetReadOnlyOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/setreadonlyresponse.html" class="tsd-signature-type">SetReadOnlyResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="appconfigurationclient.html" class="tsd-kind-icon">App<wbr>Configuration<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#addconfigurationsetting" class="tsd-kind-icon">add<wbr>Configuration<wbr>Setting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#clearreadonly" class="tsd-kind-icon">clear<wbr>Read<wbr>Only</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#deleteconfigurationsetting" class="tsd-kind-icon">delete<wbr>Configuration<wbr>Setting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#getconfigurationsetting" class="tsd-kind-icon">get<wbr>Configuration<wbr>Setting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#listconfigurationsettings" class="tsd-kind-icon">list<wbr>Configuration<wbr>Settings</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#listrevisions" class="tsd-kind-icon">list<wbr>Revisions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#setconfigurationsetting" class="tsd-kind-icon">set<wbr>Configuration<wbr>Setting</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="appconfigurationclient.html#setreadonly" class="tsd-kind-icon">set<wbr>Read<wbr>Only</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

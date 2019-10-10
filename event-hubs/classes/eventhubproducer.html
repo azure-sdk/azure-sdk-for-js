@@ -1,0 +1,503 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>EventHubProducer | @azure/event-hubs</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/event-hubs</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="eventhubproducer.html">EventHubProducer</a>
+				</li>
+			</ul>
+			<h1>Class EventHubProducer</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A producer responsible for sending events to an Event Hub.
+							To create a producer use the <code>createProducer()</code> method on your <code>EventHubClient</code>.
+						You can pass the below in the <code>options</code> when creating a producer.</p>
+						<ul>
+							<li><code>partitionId</code>  : The identifier of the partition that the producer can be bound to.</li>
+							<li><code>retryOptions</code> : The retry options used to govern retry attempts when an issue is encountered while sending events.
+							A simple usage can be <code>{ &quot;maxRetries&quot;: 4 }</code>.</li>
+						</ul>
+					</div>
+					<p>If <code>partitionId</code> is specified when creating a producer, all event data sent using the producer
+						will be sent to the specified partition.
+					Otherwise, they are automatically routed to an available partition by the Event Hubs service.</p>
+					<p>Automatic routing of partitions is recommended because:</p>
+					<ul>
+						<li>The sending of events will be highly available.</li>
+						<li>The event data will be evenly distributed among all available partitions.</li>
+					</ul>
+					<dl class="tsd-comment-tags">
+						<dt>class</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">EventHubProducer</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="eventhubproducer.html#isclosed" class="tsd-kind-icon">is<wbr>Closed</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventhubproducer.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventhubproducer.html#createbatch" class="tsd-kind-icon">create<wbr>Batch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventhubproducer.html#send" class="tsd-kind-icon">send</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="isclosed" class="tsd-anchor"></a>
+					<h3>is<wbr>Closed</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isClosed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-hubs/src/sender.ts#L54">sender.ts:54</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>property</dt>
+									<dd><p>Returns <code>true</code> if either the producer or the client that created it has been closed.</p>
+									</dd>
+									<dt>readonly</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-hubs/src/sender.ts#L220">sender.ts:220</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Closes the underlying AMQP sender link.
+										Once closed, the producer cannot be used for any further operations.
+									Use the <code>createProducer</code> function on the EventHubClient to instantiate a new EventHubProducer.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{Error} Thrown if the underlying connection encounters an error while closing.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createbatch" class="tsd-anchor"></a>
+					<h3>create<wbr>Batch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Batch<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/batchoptions.html" class="tsd-signature-type">BatchOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventdatabatch.html" class="tsd-signature-type">EventDataBatch</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-hubs/src/sender.ts#L93">sender.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of <code>EventDataBatch</code> to which one can add events until the maximum supported size is reached.
+									The batch can be passed to the <code>send()</code> method of the <code>EventHubProducer</code> to be sent to Azure Event Hubs.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/batchoptions.html" class="tsd-signature-type">BatchOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A set of options to configure the behavior of the batch.</p>
+										<ul>
+											<li><code>partitionKey</code>  : A value that is hashed to produce a partition assignment.
+											Not applicable if the <code>EventHubProducer</code> was created using a <code>partitionId</code>.</li>
+											<li><code>maxSizeInBytes</code>: The upper limit for the size of batch. The <code>tryAdd</code> function will return <code>false</code> after this limit is reached.</li>
+											<li><code>abortSignal</code>   : A signal the request to cancel the send operation.</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventdatabatch.html" class="tsd-signature-type">EventDataBatch</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<EventDataBatch></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="send" class="tsd-anchor"></a>
+					<h3>send</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">send<span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><a href="../interfaces/eventdata.html" class="tsd-signature-type">EventData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventdata.html" class="tsd-signature-type">EventData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="eventdatabatch.html" class="tsd-signature-type">EventDataBatch</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/sendoptions.html" class="tsd-signature-type">SendOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-hubs/src/sender.ts#L153">sender.ts:153</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Send one or more of events to the associated Event Hub.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>throws</dt>
+									<dd><p>{AbortError} Thrown if the operation is cancelled via the abortSignal.</p>
+									</dd>
+									<dt>throws</dt>
+									<dd><p>{MessagingError} Thrown if an error is encountered while sending a message.</p>
+									</dd>
+									<dt>throws</dt>
+									<dd><p>{TypeError} Thrown if a required parameter is missing.</p>
+									</dd>
+									<dt>throws</dt>
+									<dd><p>{Error} Thrown if the underlying connection or sender has been closed.</p>
+									</dd>
+									<dt>throws</dt>
+									<dd><p>{Error} Thrown if a partitionKey is provided when the producer was created with a partitionId.</p>
+									</dd>
+									<dt>throws</dt>
+									<dd><p>{Error} Thrown if batch was created with partitionKey different than the one provided in the options.
+										Create a new producer using the EventHubClient createProducer method.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventData: <a href="../interfaces/eventdata.html" class="tsd-signature-type">EventData</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/eventdata.html" class="tsd-signature-type">EventData</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="eventdatabatch.html" class="tsd-signature-type">EventDataBatch</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An individual <code>EventData</code> object, or an array of <code>EventData</code> objects or an
+										instance of <code>EventDataBatch</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/sendoptions.html" class="tsd-signature-type">SendOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The set of options that can be specified to influence the way in which
+										events are sent to the associated Event Hub.</p>
+										<ul>
+											<li><code>partitionKey</code> : A value that is hashed to produce a partition assignment.
+											Not applicable if the <code>EventHubProducer</code> was created using a <code>partitionId</code>.</li>
+											<li><code>abortSignal</code>  : A signal the request to cancel the send operation.</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="../enums/closereason.html" class="tsd-kind-icon">Close<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="eventdatabatch.html" class="tsd-kind-icon">Event<wbr>Data<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="eventhubclient.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="eventhubconsumer.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="eventhubproducer.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Producer</a>
+						<ul>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="eventhubproducer.html#isclosed" class="tsd-kind-icon">is<wbr>Closed</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventhubproducer.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventhubproducer.html#createbatch" class="tsd-kind-icon">create<wbr>Batch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventhubproducer.html#send" class="tsd-kind-icon">send</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="eventposition.html" class="tsd-kind-icon">Event<wbr>Position</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="eventprocessor.html" class="tsd-kind-icon">Event<wbr>Processor</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="inmemorypartitionmanager.html" class="tsd-kind-icon">In<wbr>Memory<wbr>Partition<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="partitionloadbalancer.html" class="tsd-kind-icon">Partition<wbr>Load<wbr>Balancer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="partitionprocessor.html" class="tsd-kind-icon">Partition<wbr>Processor</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="partitionpump.html" class="tsd-kind-icon">Partition<wbr>Pump</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="receivehandler.html" class="tsd-kind-icon">Receive<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/abortsignaloptions.html" class="tsd-kind-icon">Abort<wbr>Signal<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/batchoptions.html" class="tsd-kind-icon">Batch<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/checkpoint.html" class="tsd-kind-icon">Checkpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventdata.html" class="tsd-kind-icon">Event<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventhubclientoptions.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventhubconsumeroptions.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Consumer<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventhubproduceroptions.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Producer<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventhubproperties.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventiteratoroptions.html" class="tsd-kind-icon">Event<wbr>Iterator<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventprocessoroptions.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/getpartitionidsoptions.html" class="tsd-kind-icon">Get<wbr>Partition<wbr>Ids<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/getpartitionpropertiesoptions.html" class="tsd-kind-icon">Get<wbr>Partition<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/getpropertiesoptions.html" class="tsd-kind-icon">Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/lastenqueuedeventinfo.html" class="tsd-kind-icon">Last<wbr>Enqueued<wbr>Event<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/parentspanoptions.html" class="tsd-kind-icon">Parent<wbr>Span<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/partitionmanager.html" class="tsd-kind-icon">Partition<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/partitionownership.html" class="tsd-kind-icon">Partition<wbr>Ownership</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/partitionproperties.html" class="tsd-kind-icon">Partition<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/receivedeventdata.html" class="tsd-kind-icon">Received<wbr>Event<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/sendoptions.html" class="tsd-kind-icon">Send<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/tryaddoptions.html" class="tsd-kind-icon">Try<wbr>Add<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onabort" class="tsd-kind-icon">On<wbr>Abort</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onerror" class="tsd-kind-icon">On<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onmessage" class="tsd-kind-icon">On<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#createmessagespan" class="tsd-kind-icon">create<wbr>Message<wbr>Span</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#extractspancontextfromeventdata" class="tsd-kind-icon">extract<wbr>Span<wbr>Context<wbr>From<wbr>Event<wbr>Data</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

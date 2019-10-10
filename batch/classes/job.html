@@ -1,0 +1,1916 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Job | @azure/batch</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/batch</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="job.html">Job</a>
+				</li>
+			</ul>
+			<h1>Class Job</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class representing a Job.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Job</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="job.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#add" class="tsd-kind-icon">add</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#disable" class="tsd-kind-icon">disable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#enable" class="tsd-kind-icon">enable</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#getalllifetimestatistics" class="tsd-kind-icon">get<wbr>All<wbr>Lifetime<wbr>Statistics</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#gettaskcounts" class="tsd-kind-icon">get<wbr>Task<wbr>Counts</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#list" class="tsd-kind-icon">list</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#listfromjobschedule" class="tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#listfromjobschedulenext" class="tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#listnext" class="tsd-kind-icon">list<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#listpreparationandreleasetaskstatus" class="tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#listpreparationandreleasetaskstatusnext" class="tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#patch" class="tsd-kind-icon">patch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#terminate" class="tsd-kind-icon">terminate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="job.html#update" class="tsd-kind-icon">update</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Job<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="batchserviceclientcontext.html" class="tsd-signature-type">BatchServiceClientContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="job.html" class="tsd-signature-type">Job</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L19">operations/job.ts:19</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a Job.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>client: <a href="batchserviceclientcontext.html" class="tsd-signature-type">BatchServiceClientContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Reference to the service client.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="job.html" class="tsd-signature-type">Job</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="add" class="tsd-anchor"></a>
+					<h3>add</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>job<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobAddOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobAddResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>job<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>job<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobaddoptionalparams.html" class="tsd-signature-type">JobAddOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L311">operations/job.ts:311</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Batch service supports two ways to control the work done as part of a job. In the first
+										approach, the user specifies a Job Manager task. The Batch service launches this task when it is
+										ready to start the job. The Job Manager task controls all other tasks that run under this job,
+										by using the Task APIs. In the second approach, the user directly controls the execution of
+										tasks under an active job, by using the Task APIs. Also note: when naming jobs, avoid including
+										sensitive information such as user names or secret project names. This information may appear in
+									telemetry logs accessible to Microsoft Support engineers.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Adds a job to the specified account.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>job: <a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The job to be added.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobAddOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobAddResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobAddResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L316">operations/job.ts:316</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>job: <a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The job to be added.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L322">operations/job.ts:322</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>job: <a href="../interfaces/jobaddparameter.html" class="tsd-signature-type">JobAddParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The job to be added.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobaddoptionalparams.html" class="tsd-signature-type">JobAddOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletemethod" class="tsd-anchor"></a>
+					<h3>delete<wbr>Method</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobDeleteMethodOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobdeletemethodoptionalparams.html" class="tsd-signature-type">JobDeleteMethodOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L70">operations/job.ts:70</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deleting a job also deletes all tasks that are part of that job, and all job statistics. This
+										also overrides the retention period for task data; that is, if the job contains tasks which are
+										still retained on compute nodes, the Batch services deletes those tasks&#39; working directories and
+										all their contents.  When a Delete Job request is received, the Batch service sets the job to
+										the deleting state. All update operations on a job that is in deleting state will fail with
+										status code 409 (Conflict), with additional information indicating that the job is being
+									deleted.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Deletes a job.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to delete.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobDeleteMethodOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobDeleteResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L75">operations/job.ts:75</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to delete.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L81">operations/job.ts:81</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to delete.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobdeletemethodoptionalparams.html" class="tsd-signature-type">JobDeleteMethodOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="disable" class="tsd-anchor"></a>
+					<h3>disable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">disable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, disableTasks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.DisableJobOption</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobDisableOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobDisableResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">disable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, disableTasks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.DisableJobOption</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">disable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, disableTasks<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Models.DisableJobOption</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobdisableoptionalparams.html" class="tsd-signature-type">JobDisableOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L205">operations/job.ts:205</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Batch Service immediately moves the job to the disabling state. Batch then uses the
+										disableTasks parameter to determine what to do with the currently running tasks of the job. The
+										job remains in the disabling state until the disable operation is completed and all tasks have
+										been dealt with according to the disableTasks option; the job then moves to the disabled state.
+										No new tasks are started under the job until it moves back to active state. If you try to
+										disable a job that is in any state other than active, disabling, or disabled, the request fails
+									with status code 409.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Disables the specified job, preventing new tasks from running.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to disable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>disableTasks: <span class="tsd-signature-type">Models.DisableJobOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>What to do with active tasks associated with the job. Possible values
+										include: &#39;requeue&#39;, &#39;terminate&#39;, &#39;wait&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobDisableOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobDisableResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobDisableResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L212">operations/job.ts:212</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to disable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>disableTasks: <span class="tsd-signature-type">Models.DisableJobOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>What to do with active tasks associated with the job. Possible values
+										include: &#39;requeue&#39;, &#39;terminate&#39;, &#39;wait&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L220">operations/job.ts:220</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to disable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>disableTasks: <span class="tsd-signature-type">Models.DisableJobOption</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>What to do with active tasks associated with the job. Possible values
+										include: &#39;requeue&#39;, &#39;terminate&#39;, &#39;wait&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobdisableoptionalparams.html" class="tsd-signature-type">JobDisableOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="enable" class="tsd-anchor"></a>
+					<h3>enable</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobEnableOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobEnableResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">enable<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobenableoptionalparams.html" class="tsd-signature-type">JobEnableOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L243">operations/job.ts:243</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>When you call this API, the Batch service sets a disabled job to the enabling state. After the
+										this operation is completed, the job moves to the active state, and scheduling of new tasks
+										under the job resumes. The Batch service does not allow a task to remain in the active state for
+										more than 180 days. Therefore, if you enable a job containing active tasks which were added more
+									than 180 days ago, those tasks will not run.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Enables the specified job, allowing new tasks to run.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to enable.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobEnableOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobEnableResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobEnableResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L248">operations/job.ts:248</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to enable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L254">operations/job.ts:254</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to enable.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobenableoptionalparams.html" class="tsd-signature-type">JobEnableOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobGetOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjob.html" class="tsd-signature-type">CloudJob</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobgetoptionalparams.html" class="tsd-signature-type">JobGetOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjob.html" class="tsd-signature-type">CloudJob</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L98">operations/job.ts:98</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets information about the specified job.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobGetOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobGetResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L103">operations/job.ts:103</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjob.html" class="tsd-signature-type">CloudJob</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L109">operations/job.ts:109</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobgetoptionalparams.html" class="tsd-signature-type">JobGetOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjob.html" class="tsd-signature-type">CloudJob</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getalllifetimestatistics" class="tsd-anchor"></a>
+					<h3>get<wbr>All<wbr>Lifetime<wbr>Statistics</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Lifetime<wbr>Statistics<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobGetAllLifetimeStatisticsOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetAllLifetimeStatisticsResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Lifetime<wbr>Statistics<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobstatistics.html" class="tsd-signature-type">JobStatistics</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Lifetime<wbr>Statistics<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobgetalllifetimestatisticsoptionalparams.html" class="tsd-signature-type">JobGetAllLifetimeStatisticsOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobstatistics.html" class="tsd-signature-type">JobStatistics</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L38">operations/job.ts:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Statistics are aggregated across all jobs that have ever existed in the account, from account
+										creation to the last update time of the statistics. The statistics may not be immediately
+										available. The Batch service performs periodic roll-up of statistics. The typical delay is about
+									30 minutes.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets lifetime summary statistics for all of the jobs in the specified account.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobGetAllLifetimeStatisticsOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetAllLifetimeStatisticsResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobGetAllLifetimeStatisticsResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L42">operations/job.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobstatistics.html" class="tsd-signature-type">JobStatistics</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L47">operations/job.ts:47</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/jobgetalllifetimestatisticsoptionalparams.html" class="tsd-signature-type">JobGetAllLifetimeStatisticsOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobstatistics.html" class="tsd-signature-type">JobStatistics</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettaskcounts" class="tsd-anchor"></a>
+					<h3>get<wbr>Task<wbr>Counts</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Task<wbr>Counts<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobGetTaskCountsOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetTaskCountsResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Task<wbr>Counts<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/taskcounts.html" class="tsd-signature-type">TaskCounts</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Task<wbr>Counts<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobgettaskcountsoptionalparams.html" class="tsd-signature-type">JobGetTaskCountsOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/taskcounts.html" class="tsd-signature-type">TaskCounts</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L427">operations/job.ts:427</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Task counts provide a count of the tasks by active, running or completed task state, and a count
+									of tasks which succeeded or failed. Tasks in the preparing state are counted as running.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets the task counts for the specified job.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobGetTaskCountsOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobGetTaskCountsResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobGetTaskCountsResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L432">operations/job.ts:432</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/taskcounts.html" class="tsd-signature-type">TaskCounts</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L438">operations/job.ts:438</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobgettaskcountsoptionalparams.html" class="tsd-signature-type">JobGetTaskCountsOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/taskcounts.html" class="tsd-signature-type">TaskCounts</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="list" class="tsd-anchor"></a>
+					<h3>list</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistoptionalparams.html" class="tsd-signature-type">JobListOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L338">operations/job.ts:338</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists all of the jobs in the specified account.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L342">operations/job.ts:342</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L347">operations/job.ts:347</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/joblistoptionalparams.html" class="tsd-signature-type">JobListOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listfromjobschedule" class="tsd-anchor"></a>
+					<h3>list<wbr>From<wbr>Job<wbr>Schedule</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<span class="tsd-signature-symbol">(</span>jobScheduleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListFromJobScheduleOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListFromJobScheduleResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<span class="tsd-signature-symbol">(</span>jobScheduleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<span class="tsd-signature-symbol">(</span>jobScheduleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistfromjobscheduleoptionalparams.html" class="tsd-signature-type">JobListFromJobScheduleOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L363">operations/job.ts:363</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists the jobs that have been created under the specified job schedule.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobScheduleId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job schedule from which you want to get a list of jobs.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListFromJobScheduleOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListFromJobScheduleResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListFromJobScheduleResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L368">operations/job.ts:368</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobScheduleId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job schedule from which you want to get a list of jobs.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L374">operations/job.ts:374</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobScheduleId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job schedule from which you want to get a list of jobs.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/joblistfromjobscheduleoptionalparams.html" class="tsd-signature-type">JobListFromJobScheduleOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listfromjobschedulenext" class="tsd-anchor"></a>
+					<h3>list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListFromJobScheduleNextOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListFromJobScheduleResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistfromjobschedulenextoptionalparams.html" class="tsd-signature-type">JobListFromJobScheduleNextOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L483">operations/job.ts:483</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists the jobs that have been created under the specified job schedule.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListFromJobScheduleNextOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListFromJobScheduleResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListFromJobScheduleResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L488">operations/job.ts:488</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L494">operations/job.ts:494</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/joblistfromjobschedulenextoptionalparams.html" class="tsd-signature-type">JobListFromJobScheduleNextOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listnext" class="tsd-anchor"></a>
+					<h3>list<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListNextOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistnextoptionalparams.html" class="tsd-signature-type">JobListNextOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L455">operations/job.ts:455</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists all of the jobs in the specified account.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListNextOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L460">operations/job.ts:460</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L466">operations/job.ts:466</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/joblistnextoptionalparams.html" class="tsd-signature-type">JobListNextOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistresult.html" class="tsd-signature-type">CloudJobListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listpreparationandreleasetaskstatus" class="tsd-anchor"></a>
+					<h3>list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistpreparationandreleasetaskstatusoptionalparams.html" class="tsd-signature-type">JobListPreparationAndReleaseTaskStatusOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L397">operations/job.ts:397</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This API returns the Job Preparation and Job Release task status on all compute nodes that have
+										run the Job Preparation or Job Release task. This includes nodes which have since been removed
+										from the pool. If this API is invoked on a job which has no Job Preparation or Job Release task,
+										the Batch service returns HTTP status code 409 (Conflict) with an error code of
+									JobPreparationTaskNotSpecified.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists the execution status of the Job Preparation and Job Release task for the
+										specified job across the compute nodes where the job has run.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListPreparationAndReleaseTaskStatusResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L402">operations/job.ts:402</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L408">operations/job.ts:408</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/joblistpreparationandreleasetaskstatusoptionalparams.html" class="tsd-signature-type">JobListPreparationAndReleaseTaskStatusOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listpreparationandreleasetaskstatusnext" class="tsd-anchor"></a>
+					<h3>list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusNextOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/joblistpreparationandreleasetaskstatusnextoptionalparams.html" class="tsd-signature-type">JobListPreparationAndReleaseTaskStatusNextOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L517">operations/job.ts:517</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This API returns the Job Preparation and Job Release task status on all compute nodes that have
+										run the Job Preparation or Job Release task. This includes nodes which have since been removed
+										from the pool. If this API is invoked on a job which has no Job Preparation or Job Release task,
+										the Batch service returns HTTP status code 409 (Conflict) with an error code of
+									JobPreparationTaskNotSpecified.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists the execution status of the Job Preparation and Job Release task for the
+										specified job across the compute nodes where the job has run.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusNextOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobListPreparationAndReleaseTaskStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobListPreparationAndReleaseTaskStatusResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L522">operations/job.ts:522</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L528">operations/job.ts:528</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/joblistpreparationandreleasetaskstatusnextoptionalparams.html" class="tsd-signature-type">JobListPreparationAndReleaseTaskStatusNextOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/cloudjoblistpreparationandreleasetaskstatusresult.html" class="tsd-signature-type">CloudJobListPreparationAndReleaseTaskStatusResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="patch" class="tsd-anchor"></a>
+					<h3>patch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobPatchParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobPatchOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobPatchResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobPatchParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">patch<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobPatchParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobpatchoptionalparams.html" class="tsd-signature-type">JobPatchOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L130">operations/job.ts:130</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This replaces only the job properties specified in the request. For example, if the job has
+										constraints, and a request does not specify the constraints element, then the job keeps the
+									existing constraints.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Updates the properties of the specified job.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobPatchParameter: <a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobPatchOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobPatchResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobPatchResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L136">operations/job.ts:136</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobPatchParameter: <a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L143">operations/job.ts:143</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobPatchParameter: <a href="../interfaces/jobpatchparameter.html" class="tsd-signature-type">JobPatchParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobpatchoptionalparams.html" class="tsd-signature-type">JobPatchOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="terminate" class="tsd-anchor"></a>
+					<h3>terminate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">terminate<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobTerminateOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobTerminateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">terminate<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">terminate<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobterminateoptionalparams.html" class="tsd-signature-type">JobTerminateOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L276">operations/job.ts:276</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>When a Terminate Job request is received, the Batch service sets the job to the terminating
+										state. The Batch service then terminates any running tasks associated with the job and runs any
+										required job release tasks. Then the job moves into the completed state. If there are any tasks
+										in the job in the active state, they will remain in the active state. Once a job is terminated,
+									new tasks cannot be added and any remaining active tasks will not be scheduled.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Terminates the specified job, marking it as completed.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to terminate.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobTerminateOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobTerminateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobTerminateResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L281">operations/job.ts:281</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to terminate.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L287">operations/job.ts:287</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job to terminate.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobterminateoptionalparams.html" class="tsd-signature-type">JobTerminateOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="update" class="tsd-anchor"></a>
+					<h3>update</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobUpdateParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobUpdateOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobUpdateParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>jobId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobUpdateParameter<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobupdateoptionalparams.html" class="tsd-signature-type">JobUpdateOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L165">operations/job.ts:165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This fully replaces all the updatable properties of the job. For example, if the job has
+										constraints associated with it and if constraints is not specified with this request, then the
+									Batch service will remove the existing constraints.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Updates the properties of the specified job.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobUpdateParameter: <a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobUpdateOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobUpdateResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L171">operations/job.ts:171</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobUpdateParameter: <a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/batch/batch/src/operations/job.ts#L178">operations/job.ts:178</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>jobId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ID of the job whose properties you want to update.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobUpdateParameter: <a href="../interfaces/jobupdateparameter.html" class="tsd-signature-type">JobUpdateParameter</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters for the request.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobupdateoptionalparams.html" class="tsd-signature-type">JobUpdateOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="job.html" class="tsd-kind-icon">Job</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="job.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#add" class="tsd-kind-icon">add</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#disable" class="tsd-kind-icon">disable</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#enable" class="tsd-kind-icon">enable</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#getalllifetimestatistics" class="tsd-kind-icon">get<wbr>All<wbr>Lifetime<wbr>Statistics</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#gettaskcounts" class="tsd-kind-icon">get<wbr>Task<wbr>Counts</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#list" class="tsd-kind-icon">list</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#listfromjobschedule" class="tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#listfromjobschedulenext" class="tsd-kind-icon">list<wbr>From<wbr>Job<wbr>Schedule<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#listnext" class="tsd-kind-icon">list<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#listpreparationandreleasetaskstatus" class="tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#listpreparationandreleasetaskstatusnext" class="tsd-kind-icon">list<wbr>Preparation<wbr>And<wbr>Release<wbr>Task<wbr>Status<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#patch" class="tsd-kind-icon">patch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#terminate" class="tsd-kind-icon">terminate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="job.html#update" class="tsd-kind-icon">update</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

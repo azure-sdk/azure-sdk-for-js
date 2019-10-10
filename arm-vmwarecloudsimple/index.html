@@ -1,0 +1,821 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-vmwarecloudsimple</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-vmwarecloudsimple</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-vmwarecloudsimple</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-vmwarecloudsimpleclient-sdk-for-javascript" id="azure-vmwarecloudsimpleclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure VMwareCloudSimpleClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for VMwareCloudSimpleClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-vmwarecloudsimple</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<ul>
+					<li>Please install minimum version of <code>&quot;@azure/ms-rest-nodeauth&quot;: &quot;^3.0.0&quot;</code>.<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth@<span class="hljs-string">"^3.0.0"</span></code></pre>
+					</li>
+				</ul>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { VMwareCloudSimpleClient, VMwareCloudSimpleModels, VMwareCloudSimpleMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-vmwarecloudsimple"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> VMwareCloudSimpleClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-vmwarecloudsimple sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-vmwarecloudsimple/dist/arm-vmwarecloudsimple.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmVmwarecloudsimple.VMwareCloudSimpleClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/vmwarecloudsimple/arm-vmwarecloudsimple/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/dedicatedcloudnodes.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/dedicatedcloudservices.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/privateclouds.html" class="tsd-kind-icon">Private<wbr>Clouds</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/resourcepools.html" class="tsd-kind-icon">Resource<wbr>Pools</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/skusavailability.html" class="tsd-kind-icon">Skus<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/usages.html" class="tsd-kind-icon">Usages</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/vmwarecloudsimpleclientcontext.html" class="tsd-kind-icon">VMware<wbr>Cloud<wbr>Simple<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinetemplates.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Templates</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachines.html" class="tsd-kind-icon">Virtual<wbr>Machines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworks.html" class="tsd-kind-icon">Virtual<wbr>Networks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableoperation.html" class="tsd-kind-icon">Available<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableoperationdisplay.html" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableoperationdisplaypropertyservicespecificationmetricsitem.html" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display<wbr>Property<wbr>Service<wbr>Specification<wbr>Metrics<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableoperationdisplaypropertyservicespecificationmetricslist.html" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display<wbr>Property<wbr>Service<wbr>Specification<wbr>Metrics<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableoperationslistresponse.html" class="tsd-kind-icon">Available<wbr>Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/csrperror.html" class="tsd-kind-icon">CSRPError</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/csrperrorbody.html" class="tsd-kind-icon">CSRPError<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnode.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodelistresponse.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Node<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodescreateorupdateheaders.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Create<wbr>OrUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodesdeleteheaders.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodeslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodeslistbysubscriptionoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>BySubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudnodesupdateoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudservice.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudservicelistresponse.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Service<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudservicesdeleteheaders.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudserviceslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudserviceslistbysubscriptionoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>BySubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dedicatedcloudservicesupdateoptionalparams.html" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationerror.html" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresource.html" class="tsd-kind-icon">Operation<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationsgetheaders.html" class="tsd-kind-icon">Operations<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patchpayload.html" class="tsd-kind-icon">Patch<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/privatecloud.html" class="tsd-kind-icon">Private<wbr>Cloud</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/privatecloudlist.html" class="tsd-kind-icon">Private<wbr>Cloud<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcepool.html" class="tsd-kind-icon">Resource<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcepoolslistresponse.html" class="tsd-kind-icon">Resource<wbr>Pools<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sku.html" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skuavailability.html" class="tsd-kind-icon">Sku<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skuavailabilitylistresponse.html" class="tsd-kind-icon">Sku<wbr>Availability<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skusavailabilitylistoptionalparams.html" class="tsd-kind-icon">Skus<wbr>Availability<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usage.html" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usagelistresponse.html" class="tsd-kind-icon">Usage<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usagename.html" class="tsd-kind-icon">Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usageslistoptionalparams.html" class="tsd-kind-icon">Usages<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarecloudsimpleclientoptions.html" class="tsd-kind-icon">VMware<wbr>Cloud<wbr>Simple<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualdisk.html" class="tsd-kind-icon">Virtual<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualdiskcontroller.html" class="tsd-kind-icon">Virtual<wbr>Disk<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachine.html" class="tsd-kind-icon">Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinelistresponse.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinestopmode.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Stop<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinetemplate.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinetemplatelistresponse.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Template<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesbeginstopoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Stop<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesbeginupdateoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescreateorupdateheaders.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Create<wbr>OrUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesdeleteheaders.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineslistbysubscriptionoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>BySubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesstartheaders.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Start<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesstopheaders.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Stop<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesstopoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Stop<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesupdateoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetwork.html" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworklistresponse.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnic.html" class="tsd-kind-icon">Virtual<wbr>Nic</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aggregationtype" class="tsd-kind-icon">Aggregation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodescreateorupdateresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodesdeleteresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodesgetresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodeslistbyresourcegroupnextresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodeslistbyresourcegroupresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodeslistbysubscriptionnextresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodeslistbysubscriptionresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudnodesupdateresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudservicescreateorupdateresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudservicesdeleteresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudservicesgetresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudserviceslistbyresourcegroupnextresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudserviceslistbyresourcegroupresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudserviceslistbysubscriptionnextresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudserviceslistbysubscriptionresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dedicatedcloudservicesupdateresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskindependencemode" class="tsd-kind-icon">Disk<wbr>Independence<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#guestostype" class="tsd-kind-icon">GuestOSType</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#nictype" class="tsd-kind-icon">NICType</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#nodestatus" class="tsd-kind-icon">Node<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onboardingstatus" class="tsd-kind-icon">Onboarding<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationorigin" class="tsd-kind-icon">Operation<wbr>Origin</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationsgetresponse" class="tsd-kind-icon">Operations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#privatecloudresourcetype" class="tsd-kind-icon">Private<wbr>Cloud<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#privatecloudsgetresponse" class="tsd-kind-icon">Private<wbr>Clouds<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#privatecloudslistnextresponse" class="tsd-kind-icon">Private<wbr>Clouds<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#privatecloudslistresponse" class="tsd-kind-icon">Private<wbr>Clouds<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourcepoolsgetresponse" class="tsd-kind-icon">Resource<wbr>Pools<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourcepoolslistnextresponse" class="tsd-kind-icon">Resource<wbr>Pools<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourcepoolslistresponse2" class="tsd-kind-icon">Resource<wbr>Pools<wbr>List<wbr>Response2</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skusavailabilitylistnextresponse" class="tsd-kind-icon">Skus<wbr>Availability<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skusavailabilitylistresponse" class="tsd-kind-icon">Skus<wbr>Availability<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#stopmode" class="tsd-kind-icon">Stop<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usagecount" class="tsd-kind-icon">Usage<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usageslistnextresponse" class="tsd-kind-icon">Usages<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usageslistresponse" class="tsd-kind-icon">Usages<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinestatus" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinetemplatesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Templates<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinetemplateslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Templates<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinetemplateslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Templates<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesdeleteresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbyresourcegroupnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbyresourcegroupresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbysubscriptionnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbysubscriptionresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesstartresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesstopresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Stop<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksgetresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableoperation" class="tsd-kind-icon">Available<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableoperationdisplay" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableoperationdisplaypropertyservicespecificationmetricsitem" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display<wbr>Property<wbr>Service<wbr>Specification<wbr>Metrics<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableoperationdisplaypropertyservicespecificationmetricslist" class="tsd-kind-icon">Available<wbr>Operation<wbr>Display<wbr>Property<wbr>Service<wbr>Specification<wbr>Metrics<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableoperationslistresponse" class="tsd-kind-icon">Available<wbr>Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#csrperror" class="tsd-kind-icon">CSRPError</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#csrperrorbody" class="tsd-kind-icon">CSRPError<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudnode" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudnodelistresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Node<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudnodescreateorupdateheaders" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Create<wbr>OrUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudnodesdeleteheaders" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Nodes<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudservice" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudservicelistresponse" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Service<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudservicesdeleteheaders" class="tsd-kind-icon">Dedicated<wbr>Cloud<wbr>Services<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationerror" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresource" class="tsd-kind-icon">Operation<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationsgetheaders" class="tsd-kind-icon">Operations<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patchpayload" class="tsd-kind-icon">Patch<wbr>Payload</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#privatecloud" class="tsd-kind-icon">Private<wbr>Cloud</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#privatecloudlist" class="tsd-kind-icon">Private<wbr>Cloud<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcepool" class="tsd-kind-icon">Resource<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcepoolslistresponse" class="tsd-kind-icon">Resource<wbr>Pools<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sku" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skuavailability" class="tsd-kind-icon">Sku<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skuavailabilitylistresponse" class="tsd-kind-icon">Sku<wbr>Availability<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usage" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usagelistresponse" class="tsd-kind-icon">Usage<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usagename" class="tsd-kind-icon">Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualdisk" class="tsd-kind-icon">Virtual<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualdiskcontroller" class="tsd-kind-icon">Virtual<wbr>Disk<wbr>Controller</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachine" class="tsd-kind-icon">Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinelistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinestopmode" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Stop<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinetemplate" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinetemplatelistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Template<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescreateorupdateheaders" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Create<wbr>OrUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinesdeleteheaders" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinesstartheaders" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Start<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinesstopheaders" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Stop<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetwork" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworklistresponse" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnic" class="tsd-kind-icon">Virtual<wbr>Nic</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudnodename" class="tsd-kind-icon">dedicated<wbr>Cloud<wbr>Node<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudservicename0" class="tsd-kind-icon">dedicated<wbr>Cloud<wbr>Service<wbr>Name0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dedicatedcloudservicename1" class="tsd-kind-icon">dedicated<wbr>Cloud<wbr>Service<wbr>Name1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mode" class="tsd-kind-icon">mode</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationid" class="tsd-kind-icon">operation<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pcname" class="tsd-kind-icon">pc<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#referer" class="tsd-kind-icon">referer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionid" class="tsd-kind-icon">region<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcepoolname" class="tsd-kind-icon">resource<wbr>Pool<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skiptoken" class="tsd-kind-icon">skip<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skuid" class="tsd-kind-icon">sku<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinename0" class="tsd-kind-icon">virtual<wbr>Machine<wbr>Name0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinename1" class="tsd-kind-icon">virtual<wbr>Machine<wbr>Name1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinetemplatename" class="tsd-kind-icon">virtual<wbr>Machine<wbr>Template<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkname" class="tsd-kind-icon">virtual<wbr>Network<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,1306 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>JobExecutions | @azure/arm-sql</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/arm-sql</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="jobexecutions.html">JobExecutions</a>
+				</li>
+			</ul>
+			<h1>Class JobExecutions</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class representing a JobExecutions.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">JobExecutions</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="jobexecutions.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#begincreate" class="tsd-kind-icon">begin<wbr>Create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#begincreateorupdate" class="tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#cancel" class="tsd-kind-icon">cancel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#create" class="tsd-kind-icon">create</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#createorupdate" class="tsd-kind-icon">create<wbr>OrUpdate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#listbyagent" class="tsd-kind-icon">list<wbr>ByAgent</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#listbyagentnext" class="tsd-kind-icon">list<wbr>ByAgent<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#listbyjob" class="tsd-kind-icon">list<wbr>ByJob</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="jobexecutions.html#listbyjobnext" class="tsd-kind-icon">list<wbr>ByJob<wbr>Next</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Job<wbr>Executions<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="sqlmanagementclientcontext.html" class="tsd-signature-type">SqlManagementClientContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="jobexecutions.html" class="tsd-signature-type">JobExecutions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L20">operations/jobExecutions.ts:20</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a JobExecutions.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>client: <a href="sqlmanagementclientcontext.html" class="tsd-signature-type">SqlManagementClientContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Reference to the service client.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="jobexecutions.html" class="tsd-signature-type">JobExecutions</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begincreate" class="tsd-anchor"></a>
+					<h3>begin<wbr>Create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Create<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L247">operations/jobExecutions.ts:247</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts an elastic job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begincreateorupdate" class="tsd-anchor"></a>
+					<h3>begin<wbr>Create<wbr>OrUpdate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L271">operations/jobExecutions.ts:271</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates or updates a job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The job execution id to create the job execution under.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cancel" class="tsd-anchor"></a>
+					<h3>cancel</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cancel<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">cancel<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">cancel<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L80">operations/jobExecutions.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Requests cancellation of a job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution to cancel.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRest.RestResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L90">operations/jobExecutions.ts:90</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution to cancel.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L101">operations/jobExecutions.ts:101</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution to cancel.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="create" class="tsd-anchor"></a>
+					<h3>create</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L126">operations/jobExecutions.ts:126</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts an elastic job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsCreateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsCreateResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createorupdate" class="tsd-anchor"></a>
+					<h3>create<wbr>OrUpdate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>OrUpdate<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsCreateOrUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L232">operations/jobExecutions.ts:232</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates or updates a job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The job execution id to create the job execution under.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsCreateOrUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsCreateOrUpdateResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsGetResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecution.html" class="tsd-signature-type">JobExecution</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobExecutionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecution.html" class="tsd-signature-type">JobExecution</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L185">operations/jobExecutions.ts:185</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a job execution.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsGetResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsGetResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L195">operations/jobExecutions.ts:195</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecution.html" class="tsd-signature-type">JobExecution</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L206">operations/jobExecutions.ts:206</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobExecutionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The id of the job execution</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecution.html" class="tsd-signature-type">JobExecution</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listbyagent" class="tsd-anchor"></a>
+					<h3>list<wbr>ByAgent</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobExecutionsListByAgentOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByAgentResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobexecutionslistbyagentoptionalparams.html" class="tsd-signature-type">JobExecutionsListByAgentOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L39">operations/jobExecutions.ts:39</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists all executions in a job agent.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobExecutionsListByAgentOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByAgentResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsListByAgentResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L47">operations/jobExecutions.ts:47</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L56">operations/jobExecutions.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobexecutionslistbyagentoptionalparams.html" class="tsd-signature-type">JobExecutionsListByAgentOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listbyagentnext" class="tsd-anchor"></a>
+					<h3>list<wbr>ByAgent<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByAgentNextResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByAgent<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L291">operations/jobExecutions.ts:291</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists all executions in a job agent.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByAgentNextResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsListByAgentNextResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L296">operations/jobExecutions.ts:296</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L302">operations/jobExecutions.ts:302</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listbyjob" class="tsd-anchor"></a>
+					<h3>list<wbr>ByJob</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.JobExecutionsListByJobOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByJobResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, serverName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobAgentName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, jobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/jobexecutionslistbyjoboptionalparams.html" class="tsd-signature-type">JobExecutionsListByJobOptionalParams</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L141">operations/jobExecutions.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists a job&#39;s executions.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.JobExecutionsListByJobOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByJobResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsListByJobResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L150">operations/jobExecutions.ts:150</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L160">operations/jobExecutions.ts:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group that contains the resource. You can
+										obtain this value from the Azure Resource Manager API or the portal.</p>
+									</div>
+								</li>
+								<li>
+									<h5>serverName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the server.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobAgentName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job agent.</p>
+									</div>
+								</li>
+								<li>
+									<h5>jobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the job to get.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/jobexecutionslistbyjoboptionalparams.html" class="tsd-signature-type">JobExecutionsListByJobOptionalParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listbyjobnext" class="tsd-anchor"></a>
+					<h3>list<wbr>ByJob<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByJobNextResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>ByJob<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L319">operations/jobExecutions.ts:319</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Lists a job&#39;s executions.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.JobExecutionsListByJobNextResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.JobExecutionsListByJobNextResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L324">operations/jobExecutions.ts:324</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/sql/arm-sql/src/operations/jobExecutions.ts#L330">operations/jobExecutions.ts:330</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/jobexecutionlistresult.html" class="tsd-signature-type">JobExecutionListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="jobexecutions.html" class="tsd-kind-icon">Job<wbr>Executions</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="jobexecutions.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#begincreate" class="tsd-kind-icon">begin<wbr>Create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#begincreateorupdate" class="tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#cancel" class="tsd-kind-icon">cancel</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#create" class="tsd-kind-icon">create</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#createorupdate" class="tsd-kind-icon">create<wbr>OrUpdate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#listbyagent" class="tsd-kind-icon">list<wbr>ByAgent</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#listbyagentnext" class="tsd-kind-icon">list<wbr>ByAgent<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#listbyjob" class="tsd-kind-icon">list<wbr>ByJob</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="jobexecutions.html#listbyjobnext" class="tsd-kind-icon">list<wbr>ByJob<wbr>Next</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

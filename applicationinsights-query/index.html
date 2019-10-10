@@ -1,0 +1,669 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/applicationinsights-query</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/applicationinsights-query</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/applicationinsights-query</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---applicationinsightsdataclient" id="an-isomorphic-javascript-sdk-for---applicationinsightsdataclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - ApplicationInsightsDataClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for ApplicationInsightsDataClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">applicationinsights</span>-<span class="hljs-keyword">query</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-metrics-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-metrics-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get metrics as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { ApplicationInsightsDataClient, ApplicationInsightsDataModels, ApplicationInsightsDataMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/applicationinsights-query"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ApplicationInsightsDataClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> appId = <span class="hljs-string">"testappId"</span>;
+  <span class="hljs-keyword">const</span> metricId = <span class="hljs-string">"requests/count"</span>;
+  <span class="hljs-keyword">const</span> timespan = <span class="hljs-string">"testtimespan"</span>;
+  <span class="hljs-keyword">const</span> interval = <span class="hljs-string">"P1Y2M3DT4H5M6S"</span>;
+  <span class="hljs-keyword">const</span> aggregation = [<span class="hljs-string">"min"</span>];
+  <span class="hljs-keyword">const</span> segment = [<span class="hljs-string">"applicationBuild"</span>];
+  <span class="hljs-keyword">const</span> top = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">const</span> orderby = <span class="hljs-string">"testorderby"</span>;
+  <span class="hljs-keyword">const</span> filter = <span class="hljs-string">"testfilter"</span>;
+  client.metrics.get(appId, metricId, timespan, interval, aggregation, segment, top, orderby, filter).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-metrics-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-metrics-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get metrics as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/applicationinsights-query sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/applicationinsights-query/dist/applicationinsights-query.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ApplicationinsightsQuery.ApplicationInsightsDataClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> appId = <span class="hljs-string">"testappId"</span>;
+      <span class="hljs-keyword">const</span> metricId = <span class="hljs-string">"requests/count"</span>;
+      <span class="hljs-keyword">const</span> timespan = <span class="hljs-string">"testtimespan"</span>;
+      <span class="hljs-keyword">const</span> interval = <span class="hljs-string">"P1Y2M3DT4H5M6S"</span>;
+      <span class="hljs-keyword">const</span> aggregation = [<span class="hljs-string">"min"</span>];
+      <span class="hljs-keyword">const</span> segment = [<span class="hljs-string">"applicationBuild"</span>];
+      <span class="hljs-keyword">const</span> top = <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">const</span> orderby = <span class="hljs-string">"testorderby"</span>;
+      <span class="hljs-keyword">const</span> filter = <span class="hljs-string">"testfilter"</span>;
+      client.metrics.get(appId, metricId, timespan, interval, aggregation, segment, top, orderby, filter).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/applicationinsights/applicationinsights-query/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/applicationinsightsdataclientcontext.html" class="tsd-kind-icon">Application<wbr>Insights<wbr>Data<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/events.html" class="tsd-kind-icon">Events</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/metrics.html" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/query.html" class="tsd-kind-icon">Query</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationinsightsdataclientoptions.html" class="tsd-kind-icon">Application<wbr>Insights<wbr>Data<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/column.html" class="tsd-kind-icon">Column</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errordetail.html" class="tsd-kind-icon">Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorinfo.html" class="tsd-kind-icon">Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsaiinfo.html" class="tsd-kind-icon">Events<wbr>AiInfo</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsapplicationinfo.html" class="tsd-kind-icon">Events<wbr>Application<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsavailabilityresultinfo.html" class="tsd-kind-icon">Events<wbr>Availability<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsavailabilityresultresult.html" class="tsd-kind-icon">Events<wbr>Availability<wbr>Result<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsbrowsertiminginfo.html" class="tsd-kind-icon">Events<wbr>Browser<wbr>Timing<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsbrowsertimingresult.html" class="tsd-kind-icon">Events<wbr>Browser<wbr>Timing<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsclientinfo.html" class="tsd-kind-icon">Events<wbr>Client<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsclientperformanceinfo.html" class="tsd-kind-icon">Events<wbr>Client<wbr>Performance<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventscloudinfo.html" class="tsd-kind-icon">Events<wbr>Cloud<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventscustomeventinfo.html" class="tsd-kind-icon">Events<wbr>Custom<wbr>Event<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventscustomeventresult.html" class="tsd-kind-icon">Events<wbr>Custom<wbr>Event<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventscustommetricinfo.html" class="tsd-kind-icon">Events<wbr>Custom<wbr>Metric<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventscustommetricresult.html" class="tsd-kind-icon">Events<wbr>Custom<wbr>Metric<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsdependencyinfo.html" class="tsd-kind-icon">Events<wbr>Dependency<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsdependencyresult.html" class="tsd-kind-icon">Events<wbr>Dependency<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsexceptiondetail.html" class="tsd-kind-icon">Events<wbr>Exception<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsexceptiondetailsparsedstack.html" class="tsd-kind-icon">Events<wbr>Exception<wbr>Details<wbr>Parsed<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsexceptioninfo.html" class="tsd-kind-icon">Events<wbr>Exception<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsexceptionresult.html" class="tsd-kind-icon">Events<wbr>Exception<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsgetbytypeoptionalparams.html" class="tsd-kind-icon">Events<wbr>Get<wbr>ByType<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsgetoptionalparams.html" class="tsd-kind-icon">Events<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsoperationinfo.html" class="tsd-kind-icon">Events<wbr>Operation<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventspageviewinfo.html" class="tsd-kind-icon">Events<wbr>Page<wbr>View<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventspageviewresult.html" class="tsd-kind-icon">Events<wbr>Page<wbr>View<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsperformancecounterinfo.html" class="tsd-kind-icon">Events<wbr>Performance<wbr>Counter<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsperformancecounterresult.html" class="tsd-kind-icon">Events<wbr>Performance<wbr>Counter<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsrequestinfo.html" class="tsd-kind-icon">Events<wbr>Request<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsrequestresult.html" class="tsd-kind-icon">Events<wbr>Request<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsresult.html" class="tsd-kind-icon">Events<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsresultdata.html" class="tsd-kind-icon">Events<wbr>Result<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsresultdatacustomdimensions.html" class="tsd-kind-icon">Events<wbr>Result<wbr>Data<wbr>Custom<wbr>Dimensions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsresultdatacustommeasurements.html" class="tsd-kind-icon">Events<wbr>Result<wbr>Data<wbr>Custom<wbr>Measurements</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsresults.html" class="tsd-kind-icon">Events<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventssessioninfo.html" class="tsd-kind-icon">Events<wbr>Session<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventstraceinfo.html" class="tsd-kind-icon">Events<wbr>Trace<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventstraceresult.html" class="tsd-kind-icon">Events<wbr>Trace<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventsuserinfo.html" class="tsd-kind-icon">Events<wbr>User<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricsgetoptionalparams.html" class="tsd-kind-icon">Metrics<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricspostbodyschema.html" class="tsd-kind-icon">Metrics<wbr>Post<wbr>Body<wbr>Schema</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricspostbodyschemaparameters.html" class="tsd-kind-icon">Metrics<wbr>Post<wbr>Body<wbr>Schema<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricsresult.html" class="tsd-kind-icon">Metrics<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricsresultinfo.html" class="tsd-kind-icon">Metrics<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricsresultsitem.html" class="tsd-kind-icon">Metrics<wbr>Results<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricssegmentinfo.html" class="tsd-kind-icon">Metrics<wbr>Segment<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/querybody.html" class="tsd-kind-icon">Query<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryresults.html" class="tsd-kind-icon">Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/table.html" class="tsd-kind-icon">Table</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventtype" class="tsd-kind-icon">Event<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventsgetbytyperesponse" class="tsd-kind-icon">Events<wbr>Get<wbr>ByType<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventsgetresponse" class="tsd-kind-icon">Events<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventsresultdataunion" class="tsd-kind-icon">Events<wbr>Result<wbr>Data<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricid" class="tsd-kind-icon">Metric<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricsaggregation" class="tsd-kind-icon">Metrics<wbr>Aggregation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricsgetmetadataresponse" class="tsd-kind-icon">Metrics<wbr>Get<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricsgetmultipleresponse" class="tsd-kind-icon">Metrics<wbr>Get<wbr>Multiple<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricsgetresponse" class="tsd-kind-icon">Metrics<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#metricssegment" class="tsd-kind-icon">Metrics<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queryexecuteresponse" class="tsd-kind-icon">Query<wbr>Execute<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#column" class="tsd-kind-icon">Column</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errordetail" class="tsd-kind-icon">Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorinfo" class="tsd-kind-icon">Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsaiinfo" class="tsd-kind-icon">Events<wbr>AiInfo</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsapplicationinfo" class="tsd-kind-icon">Events<wbr>Application<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsavailabilityresultinfo" class="tsd-kind-icon">Events<wbr>Availability<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsavailabilityresultresult" class="tsd-kind-icon">Events<wbr>Availability<wbr>Result<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsbrowsertiminginfo" class="tsd-kind-icon">Events<wbr>Browser<wbr>Timing<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsbrowsertimingresult" class="tsd-kind-icon">Events<wbr>Browser<wbr>Timing<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsclientinfo" class="tsd-kind-icon">Events<wbr>Client<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsclientperformanceinfo" class="tsd-kind-icon">Events<wbr>Client<wbr>Performance<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventscloudinfo" class="tsd-kind-icon">Events<wbr>Cloud<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventscustomeventinfo" class="tsd-kind-icon">Events<wbr>Custom<wbr>Event<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventscustomeventresult" class="tsd-kind-icon">Events<wbr>Custom<wbr>Event<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventscustommetricinfo" class="tsd-kind-icon">Events<wbr>Custom<wbr>Metric<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventscustommetricresult" class="tsd-kind-icon">Events<wbr>Custom<wbr>Metric<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsdependencyinfo" class="tsd-kind-icon">Events<wbr>Dependency<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsdependencyresult" class="tsd-kind-icon">Events<wbr>Dependency<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsexceptiondetail" class="tsd-kind-icon">Events<wbr>Exception<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsexceptiondetailsparsedstack" class="tsd-kind-icon">Events<wbr>Exception<wbr>Details<wbr>Parsed<wbr>Stack</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsexceptioninfo" class="tsd-kind-icon">Events<wbr>Exception<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsexceptionresult" class="tsd-kind-icon">Events<wbr>Exception<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsoperationinfo" class="tsd-kind-icon">Events<wbr>Operation<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventspageviewinfo" class="tsd-kind-icon">Events<wbr>Page<wbr>View<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventspageviewresult" class="tsd-kind-icon">Events<wbr>Page<wbr>View<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsperformancecounterinfo" class="tsd-kind-icon">Events<wbr>Performance<wbr>Counter<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsperformancecounterresult" class="tsd-kind-icon">Events<wbr>Performance<wbr>Counter<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsrequestinfo" class="tsd-kind-icon">Events<wbr>Request<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsrequestresult" class="tsd-kind-icon">Events<wbr>Request<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsresult" class="tsd-kind-icon">Events<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsresultdata" class="tsd-kind-icon">Events<wbr>Result<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsresultdatacustomdimensions" class="tsd-kind-icon">Events<wbr>Result<wbr>Data<wbr>Custom<wbr>Dimensions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsresultdatacustommeasurements" class="tsd-kind-icon">Events<wbr>Result<wbr>Data<wbr>Custom<wbr>Measurements</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsresults" class="tsd-kind-icon">Events<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventssessioninfo" class="tsd-kind-icon">Events<wbr>Session<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventstraceinfo" class="tsd-kind-icon">Events<wbr>Trace<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventstraceresult" class="tsd-kind-icon">Events<wbr>Trace<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventsuserinfo" class="tsd-kind-icon">Events<wbr>User<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricspostbodyschema" class="tsd-kind-icon">Metrics<wbr>Post<wbr>Body<wbr>Schema</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricspostbodyschemaparameters" class="tsd-kind-icon">Metrics<wbr>Post<wbr>Body<wbr>Schema<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricsresult" class="tsd-kind-icon">Metrics<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricsresultinfo" class="tsd-kind-icon">Metrics<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricsresultsitem" class="tsd-kind-icon">Metrics<wbr>Results<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricssegmentinfo" class="tsd-kind-icon">Metrics<wbr>Segment<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#querybody" class="tsd-kind-icon">Query<wbr>Body</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queryresults" class="tsd-kind-icon">Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#table" class="tsd-kind-icon">Table</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#aggregation" class="tsd-kind-icon">aggregation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appid" class="tsd-kind-icon">app<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apply" class="tsd-kind-icon">apply</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#count" class="tsd-kind-icon">count</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventid" class="tsd-kind-icon">event<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventtype" class="tsd-kind-icon">event<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter0" class="tsd-kind-icon">filter0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter1" class="tsd-kind-icon">filter1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#format" class="tsd-kind-icon">format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#interval" class="tsd-kind-icon">interval</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricid" class="tsd-kind-icon">metric<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby0" class="tsd-kind-icon">orderby0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby1" class="tsd-kind-icon">orderby1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#search" class="tsd-kind-icon">search</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#segment" class="tsd-kind-icon">segment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#select" class="tsd-kind-icon">select</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skip" class="tsd-kind-icon">skip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timespan" class="tsd-kind-icon">timespan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top0" class="tsd-kind-icon">top0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top1" class="tsd-kind-icon">top1</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

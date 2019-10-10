@@ -1,0 +1,1031 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-streamanalytics</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-streamanalytics</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-streamanalytics</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-streamanalyticsmanagementclient-sdk-for-javascript" id="azure-streamanalyticsmanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure StreamAnalyticsManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for StreamAnalyticsManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-streamanalytics</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { StreamAnalyticsManagementClient, StreamAnalyticsManagementModels, StreamAnalyticsManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-streamanalytics"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> StreamAnalyticsManagementClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-streamanalytics sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-streamanalytics/dist/arm-streamanalytics.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmStreamanalytics.StreamAnalyticsManagementClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/streamanalytics/arm-streamanalytics/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/functions.html" class="tsd-kind-icon">Functions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/inputs.html" class="tsd-kind-icon">Inputs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/outputs.html" class="tsd-kind-icon">Outputs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streamanalyticsmanagementclientcontext.html" class="tsd-kind-icon">Stream<wbr>Analytics<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streamingjobs.html" class="tsd-kind-icon">Streaming<wbr>Jobs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/subscriptions.html" class="tsd-kind-icon">Subscriptions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/transformations.html" class="tsd-kind-icon">Transformations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/avroserialization.html" class="tsd-kind-icon">Avro<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuredatalakestoreoutputdatasource.html" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremachinelearningwebservicefunctionbinding.html" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremachinelearningwebservicefunctionretrievedefaultdefinitionparameters.html" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremachinelearningwebserviceinputcolumn.html" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Input<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremachinelearningwebserviceinputs.html" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremachinelearningwebserviceoutputcolumn.html" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Output<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqldatabasedatasourceproperties.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqldatabaseoutputdatasource.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretableoutputdatasource.html" class="tsd-kind-icon">Azure<wbr>Table<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobdatasourceproperties.html" class="tsd-kind-icon">Blob<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bloboutputdatasource.html" class="tsd-kind-icon">Blob<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobreferenceinputdatasource.html" class="tsd-kind-icon">Blob<wbr>Reference<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blobstreaminputdatasource.html" class="tsd-kind-icon">Blob<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/csvserialization.html" class="tsd-kind-icon">Csv<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diagnosticcondition.html" class="tsd-kind-icon">Diagnostic<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diagnostics.html" class="tsd-kind-icon">Diagnostics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/documentdboutputdatasource.html" class="tsd-kind-icon">Document<wbr>DbOutput<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubdatasourceproperties.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhuboutputdatasource.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubstreaminputdatasource.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionbinding.html" class="tsd-kind-icon">Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functioninput.html" class="tsd-kind-icon">Function<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionlistresult.html" class="tsd-kind-icon">Function<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionmodel.html" class="tsd-kind-icon">Function<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionoutput.html" class="tsd-kind-icon">Function<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionproperties.html" class="tsd-kind-icon">Function<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionretrievedefaultdefinitionparameters.html" class="tsd-kind-icon">Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionsbegintestoptionalparams.html" class="tsd-kind-icon">Functions<wbr>Begin<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionscreateorreplaceheaders.html" class="tsd-kind-icon">Functions<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionscreateorreplaceoptionalparams.html" class="tsd-kind-icon">Functions<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionsgetheaders.html" class="tsd-kind-icon">Functions<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionslistbystreamingjoboptionalparams.html" class="tsd-kind-icon">Functions<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionsretrievedefaultdefinitionoptionalparams.html" class="tsd-kind-icon">Functions<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionstestoptionalparams.html" class="tsd-kind-icon">Functions<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionsupdateheaders.html" class="tsd-kind-icon">Functions<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/functionsupdateoptionalparams.html" class="tsd-kind-icon">Functions<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/input.html" class="tsd-kind-icon">Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputlistresult.html" class="tsd-kind-icon">Input<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputproperties.html" class="tsd-kind-icon">Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputsbegintestoptionalparams.html" class="tsd-kind-icon">Inputs<wbr>Begin<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputscreateorreplaceheaders.html" class="tsd-kind-icon">Inputs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputscreateorreplaceoptionalparams.html" class="tsd-kind-icon">Inputs<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputsgetheaders.html" class="tsd-kind-icon">Inputs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputslistbystreamingjoboptionalparams.html" class="tsd-kind-icon">Inputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputstestoptionalparams.html" class="tsd-kind-icon">Inputs<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputsupdateheaders.html" class="tsd-kind-icon">Inputs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputsupdateoptionalparams.html" class="tsd-kind-icon">Inputs<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubstreaminputdatasource.html" class="tsd-kind-icon">IoTHub<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/javascriptfunctionbinding.html" class="tsd-kind-icon">Java<wbr>Script<wbr>Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/javascriptfunctionretrievedefaultdefinitionparameters.html" class="tsd-kind-icon">Java<wbr>Script<wbr>Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonserialization.html" class="tsd-kind-icon">Json<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/oauthbaseddatasourceproperties.html" class="tsd-kind-icon">OAuth<wbr>Based<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/output.html" class="tsd-kind-icon">Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputdatasource.html" class="tsd-kind-icon">Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputlistresult.html" class="tsd-kind-icon">Output<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputsbegintestoptionalparams.html" class="tsd-kind-icon">Outputs<wbr>Begin<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputscreateorreplaceheaders.html" class="tsd-kind-icon">Outputs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputscreateorreplaceoptionalparams.html" class="tsd-kind-icon">Outputs<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputsgetheaders.html" class="tsd-kind-icon">Outputs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputslistbystreamingjoboptionalparams.html" class="tsd-kind-icon">Outputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputstestoptionalparams.html" class="tsd-kind-icon">Outputs<wbr>Test<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputsupdateheaders.html" class="tsd-kind-icon">Outputs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/outputsupdateoptionalparams.html" class="tsd-kind-icon">Outputs<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/powerbioutputdatasource.html" class="tsd-kind-icon">PowerBIOutput<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/referenceinputdatasource.html" class="tsd-kind-icon">Reference<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/referenceinputproperties.html" class="tsd-kind-icon">Reference<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourceteststatus.html" class="tsd-kind-icon">Resource<wbr>Test<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scalarfunctionproperties.html" class="tsd-kind-icon">Scalar<wbr>Function<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/serialization.html" class="tsd-kind-icon">Serialization</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusdatasourceproperties.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusqueueoutputdatasource.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Queue<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebustopicoutputdatasource.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Topic<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sku.html" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/startstreamingjobparameters.html" class="tsd-kind-icon">Start<wbr>Streaming<wbr>Job<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageaccount.html" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamanalyticsmanagementclientoptions.html" class="tsd-kind-icon">Stream<wbr>Analytics<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminputdatasource.html" class="tsd-kind-icon">Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streaminputproperties.html" class="tsd-kind-icon">Stream<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjob.html" class="tsd-kind-icon">Streaming<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjoblistresult.html" class="tsd-kind-icon">Streaming<wbr>Job<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsbegincreateorreplaceoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Begin<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsbeginstartoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Begin<wbr>Start<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobscreateorreplaceheaders.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobscreateorreplaceoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsgetheaders.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsgetoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobslistoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsstartoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Start<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsupdateheaders.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/streamingjobsupdateoptionalparams.html" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresource.html" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subscriptionquota.html" class="tsd-kind-icon">Subscription<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subscriptionquotaslistresult.html" class="tsd-kind-icon">Subscription<wbr>Quotas<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformation.html" class="tsd-kind-icon">Transformation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformationscreateorreplaceheaders.html" class="tsd-kind-icon">Transformations<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformationscreateorreplaceoptionalparams.html" class="tsd-kind-icon">Transformations<wbr>Create<wbr>OrReplace<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformationsgetheaders.html" class="tsd-kind-icon">Transformations<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformationsupdateheaders.html" class="tsd-kind-icon">Transformations<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transformationsupdateoptionalparams.html" class="tsd-kind-icon">Transformations<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#compatibilitylevel" class="tsd-kind-icon">Compatibility<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#encoding" class="tsd-kind-icon">Encoding</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventsoutoforderpolicy" class="tsd-kind-icon">Events<wbr>Out<wbr>OfOrder<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionbindingunion" class="tsd-kind-icon">Function<wbr>Binding<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionpropertiesunion" class="tsd-kind-icon">Function<wbr>Properties<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionretrievedefaultdefinitionparametersunion" class="tsd-kind-icon">Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionsbegintestresponse" class="tsd-kind-icon">Functions<wbr>Begin<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionscreateorreplaceresponse" class="tsd-kind-icon">Functions<wbr>Create<wbr>OrReplace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionsgetresponse" class="tsd-kind-icon">Functions<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionslistbystreamingjobnextresponse" class="tsd-kind-icon">Functions<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionslistbystreamingjobresponse" class="tsd-kind-icon">Functions<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionsretrievedefaultdefinitionresponse" class="tsd-kind-icon">Functions<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionstestresponse" class="tsd-kind-icon">Functions<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionsupdateresponse" class="tsd-kind-icon">Functions<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputpropertiesunion" class="tsd-kind-icon">Input<wbr>Properties<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputsbegintestresponse" class="tsd-kind-icon">Inputs<wbr>Begin<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputscreateorreplaceresponse" class="tsd-kind-icon">Inputs<wbr>Create<wbr>OrReplace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputsgetresponse" class="tsd-kind-icon">Inputs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputslistbystreamingjobnextresponse" class="tsd-kind-icon">Inputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputslistbystreamingjobresponse" class="tsd-kind-icon">Inputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputstestresponse" class="tsd-kind-icon">Inputs<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inputsupdateresponse" class="tsd-kind-icon">Inputs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jsonoutputserializationformat" class="tsd-kind-icon">Json<wbr>Output<wbr>Serialization<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputdatasourceunion" class="tsd-kind-icon">Output<wbr>Data<wbr>Source<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputerrorpolicy" class="tsd-kind-icon">Output<wbr>Error<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputstartmode" class="tsd-kind-icon">Output<wbr>Start<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputsbegintestresponse" class="tsd-kind-icon">Outputs<wbr>Begin<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputscreateorreplaceresponse" class="tsd-kind-icon">Outputs<wbr>Create<wbr>OrReplace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputsgetresponse" class="tsd-kind-icon">Outputs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputslistbystreamingjobnextresponse" class="tsd-kind-icon">Outputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputslistbystreamingjobresponse" class="tsd-kind-icon">Outputs<wbr>List<wbr>ByStreaming<wbr>Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputstestresponse" class="tsd-kind-icon">Outputs<wbr>Test<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outputsupdateresponse" class="tsd-kind-icon">Outputs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#referenceinputdatasourceunion" class="tsd-kind-icon">Reference<wbr>Input<wbr>Data<wbr>Source<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#serializationunion" class="tsd-kind-icon">Serialization<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skuname" class="tsd-kind-icon">Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streaminputdatasourceunion" class="tsd-kind-icon">Stream<wbr>Input<wbr>Data<wbr>Source<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobscreateorreplaceresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Create<wbr>OrReplace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobsgetresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobslistbyresourcegroupnextresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobslistbyresourcegroupresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobslistnextresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobslistresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#streamingjobsupdateresponse" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#subscriptionslistquotasresponse" class="tsd-kind-icon">Subscriptions<wbr>List<wbr>Quotas<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformationscreateorreplaceresponse" class="tsd-kind-icon">Transformations<wbr>Create<wbr>OrReplace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformationsgetresponse" class="tsd-kind-icon">Transformations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transformationsupdateresponse" class="tsd-kind-icon">Transformations<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#udftype" class="tsd-kind-icon">Udf<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#avroserialization" class="tsd-kind-icon">Avro<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuredatalakestoreoutputdatasource" class="tsd-kind-icon">Azure<wbr>Data<wbr>Lake<wbr>Store<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremachinelearningwebservicefunctionbinding" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremachinelearningwebservicefunctionretrievedefaultdefinitionparameters" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremachinelearningwebserviceinputcolumn" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Input<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremachinelearningwebserviceinputs" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Inputs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuremachinelearningwebserviceoutputcolumn" class="tsd-kind-icon">Azure<wbr>Machine<wbr>Learning<wbr>Web<wbr>Service<wbr>Output<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqldatabasedatasourceproperties" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqldatabaseoutputdatasource" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Database<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretableoutputdatasource" class="tsd-kind-icon">Azure<wbr>Table<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobdatasourceproperties" class="tsd-kind-icon">Blob<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bloboutputdatasource" class="tsd-kind-icon">Blob<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobreferenceinputdatasource" class="tsd-kind-icon">Blob<wbr>Reference<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blobstreaminputdatasource" class="tsd-kind-icon">Blob<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#csvserialization" class="tsd-kind-icon">Csv<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diagnosticcondition" class="tsd-kind-icon">Diagnostic<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diagnostics" class="tsd-kind-icon">Diagnostics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#documentdboutputdatasource" class="tsd-kind-icon">Document<wbr>DbOutput<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubdatasourceproperties" class="tsd-kind-icon">Event<wbr>Hub<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhuboutputdatasource" class="tsd-kind-icon">Event<wbr>Hub<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventhubstreaminputdatasource" class="tsd-kind-icon">Event<wbr>Hub<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionbinding" class="tsd-kind-icon">Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functioninput" class="tsd-kind-icon">Function<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionlistresult" class="tsd-kind-icon">Function<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionmodel" class="tsd-kind-icon">Function<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionoutput" class="tsd-kind-icon">Function<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionproperties" class="tsd-kind-icon">Function<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionretrievedefaultdefinitionparameters" class="tsd-kind-icon">Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionscreateorreplaceheaders" class="tsd-kind-icon">Functions<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionsgetheaders" class="tsd-kind-icon">Functions<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionsupdateheaders" class="tsd-kind-icon">Functions<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#input" class="tsd-kind-icon">Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputlistresult" class="tsd-kind-icon">Input<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputproperties" class="tsd-kind-icon">Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputscreateorreplaceheaders" class="tsd-kind-icon">Inputs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputsgetheaders" class="tsd-kind-icon">Inputs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputsupdateheaders" class="tsd-kind-icon">Inputs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iothubstreaminputdatasource" class="tsd-kind-icon">IoTHub<wbr>Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#javascriptfunctionbinding" class="tsd-kind-icon">Java<wbr>Script<wbr>Function<wbr>Binding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#javascriptfunctionretrievedefaultdefinitionparameters" class="tsd-kind-icon">Java<wbr>Script<wbr>Function<wbr>Retrieve<wbr>Default<wbr>Definition<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonserialization" class="tsd-kind-icon">Json<wbr>Serialization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#oauthbaseddatasourceproperties" class="tsd-kind-icon">OAuth<wbr>Based<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#output" class="tsd-kind-icon">Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputdatasource" class="tsd-kind-icon">Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputlistresult" class="tsd-kind-icon">Output<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputscreateorreplaceheaders" class="tsd-kind-icon">Outputs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputsgetheaders" class="tsd-kind-icon">Outputs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputsupdateheaders" class="tsd-kind-icon">Outputs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#powerbioutputdatasource" class="tsd-kind-icon">PowerBIOutput<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#referenceinputdatasource" class="tsd-kind-icon">Reference<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#referenceinputproperties" class="tsd-kind-icon">Reference<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourceteststatus" class="tsd-kind-icon">Resource<wbr>Test<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scalarfunctionproperties" class="tsd-kind-icon">Scalar<wbr>Function<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#serialization" class="tsd-kind-icon">Serialization</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicebusdatasourceproperties" class="tsd-kind-icon">Service<wbr>Bus<wbr>Data<wbr>Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicebusqueueoutputdatasource" class="tsd-kind-icon">Service<wbr>Bus<wbr>Queue<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicebustopicoutputdatasource" class="tsd-kind-icon">Service<wbr>Bus<wbr>Topic<wbr>Output<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sku" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#startstreamingjobparameters" class="tsd-kind-icon">Start<wbr>Streaming<wbr>Job<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageaccount" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminputdatasource" class="tsd-kind-icon">Stream<wbr>Input<wbr>Data<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streaminputproperties" class="tsd-kind-icon">Stream<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingjob" class="tsd-kind-icon">Streaming<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingjoblistresult" class="tsd-kind-icon">Streaming<wbr>Job<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingjobscreateorreplaceheaders" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingjobsgetheaders" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#streamingjobsupdateheaders" class="tsd-kind-icon">Streaming<wbr>Jobs<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresource" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionquota" class="tsd-kind-icon">Subscription<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionquotaslistresult" class="tsd-kind-icon">Subscription<wbr>Quotas<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformation" class="tsd-kind-icon">Transformation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformationscreateorreplaceheaders" class="tsd-kind-icon">Transformations<wbr>Create<wbr>OrReplace<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformationsgetheaders" class="tsd-kind-icon">Transformations<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformationsupdateheaders" class="tsd-kind-icon">Transformations<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand" class="tsd-kind-icon">expand</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#functionname" class="tsd-kind-icon">function<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch" class="tsd-kind-icon">if<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifnonematch" class="tsd-kind-icon">if<wbr>None<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputname" class="tsd-kind-icon">input<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobname" class="tsd-kind-icon">job<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#outputname" class="tsd-kind-icon">output<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#select" class="tsd-kind-icon">select</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transformationname" class="tsd-kind-icon">transformation<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,1182 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>EventProcessorHost | @azure/event-processor-host</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/event-processor-host</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="eventprocessorhost.html">EventProcessorHost</a>
+				</li>
+			</ul>
+			<h1>Class EventProcessorHost</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Describes the Event Processor Host to process events from an EventHub.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>class</dt>
+						<dd><p>EventProcessorHost</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">EventProcessorHost</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="eventprocessorhost.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="eventprocessorhost.html#consumergroup" class="tsd-kind-icon">consumer<wbr>Group</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="eventprocessorhost.html#hostname" class="tsd-kind-icon">host<wbr>Name</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="eventprocessorhost.html#receivingfrompartitions" class="tsd-kind-icon">receiving<wbr>From<wbr>Partitions</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventprocessorhost.html#gethubruntimeinformation" class="tsd-kind-icon">get<wbr>Hub<wbr>Runtime<wbr>Information</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventprocessorhost.html#getpartitionids" class="tsd-kind-icon">get<wbr>Partition<wbr>Ids</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventprocessorhost.html#getpartitioninformation" class="tsd-kind-icon">get<wbr>Partition<wbr>Information</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventprocessorhost.html#start" class="tsd-kind-icon">start</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="eventprocessorhost.html#stop" class="tsd-kind-icon">stop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromaadtokencredentials" class="tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromaadtokencredentialswithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromconnectionstring" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromconnectionstringwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromiothubconnectionstring" class="tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromiothubconnectionstringwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromtokenprovider" class="tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createfromtokenproviderwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="eventprocessorhost.html#createhostname" class="tsd-kind-icon">create<wbr>Host<wbr>Name</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Event<wbr>Processor<wbr>Host<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/eventprocessorhostoptions.html" class="tsd-signature-type">EventProcessorHostOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L41">eventProcessorHost.ts:41</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new host to process events from an Event Hub.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Name of the processor host. MUST BE UNIQUE.
+												Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+											<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/eventprocessorhostoptions.html" class="tsd-signature-type">EventProcessorHostOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="consumergroup" class="tsd-anchor"></a>
+					<h3>consumer<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> consumerGroup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L69">eventProcessorHost.ts:69</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the consumer group name for the Event processor host.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="hostname" class="tsd-anchor"></a>
+					<h3>host<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hostName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L62">eventProcessorHost.ts:62</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the host name for the Event processor host.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="receivingfrompartitions" class="tsd-anchor"></a>
+					<h3>receiving<wbr>From<wbr>Partitions</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> receivingFromPartitions<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L113">eventProcessorHost.ts:113</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides a list of partitions the EPH is currently receiving messages from.</p>
+								</div>
+								<p>The EPH will try to grab leases for more partitions during each scan that happens once every
+									(configured) lease renew seconds. The number of EPH instances that are being run
+									simultaneously to receive messages from the same consumer group within an event hub also
+									influences the number of partitions that this instance of EPH is actively receiving messages
+								from.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+							<p>Array<string> List of partitions that this EPH instance is currently
+							receiving messages from.</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gethubruntimeinformation" class="tsd-anchor"></a>
+					<h3>get<wbr>Hub<wbr>Runtime<wbr>Information</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Hub<wbr>Runtime<wbr>Information<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventHubRuntimeInformation</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L77">eventProcessorHost.ts:77</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides the eventhub runtime information.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventHubRuntimeInformation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpartitionids" class="tsd-anchor"></a>
+					<h3>get<wbr>Partition<wbr>Ids</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Partition<wbr>Ids<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L97">eventProcessorHost.ts:97</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides an array of partitionIds.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpartitioninformation" class="tsd-anchor"></a>
+					<h3>get<wbr>Partition<wbr>Information</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Partition<wbr>Information<span class="tsd-signature-symbol">(</span>partitionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventHubPartitionRuntimeInformation</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L87">eventProcessorHost.ts:87</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Provides information about the specified partition.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>partitionId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Partition ID for which partition information is required.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">EventHubPartitionRuntimeInformation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>EventHubPartitionRuntimeInformation</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="start" class="tsd-anchor"></a>
+					<h3>start</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>onMessage<span class="tsd-signature-symbol">: </span><a href="../globals.html#onreceivedmessage" class="tsd-signature-type">OnReceivedMessage</a>, onError<span class="tsd-signature-symbol">: </span><a href="../globals.html#onreceivederror" class="tsd-signature-type">OnReceivedError</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L124">eventProcessorHost.ts:124</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts the event processor host, fetching the list of partitions, and attempting to grab leases
+										For each successful lease, it will get the details from the blob and start a receiver at the
+									point where it left off previously.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>onMessage: <a href="../globals.html#onreceivedmessage" class="tsd-signature-type">OnReceivedMessage</a></h5>
+								</li>
+								<li>
+									<h5>onError: <a href="../globals.html#onreceivederror" class="tsd-signature-type">OnReceivedError</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stop" class="tsd-anchor"></a>
+					<h3>stop</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L138">eventProcessorHost.ts:138</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops the EventProcessorHost from processing messages.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromaadtokencredentials" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageContainerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, credentials<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ApplicationTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeviceTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">MSITokenCredentials</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L371">eventProcessorHost.ts:371</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from AAD token credentials.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string to Azure Storage account used for
+											leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+										AccountKey=<account-key>;EndpointSuffix=core.windows.net</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageContainerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Azure Storage container name for use by built-in lease
+										and checkpoint manager.</p>
+									</div>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Fully qualified domain name for Event Hubs.
+										Example: &quot;{your-sb-namespace}.servicebus.windows.net&quot;</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubPath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the EventHub.</p>
+									</div>
+								</li>
+								<li>
+									<h5>credentials: <span class="tsd-signature-type">ApplicationTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeviceTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">MSITokenCredentials</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The AAD Token credentials. It can be one of the
+											following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
+										| MSITokenCredentials.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromaadtokencredentialswithcustomcheckpointandleasemanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, credentials<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ApplicationTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeviceTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">MSITokenCredentials</span>, checkpointManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a>, leaseManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L430">eventProcessorHost.ts:430</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from AAD token credentials with the given checkpoint manager
+									and lease manager.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Fully qualified domain name for Event Hubs.
+										Example: &quot;{your-sb-namespace}.servicebus.windows.net&quot;</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubPath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the EventHub.</p>
+									</div>
+								</li>
+								<li>
+									<h5>credentials: <span class="tsd-signature-type">ApplicationTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">UserTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">DeviceTokenCredentials</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">MSITokenCredentials</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The AAD Token credentials. It can be one of the
+											following: ApplicationTokenCredentials | UserTokenCredentials | DeviceTokenCredentials
+										| MSITokenCredentials.</p>
+									</div>
+								</li>
+								<li>
+									<h5>checkpointManager: <a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage checkpoints.</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseManager: <a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage leases.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromconnectionstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Connection<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageContainerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromconnectionstringoptions.html" class="tsd-signature-type">FromConnectionStringOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L178">eventProcessorHost.ts:178</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from the EventHub connection string.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string to Azure Storage account used for
+											leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+										AccountKey=<account-key>;EndpointSuffix=core.windows.net</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageContainerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Azure Storage container name for use by built-in lease
+										and checkpoint manager.</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string for the Event Hub to receive from.
+											Example: &#39;Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
+										SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromconnectionstringoptions.html" class="tsd-signature-type">FromConnectionStringOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromconnectionstringwithcustomcheckpointandleasemanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, checkpointManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a>, leaseManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromconnectionstringoptions.html" class="tsd-signature-type">FromConnectionStringOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L219">eventProcessorHost.ts:219</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from the EventHub connection string with the provided
+									checkpoint manager and lease manager.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string for the Event Hub to receive from.
+											Example: &#39;Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;
+										SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5>checkpointManager: <a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage checkpoints.</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseManager: <a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage leases.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromconnectionstringoptions.html" class="tsd-signature-type">FromConnectionStringOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromiothubconnectionstring" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageContainerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, iotHubConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-signature-type">FromIotHubConnectionStringOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L486">eventProcessorHost.ts:486</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from the IotHub connection string.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string to Azure Storage account used for
+											leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+										AccountKey=<account-key>;EndpointSuffix=core.windows.net</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageContainerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Azure Storage container name for use by built-in lease
+										and checkpoint manager.</p>
+									</div>
+								</li>
+								<li>
+									<h5>iotHubConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string for the IotHub.
+										Example: &#39;Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-signature-type">FromIotHubConnectionStringOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromiothubconnectionstringwithcustomcheckpointandleasemanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, iotHubConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, checkpointManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a>, leaseManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a>, options<span class="tsd-signature-symbol">?: </span><a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-signature-type">FromIotHubConnectionStringOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L530">eventProcessorHost.ts:530</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from the IotHub connection string with the given
+									checkpoint manager and lease manager.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>iotHubConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string for the IotHub.
+										Example: &#39;Endpoint=iot-host-name;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key&#39;</p>
+									</div>
+								</li>
+								<li>
+									<h5>checkpointManager: <a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage checkpoints.</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseManager: <a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage leases.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-signature-type">FromIotHubConnectionStringOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromtokenprovider" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Token<wbr>Provider</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageConnectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storageContainerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, tokenProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TokenProvider</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L263">eventProcessorHost.ts:263</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from a TokenProvider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageConnectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Connection string to Azure Storage account used for
+											leases and checkpointing. Example DefaultEndpointsProtocol=https;AccountName=<account-name>;
+										AccountKey=<account-key>;EndpointSuffix=core.windows.net</p>
+									</div>
+								</li>
+								<li>
+									<h5>storageContainerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Azure Storage container name for use by built-in lease
+										and checkpoint manager.</p>
+									</div>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Fully qualified domain name for Event Hubs.
+										Example: &quot;{your-sb-namespace}.servicebus.windows.net&quot;</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubPath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the EventHub.</p>
+									</div>
+								</li>
+								<li>
+									<h5>tokenProvider: <span class="tsd-signature-type">TokenProvider</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Your token provider that implements the TokenProvider interface.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createfromtokenproviderwithcustomcheckpointandleasemanager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>From<wbr>Token<wbr>Provider<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager<span class="tsd-signature-symbol">(</span>hostName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, eventHubPath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, tokenProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TokenProvider</span>, checkpointManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a>, leaseManager<span class="tsd-signature-symbol">: </span><a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L315">eventProcessorHost.ts:315</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an EventProcessorHost instance from a TokenProvider with the provided checkpoint manager
+									and lease manager.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hostName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Name of the processor host. MUST BE UNIQUE.
+											Strongly recommend including a Guid or a prefix with a guid to ensure uniqueness. You can use
+										<code>EventProcessorHost.createHostName(&quot;your-prefix&quot;)</code>; Default: <code>js-host-${uuid()}</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>namespace: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Fully qualified domain name for Event Hubs.
+										Example: &quot;{your-sb-namespace}.servicebus.windows.net&quot;</p>
+									</div>
+								</li>
+								<li>
+									<h5>eventHubPath: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the EventHub.</p>
+									</div>
+								</li>
+								<li>
+									<h5>tokenProvider: <span class="tsd-signature-type">TokenProvider</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Your token provider that implements the TokenProvider interface.</p>
+									</div>
+								</li>
+								<li>
+									<h5>checkpointManager: <a href="../interfaces/checkpointmanager.html" class="tsd-signature-type">CheckpointManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage checkpoints.</p>
+									</div>
+								</li>
+								<li>
+									<h5>leaseManager: <a href="../interfaces/leasemanager.html" class="tsd-signature-type">LeaseManager</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A manager to manage leases.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/fromtokenprovideroptions.html" class="tsd-signature-type">FromTokenProviderOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="eventprocessorhost.html" class="tsd-signature-type">EventProcessorHost</a></h4>
+							<p>EventProcessorHost</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="createhostname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Host<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Host<wbr>Name<span class="tsd-signature-symbol">(</span>prefix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/eventProcessorHost.ts#L154">eventProcessorHost.ts:154</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Convenience method for generating unique host name.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> prefix: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>A unique host name</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="azurebloblease.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="baselease.html" class="tsd-kind-icon">Base<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="completelease.html" class="tsd-kind-icon">Complete<wbr>Lease</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="eventprocessorhost.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#consumergroup" class="tsd-kind-icon">consumer<wbr>Group</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#hostname" class="tsd-kind-icon">host<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#receivingfrompartitions" class="tsd-kind-icon">receiving<wbr>From<wbr>Partitions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#gethubruntimeinformation" class="tsd-kind-icon">get<wbr>Hub<wbr>Runtime<wbr>Information</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#getpartitionids" class="tsd-kind-icon">get<wbr>Partition<wbr>Ids</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#getpartitioninformation" class="tsd-kind-icon">get<wbr>Partition<wbr>Information</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#start" class="tsd-kind-icon">start</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="eventprocessorhost.html#stop" class="tsd-kind-icon">stop</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromaadtokencredentials" class="tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromaadtokencredentialswithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Aad<wbr>Token<wbr>Credentials<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromconnectionstring" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromconnectionstringwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromiothubconnectionstring" class="tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromiothubconnectionstringwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromtokenprovider" class="tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createfromtokenproviderwithcustomcheckpointandleasemanager" class="tsd-kind-icon">create<wbr>From<wbr>Token<wbr>Provider<wbr>With<wbr>Custom<wbr>Checkpoint<wbr>And<wbr>Lease<wbr>Manager</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="eventprocessorhost.html#createhostname" class="tsd-kind-icon">create<wbr>Host<wbr>Name</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="partitioncontext.html" class="tsd-kind-icon">Partition<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/azureblobleaseinfo.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/baseleaseinfo.html" class="tsd-kind-icon">Base<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/checkpointmanager.html" class="tsd-kind-icon">Checkpoint<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/completeleaseinfo.html" class="tsd-kind-icon">Complete<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ephdiagnosticinfo.html" class="tsd-kind-icon">EPHDiagnostic<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventprocessorhostoptions.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/fromconnectionstringoptions.html" class="tsd-kind-icon">From<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/fromtokenprovideroptions.html" class="tsd-kind-icon">From<wbr>Token<wbr>Provider<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/hostcontextwithpumpmanager.html" class="tsd-kind-icon">Host<wbr>Context<wbr>With<wbr>Pump<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/leaseinfo.html" class="tsd-kind-icon">Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/leasemanager.html" class="tsd-kind-icon">Lease<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-kind-icon">From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onepherror" class="tsd-kind-icon">On<wbr>Eph<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivederror" class="tsd-kind-icon">On<wbr>Received<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivedmessage" class="tsd-kind-icon">On<wbr>Received<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultcheckpointtimeoutinseconds" class="tsd-kind-icon">default<wbr>Checkpoint<wbr>Timeout<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultconsumergroup" class="tsd-kind-icon">default<wbr>Consumer<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultfastscanintervalinseconds" class="tsd-kind-icon">default<wbr>Fast<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleasedurationinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleaserenewintervalinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Renew<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultmaximumexecutiontimeinms" class="tsd-kind-icon">default<wbr>Maximum<wbr>Execution<wbr>Time<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultslowscanintervalinseconds" class="tsd-kind-icon">default<wbr>Slow<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultstartupscandelayinseconds" class="tsd-kind-icon">default<wbr>Startup<wbr>Scan<wbr>Delay<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithbloboperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Blob<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithleaseoperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Lease<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaselost" class="tsd-kind-icon">lease<wbr>Lost</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maxleasedurationinseconds" class="tsd-kind-icon">max<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maximumexecutiontimeinmsforleaserenewal" class="tsd-kind-icon">maximum<wbr>Execution<wbr>Time<wbr>InMs<wbr>For<wbr>Lease<wbr>Renewal</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#metadataownername" class="tsd-kind-icon">metadata<wbr>Owner<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#minleasedurationinseconds" class="tsd-kind-icon">min<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#randomnumberfrominterval" class="tsd-kind-icon">random<wbr>Number<wbr>From<wbr>Interval</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#validatetype" class="tsd-kind-icon">validate<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#packageinfo" class="tsd-kind-icon">package<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

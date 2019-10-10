@@ -1,0 +1,1299 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-containerregistry</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-containerregistry</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-containerregistry</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-containerregistrymanagementclient-sdk-for-javascript" id="azure-containerregistrymanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure ContainerRegistryManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for ContainerRegistryManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-containerregistry</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-registries-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-registries-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get registries as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { ContainerRegistryManagementClient, ContainerRegistryManagementModels, ContainerRegistryManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-containerregistry"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ContainerRegistryManagementClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> registryName = <span class="hljs-string">"testregistryName"</span>;
+  client.registries.get(resourceGroupName, registryName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-registries-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-registries-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get registries as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-containerregistry sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-containerregistry/dist/arm-containerregistry.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmContainerregistry.ContainerRegistryManagementClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> registryName = <span class="hljs-string">"testregistryName"</span>;
+      client.registries.get(resourceGroupName, registryName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/containerregistry/arm-containerregistry/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/containerregistrymanagementclientcontext.html" class="tsd-kind-icon">Container<wbr>Registry<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/registries.html" class="tsd-kind-icon">Registries</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replications.html" class="tsd-kind-icon">Replications</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/runs.html" class="tsd-kind-icon">Runs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scopemaps.html" class="tsd-kind-icon">Scope<wbr>Maps</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tasks.html" class="tsd-kind-icon">Tasks</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/tokens.html" class="tsd-kind-icon">Tokens</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/webhooks.html" class="tsd-kind-icon">Webhooks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/actor.html" class="tsd-kind-icon">Actor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentproperties.html" class="tsd-kind-icon">Agent<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/argument.html" class="tsd-kind-icon">Argument</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/authinfo.html" class="tsd-kind-icon">Auth<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/authinfoupdateparameters.html" class="tsd-kind-icon">Auth<wbr>Info<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseimagedependency.html" class="tsd-kind-icon">Base<wbr>Image<wbr>Dependency</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseimagetrigger.html" class="tsd-kind-icon">Base<wbr>Image<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseimagetriggerupdateparameters.html" class="tsd-kind-icon">Base<wbr>Image<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/callbackconfig.html" class="tsd-kind-icon">Callback<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerregistrymanagementclientoptions.html" class="tsd-kind-icon">Container<wbr>Registry<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/credentials.html" class="tsd-kind-icon">Credentials</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customregistrycredentials.html" class="tsd-kind-icon">Custom<wbr>Registry<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dockerbuildrequest.html" class="tsd-kind-icon">Docker<wbr>Build<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dockerbuildstep.html" class="tsd-kind-icon">Docker<wbr>Build<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dockerbuildstepupdateparameters.html" class="tsd-kind-icon">Docker<wbr>Build<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encodedtaskrunrequest.html" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encodedtaskstep.html" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encodedtaskstepupdateparameters.html" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcontent.html" class="tsd-kind-icon">Event<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventinfo.html" class="tsd-kind-icon">Event<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventlistresult.html" class="tsd-kind-icon">Event<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventrequestmessage.html" class="tsd-kind-icon">Event<wbr>Request<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventresponsemessage.html" class="tsd-kind-icon">Event<wbr>Response<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filetaskrunrequest.html" class="tsd-kind-icon">File<wbr>Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filetaskstep.html" class="tsd-kind-icon">File<wbr>Task<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filetaskstepupdateparameters.html" class="tsd-kind-icon">File<wbr>Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generatecredentialsparameters.html" class="tsd-kind-icon">Generate<wbr>Credentials<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generatecredentialsresult.html" class="tsd-kind-icon">Generate<wbr>Credentials<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iprule.html" class="tsd-kind-icon">IPRule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identityproperties.html" class="tsd-kind-icon">Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagedescriptor.html" class="tsd-kind-icon">Image<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageupdatetrigger.html" class="tsd-kind-icon">Image<wbr>Update<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/importimageparameters.html" class="tsd-kind-icon">Import<wbr>Image<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/importsource.html" class="tsd-kind-icon">Import<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/importsourcecredentials.html" class="tsd-kind-icon">Import<wbr>Source<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkruleset.html" class="tsd-kind-icon">Network<wbr>Rule<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdefinition.html" class="tsd-kind-icon">Operation<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplaydefinition.html" class="tsd-kind-icon">Operation<wbr>Display<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetricspecificationdefinition.html" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Specification<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationservicespecificationdefinition.html" class="tsd-kind-icon">Operation<wbr>Service<wbr>Specification<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/overridetaskstepproperties.html" class="tsd-kind-icon">Override<wbr>Task<wbr>Step<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/platformproperties.html" class="tsd-kind-icon">Platform<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/platformupdateparameters.html" class="tsd-kind-icon">Platform<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policies.html" class="tsd-kind-icon">Policies</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/proxyresource.html" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quarantinepolicy.html" class="tsd-kind-icon">Quarantine<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regeneratecredentialparameters.html" class="tsd-kind-icon">Regenerate<wbr>Credential<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registry.html" class="tsd-kind-icon">Registry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrylistcredentialsresult.html" class="tsd-kind-icon">Registry<wbr>List<wbr>Credentials<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrylistresult.html" class="tsd-kind-icon">Registry<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrynamecheckrequest.html" class="tsd-kind-icon">Registry<wbr>Name<wbr>Check<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrynamestatus.html" class="tsd-kind-icon">Registry<wbr>Name<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registrypassword.html" class="tsd-kind-icon">Registry<wbr>Password</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registryupdateparameters.html" class="tsd-kind-icon">Registry<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registryusage.html" class="tsd-kind-icon">Registry<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/registryusagelistresult.html" class="tsd-kind-icon">Registry<wbr>Usage<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replication.html" class="tsd-kind-icon">Replication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationlistresult.html" class="tsd-kind-icon">Replication<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationupdateparameters.html" class="tsd-kind-icon">Replication<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/request.html" class="tsd-kind-icon">Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionpolicy.html" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/run.html" class="tsd-kind-icon">Run</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runfilter.html" class="tsd-kind-icon">Run<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rungetlogresult.html" class="tsd-kind-icon">Run<wbr>Get<wbr>Log<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runlistresult.html" class="tsd-kind-icon">Run<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runrequest.html" class="tsd-kind-icon">Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runupdateparameters.html" class="tsd-kind-icon">Run<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runslistoptionalparams.html" class="tsd-kind-icon">Runs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scopemap.html" class="tsd-kind-icon">Scope<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scopemaplistresult.html" class="tsd-kind-icon">Scope<wbr>Map<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scopemapupdateparameters.html" class="tsd-kind-icon">Scope<wbr>Map<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretobject.html" class="tsd-kind-icon">Secret<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setvalue.html" class="tsd-kind-icon">Set<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sku.html" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/source.html" class="tsd-kind-icon">Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourceproperties.html" class="tsd-kind-icon">Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourceregistrycredentials.html" class="tsd-kind-icon">Source<wbr>Registry<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcetrigger.html" class="tsd-kind-icon">Source<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcetriggerdescriptor.html" class="tsd-kind-icon">Source<wbr>Trigger<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcetriggerupdateparameters.html" class="tsd-kind-icon">Source<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourceupdateparameters.html" class="tsd-kind-icon">Source<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourceuploaddefinition.html" class="tsd-kind-icon">Source<wbr>Upload<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/status1.html" class="tsd-kind-icon">Status1</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageaccountproperties.html" class="tsd-kind-icon">Storage<wbr>Account<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/target.html" class="tsd-kind-icon">Target</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/task.html" class="tsd-kind-icon">Task</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tasklistresult.html" class="tsd-kind-icon">Task<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskrunrequest.html" class="tsd-kind-icon">Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskstepproperties.html" class="tsd-kind-icon">Task<wbr>Step<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskstepupdateparameters.html" class="tsd-kind-icon">Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskupdateparameters.html" class="tsd-kind-icon">Task<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/timertrigger.html" class="tsd-kind-icon">Timer<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/timertriggerdescriptor.html" class="tsd-kind-icon">Timer<wbr>Trigger<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/timertriggerupdateparameters.html" class="tsd-kind-icon">Timer<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/token.html" class="tsd-kind-icon">Token</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokencertificate.html" class="tsd-kind-icon">Token<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokencredentialsproperties.html" class="tsd-kind-icon">Token<wbr>Credentials<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokenlistresult.html" class="tsd-kind-icon">Token<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokenpassword.html" class="tsd-kind-icon">Token<wbr>Password</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokenupdateparameters.html" class="tsd-kind-icon">Token<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerproperties.html" class="tsd-kind-icon">Trigger<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/triggerupdateparameters.html" class="tsd-kind-icon">Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trustpolicy.html" class="tsd-kind-icon">Trust<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useridentityproperties.html" class="tsd-kind-icon">User<wbr>Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkrule.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webhook.html" class="tsd-kind-icon">Webhook</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webhookcreateparameters.html" class="tsd-kind-icon">Webhook<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webhooklistresult.html" class="tsd-kind-icon">Webhook<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/webhookupdateparameters.html" class="tsd-kind-icon">Webhook<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#action" class="tsd-kind-icon">Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#architecture" class="tsd-kind-icon">Architecture</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#baseimagedependencytype" class="tsd-kind-icon">Base<wbr>Image<wbr>Dependency<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#baseimagetriggertype" class="tsd-kind-icon">Base<wbr>Image<wbr>Trigger<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultaction" class="tsd-kind-icon">Default<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#importmode" class="tsd-kind-icon">Import<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#os" class="tsd-kind-icon">OS</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#passwordname" class="tsd-kind-icon">Password<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatus" class="tsd-kind-icon">Policy<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#provisioningstate" class="tsd-kind-icon">Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesbegincreateresponse" class="tsd-kind-icon">Registries<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesbegingeneratecredentialsresponse" class="tsd-kind-icon">Registries<wbr>Begin<wbr>Generate<wbr>Credentials<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesbeginschedulerunresponse" class="tsd-kind-icon">Registries<wbr>Begin<wbr>Schedule<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesbeginupdateresponse" class="tsd-kind-icon">Registries<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieschecknameavailabilityresponse" class="tsd-kind-icon">Registries<wbr>Check<wbr>Name<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriescreateresponse" class="tsd-kind-icon">Registries<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesgeneratecredentialsresponse" class="tsd-kind-icon">Registries<wbr>Generate<wbr>Credentials<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesgetbuildsourceuploadurlresponse" class="tsd-kind-icon">Registries<wbr>Get<wbr>Build<wbr>Source<wbr>Upload<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesgetresponse" class="tsd-kind-icon">Registries<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistbyresourcegroupnextresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistbyresourcegroupresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistcredentialsresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>Credentials<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistnextresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registrieslistusagesresponse" class="tsd-kind-icon">Registries<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesregeneratecredentialresponse" class="tsd-kind-icon">Registries<wbr>Regenerate<wbr>Credential<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesschedulerunresponse" class="tsd-kind-icon">Registries<wbr>Schedule<wbr>Run<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registriesupdateresponse" class="tsd-kind-icon">Registries<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#registryusageunit" class="tsd-kind-icon">Registry<wbr>Usage<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationsbegincreateresponse" class="tsd-kind-icon">Replications<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationsbeginupdateresponse" class="tsd-kind-icon">Replications<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationscreateresponse" class="tsd-kind-icon">Replications<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationsgetresponse" class="tsd-kind-icon">Replications<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationslistnextresponse" class="tsd-kind-icon">Replications<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationslistresponse" class="tsd-kind-icon">Replications<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationsupdateresponse" class="tsd-kind-icon">Replications<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourceidentitytype" class="tsd-kind-icon">Resource<wbr>Identity<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runrequestunion" class="tsd-kind-icon">Run<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runstatus" class="tsd-kind-icon">Run<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runtype" class="tsd-kind-icon">Run<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runsbeginupdateresponse" class="tsd-kind-icon">Runs<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runsgetlogsasurlresponse" class="tsd-kind-icon">Runs<wbr>Get<wbr>Log<wbr>Sas<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runsgetresponse" class="tsd-kind-icon">Runs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runslistnextresponse" class="tsd-kind-icon">Runs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runslistresponse" class="tsd-kind-icon">Runs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#runsupdateresponse" class="tsd-kind-icon">Runs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapsbegincreateresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapsbeginupdateresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapscreateresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapsgetresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapslistnextresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapslistresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scopemapsupdateresponse" class="tsd-kind-icon">Scope<wbr>Maps<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretobjecttype" class="tsd-kind-icon">Secret<wbr>Object<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skuname" class="tsd-kind-icon">Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#skutier" class="tsd-kind-icon">Sku<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sourcecontroltype" class="tsd-kind-icon">Source<wbr>Control<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sourceregistryloginmode" class="tsd-kind-icon">Source<wbr>Registry<wbr>Login<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sourcetriggerevent" class="tsd-kind-icon">Source<wbr>Trigger<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status" class="tsd-kind-icon">Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#taskstatus" class="tsd-kind-icon">Task<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksteppropertiesunion" class="tsd-kind-icon">Task<wbr>Step<wbr>Properties<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#taskstepupdateparametersunion" class="tsd-kind-icon">Task<wbr>Step<wbr>Update<wbr>Parameters<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksbegincreateresponse" class="tsd-kind-icon">Tasks<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksbeginupdateresponse" class="tsd-kind-icon">Tasks<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#taskscreateresponse" class="tsd-kind-icon">Tasks<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksgetdetailsresponse" class="tsd-kind-icon">Tasks<wbr>Get<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksgetresponse" class="tsd-kind-icon">Tasks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#taskslistnextresponse" class="tsd-kind-icon">Tasks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#taskslistresponse" class="tsd-kind-icon">Tasks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasksupdateresponse" class="tsd-kind-icon">Tasks<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokencertificatename" class="tsd-kind-icon">Token<wbr>Certificate<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokenpasswordname" class="tsd-kind-icon">Token<wbr>Password<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokentype" class="tsd-kind-icon">Token<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokensbegincreateresponse" class="tsd-kind-icon">Tokens<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokensbeginupdateresponse" class="tsd-kind-icon">Tokens<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokenscreateresponse" class="tsd-kind-icon">Tokens<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokensgetresponse" class="tsd-kind-icon">Tokens<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokenslistnextresponse" class="tsd-kind-icon">Tokens<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokenslistresponse" class="tsd-kind-icon">Tokens<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tokensupdateresponse" class="tsd-kind-icon">Tokens<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#triggerstatus" class="tsd-kind-icon">Trigger<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trustpolicytype" class="tsd-kind-icon">Trust<wbr>Policy<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#updatetriggerpayloadtype" class="tsd-kind-icon">Update<wbr>Trigger<wbr>Payload<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#variant" class="tsd-kind-icon">Variant</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookaction" class="tsd-kind-icon">Webhook<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookstatus" class="tsd-kind-icon">Webhook<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhooksbegincreateresponse" class="tsd-kind-icon">Webhooks<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhooksbeginupdateresponse" class="tsd-kind-icon">Webhooks<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookscreateresponse" class="tsd-kind-icon">Webhooks<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhooksgetcallbackconfigresponse" class="tsd-kind-icon">Webhooks<wbr>Get<wbr>Callback<wbr>Config<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhooksgetresponse" class="tsd-kind-icon">Webhooks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookslisteventsnextresponse" class="tsd-kind-icon">Webhooks<wbr>List<wbr>Events<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookslisteventsresponse" class="tsd-kind-icon">Webhooks<wbr>List<wbr>Events<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookslistnextresponse" class="tsd-kind-icon">Webhooks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookslistresponse" class="tsd-kind-icon">Webhooks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhookspingresponse" class="tsd-kind-icon">Webhooks<wbr>Ping<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#webhooksupdateresponse" class="tsd-kind-icon">Webhooks<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#actor" class="tsd-kind-icon">Actor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentproperties" class="tsd-kind-icon">Agent<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#argument" class="tsd-kind-icon">Argument</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#authinfo" class="tsd-kind-icon">Auth<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#authinfoupdateparameters" class="tsd-kind-icon">Auth<wbr>Info<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#baseimagedependency" class="tsd-kind-icon">Base<wbr>Image<wbr>Dependency</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#baseimagetrigger" class="tsd-kind-icon">Base<wbr>Image<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#baseimagetriggerupdateparameters" class="tsd-kind-icon">Base<wbr>Image<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#callbackconfig" class="tsd-kind-icon">Callback<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#credentials" class="tsd-kind-icon">Credentials</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customregistrycredentials" class="tsd-kind-icon">Custom<wbr>Registry<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dockerbuildrequest" class="tsd-kind-icon">Docker<wbr>Build<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dockerbuildstep" class="tsd-kind-icon">Docker<wbr>Build<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dockerbuildstepupdateparameters" class="tsd-kind-icon">Docker<wbr>Build<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encodedtaskrunrequest" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encodedtaskstep" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encodedtaskstepupdateparameters" class="tsd-kind-icon">Encoded<wbr>Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#event" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventcontent" class="tsd-kind-icon">Event<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventinfo" class="tsd-kind-icon">Event<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventlistresult" class="tsd-kind-icon">Event<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventrequestmessage" class="tsd-kind-icon">Event<wbr>Request<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventresponsemessage" class="tsd-kind-icon">Event<wbr>Response<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filetaskrunrequest" class="tsd-kind-icon">File<wbr>Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filetaskstep" class="tsd-kind-icon">File<wbr>Task<wbr>Step</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filetaskstepupdateparameters" class="tsd-kind-icon">File<wbr>Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#generatecredentialsparameters" class="tsd-kind-icon">Generate<wbr>Credentials<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#generatecredentialsresult" class="tsd-kind-icon">Generate<wbr>Credentials<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iprule" class="tsd-kind-icon">IPRule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identityproperties" class="tsd-kind-icon">Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagedescriptor" class="tsd-kind-icon">Image<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageupdatetrigger" class="tsd-kind-icon">Image<wbr>Update<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#importimageparameters" class="tsd-kind-icon">Import<wbr>Image<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#importsource" class="tsd-kind-icon">Import<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#importsourcecredentials" class="tsd-kind-icon">Import<wbr>Source<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkruleset" class="tsd-kind-icon">Network<wbr>Rule<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdefinition" class="tsd-kind-icon">Operation<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplaydefinition" class="tsd-kind-icon">Operation<wbr>Display<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetricspecificationdefinition" class="tsd-kind-icon">Operation<wbr>Metric<wbr>Specification<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationservicespecificationdefinition" class="tsd-kind-icon">Operation<wbr>Service<wbr>Specification<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#overridetaskstepproperties" class="tsd-kind-icon">Override<wbr>Task<wbr>Step<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#platformproperties" class="tsd-kind-icon">Platform<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#platformupdateparameters" class="tsd-kind-icon">Platform<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policies" class="tsd-kind-icon">Policies</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proxyresource" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quarantinepolicy" class="tsd-kind-icon">Quarantine<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regeneratecredentialparameters" class="tsd-kind-icon">Regenerate<wbr>Credential<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registry" class="tsd-kind-icon">Registry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrylistcredentialsresult" class="tsd-kind-icon">Registry<wbr>List<wbr>Credentials<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrylistresult" class="tsd-kind-icon">Registry<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrynamecheckrequest" class="tsd-kind-icon">Registry<wbr>Name<wbr>Check<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrynamestatus" class="tsd-kind-icon">Registry<wbr>Name<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registrypassword" class="tsd-kind-icon">Registry<wbr>Password</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registryupdateparameters" class="tsd-kind-icon">Registry<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registryusage" class="tsd-kind-icon">Registry<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registryusagelistresult" class="tsd-kind-icon">Registry<wbr>Usage<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replication" class="tsd-kind-icon">Replication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationlistresult" class="tsd-kind-icon">Replication<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationupdateparameters" class="tsd-kind-icon">Replication<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#request" class="tsd-kind-icon">Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionpolicy" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#run" class="tsd-kind-icon">Run</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runfilter" class="tsd-kind-icon">Run<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rungetlogresult" class="tsd-kind-icon">Run<wbr>Get<wbr>Log<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runlistresult" class="tsd-kind-icon">Run<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runrequest" class="tsd-kind-icon">Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runupdateparameters" class="tsd-kind-icon">Run<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scopemap" class="tsd-kind-icon">Scope<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scopemaplistresult" class="tsd-kind-icon">Scope<wbr>Map<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scopemapupdateparameters" class="tsd-kind-icon">Scope<wbr>Map<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#secretobject" class="tsd-kind-icon">Secret<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#setvalue" class="tsd-kind-icon">Set<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sku" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#source" class="tsd-kind-icon">Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceproperties" class="tsd-kind-icon">Source<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceregistrycredentials" class="tsd-kind-icon">Source<wbr>Registry<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcetrigger" class="tsd-kind-icon">Source<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcetriggerdescriptor" class="tsd-kind-icon">Source<wbr>Trigger<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcetriggerupdateparameters" class="tsd-kind-icon">Source<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceupdateparameters" class="tsd-kind-icon">Source<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceuploaddefinition" class="tsd-kind-icon">Source<wbr>Upload<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#status1" class="tsd-kind-icon">Status1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageaccountproperties" class="tsd-kind-icon">Storage<wbr>Account<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#target" class="tsd-kind-icon">Target</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#task" class="tsd-kind-icon">Task</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tasklistresult" class="tsd-kind-icon">Task<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskrunrequest" class="tsd-kind-icon">Task<wbr>Run<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskstepproperties" class="tsd-kind-icon">Task<wbr>Step<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskstepupdateparameters" class="tsd-kind-icon">Task<wbr>Step<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskupdateparameters" class="tsd-kind-icon">Task<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timertrigger" class="tsd-kind-icon">Timer<wbr>Trigger</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timertriggerdescriptor" class="tsd-kind-icon">Timer<wbr>Trigger<wbr>Descriptor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timertriggerupdateparameters" class="tsd-kind-icon">Timer<wbr>Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#token" class="tsd-kind-icon">Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokencertificate" class="tsd-kind-icon">Token<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokencredentialsproperties" class="tsd-kind-icon">Token<wbr>Credentials<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokenlistresult" class="tsd-kind-icon">Token<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokenpassword" class="tsd-kind-icon">Token<wbr>Password</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokenupdateparameters" class="tsd-kind-icon">Token<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerproperties" class="tsd-kind-icon">Trigger<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#triggerupdateparameters" class="tsd-kind-icon">Trigger<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trustpolicy" class="tsd-kind-icon">Trust<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useridentityproperties" class="tsd-kind-icon">User<wbr>Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkrule" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webhook" class="tsd-kind-icon">Webhook</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webhookcreateparameters" class="tsd-kind-icon">Webhook<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webhooklistresult" class="tsd-kind-icon">Webhook<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webhookupdateparameters" class="tsd-kind-icon">Webhook<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion0" class="tsd-kind-icon">api<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion1" class="tsd-kind-icon">api<wbr>Version1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion2" class="tsd-kind-icon">api<wbr>Version2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#registryname" class="tsd-kind-icon">registry<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationname" class="tsd-kind-icon">replication<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runid" class="tsd-kind-icon">run<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scopemapname" class="tsd-kind-icon">scope<wbr>Map<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskname" class="tsd-kind-icon">task<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokenname" class="tsd-kind-icon">token<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#webhookname" class="tsd-kind-icon">webhook<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

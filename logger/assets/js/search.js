@@ -1,0 +1,3 @@
+var typedoc = typedoc || {};
+            typedoc.search = typedoc.search || {};
+            typedoc.search.data = {"kinds":{"32":"Variable","64":"Function","4194304":"Type alias"},"rows":[{"id":0,"kind":32,"name":"AzureLogger","url":"globals.html#azurelogger","classes":"tsd-kind-variable"},{"id":1,"kind":4194304,"name":"AzureLogLevel","url":"globals.html#azureloglevel","classes":"tsd-kind-type-alias"},{"id":2,"kind":64,"name":"setLogLevel","url":"globals.html#setloglevel","classes":"tsd-kind-function"},{"id":3,"kind":64,"name":"getLogLevel","url":"globals.html#getloglevel","classes":"tsd-kind-function"}]};

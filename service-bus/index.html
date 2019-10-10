@@ -1,0 +1,656 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/service-bus</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/service-bus</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/service-bus</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-service-bus-client-library-for-javascript" id="azure-service-bus-client-library-for-javascript" style="color: inherit; text-decoration: none;">
+					<h1>Azure Service Bus client library for Javascript</h1>
+				</a>
+				<p>Azure Service Bus is a highly-reliable cloud messaging service from Microsoft</p>
+				<p>Use the client library for Azure Service Bus in your Node.js application to</p>
+				<ul>
+					<li>Send messages to a Queue or Topic</li>
+					<li>Receive messages from a Queue or Subscription</li>
+				</ul>
+				<p><a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus">Source code</a> | <a href="https://www.npmjs.com/package/@azure/service-bus">Package (npm)</a> | <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/">API Reference Documentation</a> | <a href="https://azure.microsoft.com/en-us/services/service-bus/">Product documentation</a> | <a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples">Samples</a></p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting Started</h2>
+				</a>
+				<a href="#install-the-package" id="install-the-package" style="color: inherit; text-decoration: none;">
+					<h3>Install the package</h3>
+				</a>
+				<p>Install the Azure Service Bus client library using npm</p>
+				<p><code>npm install @azure/service-bus</code></p>
+				<p><strong>Prerequisites</strong>: You must have an <a href="https://azure.microsoft.com/free/">Azure subscription</a> and a
+					<a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/">Service Bus Namespace</a> to use this package.
+				If you are using this package in a Node.js application, then use Node.js 6.x or higher.</p>
+				<a href="#configure-typescript" id="configure-typescript" style="color: inherit; text-decoration: none;">
+					<h3>Configure Typescript</h3>
+				</a>
+				<p>TypeScript users need to have Node type definitions installed:</p>
+				<pre><code class="language-bash">npm install @types/node</code></pre>
+				<p>You also need to enable <code>compilerOptions.allowSyntheticDefaultImports</code> in your tsconfig.json. Note that if you have enabled <code>compilerOptions.esModuleInterop</code>, <code>allowSyntheticDefaultImports</code> is enabled by default. See <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html">TypeScript&#39;s compiler options handbook</a> for more information.</p>
+				<a href="#authenticate-the-client" id="authenticate-the-client" style="color: inherit; text-decoration: none;">
+					<h3>Authenticate the client</h3>
+				</a>
+				<p>Interaction with Service Bus starts with an instance of the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient">ServiceBusClient</a> class. You can instantiate
+				this class using one of the 3 static methods on it</p>
+				<ul>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromconnectionstring-string--servicebusclientoptions-">createFromConnectionString</a><ul>
+							<li>This method takes the connection string to your Service Bus instance. You can get the connection string
+							from the Azure portal.</li>
+						</ul>
+					</li>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromtokenprovider-string--tokenprovider--servicebusclientoptions-">createFromTokenProvider</a><ul>
+							<li>This method takes the host name of your Service Bus instance and your custom implementation of the <a href="https://github.com/Azure/amqp-common-js/blob/master/lib/auth/token.ts">TokenProvider</a> interface.The host name is of the format <code>name-of-service-bus-instance.servicebus.windows.net</code>.</li>
+						</ul>
+					</li>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createfromaadtokencredentials-string--applicationtokencredentials---usertokencredentials---devicetokencredentials---msitokencredentials--servicebusclientoptions-">createFromAADTokenCredentials</a><ul>
+							<li>This method takes the host name of your Service Bus instance and a credentials object that you need
+								to generate using the <a href="https://www.npmjs.com/package/@azure/ms-rest-nodeauth">@azure/ms-rest-nodeauth</a>
+							library. The host name is of the format <code>name-of-service-bus-instance.servicebus.windows.net</code>.</li>
+							<li>Refer to the samples that use an <a href="https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/loginWithAzureAccount.js">Azure account</a>, <a href="https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/interactiveLogin.js">interactive login</a> or <a href="https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_1.0.0/sdk/servicebus/service-bus/samples/javascript/gettingStarted/servicePrincipalLogin.js">service principal</a></li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h3>Key concepts</h3>
+				</a>
+				<p>Once you have initialized the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient">ServiceBusClient</a> class, use the below methods to create client
+					objects for Queues, Topics and Subscriptions to interact with existing Service Bus entities. Please
+					note that the Queues, Topics and Subscriptions should already have been created prior to using this
+				library.</p>
+				<ul>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createqueueclient-string-">createQueueClient</a><ul>
+							<li>Takes the name of an existing Service Bus Queue instance, returns a QueueClient that you can use
+							to send to and receive messages from the queue.</li>
+						</ul>
+					</li>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createtopicclient-string-">createTopicClient</a><ul>
+							<li>Takes the name of an existing Service Bus Topic instance, returns a TopicClient that you can use
+							to send messages to the topic</li>
+						</ul>
+					</li>
+					<li><a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/servicebusclient#createsubscriptionclient-string--string-">createSubscriptionClient</a><ul>
+							<li>Takes the name of existing Service Bus Topic and Subscription instances, returns a SubscriptionClient
+							that you can use to receive messages from the subscription.</li>
+						</ul>
+					</li>
+				</ul>
+				<p>Next, using the client object created in the previous step, create a sender or a receiver based on
+				whether you want to send or receive messages</p>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h3>Examples</h3>
+				</a>
+				<p>The following sections provide code snippets that cover some of the common tasks using Azure Service Bus</p>
+				<ul>
+					<li><a href="#send-messages">Send messages</a></li>
+					<li><a href="#receive-messages">Receive messages</a></li>
+					<li><a href="#settle-a-message">Settle a message</a></li>
+					<li><a href="#send-messages-using-sessions">Send messages using Sessions</a></li>
+					<li><a href="#receive-messages-using-sessions">Receive messages using Sessions</a></li>
+				</ul>
+				<a href="#send-messages" id="send-messages" style="color: inherit; text-decoration: none;">
+					<h3>Send messages</h3>
+				</a>
+				<p>Once you have created an instance of a <code>QueueClient</code> or <code>SubscriptionClient</code> class, create a sender
+					using the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient#createsender--">createSender</a>
+				function. This gives you a sender which you can use to <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-sendablemessageinfo-">send</a> messages.</p>
+				<p>You can also use the <a href="https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sender#sendbatch-sendablemessageinfo---">sendBatch</a> method to send multiple messages using a single call.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueClient = serviceBusClient.createQueueClient(<span class="hljs-string">"my-queue"</span>);
+<span class="hljs-keyword">const</span> sender = queueClient.createSender();
+<span class="hljs-keyword">await</span> sender.send({
+  <span class="hljs-attr">body</span>: <span class="hljs-string">"my-message-body"</span>
+});
+<span class="hljs-keyword">await</span> sender.sendBatch([
+  { <span class="hljs-attr">body</span>: <span class="hljs-string">"my-message-body-1"</span> },
+  { <span class="hljs-attr">body</span>: <span class="hljs-string">"my-message-body-2"</span> },
+  { <span class="hljs-attr">body</span>: <span class="hljs-string">"my-message-body-3"</span> }
+]);</code></pre>
+				<a href="#receive-messages" id="receive-messages" style="color: inherit; text-decoration: none;">
+					<h3>Receive messages</h3>
+				</a>
+				<p>Once you have created an instance of a <code>QueueClient</code> or <code>SubscriptionClient</code> class, create a receiver
+				using the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient#createreceiver-receivemode-">createReceiver</a> function.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueClient = serviceBusClient.createQueueClient(<span class="hljs-string">"my-queue"</span>);
+<span class="hljs-keyword">const</span> receiver = queueClient.createReceiver(ReceiveMode.peekLock);</code></pre>
+				<p>You can use this receiver in one of 3 ways to receive messages:</p>
+				<a href="#get-an-array-of-messages" id="get-an-array-of-messages" style="color: inherit; text-decoration: none;">
+					<h4>Get an array of messages</h4>
+				</a>
+				<p>Use the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#receivemessages-number--number-">receiveMessages</a> function which returns a promise that
+				resolves to an array of messages.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myMessages = <span class="hljs-keyword">await</span> receiver.receiveMessages(<span class="hljs-number">10</span>);</code></pre>
+				<a href="#register-message-handler" id="register-message-handler" style="color: inherit; text-decoration: none;">
+					<h4>Register message handler</h4>
+				</a>
+				<p>Use the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#registermessagehandler-onmessage--onerror--messagehandleroptions-">registerMessageHandler</a> to set up
+					message handlers and have it running as long as you
+				need. When you are done, call <code>receiver.close()</code> to stop receiving any more messages.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myMessageHandler = <span class="hljs-keyword">async</span> (message) =&gt; {
+  <span class="hljs-comment">// your code here</span>
+};
+<span class="hljs-keyword">const</span> myErrorHandler = <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(error);
+};
+receiver.registerMessageHandler(myMessageHandler, myErrorHandler);</code></pre>
+				<a href="#use-async-iterator" id="use-async-iterator" style="color: inherit; text-decoration: none;">
+					<h4>Use async iterator</h4>
+				</a>
+				<p>Use the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/receiver#getmessageiterator--">getMessageIterator</a> to get an async iterator over messages</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> message <span class="hljs-keyword">of</span> receiver.getMessageIterator()){
+  <span class="hljs-comment">// your code here</span>
+}</code></pre>
+				<a href="#settle-a-message" id="settle-a-message" style="color: inherit; text-decoration: none;">
+					<h3>Settle a message</h3>
+				</a>
+				<p>Once you receive a message you can call <code>complete()</code>, <code>abandon()</code>, <code>defer()</code> or <code>deadletter()</code> on it
+				based on how you want to settle the message. To learn more, please read <a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#settling-receive-operations">Settling Received Messages</a></p>
+				<a href="#send-messages-using-sessions" id="send-messages-using-sessions" style="color: inherit; text-decoration: none;">
+					<h3>Send messages using Sessions</h3>
+				</a>
+				<p>To send messages using sessions, you first need to create a session enabled Queue. You can do this
+					in the Azure portal. Then, use an instance of <code>QueueClient</code> to create a sender
+					using the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient#createsender--">createSender</a>
+				function. This gives you a sender which you can use to <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/sender#send-sendablemessageinfo-">send</a> messages.</p>
+				<p>When sending the message, set the <code>sessionId</code> property in the message body to ensure your message
+				lands in the right session.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueClient = serviceBusClient.createQueueClient(<span class="hljs-string">"my-session-queue"</span>);
+<span class="hljs-keyword">const</span> sender = queueClient.createSender();
+<span class="hljs-keyword">await</span> sender.send({
+  <span class="hljs-attr">body</span>: <span class="hljs-string">"my-message-body"</span>,
+  <span class="hljs-attr">sessionId</span>: <span class="hljs-string">"my-session"</span>
+});</code></pre>
+				<a href="#receive-messages-from-sessions" id="receive-messages-from-sessions" style="color: inherit; text-decoration: none;">
+					<h3>Receive messages from Sessions</h3>
+				</a>
+				<p>To receive messages from sessions, you first need to create a session enabled Queue and send messages
+					to it. Then, use an instance of <code>QueueClient</code> or <code>SubscriptionClient</code> to create a receiver
+					using the <a href="https://docs.microsoft.com/en-us/javascript/api/%40azure/service-bus/queueclient#createreceiver-receivemode--sessionreceiveroptions-">createReceiver</a> function. Note
+				that you will need to specify the session from which you want to receive messages.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueClient = serviceBusClient.createQueueClient(<span class="hljs-string">"my-session-queue"</span>);
+<span class="hljs-keyword">const</span> receiver = queueClient.createReceiver(ReceiveMode.peekLock, { <span class="hljs-attr">sessionId</span>: <span class="hljs-string">"my-session"</span> });</code></pre>
+				<p>You can use this receiver in one of 3 ways to receive messages</p>
+				<ul>
+					<li><a href="#get-an-array-of-messages">Get an array of messages</a></li>
+					<li><a href="#register-message-handler">Register message handler</a></li>
+					<li><a href="#use-async-iterator">Use async iterator</a></li>
+				</ul>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<a href="#amqp-dependencies" id="amqp-dependencies" style="color: inherit; text-decoration: none;">
+					<h2>AMQP Dependencies</h2>
+				</a>
+				<p>The Service Bus library depends on the <a href="https://github.com/amqp/rhea-promise">rhea-promise</a> library for managing connections, sending and receiving messages over the <a href="http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf">AMQP</a> protocol.</p>
+				<a href="#enable-logs" id="enable-logs" style="color: inherit; text-decoration: none;">
+					<h3>Enable logs</h3>
+				</a>
+				<p>You can set the following environment variable to get the debug logs when using this library.</p>
+				<ul>
+					<li>Getting debug logs from the Service Bus SDK</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*</code></pre>
+				<ul>
+					<li>Getting debug logs from the Service Bus SDK and the protocol level library.</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*,rhea*</code></pre>
+				<ul>
+					<li>If you are <strong>not interested in viewing the message transformation</strong> (which consumes lot of console/disk space) then you can set the <code>DEBUG</code> environment variable as follows:</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer</code></pre>
+				<ul>
+					<li>If you are interested only in <strong>errors</strong>, then you can set the <code>DEBUG</code> environment variable as follows:</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:service-bus:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow</code></pre>
+				<a href="#logging-to-a-file" id="logging-to-a-file" style="color: inherit; text-decoration: none;">
+					<h3>Logging to a file</h3>
+				</a>
+				<ul>
+					<li>Set the <code>DEBUG</code> environment variable as shown above and then run your test script as follows:<ul>
+							<li>Logging statements from your test script go to <code>out.log</code> and logging statements from the sdk go to <code>debug.log</code>.<pre><code class="language-bash">node your-test-script.js &gt; out.log 2&gt;debug.log</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code> by redirecting stderr to stdout (&amp;1), and then redirect stdout to a file:<pre><code class="language-bash">node your-test-script.js &gt;out.log 2&gt;&amp;1</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code>.<pre><code class="language-bash">  node your-test-script.js &amp;&gt; out.log</code></pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h2>Next Steps</h2>
+				</a>
+				<p>Please take a look at the <a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples">samples</a>
+					directory for detailed examples on how to use this library to send and receive messages to/from
+				<a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview">Service Bus Queues, Topics and Subscriptions</a>.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>If you&#39;d like to contribute to this library, please read the <a href="../../../CONTRIBUTING.md">contributing guide</a> to learn more about how to build and test the code.</p>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/servicebus/service-bus/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/cliententitycontext.html">Client<wbr>Entity<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/connectioncontext.html">Connection<wbr>Context</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/clienttype.html" class="tsd-kind-icon">Client<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/dispositionstatus.html" class="tsd-kind-icon">Disposition<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/dispositiontype.html" class="tsd-kind-icon">Disposition<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/receivemode.html" class="tsd-kind-icon">Receive<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/receivertype.html" class="tsd-kind-icon">Receiver<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sessioncallee.html" class="tsd-kind-icon">Session<wbr>Callee</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sessionentitytype.html" class="tsd-kind-icon">Session<wbr>Entity<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchingreceiver.html" class="tsd-kind-icon">Batching<wbr>Receiver</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/concurrentexpiringmap.html" class="tsd-kind-icon">Concurrent<wbr>Expiring<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/linkentity.html" class="tsd-kind-icon">Link<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/managementclient.html" class="tsd-kind-icon">Management<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messagereceiver.html" class="tsd-kind-icon">Message<wbr>Receiver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messagesender.html" class="tsd-kind-icon">Message<wbr>Sender</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messagesession.html" class="tsd-kind-icon">Message<wbr>Session</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/queueclient.html" class="tsd-kind-icon">Queue<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/receiver.html" class="tsd-kind-icon">Receiver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/semaphore.html" class="tsd-kind-icon">Semaphore</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sender.html" class="tsd-kind-icon">Sender</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicebusclient.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicebusmessage.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sessionmanager.html" class="tsd-kind-icon">Session<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sessionreceiver.html" class="tsd-kind-icon">Session<wbr>Receiver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/streamingreceiver.html" class="tsd-kind-icon">Streaming<wbr>Receiver</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/subscriptionclient.html" class="tsd-kind-icon">Subscription<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/topicclient.html" class="tsd-kind-icon">Topic<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/client.html" class="tsd-kind-icon">Client</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cliententitycontextbase.html" class="tsd-kind-icon">Client<wbr>Entity<wbr>Context<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cliententitycontextoptions.html" class="tsd-kind-icon">Client<wbr>Entity<wbr>Context<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/correlationfilter.html" class="tsd-kind-icon">Correlation<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createmessagesessionreceiverlinkoptions.html" class="tsd-kind-icon">Create<wbr>Message<wbr>Session<wbr>Receiver<wbr>Link<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deadletteroptions.html" class="tsd-kind-icon">Dead<wbr>Letter<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dispositionoptions.html" class="tsd-kind-icon">Disposition<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linkentityoptions.html" class="tsd-kind-icon">Link<wbr>Entity<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managementclientoptions.html" class="tsd-kind-icon">Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagehandleroptions.html" class="tsd-kind-icon">Message<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/onamqpeventaspromise.html" class="tsd-kind-icon">On<wbr>Amqp<wbr>Event<wbr>AsPromise</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/onerror.html" class="tsd-kind-icon">On<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/onmessage.html" class="tsd-kind-icon">On<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/promiselike.html" class="tsd-kind-icon">Promise<wbr>Like</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/receiveoptions.html" class="tsd-kind-icon">Receive<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/receivedmessageinfo.html" class="tsd-kind-icon">Received<wbr>Message<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ruledescription.html" class="tsd-kind-icon">Rule<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sendablemessageinfo.html" class="tsd-kind-icon">Sendable<wbr>Message<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusclientoptions.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusdeliveryannotations.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Delivery<wbr>Annotations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusmessageannotations.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Message<wbr>Annotations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sessionmanageroptions.html" class="tsd-kind-icon">Session<wbr>Manager<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sessionmessagehandleroptions.html" class="tsd-kind-icon">Session<wbr>Message<wbr>Handler<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sessionreceiveroptions.html" class="tsd-kind-icon">Session<wbr>Receiver<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagesessionoptions" class="tsd-kind-icon">Message<wbr>Session<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#batching" class="tsd-kind-icon">batching</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#connectionctxt" class="tsd-kind-icon">connection<wbr>Ctxt</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#entityctxt" class="tsd-kind-icon">entity<wbr>Ctxt</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#error" class="tsd-kind-icon">error</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#isnode" class="tsd-kind-icon">is<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#link" class="tsd-kind-icon">link</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#map" class="tsd-kind-icon">map</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#max32bitnumber" class="tsd-kind-icon">max32<wbr>Bit<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#message" class="tsd-kind-icon">message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#messagesession" class="tsd-kind-icon">message<wbr>Session</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#mgmt" class="tsd-kind-icon">mgmt</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#ns" class="tsd-kind-icon">ns</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#receiver" class="tsd-kind-icon">receiver</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#semaphore" class="tsd-kind-icon">semaphore</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sender" class="tsd-kind-icon">sender</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sessionmanager" class="tsd-kind-icon">session<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#streaming" class="tsd-kind-icon">streaming</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#utils" class="tsd-kind-icon">utils</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#calculaterenewafterduration" class="tsd-kind-icon">calculate<wbr>Renew<wbr>After<wbr>Duration</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#converttickstodate" class="tsd-kind-icon">convert<wbr>Ticks<wbr>ToDate</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getalreadyreceivingerrormsg" class="tsd-kind-icon">get<wbr>Already<wbr>Receiving<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getassociatedreceivername" class="tsd-kind-icon">get<wbr>Associated<wbr>Receiver<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getclientclosederrormsg" class="tsd-kind-icon">get<wbr>Client<wbr>Closed<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geterrormessagenotsupportedinreceiveanddeletemode" class="tsd-kind-icon">get<wbr>Error<wbr>Message<wbr>Not<wbr>Supported<wbr>InReceive<wbr>And<wbr>Delete<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getmessagepropertytypemismatcherror" class="tsd-kind-icon">get<wbr>Message<wbr>Property<wbr>Type<wbr>Mismatch<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getopenreceivererrormsg" class="tsd-kind-icon">get<wbr>Open<wbr>Receiver<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getopensendererrormsg" class="tsd-kind-icon">get<wbr>Open<wbr>Sender<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getprocessorcount" class="tsd-kind-icon">get<wbr>Processor<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getreceiverclosederrormsg" class="tsd-kind-icon">get<wbr>Receiver<wbr>Closed<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getsenderclosederrormsg" class="tsd-kind-icon">get<wbr>Sender<wbr>Closed<wbr>Error<wbr>Msg</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getuniquename" class="tsd-kind-icon">get<wbr>Unique<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#reorderlocktoken" class="tsd-kind-icon">reorder<wbr>Lock<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwerrorifclientorconnectionclosed" class="tsd-kind-icon">throw<wbr>Error<wbr>IfClient<wbr>OrConnection<wbr>Closed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwerrorifconnectionclosed" class="tsd-kind-icon">throw<wbr>Error<wbr>IfConnection<wbr>Closed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwtypeerrorifparameterisemptystring" class="tsd-kind-icon">throw<wbr>Type<wbr>Error<wbr>IfParameter<wbr>IsEmpty<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwtypeerrorifparametermissing" class="tsd-kind-icon">throw<wbr>Type<wbr>Error<wbr>IfParameter<wbr>Missing</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwtypeerrorifparameternotlong" class="tsd-kind-icon">throw<wbr>Type<wbr>Error<wbr>IfParameter<wbr>Not<wbr>Long</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwtypeerrorifparameternotlongarray" class="tsd-kind-icon">throw<wbr>Type<wbr>Error<wbr>IfParameter<wbr>Not<wbr>Long<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#throwtypeerrorifparametertypemismatch" class="tsd-kind-icon">throw<wbr>Type<wbr>Error<wbr>IfParameter<wbr>Type<wbr>Mismatch</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#toamqpmessage" class="tsd-kind-icon">to<wbr>Amqp<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tobuffer" class="tsd-kind-icon">to<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#packagejsoninfo" class="tsd-kind-icon">package<wbr>Json<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

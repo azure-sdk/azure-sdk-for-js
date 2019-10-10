@@ -1,0 +1,1295 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>MessageReceiver | @azure/service-bus</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/service-bus</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="messagereceiver.html">MessageReceiver</a>
+				</li>
+			</ul>
+			<h1>Class MessageReceiver</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>internal</dt>
+						<dd><p>Describes the MessageReceiver that will receive messages from ServiceBus.</p>
+						</dd>
+						<dt>class</dt>
+						<dd><p>MessageReceiver</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="linkentity.html" class="tsd-signature-type">LinkEntity</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">MessageReceiver</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="batchingreceiver.html" class="tsd-signature-type">BatchingReceiver</a>
+									</li>
+									<li>
+										<a href="streamingreceiver.html" class="tsd-signature-type">StreamingReceiver</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="messagereceiver.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_clearallmessagelockrenewtimers" class="tsd-kind-icon">_clear<wbr>All<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_clearmessagelockrenewtimer" class="tsd-kind-icon">_clear<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="messagereceiver.html#_context" class="tsd-kind-icon">_context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_deliverydispositionmap" class="tsd-kind-icon">_delivery<wbr>Disposition<wbr>Map</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_messagerenewlocktimers" class="tsd-kind-icon">_message<wbr>Renew<wbr>Lock<wbr>Timers</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_newmessagereceivedtimer" class="tsd-kind-icon">_new<wbr>Message<wbr>Received<wbr>Timer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onamqpclose" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Close</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onamqperror" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onamqpmessage" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onerror" class="tsd-kind-icon">_on<wbr>Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onmessage" class="tsd-kind-icon">_on<wbr>Message</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onsessionclose" class="tsd-kind-icon">_on<wbr>Session<wbr>Close</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onsessionerror" class="tsd-kind-icon">_on<wbr>Session<wbr>Error</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_onsettled" class="tsd-kind-icon">_on<wbr>Settled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_receiver" class="tsd-kind-icon">_receiver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="messagereceiver.html#_tokenrenewaltimer" class="tsd-kind-icon">_token<wbr>Renewal<wbr>Timer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="messagereceiver.html#address" class="tsd-kind-icon">address</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="messagereceiver.html#audience" class="tsd-kind-icon">audience</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#autocomplete" class="tsd-kind-icon">auto<wbr>Complete</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#autorenewlock" class="tsd-kind-icon">auto<wbr>Renew<wbr>Lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="messagereceiver.html#isconnecting" class="tsd-kind-icon">is<wbr>Connecting</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#maxautorenewdurationinseconds" class="tsd-kind-icon">max<wbr>Auto<wbr>Renew<wbr>Duration<wbr>InSeconds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#maxconcurrentcalls" class="tsd-kind-icon">max<wbr>Concurrent<wbr>Calls</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="messagereceiver.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#newmessagewaittimeoutinseconds" class="tsd-kind-icon">new<wbr>Message<wbr>Wait<wbr>Timeout<wbr>InSeconds</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#receivemode" class="tsd-kind-icon">receive<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="messagereceiver.html#receivertype" class="tsd-kind-icon">receiver<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#resettimeronnewmessagereceived" class="tsd-kind-icon">reset<wbr>Timer<wbr>OnNew<wbr>Message<wbr>Received</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#wascloseinitiated" class="tsd-kind-icon">was<wbr>Close<wbr>Initiated</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="messagereceiver.html#_closelink" class="tsd-kind-icon">_close<wbr>Link</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_createreceiveroptions" class="tsd-kind-icon">_create<wbr>Receiver<wbr>Options</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_deletefromcache" class="tsd-kind-icon">_delete<wbr>From<wbr>Cache</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="messagereceiver.html#_ensuretokenrenewal" class="tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="messagereceiver.html#_init" class="tsd-kind-icon">_init</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="messagereceiver.html#_negotiateclaim" class="tsd-kind-icon">_negotiate<wbr>Claim</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messagereceiver.html#close" class="tsd-kind-icon">close</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messagereceiver.html#isopen" class="tsd-kind-icon">is<wbr>Open</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messagereceiver.html#ondetached" class="tsd-kind-icon">on<wbr>Detached</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="messagereceiver.html#settlemessage" class="tsd-kind-icon">settle<wbr>Message</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Message<wbr>Receiver<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a>, receiverType<span class="tsd-signature-symbol">: </span><a href="../enums/receivertype.html" class="tsd-signature-type">ReceiverType</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/receiveoptions.html" class="tsd-signature-type">ReceiveOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="messagereceiver.html" class="tsd-signature-type">MessageReceiver</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L243">core/messageReceiver.ts:243</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a></h5>
+								</li>
+								<li>
+									<h5>receiverType: <a href="../enums/receivertype.html" class="tsd-signature-type">ReceiverType</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/receiveoptions.html" class="tsd-signature-type">ReceiveOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="messagereceiver.html" class="tsd-signature-type">MessageReceiver</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_clearallmessagelockrenewtimers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _clear<wbr>All<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timers</h3>
+					<div class="tsd-signature tsd-kind-icon">_clear<wbr>All<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L243">core/messageReceiver.ts:243</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Function} _clearMessageLockRenewTimer Clears the message lock renew timer for all
+								the active messages.</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_clearmessagelockrenewtimer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _clear<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timer</h3>
+					<div class="tsd-signature tsd-kind-icon">_clear<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L237">core/messageReceiver.ts:237</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
+								specific messageId.</p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>messageId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>messageId: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_context" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _context</h3>
+					<div class="tsd-signature tsd-kind-icon">_context<span class="tsd-signature-symbol">:</span> <a href="../modules/cliententitycontext.html" class="tsd-signature-type">ClientEntityContext</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_context">_context</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L77">core/linkEntity.ts:77</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{ClientEntityContext} _context Provides relevant information about the amqp connection,
+								cbs and $management sessions, token provider, sender and receivers.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_deliverydispositionmap" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _delivery<wbr>Disposition<wbr>Map</h3>
+					<div class="tsd-signature tsd-kind-icon">_delivery<wbr>Disposition<wbr>Map<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><a href="../interfaces/promiselike.html" class="tsd-signature-type">PromiseLike</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;number, PromiseLike&gt;()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L160">core/messageReceiver.ts:160</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Map&lt;number, Promise<any>&gt;} _deliveryDispositionMap Maintains a map of deliveries that
+										are being actively disposed. It acts as a store for correlating the responses received for
+								active dispositions.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_messagerenewlocktimers" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _message<wbr>Renew<wbr>Lock<wbr>Timers</h3>
+					<div class="tsd-signature tsd-kind-icon">_message<wbr>Renew<wbr>Lock<wbr>Timers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Timer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string,NodeJS.Timer | undefined&gt;()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L219">core/messageReceiver.ts:219</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Map&lt;string, Function&gt;} _messageRenewLockTimers Maintains a map of messages for which
+								the lock is automatically renewed.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_newmessagereceivedtimer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> _new<wbr>Message<wbr>Received<wbr>Timer</h3>
+					<div class="tsd-signature tsd-kind-icon">_new<wbr>Message<wbr>Received<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.Timer</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L227">core/messageReceiver.ts:227</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{NodeJS.Timer} _newMessageReceivedTimer The timer that keeps track of time since the
+								last message was received.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onamqpclose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Amqp<wbr>Close</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Amqp<wbr>Close<span class="tsd-signature-symbol">:</span> <a href="../interfaces/onamqpeventaspromise.html" class="tsd-signature-type">OnAmqpEventAsPromise</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L184">core/messageReceiver.ts:184</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
+								underlying rhea receiver for the &quot;receiver_close&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onamqperror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Amqp<wbr>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Amqp<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OnAmqpEvent</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L202">core/messageReceiver.ts:202</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
+								underlying rhea receiver for the &quot;receiver_error&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onamqpmessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Amqp<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Amqp<wbr>Message<span class="tsd-signature-symbol">:</span> <a href="../interfaces/onamqpeventaspromise.html" class="tsd-signature-type">OnAmqpEventAsPromise</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L178">core/messageReceiver.ts:178</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
+								underlying rhea receiver for the &quot;message&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> _on<wbr>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Error<span class="tsd-signature-symbol">:</span> <a href="../interfaces/onerror.html" class="tsd-signature-type">OnError</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L172">core/messageReceiver.ts:172</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnMessage} _onError The error handler provided by the user that will be wrapped
+								inside _onAmqpError.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onmessage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Message</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Message<span class="tsd-signature-symbol">:</span> <a href="../interfaces/onmessage.html" class="tsd-signature-type">OnMessage</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L166">core/messageReceiver.ts:166</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnMessage} _onMessage The message handler provided by the user that will be wrapped
+								inside _onAmqpMessage.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onsessionclose" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Session<wbr>Close</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Session<wbr>Close<span class="tsd-signature-symbol">:</span> <a href="../interfaces/onamqpeventaspromise.html" class="tsd-signature-type">OnAmqpEventAsPromise</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L196">core/messageReceiver.ts:196</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
+								the underlying rhea receiver&#39;s session for the &quot;session_close&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onsessionerror" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Session<wbr>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Session<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OnAmqpEvent</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L190">core/messageReceiver.ts:190</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
+								the underlying rhea receiver&#39;s session for the &quot;session_error&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_onsettled" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _on<wbr>Settled</h3>
+					<div class="tsd-signature tsd-kind-icon">_on<wbr>Settled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">OnAmqpEvent</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L208">core/messageReceiver.ts:208</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
+								underlying rhea receiver for the &quot;settled&quot; event.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_receiver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> _receiver</h3>
+					<div class="tsd-signature tsd-kind-icon">_receiver<span class="tsd-signature-symbol">:</span> <a href="receiver.html" class="tsd-signature-type">Receiver</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L154">core/messageReceiver.ts:154</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Receiver} [_receiver] The AMQP receiver link.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_tokenrenewaltimer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> _token<wbr>Renewal<wbr>Timer</h3>
+					<div class="tsd-signature tsd-kind-icon">_token<wbr>Renewal<wbr>Timer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeJS.Timer</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_tokenrenewaltimer">_tokenRenewalTimer</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L83">core/linkEntity.ts:83</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
+								the Client Entity is due for token renewal.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="address" class="tsd-anchor"></a>
+					<h3>address</h3>
+					<div class="tsd-signature tsd-kind-icon">address<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#address">address</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L50">core/linkEntity.ts:50</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} address The client entity address in one of the following forms:</p>
+								<p><strong>Sender</strong></p>
+								<ul>
+									<li><code>&quot;&lt;queue-name&gt;&quot;</code>.</li>
+									<li><code>&quot;&lt;topic-name&gt;&quot;</code>.</li>
+								</ul>
+								<p><strong>Receiver</strong></p>
+								<ul>
+									<li><code>&quot;&lt;queue-name&gt;&quot;</code>.</li>
+									<li><code>&quot;&lt;topic-name&gt;&quot;</code>.</li>
+								</ul>
+								<p><strong>ManagementClient</strong>
+								-<code>&quot;$management&quot;</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="audience" class="tsd-anchor"></a>
+					<h3>audience</h3>
+					<div class="tsd-signature tsd-kind-icon">audience<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#audience">audience</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L66">core/linkEntity.ts:66</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} audience The client entity token audience in one of the following forms:</p>
+								<p><strong>Sender</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;queue-name&gt;&quot;</code></li>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;topic-name&gt;&quot;</code></li>
+								</ul>
+								<p><strong>Receiver</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;queue-name&gt;&quot;</code></li>
+									<li><code>&quot;sb://&lt;yournamespace&gt;.servicebus.windows.net/&lt;topic-name&gt;&quot;</code></li>
+								</ul>
+								<p><strong>ManagementClient</strong></p>
+								<ul>
+									<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;queue-name&gt;/$management&quot;</code>.</li>
+									<li><code>&quot;sb://&lt;your-namespace&gt;.servicebus.windows.net/&lt;topic-name&gt;/$management&quot;</code>.</li>
+								</ul>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="autocomplete" class="tsd-anchor"></a>
+					<h3>auto<wbr>Complete</h3>
+					<div class="tsd-signature tsd-kind-icon">auto<wbr>Complete<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L131">core/messageReceiver.ts:131</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{boolean} autoComplete Indicates whether <code>Message.complete()</code> should be called
+									automatically after the message processing is complete while receiving messages with handlers.
+								Default: false.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="autorenewlock" class="tsd-anchor"></a>
+					<h3>auto<wbr>Renew<wbr>Lock</h3>
+					<div class="tsd-signature tsd-kind-icon">auto<wbr>Renew<wbr>Lock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L149">core/messageReceiver.ts:149</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{boolean} autoRenewLock Should lock renewal happen automatically.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="isconnecting" class="tsd-anchor"></a>
+					<h3>is<wbr>Connecting</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Connecting<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#isconnecting">isConnecting</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L71">core/linkEntity.ts:71</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{boolean} isConnecting Indicates whether the link is in the process of connecting
+								(establishing) itself. Default value: <code>false</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="maxautorenewdurationinseconds" class="tsd-anchor"></a>
+					<h3>max<wbr>Auto<wbr>Renew<wbr>Duration<wbr>InSeconds</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Auto<wbr>Renew<wbr>Duration<wbr>InSeconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L139">core/messageReceiver.ts:139</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} maxAutoRenewDurationInSeconds The maximum duration within which the
+									lock will be renewed automatically. This value should be greater than the longest message
+								lock duration; for example, the <code>lockDuration</code> property on the received message.</p>
+								<p>Default: <code>300</code> (5 minutes);</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="maxconcurrentcalls" class="tsd-anchor"></a>
+					<h3>max<wbr>Concurrent<wbr>Calls</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>Concurrent<wbr>Calls<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L120">core/messageReceiver.ts:120</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} [maxConcurrentCalls] The maximum number of messages that should be
+									processed concurrently while in streaming mode. Once this limit has been reached, more
+									messages will not be received until the user&#39;s message handler has completed processing current message.
+								Default: 1</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#name">name</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L35">core/linkEntity.ts:35</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} id The unique name for the entity in the format:
+								<code>${name of the entity}-${guid}</code>.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="newmessagewaittimeoutinseconds" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> new<wbr>Message<wbr>Wait<wbr>Timeout<wbr>InSeconds</h3>
+					<div class="tsd-signature tsd-kind-icon">new<wbr>Message<wbr>Wait<wbr>Timeout<wbr>InSeconds<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L145">core/messageReceiver.ts:145</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} [newMessageWaitTimeoutInSeconds] The maximum amount of idle time the
+									receiver will wait after a message has been received. If no messages are received by this
+								time then the receive operation will end.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="receivemode" class="tsd-anchor"></a>
+					<h3>receive<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">receive<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="../enums/receivemode.html" class="tsd-signature-type">ReceiveMode</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L125">core/messageReceiver.ts:125</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{number} [receiveMode] The mode in which messages should be received.
+								Default: ReceiveMode.peekLock</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="receivertype" class="tsd-anchor"></a>
+					<h3>receiver<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">receiver<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/receivertype.html" class="tsd-signature-type">ReceiverType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L113">core/messageReceiver.ts:113</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} receiverType The type of receiver: &quot;batching&quot; or &quot;streaming&quot;.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="resettimeronnewmessagereceived" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> reset<wbr>Timer<wbr>OnNew<wbr>Message<wbr>Received</h3>
+					<div class="tsd-signature tsd-kind-icon">reset<wbr>Timer<wbr>OnNew<wbr>Message<wbr>Received<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L231">core/messageReceiver.ts:231</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Resets the <code>_newMessageReceivedTimer</code> timer when a new message is received.</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="wascloseinitiated" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagOptional">Optional</span> was<wbr>Close<wbr>Initiated</h3>
+					<div class="tsd-signature tsd-kind-icon">was<wbr>Close<wbr>Initiated<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L213">core/messageReceiver.ts:213</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_closelink" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _close<wbr>Link</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_close<wbr>Link<span class="tsd-signature-symbol">(</span>link<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Sender</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Receiver</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_closelink">_closeLink</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L195">core/linkEntity.ts:195</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Closes the Sender|Receiver link and it&#39;s underlying session and also removes it from the
+									internal map.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> link: <span class="tsd-signature-type">Sender</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Receiver</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_createreceiveroptions" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _create<wbr>Receiver<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_create<wbr>Receiver<wbr>Options<span class="tsd-signature-symbol">(</span>useNewName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">CreateReceiverOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReceiverOptions</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L712">core/messageReceiver.ts:712</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates the options that need to be specified while creating an AMQP receiver link.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> useNewName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">CreateReceiverOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReceiverOptions</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_deletefromcache" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _delete<wbr>From<wbr>Cache</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_delete<wbr>From<wbr>Cache<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L836">core/messageReceiver.ts:836</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_ensuretokenrenewal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _ensure<wbr>Token<wbr>Renewal</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_ensuretokenrenewal">_ensureTokenRenewal</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L157">core/linkEntity.ts:157</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ensures that the token is renewed within the predefined renewal margin.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<a name="_init" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _init</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_init<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ReceiverOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L758">core/messageReceiver.ts:758</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new AMQP receiver under a new AMQP session.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">ReceiverOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="_negotiateclaim" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _negotiate<wbr>Claim</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">_negotiate<wbr>Claim<span class="tsd-signature-symbol">(</span>setTokenRenewal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="linkentity.html">LinkEntity</a>.<a href="linkentity.html#_negotiateclaim">_negotiateClaim</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/linkEntity.ts#L104">core/linkEntity.ts:104</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Negotiates the cbs claim for the ClientEntity.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> setTokenRenewal: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void></p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="close" class="tsd-anchor"></a>
+					<h3>close</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">close<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L975">core/messageReceiver.ts:975</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Closes the underlying AMQP receiver.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isopen" class="tsd-anchor"></a>
+					<h3>is<wbr>Open</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Open<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L1058">core/messageReceiver.ts:1058</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines whether the AMQP receiver link is open. If open then returns true else returns false.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>boolean</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="ondetached" class="tsd-anchor"></a>
+					<h3>on<wbr>Detached</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">on<wbr>Detached<span class="tsd-signature-symbol">(</span>receiverError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AmqpError</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L855">core/messageReceiver.ts:855</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Will reconnect the receiver link if necessary.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> receiverError: <span class="tsd-signature-type">AmqpError</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise<void>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="settlemessage" class="tsd-anchor"></a>
+					<h3>settle<wbr>Message</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">settle<wbr>Message<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="servicebusmessage.html" class="tsd-signature-type">ServiceBusMessage</a>, operation<span class="tsd-signature-symbol">: </span><a href="../enums/dispositiontype.html" class="tsd-signature-type">DispositionType</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/dispositionoptions.html" class="tsd-signature-type">DispositionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/servicebus/service-bus/src/core/messageReceiver.ts#L998">core/messageReceiver.ts:998</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Settles the message with the specified disposition.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <a href="servicebusmessage.html" class="tsd-signature-type">ServiceBusMessage</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The ServiceBus Message that needs to be settled.</p>
+									</div>
+								</li>
+								<li>
+									<h5>operation: <a href="../enums/dispositiontype.html" class="tsd-signature-type">DispositionType</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The disposition type.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/dispositionoptions.html" class="tsd-signature-type">DispositionOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional parameters that can be provided while disposing the message.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="messagereceiver.html" class="tsd-kind-icon">Message<wbr>Receiver</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="messagereceiver.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_clearallmessagelockrenewtimers" class="tsd-kind-icon">_clear<wbr>All<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_clearmessagelockrenewtimer" class="tsd-kind-icon">_clear<wbr>Message<wbr>Lock<wbr>Renew<wbr>Timer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="messagereceiver.html#_context" class="tsd-kind-icon">_context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_deliverydispositionmap" class="tsd-kind-icon">_delivery<wbr>Disposition<wbr>Map</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_messagerenewlocktimers" class="tsd-kind-icon">_message<wbr>Renew<wbr>Lock<wbr>Timers</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_newmessagereceivedtimer" class="tsd-kind-icon">_new<wbr>Message<wbr>Received<wbr>Timer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onamqpclose" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Close</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onamqperror" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onamqpmessage" class="tsd-kind-icon">_on<wbr>Amqp<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onerror" class="tsd-kind-icon">_on<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onmessage" class="tsd-kind-icon">_on<wbr>Message</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onsessionclose" class="tsd-kind-icon">_on<wbr>Session<wbr>Close</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onsessionerror" class="tsd-kind-icon">_on<wbr>Session<wbr>Error</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_onsettled" class="tsd-kind-icon">_on<wbr>Settled</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_receiver" class="tsd-kind-icon">_receiver</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="messagereceiver.html#_tokenrenewaltimer" class="tsd-kind-icon">_token<wbr>Renewal<wbr>Timer</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="messagereceiver.html#address" class="tsd-kind-icon">address</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="messagereceiver.html#audience" class="tsd-kind-icon">audience</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#autocomplete" class="tsd-kind-icon">auto<wbr>Complete</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#autorenewlock" class="tsd-kind-icon">auto<wbr>Renew<wbr>Lock</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="messagereceiver.html#isconnecting" class="tsd-kind-icon">is<wbr>Connecting</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#maxautorenewdurationinseconds" class="tsd-kind-icon">max<wbr>Auto<wbr>Renew<wbr>Duration<wbr>InSeconds</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#maxconcurrentcalls" class="tsd-kind-icon">max<wbr>Concurrent<wbr>Calls</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="messagereceiver.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#newmessagewaittimeoutinseconds" class="tsd-kind-icon">new<wbr>Message<wbr>Wait<wbr>Timeout<wbr>InSeconds</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#receivemode" class="tsd-kind-icon">receive<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="messagereceiver.html#receivertype" class="tsd-kind-icon">receiver<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#resettimeronnewmessagereceived" class="tsd-kind-icon">reset<wbr>Timer<wbr>OnNew<wbr>Message<wbr>Received</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#wascloseinitiated" class="tsd-kind-icon">was<wbr>Close<wbr>Initiated</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="messagereceiver.html#_closelink" class="tsd-kind-icon">_close<wbr>Link</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_createreceiveroptions" class="tsd-kind-icon">_create<wbr>Receiver<wbr>Options</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_deletefromcache" class="tsd-kind-icon">_delete<wbr>From<wbr>Cache</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="messagereceiver.html#_ensuretokenrenewal" class="tsd-kind-icon">_ensure<wbr>Token<wbr>Renewal</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+								<a href="messagereceiver.html#_init" class="tsd-kind-icon">_init</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="messagereceiver.html#_negotiateclaim" class="tsd-kind-icon">_negotiate<wbr>Claim</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messagereceiver.html#close" class="tsd-kind-icon">close</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messagereceiver.html#isopen" class="tsd-kind-icon">is<wbr>Open</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messagereceiver.html#ondetached" class="tsd-kind-icon">on<wbr>Detached</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="messagereceiver.html#settlemessage" class="tsd-kind-icon">settle<wbr>Message</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

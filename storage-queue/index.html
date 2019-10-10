@@ -1,0 +1,1047 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/storage-queue</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/storage-queue</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/storage-queue</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-storage-client-library-for-javascript---queue" id="azure-storage-client-library-for-javascript---queue" style="color: inherit; text-decoration: none;">
+					<h1>Azure Storage client library for JavaScript - Queue</h1>
+				</a>
+				<p>Azure Queue storage provides cloud messaging between application components. In designing applications for scale, application components are often decoupled, so that they can scale independently. Queue storage delivers asynchronous messaging for communication between application components, whether they are running in the cloud, on the desktop, on an on-premises server, or on a mobile device. Queue storage also supports managing asynchronous tasks and building process work flows.</p>
+				<p>This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Queue Storage service.</p>
+				<p>Version: 12.0.0-preview.4</p>
+				<ul>
+					<li><a href="https://www.npmjs.com/package/@azure/storage-queue/v/12.0.0-preview.4">Package (npm)</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples">Samples</a></li>
+					<li><a href="https://azure.github.io/azure-sdk-for-js/storage-queue/index.html">API Reference Documentation</a></li>
+					<li><a href="https://docs.microsoft.com/en-us/azure/storage/queues/storage-dotnet-how-to-use-queues">Product documentation</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue">Source code</a></li>
+					<li><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/queue-service-rest-api">Azure Storage Queue REST APIs</a></li>
+				</ul>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key concepts</h2>
+				</a>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h3>Features</h3>
+				</a>
+				<ul>
+					<li>Queue Storage<ul>
+							<li>Get/Set Queue Service Properties</li>
+							<li>Create/List/Delete Queues</li>
+							<li>Enqueue/Dequeue/Peek/Clear/Update/Delete Queue Messages</li>
+						</ul>
+					</li>
+					<li>Features new<ul>
+							<li>Asynchronous I/O for all operations using the async methods</li>
+							<li>HttpPipeline which enables a high degree of per-request configurability</li>
+							<li>1-to-1 correlation with the Storage REST API for clarity and simplicity</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#compatibility" id="compatibility" style="color: inherit; text-decoration: none;">
+					<h3>Compatibility</h3>
+				</a>
+				<p>This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (&gt;=8.16.0) and latest versions of Chrome, Firefox and Edge.</p>
+				<a href="#compatible-with-ie11" id="compatible-with-ie11" style="color: inherit; text-decoration: none;">
+					<h4>Compatible with IE11</h4>
+				</a>
+				<p>You need polyfills to make this library work with IE11. The easiest way is to use <a href="https://babeljs.io/docs/en/babel-polyfill">@babel/polyfill</a>, or <a href="https://polyfill.io/v2/docs/">polyfill service</a>.</p>
+				<p>You can also load separate polyfills for missed ES feature(s).
+				This library depends on following ES features which need external polyfills loaded.</p>
+				<ul>
+					<li><code>Promise</code></li>
+					<li><code>String.prototype.startsWith</code></li>
+					<li><code>String.prototype.endsWith</code></li>
+					<li><code>String.prototype.repeat</code></li>
+					<li><code>String.prototype.includes</code></li>
+					<li><code>Array.prototype.includes</code></li>
+					<li><code>Object.keys</code> (Override IE11&#39;s <code>Object.keys</code> with ES6 polyfill forcely to enable <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes">ES6 behavior</a>)</li>
+					<li><code>Symbol</code></li>
+				</ul>
+				<a href="#differences-between-nodejs-and-browsers" id="differences-between-nodejs-and-browsers" style="color: inherit; text-decoration: none;">
+					<h4>Differences between Node.js and browsers</h4>
+				</a>
+				<p>There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with <em>&quot;ONLY AVAILABLE IN NODE.JS RUNTIME&quot;</em> or <em>&quot;ONLY AVAILABLE IN BROWSERS&quot;</em>.</p>
+				<a href="#following-features-interfaces-classes-or-functions-are-only-available-in-nodejs" id="following-features-interfaces-classes-or-functions-are-only-available-in-nodejs" style="color: inherit; text-decoration: none;">
+					<h5>Following features, interfaces, classes or functions are only available in Node.js</h5>
+				</a>
+				<ul>
+					<li>Shared Key Authorization based on account name and account key<ul>
+							<li><code>SharedKeyCredential</code></li>
+						</ul>
+					</li>
+					<li>Shared Access Signature(SAS) generation<ul>
+							<li><code>generateAccountSASQueryParameters()</code></li>
+							<li><code>generateQueueSASQueryParameters()</code></li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+					<h3>NPM</h3>
+				</a>
+				<p>The preferred way to install the Azure Queue Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:</p>
+				<pre><code class="language-bash">npm install @azure/storage-queue@12.0.0-preview.4</code></pre>
+				<p>In your TypeScript or JavaScript file, import via following:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Azure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/storage-queue"</span>;</code></pre>
+				<p>Or</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> Azure = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-queue"</span>);</code></pre>
+				<a href="#javascript-bundle" id="javascript-bundle" style="color: inherit; text-decoration: none;">
+					<h3>JavaScript bundle</h3>
+				</a>
+				<p>To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://mydomain/azure-storage-queue.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<p>The JS bundled file is compatible with <a href="https://github.com/umdjs/umd">UMD</a> standard, if no module system found, following global variable(s) will be exported:</p>
+				<ul>
+					<li><code>azqueue</code></li>
+				</ul>
+				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
+					<h4>Download</h4>
+				</a>
+				<p>Download latest released JS bundles from links in the <a href="https://github.com/Azure/azure-sdk-for-js/releases">GitHub release page</a>.</p>
+				<a href="#cors" id="cors" style="color: inherit; text-decoration: none;">
+					<h3>CORS</h3>
+				</a>
+				<p>You need to set up <a href="https://docs.microsoft.com/zh-cn/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services">Cross-Origin Resource Sharing (CORS)</a> rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).</p>
+				<p>For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.</p>
+				<ul>
+					<li>Allowed origins: *</li>
+					<li>Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT</li>
+					<li>Allowed headers: *</li>
+					<li>Exposed headers: *</li>
+					<li>Maximum age (seconds): 86400</li>
+				</ul>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#import-types" id="import-types" style="color: inherit; text-decoration: none;">
+					<h3>Import types</h3>
+				</a>
+				<p>You can use the <code>const Azure = require(&quot;@azure/storage-queue&quot;);</code> shown above then use types and functions from <code>Azure</code>.
+				Or you can selectively import certain types,</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { QueueServiceClient, SharedKeyCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-queue"</span>);
+);</code></pre>
+				<a href="#create-the-queue-service-client" id="create-the-queue-service-client" style="color: inherit; text-decoration: none;">
+					<h3>Create the queue service client</h3>
+				</a>
+				<p>Use the constructor to create an instance of <code>QueueServiceClient</code>, passing in the credential, and options to configure the HTTP pipeline (optional).</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Enter your storage account name and shared key</span>
+<span class="hljs-keyword">const</span> account = <span class="hljs-string">"&lt;account&gt;"</span>;
+<span class="hljs-keyword">const</span> accountKey = <span class="hljs-string">"&lt;accountkey&gt;"</span>;
+
+<span class="hljs-comment">// Use SharedKeyCredential with storage account and account key</span>
+<span class="hljs-comment">// SharedKeyCredential is only avaiable in Node.js runtime, not in browsers</span>
+<span class="hljs-keyword">const</span> sharedKeyCredential = <span class="hljs-keyword">new</span> SharedKeyCredential(account, accountKey);
+
+<span class="hljs-keyword">const</span> queueServiceClient = <span class="hljs-keyword">new</span> QueueServiceClient(
+  <span class="hljs-string">`https://<span class="hljs-subst">${account}</span>.queue.core.windows.net`</span>,
+  sharedKeyCredential,
+  {
+    <span class="hljs-attr">retryOptions</span>: { <span class="hljs-attr">maxTries</span>: <span class="hljs-number">4</span> }, <span class="hljs-comment">// Retry options</span>
+    telemetry: { <span class="hljs-attr">value</span>: <span class="hljs-string">"BasicSample/V11.0.0"</span> } <span class="hljs-comment">// Customized telemetry string</span>
+  }
+);</code></pre>
+				<a href="#list-queues-in-this-account" id="list-queues-in-this-account" style="color: inherit; text-decoration: none;">
+					<h3>List queues in this account</h3>
+				</a>
+				<p>Use <code>QueueServiceClient.listContainers()</code> function to iterate the containers,
+				with the new <code>for-await-of</code> syntax:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> iter1 = queueServiceClient.listQueues();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> iter1) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Queue<span class="hljs-subst">${i}</span>: <span class="hljs-subst">${item.name}</span>`</span>);
+  i++;
+}</code></pre>
+				<p>Alternatively without <code>for-await-of</code>:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> iter2 = <span class="hljs-keyword">await</span> queueServiceClient.listQueues();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">let</span> item = <span class="hljs-keyword">await</span> iter2.next();
+<span class="hljs-keyword">while</span> (!item.done) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Queue <span class="hljs-subst">${i++}</span>: <span class="hljs-subst">${item.value.name}</span>`</span>);
+  item = <span class="hljs-keyword">await</span> iter2.next();
+}</code></pre>
+				<p>For a complete sample on iterating queues please see <a href="https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/iterators.ts">samples/typescript/iterators.ts</a>.</p>
+				<a href="#create-a-new-queue" id="create-a-new-queue" style="color: inherit; text-decoration: none;">
+					<h3>Create a new queue</h3>
+				</a>
+				<p>Use <code>QueueServiceClient.getQueueClient()</code> function to create a new queue.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueName = <span class="hljs-string">`newqueue<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()}</span>`</span>;
+<span class="hljs-keyword">const</span> queueClient = queueServiceClient.getQueueClient(queueName);
+<span class="hljs-keyword">const</span> createQueueResponse = <span class="hljs-keyword">await</span> queueClient.create();
+<span class="hljs-built_in">console</span>.log(
+  <span class="hljs-string">`Create queue <span class="hljs-subst">${queueName}</span> successfully, service assigned request Id: <span class="hljs-subst">${createQueueResponse.requestId}</span>`</span>
+);</code></pre>
+				<a href="#send-a-message-to-the-queue" id="send-a-message-to-the-queue" style="color: inherit; text-decoration: none;">
+					<h3>Send a message to the queue</h3>
+				</a>
+				<p>Send messages using a <code>MessageClient</code> instance which can be obtained by calling
+					<code>QueueClient.getMessagesClient()</code>. The returned response contains data about
+					the enqueued message, include a <code>messageId</code>, and a <code>popReceipt</code> that can be used
+				to update the message later.</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Enqueue a message into the queue using the enqueue method.</span>
+<span class="hljs-keyword">const</span> messagesClient = queueClient.getMessagesClient();
+<span class="hljs-keyword">const</span> enqueueQueueResponse = <span class="hljs-keyword">await</span> messagesClient.enqueue(<span class="hljs-string">"Hello World!"</span>);
+<span class="hljs-built_in">console</span>.log(
+  <span class="hljs-string">`Enqueue message successfully, service assigned message Id: <span class="hljs-subst">${enqueueQueueResponse.messageId}</span>, service assigned request Id: <span class="hljs-subst">${enqueueQueueResponse.requestId}</span>`</span>
+);</code></pre>
+				<a href="#peek-a-message" id="peek-a-message" style="color: inherit; text-decoration: none;">
+					<h3>Peek a message</h3>
+				</a>
+				<p><code>MessagesClient.peek()</code> allows looking at one or more messages in front of the queue. This call
+				doesn&#39;t prevent other code from accessing peeked messages.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> peekQueueResponse = <span class="hljs-keyword">await</span> messagesClient.peek();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The peeked message is: <span class="hljs-subst">${peekQueueResponse.peekedMessageItems[<span class="hljs-number">0</span>].messageText}</span>`</span>);</code></pre>
+				<a href="#processing-a-message" id="processing-a-message" style="color: inherit; text-decoration: none;">
+					<h3>Processing a message</h3>
+				</a>
+				<p>Messages are processed in two steps.</p>
+				<ul>
+					<li>First call <code>MessagesClient.dequeue()</code>. This makes the messages invisible to other code reading messagse from this queue for a default period of 30 seconds.</li>
+					<li>When processing of a message is done, call <code>MessagesClient.delete()</code> with the message&#39;s <code>popReceipt</code>.</li>
+				</ul>
+				<p>If your code fails to process a message due to hardware or software failure, this two-step process ensures that another instance of your code can get the same message and try again.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> dequeueResponse = <span class="hljs-keyword">await</span> messagesClient.dequeue();
+<span class="hljs-keyword">if</span> (dequeueResponse.dequeuedMessageItems.length == <span class="hljs-number">1</span>) {
+  <span class="hljs-keyword">const</span> dequeueMessageItem = dequeueResponse.dequeuedMessageItems[<span class="hljs-number">0</span>];
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Processing &amp; deleting message with content: <span class="hljs-subst">${dequeueMessageItem.messageText}</span>`</span>);
+  <span class="hljs-keyword">const</span> messageIdClient = messagesClient.getMessageIdClient(dequeueMessageItem.messageId);
+  <span class="hljs-keyword">const</span> deleteMessageResponse = <span class="hljs-keyword">await</span> messageIdClient.delete(dequeueMessageItem.popReceipt);
+  <span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">`Delete message succesfully, service assigned request Id: <span class="hljs-subst">${deleteMessageResponse.requestId}</span>`</span>
+  );
+}</code></pre>
+				<a href="#delete-a-queue" id="delete-a-queue" style="color: inherit; text-decoration: none;">
+					<h3>Delete a queue</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> deleteQueueResponse = <span class="hljs-keyword">await</span> queueClient.delete();
+<span class="hljs-built_in">console</span>.log(
+  <span class="hljs-string">`Delete queue successfully, service assigned request Id: <span class="hljs-subst">${deleteQueueResponse.requestId}</span>`</span>
+);</code></pre>
+				<p>A complete example of basic scenarios is at <a href="https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/basic.ts">samples/basic.ts</a>.</p>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<p>It could help diagnozing issues by turning on the console logging. Here&#39;s an example logger implementation. First, add a custom logger:</p>
+				<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsoleHttpPipelineLogger</span> </span>{
+  <span class="hljs-keyword">constructor</span>(minimumLogLevel) {
+    <span class="hljs-keyword">this</span>.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    <span class="hljs-keyword">const</span> logMessage = <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toISOString()}</span> <span class="hljs-subst">${HttpPipelineLogLevel[logLevel]}</span>: <span class="hljs-subst">${message}</span>`</span>;
+    <span class="hljs-keyword">switch</span> (logLevel) {
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.ERROR:
+        <span class="hljs-built_in">console</span>.error(logMessage);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.WARNING:
+        <span class="hljs-built_in">console</span>.warn(logMessage);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.INFO:
+        <span class="hljs-built_in">console</span>.log(logMessage);
+        <span class="hljs-keyword">break</span>;
+    }
+  }
+}</code></pre>
+				<p>Then when creating the <code>QueueServiceClient</code> instance, pass the logger in the options</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> queueServiceClient = <span class="hljs-keyword">new</span> QueueServiceClient(
+  <span class="hljs-string">`https://<span class="hljs-subst">${account}</span>.queue.core.windows.net`</span>,
+  sharedKeyCredential,
+  {
+    <span class="hljs-attr">logger</span>: <span class="hljs-keyword">new</span> ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);</code></pre>
+				<a href="#authenticating-with-azure-active-directory" id="authenticating-with-azure-active-directory" style="color: inherit; text-decoration: none;">
+					<h2>Authenticating with Azure Active Directory</h2>
+				</a>
+				<p>If you have <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app">registered an application</a> with an Azure Active Directory tenant, you can <a href="https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad">assign it to an RBAC role</a> in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the <a href="https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-queue/samples/typescript/azureAdAuth.ts">azureAdAuth.ts sample</a>.</p>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h2>Next steps</h2>
+				</a>
+				<p>More code samples</p>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/samples">Queue Storage Examples</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-queue/test">Queue Storage Examples - Test Cases</a></li>
+				</ul>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a
+					Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+				the rights to use your contribution. For details, visit <a href="https://cla.microsoft.com.">https://cla.microsoft.com.</a></p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+					a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+				provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+				contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/retrypolicytype.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sasprotocol.html" class="tsd-kind-icon">SASProtocol</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsaspermissions.html" class="tsd-kind-icon">AccountSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasresourcetypes.html" class="tsd-kind-icon">AccountSASResource<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasservices.html" class="tsd-kind-icon">AccountSASServices</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredential.html" class="tsd-kind-icon">Anonymous<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredentialpolicy.html" class="tsd-kind-icon">Anonymous<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicy.html" class="tsd-kind-icon">Browser<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicyfactory.html" class="tsd-kind-icon">Browser<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credential.html" class="tsd-kind-icon">Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credentialpolicy.html" class="tsd-kind-icon">Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicy.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicyfactory.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicy.html" class="tsd-kind-icon">Logging<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicyfactory.html" class="tsd-kind-icon">Logging<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messageidclient.html" class="tsd-kind-icon">Message<wbr>IdClient</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messagesclient.html" class="tsd-kind-icon">Messages<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pipeline.html" class="tsd-kind-icon">Pipeline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/queueclient.html" class="tsd-kind-icon">Queue<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/queuesaspermissions.html" class="tsd-kind-icon">QueueSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/queueserviceclient.html" class="tsd-kind-icon">Queue<wbr>Service<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicy.html" class="tsd-kind-icon">Retry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicyfactory.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sasqueryparameters.html" class="tsd-kind-icon">SASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredential.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredentialpolicy.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageclient.html" class="tsd-kind-icon">Storage<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageclientcontext.html" class="tsd-kind-icon">Storage<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicy.html" class="tsd-kind-icon">Telemetry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicyfactory.html" class="tsd-kind-icon">Telemetry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicy.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicyfactory.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accesspolicy.html" class="tsd-kind-icon">Access<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountsassignaturevalues.html" class="tsd-kind-icon">AccountSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commonoptions.html" class="tsd-kind-icon">Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionstring.html" class="tsd-kind-icon">Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/corsrule.html" class="tsd-kind-icon">Cors<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dequeuedmessageitem.html" class="tsd-kind-icon">Dequeued<wbr>Message<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enqueuedmessage.html" class="tsd-kind-icon">Enqueued<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/georeplication.html" class="tsd-kind-icon">Geo<wbr>Replication</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iprange.html" class="tsd-kind-icon">IPRange</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keepaliveoptions.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listqueuessegmentresponse.html" class="tsd-kind-icon">List<wbr>Queues<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logging.html" class="tsd-kind-icon">Logging</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageiddeleteheaders.html" class="tsd-kind-icon">Message<wbr>IdDelete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageiddeletemethodoptionalparams.html" class="tsd-kind-icon">Message<wbr>IdDelete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageiddeleteoptions.html" class="tsd-kind-icon">Message<wbr>IdDelete<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageidupdateheaders.html" class="tsd-kind-icon">Message<wbr>IdUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageidupdateoptionalparams.html" class="tsd-kind-icon">Message<wbr>IdUpdate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messageidupdateoptions.html" class="tsd-kind-icon">Message<wbr>IdUpdate<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesclearheaders.html" class="tsd-kind-icon">Messages<wbr>Clear<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesclearoptionalparams.html" class="tsd-kind-icon">Messages<wbr>Clear<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesclearoptions.html" class="tsd-kind-icon">Messages<wbr>Clear<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesdequeueheaders.html" class="tsd-kind-icon">Messages<wbr>Dequeue<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesdequeueoptionalparams.html" class="tsd-kind-icon">Messages<wbr>Dequeue<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesdequeueoptions.html" class="tsd-kind-icon">Messages<wbr>Dequeue<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesenqueueheaders.html" class="tsd-kind-icon">Messages<wbr>Enqueue<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesenqueueoptionalparams.html" class="tsd-kind-icon">Messages<wbr>Enqueue<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagesenqueueoptions.html" class="tsd-kind-icon">Messages<wbr>Enqueue<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagespeekheaders.html" class="tsd-kind-icon">Messages<wbr>Peek<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagespeekoptionalparams.html" class="tsd-kind-icon">Messages<wbr>Peek<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/messagespeekoptions.html" class="tsd-kind-icon">Messages<wbr>Peek<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metadata.html" class="tsd-kind-icon">Metadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metrics.html" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/newpipelineoptions.html" class="tsd-kind-icon">New<wbr>Pipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/peekedmessageitem.html" class="tsd-kind-icon">Peeked<wbr>Message<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelineoptions.html" class="tsd-kind-icon">Pipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuecreateheaders.html" class="tsd-kind-icon">Queue<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuecreateoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuecreateoptions.html" class="tsd-kind-icon">Queue<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuedeleteheaders.html" class="tsd-kind-icon">Queue<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuedeletemethodoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuedeleteoptions.html" class="tsd-kind-icon">Queue<wbr>Delete<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetaccesspolicyheaders.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetaccesspolicyoptions.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetpropertiesheaders.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetpropertiesoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuegetpropertiesoptions.html" class="tsd-kind-icon">Queue<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queueitem.html" class="tsd-kind-icon">Queue<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuemessage.html" class="tsd-kind-icon">Queue<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesassignaturevalues.html" class="tsd-kind-icon">QueueSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queueserviceproperties.html" class="tsd-kind-icon">Queue<wbr>Service<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queueservicestatistics.html" class="tsd-kind-icon">Queue<wbr>Service<wbr>Statistics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetaccesspolicyheaders.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetaccesspolicyoptions.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetmetadataheaders.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetmetadataoptionalparams.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queuesetmetadataoptions.html" class="tsd-kind-icon">Queue<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/requestlogoptions.html" class="tsd-kind-icon">Request<wbr>Log<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionpolicy.html" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retryoptions.html" class="tsd-kind-icon">Retry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesheaders.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesoptions.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetstatisticsheaders.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetstatisticsoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetstatisticsoptions.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistqueuesoptions.html" class="tsd-kind-icon">Service<wbr>List<wbr>Queues<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistqueuessegmentheaders.html" class="tsd-kind-icon">Service<wbr>List<wbr>Queues<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistqueuessegmentoptionalparams.html" class="tsd-kind-icon">Service<wbr>List<wbr>Queues<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesheaders.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesoptions.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/signedidentifier.html" class="tsd-kind-icon">Signed<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageerror.html" class="tsd-kind-icon">Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/telemetryoptions.html" class="tsd-kind-icon">Telemetry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#credentialpolicycreator" class="tsd-kind-icon">Credential<wbr>Policy<wbr>Creator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#georeplicationstatustype" class="tsd-kind-icon">Geo<wbr>Replication<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listqueuesincludetype" class="tsd-kind-icon">List<wbr>Queues<wbr>Include<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messageiddeleteresponse" class="tsd-kind-icon">Message<wbr>IdDelete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messageidupdateresponse" class="tsd-kind-icon">Message<wbr>IdUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagesclearresponse" class="tsd-kind-icon">Messages<wbr>Clear<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagesdequeueresponse" class="tsd-kind-icon">Messages<wbr>Dequeue<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagesenqueueresponse" class="tsd-kind-icon">Messages<wbr>Enqueue<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#messagespeekresponse" class="tsd-kind-icon">Messages<wbr>Peek<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuecreateresponse" class="tsd-kind-icon">Queue<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuedeleteresponse" class="tsd-kind-icon">Queue<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuegetaccesspolicyresponse" class="tsd-kind-icon">Queue<wbr>Get<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuegetpropertiesresponse" class="tsd-kind-icon">Queue<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuesetaccesspolicyresponse" class="tsd-kind-icon">Queue<wbr>Set<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#queuesetmetadataresponse" class="tsd-kind-icon">Queue<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetstatisticsresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicelistqueuessegmentresponse" class="tsd-kind-icon">Service<wbr>List<wbr>Queues<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicesetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageerrorcode" class="tsd-kind-icon">Storage<wbr>Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#developmentconnectionstring" class="tsd-kind-icon">Development<wbr>Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagany" class="tsd-kind-icon">ETag<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagnone" class="tsd-kind-icon">ETag<wbr>None</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sdk_version" class="tsd-kind-icon">SDK_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#service_version" class="tsd-kind-icon">SERVICE_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#storageoauthscopes" class="tsd-kind-icon">StorageOAuth<wbr>Scopes</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newretrypolicyfactory" class="tsd-kind-icon">New<wbr>Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#appendtourlpath" class="tsd-kind-icon">append<wbr>ToURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createspan" class="tsd-kind-icon">create<wbr>Span</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#extractconnectionstringparts" class="tsd-kind-icon">extract<wbr>Connection<wbr>String<wbr>Parts</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generateaccountsasqueryparameters" class="tsd-kind-icon">generate<wbr>AccountSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generatequeuesasqueryparameters" class="tsd-kind-icon">generate<wbr>QueueSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getaccountnamefromurl" class="tsd-kind-icon">get<wbr>Account<wbr>Name<wbr>From<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlparameter" class="tsd-kind-icon">getURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlpath" class="tsd-kind-icon">getURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlqueries" class="tsd-kind-icon">getURLQueries</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iprangetostring" class="tsd-kind-icon">ip<wbr>Range<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newpipeline" class="tsd-kind-icon">new<wbr>Pipeline</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#padstart" class="tsd-kind-icon">pad<wbr>Start</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sanitizeheaders" class="tsd-kind-icon">sanitize<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sanitizeurl" class="tsd-kind-icon">sanitizeURL</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlhost" class="tsd-kind-icon">setURLHost</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlparameter" class="tsd-kind-icon">setURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#truncatediso8061date" class="tsd-kind-icon">truncatedISO8061<wbr>Date</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accesspolicy" class="tsd-kind-icon">Access<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#corsrule" class="tsd-kind-icon">Cors<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dequeuedmessageitem" class="tsd-kind-icon">Dequeued<wbr>Message<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enqueuedmessage" class="tsd-kind-icon">Enqueued<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#georeplication" class="tsd-kind-icon">Geo<wbr>Replication</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httpurlconnection" class="tsd-kind-icon">HTTPURLConnection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#headerconstants" class="tsd-kind-icon">Header<wbr>Constants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listqueuessegmentresponse" class="tsd-kind-icon">List<wbr>Queues<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logging" class="tsd-kind-icon">Logging</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messageiddeleteheaders" class="tsd-kind-icon">Message<wbr>IdDelete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messageidupdateheaders" class="tsd-kind-icon">Message<wbr>IdUpdate<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagesclearheaders" class="tsd-kind-icon">Messages<wbr>Clear<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagesdequeueheaders" class="tsd-kind-icon">Messages<wbr>Dequeue<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagesenqueueheaders" class="tsd-kind-icon">Messages<wbr>Enqueue<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagespeekheaders" class="tsd-kind-icon">Messages<wbr>Peek<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metrics" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#peekedmessageitem" class="tsd-kind-icon">Peeked<wbr>Message<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuecreateheaders" class="tsd-kind-icon">Queue<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuedeleteheaders" class="tsd-kind-icon">Queue<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuegetaccesspolicyheaders" class="tsd-kind-icon">Queue<wbr>Get<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuegetpropertiesheaders" class="tsd-kind-icon">Queue<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queueitem" class="tsd-kind-icon">Queue<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuemessage" class="tsd-kind-icon">Queue<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queueserviceproperties" class="tsd-kind-icon">Queue<wbr>Service<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queueservicestatistics" class="tsd-kind-icon">Queue<wbr>Service<wbr>Statistics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuesetaccesspolicyheaders" class="tsd-kind-icon">Queue<wbr>Set<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queuesetmetadataheaders" class="tsd-kind-icon">Queue<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionpolicy" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetstatisticsheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Statistics<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicelistqueuessegmentheaders" class="tsd-kind-icon">Service<wbr>List<wbr>Queues<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicesetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#signedidentifier" class="tsd-kind-icon">Signed<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageerror" class="tsd-kind-icon">Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#urlconstants" class="tsd-kind-icon">URLConstants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp0" class="tsd-kind-icon">comp0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp1" class="tsd-kind-icon">comp1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp2" class="tsd-kind-icon">comp2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp3" class="tsd-kind-icon">comp3</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp4" class="tsd-kind-icon">comp4</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#include" class="tsd-kind-icon">include</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marker" class="tsd-kind-icon">marker</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maxresults" class="tsd-kind-icon">maxresults</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#messagetimetolive" class="tsd-kind-icon">message<wbr>Time<wbr>ToLive</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadata" class="tsd-kind-icon">metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#numberofmessages" class="tsd-kind-icon">number<wbr>OfMessages</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#peekonly" class="tsd-kind-icon">peekonly</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#popreceipt" class="tsd-kind-icon">pop<wbr>Receipt</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prefix" class="tsd-kind-icon">prefix</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#requestid" class="tsd-kind-icon">request<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype" class="tsd-kind-icon">restype</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timeout" class="tsd-kind-icon">timeout</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#url" class="tsd-kind-icon">url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#version" class="tsd-kind-icon">version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#visibilitytimeout0" class="tsd-kind-icon">visibilitytimeout0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#visibilitytimeout1" class="tsd-kind-icon">visibilitytimeout1</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

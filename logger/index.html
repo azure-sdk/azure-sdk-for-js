@@ -1,0 +1,241 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/logger</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/logger</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/logger</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-logger-library-for-js" id="azure-logger-library-for-js" style="color: inherit; text-decoration: none;">
+					<h1>Azure Logger library for JS</h1>
+				</a>
+				<p>The <code>@azure/logger</code> package can be used to enable logging in the Azure SDKs for JavaScript.</p>
+				<p>Logging can be enabled for the Azure SDK in the following ways:</p>
+				<ul>
+					<li>Setting the AZURE_LOG_LEVEL environment variable</li>
+					<li>Calling setLogLevel imported from &quot;@azure/logger&quot;</li>
+					<li>Calling enable() on specific loggers</li>
+					<li>Using the <code>DEBUG</code> environment variable.</li>
+				</ul>
+				<p>Note that AZURE_LOG_LEVEL, if set, takes precedence over DEBUG. Only use DEBUG without specifying AZURE_LOG_LEVEL or calling setLogLevel.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h3>Installation</h3>
+				</a>
+				<p>Install this libray using npm as follows</p>
+				<pre><code><span class="hljs-built_in">npm</span> install @azure/logger</code></pre>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key Concepts</h2>
+				</a>
+				<p>The <code>@azure/logger</code> package supports the following log levels
+				specified in order of most verbose to least verbose:</p>
+				<ul>
+					<li>verbose</li>
+					<li>info</li>
+					<li>warning</li>
+					<li>error</li>
+				</ul>
+				<p>When setting a log level, either programmitcally or via the <code>AZURE_LOG_LEVEL</code> environment variable,
+					any logs that are written using a log level equal to or less than the one you choose
+				will be emitted.</p>
+				<p>For example, setting the log level to <code>warning</code> will cause all logs that have the log
+				level <code>warning</code> or <code>error</code> to be emitted.</p>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#example-1---basic-usage" id="example-1---basic-usage" style="color: inherit; text-decoration: none;">
+					<h3>Example 1 - basic usage</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { EventHubClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@azure/event-hubs'</span>);
+
+<span class="hljs-keyword">const</span> logger = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@azure/logger'</span>);
+logger.setLogLevel(<span class="hljs-string">'info'</span>);
+
+<span class="hljs-comment">// operations will now emit info, warning, and error logs</span>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> EventHubClient(<span class="hljs-comment">/* params */</span>);
+client.getPartitionIds()
+  .then(<span class="hljs-function"><span class="hljs-params">ids</span> =&gt;</span> { <span class="hljs-comment">/* do work */</span> })
+  .catch(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> { <span class="hljs-comment">/* do work */</span> });
+});</code></pre>
+				<a href="#example-2---redirect-log-ouput" id="example-2---redirect-log-ouput" style="color: inherit; text-decoration: none;">
+					<h3>Example 2 - redirect log ouput</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { AzureLogger, setLogLevel } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@azure/logger'</span>);
+
+setLogLevel(<span class="hljs-string">"verbose"</span>);
+
+<span class="hljs-comment">// override logging to output to console.log (default location is stderr)</span>
+AzureLogger.log = <span class="hljs-function">(<span class="hljs-params">...args</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(...args);
+};</code></pre>
+				<p>Using <code>AzureLogger</code>, it is possible to redirect the logging output from the Azure SDKs by
+					overriding the <code>AzureLogger.log</code> method. This may be useful if you want to redirect logs to
+				a location other than stderr.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor
+					License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your
+				contribution. For details, visit <a href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and
+					decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot.
+				You will only need to do this once across all repos using our CLA.</p>
+				<p>If you&#39;d like to contribute to this library, please read the <a href="../../../CONTRIBUTING.md">contributing guide</a> to learn more about how to build and test the code.</p>
+				<p>This project has adopted the Microsoft Open Source Code of Conduct.
+					For more information see the Code of Conduct FAQ or contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional
+				questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureloglevel" class="tsd-kind-icon">Azure<wbr>Log<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#azurelogger" class="tsd-kind-icon">Azure<wbr>Logger</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getloglevel" class="tsd-kind-icon">get<wbr>Log<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#setloglevel" class="tsd-kind-icon">set<wbr>Log<wbr>Level</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

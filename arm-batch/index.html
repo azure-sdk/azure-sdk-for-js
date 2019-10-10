@@ -1,0 +1,957 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-batch</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-batch</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-batch</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-batchmanagementclient-sdk-for-javascript" id="azure-batchmanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure BatchManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for BatchManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">arm</span>-<span class="hljs-keyword">batch</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-batchaccount-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-batchaccount-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get batchAccount as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { BatchManagementClient, BatchManagementModels, BatchManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-batch"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> BatchManagementClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+  client.batchAccount.get(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-batchaccount-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-batchaccount-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get batchAccount as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-batch sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-batch/dist/arm-batch.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmBatch.BatchManagementClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+      client.batchAccount.get(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/batch/arm-batch/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/applicationoperations.html" class="tsd-kind-icon">Application<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/applicationpackageoperations.html" class="tsd-kind-icon">Application<wbr>Package<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchaccountoperations.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batchmanagementclientcontext.html" class="tsd-kind-icon">Batch<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/certificateoperations.html" class="tsd-kind-icon">Certificate<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pooloperations.html" class="tsd-kind-icon">Pool<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/activateapplicationpackageparameters.html" class="tsd-kind-icon">Activate<wbr>Application<wbr>Package<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/application.html" class="tsd-kind-icon">Application</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationcreateoptionalparams.html" class="tsd-kind-icon">Application<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationcreateparameters.html" class="tsd-kind-icon">Application<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationlistoptionalparams.html" class="tsd-kind-icon">Application<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationpackage.html" class="tsd-kind-icon">Application<wbr>Package</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationpackagereference.html" class="tsd-kind-icon">Application<wbr>Package<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationupdateparameters.html" class="tsd-kind-icon">Application<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscalerun.html" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscalerunerror.html" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Run<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscalesettings.html" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autostoragebaseproperties.html" class="tsd-kind-icon">Auto<wbr>Storage<wbr>Base<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autostorageproperties.html" class="tsd-kind-icon">Auto<wbr>Storage<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autouserspecification.html" class="tsd-kind-icon">Auto<wbr>User<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccount.html" class="tsd-kind-icon">Batch<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountcreateheaders.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountcreateparameters.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountdeleteheaders.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountkeys.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountlistresult.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountregeneratekeyparameters.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchaccountupdateparameters.html" class="tsd-kind-icon">Batch<wbr>Account<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchlocationquota.html" class="tsd-kind-icon">Batch<wbr>Location<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchmanagementclientoptions.html" class="tsd-kind-icon">Batch<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificate.html" class="tsd-kind-icon">Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatebaseproperties.html" class="tsd-kind-icon">Certificate<wbr>Base<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatebegincreateoptionalparams.html" class="tsd-kind-icon">Certificate<wbr>Begin<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatecanceldeletionheaders.html" class="tsd-kind-icon">Certificate<wbr>Cancel<wbr>Deletion<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatecreateheaders.html" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatecreateoptionalparams.html" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatecreateorupdateparameters.html" class="tsd-kind-icon">Certificate<wbr>Create<wbr>OrUpdate<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatedeleteheaders.html" class="tsd-kind-icon">Certificate<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificategetheaders.html" class="tsd-kind-icon">Certificate<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatelistbybatchaccountoptionalparams.html" class="tsd-kind-icon">Certificate<wbr>List<wbr>ByBatch<wbr>Account<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificatereference.html" class="tsd-kind-icon">Certificate<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificateupdateheaders.html" class="tsd-kind-icon">Certificate<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/certificateupdateoptionalparams.html" class="tsd-kind-icon">Certificate<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checknameavailabilityparameters.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checknameavailabilityresult.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cloudserviceconfiguration.html" class="tsd-kind-icon">Cloud<wbr>Service<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadisk.html" class="tsd-kind-icon">Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deletecertificateerror.html" class="tsd-kind-icon">Delete<wbr>Certificate<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deploymentconfiguration.html" class="tsd-kind-icon">Deployment<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentsetting.html" class="tsd-kind-icon">Environment<wbr>Setting</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fixedscalesettings.html" class="tsd-kind-icon">Fixed<wbr>Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagereference.html" class="tsd-kind-icon">Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatpool.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultreference.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linuxuserconfiguration.html" class="tsd-kind-icon">Linux<wbr>User<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listapplicationsresult.html" class="tsd-kind-icon">List<wbr>Applications<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listcertificatesresult.html" class="tsd-kind-icon">List<wbr>Certificates<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listpoolsresult.html" class="tsd-kind-icon">List<wbr>Pools<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metadataitem.html" class="tsd-kind-icon">Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkconfiguration.html" class="tsd-kind-icon">Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networksecuritygrouprule.html" class="tsd-kind-icon">Network<wbr>Security<wbr>Group<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osdisk.html" class="tsd-kind-icon">OSDisk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pool.html" class="tsd-kind-icon">Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolbegincreateoptionalparams.html" class="tsd-kind-icon">Pool<wbr>Begin<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolcreateheaders.html" class="tsd-kind-icon">Pool<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolcreateoptionalparams.html" class="tsd-kind-icon">Pool<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pooldeleteheaders.html" class="tsd-kind-icon">Pool<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pooldisableautoscaleheaders.html" class="tsd-kind-icon">Pool<wbr>Disable<wbr>Auto<wbr>Scale<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolendpointconfiguration.html" class="tsd-kind-icon">Pool<wbr>Endpoint<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolgetheaders.html" class="tsd-kind-icon">Pool<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poollistbybatchaccountoptionalparams.html" class="tsd-kind-icon">Pool<wbr>List<wbr>ByBatch<wbr>Account<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolstopresizeheaders.html" class="tsd-kind-icon">Pool<wbr>Stop<wbr>Resize<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolupdateheaders.html" class="tsd-kind-icon">Pool<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolupdateoptionalparams.html" class="tsd-kind-icon">Pool<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/proxyresource.html" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resizeerror.html" class="tsd-kind-icon">Resize<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resizeoperationstatus.html" class="tsd-kind-icon">Resize<wbr>Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcefile.html" class="tsd-kind-icon">Resource<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scalesettings.html" class="tsd-kind-icon">Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/starttask.html" class="tsd-kind-icon">Start<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskschedulingpolicy.html" class="tsd-kind-icon">Task<wbr>Scheduling<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useraccount.html" class="tsd-kind-icon">User<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useridentity.html" class="tsd-kind-icon">User<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/windowsconfiguration.html" class="tsd-kind-icon">Windows<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accountkeytype" class="tsd-kind-icon">Account<wbr>Key<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#allocationstate" class="tsd-kind-icon">Allocation<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationcreateresponse" class="tsd-kind-icon">Application<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationgetresponse" class="tsd-kind-icon">Application<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationlistnextresponse" class="tsd-kind-icon">Application<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationlistresponse" class="tsd-kind-icon">Application<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationpackagecreateresponse" class="tsd-kind-icon">Application<wbr>Package<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationpackagegetresponse" class="tsd-kind-icon">Application<wbr>Package<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#autouserscope" class="tsd-kind-icon">Auto<wbr>User<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountcreateresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountdeleteresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountgetkeysresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Get<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountgetresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountlistbyresourcegroupnextresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountlistbyresourcegroupresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountlistnextresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountlistresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountregeneratekeyresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Regenerate<wbr>Key<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchaccountupdateresponse" class="tsd-kind-icon">Batch<wbr>Account<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cachingtype" class="tsd-kind-icon">Caching<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatecanceldeletionresponse" class="tsd-kind-icon">Certificate<wbr>Cancel<wbr>Deletion<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatecreateresponse" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatedeleteresponse" class="tsd-kind-icon">Certificate<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificateformat" class="tsd-kind-icon">Certificate<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificategetresponse" class="tsd-kind-icon">Certificate<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatelistbybatchaccountnextresponse" class="tsd-kind-icon">Certificate<wbr>List<wbr>ByBatch<wbr>Account<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatelistbybatchaccountresponse" class="tsd-kind-icon">Certificate<wbr>List<wbr>ByBatch<wbr>Account<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificateprovisioningstate" class="tsd-kind-icon">Certificate<wbr>Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatestorelocation" class="tsd-kind-icon">Certificate<wbr>Store<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificateupdateresponse" class="tsd-kind-icon">Certificate<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#certificatevisibility" class="tsd-kind-icon">Certificate<wbr>Visibility</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#computenodedeallocationoption" class="tsd-kind-icon">Compute<wbr>Node<wbr>Deallocation<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#computenodefilltype" class="tsd-kind-icon">Compute<wbr>Node<wbr>Fill<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#elevationlevel" class="tsd-kind-icon">Elevation<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inboundendpointprotocol" class="tsd-kind-icon">Inbound<wbr>Endpoint<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#internodecommunicationstate" class="tsd-kind-icon">Inter<wbr>Node<wbr>Communication<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationchecknameavailabilityresponse" class="tsd-kind-icon">Location<wbr>Check<wbr>Name<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationgetquotasresponse" class="tsd-kind-icon">Location<wbr>Get<wbr>Quotas<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#nameavailabilityreason" class="tsd-kind-icon">Name<wbr>Availability<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networksecuritygroupruleaccess" class="tsd-kind-icon">Network<wbr>Security<wbr>Group<wbr>Rule<wbr>Access</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#packagestate" class="tsd-kind-icon">Package<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolallocationmode" class="tsd-kind-icon">Pool<wbr>Allocation<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolcreateresponse" class="tsd-kind-icon">Pool<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pooldeleteresponse" class="tsd-kind-icon">Pool<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#pooldisableautoscaleresponse" class="tsd-kind-icon">Pool<wbr>Disable<wbr>Auto<wbr>Scale<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolgetresponse" class="tsd-kind-icon">Pool<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poollistbybatchaccountnextresponse" class="tsd-kind-icon">Pool<wbr>List<wbr>ByBatch<wbr>Account<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poollistbybatchaccountresponse" class="tsd-kind-icon">Pool<wbr>List<wbr>ByBatch<wbr>Account<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolprovisioningstate" class="tsd-kind-icon">Pool<wbr>Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolstopresizeresponse" class="tsd-kind-icon">Pool<wbr>Stop<wbr>Resize<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#poolupdateresponse" class="tsd-kind-icon">Pool<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#provisioningstate" class="tsd-kind-icon">Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageaccounttype" class="tsd-kind-icon">Storage<wbr>Account<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#activateapplicationpackageparameters" class="tsd-kind-icon">Activate<wbr>Application<wbr>Package<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#application" class="tsd-kind-icon">Application</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationcreateparameters" class="tsd-kind-icon">Application<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationpackage" class="tsd-kind-icon">Application<wbr>Package</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationpackagereference" class="tsd-kind-icon">Application<wbr>Package<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationupdateparameters" class="tsd-kind-icon">Application<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscalerun" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Run</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscalerunerror" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Run<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscalesettings" class="tsd-kind-icon">Auto<wbr>Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autostoragebaseproperties" class="tsd-kind-icon">Auto<wbr>Storage<wbr>Base<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autostorageproperties" class="tsd-kind-icon">Auto<wbr>Storage<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autouserspecification" class="tsd-kind-icon">Auto<wbr>User<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccount" class="tsd-kind-icon">Batch<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountcreateheaders" class="tsd-kind-icon">Batch<wbr>Account<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountcreateparameters" class="tsd-kind-icon">Batch<wbr>Account<wbr>Create<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountdeleteheaders" class="tsd-kind-icon">Batch<wbr>Account<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountkeys" class="tsd-kind-icon">Batch<wbr>Account<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountlistresult" class="tsd-kind-icon">Batch<wbr>Account<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountregeneratekeyparameters" class="tsd-kind-icon">Batch<wbr>Account<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchaccountupdateparameters" class="tsd-kind-icon">Batch<wbr>Account<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchlocationquota" class="tsd-kind-icon">Batch<wbr>Location<wbr>Quota</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificate" class="tsd-kind-icon">Certificate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatebaseproperties" class="tsd-kind-icon">Certificate<wbr>Base<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatecanceldeletionheaders" class="tsd-kind-icon">Certificate<wbr>Cancel<wbr>Deletion<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatecreateheaders" class="tsd-kind-icon">Certificate<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatecreateorupdateparameters" class="tsd-kind-icon">Certificate<wbr>Create<wbr>OrUpdate<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatedeleteheaders" class="tsd-kind-icon">Certificate<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificategetheaders" class="tsd-kind-icon">Certificate<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatereference" class="tsd-kind-icon">Certificate<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificateupdateheaders" class="tsd-kind-icon">Certificate<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#checknameavailabilityparameters" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#checknameavailabilityresult" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cloudserviceconfiguration" class="tsd-kind-icon">Cloud<wbr>Service<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadisk" class="tsd-kind-icon">Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deletecertificateerror" class="tsd-kind-icon">Delete<wbr>Certificate<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deploymentconfiguration" class="tsd-kind-icon">Deployment<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#environmentsetting" class="tsd-kind-icon">Environment<wbr>Setting</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fixedscalesettings" class="tsd-kind-icon">Fixed<wbr>Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagereference" class="tsd-kind-icon">Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatpool" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultreference" class="tsd-kind-icon">Key<wbr>Vault<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linuxuserconfiguration" class="tsd-kind-icon">Linux<wbr>User<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listapplicationsresult" class="tsd-kind-icon">List<wbr>Applications<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listcertificatesresult" class="tsd-kind-icon">List<wbr>Certificates<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listpoolsresult" class="tsd-kind-icon">List<wbr>Pools<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadataitem" class="tsd-kind-icon">Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkconfiguration" class="tsd-kind-icon">Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networksecuritygrouprule" class="tsd-kind-icon">Network<wbr>Security<wbr>Group<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osdisk" class="tsd-kind-icon">OSDisk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pool" class="tsd-kind-icon">Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolcreateheaders" class="tsd-kind-icon">Pool<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pooldeleteheaders" class="tsd-kind-icon">Pool<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pooldisableautoscaleheaders" class="tsd-kind-icon">Pool<wbr>Disable<wbr>Auto<wbr>Scale<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolendpointconfiguration" class="tsd-kind-icon">Pool<wbr>Endpoint<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolgetheaders" class="tsd-kind-icon">Pool<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolstopresizeheaders" class="tsd-kind-icon">Pool<wbr>Stop<wbr>Resize<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolupdateheaders" class="tsd-kind-icon">Pool<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proxyresource" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resizeerror" class="tsd-kind-icon">Resize<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resizeoperationstatus" class="tsd-kind-icon">Resize<wbr>Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcefile" class="tsd-kind-icon">Resource<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scalesettings" class="tsd-kind-icon">Scale<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#starttask" class="tsd-kind-icon">Start<wbr>Task</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskschedulingpolicy" class="tsd-kind-icon">Task<wbr>Scheduling<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useraccount" class="tsd-kind-icon">User<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useridentity" class="tsd-kind-icon">User<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#windowsconfiguration" class="tsd-kind-icon">Windows<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accountname" class="tsd-kind-icon">account<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationid" class="tsd-kind-icon">application<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#certificatename" class="tsd-kind-icon">certificate<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifmatch" class="tsd-kind-icon">if<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifnonematch" class="tsd-kind-icon">if<wbr>None<wbr>Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#locationname" class="tsd-kind-icon">location<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maxresults" class="tsd-kind-icon">maxresults</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#poolname" class="tsd-kind-icon">pool<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#select" class="tsd-kind-icon">select</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#version" class="tsd-kind-icon">version</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

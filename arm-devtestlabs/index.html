@@ -1,0 +1,1958 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-devtestlabs</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-devtestlabs</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-devtestlabs</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-devtestlabsclient-sdk-for-javascript" id="azure-devtestlabsclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure DevTestLabsClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for DevTestLabsClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-devtestlabs</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-provideroperations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-provideroperations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list providerOperations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { DevTestLabsClient, DevTestLabsModels, DevTestLabsMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-devtestlabs"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> DevTestLabsClient(creds, subscriptionId);
+  client.providerOperations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-provideroperations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-provideroperations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list providerOperations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-devtestlabs sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-devtestlabs/dist/arm-devtestlabs.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmDevtestlabs.DevTestLabsClient(res.creds, subscriptionId);
+      client.providerOperations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/devtestlabs/arm-devtestlabs/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/armtemplates.html" class="tsd-kind-icon">Arm<wbr>Templates</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/artifactsources.html" class="tsd-kind-icon">Artifact<wbr>Sources</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/artifacts.html" class="tsd-kind-icon">Artifacts</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/costs.html" class="tsd-kind-icon">Costs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/customimages.html" class="tsd-kind-icon">Custom<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/devtestlabsclientcontext.html" class="tsd-kind-icon">Dev<wbr>Test<wbr>Labs<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/disks.html" class="tsd-kind-icon">Disks</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/environments.html" class="tsd-kind-icon">Environments</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/formulas.html" class="tsd-kind-icon">Formulas</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/galleryimages.html" class="tsd-kind-icon">Gallery<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/globalschedules.html" class="tsd-kind-icon">Global<wbr>Schedules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/labs.html" class="tsd-kind-icon">Labs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/notificationchannels.html" class="tsd-kind-icon">Notification<wbr>Channels</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policies.html" class="tsd-kind-icon">Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policysets.html" class="tsd-kind-icon">Policy<wbr>Sets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/provideroperations.html" class="tsd-kind-icon">Provider<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/schedules.html" class="tsd-kind-icon">Schedules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/secrets.html" class="tsd-kind-icon">Secrets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicefabricschedules.html" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicefabrics.html" class="tsd-kind-icon">Service<wbr>Fabrics</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/servicerunners.html" class="tsd-kind-icon">Service<wbr>Runners</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/users.html" class="tsd-kind-icon">Users</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachineschedules.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachines.html" class="tsd-kind-icon">Virtual<wbr>Machines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualnetworks.html" class="tsd-kind-icon">Virtual<wbr>Networks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicableschedule.html" class="tsd-kind-icon">Applicable<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicableschedulefragment.html" class="tsd-kind-icon">Applicable<wbr>Schedule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applyartifactsrequest.html" class="tsd-kind-icon">Apply<wbr>Artifacts<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplate.html" class="tsd-kind-icon">Arm<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplateinfo.html" class="tsd-kind-icon">Arm<wbr>Template<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplatelist.html" class="tsd-kind-icon">Arm<wbr>Template<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplateparameterproperties.html" class="tsd-kind-icon">Arm<wbr>Template<wbr>Parameter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplateparameterpropertiesfragment.html" class="tsd-kind-icon">Arm<wbr>Template<wbr>Parameter<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplatesgetoptionalparams.html" class="tsd-kind-icon">Arm<wbr>Templates<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/armtemplateslistoptionalparams.html" class="tsd-kind-icon">Arm<wbr>Templates<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifact.html" class="tsd-kind-icon">Artifact</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactdeploymentstatusproperties.html" class="tsd-kind-icon">Artifact<wbr>Deployment<wbr>Status<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactdeploymentstatuspropertiesfragment.html" class="tsd-kind-icon">Artifact<wbr>Deployment<wbr>Status<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactinstallproperties.html" class="tsd-kind-icon">Artifact<wbr>Install<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactinstallpropertiesfragment.html" class="tsd-kind-icon">Artifact<wbr>Install<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactlist.html" class="tsd-kind-icon">Artifact<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactparameterproperties.html" class="tsd-kind-icon">Artifact<wbr>Parameter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactparameterpropertiesfragment.html" class="tsd-kind-icon">Artifact<wbr>Parameter<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsource.html" class="tsd-kind-icon">Artifact<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsourcefragment.html" class="tsd-kind-icon">Artifact<wbr>Source<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsourcelist.html" class="tsd-kind-icon">Artifact<wbr>Source<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsourcesgetoptionalparams.html" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsourceslistoptionalparams.html" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactsgetoptionalparams.html" class="tsd-kind-icon">Artifacts<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/artifactslistoptionalparams.html" class="tsd-kind-icon">Artifacts<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/attachdiskproperties.html" class="tsd-kind-icon">Attach<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/attachnewdatadiskoptions.html" class="tsd-kind-icon">Attach<wbr>New<wbr>Data<wbr>Disk<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/attachnewdatadiskoptionsfragment.html" class="tsd-kind-icon">Attach<wbr>New<wbr>Data<wbr>Disk<wbr>Options<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bulkcreationparameters.html" class="tsd-kind-icon">Bulk<wbr>Creation<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bulkcreationparametersfragment.html" class="tsd-kind-icon">Bulk<wbr>Creation<wbr>Parameters<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computedatadisk.html" class="tsd-kind-icon">Compute<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computedatadiskfragment.html" class="tsd-kind-icon">Compute<wbr>Data<wbr>Disk<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computevminstanceviewstatus.html" class="tsd-kind-icon">Compute<wbr>VmInstance<wbr>View<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computevminstanceviewstatusfragment.html" class="tsd-kind-icon">Compute<wbr>VmInstance<wbr>View<wbr>Status<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computevmproperties.html" class="tsd-kind-icon">Compute<wbr>VmProperties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computevmpropertiesfragment.html" class="tsd-kind-icon">Compute<wbr>VmProperties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/costthresholdproperties.html" class="tsd-kind-icon">Cost<wbr>Threshold<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/costsgetoptionalparams.html" class="tsd-kind-icon">Costs<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimage.html" class="tsd-kind-icon">Custom<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagefragment.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagelist.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiescustom.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>Custom</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiescustomfragment.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>Custom<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiesfromplan.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiesfromplanfragment.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Plan<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiesfromvm.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Vm</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagepropertiesfromvmfragment.html" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>VmFragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimagesgetoptionalparams.html" class="tsd-kind-icon">Custom<wbr>Images<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customimageslistoptionalparams.html" class="tsd-kind-icon">Custom<wbr>Images<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadiskproperties.html" class="tsd-kind-icon">Data<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadiskpropertiesfragment.html" class="tsd-kind-icon">Data<wbr>Disk<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadiskstoragetypeinfo.html" class="tsd-kind-icon">Data<wbr>Disk<wbr>Storage<wbr>Type<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadiskstoragetypeinfofragment.html" class="tsd-kind-icon">Data<wbr>Disk<wbr>Storage<wbr>Type<wbr>Info<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/daydetails.html" class="tsd-kind-icon">Day<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/daydetailsfragment.html" class="tsd-kind-icon">Day<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/detachdatadiskproperties.html" class="tsd-kind-icon">Detach<wbr>Data<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/detachdiskproperties.html" class="tsd-kind-icon">Detach<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/devtestlabsclientoptions.html" class="tsd-kind-icon">Dev<wbr>Test<wbr>Labs<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disk.html" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskfragment.html" class="tsd-kind-icon">Disk<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disklist.html" class="tsd-kind-icon">Disk<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disksgetoptionalparams.html" class="tsd-kind-icon">Disks<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskslistoptionalparams.html" class="tsd-kind-icon">Disks<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dtlenvironment.html" class="tsd-kind-icon">Dtl<wbr>Environment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dtlenvironmentfragment.html" class="tsd-kind-icon">Dtl<wbr>Environment<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dtlenvironmentlist.html" class="tsd-kind-icon">Dtl<wbr>Environment<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentdeploymentproperties.html" class="tsd-kind-icon">Environment<wbr>Deployment<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentdeploymentpropertiesfragment.html" class="tsd-kind-icon">Environment<wbr>Deployment<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentsgetoptionalparams.html" class="tsd-kind-icon">Environments<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/environmentslistoptionalparams.html" class="tsd-kind-icon">Environments<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/evaluatepoliciesproperties.html" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/evaluatepoliciesrequest.html" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/evaluatepoliciesresponse.html" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventfragment.html" class="tsd-kind-icon">Event<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exportresourceusageparameters.html" class="tsd-kind-icon">Export<wbr>Resource<wbr>Usage<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/externalsubnet.html" class="tsd-kind-icon">External<wbr>Subnet</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/externalsubnetfragment.html" class="tsd-kind-icon">External<wbr>Subnet<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formula.html" class="tsd-kind-icon">Formula</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulafragment.html" class="tsd-kind-icon">Formula<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulalist.html" class="tsd-kind-icon">Formula<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulapropertiesfromvm.html" class="tsd-kind-icon">Formula<wbr>Properties<wbr>From<wbr>Vm</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulapropertiesfromvmfragment.html" class="tsd-kind-icon">Formula<wbr>Properties<wbr>From<wbr>VmFragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulasgetoptionalparams.html" class="tsd-kind-icon">Formulas<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formulaslistoptionalparams.html" class="tsd-kind-icon">Formulas<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/galleryimage.html" class="tsd-kind-icon">Gallery<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/galleryimagelist.html" class="tsd-kind-icon">Gallery<wbr>Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/galleryimagereference.html" class="tsd-kind-icon">Gallery<wbr>Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/galleryimagereferencefragment.html" class="tsd-kind-icon">Gallery<wbr>Image<wbr>Reference<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/galleryimageslistoptionalparams.html" class="tsd-kind-icon">Gallery<wbr>Images<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generatearmtemplaterequest.html" class="tsd-kind-icon">Generate<wbr>Arm<wbr>Template<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generateuploaduriparameter.html" class="tsd-kind-icon">Generate<wbr>Upload<wbr>Uri<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/generateuploaduriresponse.html" class="tsd-kind-icon">Generate<wbr>Upload<wbr>Uri<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/globalschedulesgetoptionalparams.html" class="tsd-kind-icon">Global<wbr>Schedules<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/globalscheduleslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/globalscheduleslistbysubscriptionoptionalparams.html" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>BySubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hourdetails.html" class="tsd-kind-icon">Hour<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hourdetailsfragment.html" class="tsd-kind-icon">Hour<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identityproperties.html" class="tsd-kind-icon">Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/importlabvirtualmachinerequest.html" class="tsd-kind-icon">Import<wbr>Lab<wbr>Virtual<wbr>Machine<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatrule.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inboundnatrulefragment.html" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lab.html" class="tsd-kind-icon">Lab</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labannouncementproperties.html" class="tsd-kind-icon">Lab<wbr>Announcement<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labannouncementpropertiesfragment.html" class="tsd-kind-icon">Lab<wbr>Announcement<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labcost.html" class="tsd-kind-icon">Lab<wbr>Cost</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labcostdetailsproperties.html" class="tsd-kind-icon">Lab<wbr>Cost<wbr>Details<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labcostsummaryproperties.html" class="tsd-kind-icon">Lab<wbr>Cost<wbr>Summary<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labfragment.html" class="tsd-kind-icon">Lab<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/lablist.html" class="tsd-kind-icon">Lab<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labresourcecostproperties.html" class="tsd-kind-icon">Lab<wbr>Resource<wbr>Cost<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labsupportproperties.html" class="tsd-kind-icon">Lab<wbr>Support<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labsupportpropertiesfragment.html" class="tsd-kind-icon">Lab<wbr>Support<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvhd.html" class="tsd-kind-icon">Lab<wbr>Vhd</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvhdlist.html" class="tsd-kind-icon">Lab<wbr>Vhd<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvirtualmachine.html" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvirtualmachinecreationparameter.html" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Creation<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvirtualmachinecreationparameterfragment.html" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Creation<wbr>Parameter<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvirtualmachinefragment.html" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labvirtualmachinelist.html" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labsgetoptionalparams.html" class="tsd-kind-icon">Labs<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labslistbyresourcegroupoptionalparams.html" class="tsd-kind-icon">Labs<wbr>List<wbr>ByResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labslistbysubscriptionoptionalparams.html" class="tsd-kind-icon">Labs<wbr>List<wbr>BySubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linuxosinfo.html" class="tsd-kind-icon">Linux<wbr>OsInfo</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linuxosinfofragment.html" class="tsd-kind-icon">Linux<wbr>OsInfo<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfaceproperties.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfacepropertiesfragment.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationchannel.html" class="tsd-kind-icon">Notification<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationchannelfragment.html" class="tsd-kind-icon">Notification<wbr>Channel<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationchannellist.html" class="tsd-kind-icon">Notification<wbr>Channel<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationchannelsgetoptionalparams.html" class="tsd-kind-icon">Notification<wbr>Channels<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationchannelslistoptionalparams.html" class="tsd-kind-icon">Notification<wbr>Channels<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationsettings.html" class="tsd-kind-icon">Notification<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notificationsettingsfragment.html" class="tsd-kind-icon">Notification<wbr>Settings<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/notifyparameters.html" class="tsd-kind-icon">Notify<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationerror.html" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetadata.html" class="tsd-kind-icon">Operation<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationmetadatadisplay.html" class="tsd-kind-icon">Operation<wbr>Metadata<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresult.html" class="tsd-kind-icon">Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parameterinfo.html" class="tsd-kind-icon">Parameter<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/parametersvaluefileinfo.html" class="tsd-kind-icon">Parameters<wbr>Value<wbr>File<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/percentagecostthresholdproperties.html" class="tsd-kind-icon">Percentage<wbr>Cost<wbr>Threshold<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policiesgetoptionalparams.html" class="tsd-kind-icon">Policies<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policieslistoptionalparams.html" class="tsd-kind-icon">Policies<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policy.html" class="tsd-kind-icon">Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyfragment.html" class="tsd-kind-icon">Policy<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policylist.html" class="tsd-kind-icon">Policy<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policysetresult.html" class="tsd-kind-icon">Policy<wbr>Set<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyviolation.html" class="tsd-kind-icon">Policy<wbr>Violation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/port.html" class="tsd-kind-icon">Port</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/portfragment.html" class="tsd-kind-icon">Port<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/provideroperationresult.html" class="tsd-kind-icon">Provider<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rdpconnection.html" class="tsd-kind-icon">Rdp<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resizelabvirtualmachineproperties.html" class="tsd-kind-icon">Resize<wbr>Lab<wbr>Virtual<wbr>Machine<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retargetscheduleproperties.html" class="tsd-kind-icon">Retarget<wbr>Schedule<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedule.html" class="tsd-kind-icon">Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulecreationparameter.html" class="tsd-kind-icon">Schedule<wbr>Creation<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulecreationparameterfragment.html" class="tsd-kind-icon">Schedule<wbr>Creation<wbr>Parameter<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulefragment.html" class="tsd-kind-icon">Schedule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulelist.html" class="tsd-kind-icon">Schedule<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulesgetoptionalparams.html" class="tsd-kind-icon">Schedules<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scheduleslistoptionalparams.html" class="tsd-kind-icon">Schedules<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secret.html" class="tsd-kind-icon">Secret</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretfragment.html" class="tsd-kind-icon">Secret<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretlist.html" class="tsd-kind-icon">Secret<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretsgetoptionalparams.html" class="tsd-kind-icon">Secrets<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretslistoptionalparams.html" class="tsd-kind-icon">Secrets<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabric.html" class="tsd-kind-icon">Service<wbr>Fabric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabricfragment.html" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabriclist.html" class="tsd-kind-icon">Service<wbr>Fabric<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabricschedulesgetoptionalparams.html" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabricscheduleslistoptionalparams.html" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabricsgetoptionalparams.html" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicefabricslistoptionalparams.html" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicerunner.html" class="tsd-kind-icon">Service<wbr>Runner</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicerunnerlist.html" class="tsd-kind-icon">Service<wbr>Runner<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicerunnerslistoptionalparams.html" class="tsd-kind-icon">Service<wbr>Runners<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedpublicipaddressconfiguration.html" class="tsd-kind-icon">Shared<wbr>Public<wbr>IpAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedpublicipaddressconfigurationfragment.html" class="tsd-kind-icon">Shared<wbr>Public<wbr>IpAddress<wbr>Configuration<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shutdownnotificationcontent.html" class="tsd-kind-icon">Shutdown<wbr>Notification<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnet.html" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetfragment.html" class="tsd-kind-icon">Subnet<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetoverride.html" class="tsd-kind-icon">Subnet<wbr>Override</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetoverridefragment.html" class="tsd-kind-icon">Subnet<wbr>Override<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetsharedpublicipaddressconfiguration.html" class="tsd-kind-icon">Subnet<wbr>Shared<wbr>Public<wbr>IpAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnetsharedpublicipaddressconfigurationfragment.html" class="tsd-kind-icon">Subnet<wbr>Shared<wbr>Public<wbr>IpAddress<wbr>Configuration<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetcostproperties.html" class="tsd-kind-icon">Target<wbr>Cost<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateresource.html" class="tsd-kind-icon">Update<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/user.html" class="tsd-kind-icon">User</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/userfragment.html" class="tsd-kind-icon">User<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useridentity.html" class="tsd-kind-icon">User<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useridentityfragment.html" class="tsd-kind-icon">User<wbr>Identity<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/userlist.html" class="tsd-kind-icon">User<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usersecretstore.html" class="tsd-kind-icon">User<wbr>Secret<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usersecretstorefragment.html" class="tsd-kind-icon">User<wbr>Secret<wbr>Store<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usersgetoptionalparams.html" class="tsd-kind-icon">Users<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/userslistoptionalparams.html" class="tsd-kind-icon">Users<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineschedulesgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescheduleslistoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineslistoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetwork.html" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkfragment.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworklist.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworksgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkslistoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weekdetails.html" class="tsd-kind-icon">Week<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weekdetailsfragment.html" class="tsd-kind-icon">Week<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/windowsosinfo.html" class="tsd-kind-icon">Windows<wbr>OsInfo</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/windowsosinfofragment.html" class="tsd-kind-icon">Windows<wbr>OsInfo<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#armtemplatesgetresponse" class="tsd-kind-icon">Arm<wbr>Templates<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#armtemplateslistnextresponse" class="tsd-kind-icon">Arm<wbr>Templates<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#armtemplateslistresponse" class="tsd-kind-icon">Arm<wbr>Templates<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsourcescreateorupdateresponse" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsourcesgetresponse" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsourceslistnextresponse" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsourceslistresponse" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsourcesupdateresponse" class="tsd-kind-icon">Artifact<wbr>Sources<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsgeneratearmtemplateresponse" class="tsd-kind-icon">Artifacts<wbr>Generate<wbr>Arm<wbr>Template<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactsgetresponse" class="tsd-kind-icon">Artifacts<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactslistnextresponse" class="tsd-kind-icon">Artifacts<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#artifactslistresponse" class="tsd-kind-icon">Artifacts<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#costthresholdstatus" class="tsd-kind-icon">Cost<wbr>Threshold<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#costtype" class="tsd-kind-icon">Cost<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#costscreateorupdateresponse" class="tsd-kind-icon">Costs<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#costsgetresponse" class="tsd-kind-icon">Costs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimageostype" class="tsd-kind-icon">Custom<wbr>Image<wbr>OsType</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimagesbegincreateorupdateresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimagescreateorupdateresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimagesgetresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimageslistnextresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimageslistresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customimagesupdateresponse" class="tsd-kind-icon">Custom<wbr>Images<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbegincreateorupdateresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskscreateorupdateresponse" class="tsd-kind-icon">Disks<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksgetresponse" class="tsd-kind-icon">Disks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistnextresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksupdateresponse" class="tsd-kind-icon">Disks<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#enablestatus" class="tsd-kind-icon">Enable<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentpermission" class="tsd-kind-icon">Environment<wbr>Permission</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentsbegincreateorupdateresponse" class="tsd-kind-icon">Environments<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentscreateorupdateresponse" class="tsd-kind-icon">Environments<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentsgetresponse" class="tsd-kind-icon">Environments<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentslistnextresponse" class="tsd-kind-icon">Environments<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentslistresponse" class="tsd-kind-icon">Environments<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmentsupdateresponse" class="tsd-kind-icon">Environments<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileuploadoptions" class="tsd-kind-icon">File<wbr>Upload<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulasbegincreateorupdateresponse" class="tsd-kind-icon">Formulas<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulascreateorupdateresponse" class="tsd-kind-icon">Formulas<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulasgetresponse" class="tsd-kind-icon">Formulas<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulaslistnextresponse" class="tsd-kind-icon">Formulas<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulaslistresponse" class="tsd-kind-icon">Formulas<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#formulasupdateresponse" class="tsd-kind-icon">Formulas<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#galleryimageslistnextresponse" class="tsd-kind-icon">Gallery<wbr>Images<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#galleryimageslistresponse" class="tsd-kind-icon">Gallery<wbr>Images<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalschedulescreateorupdateresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalschedulesgetresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalscheduleslistbyresourcegroupnextresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalscheduleslistbyresourcegroupresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalscheduleslistbysubscriptionnextresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalscheduleslistbysubscriptionresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#globalschedulesupdateresponse" class="tsd-kind-icon">Global<wbr>Schedules<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hostcachingoptions" class="tsd-kind-icon">Host<wbr>Caching<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#httpstatuscode" class="tsd-kind-icon">Http<wbr>Status<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labsbegincreateorupdateresponse" class="tsd-kind-icon">Labs<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labscreateorupdateresponse" class="tsd-kind-icon">Labs<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labsgenerateuploaduriresponse" class="tsd-kind-icon">Labs<wbr>Generate<wbr>Upload<wbr>Uri<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labsgetresponse" class="tsd-kind-icon">Labs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistbyresourcegroupnextresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistbyresourcegroupresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistbysubscriptionnextresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistbysubscriptionresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistvhdsnextresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>Vhds<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labslistvhdsresponse" class="tsd-kind-icon">Labs<wbr>List<wbr>Vhds<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#labsupdateresponse" class="tsd-kind-icon">Labs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#linuxosstate" class="tsd-kind-icon">Linux<wbr>OsState</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchanneleventtype" class="tsd-kind-icon">Notification<wbr>Channel<wbr>Event<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchannelscreateorupdateresponse" class="tsd-kind-icon">Notification<wbr>Channels<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchannelsgetresponse" class="tsd-kind-icon">Notification<wbr>Channels<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchannelslistnextresponse" class="tsd-kind-icon">Notification<wbr>Channels<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchannelslistresponse" class="tsd-kind-icon">Notification<wbr>Channels<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#notificationchannelsupdateresponse" class="tsd-kind-icon">Notification<wbr>Channels<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationsgetresponse" class="tsd-kind-icon">Operations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policiescreateorupdateresponse" class="tsd-kind-icon">Policies<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policiesgetresponse" class="tsd-kind-icon">Policies<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policieslistnextresponse" class="tsd-kind-icon">Policies<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policieslistresponse" class="tsd-kind-icon">Policies<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policiesupdateresponse" class="tsd-kind-icon">Policies<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyevaluatortype" class="tsd-kind-icon">Policy<wbr>Evaluator<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyfactname" class="tsd-kind-icon">Policy<wbr>Fact<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policysetsevaluatepoliciesresponse" class="tsd-kind-icon">Policy<wbr>Sets<wbr>Evaluate<wbr>Policies<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatus" class="tsd-kind-icon">Policy<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#premiumdatadisk" class="tsd-kind-icon">Premium<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#provideroperationslistnextresponse" class="tsd-kind-icon">Provider<wbr>Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#provideroperationslistresponse" class="tsd-kind-icon">Provider<wbr>Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reportingcycletype" class="tsd-kind-icon">Reporting<wbr>Cycle<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#schedulescreateorupdateresponse" class="tsd-kind-icon">Schedules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#schedulesgetresponse" class="tsd-kind-icon">Schedules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scheduleslistapplicablenextresponse" class="tsd-kind-icon">Schedules<wbr>List<wbr>Applicable<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scheduleslistapplicableresponse" class="tsd-kind-icon">Schedules<wbr>List<wbr>Applicable<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scheduleslistnextresponse" class="tsd-kind-icon">Schedules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scheduleslistresponse" class="tsd-kind-icon">Schedules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#schedulesupdateresponse" class="tsd-kind-icon">Schedules<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretsbegincreateorupdateresponse" class="tsd-kind-icon">Secrets<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretscreateorupdateresponse" class="tsd-kind-icon">Secrets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretsgetresponse" class="tsd-kind-icon">Secrets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretslistnextresponse" class="tsd-kind-icon">Secrets<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretslistresponse" class="tsd-kind-icon">Secrets<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#secretsupdateresponse" class="tsd-kind-icon">Secrets<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricschedulescreateorupdateresponse" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricschedulesgetresponse" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricscheduleslistnextresponse" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricscheduleslistresponse" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricschedulesupdateresponse" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Schedules<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricsbegincreateorupdateresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricscreateorupdateresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricsgetresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricslistapplicableschedulesresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>List<wbr>Applicable<wbr>Schedules<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricslistnextresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricslistresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicefabricsupdateresponse" class="tsd-kind-icon">Service<wbr>Fabrics<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicerunnerscreateorupdateresponse" class="tsd-kind-icon">Service<wbr>Runners<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicerunnersgetresponse" class="tsd-kind-icon">Service<wbr>Runners<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicerunnerslistnextresponse" class="tsd-kind-icon">Service<wbr>Runners<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicerunnerslistresponse" class="tsd-kind-icon">Service<wbr>Runners<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sourcecontroltype" class="tsd-kind-icon">Source<wbr>Control<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storagetype" class="tsd-kind-icon">Storage<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#targetcoststatus" class="tsd-kind-icon">Target<wbr>Cost<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#transportprotocol" class="tsd-kind-icon">Transport<wbr>Protocol</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usagepermissiontype" class="tsd-kind-icon">Usage<wbr>Permission<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usersbegincreateorupdateresponse" class="tsd-kind-icon">Users<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userscreateorupdateresponse" class="tsd-kind-icon">Users<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usersgetresponse" class="tsd-kind-icon">Users<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userslistnextresponse" class="tsd-kind-icon">Users<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#userslistresponse" class="tsd-kind-icon">Users<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usersupdateresponse" class="tsd-kind-icon">Users<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinecreationsource" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Creation<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineschedulescreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineschedulesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescheduleslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescheduleslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineschedulesupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Schedules<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgetrdpfilecontentsresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Rdp<wbr>File<wbr>Contents<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistapplicableschedulesresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Applicable<wbr>Schedules<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksgetresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworkslistresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualnetworksupdateresponse" class="tsd-kind-icon">Virtual<wbr>Networks<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#windowsosstate" class="tsd-kind-icon">Windows<wbr>OsState</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicableschedule" class="tsd-kind-icon">Applicable<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicableschedulefragment" class="tsd-kind-icon">Applicable<wbr>Schedule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applyartifactsrequest" class="tsd-kind-icon">Apply<wbr>Artifacts<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#armtemplate" class="tsd-kind-icon">Arm<wbr>Template</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#armtemplateinfo" class="tsd-kind-icon">Arm<wbr>Template<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#armtemplatelist" class="tsd-kind-icon">Arm<wbr>Template<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#armtemplateparameterproperties" class="tsd-kind-icon">Arm<wbr>Template<wbr>Parameter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#armtemplateparameterpropertiesfragment" class="tsd-kind-icon">Arm<wbr>Template<wbr>Parameter<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifact" class="tsd-kind-icon">Artifact</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactdeploymentstatusproperties" class="tsd-kind-icon">Artifact<wbr>Deployment<wbr>Status<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactdeploymentstatuspropertiesfragment" class="tsd-kind-icon">Artifact<wbr>Deployment<wbr>Status<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactinstallproperties" class="tsd-kind-icon">Artifact<wbr>Install<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactinstallpropertiesfragment" class="tsd-kind-icon">Artifact<wbr>Install<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactlist" class="tsd-kind-icon">Artifact<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactparameterproperties" class="tsd-kind-icon">Artifact<wbr>Parameter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactparameterpropertiesfragment" class="tsd-kind-icon">Artifact<wbr>Parameter<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactsource" class="tsd-kind-icon">Artifact<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactsourcefragment" class="tsd-kind-icon">Artifact<wbr>Source<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactsourcelist" class="tsd-kind-icon">Artifact<wbr>Source<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#attachdiskproperties" class="tsd-kind-icon">Attach<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#attachnewdatadiskoptions" class="tsd-kind-icon">Attach<wbr>New<wbr>Data<wbr>Disk<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#attachnewdatadiskoptionsfragment" class="tsd-kind-icon">Attach<wbr>New<wbr>Data<wbr>Disk<wbr>Options<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bulkcreationparameters" class="tsd-kind-icon">Bulk<wbr>Creation<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bulkcreationparametersfragment" class="tsd-kind-icon">Bulk<wbr>Creation<wbr>Parameters<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computedatadisk" class="tsd-kind-icon">Compute<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computedatadiskfragment" class="tsd-kind-icon">Compute<wbr>Data<wbr>Disk<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computevminstanceviewstatus" class="tsd-kind-icon">Compute<wbr>VmInstance<wbr>View<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computevminstanceviewstatusfragment" class="tsd-kind-icon">Compute<wbr>VmInstance<wbr>View<wbr>Status<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computevmproperties" class="tsd-kind-icon">Compute<wbr>VmProperties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computevmpropertiesfragment" class="tsd-kind-icon">Compute<wbr>VmProperties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#costthresholdproperties" class="tsd-kind-icon">Cost<wbr>Threshold<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimage" class="tsd-kind-icon">Custom<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagefragment" class="tsd-kind-icon">Custom<wbr>Image<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagelist" class="tsd-kind-icon">Custom<wbr>Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiescustom" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>Custom</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiescustomfragment" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>Custom<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiesfromplan" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiesfromplanfragment" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Plan<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiesfromvm" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>Vm</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customimagepropertiesfromvmfragment" class="tsd-kind-icon">Custom<wbr>Image<wbr>Properties<wbr>From<wbr>VmFragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadiskproperties" class="tsd-kind-icon">Data<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadiskpropertiesfragment" class="tsd-kind-icon">Data<wbr>Disk<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadiskstoragetypeinfo" class="tsd-kind-icon">Data<wbr>Disk<wbr>Storage<wbr>Type<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadiskstoragetypeinfofragment" class="tsd-kind-icon">Data<wbr>Disk<wbr>Storage<wbr>Type<wbr>Info<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#daydetails" class="tsd-kind-icon">Day<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#daydetailsfragment" class="tsd-kind-icon">Day<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detachdatadiskproperties" class="tsd-kind-icon">Detach<wbr>Data<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detachdiskproperties" class="tsd-kind-icon">Detach<wbr>Disk<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disk" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskfragment" class="tsd-kind-icon">Disk<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disklist" class="tsd-kind-icon">Disk<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dtlenvironment" class="tsd-kind-icon">Dtl<wbr>Environment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dtlenvironmentfragment" class="tsd-kind-icon">Dtl<wbr>Environment<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dtlenvironmentlist" class="tsd-kind-icon">Dtl<wbr>Environment<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#environmentdeploymentproperties" class="tsd-kind-icon">Environment<wbr>Deployment<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#environmentdeploymentpropertiesfragment" class="tsd-kind-icon">Environment<wbr>Deployment<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#evaluatepoliciesproperties" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#evaluatepoliciesrequest" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#evaluatepoliciesresponse" class="tsd-kind-icon">Evaluate<wbr>Policies<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#event" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventfragment" class="tsd-kind-icon">Event<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exportresourceusageparameters" class="tsd-kind-icon">Export<wbr>Resource<wbr>Usage<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#externalsubnet" class="tsd-kind-icon">External<wbr>Subnet</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#externalsubnetfragment" class="tsd-kind-icon">External<wbr>Subnet<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formula" class="tsd-kind-icon">Formula</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formulafragment" class="tsd-kind-icon">Formula<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formulalist" class="tsd-kind-icon">Formula<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formulapropertiesfromvm" class="tsd-kind-icon">Formula<wbr>Properties<wbr>From<wbr>Vm</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formulapropertiesfromvmfragment" class="tsd-kind-icon">Formula<wbr>Properties<wbr>From<wbr>VmFragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#galleryimage" class="tsd-kind-icon">Gallery<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#galleryimagelist" class="tsd-kind-icon">Gallery<wbr>Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#galleryimagereference" class="tsd-kind-icon">Gallery<wbr>Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#galleryimagereferencefragment" class="tsd-kind-icon">Gallery<wbr>Image<wbr>Reference<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#generatearmtemplaterequest" class="tsd-kind-icon">Generate<wbr>Arm<wbr>Template<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#generateuploaduriparameter" class="tsd-kind-icon">Generate<wbr>Upload<wbr>Uri<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#generateuploaduriresponse" class="tsd-kind-icon">Generate<wbr>Upload<wbr>Uri<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hourdetails" class="tsd-kind-icon">Hour<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hourdetailsfragment" class="tsd-kind-icon">Hour<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identityproperties" class="tsd-kind-icon">Identity<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#importlabvirtualmachinerequest" class="tsd-kind-icon">Import<wbr>Lab<wbr>Virtual<wbr>Machine<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatrule" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inboundnatrulefragment" class="tsd-kind-icon">Inbound<wbr>Nat<wbr>Rule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#lab" class="tsd-kind-icon">Lab</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labannouncementproperties" class="tsd-kind-icon">Lab<wbr>Announcement<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labannouncementpropertiesfragment" class="tsd-kind-icon">Lab<wbr>Announcement<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labcost" class="tsd-kind-icon">Lab<wbr>Cost</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labcostdetailsproperties" class="tsd-kind-icon">Lab<wbr>Cost<wbr>Details<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labcostsummaryproperties" class="tsd-kind-icon">Lab<wbr>Cost<wbr>Summary<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labfragment" class="tsd-kind-icon">Lab<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#lablist" class="tsd-kind-icon">Lab<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labresourcecostproperties" class="tsd-kind-icon">Lab<wbr>Resource<wbr>Cost<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labsupportproperties" class="tsd-kind-icon">Lab<wbr>Support<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labsupportpropertiesfragment" class="tsd-kind-icon">Lab<wbr>Support<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvhd" class="tsd-kind-icon">Lab<wbr>Vhd</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvhdlist" class="tsd-kind-icon">Lab<wbr>Vhd<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvirtualmachine" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvirtualmachinecreationparameter" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Creation<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvirtualmachinecreationparameterfragment" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Creation<wbr>Parameter<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvirtualmachinefragment" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labvirtualmachinelist" class="tsd-kind-icon">Lab<wbr>Virtual<wbr>Machine<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linuxosinfo" class="tsd-kind-icon">Linux<wbr>OsInfo</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linuxosinfofragment" class="tsd-kind-icon">Linux<wbr>OsInfo<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfaceproperties" class="tsd-kind-icon">Network<wbr>Interface<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfacepropertiesfragment" class="tsd-kind-icon">Network<wbr>Interface<wbr>Properties<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationchannel" class="tsd-kind-icon">Notification<wbr>Channel</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationchannelfragment" class="tsd-kind-icon">Notification<wbr>Channel<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationchannellist" class="tsd-kind-icon">Notification<wbr>Channel<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationsettings" class="tsd-kind-icon">Notification<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationsettingsfragment" class="tsd-kind-icon">Notification<wbr>Settings<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notifyparameters" class="tsd-kind-icon">Notify<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationerror" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetadata" class="tsd-kind-icon">Operation<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationmetadatadisplay" class="tsd-kind-icon">Operation<wbr>Metadata<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresult" class="tsd-kind-icon">Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#parameterinfo" class="tsd-kind-icon">Parameter<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#parametersvaluefileinfo" class="tsd-kind-icon">Parameters<wbr>Value<wbr>File<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#percentagecostthresholdproperties" class="tsd-kind-icon">Percentage<wbr>Cost<wbr>Threshold<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policy" class="tsd-kind-icon">Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyfragment" class="tsd-kind-icon">Policy<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policylist" class="tsd-kind-icon">Policy<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policysetresult" class="tsd-kind-icon">Policy<wbr>Set<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyviolation" class="tsd-kind-icon">Policy<wbr>Violation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#port" class="tsd-kind-icon">Port</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#portfragment" class="tsd-kind-icon">Port<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#provideroperationresult" class="tsd-kind-icon">Provider<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rdpconnection" class="tsd-kind-icon">Rdp<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resizelabvirtualmachineproperties" class="tsd-kind-icon">Resize<wbr>Lab<wbr>Virtual<wbr>Machine<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retargetscheduleproperties" class="tsd-kind-icon">Retarget<wbr>Schedule<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedule" class="tsd-kind-icon">Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedulecreationparameter" class="tsd-kind-icon">Schedule<wbr>Creation<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedulecreationparameterfragment" class="tsd-kind-icon">Schedule<wbr>Creation<wbr>Parameter<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedulefragment" class="tsd-kind-icon">Schedule<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedulelist" class="tsd-kind-icon">Schedule<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#secret" class="tsd-kind-icon">Secret</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#secretfragment" class="tsd-kind-icon">Secret<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#secretlist" class="tsd-kind-icon">Secret<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicefabric" class="tsd-kind-icon">Service<wbr>Fabric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicefabricfragment" class="tsd-kind-icon">Service<wbr>Fabric<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicefabriclist" class="tsd-kind-icon">Service<wbr>Fabric<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicerunner" class="tsd-kind-icon">Service<wbr>Runner</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicerunnerlist" class="tsd-kind-icon">Service<wbr>Runner<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharedpublicipaddressconfiguration" class="tsd-kind-icon">Shared<wbr>Public<wbr>IpAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharedpublicipaddressconfigurationfragment" class="tsd-kind-icon">Shared<wbr>Public<wbr>IpAddress<wbr>Configuration<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shutdownnotificationcontent" class="tsd-kind-icon">Shutdown<wbr>Notification<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnet" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetfragment" class="tsd-kind-icon">Subnet<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetoverride" class="tsd-kind-icon">Subnet<wbr>Override</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetoverridefragment" class="tsd-kind-icon">Subnet<wbr>Override<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetsharedpublicipaddressconfiguration" class="tsd-kind-icon">Subnet<wbr>Shared<wbr>Public<wbr>IpAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnetsharedpublicipaddressconfigurationfragment" class="tsd-kind-icon">Subnet<wbr>Shared<wbr>Public<wbr>IpAddress<wbr>Configuration<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetcostproperties" class="tsd-kind-icon">Target<wbr>Cost<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateresource" class="tsd-kind-icon">Update<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#user" class="tsd-kind-icon">User</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#userfragment" class="tsd-kind-icon">User<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useridentity" class="tsd-kind-icon">User<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useridentityfragment" class="tsd-kind-icon">User<wbr>Identity<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#userlist" class="tsd-kind-icon">User<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usersecretstore" class="tsd-kind-icon">User<wbr>Secret<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usersecretstorefragment" class="tsd-kind-icon">User<wbr>Secret<wbr>Store<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetwork" class="tsd-kind-icon">Virtual<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkfragment" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworklist" class="tsd-kind-icon">Virtual<wbr>Network<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weekdetails" class="tsd-kind-icon">Week<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weekdetailsfragment" class="tsd-kind-icon">Week<wbr>Details<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#windowsosinfo" class="tsd-kind-icon">Windows<wbr>OsInfo</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#windowsosinfofragment" class="tsd-kind-icon">Windows<wbr>OsInfo<wbr>Fragment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#artifactsourcename" class="tsd-kind-icon">artifact<wbr>Source<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand" class="tsd-kind-icon">expand</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labname" class="tsd-kind-icon">lab<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#locationname" class="tsd-kind-icon">location<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#name" class="tsd-kind-icon">name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby" class="tsd-kind-icon">orderby</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policysetname" class="tsd-kind-icon">policy<wbr>Set<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicefabricname" class="tsd-kind-icon">service<wbr>Fabric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#username" class="tsd-kind-icon">user<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinename" class="tsd-kind-icon">virtual<wbr>Machine<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

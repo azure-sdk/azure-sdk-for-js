@@ -1,0 +1,836 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-customvision-training</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-customvision-training</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-customvision-training</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---trainingapiclient" id="an-isomorphic-javascript-sdk-for---trainingapiclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - TrainingAPIClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for TrainingAPIClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-customvision-training</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-getdomains--as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-getdomains--as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and getDomains  as an example written in TypeScript.</h4>
+				</a>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home">Azure Documentation on Custom Vision Services</a>.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {
+  TrainingAPIClient,
+  TrainingAPIModels
+} <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-customvision-training"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">void</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> customVisionTrainingKey =
+    process.env[<span class="hljs-string">"customVisionTrainingKey"</span>] || <span class="hljs-string">"&lt;customVisionTrainingKey&gt;"</span>;
+  <span class="hljs-keyword">const</span> customVisionTrainingEndPoint =
+    process.env[<span class="hljs-string">"customVisionTrainingEndPoint"</span>] ||
+    <span class="hljs-string">"&lt;customVisionTrainingEndPoint&gt;"</span>;
+  <span class="hljs-keyword">const</span> projectId = process.env[<span class="hljs-string">"projectId"</span>] || <span class="hljs-string">"&lt;projectId&gt;"</span>;
+  <span class="hljs-keyword">const</span> iterationId = process.env[<span class="hljs-string">"iterationId"</span>] || <span class="hljs-string">"&lt;iterationId&gt;"</span>;
+
+  <span class="hljs-keyword">const</span> imageURL =
+    <span class="hljs-string">"https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg"</span>;
+
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> TrainingAPIClient(
+    customVisionTrainingKey,
+    customVisionTrainingEndPoint
+  );
+
+  <span class="hljs-keyword">const</span> options: TrainingAPIModels.TrainingAPIClientQuickTestImageUrlOptionalParams = {
+    iterationId: iterationId
+  };
+
+  client
+    .quickTestImageUrl(
+      projectId,
+      {
+        url: imageURL
+      },
+      options
+    )
+    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+      <span class="hljs-built_in">console</span>.log(result);
+    })
+    .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+      <span class="hljs-built_in">console</span>.error(err);
+    });
+}
+
+main();</code></pre>
+				<a href="#browser---authentication-client-creation-and-getdomains--as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-getdomains--as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and getDomains  as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li><p>index.html</p>
+						<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-customvision-training sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-customvision-training/dist/cognitiveservices-customvision-training.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> customVisionTrainingKey = <span class="hljs-string">"&lt;YOUR_CUSTOM_VISION_TRAINING_KEY&gt;"</span>;
+    <span class="hljs-keyword">const</span> customVisionTrainingEndPoint =
+      <span class="hljs-string">"&lt;YOUR_CUSTOM_VISION_TRAINING_ENDPOINT&gt;"</span>;
+    <span class="hljs-keyword">const</span> projectId = <span class="hljs-string">"&lt;YOUR_PROJECT_ID&gt;"</span>;
+    <span class="hljs-keyword">const</span> iterationId = <span class="hljs-string">"&lt;YOUR_ITERATION_ID&gt;"</span>;
+
+    <span class="hljs-keyword">const</span> imageURL =
+      <span class="hljs-string">"https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg"</span>;
+
+    <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesCustomvisionTraining.TrainingAPIClient(
+      customVisionTrainingKey,
+      customVisionTrainingEndPoint
+    );
+
+    <span class="hljs-keyword">const</span> options = {
+      <span class="hljs-attr">iterationId</span>: iterationId
+    };
+
+    client
+      .quickTestImageUrl(
+        projectId,
+        {
+          <span class="hljs-attr">url</span>: imageURL
+        },
+        options
+      )
+      .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</code></pre>
+					</li>
+				</ul>
+				<pre><code>
+<span class="hljs-section">## Related projects</span>
+<span class="hljs-bullet">
+- </span>[<span class="hljs-string">Microsoft Azure SDK for Javascript</span>](<span class="hljs-link">https://github.com/Azure/azure-sdk-for-js</span>)
+
+![<span class="hljs-string">Impressions</span>](<span class="hljs-link">https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-customvision-training/README.png</span>)</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/trainingapiclientcontext.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/boundingbox.html" class="tsd-kind-icon">Bounding<wbr>Box</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customvisionerror.html" class="tsd-kind-icon">Custom<wbr>Vision<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/domain.html" class="tsd-kind-icon">Domain</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exportmodel.html" class="tsd-kind-icon">Export<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image.html" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagecreateresult.html" class="tsd-kind-icon">Image<wbr>Create<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagecreatesummary.html" class="tsd-kind-icon">Image<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagefilecreatebatch.html" class="tsd-kind-icon">Image<wbr>File<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagefilecreateentry.html" class="tsd-kind-icon">Image<wbr>File<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageidcreatebatch.html" class="tsd-kind-icon">Image<wbr>IdCreate<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageidcreateentry.html" class="tsd-kind-icon">Image<wbr>IdCreate<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageperformance.html" class="tsd-kind-icon">Image<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageprediction.html" class="tsd-kind-icon">Image<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregion.html" class="tsd-kind-icon">Image<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregioncreatebatch.html" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregioncreateentry.html" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregioncreateresult.html" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregioncreatesummary.html" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageregionproposal.html" class="tsd-kind-icon">Image<wbr>Region<wbr>Proposal</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagetag.html" class="tsd-kind-icon">Image<wbr>Tag</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagetagcreatebatch.html" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagetagcreateentry.html" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagetagcreatesummary.html" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurl.html" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurlcreatebatch.html" class="tsd-kind-icon">Image<wbr>Url<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurlcreateentry.html" class="tsd-kind-icon">Image<wbr>Url<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iteration.html" class="tsd-kind-icon">Iteration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iterationperformance.html" class="tsd-kind-icon">Iteration<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prediction.html" class="tsd-kind-icon">Prediction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/predictionqueryresult.html" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/predictionquerytag.html" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Tag</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/predictionquerytoken.html" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/project.html" class="tsd-kind-icon">Project</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsettings.html" class="tsd-kind-icon">Project<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/region.html" class="tsd-kind-icon">Region</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regionproposal.html" class="tsd-kind-icon">Region<wbr>Proposal</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storedimageprediction.html" class="tsd-kind-icon">Stored<wbr>Image<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tag.html" class="tsd-kind-icon">Tag</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tagperformance.html" class="tsd-kind-icon">Tag<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientcreateimagesfromdataoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Create<wbr>Images<wbr>From<wbr>Data<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientcreateprojectoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Create<wbr>Project<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientcreatetagoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Create<wbr>Tag<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientexportiterationoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Export<wbr>Iteration<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetimageperformancecountoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Image<wbr>Performance<wbr>Count<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetimageperformancesoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Image<wbr>Performances<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetimagesbyidsoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Images<wbr>ByIds<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetiterationperformanceoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Iteration<wbr>Performance<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgettagoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Tag<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgettaggedimagecountoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Tagged<wbr>Image<wbr>Count<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgettaggedimagesoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Tagged<wbr>Images<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgettagsoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Tags<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetuntaggedimagecountoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Untagged<wbr>Image<wbr>Count<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientgetuntaggedimagesoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Get<wbr>Untagged<wbr>Images<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientquicktestimageoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Quick<wbr>Test<wbr>Image<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclientquicktestimageurloptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Quick<wbr>Test<wbr>Image<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingapiclienttrainprojectoptionalparams.html" class="tsd-kind-icon">TrainingAPIClient<wbr>Train<wbr>Project<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#classificationtype" class="tsd-kind-icon">Classification<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#classifier" class="tsd-kind-icon">Classifier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimageregionsresponse" class="tsd-kind-icon">Create<wbr>Image<wbr>Regions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimagetagsresponse" class="tsd-kind-icon">Create<wbr>Image<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimagesfromdataresponse" class="tsd-kind-icon">Create<wbr>Images<wbr>From<wbr>Data<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimagesfromfilesresponse" class="tsd-kind-icon">Create<wbr>Images<wbr>From<wbr>Files<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimagesfrompredictionsresponse" class="tsd-kind-icon">Create<wbr>Images<wbr>From<wbr>Predictions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createimagesfromurlsresponse" class="tsd-kind-icon">Create<wbr>Images<wbr>From<wbr>Urls<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createprojectresponse" class="tsd-kind-icon">Create<wbr>Project<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createtagresponse" class="tsd-kind-icon">Create<wbr>Tag<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#customvisionerrorcodes" class="tsd-kind-icon">Custom<wbr>Vision<wbr>Error<wbr>Codes</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#domaintype" class="tsd-kind-icon">Domain<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exportflavor" class="tsd-kind-icon">Export<wbr>Flavor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exportiterationresponse" class="tsd-kind-icon">Export<wbr>Iteration<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exportplatform" class="tsd-kind-icon">Export<wbr>Platform</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exportstatus" class="tsd-kind-icon">Export<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#flavor" class="tsd-kind-icon">Flavor</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getdomainresponse" class="tsd-kind-icon">Get<wbr>Domain<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getdomainsresponse" class="tsd-kind-icon">Get<wbr>Domains<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getexportsresponse" class="tsd-kind-icon">Get<wbr>Exports<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getimageperformancecountresponse" class="tsd-kind-icon">Get<wbr>Image<wbr>Performance<wbr>Count<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getimageperformancesresponse" class="tsd-kind-icon">Get<wbr>Image<wbr>Performances<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getimageregionproposalsresponse" class="tsd-kind-icon">Get<wbr>Image<wbr>Region<wbr>Proposals<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getimagesbyidsresponse" class="tsd-kind-icon">Get<wbr>Images<wbr>ByIds<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getiterationperformanceresponse" class="tsd-kind-icon">Get<wbr>Iteration<wbr>Performance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getiterationresponse" class="tsd-kind-icon">Get<wbr>Iteration<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getiterationsresponse" class="tsd-kind-icon">Get<wbr>Iterations<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getprojectresponse" class="tsd-kind-icon">Get<wbr>Project<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getprojectsresponse" class="tsd-kind-icon">Get<wbr>Projects<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#gettagresponse" class="tsd-kind-icon">Get<wbr>Tag<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#gettaggedimagecountresponse" class="tsd-kind-icon">Get<wbr>Tagged<wbr>Image<wbr>Count<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#gettaggedimagesresponse" class="tsd-kind-icon">Get<wbr>Tagged<wbr>Images<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#gettagsresponse" class="tsd-kind-icon">Get<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getuntaggedimagecountresponse" class="tsd-kind-icon">Get<wbr>Untagged<wbr>Image<wbr>Count<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getuntaggedimagesresponse" class="tsd-kind-icon">Get<wbr>Untagged<wbr>Images<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagecreatestatus" class="tsd-kind-icon">Image<wbr>Create<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#orderby" class="tsd-kind-icon">Order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#orderby1" class="tsd-kind-icon">Order<wbr>By1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#orderby2" class="tsd-kind-icon">Order<wbr>By2</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#orderby3" class="tsd-kind-icon">Order<wbr>By3</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#platform" class="tsd-kind-icon">Platform</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#publishiterationresponse" class="tsd-kind-icon">Publish<wbr>Iteration<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#querypredictionsresponse" class="tsd-kind-icon">Query<wbr>Predictions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#quicktestimageresponse" class="tsd-kind-icon">Quick<wbr>Test<wbr>Image<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#quicktestimageurlresponse" class="tsd-kind-icon">Quick<wbr>Test<wbr>Image<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tagtype" class="tsd-kind-icon">Tag<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trainprojectresponse" class="tsd-kind-icon">Train<wbr>Project<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trainingtype" class="tsd-kind-icon">Training<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trainingtype1" class="tsd-kind-icon">Training<wbr>Type1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#type" class="tsd-kind-icon">Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#updateiterationresponse" class="tsd-kind-icon">Update<wbr>Iteration<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#updateprojectresponse" class="tsd-kind-icon">Update<wbr>Project<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#updatetagresponse" class="tsd-kind-icon">Update<wbr>Tag<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#boundingbox" class="tsd-kind-icon">Bounding<wbr>Box</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customvisionerror" class="tsd-kind-icon">Custom<wbr>Vision<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#domain" class="tsd-kind-icon">Domain</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exportmodel" class="tsd-kind-icon">Export<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#image" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagecreateresult" class="tsd-kind-icon">Image<wbr>Create<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagecreatesummary" class="tsd-kind-icon">Image<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagefilecreatebatch" class="tsd-kind-icon">Image<wbr>File<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagefilecreateentry" class="tsd-kind-icon">Image<wbr>File<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageidcreatebatch" class="tsd-kind-icon">Image<wbr>IdCreate<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageidcreateentry" class="tsd-kind-icon">Image<wbr>IdCreate<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageperformance" class="tsd-kind-icon">Image<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageprediction" class="tsd-kind-icon">Image<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregion" class="tsd-kind-icon">Image<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregioncreatebatch" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregioncreateentry" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregioncreateresult" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregioncreatesummary" class="tsd-kind-icon">Image<wbr>Region<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageregionproposal" class="tsd-kind-icon">Image<wbr>Region<wbr>Proposal</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagetag" class="tsd-kind-icon">Image<wbr>Tag</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagetagcreatebatch" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagetagcreateentry" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagetagcreatesummary" class="tsd-kind-icon">Image<wbr>Tag<wbr>Create<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurl" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurlcreatebatch" class="tsd-kind-icon">Image<wbr>Url<wbr>Create<wbr>Batch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurlcreateentry" class="tsd-kind-icon">Image<wbr>Url<wbr>Create<wbr>Entry</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iteration" class="tsd-kind-icon">Iteration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iterationperformance" class="tsd-kind-icon">Iteration<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prediction" class="tsd-kind-icon">Prediction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#predictionqueryresult" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#predictionquerytag" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Tag</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#predictionquerytoken" class="tsd-kind-icon">Prediction<wbr>Query<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#project" class="tsd-kind-icon">Project</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectsettings" class="tsd-kind-icon">Project<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#region" class="tsd-kind-icon">Region</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionproposal" class="tsd-kind-icon">Region<wbr>Proposal</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storedimageprediction" class="tsd-kind-icon">Stored<wbr>Image<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tag" class="tsd-kind-icon">Tag</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagperformance" class="tsd-kind-icon">Tag<wbr>Performance</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apikey" class="tsd-kind-icon">api<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classificationtype" class="tsd-kind-icon">classification<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#description" class="tsd-kind-icon">description</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#domainid0" class="tsd-kind-icon">domain<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#domainid1" class="tsd-kind-icon">domain<wbr>Id1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#flavor" class="tsd-kind-icon">flavor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#forcetrain" class="tsd-kind-icon">force<wbr>Train</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ids" class="tsd-kind-icon">ids</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagedata" class="tsd-kind-icon">image<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageid" class="tsd-kind-icon">image<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageids0" class="tsd-kind-icon">image<wbr>Ids0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageids1" class="tsd-kind-icon">image<wbr>Ids1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageids2" class="tsd-kind-icon">image<wbr>Ids2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iterationid0" class="tsd-kind-icon">iteration<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iterationid1" class="tsd-kind-icon">iteration<wbr>Id1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#name" class="tsd-kind-icon">name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#notificationemailaddress" class="tsd-kind-icon">notification<wbr>Email<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby" class="tsd-kind-icon">order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#overlapthreshold" class="tsd-kind-icon">overlap<wbr>Threshold</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#platform" class="tsd-kind-icon">platform</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#predictionid" class="tsd-kind-icon">prediction<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectid" class="tsd-kind-icon">project<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publishname" class="tsd-kind-icon">publish<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionids" class="tsd-kind-icon">region<wbr>Ids</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservedbudgetinhours" class="tsd-kind-icon">reserved<wbr>Budget<wbr>InHours</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skip" class="tsd-kind-icon">skip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagid" class="tsd-kind-icon">tag<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagids0" class="tsd-kind-icon">tag<wbr>Ids0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagids1" class="tsd-kind-icon">tag<wbr>Ids1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagids2" class="tsd-kind-icon">tag<wbr>Ids2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#take" class="tsd-kind-icon">take</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetexportplatforms" class="tsd-kind-icon">target<wbr>Export<wbr>Platforms</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#threshold" class="tsd-kind-icon">threshold</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trainingtype" class="tsd-kind-icon">training<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#type" class="tsd-kind-icon">type</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

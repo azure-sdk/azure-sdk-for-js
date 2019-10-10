@@ -1,0 +1,439 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/identity</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/identity</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/identity</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-identity-client-library-for-js" id="azure-identity-client-library-for-js" style="color: inherit; text-decoration: none;">
+					<h2>Azure Identity client library for JS</h2>
+				</a>
+				<p>This library simplifies authentication against Azure Active Directory for Azure SDK libraries.
+					It provides a set of <code>TokenCredential</code> implementations which can be passed into SDK libraries
+				to authenticate API requests. It supports token authentication using an Azure Active Directory <a href="https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli">service principal</a> or <a href="https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview">managed identity</a>.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#prerequisites" id="prerequisites" style="color: inherit; text-decoration: none;">
+					<h3>Prerequisites</h3>
+				</a>
+				<ul>
+					<li>an Azure subscription<ul>
+							<li>if you don&#39;t have one, you can sign up for a <a href="https://azure.microsoft.com/free/">free account</a></li>
+						</ul>
+					</li>
+					<li>Node.js 8 LTS or higher</li>
+				</ul>
+				<p><strong>NOTE:</strong> The credential implementations in this library are not yet supported in the browser. We will provide browser-supported implementations for some in a future preview release.</p>
+				<a href="#install-the-package" id="install-the-package" style="color: inherit; text-decoration: none;">
+					<h3>Install the package</h3>
+				</a>
+				<p>Install Azure Identity with <code>npm</code>:</p>
+				<pre><code class="language-sh">npm install --save @azure/identity</code></pre>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key concepts</h2>
+				</a>
+				<a href="#credentials" id="credentials" style="color: inherit; text-decoration: none;">
+					<h3>Credentials</h3>
+				</a>
+				<p>Azure Identity offers a variety of credential classes that are accepted by Azure SDK data plane clients. Each client library documents its Azure Identity integration in its README and samples. Azure SDK management plane libraries (those starting with <code>@azure/arm-*</code>)
+				do not accept these credentials.</p>
+				<p>Credentials differ mostly in configuration:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>credential class</th>
+							<th>identity</th>
+							<th>configuration</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html"><code>DefaultAzureCredential</code></a></td>
+							<td>service principal or managed identity</td>
+							<td>none for managed identity; <a href="#environment-variables">environment variables</a> for service principal</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/managedidentitycredential.html"><code>ManagedIdentityCredential</code></a></td>
+							<td>managed identity</td>
+							<td>none</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/environmentcredential.html"><code>EnvironmentCredential</code></a></td>
+							<td>service principal</td>
+							<td><a href="#environment-variables">environment variables</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html"><code>ClientSecretCredential</code></a></td>
+							<td>service principal</td>
+							<td>constructor parameters</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html"><code>ClientCertificateCredential</code></a></td>
+							<td>service principal</td>
+							<td>constructor parameters</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html"><code>DeviceCodeCredential</code></a></td>
+							<td>app registration details</td>
+							<td>constructor parameters</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/authorizationcodecredential.html"><code>AuthorizationCodeCredential</code></a></td>
+							<td>app registration details</td>
+							<td>constructor parameters</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html"><code>InteractiveBrowserCredential</code></a></td>
+							<td>app registration details</td>
+							<td>constructor parameters</td>
+						</tr>
+						<tr>
+							<td><a href="https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html"><code>UsernamePasswordCredential</code></a></td>
+							<td>user principal</td>
+							<td>constructor parameters</td>
+						</tr>
+				</tbody></table>
+				<p>Credentials can be chained and tried in turn until one succeeds; see <a href="#chaining-credentials">chaining credentials</a> for details.</p>
+				<a href="#defaultazurecredential" id="defaultazurecredential" style="color: inherit; text-decoration: none;">
+					<h3>DefaultAzureCredential</h3>
+				</a>
+				<p><code>DefaultAzureCredential</code> is appropriate for most scenarios. It supports authenticating as a service principal or managed identity. To authenticate as a service principal, provide configuration in environment variables as described in the next section. Currently this credential attempts to use the <code>EnvironmentCredential</code> and <code>ManagedIdentityCredential</code>, in that order.</p>
+				<p>Authenticating as a managed identity requires no configuration, but does require platform support. See the <a href="https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-managed-identities">managed identity documentation</a> for more information.</p>
+				<a href="#environment-variables" id="environment-variables" style="color: inherit; text-decoration: none;">
+					<h3>Environment variables</h3>
+				</a>
+				<p><code>DefaultAzureCredential</code> and <code>EnvironmentCredential</code> are configured for service principal authentication with these environment variables:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>variable name</th>
+							<th>value</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><code>AZURE_CLIENT_ID</code></td>
+							<td>service principal&#39;s app id</td>
+						</tr>
+						<tr>
+							<td><code>AZURE_TENANT_ID</code></td>
+							<td>id of the principal&#39;s Azure Active Directory tenant</td>
+						</tr>
+						<tr>
+							<td><code>AZURE_CLIENT_SECRET</code></td>
+							<td>one of the service principal&#39;s client secrets</td>
+						</tr>
+				</tbody></table>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#codedefaultazurecredentialcode" id="codedefaultazurecredentialcode" style="color: inherit; text-decoration: none;">
+					<h3><code>DefaultAzureCredential</code></h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-comment">// The default credential first checks environment variables for configuration as described above.</span>
+<span class="hljs-comment">// If environment configuration is incomplete, it will try managed identity.</span>
+<span class="hljs-keyword">const</span> { KeysClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/keyvault-keys"</span>);
+<span class="hljs-keyword">const</span> { DefaultAzureCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/identity"</span>);
+
+<span class="hljs-comment">// Azure SDK clients accept the credential as a parameter</span>
+<span class="hljs-keyword">const</span> credential = <span class="hljs-keyword">new</span> DefaultAzureCredential();
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> KeysClient(vaultUrl, credential);
+<span class="hljs-keyword">const</span> getResult = <span class="hljs-keyword">await</span> client.getKey(<span class="hljs-string">"MyKeyName"</span>);</code></pre>
+				<a href="#authenticating-as-a-service-principal" id="authenticating-as-a-service-principal" style="color: inherit; text-decoration: none;">
+					<h3>Authenticating as a service principal</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Using a client secret</span>
+<span class="hljs-keyword">const</span> { ClientSecretCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/identity"</span>);
+<span class="hljs-keyword">const</span> credential = <span class="hljs-keyword">new</span> ClientSecretCredential(tenantId, clientId, clientSecret);
+
+<span class="hljs-comment">// Using a PEM-encoded certificate with a private key, not password protected</span>
+<span class="hljs-keyword">const</span> { ClientCertificateCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/identity"</span>);
+<span class="hljs-keyword">const</span> credential = <span class="hljs-keyword">new</span> ClientCertificateCredential(
+  tenantId,
+  clientId,
+  <span class="hljs-string">"/app/certs/certificate.pem"</span>
+);
+
+<span class="hljs-comment">// Using environment variables (see "Environment variables" above for variable names)</span>
+<span class="hljs-keyword">const</span> { EnvironmentCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/identity"</span>);
+<span class="hljs-keyword">const</span> credential = <span class="hljs-keyword">new</span> EnvironmentCredential();</code></pre>
+				<a href="#using-the-codeauthorizationcodecredentialcode" id="using-the-codeauthorizationcodecredentialcode" style="color: inherit; text-decoration: none;">
+					<h3>Using the <code>AuthorizationCodeCredential</code></h3>
+				</a>
+				<p>The <code>AuthorizationCodeCredential</code> takes more up-front work to use than the other credential types at this time.  A full sample demonstrating how to use this credential can be found in <a href="samples/authorizationCodeSample.ts"><code>samples/authorizationCodeSample.ts</code></a>.</p>
+				<a href="#chaining-credentials" id="chaining-credentials" style="color: inherit; text-decoration: none;">
+					<h3>Chaining credentials</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { ClientSecretCredential, ChainedTokenCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/identity"</span>);
+
+<span class="hljs-comment">// When an access token is requested, the chain will try each</span>
+<span class="hljs-comment">// credential in order, stopping when one provides a token</span>
+<span class="hljs-keyword">const</span> firstCredential = <span class="hljs-keyword">new</span> ClientSecretCredential(tenantId, clientId, clientSecret);
+<span class="hljs-keyword">const</span> secondCredential = <span class="hljs-keyword">new</span> ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+<span class="hljs-keyword">const</span> credentialChain = <span class="hljs-keyword">new</span> ChainedTokenCredential(firstCredential, secondCredential);
+
+<span class="hljs-comment">// The chain can be used anywhere a credential is required</span>
+<span class="hljs-keyword">const</span> { KeysClient } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/keyvault-keys"</span>);
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> KeysClient(vaultUrl, credentialChain);</code></pre>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<a href="#general" id="general" style="color: inherit; text-decoration: none;">
+					<h3>General</h3>
+				</a>
+				<p>Credentials raise <code>AuthenticationError</code> when they fail to authenticate. This class has a <code>message</code> field which describes why authentication failed. An <code>AggregateAuthenticationError</code> will be raised by <code>ChainedTokenCredential</code> with an <code>errors</code> field containing an array of errors from each credential in the chain.</p>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h2>Next steps</h2>
+				</a>
+				<a href="#read-the-documentation" id="read-the-documentation" style="color: inherit; text-decoration: none;">
+					<h3>Read the documentation</h3>
+				</a>
+				<p>API documentation for this library can be found on our <a href="https://azure.github.io/azure-sdk-for-js/identity/index.html">documentation site</a>.</p>
+				<a href="#provide-feedback" id="provide-feedback" style="color: inherit; text-decoration: none;">
+					<h3>Provide Feedback</h3>
+				</a>
+				<p>If you encounter bugs or have suggestions, please <a href="https://github.com/Azure/azure-sdk-for-js/issues">open an issue</a>.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a
+					Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+				the rights to use your contribution. For details, visit <a href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+					a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+				provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+				<p>If you&#39;d like to contribute to this library, please read the <a href="../../../CONTRIBUTING.md">contributing guide</a> to learn more about how to build and test the code.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information, see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a>
+				or contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/aggregateauthenticationerror.html" class="tsd-kind-icon">Aggregate<wbr>Authentication<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authenticationerror.html" class="tsd-kind-icon">Authentication<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/authorizationcodecredential.html" class="tsd-kind-icon">Authorization<wbr>Code<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/chainedtokencredential.html" class="tsd-kind-icon">Chained<wbr>Token<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clientcertificatecredential.html" class="tsd-kind-icon">Client<wbr>Certificate<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clientsecretcredential.html" class="tsd-kind-icon">Client<wbr>Secret<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/defaultazurecredential.html" class="tsd-kind-icon">Default<wbr>Azure<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/devicecodecredential.html" class="tsd-kind-icon">Device<wbr>Code<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/environmentcredential.html" class="tsd-kind-icon">Environment<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/identityclient.html" class="tsd-kind-icon">Identity<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/interactivebrowsercredential.html" class="tsd-kind-icon">Interactive<wbr>Browser<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/managedidentitycredential.html" class="tsd-kind-icon">Managed<wbr>Identity<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/usernamepasswordcredential.html" class="tsd-kind-icon">Username<wbr>Password<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/devicecodedetails.html" class="tsd-kind-icon">Device<wbr>Code<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/devicecoderesponse.html" class="tsd-kind-icon">Device<wbr>Code<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identityclientoptions.html" class="tsd-kind-icon">Identity<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/interactivebrowsercredentialoptions.html" class="tsd-kind-icon">Interactive<wbr>Browser<wbr>Credential<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokenresponse.html" class="tsd-kind-icon">Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#browserloginstyle" class="tsd-kind-icon">Browser<wbr>Login<wbr>Style</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#devicecodepromptcallback" class="tsd-kind-icon">Device<wbr>Code<wbr>Prompt<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aggregateauthenticationerrorname" class="tsd-kind-icon">Aggregate<wbr>Authentication<wbr>Error<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#appservicemsiapiversion" class="tsd-kind-icon">App<wbr>Service<wbr>Msi<wbr>Api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#authenticationerrorname" class="tsd-kind-icon">Authentication<wbr>Error<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#imdsapiversion" class="tsd-kind-icon">Imds<wbr>Api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#imdsendpoint" class="tsd-kind-icon">Imds<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#_setdelaytestfunction" class="tsd-kind-icon">_set<wbr>Delay<wbr>Test<wbr>Function</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createspan" class="tsd-kind-icon">create<wbr>Span</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getdefaultazurecredential" class="tsd-kind-icon">get<wbr>Default<wbr>Azure<wbr>Credential</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

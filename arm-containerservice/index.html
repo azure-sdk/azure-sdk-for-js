@@ -1,0 +1,848 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-containerservice</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-containerservice</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-containerservice</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-containerserviceclient-sdk-for-javascript" id="azure-containerserviceclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure ContainerServiceClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for ContainerServiceClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-containerservice</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-openshiftmanagedclusters-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-openshiftmanagedclusters-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list openShiftManagedClusters as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<ul>
+					<li>Please install minimum version of <code>&quot;@azure/ms-rest-nodeauth&quot;: &quot;^3.0.0&quot;</code>.<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth@<span class="hljs-string">"^3.0.0"</span></code></pre>
+					</li>
+				</ul>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { ContainerServiceClient, ContainerServiceModels, ContainerServiceMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-containerservice"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ContainerServiceClient(creds, subscriptionId);
+  client.openShiftManagedClusters.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-openshiftmanagedclusters-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-openshiftmanagedclusters-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list openShiftManagedClusters as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-containerservice sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-containerservice/dist/arm-containerservice.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmContainerservice.ContainerServiceClient(res.creds, subscriptionId);
+      client.openShiftManagedClusters.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/containerservice/arm-containerservice/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/agentpools.html" class="tsd-kind-icon">Agent<wbr>Pools</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/containerserviceclientcontext.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/containerservices.html" class="tsd-kind-icon">Container<wbr>Services</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/managedclusters.html" class="tsd-kind-icon">Managed<wbr>Clusters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/openshiftmanagedclusters.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpool.html" class="tsd-kind-icon">Agent<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpoolavailableversions.html" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Available<wbr>Versions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpoolavailableversionspropertiesagentpoolversionsitem.html" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Available<wbr>Versions<wbr>Properties<wbr>Agent<wbr>Pool<wbr>Versions<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpoollistresult.html" class="tsd-kind-icon">Agent<wbr>Pool<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpoolupgradeprofile.html" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/agentpoolupgradeprofilepropertiesupgradesitem.html" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Upgrade<wbr>Profile<wbr>Properties<wbr>Upgrades<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservice.html" class="tsd-kind-icon">Container<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerserviceagentpoolprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerserviceclientoptions.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicecustomprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Custom<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicediagnosticsprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Diagnostics<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicelinuxprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Linux<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicelistresult.html" class="tsd-kind-icon">Container<wbr>Service<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicemasterprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Master<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicenetworkprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerserviceorchestratorprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Orchestrator<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerserviceserviceprincipalprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Service<wbr>Principal<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicesshconfiguration.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Ssh<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicesshpublickey.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicevmdiagnostics.html" class="tsd-kind-icon">Container<wbr>ServiceVMDiagnostics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerservicewindowsprofile.html" class="tsd-kind-icon">Container<wbr>Service<wbr>Windows<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerserviceslistorchestratorsoptionalparams.html" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>Orchestrators<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/credentialresult.html" class="tsd-kind-icon">Credential<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/credentialresults.html" class="tsd-kind-icon">Credential<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultsecretref.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>Secret<wbr>Ref</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedcluster.html" class="tsd-kind-icon">Managed<wbr>Cluster</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteraadprofile.html" class="tsd-kind-icon">Managed<wbr>ClusterAADProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterapiserveraccessprofile.html" class="tsd-kind-icon">Managed<wbr>ClusterAPIServer<wbr>Access<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteraccessprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Access<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteraddonprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Addon<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteragentpoolprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteragentpoolprofileproperties.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusteridentity.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterlistresult.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterloadbalancerprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterloadbalancerprofilemanagedoutboundips.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>Managed<wbr>OutboundIPs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterloadbalancerprofileoutboundipprefixes.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>OutboundIPPrefixes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterloadbalancerprofileoutboundips.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>OutboundIPs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterpoolupgradeprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Pool<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterpoolupgradeprofileupgradesitem.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Pool<wbr>Upgrade<wbr>Profile<wbr>Upgrades<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterserviceprincipalprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Service<wbr>Principal<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterupgradeprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/managedclusterwindowsprofile.html" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Windows<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkprofile.html" class="tsd-kind-icon">Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedcluster.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusteraadidentityprovider.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>ClusterAADIdentity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusteragentpoolprofile.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusterauthprofile.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Auth<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusterbaseidentityprovider.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Base<wbr>Identity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusteridentityprovider.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Identity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclusterlistresult.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftmanagedclustermasterpoolprofile.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Master<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/openshiftrouterprofile.html" class="tsd-kind-icon">Open<wbr>Shift<wbr>Router<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationvalue.html" class="tsd-kind-icon">Operation<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/orchestratorprofile.html" class="tsd-kind-icon">Orchestrator<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/orchestratorversionprofile.html" class="tsd-kind-icon">Orchestrator<wbr>Version<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/orchestratorversionprofilelistresult.html" class="tsd-kind-icon">Orchestrator<wbr>Version<wbr>Profile<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/purchaseplan.html" class="tsd-kind-icon">Purchase<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcereference.html" class="tsd-kind-icon">Resource<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresource.html" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tagsobject.html" class="tsd-kind-icon">Tags<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpooltype" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolsbegincreateorupdateresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolscreateorupdateresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolsgetavailableagentpoolversionsresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>Get<wbr>Available<wbr>Agent<wbr>Pool<wbr>Versions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolsgetresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolsgetupgradeprofileresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>Get<wbr>Upgrade<wbr>Profile<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolslistnextresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentpoolslistresponse" class="tsd-kind-icon">Agent<wbr>Pools<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceorchestratortypes" class="tsd-kind-icon">Container<wbr>Service<wbr>Orchestrator<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerservicestorageprofiletypes" class="tsd-kind-icon">Container<wbr>Service<wbr>Storage<wbr>Profile<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerservicevmsizetypes" class="tsd-kind-icon">Container<wbr>ServiceVMSize<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerservicesbegincreateorupdateresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerservicescreateorupdateresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerservicesgetresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceslistbyresourcegroupnextresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceslistbyresourcegroupresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceslistnextresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceslistorchestratorsresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>Orchestrators<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containerserviceslistresponse" class="tsd-kind-icon">Container<wbr>Services<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loadbalancersku" class="tsd-kind-icon">Load<wbr>Balancer<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersbegincreateorupdateresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersbeginupdatetagsresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterscreateorupdateresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersgetaccessprofileresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Get<wbr>Access<wbr>Profile<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersgetresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersgetupgradeprofileresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Get<wbr>Upgrade<wbr>Profile<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistbyresourcegroupnextresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistbyresourcegroupresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistclusteradmincredentialsresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>Cluster<wbr>Admin<wbr>Credentials<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistclusterusercredentialsresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>Cluster<wbr>User<wbr>Credentials<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistnextresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclusterslistresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#managedclustersupdatetagsresponse" class="tsd-kind-icon">Managed<wbr>Clusters<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkplugin" class="tsd-kind-icon">Network<wbr>Plugin</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkpolicy" class="tsd-kind-icon">Network<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ostype" class="tsd-kind-icon">OSType</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftagentpoolprofilerole" class="tsd-kind-icon">Open<wbr>Shift<wbr>Agent<wbr>Pool<wbr>Profile<wbr>Role</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftcontainerservicevmsize" class="tsd-kind-icon">Open<wbr>Shift<wbr>Container<wbr>ServiceVMSize</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterbaseidentityproviderunion" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Base<wbr>Identity<wbr>Provider<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclustersbegincreateorupdateresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclustersbeginupdatetagsresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>Begin<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterscreateorupdateresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclustersgetresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterslistbyresourcegroupnextresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterslistbyresourcegroupresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterslistnextresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclusterslistresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#openshiftmanagedclustersupdatetagsresponse" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Clusters<wbr>Update<wbr>Tags<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourceidentitytype" class="tsd-kind-icon">Resource<wbr>Identity<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scalesetevictionpolicy" class="tsd-kind-icon">Scale<wbr>Set<wbr>Eviction<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scalesetpriority" class="tsd-kind-icon">Scale<wbr>Set<wbr>Priority</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpool" class="tsd-kind-icon">Agent<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoolavailableversions" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Available<wbr>Versions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoolavailableversionspropertiesagentpoolversionsitem" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Available<wbr>Versions<wbr>Properties<wbr>Agent<wbr>Pool<wbr>Versions<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoollistresult" class="tsd-kind-icon">Agent<wbr>Pool<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoolupgradeprofile" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoolupgradeprofilepropertiesupgradesitem" class="tsd-kind-icon">Agent<wbr>Pool<wbr>Upgrade<wbr>Profile<wbr>Properties<wbr>Upgrades<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservice" class="tsd-kind-icon">Container<wbr>Service</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerserviceagentpoolprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicecustomprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Custom<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicediagnosticsprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Diagnostics<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicelinuxprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Linux<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicelistresult" class="tsd-kind-icon">Container<wbr>Service<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicemasterprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Master<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicenetworkprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerserviceorchestratorprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Orchestrator<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerserviceserviceprincipalprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Service<wbr>Principal<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicesshconfiguration" class="tsd-kind-icon">Container<wbr>Service<wbr>Ssh<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicesshpublickey" class="tsd-kind-icon">Container<wbr>Service<wbr>Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicevmdiagnostics" class="tsd-kind-icon">Container<wbr>ServiceVMDiagnostics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicewindowsprofile" class="tsd-kind-icon">Container<wbr>Service<wbr>Windows<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#credentialresult" class="tsd-kind-icon">Credential<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#credentialresults" class="tsd-kind-icon">Credential<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultsecretref" class="tsd-kind-icon">Key<wbr>Vault<wbr>Secret<wbr>Ref</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedcluster" class="tsd-kind-icon">Managed<wbr>Cluster</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteraadprofile" class="tsd-kind-icon">Managed<wbr>ClusterAADProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterapiserveraccessprofile" class="tsd-kind-icon">Managed<wbr>ClusterAPIServer<wbr>Access<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteraccessprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Access<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteraddonprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Addon<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteragentpoolprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteragentpoolprofileproperties" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusteridentity" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterlistresult" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterloadbalancerprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterloadbalancerprofilemanagedoutboundips" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>Managed<wbr>OutboundIPs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterloadbalancerprofileoutboundipprefixes" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>OutboundIPPrefixes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterloadbalancerprofileoutboundips" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Load<wbr>Balancer<wbr>Profile<wbr>OutboundIPs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterpoolupgradeprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Pool<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterpoolupgradeprofileupgradesitem" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Pool<wbr>Upgrade<wbr>Profile<wbr>Upgrades<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterserviceprincipalprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Service<wbr>Principal<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterupgradeprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Upgrade<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managedclusterwindowsprofile" class="tsd-kind-icon">Managed<wbr>Cluster<wbr>Windows<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkprofile" class="tsd-kind-icon">Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedcluster" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusteraadidentityprovider" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>ClusterAADIdentity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusteragentpoolprofile" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Agent<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusterauthprofile" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Auth<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusterbaseidentityprovider" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Base<wbr>Identity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusteridentityprovider" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Identity<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclusterlistresult" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftmanagedclustermasterpoolprofile" class="tsd-kind-icon">Open<wbr>Shift<wbr>Managed<wbr>Cluster<wbr>Master<wbr>Pool<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#openshiftrouterprofile" class="tsd-kind-icon">Open<wbr>Shift<wbr>Router<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationvalue" class="tsd-kind-icon">Operation<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orchestratorprofile" class="tsd-kind-icon">Orchestrator<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orchestratorversionprofile" class="tsd-kind-icon">Orchestrator<wbr>Version<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orchestratorversionprofilelistresult" class="tsd-kind-icon">Orchestrator<wbr>Version<wbr>Profile<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#purchaseplan" class="tsd-kind-icon">Purchase<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcereference" class="tsd-kind-icon">Resource<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresource" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tagsobject" class="tsd-kind-icon">Tags<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#agentpoolname" class="tsd-kind-icon">agent<wbr>Pool<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion0" class="tsd-kind-icon">api<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion1" class="tsd-kind-icon">api<wbr>Version1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion2" class="tsd-kind-icon">api<wbr>Version2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerservicename" class="tsd-kind-icon">container<wbr>Service<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname0" class="tsd-kind-icon">resource<wbr>Group<wbr>Name0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname1" class="tsd-kind-icon">resource<wbr>Group<wbr>Name1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcename0" class="tsd-kind-icon">resource<wbr>Name0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcename1" class="tsd-kind-icon">resource<wbr>Name1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcetype" class="tsd-kind-icon">resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rolename" class="tsd-kind-icon">role<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

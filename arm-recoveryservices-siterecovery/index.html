@@ -1,0 +1,2984 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-recoveryservices-siterecovery</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-recoveryservices-siterecovery</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-recoveryservices-siterecovery</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-siterecoverymanagementclient-sdk-for-javascript" id="azure-siterecoverymanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure SiteRecoveryManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for SiteRecoveryManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">arm</span>-<span class="hljs-keyword">recoveryservices</span>-<span class="hljs-keyword">siterecovery</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { SiteRecoveryManagementClient, SiteRecoveryManagementModels, SiteRecoveryManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-recoveryservices-siterecovery"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SiteRecoveryManagementClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-recoveryservices-siterecovery sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-recoveryservices-siterecovery/dist/arm-recoveryservices-siterecovery.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmRecoveryservicesSiterecovery.SiteRecoveryManagementClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/recoverypoints.html" class="tsd-kind-icon">Recovery<wbr>Points</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationalertsettings.html" class="tsd-kind-icon">Replication<wbr>Alert<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationevents.html" class="tsd-kind-icon">Replication<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationfabrics.html" class="tsd-kind-icon">Replication<wbr>Fabrics</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationjobs.html" class="tsd-kind-icon">Replication<wbr>Jobs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationlogicalnetworks.html" class="tsd-kind-icon">Replication<wbr>Logical<wbr>Networks</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationnetworkmappings.html" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationnetworks.html" class="tsd-kind-icon">Replication<wbr>Networks</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationpolicies.html" class="tsd-kind-icon">Replication<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationprotectableitems.html" class="tsd-kind-icon">Replication<wbr>Protectable<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationprotecteditems.html" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationprotectioncontainermappings.html" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationprotectioncontainers.html" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationrecoveryplans.html" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationrecoveryservicesproviders.html" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationstorageclassificationmappings.html" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationstorageclassifications.html" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationvaulthealth.html" class="tsd-kind-icon">Replication<wbr>Vault<wbr>Health</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/replicationvcenters.html" class="tsd-kind-icon">Replicationv<wbr>Centers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/siterecoverymanagementclientcontext.html" class="tsd-kind-icon">Site<wbr>Recovery<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/targetcomputesizes.html" class="tsd-kind-icon">Target<wbr>Compute<wbr>Sizes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aapplyrecoverypointinput.html" class="tsd-kind-icon">A2AApply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2acontainercreationinput.html" class="tsd-kind-icon">A2AContainer<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2acontainermappinginput.html" class="tsd-kind-icon">A2AContainer<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aenableprotectioninput.html" class="tsd-kind-icon">A2AEnable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aeventdetails.html" class="tsd-kind-icon">A2AEvent<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2afailoverproviderinput.html" class="tsd-kind-icon">A2AFailover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2apolicycreationinput.html" class="tsd-kind-icon">A2APolicy<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2apolicydetails.html" class="tsd-kind-icon">A2APolicy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aprotecteddiskdetails.html" class="tsd-kind-icon">A2AProtected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aprotectedmanageddiskdetails.html" class="tsd-kind-icon">A2AProtected<wbr>Managed<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aprotectioncontainermappingdetails.html" class="tsd-kind-icon">A2AProtection<wbr>Container<wbr>Mapping<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2arecoverypointdetails.html" class="tsd-kind-icon">A2ARecovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2areplicationdetails.html" class="tsd-kind-icon">A2AReplication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2areprotectinput.html" class="tsd-kind-icon">A2AReprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aswitchprotectioninput.html" class="tsd-kind-icon">A2ASwitch<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aupdatecontainermappinginput.html" class="tsd-kind-icon">A2AUpdate<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2aupdatereplicationprotectediteminput.html" class="tsd-kind-icon">A2AUpdate<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2avmdiskinputdetails.html" class="tsd-kind-icon">A2AVm<wbr>Disk<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2avmmanageddiskinputdetails.html" class="tsd-kind-icon">A2AVm<wbr>Managed<wbr>Disk<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/a2avmmanageddiskupdatedetails.html" class="tsd-kind-icon">A2AVm<wbr>Managed<wbr>Disk<wbr>Update<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/asrtask.html" class="tsd-kind-icon">ASRTask</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/addvcenterrequest.html" class="tsd-kind-icon">AddVCenter<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/addvcenterrequestproperties.html" class="tsd-kind-icon">AddVCenter<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/alert.html" class="tsd-kind-icon">Alert</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/alertcollection.html" class="tsd-kind-icon">Alert<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/alertproperties.html" class="tsd-kind-icon">Alert<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applyrecoverypointinput.html" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applyrecoverypointinputproperties.html" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applyrecoverypointproviderspecificinput.html" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/asrjobdetails.html" class="tsd-kind-icon">Asr<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/automationrunbooktaskdetails.html" class="tsd-kind-icon">Automation<wbr>Runbook<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefabriccreationinput.html" class="tsd-kind-icon">Azure<wbr>Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefabricspecificdetails.html" class="tsd-kind-icon">Azure<wbr>Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretoazurecreatenetworkmappinginput.html" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretoazurenetworkmappingsettings.html" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretoazureupdatenetworkmappinginput.html" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuretoazurevmsyncedconfigdetails.html" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>VmSynced<wbr>Config<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmdiskdetails.html" class="tsd-kind-icon">Azure<wbr>VmDisk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computesizeerrordetails.html" class="tsd-kind-icon">Compute<wbr>Size<wbr>Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/configurationsettings.html" class="tsd-kind-icon">Configuration<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/configurealertrequest.html" class="tsd-kind-icon">Configure<wbr>Alert<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/configurealertrequestproperties.html" class="tsd-kind-icon">Configure<wbr>Alert<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/consistencychecktaskdetails.html" class="tsd-kind-icon">Consistency<wbr>Check<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createnetworkmappinginput.html" class="tsd-kind-icon">Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createnetworkmappinginputproperties.html" class="tsd-kind-icon">Create<wbr>Network<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createpolicyinput.html" class="tsd-kind-icon">Create<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createpolicyinputproperties.html" class="tsd-kind-icon">Create<wbr>Policy<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createprotectioncontainerinput.html" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createprotectioncontainerinputproperties.html" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createprotectioncontainermappinginput.html" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createprotectioncontainermappinginputproperties.html" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createrecoveryplaninput.html" class="tsd-kind-icon">Create<wbr>Recovery<wbr>Plan<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createrecoveryplaninputproperties.html" class="tsd-kind-icon">Create<wbr>Recovery<wbr>Plan<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/currentscenariodetails.html" class="tsd-kind-icon">Current<wbr>Scenario<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datastore.html" class="tsd-kind-icon">Data<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disableprotectioninput.html" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disableprotectioninputproperties.html" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disableprotectionproviderspecificinput.html" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/discoverprotectableitemrequest.html" class="tsd-kind-icon">Discover<wbr>Protectable<wbr>Item<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/discoverprotectableitemrequestproperties.html" class="tsd-kind-icon">Discover<wbr>Protectable<wbr>Item<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskdetails.html" class="tsd-kind-icon">Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskencryptioninfo.html" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskencryptionkeyinfo.html" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskvolumedetails.html" class="tsd-kind-icon">Disk<wbr>Volume<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/display.html" class="tsd-kind-icon">Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enableprotectioninput.html" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enableprotectioninputproperties.html" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enableprotectionproviderspecificinput.html" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encryptiondetails.html" class="tsd-kind-icon">Encryption<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventcollection.html" class="tsd-kind-icon">Event<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventproperties.html" class="tsd-kind-icon">Event<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventproviderspecificdetails.html" class="tsd-kind-icon">Event<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventqueryparameter.html" class="tsd-kind-icon">Event<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventspecificdetails.html" class="tsd-kind-icon">Event<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exportjobdetails.html" class="tsd-kind-icon">Export<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabric.html" class="tsd-kind-icon">Fabric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabriccollection.html" class="tsd-kind-icon">Fabric<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabriccreationinput.html" class="tsd-kind-icon">Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabriccreationinputproperties.html" class="tsd-kind-icon">Fabric<wbr>Creation<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricproperties.html" class="tsd-kind-icon">Fabric<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricreplicationgrouptaskdetails.html" class="tsd-kind-icon">Fabric<wbr>Replication<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricspecificcreatenetworkmappinginput.html" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricspecificcreationinput.html" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricspecificdetails.html" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fabricspecificupdatenetworkmappinginput.html" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverjobdetails.html" class="tsd-kind-icon">Failover<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverprocessserverrequest.html" class="tsd-kind-icon">Failover<wbr>Process<wbr>Server<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverprocessserverrequestproperties.html" class="tsd-kind-icon">Failover<wbr>Process<wbr>Server<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverreplicationprotecteditemdetails.html" class="tsd-kind-icon">Failover<wbr>Replication<wbr>Protected<wbr>Item<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/grouptaskdetails.html" class="tsd-kind-icon">Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/healtherror.html" class="tsd-kind-icon">Health<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/healtherrorsummary.html" class="tsd-kind-icon">Health<wbr>Error<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplica2012eventdetails.html" class="tsd-kind-icon">HyperVReplica2012<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplica2012r2eventdetails.html" class="tsd-kind-icon">HyperVReplica2012<wbr>R2Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazureapplyrecoverypointinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazureenableprotectioninput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazureeventdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurefailbackproviderinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Failback<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurefailoverproviderinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurepolicydetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurepolicyinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurereplicationdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazurereprotectinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicaazureupdatereplicationprotectediteminput.html" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabaseeventdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabasepolicydetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabasereplicationdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabluepolicydetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabluepolicyinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicabluereplicationdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicapolicydetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicapolicyinput.html" class="tsd-kind-icon">HyperVReplica<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervreplicareplicationdetails.html" class="tsd-kind-icon">HyperVReplica<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervsitedetails.html" class="tsd-kind-icon">HyperVSite<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hypervvirtualmachinedetails.html" class="tsd-kind-icon">HyperVVirtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identityinformation.html" class="tsd-kind-icon">Identity<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageagentdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Agent<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageagentversiondetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Agent<wbr>Version<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2applyrecoverypointinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2enableprotectioninput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2eventdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2failoverproviderinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2policydetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2policyinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2protecteddiskdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Protected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2recoverypointdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Recovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2replicationdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2reprotectinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageazurev2updatereplicationprotectediteminput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagebasepolicydetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Base<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagedisableprotectionproviderspecificinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Disable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagediskdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagediskexclusioninput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Exclusion<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagedisksignatureexclusionoptions.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Signature<wbr>Exclusion<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageenableprotectioninput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagefailoverproviderinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagepolicydetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagepolicyinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmageprotecteddiskdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Protected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagereplicationdetails.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagereprotectinput.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inmagevolumeexclusionoptions.html" class="tsd-kind-icon">In<wbr>Mage<wbr>Volume<wbr>Exclusion<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inconsistentvmdetails.html" class="tsd-kind-icon">Inconsistent<wbr>VmDetails</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/initialreplicationdetails.html" class="tsd-kind-icon">Initial<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inlineworkflowtaskdetails.html" class="tsd-kind-icon">Inline<wbr>Workflow<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/innerhealtherror.html" class="tsd-kind-icon">Inner<wbr>Health<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inputendpoint.html" class="tsd-kind-icon">Input<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/job.html" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobcollection.html" class="tsd-kind-icon">Job<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobdetails.html" class="tsd-kind-icon">Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobentity.html" class="tsd-kind-icon">Job<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joberrordetails.html" class="tsd-kind-icon">Job<wbr>Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobproperties.html" class="tsd-kind-icon">Job<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobqueryparameter.html" class="tsd-kind-icon">Job<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobstatuseventdetails.html" class="tsd-kind-icon">Job<wbr>Status<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobtaskdetails.html" class="tsd-kind-icon">Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyencryptionkeyinfo.html" class="tsd-kind-icon">Key<wbr>Encryption<wbr>Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logicalnetwork.html" class="tsd-kind-icon">Logical<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logicalnetworkcollection.html" class="tsd-kind-icon">Logical<wbr>Network<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logicalnetworkproperties.html" class="tsd-kind-icon">Logical<wbr>Network<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/manualactiontaskdetails.html" class="tsd-kind-icon">Manual<wbr>Action<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mastertargetserver.html" class="tsd-kind-icon">Master<wbr>Target<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mobilityserviceupdate.html" class="tsd-kind-icon">Mobility<wbr>Service<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/network.html" class="tsd-kind-icon">Network</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkcollection.html" class="tsd-kind-icon">Network<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkmapping.html" class="tsd-kind-icon">Network<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkmappingcollection.html" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkmappingfabricspecificsettings.html" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Fabric<wbr>Specific<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkmappingproperties.html" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkproperties.html" class="tsd-kind-icon">Network<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osdetails.html" class="tsd-kind-icon">OSDetails</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osdiskdetails.html" class="tsd-kind-icon">OSDisk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationsdiscovery.html" class="tsd-kind-icon">Operations<wbr>Discovery</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationsdiscoverycollection.html" class="tsd-kind-icon">Operations<wbr>Discovery<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/plannedfailoverinput.html" class="tsd-kind-icon">Planned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/plannedfailoverinputproperties.html" class="tsd-kind-icon">Planned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policy.html" class="tsd-kind-icon">Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policycollection.html" class="tsd-kind-icon">Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyproperties.html" class="tsd-kind-icon">Policy<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyproviderspecificdetails.html" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyproviderspecificinput.html" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/processserver.html" class="tsd-kind-icon">Process<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectableitem.html" class="tsd-kind-icon">Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectableitemcollection.html" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectableitemproperties.html" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectableitemqueryparameter.html" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditemsqueryparameter.html" class="tsd-kind-icon">Protected<wbr>Items<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainer.html" class="tsd-kind-icon">Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainercollection.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainerfabricspecificdetails.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainermapping.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainermappingcollection.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainermappingproperties.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainermappingproviderspecificdetails.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainerproperties.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/providererror.html" class="tsd-kind-icon">Provider<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/providerspecificfailoverinput.html" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/providerspecificrecoverypointdetails.html" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Recovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rcmazuremigrationpolicydetails.html" class="tsd-kind-icon">Rcm<wbr>Azure<wbr>Migration<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplan.html" class="tsd-kind-icon">Recovery<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplana2afailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>A2AFailover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanaction.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanactiondetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanautomationrunbookactiondetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Automation<wbr>Runbook<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplancollection.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplangroup.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplangrouptaskdetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanhypervreplicaazurefailbackinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>HyperVReplica<wbr>Azure<wbr>Failback<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanhypervreplicaazurefailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>HyperVReplica<wbr>Azure<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplaninmageazurev2failoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>InMage<wbr>Azure<wbr>V2Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplaninmagefailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>InMage<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanmanualactiondetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Manual<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanplannedfailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Planned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanplannedfailoverinputproperties.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Planned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanproperties.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanprotecteditem.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanproviderspecificfailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Provider<wbr>Specific<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanscriptactiondetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Script<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanshutdowngrouptaskdetails.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Shutdown<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplantestfailovercleanupinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplantestfailovercleanupinputproperties.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplantestfailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplantestfailoverinputproperties.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanunplannedfailoverinput.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Unplanned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryplanunplannedfailoverinputproperties.html" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Unplanned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypoint.html" class="tsd-kind-icon">Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointcollection.html" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointproperties.html" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryservicesprovider.html" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryservicesprovidercollection.html" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryservicesproviderproperties.html" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/removeprotectioncontainermappinginput.html" class="tsd-kind-icon">Remove<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/removeprotectioncontainermappinginputproperties.html" class="tsd-kind-icon">Remove<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renewcertificateinput.html" class="tsd-kind-icon">Renew<wbr>Certificate<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renewcertificateinputproperties.html" class="tsd-kind-icon">Renew<wbr>Certificate<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationeventslistoptionalparams.html" class="tsd-kind-icon">Replication<wbr>Events<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationgroupdetails.html" class="tsd-kind-icon">Replication<wbr>Group<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationjobslistoptionalparams.html" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprotectableitemslistbyreplicationprotectioncontainersoptionalparams.html" class="tsd-kind-icon">Replication<wbr>Protectable<wbr>Items<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprotecteditem.html" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprotecteditemcollection.html" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprotecteditemproperties.html" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprotecteditemslistoptionalparams.html" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationprovidercontainerunmappinginput.html" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Container<wbr>Unmapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationproviderspecificcontainercreationinput.html" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationproviderspecificcontainermappinginput.html" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationproviderspecificsettings.html" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replicationproviderspecificupdatecontainermappinginput.html" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Update<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcehealthsummary.html" class="tsd-kind-icon">Resource<wbr>Health<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resumejobparams.html" class="tsd-kind-icon">Resume<wbr>Job<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resumejobparamsproperties.html" class="tsd-kind-icon">Resume<wbr>Job<wbr>Params<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionvolume.html" class="tsd-kind-icon">Retention<wbr>Volume</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reversereplicationinput.html" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reversereplicationinputproperties.html" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reversereplicationproviderspecificinput.html" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/roleassignment.html" class="tsd-kind-icon">Role<wbr>Assignment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runasaccount.html" class="tsd-kind-icon">Run<wbr>AsAccount</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sanenableprotectioninput.html" class="tsd-kind-icon">San<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptactiontaskdetails.html" class="tsd-kind-icon">Script<wbr>Action<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/serviceerror.html" class="tsd-kind-icon">Service<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/siterecoverymanagementclientoptions.html" class="tsd-kind-icon">Site<wbr>Recovery<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassification.html" class="tsd-kind-icon">Storage<wbr>Classification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationcollection.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationmapping.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationmappingcollection.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationmappinginput.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationmappingproperties.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageclassificationproperties.html" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storagemappinginputproperties.html" class="tsd-kind-icon">Storage<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subnet.html" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/switchprotectioninput.html" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/switchprotectioninputproperties.html" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/switchprotectionjobdetails.html" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/switchprotectionproviderspecificinput.html" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetcomputesize.html" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetcomputesizecollection.html" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetcomputesizeproperties.html" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tasktypedetails.html" class="tsd-kind-icon">Task<wbr>Type<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testfailovercleanupinput.html" class="tsd-kind-icon">Test<wbr>Failover<wbr>Cleanup<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testfailovercleanupinputproperties.html" class="tsd-kind-icon">Test<wbr>Failover<wbr>Cleanup<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testfailoverinput.html" class="tsd-kind-icon">Test<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testfailoverinputproperties.html" class="tsd-kind-icon">Test<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/testfailoverjobdetails.html" class="tsd-kind-icon">Test<wbr>Failover<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/unplannedfailoverinput.html" class="tsd-kind-icon">Unplanned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/unplannedfailoverinputproperties.html" class="tsd-kind-icon">Unplanned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatemobilityservicerequest.html" class="tsd-kind-icon">Update<wbr>Mobility<wbr>Service<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatemobilityservicerequestproperties.html" class="tsd-kind-icon">Update<wbr>Mobility<wbr>Service<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatenetworkmappinginput.html" class="tsd-kind-icon">Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatenetworkmappinginputproperties.html" class="tsd-kind-icon">Update<wbr>Network<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatepolicyinput.html" class="tsd-kind-icon">Update<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatepolicyinputproperties.html" class="tsd-kind-icon">Update<wbr>Policy<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateprotectioncontainermappinginput.html" class="tsd-kind-icon">Update<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateprotectioncontainermappinginputproperties.html" class="tsd-kind-icon">Update<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updaterecoveryplaninput.html" class="tsd-kind-icon">Update<wbr>Recovery<wbr>Plan<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updaterecoveryplaninputproperties.html" class="tsd-kind-icon">Update<wbr>Recovery<wbr>Plan<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatereplicationprotectediteminput.html" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatereplicationprotectediteminputproperties.html" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatereplicationprotecteditemproviderinput.html" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatevcenterrequest.html" class="tsd-kind-icon">UpdateVCenter<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatevcenterrequestproperties.html" class="tsd-kind-icon">UpdateVCenter<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vcenter.html" class="tsd-kind-icon">VCenter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vcentercollection.html" class="tsd-kind-icon">VCenter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vcenterproperties.html" class="tsd-kind-icon">VCenter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmnicdetails.html" class="tsd-kind-icon">VMNic<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmnicinputdetails.html" class="tsd-kind-icon">VMNic<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarecbtpolicycreationinput.html" class="tsd-kind-icon">VMware<wbr>Cbt<wbr>Policy<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwaredetails.html" class="tsd-kind-icon">VMware<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarev2fabriccreationinput.html" class="tsd-kind-icon">VMware<wbr>V2Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarev2fabricspecificdetails.html" class="tsd-kind-icon">VMware<wbr>V2Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarevirtualmachinedetails.html" class="tsd-kind-icon">VMware<wbr>Virtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vaulthealthdetails.html" class="tsd-kind-icon">Vault<wbr>Health<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vaulthealthproperties.html" class="tsd-kind-icon">Vault<wbr>Health<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versiondetails.html" class="tsd-kind-icon">Version<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinetaskdetails.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmnicupdatestaskdetails.html" class="tsd-kind-icon">Vm<wbr>Nic<wbr>Updates<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmdetails.html" class="tsd-kind-icon">Vmm<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtoazurecreatenetworkmappinginput.html" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtoazurenetworkmappingsettings.html" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtoazureupdatenetworkmappinginput.html" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtovmmcreatenetworkmappinginput.html" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtovmmnetworkmappingsettings.html" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmtovmmupdatenetworkmappinginput.html" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmmvirtualmachinedetails.html" class="tsd-kind-icon">Vmm<wbr>Virtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmwarecbtpolicydetails.html" class="tsd-kind-icon">Vmware<wbr>Cbt<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#a2arprecoverypointtype" class="tsd-kind-icon">A2ARp<wbr>Recovery<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentautoupdatestatus" class="tsd-kind-icon">Agent<wbr>Auto<wbr>Update<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#agentversionstatus" class="tsd-kind-icon">Agent<wbr>Version<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#alternatelocationrecoveryoption" class="tsd-kind-icon">Alternate<wbr>Location<wbr>Recovery<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applyrecoverypointproviderspecificinputunion" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#configurationsettingsunion" class="tsd-kind-icon">Configuration<wbr>Settings<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasyncstatus" class="tsd-kind-icon">Data<wbr>Sync<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disableprotectionproviderspecificinputunion" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disableprotectionreason" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#enableprotectionproviderspecificinputunion" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventproviderspecificdetailsunion" class="tsd-kind-icon">Event<wbr>Provider<wbr>Specific<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#eventspecificdetailsunion" class="tsd-kind-icon">Event<wbr>Specific<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fabricspecificcreatenetworkmappinginputunion" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fabricspecificcreationinputunion" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Creation<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fabricspecificdetailsunion" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fabricspecificupdatenetworkmappinginputunion" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#failoverdeploymentmodel" class="tsd-kind-icon">Failover<wbr>Deployment<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#grouptaskdetailsunion" class="tsd-kind-icon">Group<wbr>Task<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#healtherrorcategory" class="tsd-kind-icon">Health<wbr>Error<wbr>Category</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hypervreplicaazurerprecoverypointtype" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>RpRecovery<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#identityprovidertype" class="tsd-kind-icon">Identity<wbr>Provider<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inmagev2rprecoverypointtype" class="tsd-kind-icon">In<wbr>Mage<wbr>V2Rp<wbr>Recovery<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobdetailsunion" class="tsd-kind-icon">Job<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#licensetype" class="tsd-kind-icon">License<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#multivmgroupcreateoption" class="tsd-kind-icon">Multi<wbr>VmGroup<wbr>Create<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#multivmsyncpointoption" class="tsd-kind-icon">Multi<wbr>VmSync<wbr>Point<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#multivmsyncstatus" class="tsd-kind-icon">Multi<wbr>VmSync<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#networkmappingfabricspecificsettingsunion" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Fabric<wbr>Specific<wbr>Settings<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyproviderspecificdetailsunion" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyproviderspecificinputunion" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#possibleoperationsdirections" class="tsd-kind-icon">Possible<wbr>Operations<wbr>Directions</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#presencestatus" class="tsd-kind-icon">Presence<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectioncontainermappingproviderspecificdetailsunion" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Provider<wbr>Specific<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#providerspecificfailoverinputunion" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Failover<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#providerspecificrecoverypointdetailsunion" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Recovery<wbr>Point<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoveryplanactiondetailsunion" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoveryplanactionlocation" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoveryplangrouptype" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Group<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoveryplanproviderspecificfailoverinputunion" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Provider<wbr>Specific<wbr>Failover<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointsynctype" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Sync<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointtype" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointsgetresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointslistbyreplicationprotecteditemsnextresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>List<wbr>ByReplication<wbr>Protected<wbr>Items<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointslistbyreplicationprotecteditemsresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>List<wbr>ByReplication<wbr>Protected<wbr>Items<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationalertsettingscreateresponse" class="tsd-kind-icon">Replication<wbr>Alert<wbr>Settings<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationalertsettingsgetresponse" class="tsd-kind-icon">Replication<wbr>Alert<wbr>Settings<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationalertsettingslistnextresponse" class="tsd-kind-icon">Replication<wbr>Alert<wbr>Settings<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationalertsettingslistresponse" class="tsd-kind-icon">Replication<wbr>Alert<wbr>Settings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationeventsgetresponse" class="tsd-kind-icon">Replication<wbr>Events<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationeventslistnextresponse" class="tsd-kind-icon">Replication<wbr>Events<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationeventslistresponse" class="tsd-kind-icon">Replication<wbr>Events<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsbegincheckconsistencyresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Begin<wbr>Check<wbr>Consistency<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsbeginreassociategatewayresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Begin<wbr>Reassociate<wbr>Gateway<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsbeginrenewcertificateresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Begin<wbr>Renew<wbr>Certificate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricscheckconsistencyresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Check<wbr>Consistency<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricscreateresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsgetresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricslistnextresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricslistresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsreassociategatewayresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Reassociate<wbr>Gateway<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationfabricsrenewcertificateresponse" class="tsd-kind-icon">Replication<wbr>Fabrics<wbr>Renew<wbr>Certificate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsbegincancelresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Begin<wbr>Cancel<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsbeginexportmethodresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Begin<wbr>Export<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsbeginrestartresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Begin<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsbeginresumeresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Begin<wbr>Resume<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobscancelresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Cancel<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsexportmethodresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Export<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsgetresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobslistnextresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobslistresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsrestartresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationjobsresumeresponse" class="tsd-kind-icon">Replication<wbr>Jobs<wbr>Resume<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationlogicalnetworksgetresponse" class="tsd-kind-icon">Replication<wbr>Logical<wbr>Networks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationlogicalnetworkslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replication<wbr>Logical<wbr>Networks<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationlogicalnetworkslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replication<wbr>Logical<wbr>Networks<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingsbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingsbeginupdateresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingscreateresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingsgetresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingslistbyreplicationnetworksnextresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Networks<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingslistbyreplicationnetworksresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Networks<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingslistnextresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingslistresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkmappingsupdateresponse" class="tsd-kind-icon">Replication<wbr>Network<wbr>Mappings<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworksgetresponse" class="tsd-kind-icon">Replication<wbr>Networks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replication<wbr>Networks<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replication<wbr>Networks<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkslistnextresponse" class="tsd-kind-icon">Replication<wbr>Networks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationnetworkslistresponse" class="tsd-kind-icon">Replication<wbr>Networks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpoliciesbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpoliciesbeginupdateresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpoliciescreateresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpoliciesgetresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpolicieslistnextresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpolicieslistresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationpoliciesupdateresponse" class="tsd-kind-icon">Replication<wbr>Policies<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectableitemsgetresponse" class="tsd-kind-icon">Replication<wbr>Protectable<wbr>Items<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectableitemslistbyreplicationprotectioncontainersnextresponse" class="tsd-kind-icon">Replication<wbr>Protectable<wbr>Items<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectableitemslistbyreplicationprotectioncontainersresponse" class="tsd-kind-icon">Replication<wbr>Protectable<wbr>Items<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemoperation" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsapplyrecoverypointresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Apply<wbr>Recovery<wbr>Point<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginapplyrecoverypointresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Apply<wbr>Recovery<wbr>Point<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginfailovercommitresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Failover<wbr>Commit<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Planned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginrepairreplicationresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Repair<wbr>Replication<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginreprotectresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Reprotect<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbegintestfailovercleanupresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbegintestfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Test<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginunplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Unplanned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginupdatemobilityserviceresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Update<wbr>Mobility<wbr>Service<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsbeginupdateresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemscreateresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsfailovercommitresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Failover<wbr>Commit<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsgetresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemslistbyreplicationprotectioncontainersnextresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemslistbyreplicationprotectioncontainersresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemslistnextresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemslistresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Planned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsrepairreplicationresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Repair<wbr>Replication<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsreprotectresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Reprotect<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemstestfailovercleanupresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemstestfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Test<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsunplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Unplanned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsupdatemobilityserviceresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Update<wbr>Mobility<wbr>Service<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotecteditemsupdateresponse" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Items<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingsbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingsbeginupdateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingscreateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingsgetresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingslistbyreplicationprotectioncontainersnextresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingslistbyreplicationprotectioncontainersresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Protection<wbr>Containers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingslistnextresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingslistresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainermappingsupdateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Container<wbr>Mappings<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersbegindiscoverprotectableitemresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Begin<wbr>Discover<wbr>Protectable<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersbeginswitchprotectionresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Begin<wbr>Switch<wbr>Protection<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainerscreateresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersdiscoverprotectableitemresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Discover<wbr>Protectable<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersgetresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainerslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainerslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainerslistnextresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainerslistresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationprotectioncontainersswitchprotectionresponse" class="tsd-kind-icon">Replication<wbr>Protection<wbr>Containers<wbr>Switch<wbr>Protection<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationproviderspecificcontainercreationinputunion" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Creation<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationproviderspecificcontainermappinginputunion" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Mapping<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationproviderspecificsettingsunion" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Settings<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationproviderspecificupdatecontainermappinginputunion" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Update<wbr>Container<wbr>Mapping<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbeginfailovercommitresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Failover<wbr>Commit<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbeginplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Planned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbeginreprotectresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Reprotect<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbegintestfailovercleanupresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbegintestfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Test<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbeginunplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Unplanned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansbeginupdateresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplanscreateresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansfailovercommitresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Failover<wbr>Commit<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansgetresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplanslistnextresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplanslistresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Planned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansreprotectresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Reprotect<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplanstestfailovercleanupresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplanstestfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Test<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansunplannedfailoverresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Unplanned<wbr>Failover<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryplansupdateresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Plans<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesprovidersbeginrefreshproviderresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>Begin<wbr>Refresh<wbr>Provider<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesprovidersgetresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesproviderslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesproviderslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesproviderslistnextresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesproviderslistresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationrecoveryservicesprovidersrefreshproviderresponse" class="tsd-kind-icon">Replication<wbr>Recovery<wbr>Services<wbr>Providers<wbr>Refresh<wbr>Provider<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingsbegincreateresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingscreateresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingsgetresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingslistbyreplicationstorageclassificationsnextresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Storage<wbr>Classifications<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingslistbyreplicationstorageclassificationsresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>List<wbr>ByReplication<wbr>Storage<wbr>Classifications<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingslistnextresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationmappingslistresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classification<wbr>Mappings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationsgetresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationslistnextresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationstorageclassificationslistresponse" class="tsd-kind-icon">Replication<wbr>Storage<wbr>Classifications<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvaulthealthbeginrefreshresponse" class="tsd-kind-icon">Replication<wbr>Vault<wbr>Health<wbr>Begin<wbr>Refresh<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvaulthealthgetresponse" class="tsd-kind-icon">Replication<wbr>Vault<wbr>Health<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvaulthealthrefreshresponse" class="tsd-kind-icon">Replication<wbr>Vault<wbr>Health<wbr>Refresh<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcentersbegincreateresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcentersbeginupdateresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcenterscreateresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcentersgetresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcenterslistbyreplicationfabricsnextresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcenterslistbyreplicationfabricsresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>List<wbr>ByReplication<wbr>Fabrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcenterslistnextresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcenterslistresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#replicationvcentersupdateresponse" class="tsd-kind-icon">Replicationv<wbr>Centers<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reversereplicationproviderspecificinputunion" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rpinmagerecoverypointtype" class="tsd-kind-icon">Rp<wbr>InMage<wbr>Recovery<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#setmultivmsyncstatus" class="tsd-kind-icon">Set<wbr>Multi<wbr>VmSync<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#severity" class="tsd-kind-icon">Severity</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sourcesiteoperations" class="tsd-kind-icon">Source<wbr>Site<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#switchprotectionproviderspecificinputunion" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#targetcomputesizeslistbyreplicationprotecteditemsnextresponse" class="tsd-kind-icon">Target<wbr>Compute<wbr>Sizes<wbr>List<wbr>ByReplication<wbr>Protected<wbr>Items<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#targetcomputesizeslistbyreplicationprotecteditemsresponse" class="tsd-kind-icon">Target<wbr>Compute<wbr>Sizes<wbr>List<wbr>ByReplication<wbr>Protected<wbr>Items<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tasktypedetailsunion" class="tsd-kind-icon">Task<wbr>Type<wbr>Details<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#updatereplicationprotecteditemproviderinputunion" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Provider<wbr>Input<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aapplyrecoverypointinput" class="tsd-kind-icon">A2AApply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2acontainercreationinput" class="tsd-kind-icon">A2AContainer<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2acontainermappinginput" class="tsd-kind-icon">A2AContainer<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aenableprotectioninput" class="tsd-kind-icon">A2AEnable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aeventdetails" class="tsd-kind-icon">A2AEvent<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2afailoverproviderinput" class="tsd-kind-icon">A2AFailover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2apolicycreationinput" class="tsd-kind-icon">A2APolicy<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2apolicydetails" class="tsd-kind-icon">A2APolicy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aprotecteddiskdetails" class="tsd-kind-icon">A2AProtected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aprotectedmanageddiskdetails" class="tsd-kind-icon">A2AProtected<wbr>Managed<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aprotectioncontainermappingdetails" class="tsd-kind-icon">A2AProtection<wbr>Container<wbr>Mapping<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2arecoverypointdetails" class="tsd-kind-icon">A2ARecovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2areplicationdetails" class="tsd-kind-icon">A2AReplication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2areprotectinput" class="tsd-kind-icon">A2AReprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aswitchprotectioninput" class="tsd-kind-icon">A2ASwitch<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aupdatecontainermappinginput" class="tsd-kind-icon">A2AUpdate<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2aupdatereplicationprotectediteminput" class="tsd-kind-icon">A2AUpdate<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2avmdiskinputdetails" class="tsd-kind-icon">A2AVm<wbr>Disk<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2avmmanageddiskinputdetails" class="tsd-kind-icon">A2AVm<wbr>Managed<wbr>Disk<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#a2avmmanageddiskupdatedetails" class="tsd-kind-icon">A2AVm<wbr>Managed<wbr>Disk<wbr>Update<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#asrtask" class="tsd-kind-icon">ASRTask</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#addvcenterrequest" class="tsd-kind-icon">AddVCenter<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#addvcenterrequestproperties" class="tsd-kind-icon">AddVCenter<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#alert" class="tsd-kind-icon">Alert</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#alertcollection" class="tsd-kind-icon">Alert<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#alertproperties" class="tsd-kind-icon">Alert<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applyrecoverypointinput" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applyrecoverypointinputproperties" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applyrecoverypointproviderspecificinput" class="tsd-kind-icon">Apply<wbr>Recovery<wbr>Point<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#asrjobdetails" class="tsd-kind-icon">Asr<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#automationrunbooktaskdetails" class="tsd-kind-icon">Automation<wbr>Runbook<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefabriccreationinput" class="tsd-kind-icon">Azure<wbr>Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefabricspecificdetails" class="tsd-kind-icon">Azure<wbr>Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretoazurecreatenetworkmappinginput" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretoazurenetworkmappingsettings" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretoazureupdatenetworkmappinginput" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuretoazurevmsyncedconfigdetails" class="tsd-kind-icon">Azure<wbr>ToAzure<wbr>VmSynced<wbr>Config<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmdiskdetails" class="tsd-kind-icon">Azure<wbr>VmDisk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computesizeerrordetails" class="tsd-kind-icon">Compute<wbr>Size<wbr>Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#configurationsettings" class="tsd-kind-icon">Configuration<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#configurealertrequest" class="tsd-kind-icon">Configure<wbr>Alert<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#configurealertrequestproperties" class="tsd-kind-icon">Configure<wbr>Alert<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#consistencychecktaskdetails" class="tsd-kind-icon">Consistency<wbr>Check<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createnetworkmappinginput" class="tsd-kind-icon">Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createnetworkmappinginputproperties" class="tsd-kind-icon">Create<wbr>Network<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createpolicyinput" class="tsd-kind-icon">Create<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createpolicyinputproperties" class="tsd-kind-icon">Create<wbr>Policy<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createprotectioncontainerinput" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createprotectioncontainerinputproperties" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createprotectioncontainermappinginput" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createprotectioncontainermappinginputproperties" class="tsd-kind-icon">Create<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createrecoveryplaninput" class="tsd-kind-icon">Create<wbr>Recovery<wbr>Plan<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createrecoveryplaninputproperties" class="tsd-kind-icon">Create<wbr>Recovery<wbr>Plan<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#currentscenariodetails" class="tsd-kind-icon">Current<wbr>Scenario<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datastore" class="tsd-kind-icon">Data<wbr>Store</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disableprotectioninput" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disableprotectioninputproperties" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disableprotectionproviderspecificinput" class="tsd-kind-icon">Disable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discoverprotectableitemrequest" class="tsd-kind-icon">Discover<wbr>Protectable<wbr>Item<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discoverprotectableitemrequestproperties" class="tsd-kind-icon">Discover<wbr>Protectable<wbr>Item<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskdetails" class="tsd-kind-icon">Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskencryptioninfo" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskencryptionkeyinfo" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskvolumedetails" class="tsd-kind-icon">Disk<wbr>Volume<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#display" class="tsd-kind-icon">Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enableprotectioninput" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enableprotectioninputproperties" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enableprotectionproviderspecificinput" class="tsd-kind-icon">Enable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptiondetails" class="tsd-kind-icon">Encryption<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#event" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventcollection" class="tsd-kind-icon">Event<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventproperties" class="tsd-kind-icon">Event<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventproviderspecificdetails" class="tsd-kind-icon">Event<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventqueryparameter" class="tsd-kind-icon">Event<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventspecificdetails" class="tsd-kind-icon">Event<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exportjobdetails" class="tsd-kind-icon">Export<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabric" class="tsd-kind-icon">Fabric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabriccollection" class="tsd-kind-icon">Fabric<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabriccreationinput" class="tsd-kind-icon">Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabriccreationinputproperties" class="tsd-kind-icon">Fabric<wbr>Creation<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricproperties" class="tsd-kind-icon">Fabric<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricreplicationgrouptaskdetails" class="tsd-kind-icon">Fabric<wbr>Replication<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricspecificcreatenetworkmappinginput" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricspecificcreationinput" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricspecificdetails" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricspecificupdatenetworkmappinginput" class="tsd-kind-icon">Fabric<wbr>Specific<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverjobdetails" class="tsd-kind-icon">Failover<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverprocessserverrequest" class="tsd-kind-icon">Failover<wbr>Process<wbr>Server<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverprocessserverrequestproperties" class="tsd-kind-icon">Failover<wbr>Process<wbr>Server<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverreplicationprotecteditemdetails" class="tsd-kind-icon">Failover<wbr>Replication<wbr>Protected<wbr>Item<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#grouptaskdetails" class="tsd-kind-icon">Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#healtherror" class="tsd-kind-icon">Health<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#healtherrorsummary" class="tsd-kind-icon">Health<wbr>Error<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplica2012eventdetails" class="tsd-kind-icon">HyperVReplica2012<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplica2012r2eventdetails" class="tsd-kind-icon">HyperVReplica2012<wbr>R2Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazureapplyrecoverypointinput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazureenableprotectioninput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazureeventdetails" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurefailbackproviderinput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Failback<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurefailoverproviderinput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurepolicydetails" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurepolicyinput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurereplicationdetails" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazurereprotectinput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicaazureupdatereplicationprotectediteminput" class="tsd-kind-icon">HyperVReplica<wbr>Azure<wbr>Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabaseeventdetails" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabasepolicydetails" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabasereplicationdetails" class="tsd-kind-icon">HyperVReplica<wbr>Base<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabluepolicydetails" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabluepolicyinput" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicabluereplicationdetails" class="tsd-kind-icon">HyperVReplica<wbr>Blue<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicapolicydetails" class="tsd-kind-icon">HyperVReplica<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicapolicyinput" class="tsd-kind-icon">HyperVReplica<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervreplicareplicationdetails" class="tsd-kind-icon">HyperVReplica<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervsitedetails" class="tsd-kind-icon">HyperVSite<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hypervvirtualmachinedetails" class="tsd-kind-icon">HyperVVirtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identityinformation" class="tsd-kind-icon">Identity<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageagentdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Agent<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageagentversiondetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Agent<wbr>Version<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2applyrecoverypointinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Apply<wbr>Recovery<wbr>Point<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2enableprotectioninput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2eventdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2failoverproviderinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2policydetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2policyinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2protecteddiskdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Protected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2recoverypointdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Recovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2replicationdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2reprotectinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageazurev2updatereplicationprotectediteminput" class="tsd-kind-icon">In<wbr>Mage<wbr>Azure<wbr>V2Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagebasepolicydetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Base<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagedisableprotectionproviderspecificinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Disable<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagediskdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagediskexclusioninput" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Exclusion<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagedisksignatureexclusionoptions" class="tsd-kind-icon">In<wbr>Mage<wbr>Disk<wbr>Signature<wbr>Exclusion<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageenableprotectioninput" class="tsd-kind-icon">In<wbr>Mage<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagefailoverproviderinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Failover<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagepolicydetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagepolicyinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmageprotecteddiskdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Protected<wbr>Disk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagereplicationdetails" class="tsd-kind-icon">In<wbr>Mage<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagereprotectinput" class="tsd-kind-icon">In<wbr>Mage<wbr>Reprotect<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inmagevolumeexclusionoptions" class="tsd-kind-icon">In<wbr>Mage<wbr>Volume<wbr>Exclusion<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inconsistentvmdetails" class="tsd-kind-icon">Inconsistent<wbr>VmDetails</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#initialreplicationdetails" class="tsd-kind-icon">Initial<wbr>Replication<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inlineworkflowtaskdetails" class="tsd-kind-icon">Inline<wbr>Workflow<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#innerhealtherror" class="tsd-kind-icon">Inner<wbr>Health<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inputendpoint" class="tsd-kind-icon">Input<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#job" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobcollection" class="tsd-kind-icon">Job<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobdetails" class="tsd-kind-icon">Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobentity" class="tsd-kind-icon">Job<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joberrordetails" class="tsd-kind-icon">Job<wbr>Error<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobproperties" class="tsd-kind-icon">Job<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobqueryparameter" class="tsd-kind-icon">Job<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobstatuseventdetails" class="tsd-kind-icon">Job<wbr>Status<wbr>Event<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobtaskdetails" class="tsd-kind-icon">Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyencryptionkeyinfo" class="tsd-kind-icon">Key<wbr>Encryption<wbr>Key<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logicalnetwork" class="tsd-kind-icon">Logical<wbr>Network</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logicalnetworkcollection" class="tsd-kind-icon">Logical<wbr>Network<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logicalnetworkproperties" class="tsd-kind-icon">Logical<wbr>Network<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#manualactiontaskdetails" class="tsd-kind-icon">Manual<wbr>Action<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mastertargetserver" class="tsd-kind-icon">Master<wbr>Target<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mobilityserviceupdate" class="tsd-kind-icon">Mobility<wbr>Service<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#network" class="tsd-kind-icon">Network</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkcollection" class="tsd-kind-icon">Network<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkmapping" class="tsd-kind-icon">Network<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkmappingcollection" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkmappingfabricspecificsettings" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Fabric<wbr>Specific<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkmappingproperties" class="tsd-kind-icon">Network<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkproperties" class="tsd-kind-icon">Network<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osdetails" class="tsd-kind-icon">OSDetails</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osdiskdetails" class="tsd-kind-icon">OSDisk<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationsdiscovery" class="tsd-kind-icon">Operations<wbr>Discovery</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationsdiscoverycollection" class="tsd-kind-icon">Operations<wbr>Discovery<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#plannedfailoverinput" class="tsd-kind-icon">Planned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#plannedfailoverinputproperties" class="tsd-kind-icon">Planned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policy" class="tsd-kind-icon">Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policycollection" class="tsd-kind-icon">Policy<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyproperties" class="tsd-kind-icon">Policy<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyproviderspecificdetails" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyproviderspecificinput" class="tsd-kind-icon">Policy<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#processserver" class="tsd-kind-icon">Process<wbr>Server</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectableitem" class="tsd-kind-icon">Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectableitemcollection" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectableitemproperties" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectableitemqueryparameter" class="tsd-kind-icon">Protectable<wbr>Item<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditemsqueryparameter" class="tsd-kind-icon">Protected<wbr>Items<wbr>Query<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainer" class="tsd-kind-icon">Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainercollection" class="tsd-kind-icon">Protection<wbr>Container<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainerfabricspecificdetails" class="tsd-kind-icon">Protection<wbr>Container<wbr>Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainermapping" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainermappingcollection" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainermappingproperties" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainermappingproviderspecificdetails" class="tsd-kind-icon">Protection<wbr>Container<wbr>Mapping<wbr>Provider<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainerproperties" class="tsd-kind-icon">Protection<wbr>Container<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#providererror" class="tsd-kind-icon">Provider<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#providerspecificfailoverinput" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#providerspecificrecoverypointdetails" class="tsd-kind-icon">Provider<wbr>Specific<wbr>Recovery<wbr>Point<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rcmazuremigrationpolicydetails" class="tsd-kind-icon">Rcm<wbr>Azure<wbr>Migration<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplan" class="tsd-kind-icon">Recovery<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplana2afailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>A2AFailover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanaction" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanactiondetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanautomationrunbookactiondetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Automation<wbr>Runbook<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplancollection" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplangroup" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplangrouptaskdetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanhypervreplicaazurefailbackinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>HyperVReplica<wbr>Azure<wbr>Failback<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanhypervreplicaazurefailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>HyperVReplica<wbr>Azure<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplaninmageazurev2failoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>InMage<wbr>Azure<wbr>V2Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplaninmagefailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>InMage<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanmanualactiondetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Manual<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanplannedfailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Planned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanplannedfailoverinputproperties" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Planned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanproperties" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanprotecteditem" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanproviderspecificfailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Provider<wbr>Specific<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanscriptactiondetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Script<wbr>Action<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanshutdowngrouptaskdetails" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Shutdown<wbr>Group<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplantestfailovercleanupinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplantestfailovercleanupinputproperties" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Cleanup<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplantestfailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplantestfailoverinputproperties" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Test<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanunplannedfailoverinput" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Unplanned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanunplannedfailoverinputproperties" class="tsd-kind-icon">Recovery<wbr>Plan<wbr>Unplanned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypoint" class="tsd-kind-icon">Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointcollection" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointproperties" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryservicesprovider" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryservicesprovidercollection" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryservicesproviderproperties" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Provider<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#removeprotectioncontainermappinginput" class="tsd-kind-icon">Remove<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#removeprotectioncontainermappinginputproperties" class="tsd-kind-icon">Remove<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renewcertificateinput" class="tsd-kind-icon">Renew<wbr>Certificate<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renewcertificateinputproperties" class="tsd-kind-icon">Renew<wbr>Certificate<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationgroupdetails" class="tsd-kind-icon">Replication<wbr>Group<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationprotecteditem" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationprotecteditemcollection" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationprotecteditemproperties" class="tsd-kind-icon">Replication<wbr>Protected<wbr>Item<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationprovidercontainerunmappinginput" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Container<wbr>Unmapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationproviderspecificcontainercreationinput" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationproviderspecificcontainermappinginput" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationproviderspecificsettings" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationproviderspecificupdatecontainermappinginput" class="tsd-kind-icon">Replication<wbr>Provider<wbr>Specific<wbr>Update<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcehealthsummary" class="tsd-kind-icon">Resource<wbr>Health<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resumejobparams" class="tsd-kind-icon">Resume<wbr>Job<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resumejobparamsproperties" class="tsd-kind-icon">Resume<wbr>Job<wbr>Params<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionvolume" class="tsd-kind-icon">Retention<wbr>Volume</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reversereplicationinput" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reversereplicationinputproperties" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reversereplicationproviderspecificinput" class="tsd-kind-icon">Reverse<wbr>Replication<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#roleassignment" class="tsd-kind-icon">Role<wbr>Assignment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runasaccount" class="tsd-kind-icon">Run<wbr>AsAccount</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sanenableprotectioninput" class="tsd-kind-icon">San<wbr>Enable<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptactiontaskdetails" class="tsd-kind-icon">Script<wbr>Action<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#serviceerror" class="tsd-kind-icon">Service<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassification" class="tsd-kind-icon">Storage<wbr>Classification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationcollection" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationmapping" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationmappingcollection" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationmappinginput" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationmappingproperties" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Mapping<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationproperties" class="tsd-kind-icon">Storage<wbr>Classification<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storagemappinginputproperties" class="tsd-kind-icon">Storage<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subnet" class="tsd-kind-icon">Subnet</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#switchprotectioninput" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#switchprotectioninputproperties" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#switchprotectionjobdetails" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#switchprotectionproviderspecificinput" class="tsd-kind-icon">Switch<wbr>Protection<wbr>Provider<wbr>Specific<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetcomputesize" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetcomputesizecollection" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetcomputesizeproperties" class="tsd-kind-icon">Target<wbr>Compute<wbr>Size<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tasktypedetails" class="tsd-kind-icon">Task<wbr>Type<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testfailovercleanupinput" class="tsd-kind-icon">Test<wbr>Failover<wbr>Cleanup<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testfailovercleanupinputproperties" class="tsd-kind-icon">Test<wbr>Failover<wbr>Cleanup<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testfailoverinput" class="tsd-kind-icon">Test<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testfailoverinputproperties" class="tsd-kind-icon">Test<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#testfailoverjobdetails" class="tsd-kind-icon">Test<wbr>Failover<wbr>Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#unplannedfailoverinput" class="tsd-kind-icon">Unplanned<wbr>Failover<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#unplannedfailoverinputproperties" class="tsd-kind-icon">Unplanned<wbr>Failover<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatemobilityservicerequest" class="tsd-kind-icon">Update<wbr>Mobility<wbr>Service<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatemobilityservicerequestproperties" class="tsd-kind-icon">Update<wbr>Mobility<wbr>Service<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatenetworkmappinginput" class="tsd-kind-icon">Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatenetworkmappinginputproperties" class="tsd-kind-icon">Update<wbr>Network<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatepolicyinput" class="tsd-kind-icon">Update<wbr>Policy<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatepolicyinputproperties" class="tsd-kind-icon">Update<wbr>Policy<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateprotectioncontainermappinginput" class="tsd-kind-icon">Update<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateprotectioncontainermappinginputproperties" class="tsd-kind-icon">Update<wbr>Protection<wbr>Container<wbr>Mapping<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updaterecoveryplaninput" class="tsd-kind-icon">Update<wbr>Recovery<wbr>Plan<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updaterecoveryplaninputproperties" class="tsd-kind-icon">Update<wbr>Recovery<wbr>Plan<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatereplicationprotectediteminput" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatereplicationprotectediteminputproperties" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Input<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatereplicationprotecteditemproviderinput" class="tsd-kind-icon">Update<wbr>Replication<wbr>Protected<wbr>Item<wbr>Provider<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatevcenterrequest" class="tsd-kind-icon">UpdateVCenter<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatevcenterrequestproperties" class="tsd-kind-icon">UpdateVCenter<wbr>Request<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vcenter" class="tsd-kind-icon">VCenter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vcentercollection" class="tsd-kind-icon">VCenter<wbr>Collection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vcenterproperties" class="tsd-kind-icon">VCenter<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmnicdetails" class="tsd-kind-icon">VMNic<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmnicinputdetails" class="tsd-kind-icon">VMNic<wbr>Input<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwarecbtpolicycreationinput" class="tsd-kind-icon">VMware<wbr>Cbt<wbr>Policy<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwaredetails" class="tsd-kind-icon">VMware<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwarev2fabriccreationinput" class="tsd-kind-icon">VMware<wbr>V2Fabric<wbr>Creation<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwarev2fabricspecificdetails" class="tsd-kind-icon">VMware<wbr>V2Fabric<wbr>Specific<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwarevirtualmachinedetails" class="tsd-kind-icon">VMware<wbr>Virtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vaulthealthdetails" class="tsd-kind-icon">Vault<wbr>Health<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vaulthealthproperties" class="tsd-kind-icon">Vault<wbr>Health<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versiondetails" class="tsd-kind-icon">Version<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinetaskdetails" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmnicupdatestaskdetails" class="tsd-kind-icon">Vm<wbr>Nic<wbr>Updates<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmdetails" class="tsd-kind-icon">Vmm<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtoazurecreatenetworkmappinginput" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtoazurenetworkmappingsettings" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtoazureupdatenetworkmappinginput" class="tsd-kind-icon">Vmm<wbr>ToAzure<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtovmmcreatenetworkmappinginput" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Create<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtovmmnetworkmappingsettings" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Network<wbr>Mapping<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmtovmmupdatenetworkmappinginput" class="tsd-kind-icon">Vmm<wbr>ToVmm<wbr>Update<wbr>Network<wbr>Mapping<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmmvirtualmachinedetails" class="tsd-kind-icon">Vmm<wbr>Virtual<wbr>Machine<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmwarecbtpolicydetails" class="tsd-kind-icon">Vmware<wbr>Cbt<wbr>Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#alertsettingname" class="tsd-kind-icon">alert<wbr>Setting<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#eventname" class="tsd-kind-icon">event<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricname" class="tsd-kind-icon">fabric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobname" class="tsd-kind-icon">job<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logicalnetworkname" class="tsd-kind-icon">logical<wbr>Network<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mappingname" class="tsd-kind-icon">mapping<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkmappingname" class="tsd-kind-icon">network<wbr>Mapping<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkname" class="tsd-kind-icon">network<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyname" class="tsd-kind-icon">policy<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectableitemname" class="tsd-kind-icon">protectable<wbr>Item<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainername" class="tsd-kind-icon">protection<wbr>Container<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#providername" class="tsd-kind-icon">provider<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoveryplanname" class="tsd-kind-icon">recovery<wbr>Plan<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointname" class="tsd-kind-icon">recovery<wbr>Point<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicatedprotecteditemname" class="tsd-kind-icon">replicated<wbr>Protected<wbr>Item<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replicationprotecteditemname" class="tsd-kind-icon">replication<wbr>Protected<wbr>Item<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcename" class="tsd-kind-icon">resource<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skiptoken" class="tsd-kind-icon">skip<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationmappingname" class="tsd-kind-icon">storage<wbr>Classification<wbr>Mapping<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageclassificationname" class="tsd-kind-icon">storage<wbr>Classification<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vcentername" class="tsd-kind-icon">v<wbr>Center<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

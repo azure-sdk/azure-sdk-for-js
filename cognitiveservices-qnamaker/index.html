@@ -1,0 +1,531 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-qnamaker</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-qnamaker</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-qnamaker</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---qnamakerclient" id="an-isomorphic-javascript-sdk-for---qnamakerclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - QnAMakerClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for QnAMakerClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-qnamaker</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-getkeys-endpointkeys-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-getkeys-endpointkeys-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and getKeys endpointKeys as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-azure-js" id="install-azurems-rest-azure-js" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-azure-js</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-azure-js</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>The following sample lists the keys of the QnAMaker endpoint. To know more, refer to the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/">Azure Documentation on QnAMaker</a></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { QnAMakerClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-qnamaker"</span>;
+<span class="hljs-keyword">import</span> { CognitiveServicesCredentials } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+
+<span class="hljs-keyword">const</span> qnaMakerKey = process.env[<span class="hljs-string">"YOUR_QNAMAKER_KEY"</span>] || <span class="hljs-string">"&lt;YOUR_QNAMAKER_KEY&gt;"</span>;
+<span class="hljs-keyword">const</span> endpoint =
+  process.env[<span class="hljs-string">"YOUR_QNAMAKER_ENDPOINT"</span>] || <span class="hljs-string">"&lt;YOUR_QNAMAKER_ENDPOINT&gt;"</span>;
+
+<span class="hljs-keyword">const</span> creds = <span class="hljs-keyword">new</span> CognitiveServicesCredentials(qnaMakerKey);
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> QnAMakerClient(creds, endpoint);
+client.endpointKeys
+  .getKeys()
+  .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  })
+  .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.error(err);
+  });</code></pre>
+				<a href="#browser---authentication-client-creation-and-getkeys-endpointkeys-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-getkeys-endpointkeys-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and getKeys endpointKeys as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li><p>index.html</p>
+						<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-qnamaker sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-qnamaker/dist/cognitiveservices-qnamaker.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> qnaMakerKey = <span class="hljs-string">"&lt;YOUR_QNAMAKER_KEY&gt;"</span>;
+    <span class="hljs-keyword">const</span> endpoint = <span class="hljs-string">"&lt;YOUR_QNAMAKER_ENDPOINT&gt;"</span>;
+    <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> msRest.ApiKeyCredentials({
+      <span class="hljs-attr">inHeader</span>: {
+        <span class="hljs-string">"Ocp-Apim-Subscription-Key"</span>: qnaMakerKey
+      }
+    });
+    <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesQnamaker.QnAMakerClient(
+      cognitiveServiceCredentials,
+      endpoint
+    );
+
+    client.endpointKeys
+      .getKeys()
+      .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-qnamaker/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/alterations.html" class="tsd-kind-icon">Alterations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/endpointkeys.html" class="tsd-kind-icon">Endpoint<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/knowledgebase.html" class="tsd-kind-icon">Knowledgebase</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/qnamakerclientcontext.html" class="tsd-kind-icon">QnAMaker<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/alterationsdto.html" class="tsd-kind-icon">AlterationsDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/contextdto.html" class="tsd-kind-icon">ContextDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createkbdto.html" class="tsd-kind-icon">Create<wbr>KbDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createkbinputdto.html" class="tsd-kind-icon">Create<wbr>KbInputDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deletekbcontentsdto.html" class="tsd-kind-icon">Delete<wbr>KbContentsDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/endpointkeysdto.html" class="tsd-kind-icon">Endpoint<wbr>KeysDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errormodel.html" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponseerror.html" class="tsd-kind-icon">Error<wbr>Response<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedto.html" class="tsd-kind-icon">FileDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/innererrormodel.html" class="tsd-kind-icon">Inner<wbr>Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/knowledgebasedto.html" class="tsd-kind-icon">KnowledgebaseDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/knowledgebaseupdateheaders.html" class="tsd-kind-icon">Knowledgebase<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/knowledgebasesdto.html" class="tsd-kind-icon">KnowledgebasesDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metadatadto.html" class="tsd-kind-icon">MetadataDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationsgetdetailsheaders.html" class="tsd-kind-icon">Operations<wbr>Get<wbr>Details<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/promptdto.html" class="tsd-kind-icon">PromptDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/promptdtoqna.html" class="tsd-kind-icon">PromptDTOQna</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/qnadto.html" class="tsd-kind-icon">QnADTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/qnadtocontext.html" class="tsd-kind-icon">QnADTOContext</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/qnadocumentsdto.html" class="tsd-kind-icon">QnADocumentsDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/replacekbdto.html" class="tsd-kind-icon">Replace<wbr>KbDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatecontextdto.html" class="tsd-kind-icon">Update<wbr>ContextDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatekbcontentsdto.html" class="tsd-kind-icon">Update<wbr>KbContentsDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatekboperationdto.html" class="tsd-kind-icon">Update<wbr>KbOperationDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatekboperationdtoadd.html" class="tsd-kind-icon">Update<wbr>KbOperationDTOAdd</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatekboperationdtodelete.html" class="tsd-kind-icon">Update<wbr>KbOperationDTODelete</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatekboperationdtoupdate.html" class="tsd-kind-icon">Update<wbr>KbOperationDTOUpdate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatemetadatadto.html" class="tsd-kind-icon">Update<wbr>MetadataDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateqnadto.html" class="tsd-kind-icon">Update<wbr>QnaDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateqnadtocontext.html" class="tsd-kind-icon">Update<wbr>QnaDTOContext</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateqnadtometadata.html" class="tsd-kind-icon">Update<wbr>QnaDTOMetadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateqnadtoquestions.html" class="tsd-kind-icon">Update<wbr>QnaDTOQuestions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatequestionsdto.html" class="tsd-kind-icon">Update<wbr>QuestionsDTO</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/wordalterationsdto.html" class="tsd-kind-icon">Word<wbr>AlterationsDTO</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#alterationsgetresponse" class="tsd-kind-icon">Alterations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#endpointkeysgetkeysresponse" class="tsd-kind-icon">Endpoint<wbr>Keys<wbr>Get<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#endpointkeysrefreshkeysresponse" class="tsd-kind-icon">Endpoint<wbr>Keys<wbr>Refresh<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#environmenttype" class="tsd-kind-icon">Environment<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#errorcodetype" class="tsd-kind-icon">Error<wbr>Code<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebasecreateresponse" class="tsd-kind-icon">Knowledgebase<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebasedownloadresponse" class="tsd-kind-icon">Knowledgebase<wbr>Download<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebaseenvironmenttype" class="tsd-kind-icon">Knowledgebase<wbr>Environment<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebasegetdetailsresponse" class="tsd-kind-icon">Knowledgebase<wbr>Get<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebaselistallresponse" class="tsd-kind-icon">Knowledgebase<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#knowledgebaseupdateresponse" class="tsd-kind-icon">Knowledgebase<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationstatetype" class="tsd-kind-icon">Operation<wbr>State<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationsgetdetailsresponse" class="tsd-kind-icon">Operations<wbr>Get<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#alterationsdto" class="tsd-kind-icon">AlterationsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contextdto" class="tsd-kind-icon">ContextDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createkbdto" class="tsd-kind-icon">Create<wbr>KbDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createkbinputdto" class="tsd-kind-icon">Create<wbr>KbInputDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deletekbcontentsdto" class="tsd-kind-icon">Delete<wbr>KbContentsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpointkeysdto" class="tsd-kind-icon">Endpoint<wbr>KeysDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errormodel" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponseerror" class="tsd-kind-icon">Error<wbr>Response<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filedto" class="tsd-kind-icon">FileDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#innererrormodel" class="tsd-kind-icon">Inner<wbr>Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#knowledgebasedto" class="tsd-kind-icon">KnowledgebaseDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#knowledgebaseupdateheaders" class="tsd-kind-icon">Knowledgebase<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#knowledgebasesdto" class="tsd-kind-icon">KnowledgebasesDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadatadto" class="tsd-kind-icon">MetadataDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationsgetdetailsheaders" class="tsd-kind-icon">Operations<wbr>Get<wbr>Details<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#promptdto" class="tsd-kind-icon">PromptDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#promptdtoqna" class="tsd-kind-icon">PromptDTOQna</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#qnadto" class="tsd-kind-icon">QnADTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#qnadtocontext" class="tsd-kind-icon">QnADTOContext</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#qnadocumentsdto" class="tsd-kind-icon">QnADocumentsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#replacekbdto" class="tsd-kind-icon">Replace<wbr>KbDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatecontextdto" class="tsd-kind-icon">Update<wbr>ContextDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatekbcontentsdto" class="tsd-kind-icon">Update<wbr>KbContentsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatekboperationdto" class="tsd-kind-icon">Update<wbr>KbOperationDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatekboperationdtoadd" class="tsd-kind-icon">Update<wbr>KbOperationDTOAdd</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatekboperationdtodelete" class="tsd-kind-icon">Update<wbr>KbOperationDTODelete</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatekboperationdtoupdate" class="tsd-kind-icon">Update<wbr>KbOperationDTOUpdate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatemetadatadto" class="tsd-kind-icon">Update<wbr>MetadataDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateqnadto" class="tsd-kind-icon">Update<wbr>QnaDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateqnadtocontext" class="tsd-kind-icon">Update<wbr>QnaDTOContext</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateqnadtometadata" class="tsd-kind-icon">Update<wbr>QnaDTOMetadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateqnadtoquestions" class="tsd-kind-icon">Update<wbr>QnaDTOQuestions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatequestionsdto" class="tsd-kind-icon">Update<wbr>QuestionsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#wordalterationsdto" class="tsd-kind-icon">Word<wbr>AlterationsDTO</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#environment" class="tsd-kind-icon">environment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#kbid" class="tsd-kind-icon">kb<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keytype" class="tsd-kind-icon">key<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationid" class="tsd-kind-icon">operation<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,1882 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>CertificatesClient | @azure/keyvault-certificates</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/keyvault-certificates</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="certificatesclient.html">CertificatesClient</a>
+				</li>
+			</ul>
+			<h1>Class CertificatesClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The client to interact with the KeyVault certificates functionality</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">CertificatesClient</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="certificatesclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="certificatesclient.html#credential" class="tsd-kind-icon">credential</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="certificatesclient.html#pipeline" class="tsd-kind-icon">pipeline</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="certificatesclient.html#vaultbaseurl" class="tsd-kind-icon">vault<wbr>Base<wbr>Url</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#backupcertificate" class="tsd-kind-icon">backup<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#cancelcertificateoperation" class="tsd-kind-icon">cancel<wbr>Certificate<wbr>Operation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#createcertificate" class="tsd-kind-icon">create<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#deletecertificate" class="tsd-kind-icon">delete<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#deletecertificatecontacts" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Contacts</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#deletecertificateissuer" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Issuer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#deletecertificateoperation" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Operation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificate" class="tsd-kind-icon">get<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificatecontacts" class="tsd-kind-icon">get<wbr>Certificate<wbr>Contacts</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificateissuer" class="tsd-kind-icon">get<wbr>Certificate<wbr>Issuer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificateoperation" class="tsd-kind-icon">get<wbr>Certificate<wbr>Operation</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificatepolicy" class="tsd-kind-icon">get<wbr>Certificate<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getcertificatewithpolicy" class="tsd-kind-icon">get<wbr>Certificate<wbr>With<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#getdeletedcertificate" class="tsd-kind-icon">get<wbr>Deleted<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#importcertificate" class="tsd-kind-icon">import<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#listcertificateissuers" class="tsd-kind-icon">list<wbr>Certificate<wbr>Issuers</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#listcertificateversions" class="tsd-kind-icon">list<wbr>Certificate<wbr>Versions</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#listcertificates" class="tsd-kind-icon">list<wbr>Certificates</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#listdeletedcertificates" class="tsd-kind-icon">list<wbr>Deleted<wbr>Certificates</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#mergecertificate" class="tsd-kind-icon">merge<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#purgedeletedcertificate" class="tsd-kind-icon">purge<wbr>Deleted<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#recoverdeletedcertificate" class="tsd-kind-icon">recover<wbr>Deleted<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#restorecertificate" class="tsd-kind-icon">restore<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#setcertificatecontacts" class="tsd-kind-icon">set<wbr>Certificate<wbr>Contacts</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#setcertificateissuer" class="tsd-kind-icon">set<wbr>Certificate<wbr>Issuer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#updatecertificate" class="tsd-kind-icon">update<wbr>Certificate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#updatecertificateissuer" class="tsd-kind-icon">update<wbr>Certificate<wbr>Issuer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="certificatesclient.html#updatecertificatepolicy" class="tsd-kind-icon">update<wbr>Certificate<wbr>Policy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="certificatesclient.html#getdefaultpipeline" class="tsd-kind-icon">get<wbr>Default<wbr>Pipeline</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Certificates<wbr>Client<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, credential<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TokenCredential</span>, pipelineOrOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Pipeline</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NewPipelineOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="certificatesclient.html" class="tsd-signature-type">CertificatesClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L282">index.ts:282</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of CertificatesClient.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>CertificatesClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>the base url to the key vault.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>credential: <span class="tsd-signature-type">TokenCredential</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pipelineOrOptions: <span class="tsd-signature-type">Pipeline</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NewPipelineOptions</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="certificatesclient.html" class="tsd-signature-type">CertificatesClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="credential" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> credential</h3>
+					<div class="tsd-signature tsd-kind-icon">credential<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TokenCredential</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L281">index.ts:281</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The authentication credentials</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="pipeline" class="tsd-anchor"></a>
+					<h3>pipeline</h3>
+					<div class="tsd-signature tsd-kind-icon">pipeline<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Pipeline</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L276">index.ts:276</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The options to create the connection to the service</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="vaultbaseurl" class="tsd-anchor"></a>
+					<h3>vault<wbr>Base<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">vault<wbr>Base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L271">index.ts:271</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The base URL to the vault</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="backupcertificate" class="tsd-anchor"></a>
+					<h3>backup<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">backup<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BackupCertificateResult</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1330">index.ts:1330</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Requests that a backup of the specified certificate be downloaded to the client. All versions of the certificate will be downloaded.
+									This operation requires the certificates/backup permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> backup = <span class="hljs-keyword">await</span> client.backupCertificate(<span class="hljs-string">"MyCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Generates a backup of a certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">BackupCertificateResult</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cancelcertificateoperation" class="tsd-anchor"></a>
+					<h3>cancel<wbr>Certificate<wbr>Operation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cancel<wbr>Certificate<wbr>Operation<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1165">index.ts:1165</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates a certificate creation operation that is already in progress. This operation requires the certificates/update permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">await</span> client.cancelCertificateOperation(<span class="hljs-string">"MyCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Cancels a certificate&#39;s operation</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createcertificate" class="tsd-anchor"></a>
+					<h3>create<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, certificatePolicy<span class="tsd-signature-symbol">: </span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/createcertificateoptions.html" class="tsd-signature-type">CreateCertificateOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L887">index.ts:887</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Creates a certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>certificatePolicy: <a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The certificate&#39;s policy</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/createcertificateoptions.html" class="tsd-signature-type">CreateCertificateOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletecertificate" class="tsd-anchor"></a>
+					<h3>delete<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Certificate<span class="tsd-signature-symbol">(</span>certificateName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L517">index.ts:517</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
+									to an individual version of a certificate. This operation requires the certificates/delete permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">await</span> client.deleteCertificate(<span class="hljs-string">"MyCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Deletes a certificate from a specified key vault.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificateName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletecertificatecontacts" class="tsd-anchor"></a>
+					<h3>delete<wbr>Certificate<wbr>Contacts</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Certificate<wbr>Contacts<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L553">index.ts:553</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes all of the certificate contacts. This operation requires the certificates/managecontacts permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateContacts([{
+  emailAddress: <span class="hljs-string">"b@b.com"</span>,
+  name: <span class="hljs-string">"b"</span>,
+  phone: <span class="hljs-string">"222222222222"</span>
+}]);
+<span class="hljs-keyword">await</span> client.deleteCertificateContacts();</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Deletes all of the certificate contacts</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletecertificateissuer" class="tsd-anchor"></a>
+					<h3>delete<wbr>Certificate<wbr>Issuer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Certificate<wbr>Issuer<span class="tsd-signature-symbol">(</span>issuerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L850">index.ts:850</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The DeleteCertificateIssuer operation permanently removes the specified certificate issuer from
+									the vault. This operation requires the certificates/manageissuers/deleteissuers permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, <span class="hljs-string">"Provider"</span>);
+<span class="hljs-keyword">await</span> client.deleteCertificateIssuer(<span class="hljs-string">"IssuerName"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Deletes the specified certificate issuer.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>issuerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the issuer.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletecertificateoperation" class="tsd-anchor"></a>
+					<h3>delete<wbr>Certificate<wbr>Operation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Certificate<wbr>Operation<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1242">index.ts:1242</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes the creation operation for a specified certificate that is in the process of being created.
+									The certificate is no longer created. This operation requires the certificates/update permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">await</span> client.deleteCertificateOperation(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-keyword">await</span> client.getCertificateOperation(<span class="hljs-string">"MyCertificate"</span>); <span class="hljs-comment">// Throws error: Pending certificate not found: "MyCertificate"</span></code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Delete a certificate&#39;s operation</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificate" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L971">index.ts:971</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets information about a specific certificate on a specific version. It won&#39;t return the certificate&#39;s policy. This operation requires the certificates/get permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> certificateWithPolicy = <span class="hljs-keyword">await</span> client.getCertificateWithPolicy(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-keyword">const</span> certificate = <span class="hljs-keyword">await</span> client.getCertificate(<span class="hljs-string">"MyCertificate"</span>, certificateWithPolicy.properties.version!);
+<span class="hljs-built_in">console</span>.log(certificate);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Retrieves a certificate from the certificate&#39;s name and a specified version</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>version: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The specific version of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificatecontacts" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate<wbr>Contacts</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<wbr>Contacts<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L623">index.ts:623</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the set of certificate contact resources in the specified key vault. This operation requires the certificates/managecontacts permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateContacts([{
+  emailAddress: <span class="hljs-string">"b@b.com"</span>,
+  name: <span class="hljs-string">"b"</span>,
+  phone: <span class="hljs-string">"222222222222"</span>
+}]);
+<span class="hljs-keyword">const</span> getResponse = <span class="hljs-keyword">await</span> client.getCertificateContacts();
+<span class="hljs-built_in">console</span>.log(getResponse.contactList!);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Sets the certificate contacts.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificateissuer" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate<wbr>Issuer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<wbr>Issuer<span class="tsd-signature-symbol">(</span>issuerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L816">index.ts:816</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The GetCertificateIssuer operation returns the specified certificate issuer resources in the
+										specified key vault. This operation requires the certificates/manageissuers/getissuers
+									permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, <span class="hljs-string">"Provider"</span>);
+<span class="hljs-keyword">const</span> certificateIssuer = <span class="hljs-keyword">await</span> client.getCertificateIssuer(<span class="hljs-string">"IssuerName"</span>);
+<span class="hljs-built_in">console</span>.log(certificateIssuer);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets he specified certificate issuer.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>issuerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the issuer.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificateoperation" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate<wbr>Operation</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<wbr>Operation<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1203">index.ts:1203</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the creation operation associated with a specified certificate. This operation requires the certificates/get permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> operation = <span class="hljs-keyword">await</span> client.getCertificateOperation(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-built_in">console</span>.log(operation);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets a certificate&#39;s operation</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CertificateOperation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificatepolicy" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<wbr>Policy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1054">index.ts:1054</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The GetCertificatePolicy operation returns the specified certificate policy resources in the specified key vault. This operation requires the certificates/get permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> policy = <span class="hljs-keyword">await</span> client.getCertificatePolicy(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-built_in">console</span>.log(policy);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets a certificate&#39;s policy</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getcertificatewithpolicy" class="tsd-anchor"></a>
+					<h3>get<wbr>Certificate<wbr>With<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Certificate<wbr>With<wbr>Policy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L930">index.ts:930</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the latest information available from a specific certificate, including the certificate&#39;s policy. This operation requires the certificates/get permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> certificate = <span class="hljs-keyword">await</span> client.getCertificateWithPolicy(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-built_in">console</span>.log(certificate);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Retrieves a certificate from the certificate&#39;s name (includes the certificate policy)</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getdeletedcertificate" class="tsd-anchor"></a>
+					<h3>get<wbr>Deleted<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Deleted<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1489">index.ts:1489</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>retrieves the deleted certificate information plus its attributes, such as retention interval, scheduled permanent deletion and the
+									current deletion recovery level. This operation requires the certificates/get permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+client.getDeletedCertificate(<span class="hljs-string">"MyDeletedCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets a deleted certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="importcertificate" class="tsd-anchor"></a>
+					<h3>import<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">import<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, base64EncodedCertificate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientImportCertificateOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1014">index.ts:1014</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Imports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format.
+									If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. This operation requires the certificates/import permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">const</span> certificateSecret = <span class="hljs-keyword">await</span> secretsClient.getSecret(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-keyword">const</span> base64EncodedCertificate = certificateSecret.value!;
+<span class="hljs-keyword">await</span> client.importCertificate(<span class="hljs-string">"MyCertificate"</span>, base64EncodedCertificate);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Imports a certificate from a certificate&#39;s secret value</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>base64EncodedCertificate: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The base64 encoded certificate to import</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientImportCertificateOptionalParams</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listcertificateissuers" class="tsd-anchor"></a>
+					<h3>list<wbr>Certificate<wbr>Issuers</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Certificate<wbr>Issuers<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientGetCertificateIssuersOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L704">index.ts:704</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the set of certificate issuer resources in the specified key vault. This operation requires the certificates/manageissuers/getissuers permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, <span class="hljs-string">"Provider"</span>);
+<span class="hljs-comment">// All in one call</span>
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> issuer of client.listCertificateIssuers()) {
+  <span class="hljs-built_in">console</span>.log(issuer);
+}
+<span class="hljs-comment">// By pages</span>
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> page of client.listCertificateIssuers().byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> issuer of page) {
+    <span class="hljs-built_in">console</span>.log(issuer);
+  }
+}</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>List the certificate issuers.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientGetCertificateIssuersOptionalParams</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listcertificateversions" class="tsd-anchor"></a>
+					<h3>list<wbr>Certificate<wbr>Versions</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Certificate<wbr>Versions<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L476">index.ts:476</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the versions of a certificate in the specified key
+									vault. This operation requires the certificates/list permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> item of client.listCertificateVersions(<span class="hljs-string">"MyCertificate"</span>)) {
+  <span class="hljs-built_in">console</span>.log(item.properties.version!);
+}</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>List the versions of a certificate.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listcertificates" class="tsd-anchor"></a>
+					<h3>list<wbr>Certificates</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Certificates<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L391">index.ts:391</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Iterates the latest version of all certificates in the vault.  The full certificate identifier and attributes are provided
+									in the response. No values are returned for the certificates. This operations requires the certificates/list permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-comment">// All in one call</span>
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> certificate of client.listCertificates()) {
+  <span class="hljs-built_in">console</span>.log(certificate);
+}
+<span class="hljs-comment">// By pages</span>
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> page of client.listCertificates().byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> certificate of page) {
+    <span class="hljs-built_in">console</span>.log(certificate);
+  }
+}</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>List all versions of the specified certificate.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listdeletedcertificates" class="tsd-anchor"></a>
+					<h3>list<wbr>Deleted<wbr>Certificates</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Deleted<wbr>Certificates<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientGetDeletedCertificatesOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1453">index.ts:1453</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Retrieves the certificates in the current vault which are in a deleted state and ready for recovery or purging. This operation includes deletion-specific
+									information. This operation requires the certificates/get/list permission. This operation can only be enabled on soft-delete enabled vaults.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> certificate of client.listDeletedCertificates()) {
+  <span class="hljs-built_in">console</span>.log(certificate);
+}
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> page of client.listDeletedCertificates().byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> certificate of page) {
+    <span class="hljs-built_in">console</span>.log(certificate);
+  }
+}</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Lists deleted certificates</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientGetDeletedCertificatesOptionalParams</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">PagedAsyncIterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/deletedcertificate.html" class="tsd-signature-type">DeletedCertificate</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mergecertificate" class="tsd-anchor"></a>
+					<h3>merge<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">merge<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, x509Certificates<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1292">index.ts:1292</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs the merging of a certificate or certificate chain with a key pair currently available in the service. This operation requires the certificates/create permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Unknown"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> { csr } = <span class="hljs-keyword">await</span> client.getCertificateOperation(certificateName);
+<span class="hljs-keyword">const</span> base64Csr = Buffer.from(csr!).toString(<span class="hljs-string">"base64"</span>);
+<span class="hljs-keyword">const</span> wrappedCsr = [<span class="hljs-string">"-----BEGIN CERTIFICATE REQUEST-----"</span>, base64Csr, <span class="hljs-string">"-----END CERTIFICATE REQUEST-----"</span>].join(<span class="hljs-string">"\n"</span>);
+fs.writeFileSync(<span class="hljs-string">"test.csr"</span>, wrappedCsr);
+
+<span class="hljs-comment">// Certificate available locally made using:</span>
+<span class="hljs-comment">//   openssl genrsa -out ca.key 2048</span>
+<span class="hljs-comment">//   openssl req -new -x509 -key ca.key -out ca.crt</span>
+<span class="hljs-comment">// You can read more about how to create a fake certificate authority here: https://gist.github.com/Soarez/9688998</span>
+childProcess.execSync(<span class="hljs-string">"openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"</span>);
+<span class="hljs-keyword">const</span> base64Crt = fs.readFileSync(<span class="hljs-string">"test.crt"</span>).toString().split(<span class="hljs-string">"\n"</span>).slice(<span class="hljs-number">1</span>, <span class="hljs-number">-1</span>).join(<span class="hljs-string">""</span>);
+
+<span class="hljs-keyword">await</span> client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Merges a signed certificate request into a pending certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>x509Certificates: <span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The certificate(s) to merge</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="purgedeletedcertificate" class="tsd-anchor"></a>
+					<h3>purge<wbr>Deleted<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">purge<wbr>Deleted<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1524">index.ts:1524</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Performs an irreversible deletion of the specified certificate, without possibility for recovery. The operation is not available if the
+									recovery level does not specify &#39;Purgeable&#39;. This operation requires the certificate/purge permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.deleteCertificate(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-comment">// Deleting a certificate takes time, make sure to wait before purging it</span>
+client.purgeDeletedCertificate(<span class="hljs-string">"MyCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets a deleted certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the deleted certificate to purge</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="recoverdeletedcertificate" class="tsd-anchor"></a>
+					<h3>recover<wbr>Deleted<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">recover<wbr>Deleted<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1555">index.ts:1555</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
+									requires the certificate/recover permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.deleteCertificate(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-comment">// Deleting a certificate takes time, make sure to wait before recovering it</span>
+<span class="hljs-keyword">await</span> client.recoverDeletedCertificate(<span class="hljs-string">"MyCertificate"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Recovers a deleted cerificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the deleted certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="restorecertificate" class="tsd-anchor"></a>
+					<h3>restore<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">restore<wbr>Certificate<span class="tsd-signature-symbol">(</span>certificateBackup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1369">index.ts:1369</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Restores a backed up certificate, and all its versions, to a vault. This operation requires the certificates/restore permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">const</span> backup = <span class="hljs-keyword">await</span> client.backupCertificate(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-keyword">await</span> client.deleteCertificate(<span class="hljs-string">"MyCertificate"</span>);
+<span class="hljs-comment">// Some time is required before we're able to restore the certificate</span>
+<span class="hljs-keyword">await</span> client.restoreCertificate(backup.value!);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Restores a certificate from a backup</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>certificateBackup: <span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The back-up certificate to restore from</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcertificatecontacts" class="tsd-anchor"></a>
+					<h3>set<wbr>Certificate<wbr>Contacts</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Certificate<wbr>Contacts<span class="tsd-signature-symbol">(</span>contacts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Contact</span><span class="tsd-signature-symbol">[]</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L586">index.ts:586</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the certificate contacts for the key vault. This operation requires the certificates/managecontacts permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">let</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateContacts([{
+  emailAddress: <span class="hljs-string">"b@b.com"</span>,
+  name: <span class="hljs-string">"b"</span>,
+  phone: <span class="hljs-string">"222222222222"</span>
+}]);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Sets the certificate contacts.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>contacts: <span class="tsd-signature-type">Contact</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The contacts to use</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Contacts</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setcertificateissuer" class="tsd-anchor"></a>
+					<h3>set<wbr>Certificate<wbr>Issuer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Certificate<wbr>Issuer<span class="tsd-signature-symbol">(</span>issuerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, provider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientSetCertificateIssuerOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L741">index.ts:741</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The SetCertificateIssuer operation adds or updates the specified certificate issuer. This
+									operation requires the certificates/setissuers permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, <span class="hljs-string">"Provider"</span>);</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Sets the specified certificate issuer.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>issuerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the issuer.</p>
+									</div>
+								</li>
+								<li>
+									<h5>provider: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The issuer provider.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientSetCertificateIssuerOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatecertificate" class="tsd-anchor"></a>
+					<h3>update<wbr>Certificate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Certificate<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, version<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientUpdateCertificateOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1125">index.ts:1125</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Applies the specified update on the given certificate; the only elements updated are the
+									certificate&#39;s attributes. This operation requires the certificates/update permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.createCertificate(<span class="hljs-string">"MyCertificate"</span>, {
+  issuerName: <span class="hljs-string">"Self"</span>,
+  subjectName: <span class="hljs-string">"cn=MyCert"</span>
+});
+<span class="hljs-keyword">await</span> client.updateCertificate(<span class="hljs-string">"MyCertificate"</span>, <span class="hljs-string">""</span>, {
+  tags: {
+    customTag: <span class="hljs-string">"value"</span>
+  }
+});</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Updates a certificate</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the ceritificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>version: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The version of the certificate to update</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientUpdateCertificateOptionalParams</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The options, including what to update</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificate.html" class="tsd-signature-type">Certificate</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatecertificateissuer" class="tsd-anchor"></a>
+					<h3>update<wbr>Certificate<wbr>Issuer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Certificate<wbr>Issuer<span class="tsd-signature-symbol">(</span>issuerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">KeyVaultClientUpdateCertificateIssuerOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L779">index.ts:779</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The UpdateCertificateIssuer operation performs an update on the specified certificate issuer
+									entity. This operation requires the certificates/setissuers permission.</p>
+								</div>
+								<p>Example usage:</p>
+								<pre><code class="language-ts"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CertificatesClient(url, credentials);
+<span class="hljs-keyword">await</span> client.setCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, <span class="hljs-string">"Provider"</span>);
+<span class="hljs-keyword">await</span> client.updateCertificateIssuer(<span class="hljs-string">"IssuerName"</span>, {
+  provider: <span class="hljs-string">"Provider2"</span>
+});</code></pre>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Updates the specified certificate issuer.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>issuerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the issuer.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">KeyVaultClientUpdateCertificateIssuerOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificateissuer.html" class="tsd-signature-type">CertificateIssuer</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatecertificatepolicy" class="tsd-anchor"></a>
+					<h3>update<wbr>Certificate<wbr>Policy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Certificate<wbr>Policy<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, policy<span class="tsd-signature-symbol">: </span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L1082">index.ts:1082</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Set specified members in the certificate policy. Leave others as null. This operation requires the certificates/update permission.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Gets a certificate&#39;s policy</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the certificate</p>
+									</div>
+								</li>
+								<li>
+									<h5>policy: <a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The certificate policy</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/certificatepolicy.html" class="tsd-signature-type">CertificatePolicy</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="getdefaultpipeline" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> get<wbr>Default<wbr>Pipeline</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<wbr>Pipeline<span class="tsd-signature-symbol">(</span>credential<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TokenCredential</span>, pipelineOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">NewPipelineOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Pipeline</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/keyvault/keyvault-certificates/src/index.ts#L223">index.ts:223</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A static method used to create a new Pipeline object with the provided Credential.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>static</dt>
+									<dd></dd>
+									<dt>memberof</dt>
+									<dd><p>CertificatesClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>credential: <span class="tsd-signature-type">TokenCredential</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> pipelineOptions: <span class="tsd-signature-type">NewPipelineOptions</span><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Pipeline</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="certificatesclient.html" class="tsd-kind-icon">Certificates<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="certificatesclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="certificatesclient.html#credential" class="tsd-kind-icon">credential</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="certificatesclient.html#pipeline" class="tsd-kind-icon">pipeline</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="certificatesclient.html#vaultbaseurl" class="tsd-kind-icon">vault<wbr>Base<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#backupcertificate" class="tsd-kind-icon">backup<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#cancelcertificateoperation" class="tsd-kind-icon">cancel<wbr>Certificate<wbr>Operation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#createcertificate" class="tsd-kind-icon">create<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#deletecertificate" class="tsd-kind-icon">delete<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#deletecertificatecontacts" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Contacts</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#deletecertificateissuer" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Issuer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#deletecertificateoperation" class="tsd-kind-icon">delete<wbr>Certificate<wbr>Operation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificate" class="tsd-kind-icon">get<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificatecontacts" class="tsd-kind-icon">get<wbr>Certificate<wbr>Contacts</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificateissuer" class="tsd-kind-icon">get<wbr>Certificate<wbr>Issuer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificateoperation" class="tsd-kind-icon">get<wbr>Certificate<wbr>Operation</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificatepolicy" class="tsd-kind-icon">get<wbr>Certificate<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getcertificatewithpolicy" class="tsd-kind-icon">get<wbr>Certificate<wbr>With<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#getdeletedcertificate" class="tsd-kind-icon">get<wbr>Deleted<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#importcertificate" class="tsd-kind-icon">import<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#listcertificateissuers" class="tsd-kind-icon">list<wbr>Certificate<wbr>Issuers</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#listcertificateversions" class="tsd-kind-icon">list<wbr>Certificate<wbr>Versions</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#listcertificates" class="tsd-kind-icon">list<wbr>Certificates</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#listdeletedcertificates" class="tsd-kind-icon">list<wbr>Deleted<wbr>Certificates</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#mergecertificate" class="tsd-kind-icon">merge<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#purgedeletedcertificate" class="tsd-kind-icon">purge<wbr>Deleted<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#recoverdeletedcertificate" class="tsd-kind-icon">recover<wbr>Deleted<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#restorecertificate" class="tsd-kind-icon">restore<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#setcertificatecontacts" class="tsd-kind-icon">set<wbr>Certificate<wbr>Contacts</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#setcertificateissuer" class="tsd-kind-icon">set<wbr>Certificate<wbr>Issuer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#updatecertificate" class="tsd-kind-icon">update<wbr>Certificate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#updatecertificateissuer" class="tsd-kind-icon">update<wbr>Certificate<wbr>Issuer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="certificatesclient.html#updatecertificatepolicy" class="tsd-kind-icon">update<wbr>Certificate<wbr>Policy</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="certificatesclient.html#getdefaultpipeline" class="tsd-kind-icon">get<wbr>Default<wbr>Pipeline</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/certificate.html" class="tsd-kind-icon">Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/certificateissuer.html" class="tsd-kind-icon">Certificate<wbr>Issuer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/certificatepolicy.html" class="tsd-kind-icon">Certificate<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/certificateproperties.html" class="tsd-kind-icon">Certificate<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/createcertificateoptions.html" class="tsd-kind-icon">Create<wbr>Certificate<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/deletedcertificate.html" class="tsd-kind-icon">Deleted<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/issuerproperties.html" class="tsd-kind-icon">Issuer<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/subjectalternativenames.html" class="tsd-kind-icon">Subject<wbr>Alternative<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/updatecertificateoptions.html" class="tsd-kind-icon">Update<wbr>Certificate<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#certificatecontenttype" class="tsd-kind-icon">Certificate<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#certificatetags" class="tsd-kind-icon">Certificate<wbr>Tags</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

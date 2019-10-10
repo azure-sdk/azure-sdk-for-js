@@ -1,0 +1,1662 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/storage-file</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/storage-file</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/storage-file</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-storage-client-library-for-javascript---file" id="azure-storage-client-library-for-javascript---file" style="color: inherit; text-decoration: none;">
+					<h1>Azure Storage client library for JavaScript - File</h1>
+				</a>
+				<p>Azure Files offers fully managed file shares in the cloud that are accessible via the industry standard Server Message Block (SMB) protocol. Azure file shares can be mounted concurrently by cloud or on-premises deployments of Windows, Linux, and macOS. Additionally, Azure file shares can be cached on Windows Servers with Azure File Sync for fast access near where the data is being used.</p>
+				<p>This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure File Storage service.</p>
+				<p>Version: 12.0.0-preview.4</p>
+				<ul>
+					<li><a href="https://www.npmjs.com/package/@azure/storage-blob/v/12.0.0-preview.4">Package (npm)</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples">Samples</a></li>
+					<li><a href="https://azure.github.io/azure-sdk-for-js/storage-file/index.html">API Reference Documentation</a></li>
+					<li><a href="https://docs.microsoft.com/en-us/azure/storage/files/storage-files-introduction">Product documentation</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file">Source code</a></li>
+					<li><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/file-service-rest-api">Azure Storage File REST APIs</a></li>
+				</ul>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key concepts</h2>
+				</a>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h3>Features</h3>
+				</a>
+				<ul>
+					<li>File Storage<ul>
+							<li>Get/Set File Service Properties</li>
+							<li>Create/List/Delete File Shares</li>
+							<li>Create/List/Delete File Directories</li>
+							<li>Create/Read/List/Update/Delete Files</li>
+						</ul>
+					</li>
+					<li>Features new<ul>
+							<li>Asynchronous I/O for all operations using the async methods</li>
+							<li>HttpPipeline which enables a high degree of per-request configurability</li>
+							<li>1-to-1 correlation with the Storage REST API for clarity and simplicity</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#compatibility" id="compatibility" style="color: inherit; text-decoration: none;">
+					<h3>Compatibility</h3>
+				</a>
+				<p>This library is compatible with Node.js and browsers, and validated against LTS Node.js versions (&gt;=8.16.0) and latest versions of Chrome, Firefox and Edge.</p>
+				<a href="#compatible-with-ie11" id="compatible-with-ie11" style="color: inherit; text-decoration: none;">
+					<h4>Compatible with IE11</h4>
+				</a>
+				<p>You need polyfills to make this library work with IE11. The easiest way is to use <a href="https://babeljs.io/docs/en/babel-polyfill">@babel/polyfill</a>, or <a href="https://polyfill.io/v2/docs/">polyfill service</a>.</p>
+				<p>You can also load separate polyfills for missed ES feature(s).
+				This library depends on following ES features which need external polyfills loaded.</p>
+				<ul>
+					<li><code>Promise</code></li>
+					<li><code>String.prototype.startsWith</code></li>
+					<li><code>String.prototype.endsWith</code></li>
+					<li><code>String.prototype.repeat</code></li>
+					<li><code>String.prototype.includes</code></li>
+					<li><code>Array.prototype.includes</code></li>
+					<li><code>Object.keys</code> (Override IE11&#39;s <code>Object.keys</code> with ES6 polyfill forcely to enable <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes">ES6 behavior</a>)</li>
+					<li><code>Symbol</code></li>
+				</ul>
+				<a href="#differences-between-nodejs-and-browsers" id="differences-between-nodejs-and-browsers" style="color: inherit; text-decoration: none;">
+					<h4>Differences between Node.js and browsers</h4>
+				</a>
+				<p>There are differences between Node.js and browsers runtime. When getting started with this library, pay attention to APIs or classes marked with <em>&quot;ONLY AVAILABLE IN NODE.JS RUNTIME&quot;</em> or <em>&quot;ONLY AVAILABLE IN BROWSERS&quot;</em>.</p>
+				<a href="#following-features-interfaces-classes-or-functions-are-only-available-in-nodejs" id="following-features-interfaces-classes-or-functions-are-only-available-in-nodejs" style="color: inherit; text-decoration: none;">
+					<h5>Following features, interfaces, classes or functions are only available in Node.js</h5>
+				</a>
+				<ul>
+					<li>Shared Key Authorization based on account name and account key<ul>
+							<li><code>SharedKeyCredential</code></li>
+						</ul>
+					</li>
+					<li>Shared Access Signature(SAS) generation<ul>
+							<li><code>generateAccountSASQueryParameters()</code></li>
+							<li><code>generateFileSASQueryParameters()</code></li>
+						</ul>
+					</li>
+					<li>Parallel uploading and downloading<ul>
+							<li><code>FileClient.uploadFile()</code></li>
+							<li><code>FileClient.uploadStream()</code></li>
+							<li><code>FileClient.downloadToBuffer()</code></li>
+							<li><code>FileClient.downloadToFile()</code></li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#following-features-interfaces-classes-or-functions-are-only-available-in-browsers" id="following-features-interfaces-classes-or-functions-are-only-available-in-browsers" style="color: inherit; text-decoration: none;">
+					<h5>Following features, interfaces, classes or functions are only available in browsers</h5>
+				</a>
+				<ul>
+					<li>Parallel uploading and downloading<ul>
+							<li><code>FileClient.uploadBrowserData()</code></li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+					<h3>NPM</h3>
+				</a>
+				<p>The preferred way to install the Azure File Storage client library for JavaScript is to use the npm package manager. Simply type the following into a terminal window:</p>
+				<pre><code class="language-bash">npm install @azure/storage-file@12.0.0-preview.4</code></pre>
+				<p>In your TypeScript or JavaScript file, import via following:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> Azure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/storage-file"</span>;</code></pre>
+				<p>Or</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> Azure = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-file"</span>);</code></pre>
+				<a href="#javascript-bundle" id="javascript-bundle" style="color: inherit; text-decoration: none;">
+					<h3>JavaScript bundle</h3>
+				</a>
+				<p>To use the library with JS bundle in the browsers, simply add a script tag to your HTML pages pointing to the downloaded JS bundle file(s):</p>
+				<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://mydomain/azure-storage-file.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<p>The JS bundled file is compatible with <a href="https://github.com/umdjs/umd">UMD</a> standard, if no module system found, following global variable(s) will be exported:</p>
+				<ul>
+					<li><code>azfile</code></li>
+				</ul>
+				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
+					<h4>Download</h4>
+				</a>
+				<p>Download latest released JS bundles from links in the <a href="https://github.com/Azure/azure-storage-js/releases">GitHub release page</a>.</p>
+				<a href="#cors" id="cors" style="color: inherit; text-decoration: none;">
+					<h3>CORS</h3>
+				</a>
+				<p>You need to set up <a href="https://docs.microsoft.com/zh-cn/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services">Cross-Origin Resource Sharing (CORS)</a> rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).</p>
+				<p>For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.</p>
+				<ul>
+					<li>Allowed origins: *</li>
+					<li>Allowed verbs: DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT</li>
+					<li>Allowed headers: *</li>
+					<li>Exposed headers: *</li>
+					<li>Maximum age (seconds): 86400</li>
+				</ul>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#import-types" id="import-types" style="color: inherit; text-decoration: none;">
+					<h3>Import types</h3>
+				</a>
+				<p>You can use the <code>const Azure = require(&quot;@azure/storage-file&quot;);</code> shown above then use types and functions from <code>Azure</code>.
+				Or you can selectively import certain types,</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { FileServiceClient, SharedKeyCredential } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/storage-file"</span>);
+);</code></pre>
+				<a href="#create-the-file-service-client" id="create-the-file-service-client" style="color: inherit; text-decoration: none;">
+					<h3>Create the file service client</h3>
+				</a>
+				<p>Use the constructor to create a instance of <code>FileServiceClient</code>, passing in the credential.</p>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Enter your storage account name and shared key</span>
+<span class="hljs-keyword">const</span> account = <span class="hljs-string">""</span>;
+<span class="hljs-keyword">const</span> accountKey = <span class="hljs-string">""</span>;
+
+<span class="hljs-comment">// Use SharedKeyCredential with storage account and account key</span>
+<span class="hljs-comment">// SharedKeyCredential is only avaiable in Node.js runtime, not in browsers</span>
+<span class="hljs-keyword">const</span> sharedKeyCredential = <span class="hljs-keyword">new</span> SharedKeyCredential(account, accountKey);
+<span class="hljs-keyword">const</span> serviceClient = <span class="hljs-keyword">new</span> FileServiceClient(
+  <span class="hljs-comment">// When using AnonymousCredential, following url should include a valid SAS</span>
+  <span class="hljs-string">`https://<span class="hljs-subst">${account}</span>.file.core.windows.net`</span>,
+  sharedKeyCredential
+);</code></pre>
+				<a href="#list-shares-in-the-account" id="list-shares-in-the-account" style="color: inherit; text-decoration: none;">
+					<h3>List shares in the account</h3>
+				</a>
+				<p>Use <code>ShareServiceClient.listShares()</code> to iterator shares in this account,
+				with the new <code>for-await-of</code> syntax:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> shareIter1 = serviceClient.listShares();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> share <span class="hljs-keyword">of</span> shareIter1) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Share<span class="hljs-subst">${i}</span>: <span class="hljs-subst">${share.name}</span>`</span>);
+  i++;
+}</code></pre>
+				<p>Alternatively without <code>for-await-of</code>:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> shareIter2 = <span class="hljs-keyword">await</span> serviceClient.listShares();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">let</span> shareItem = <span class="hljs-keyword">await</span> shareIter2.next();
+<span class="hljs-keyword">while</span> (!shareItem.done) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Share <span class="hljs-subst">${i++}</span>: <span class="hljs-subst">${shareItem.value.name}</span>`</span>);
+  shareItem = <span class="hljs-keyword">await</span> shareIter2.next();
+}</code></pre>
+				<a href="#create-a-new-share-and-a-directory" id="create-a-new-share-and-a-directory" style="color: inherit; text-decoration: none;">
+					<h3>Create a new share and a directory</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> shareName = <span class="hljs-string">`newshare<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()}</span>`</span>;
+<span class="hljs-keyword">const</span> shareClient = serviceClient.getShareClient(shareName);
+<span class="hljs-keyword">await</span> shareClient.create();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Create share <span class="hljs-subst">${shareName}</span> successfully`</span>);
+
+<span class="hljs-keyword">const</span> directoryName = <span class="hljs-string">`newdirectory<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime()}</span>`</span>;
+<span class="hljs-keyword">const</span> directoryClient = shareClient.getDirectoryClient(directoryName);
+<span class="hljs-keyword">await</span> directoryClient.create();
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Create directory <span class="hljs-subst">${directoryName}</span> successfully`</span>);</code></pre>
+				<a href="#create-an-azure-file-then-upload-to-it" id="create-an-azure-file-then-upload-to-it" style="color: inherit; text-decoration: none;">
+					<h3>Create an azure file then upload to it</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> content = <span class="hljs-string">"Hello World!"</span>;
+<span class="hljs-keyword">const</span> fileName = <span class="hljs-string">"newfile"</span> + <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime();
+<span class="hljs-keyword">const</span> fileClient = directoryClient.getFileClient(fileName);
+<span class="hljs-keyword">await</span> fileClient.create(content.length);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Create file <span class="hljs-subst">${fileName}</span> successfully`</span>);
+
+<span class="hljs-comment">// Upload file range</span>
+<span class="hljs-keyword">await</span> fileClient.uploadRange(content, <span class="hljs-number">0</span>, content.length);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Upload file range "<span class="hljs-subst">${content}</span>" to <span class="hljs-subst">${fileName}</span> successfully`</span>);</code></pre>
+				<a href="#list-files-and-directories-under-a-directory" id="list-files-and-directories-under-a-directory" style="color: inherit; text-decoration: none;">
+					<h3>List files and directories under a directory</h3>
+				</a>
+				<p>Use <code>DirectoryClient.listFilesAndDirectories()</code> to iterator over files and directories,
+					with the new <code>for-await-of</code> syntax. The <code>kind</code> property can be used to identify whether
+				a iterm is a directory or a file.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> dirIter1 = directoryClient.listFilesAndDirectories();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> item <span class="hljs-keyword">of</span> dirIter1) {
+  <span class="hljs-keyword">if</span> (item.kind === <span class="hljs-string">"directory"</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${i}</span> - directory\t: <span class="hljs-subst">${item.name}</span>`</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${i}</span> - file\t: <span class="hljs-subst">${item.name}</span>`</span>);
+  }
+  i++;
+}</code></pre>
+				<p>Alternatively without using <code>for-await-of</code>:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">let</span> dirIter2 = <span class="hljs-keyword">await</span> directoryClient.listFilesAndDirectories();
+<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">let</span> item = <span class="hljs-keyword">await</span> dirIter2.next();
+<span class="hljs-keyword">while</span> (!item.done) {
+  <span class="hljs-keyword">if</span> (item.value.kind === <span class="hljs-string">"directory"</span>) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${i}</span> - directory\t: <span class="hljs-subst">${item.value.name}</span>`</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`<span class="hljs-subst">${i}</span> - file\t: <span class="hljs-subst">${item.value.name}</span>`</span>);
+  }
+  item = <span class="hljs-keyword">await</span> dirIter2.next();
+}</code></pre>
+				<p>For a complete sample on iterating please see <a href="https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/iterators-files-and-directories.ts">samples/iterators-files-and-directories.ts</a>.</p>
+				<a href="#download-a-file-and-convert-it-to-a-string-nodejs" id="download-a-file-and-convert-it-to-a-string-nodejs" style="color: inherit; text-decoration: none;">
+					<h3>Download a file and convert it to a string (Node.js)</h3>
+				</a>
+				<pre><code class="language-javascript"><span class="hljs-comment">// Get file content from position 0 to the end</span>
+<span class="hljs-comment">// In Node.js, get downloaded data by accessing downloadFileResponse.readableStreamBody</span>
+<span class="hljs-keyword">const</span> downloadFileResponse = <span class="hljs-keyword">await</span> fileClient.download();
+<span class="hljs-built_in">console</span>.log(
+  <span class="hljs-string">`Downloaded file content: <span class="hljs-subst">${<span class="hljs-keyword">await</span> streamToString(downloadFileResponse.readableStreamBody)}</span>`</span>
+);
+
+<span class="hljs-comment">// [Node.js only] A helper method used to read a Node.js readable stream into string</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">streamToString</span>(<span class="hljs-params">readableStream</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> chunks = [];
+    readableStream.on(<span class="hljs-string">"data"</span>, (data) =&gt; {
+      chunks.push(data.toString());
+    });
+    readableStream.on(<span class="hljs-string">"end"</span>, () =&gt; {
+      resolve(chunks.join(<span class="hljs-string">""</span>));
+    });
+    readableStream.on(<span class="hljs-string">"error"</span>, reject);
+  });
+}</code></pre>
+				<a href="#download-a-file-and-convert-it-to-a-string-browsers" id="download-a-file-and-convert-it-to-a-string-browsers" style="color: inherit; text-decoration: none;">
+					<h3>Download a file and convert it to a string (Browsers)</h3>
+				</a>
+				<pre><code class="language-javascript">  <span class="hljs-comment">// Get file content from position 0 to the end</span>
+  <span class="hljs-comment">// In browsers, get downloaded data by accessing downloadFileResponse.blobBody</span>
+  <span class="hljs-keyword">const</span> downloadFileResponse = <span class="hljs-keyword">await</span> fileClient.download(<span class="hljs-number">0</span>);
+  <span class="hljs-built_in">console</span>.log(
+    <span class="hljs-string">`Downloaded file content: <span class="hljs-subst">${<span class="hljs-keyword">await</span> streamToString(
+      downloadFileResponse.blobBody
+    )}</span>`</span>
+  );
+
+<span class="hljs-comment">// [Browser only] A helper method used to convert a browser Blob into string.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blobToString</span>(<span class="hljs-params">blob: Blob</span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">string</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> fileReader = <span class="hljs-keyword">new</span> FileReader();
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>&lt;string&gt;<span class="hljs-function">(<span class="hljs-params">(resolve, reject</span>) =&gt;</span> {
+    fileReader.onloadend = <span class="hljs-function">(<span class="hljs-params">ev: any</span>) =&gt;</span> {
+      resolve(ev.target!.result);
+    };
+    fileReader.onerror = reject;
+    fileReader.readAsText(blob);
+  });
+}</code></pre>
+				<p>A complete example of basic scenarios is at <a href="https://github.com/Azure/azure-sdk-for-js/blob/feature/storage/sdk/storage/storage-file/samples/typescript/basic.ts">samples/basic.ts</a>.</p>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<p>It could help diagnozing issues by turning on the console logging. Here&#39;s an example logger implementation. First, add a custom logger:</p>
+				<pre><code class="language-javascript"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsoleHttpPipelineLogger</span> </span>{
+  <span class="hljs-keyword">constructor</span>(minimumLogLevel) {
+    <span class="hljs-keyword">this</span>.minimumLogLevel = minimumLogLevel;
+  }
+  log(logLevel, message) {
+    <span class="hljs-keyword">const</span> logMessage = <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().toISOString()}</span> <span class="hljs-subst">${HttpPipelineLogLevel[logLevel]}</span>: <span class="hljs-subst">${message}</span>`</span>;
+    <span class="hljs-keyword">switch</span> (logLevel) {
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.ERROR:
+        <span class="hljs-built_in">console</span>.error(logMessage);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.WARNING:
+        <span class="hljs-built_in">console</span>.warn(logMessage);
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> HttpPipelineLogLevel.INFO:
+        <span class="hljs-built_in">console</span>.log(logMessage);
+        <span class="hljs-keyword">break</span>;
+    }
+  }
+}</code></pre>
+				<p>Then when creating the <code>FileServiceClient</code> instance, pass the logger in the options</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> fileServiceClient = <span class="hljs-keyword">new</span> FileServiceClient(
+  <span class="hljs-string">`https://<span class="hljs-subst">${account}</span>.file.core.windows.net`</span>,
+  sharedKeyCredential,
+  {
+    <span class="hljs-attr">logger</span>: <span class="hljs-keyword">new</span> ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
+  }
+);</code></pre>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h2>Next steps</h2>
+				</a>
+				<p>More code samples</p>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/samples">File Storage Examples</a></li>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/sdk/storage/storage-file/test">File Storage Examples - Test Cases</a></li>
+				</ul>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a
+					Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+				the rights to use your contribution. For details, visit <a href="https://cla.microsoft.com.">https://cla.microsoft.com.</a></p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+					a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+				provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+				contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/retrypolicytype.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/sasprotocol.html" class="tsd-kind-icon">SASProtocol</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsaspermissions.html" class="tsd-kind-icon">AccountSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasresourcetypes.html" class="tsd-kind-icon">AccountSASResource<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/accountsasservices.html" class="tsd-kind-icon">AccountSASServices</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredential.html" class="tsd-kind-icon">Anonymous<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/anonymouscredentialpolicy.html" class="tsd-kind-icon">Anonymous<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/batch.html" class="tsd-kind-icon">Batch</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicy.html" class="tsd-kind-icon">Browser<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/browserpolicyfactory.html" class="tsd-kind-icon">Browser<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/bufferscheduler.html" class="tsd-kind-icon">Buffer<wbr>Scheduler</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credential.html" class="tsd-kind-icon">Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/credentialpolicy.html" class="tsd-kind-icon">Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/directoryclient.html" class="tsd-kind-icon">Directory<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/fileclient.html" class="tsd-kind-icon">File<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filedownloadresponse.html" class="tsd-kind-icon">File<wbr>Download<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filesaspermissions.html" class="tsd-kind-icon">FileSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/fileserviceclient.html" class="tsd-kind-icon">File<wbr>Service<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/filesystemattributes.html" class="tsd-kind-icon">File<wbr>System<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicy.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/keepalivepolicyfactory.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicy.html" class="tsd-kind-icon">Logging<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loggingpolicyfactory.html" class="tsd-kind-icon">Logging<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pipeline.html" class="tsd-kind-icon">Pipeline</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retriablereadablestream.html" class="tsd-kind-icon">Retriable<wbr>Readable<wbr>Stream</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicy.html" class="tsd-kind-icon">Retry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/retrypolicyfactory.html" class="tsd-kind-icon">Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sasqueryparameters.html" class="tsd-kind-icon">SASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/shareclient.html" class="tsd-kind-icon">Share<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharesaspermissions.html" class="tsd-kind-icon">ShareSASPermissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredential.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredentialpolicy.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageclient.html" class="tsd-kind-icon">Storage<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/storageclientcontext.html" class="tsd-kind-icon">Storage<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicy.html" class="tsd-kind-icon">Telemetry<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/telemetrypolicyfactory.html" class="tsd-kind-icon">Telemetry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicy.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/uniquerequestidpolicyfactory.html" class="tsd-kind-icon">Unique<wbr>RequestIDPolicy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accesspolicy.html" class="tsd-kind-icon">Access<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accountsassignaturevalues.html" class="tsd-kind-icon">AccountSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commonoptions.html" class="tsd-kind-icon">Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionstring.html" class="tsd-kind-icon">Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/corsrule.html" class="tsd-kind-icon">Cors<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorycreateheaders.html" class="tsd-kind-icon">Directory<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorycreateoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorycreateoptions.html" class="tsd-kind-icon">Directory<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorydeleteheaders.html" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorydeletemethodoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorydeleteoptions.html" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryforceclosehandlesheaders.html" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryforceclosehandlesoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryforceclosehandlesoptions.html" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryforceclosehandlessegmentoptions.html" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Segment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorygetpropertiesheaders.html" class="tsd-kind-icon">Directory<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorygetpropertiesoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorygetpropertiesoptions.html" class="tsd-kind-icon">Directory<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryitem.html" class="tsd-kind-icon">Directory<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylistfilesanddirectoriesoptions.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Files<wbr>And<wbr>Directories<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylistfilesanddirectoriessegmentheaders.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylistfilesanddirectoriessegmentoptionalparams.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylisthandlesheaders.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylisthandlesoptionalparams.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylisthandlesoptions.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorylisthandlessegmentoptions.html" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Segment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directoryproperties.html" class="tsd-kind-icon">Directory<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetmetadataheaders.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetmetadataoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetmetadataoptions.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetpropertiesheaders.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/directorysetpropertiesoptionalparams.html" class="tsd-kind-icon">Directory<wbr>Set<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/downloadfromazurefileoptions.html" class="tsd-kind-icon">Download<wbr>From<wbr>Azure<wbr>File<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileabortcopyfromurloptions.html" class="tsd-kind-icon">File<wbr>Abort<wbr>Copy<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileabortcopyheaders.html" class="tsd-kind-icon">File<wbr>Abort<wbr>Copy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileabortcopyoptionalparams.html" class="tsd-kind-icon">File<wbr>Abort<wbr>Copy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileanddirectorycreatecommonoptions.html" class="tsd-kind-icon">File<wbr>And<wbr>Directory<wbr>Create<wbr>Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileanddirectorysetpropertiescommonoptions.html" class="tsd-kind-icon">File<wbr>And<wbr>Directory<wbr>Set<wbr>Properties<wbr>Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileclearrangeoptions.html" class="tsd-kind-icon">File<wbr>Clear<wbr>Range<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filecreateheaders.html" class="tsd-kind-icon">File<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filecreateoptionalparams.html" class="tsd-kind-icon">File<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filecreateoptions.html" class="tsd-kind-icon">File<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedeleteheaders.html" class="tsd-kind-icon">File<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedeletemethodoptionalparams.html" class="tsd-kind-icon">File<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedeleteoptions.html" class="tsd-kind-icon">File<wbr>Delete<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedownloadheaders.html" class="tsd-kind-icon">File<wbr>Download<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedownloadoptionalparams.html" class="tsd-kind-icon">File<wbr>Download<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filedownloadoptions.html" class="tsd-kind-icon">File<wbr>Download<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileforceclosehandlesheaders.html" class="tsd-kind-icon">File<wbr>Force<wbr>Close<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileforceclosehandlesoptionalparams.html" class="tsd-kind-icon">File<wbr>Force<wbr>Close<wbr>Handles<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileforceclosehandlesoptions.html" class="tsd-kind-icon">File<wbr>Force<wbr>Close<wbr>Handles<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetpropertiesheaders.html" class="tsd-kind-icon">File<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetpropertiesoptionalparams.html" class="tsd-kind-icon">File<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetpropertiesoptions.html" class="tsd-kind-icon">File<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetrangelistheaders.html" class="tsd-kind-icon">File<wbr>Get<wbr>Range<wbr>List<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetrangelistoptionalparams.html" class="tsd-kind-icon">File<wbr>Get<wbr>Range<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filegetrangelistoptions.html" class="tsd-kind-icon">File<wbr>Get<wbr>Range<wbr>List<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filehttpheaders.html" class="tsd-kind-icon">FileHTTPHeaders</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileitem.html" class="tsd-kind-icon">File<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filelisthandlesheaders.html" class="tsd-kind-icon">File<wbr>List<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filelisthandlesoptionalparams.html" class="tsd-kind-icon">File<wbr>List<wbr>Handles<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filelisthandlessegmentoptions.html" class="tsd-kind-icon">File<wbr>List<wbr>Handles<wbr>Segment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileproperties.html" class="tsd-kind-icon">File<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileproperty.html" class="tsd-kind-icon">File<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileresizeoptions.html" class="tsd-kind-icon">File<wbr>Resize<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesassignaturevalues.html" class="tsd-kind-icon">FileSASSignature<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileserviceproperties.html" class="tsd-kind-icon">File<wbr>Service<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesethttpheadersheaders.html" class="tsd-kind-icon">File<wbr>SetHTTPHeaders<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesethttpheadersoptionalparams.html" class="tsd-kind-icon">File<wbr>SetHTTPHeaders<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesethttpheadersoptions.html" class="tsd-kind-icon">File<wbr>SetHTTPHeaders<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesetmetadataheaders.html" class="tsd-kind-icon">File<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesetmetadataoptionalparams.html" class="tsd-kind-icon">File<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesetmetadataoptions.html" class="tsd-kind-icon">File<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filestartcopyheaders.html" class="tsd-kind-icon">File<wbr>Start<wbr>Copy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filestartcopyoptionalparams.html" class="tsd-kind-icon">File<wbr>Start<wbr>Copy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filestartcopyoptions.html" class="tsd-kind-icon">File<wbr>Start<wbr>Copy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangefromurlheaders.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangefromurloptionalparams.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>FromURLOptional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangefromurloptions.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>FromURLOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangeheaders.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangeoptionalparams.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fileuploadrangeoptions.html" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/filesanddirectorieslistsegment.html" class="tsd-kind-icon">Files<wbr>And<wbr>Directories<wbr>List<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/handleitem.html" class="tsd-kind-icon">Handle<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iprange.html" class="tsd-kind-icon">IPRange</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keepaliveoptions.html" class="tsd-kind-icon">Keep<wbr>Alive<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listfilesanddirectoriessegmentresponse.html" class="tsd-kind-icon">List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listhandlesresponse.html" class="tsd-kind-icon">List<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listsharesresponse.html" class="tsd-kind-icon">List<wbr>Shares<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metadata.html" class="tsd-kind-icon">Metadata</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metrics.html" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/newpipelineoptions.html" class="tsd-kind-icon">New<wbr>Pipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/permission.html" class="tsd-kind-icon">Permission</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pipelineoptions.html" class="tsd-kind-icon">Pipeline<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/range.html" class="tsd-kind-icon">Range</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/requestlogoptions.html" class="tsd-kind-icon">Request<wbr>Log<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionpolicy.html" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retriablereadablestreamoptions.html" class="tsd-kind-icon">Retriable<wbr>Readable<wbr>Stream<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retryoptions.html" class="tsd-kind-icon">Retry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesheaders.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicegetpropertiesoptions.html" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistsharesoptions.html" class="tsd-kind-icon">Service<wbr>List<wbr>Shares<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistsharessegmentheaders.html" class="tsd-kind-icon">Service<wbr>List<wbr>Shares<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicelistsharessegmentoptionalparams.html" class="tsd-kind-icon">Service<wbr>List<wbr>Shares<wbr>Segment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesheaders.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesoptionalparams.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicesetpropertiesoptions.html" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setpropertiesresponse.html" class="tsd-kind-icon">Set<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreateheaders.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreateoptionalparams.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreateoptions.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatepermissionheaders.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Permission<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatepermissionoptionalparams.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Permission<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatepermissionoptions.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Permission<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatesnapshotheaders.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Snapshot<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatesnapshotoptionalparams.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Snapshot<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharecreatesnapshotoptions.html" class="tsd-kind-icon">Share<wbr>Create<wbr>Snapshot<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedeleteheaders.html" class="tsd-kind-icon">Share<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedeletemethodoptionalparams.html" class="tsd-kind-icon">Share<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharedeletemethodoptions.html" class="tsd-kind-icon">Share<wbr>Delete<wbr>Method<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetaccesspolicyheaders.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetaccesspolicyoptions.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpermissionheaders.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Permission<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpermissionoptionalparams.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Permission<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpermissionoptions.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Permission<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpropertiesheaders.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpropertiesoptionalparams.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Properties<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetpropertiesoptions.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Properties<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetstatisticsheaders.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Statistics<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetstatisticsoptionalparams.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Statistics<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharegetstatisticsoptions.html" class="tsd-kind-icon">Share<wbr>Get<wbr>Statistics<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shareitem.html" class="tsd-kind-icon">Share<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/shareproperties.html" class="tsd-kind-icon">Share<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetaccesspolicyheaders.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetaccesspolicyoptionalparams.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Access<wbr>Policy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetaccesspolicyoptions.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Access<wbr>Policy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetmetadataheaders.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetmetadataoptionalparams.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Metadata<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetmetadataoptions.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Metadata<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetquotaheaders.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Quota<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetquotaoptionalparams.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Quota<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharesetquotaoptions.html" class="tsd-kind-icon">Share<wbr>Set<wbr>Quota<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sharestats.html" class="tsd-kind-icon">Share<wbr>Stats</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/signedidentifier.html" class="tsd-kind-icon">Signed<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcemodifiedaccessconditions.html" class="tsd-kind-icon">Source<wbr>Modified<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageerror.html" class="tsd-kind-icon">Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/telemetryoptions.html" class="tsd-kind-icon">Telemetry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/uploadstreamtoazurefileoptions.html" class="tsd-kind-icon">Upload<wbr>Stream<wbr>ToAzure<wbr>File<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/uploadtoazurefileoptions.html" class="tsd-kind-icon">Upload<wbr>ToAzure<wbr>File<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copystatustype" class="tsd-kind-icon">Copy<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#credentialpolicycreator" class="tsd-kind-icon">Credential<wbr>Policy<wbr>Creator</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#deletesnapshotsoptiontype" class="tsd-kind-icon">Delete<wbr>Snapshots<wbr>Option<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorycreateresponse" class="tsd-kind-icon">Directory<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorydeleteresponse" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directoryforceclosehandlesresponse" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorygetpropertiesresponse" class="tsd-kind-icon">Directory<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorylistfilesanddirectoriessegmentresponse" class="tsd-kind-icon">Directory<wbr>List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorylisthandlesresponse" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorysetmetadataresponse" class="tsd-kind-icon">Directory<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorysetpropertiesresponse" class="tsd-kind-icon">Directory<wbr>Set<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileabortcopyresponse" class="tsd-kind-icon">File<wbr>Abort<wbr>Copy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileattributespreservetype" class="tsd-kind-icon">File<wbr>Attributes<wbr>Preserve<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filecreateresponse" class="tsd-kind-icon">File<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filedeleteresponse" class="tsd-kind-icon">File<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileforceclosehandlesresponse" class="tsd-kind-icon">File<wbr>Force<wbr>Close<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filegetpropertiesresponse" class="tsd-kind-icon">File<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filegetrangelistresponse" class="tsd-kind-icon">File<wbr>Get<wbr>Range<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filelisthandlesresponse" class="tsd-kind-icon">File<wbr>List<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filepermissioninherittype" class="tsd-kind-icon">File<wbr>Permission<wbr>Inherit<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filepermissionpreservetype" class="tsd-kind-icon">File<wbr>Permission<wbr>Preserve<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filerangewritetype" class="tsd-kind-icon">File<wbr>Range<wbr>Write<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filesethttpheadersresponse" class="tsd-kind-icon">File<wbr>SetHTTPHeaders<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filesetmetadataresponse" class="tsd-kind-icon">File<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filestartcopyresponse" class="tsd-kind-icon">File<wbr>Start<wbr>Copy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filetype" class="tsd-kind-icon">File<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileuploadrangefromurlresponse" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>FromURLResponse</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fileuploadrangeresponse" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listsharesincludetype" class="tsd-kind-icon">List<wbr>Shares<wbr>Include<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#outgoinghandler" class="tsd-kind-icon">Outgoing<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readablestreamgetter" class="tsd-kind-icon">Readable<wbr>Stream<wbr>Getter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicegetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicelistsharessegmentresponse" class="tsd-kind-icon">Service<wbr>List<wbr>Shares<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#servicesetpropertiesresponse" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharecreatepermissionresponse" class="tsd-kind-icon">Share<wbr>Create<wbr>Permission<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharecreateresponse" class="tsd-kind-icon">Share<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharecreatesnapshotresponse" class="tsd-kind-icon">Share<wbr>Create<wbr>Snapshot<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharedeleteresponse" class="tsd-kind-icon">Share<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharegetaccesspolicyresponse" class="tsd-kind-icon">Share<wbr>Get<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharegetpermissionresponse" class="tsd-kind-icon">Share<wbr>Get<wbr>Permission<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharegetpropertiesresponse" class="tsd-kind-icon">Share<wbr>Get<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharegetstatisticsresponse" class="tsd-kind-icon">Share<wbr>Get<wbr>Statistics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharesetaccesspolicyresponse" class="tsd-kind-icon">Share<wbr>Set<wbr>Access<wbr>Policy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharesetmetadataresponse" class="tsd-kind-icon">Share<wbr>Set<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sharesetquotaresponse" class="tsd-kind-icon">Share<wbr>Set<wbr>Quota<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageerrorcode" class="tsd-kind-icon">Storage<wbr>Error<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#timenowtype" class="tsd-kind-icon">Time<wbr>Now<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#timepreservetype" class="tsd-kind-icon">Time<wbr>Preserve<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_high_level_parallelism" class="tsd-kind-icon">DEFAULT_<wbr>HIGH_<wbr>LEVEL_<wbr>PARALLELISM</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#default_max_download_retry_requests" class="tsd-kind-icon">DEFAULT_<wbr>MAX_<wbr>DOWNLOAD_<wbr>RETRY_<wbr>REQUESTS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagany" class="tsd-kind-icon">ETag<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#etagnone" class="tsd-kind-icon">ETag<wbr>None</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#file_max_size_bytes" class="tsd-kind-icon">FILE_<wbr>MAX_<wbr>SIZE_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#file_range_max_size_bytes" class="tsd-kind-icon">FILE_<wbr>RANGE_<wbr>MAX_<wbr>SIZE_<wbr>BYTES</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sdk_version" class="tsd-kind-icon">SDK_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#service_version" class="tsd-kind-icon">SERVICE_<wbr>VERSION</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#fsstat" class="tsd-kind-icon">fs<wbr>Stat</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newretrypolicyfactory" class="tsd-kind-icon">New<wbr>Retry<wbr>Policy<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#appendtourlpath" class="tsd-kind-icon">append<wbr>ToURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64decode" class="tsd-kind-icon">base64decode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#base64encode" class="tsd-kind-icon">base64encode</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#blobtoarraybuffer" class="tsd-kind-icon">blob<wbr>ToArray<wbr>Buffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#createspan" class="tsd-kind-icon">create<wbr>Span</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#escapeurlpath" class="tsd-kind-icon">escapeURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#extractconnectionstringparts" class="tsd-kind-icon">extract<wbr>Connection<wbr>String<wbr>Parts</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#fileattributestostring" class="tsd-kind-icon">file<wbr>Attributes<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#filecreationtimetostring" class="tsd-kind-icon">file<wbr>Creation<wbr>Time<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#filelastwritetimetostring" class="tsd-kind-icon">file<wbr>Last<wbr>Write<wbr>Time<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generateaccountsasqueryparameters" class="tsd-kind-icon">generate<wbr>AccountSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#generatefilesasqueryparameters" class="tsd-kind-icon">generate<wbr>FileSASQuery<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getaccountnamefromurl" class="tsd-kind-icon">get<wbr>Account<wbr>Name<wbr>From<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getsharenameandpathfromurl" class="tsd-kind-icon">get<wbr>Share<wbr>Name<wbr>And<wbr>Path<wbr>From<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlparameter" class="tsd-kind-icon">getURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlpath" class="tsd-kind-icon">getURLPath</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#geturlqueries" class="tsd-kind-icon">getURLQueries</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#iprangetostring" class="tsd-kind-icon">ip<wbr>Range<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#newpipeline" class="tsd-kind-icon">new<wbr>Pipeline</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#padstart" class="tsd-kind-icon">pad<wbr>Start</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#rangetostring" class="tsd-kind-icon">range<wbr>ToString</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#readstreamtolocalfile" class="tsd-kind-icon">read<wbr>Stream<wbr>ToLocal<wbr>File</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sanitizeheaders" class="tsd-kind-icon">sanitize<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#sanitizeurl" class="tsd-kind-icon">sanitizeURL</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlhost" class="tsd-kind-icon">setURLHost</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#seturlparameter" class="tsd-kind-icon">setURLParameter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#streamtobuffer" class="tsd-kind-icon">stream<wbr>ToBuffer</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#truncatediso8061date" class="tsd-kind-icon">truncatedISO8061<wbr>Date</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#validateandsetdefaultsforfileanddirectorycreatecommonoptions" class="tsd-kind-icon">validate<wbr>And<wbr>Set<wbr>Defaults<wbr>For<wbr>File<wbr>And<wbr>Directory<wbr>Create<wbr>Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#validateandsetdefaultsforfileanddirectorysetpropertiescommonoptions" class="tsd-kind-icon">validate<wbr>And<wbr>Set<wbr>Defaults<wbr>For<wbr>File<wbr>And<wbr>Directory<wbr>Set<wbr>Properties<wbr>Common<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#validatefilepermissionoptions" class="tsd-kind-icon">validate<wbr>File<wbr>Permission<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accesspolicy" class="tsd-kind-icon">Access<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#corsrule" class="tsd-kind-icon">Cors<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorycreateheaders" class="tsd-kind-icon">Directory<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorydeleteheaders" class="tsd-kind-icon">Directory<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directoryforceclosehandlesheaders" class="tsd-kind-icon">Directory<wbr>Force<wbr>Close<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorygetpropertiesheaders" class="tsd-kind-icon">Directory<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directoryitem" class="tsd-kind-icon">Directory<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorylistfilesanddirectoriessegmentheaders" class="tsd-kind-icon">Directory<wbr>List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorylisthandlesheaders" class="tsd-kind-icon">Directory<wbr>List<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorysetmetadataheaders" class="tsd-kind-icon">Directory<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#directorysetpropertiesheaders" class="tsd-kind-icon">Directory<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileabortcopyheaders" class="tsd-kind-icon">File<wbr>Abort<wbr>Copy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecreateheaders" class="tsd-kind-icon">File<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filedeleteheaders" class="tsd-kind-icon">File<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filedownloadheaders" class="tsd-kind-icon">File<wbr>Download<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileforceclosehandlesheaders" class="tsd-kind-icon">File<wbr>Force<wbr>Close<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filegetpropertiesheaders" class="tsd-kind-icon">File<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filegetrangelistheaders" class="tsd-kind-icon">File<wbr>Get<wbr>Range<wbr>List<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filehttpheaders" class="tsd-kind-icon">FileHTTPHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileitem" class="tsd-kind-icon">File<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filelisthandlesheaders" class="tsd-kind-icon">File<wbr>List<wbr>Handles<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileproperty" class="tsd-kind-icon">File<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileserviceproperties" class="tsd-kind-icon">File<wbr>Service<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesethttpheadersheaders" class="tsd-kind-icon">File<wbr>SetHTTPHeaders<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesetmetadataheaders" class="tsd-kind-icon">File<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filestartcopyheaders" class="tsd-kind-icon">File<wbr>Start<wbr>Copy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileuploadrangefromurlheaders" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>FromURLHeaders</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileuploadrangeheaders" class="tsd-kind-icon">File<wbr>Upload<wbr>Range<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filesanddirectorieslistsegment" class="tsd-kind-icon">Files<wbr>And<wbr>Directories<wbr>List<wbr>Segment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#httpurlconnection" class="tsd-kind-icon">HTTPURLConnection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#handleitem" class="tsd-kind-icon">Handle<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#headerconstants" class="tsd-kind-icon">Header<wbr>Constants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listfilesanddirectoriessegmentresponse" class="tsd-kind-icon">List<wbr>Files<wbr>And<wbr>Directories<wbr>Segment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listhandlesresponse" class="tsd-kind-icon">List<wbr>Handles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listsharesresponse" class="tsd-kind-icon">List<wbr>Shares<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metrics" class="tsd-kind-icon">Metrics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#permission" class="tsd-kind-icon">Permission</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#range" class="tsd-kind-icon">Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionpolicy" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicegetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicelistsharessegmentheaders" class="tsd-kind-icon">Service<wbr>List<wbr>Shares<wbr>Segment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#servicesetpropertiesheaders" class="tsd-kind-icon">Service<wbr>Set<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharecreateheaders" class="tsd-kind-icon">Share<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharecreatepermissionheaders" class="tsd-kind-icon">Share<wbr>Create<wbr>Permission<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharecreatesnapshotheaders" class="tsd-kind-icon">Share<wbr>Create<wbr>Snapshot<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharedeleteheaders" class="tsd-kind-icon">Share<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharegetaccesspolicyheaders" class="tsd-kind-icon">Share<wbr>Get<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharegetpermissionheaders" class="tsd-kind-icon">Share<wbr>Get<wbr>Permission<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharegetpropertiesheaders" class="tsd-kind-icon">Share<wbr>Get<wbr>Properties<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharegetstatisticsheaders" class="tsd-kind-icon">Share<wbr>Get<wbr>Statistics<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shareitem" class="tsd-kind-icon">Share<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#shareproperties" class="tsd-kind-icon">Share<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharesetaccesspolicyheaders" class="tsd-kind-icon">Share<wbr>Set<wbr>Access<wbr>Policy<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharesetmetadataheaders" class="tsd-kind-icon">Share<wbr>Set<wbr>Metadata<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharesetquotaheaders" class="tsd-kind-icon">Share<wbr>Set<wbr>Quota<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharestats" class="tsd-kind-icon">Share<wbr>Stats</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#signedidentifier" class="tsd-kind-icon">Signed<wbr>Identifier</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcemodifiedaccessconditions" class="tsd-kind-icon">Source<wbr>Modified<wbr>Access<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageerror" class="tsd-kind-icon">Storage<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#urlconstants" class="tsd-kind-icon">URLConstants</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp0" class="tsd-kind-icon">comp0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp1" class="tsd-kind-icon">comp1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp10" class="tsd-kind-icon">comp10</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp11" class="tsd-kind-icon">comp11</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp2" class="tsd-kind-icon">comp2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp3" class="tsd-kind-icon">comp3</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp4" class="tsd-kind-icon">comp4</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp5" class="tsd-kind-icon">comp5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp6" class="tsd-kind-icon">comp6</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp7" class="tsd-kind-icon">comp7</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp8" class="tsd-kind-icon">comp8</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#comp9" class="tsd-kind-icon">comp9</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentmd5" class="tsd-kind-icon">contentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyactionabortconstant" class="tsd-kind-icon">copy<wbr>Action<wbr>Abort<wbr>Constant</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deletesnapshots" class="tsd-kind-icon">delete<wbr>Snapshots</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fileattributes" class="tsd-kind-icon">file<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecachecontrol" class="tsd-kind-icon">file<wbr>Cache<wbr>Control</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentdisposition" class="tsd-kind-icon">file<wbr>Content<wbr>Disposition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentencoding" class="tsd-kind-icon">file<wbr>Content<wbr>Encoding</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentlanguage" class="tsd-kind-icon">file<wbr>Content<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentlength0" class="tsd-kind-icon">file<wbr>Content<wbr>Length0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentlength1" class="tsd-kind-icon">file<wbr>Content<wbr>Length1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontentmd5" class="tsd-kind-icon">file<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecontenttype" class="tsd-kind-icon">file<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filecreationtime" class="tsd-kind-icon">file<wbr>Creation<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filelastwritetime" class="tsd-kind-icon">file<wbr>Last<wbr>Write<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filepermission" class="tsd-kind-icon">file<wbr>Permission</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filepermissionkey0" class="tsd-kind-icon">file<wbr>Permission<wbr>Key0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filepermissionkey1" class="tsd-kind-icon">file<wbr>Permission<wbr>Key1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filerangewrite" class="tsd-kind-icon">file<wbr>Range<wbr>Write</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filerangewritefromurl" class="tsd-kind-icon">file<wbr>Range<wbr>Write<wbr>From<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filetypeconstant" class="tsd-kind-icon">file<wbr>Type<wbr>Constant</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#handleid" class="tsd-kind-icon">handle<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#include" class="tsd-kind-icon">include</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#marker" class="tsd-kind-icon">marker</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maxresults" class="tsd-kind-icon">maxresults</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadata" class="tsd-kind-icon">metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prefix" class="tsd-kind-icon">prefix</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quota" class="tsd-kind-icon">quota</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#range0" class="tsd-kind-icon">range0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#range1" class="tsd-kind-icon">range1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rangegetcontentmd5" class="tsd-kind-icon">range<wbr>Get<wbr>ContentMD5</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recursive" class="tsd-kind-icon">recursive</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype0" class="tsd-kind-icon">restype0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype1" class="tsd-kind-icon">restype1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restype2" class="tsd-kind-icon">restype2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sharesnapshot" class="tsd-kind-icon">sharesnapshot</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcecontentcrc64" class="tsd-kind-icon">source<wbr>Content<wbr>Crc64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifmatchcrc64" class="tsd-kind-icon">source<wbr>IfMatch<wbr>Crc64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceifnonematchcrc64" class="tsd-kind-icon">source<wbr>IfNone<wbr>Match<wbr>Crc64</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcerange" class="tsd-kind-icon">source<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timeout" class="tsd-kind-icon">timeout</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#url" class="tsd-kind-icon">url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#version" class="tsd-kind-icon">version</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

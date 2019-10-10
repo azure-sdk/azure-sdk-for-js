@@ -1,0 +1,1975 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-compute-profile-2019-03-01-hybrid</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-compute-profile-2019-03-01-hybrid</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-compute-profile-2019-03-01-hybrid</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-computemanagementclient-sdk-for-javascript" id="azure-computemanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure ComputeManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for ComputeManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-compute-profile-2019-03-01-hybrid</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-operations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list operations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { ComputeManagementClient, ComputeManagementModels, ComputeManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-compute-profile-2019-03-01-hybrid"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ComputeManagementClient(creds, subscriptionId);
+  client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-operations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list operations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-compute-profile-2019-03-01-hybrid sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-compute-profile-2019-03-01-hybrid/dist/arm-compute-profile-2019-03-01-hybrid.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmComputeProfile20190301Hybrid.ComputeManagementClient(res.creds, subscriptionId);
+      client.operations.list().then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/availabilitysets.html" class="tsd-kind-icon">Availability<wbr>Sets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/computemanagementclientcontext.html" class="tsd-kind-icon">Compute<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/disks.html" class="tsd-kind-icon">Disks</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/images.html" class="tsd-kind-icon">Images</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/loganalytics.html" class="tsd-kind-icon">Log<wbr>Analytics</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/snapshots.html" class="tsd-kind-icon">Snapshots</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/usageoperations.html" class="tsd-kind-icon">Usage<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachineextensionimages.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachineextensions.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachineimages.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinescalesetextensions.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinescalesetrollingupgrades.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinescalesetvms.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinescalesets.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachinesizes.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Sizes</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/virtualmachines.html" class="tsd-kind-icon">Virtual<wbr>Machines</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accessuri.html" class="tsd-kind-icon">Access<wbr>Uri</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/additionalunattendcontent.html" class="tsd-kind-icon">Additional<wbr>Unattend<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apientityreference.html" class="tsd-kind-icon">Api<wbr>Entity<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apierror.html" class="tsd-kind-icon">Api<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apierrorbase.html" class="tsd-kind-icon">Api<wbr>Error<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoosupgradepolicy.html" class="tsd-kind-icon">AutoOSUpgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availabilityset.html" class="tsd-kind-icon">Availability<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availabilitysetlistresult.html" class="tsd-kind-icon">Availability<wbr>Set<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availabilitysetupdate.html" class="tsd-kind-icon">Availability<wbr>Set<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bootdiagnostics.html" class="tsd-kind-icon">Boot<wbr>Diagnostics</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bootdiagnosticsinstanceview.html" class="tsd-kind-icon">Boot<wbr>Diagnostics<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computelongrunningoperationproperties.html" class="tsd-kind-icon">Compute<wbr>Long<wbr>Running<wbr>Operation<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computemanagementclientoptions.html" class="tsd-kind-icon">Compute<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computeoperationlistresult.html" class="tsd-kind-icon">Compute<wbr>Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computeoperationvalue.html" class="tsd-kind-icon">Compute<wbr>Operation<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/creationdata.html" class="tsd-kind-icon">Creation<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadisk.html" class="tsd-kind-icon">Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadiskimage.html" class="tsd-kind-icon">Data<wbr>Disk<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diagnosticsprofile.html" class="tsd-kind-icon">Diagnostics<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disk.html" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskencryptionsettings.html" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskinstanceview.html" class="tsd-kind-icon">Disk<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disklist.html" class="tsd-kind-icon">Disk<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disksku.html" class="tsd-kind-icon">Disk<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskupdate.html" class="tsd-kind-icon">Disk<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encryptionsettings.html" class="tsd-kind-icon">Encryption<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/grantaccessdata.html" class="tsd-kind-icon">Grant<wbr>Access<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hardwareprofile.html" class="tsd-kind-icon">Hardware<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image.html" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagedatadisk.html" class="tsd-kind-icon">Image<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagediskreference.html" class="tsd-kind-icon">Image<wbr>Disk<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagelistresult.html" class="tsd-kind-icon">Image<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageosdisk.html" class="tsd-kind-icon">ImageOSDisk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagereference.html" class="tsd-kind-icon">Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagestorageprofile.html" class="tsd-kind-icon">Image<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageupdate.html" class="tsd-kind-icon">Image<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagesgetoptionalparams.html" class="tsd-kind-icon">Images<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/innererror.html" class="tsd-kind-icon">Inner<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/instanceviewstatus.html" class="tsd-kind-icon">Instance<wbr>View<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultandkeyreference.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>And<wbr>Key<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultandsecretreference.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>And<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultkeyreference.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>Key<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaultsecretreference.html" class="tsd-kind-icon">Key<wbr>Vault<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linuxconfiguration.html" class="tsd-kind-icon">Linux<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listusagesresult.html" class="tsd-kind-icon">List<wbr>Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loganalyticsinputbase.html" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Input<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loganalyticsoperationresult.html" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/loganalyticsoutput.html" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/maintenanceredeploystatus.html" class="tsd-kind-icon">Maintenance<wbr>Redeploy<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/manageddiskparameters.html" class="tsd-kind-icon">Managed<wbr>Disk<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkinterfacereference.html" class="tsd-kind-icon">Network<wbr>Interface<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkprofile.html" class="tsd-kind-icon">Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osdisk.html" class="tsd-kind-icon">OSDisk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osdiskimage.html" class="tsd-kind-icon">OSDisk<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osprofile.html" class="tsd-kind-icon">OSProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatusresponse.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/plan.html" class="tsd-kind-icon">Plan</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/purchaseplan.html" class="tsd-kind-icon">Purchase<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverywalkresponse.html" class="tsd-kind-icon">Recovery<wbr>Walk<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/requestratebyintervalinput.html" class="tsd-kind-icon">Request<wbr>Rate<wbr>ByInterval<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourceupdate.html" class="tsd-kind-icon">Resource<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rollbackstatusinfo.html" class="tsd-kind-icon">Rollback<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rollingupgradepolicy.html" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rollingupgradeprogressinfo.html" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Progress<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rollingupgraderunningstatus.html" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Running<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/rollingupgradestatusinfo.html" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sku.html" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshot.html" class="tsd-kind-icon">Snapshot</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotlist.html" class="tsd-kind-icon">Snapshot<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotupdate.html" class="tsd-kind-icon">Snapshot<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sourcevault.html" class="tsd-kind-icon">Source<wbr>Vault</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sshconfiguration.html" class="tsd-kind-icon">Ssh<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sshpublickey.html" class="tsd-kind-icon">Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageprofile.html" class="tsd-kind-icon">Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresource.html" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subresourcereadonly.html" class="tsd-kind-icon">Sub<wbr>Resource<wbr>Read<wbr>Only</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/throttledrequestsinput.html" class="tsd-kind-icon">Throttled<wbr>Requests<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updateresource.html" class="tsd-kind-icon">Update<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/upgradeoperationhistoricalstatusinfo.html" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>Historical<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/upgradeoperationhistoricalstatusinfoproperties.html" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>Historical<wbr>Status<wbr>Info<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/upgradeoperationhistorystatus.html" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>History<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/upgradepolicy.html" class="tsd-kind-icon">Upgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usage.html" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usagename.html" class="tsd-kind-icon">Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vaultcertificate.html" class="tsd-kind-icon">Vault<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vaultsecretgroup.html" class="tsd-kind-icon">Vault<wbr>Secret<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualharddisk.html" class="tsd-kind-icon">Virtual<wbr>Hard<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachine.html" class="tsd-kind-icon">Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineagentinstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Agent<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinecaptureparameters.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Capture<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinecaptureresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Capture<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextension.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionhandlerinstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Handler<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionimage.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionimageslistversionsoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Images<wbr>List<wbr>Versions<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensioninstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionupdate.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionsgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineextensionslistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinehealthstatus.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Health<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineidentity.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineimage.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineimageresource.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Image<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineimageslistoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineinstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinelistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescaleset.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetdatadisk.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetextension.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetextensionlistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetextensionprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetextensionsgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetipconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetidentity.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetinstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetinstanceviewstatusessummary.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Instance<wbr>View<wbr>Statuses<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetlistosupgradehistory.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>ListOSUpgrade<wbr>History</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetlistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetlistskusresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>Skus<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetlistwithlinkresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>With<wbr>Link<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetmanageddiskparameters.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Managed<wbr>Disk<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetnetworkconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetnetworkconfigurationdnssettings.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Configuration<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetnetworkprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetosdisk.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetOSDisk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetosprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetOSProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetpublicipaddressconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>PublicIPAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetpublicipaddressconfigurationdnssettings.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>PublicIPAddress<wbr>Configuration<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsku.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetskucapacity.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Sku<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetstorageprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdate.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdateipconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdatenetworkconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdatenetworkprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdateosdisk.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateOSDisk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdateosprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateOSProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdatepublicipaddressconfiguration.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>PublicIPAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdatestorageprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetupdatevmprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateVMProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvm.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVM</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvmextensionssummary.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMExtensions<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvminstanceids.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstanceIDs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvminstancerequiredids.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstance<wbr>RequiredIDs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvminstanceview.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvmlistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMList<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvmprofile.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMProfile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetvmslistoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbegindeallocateoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Deallocate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginperformmaintenanceoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Perform<wbr>Maintenance<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginpoweroffoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Power<wbr>Off<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginredeployoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Redeploy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginreimagealloptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Reimage<wbr>All<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginreimageoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Reimage<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginrestartoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Restart<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsbeginstartoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Start<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsdeallocateoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Deallocate<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsperformmaintenanceoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Perform<wbr>Maintenance<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetspoweroffoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Power<wbr>Off<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsredeployoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Redeploy<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsreimagealloptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Reimage<wbr>All<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsreimageoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Reimage<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsrestartoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Restart<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinescalesetsstartoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Start<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesize.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesizelistresult.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Size<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinestatuscodecount.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Status<wbr>Code<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachineupdate.html" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesgetextensionsoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Extensions<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualmachinesgetoptionalparams.html" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/winrmconfiguration.html" class="tsd-kind-icon">WinRMConfiguration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/winrmlistener.html" class="tsd-kind-icon">WinRMListener</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/windowsconfiguration.html" class="tsd-kind-icon">Windows<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accesslevel" class="tsd-kind-icon">Access<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetscreateorupdateresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetsdeletemethodresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetsgetresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetslistavailablesizesresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>List<wbr>Available<wbr>Sizes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetslistbysubscriptionnextresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>List<wbr>BySubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetslistbysubscriptionresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetslistnextresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetslistresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#availabilitysetsupdateresponse" class="tsd-kind-icon">Availability<wbr>Sets<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cachingtypes" class="tsd-kind-icon">Caching<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#componentnames" class="tsd-kind-icon">Component<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskcreateoption" class="tsd-kind-icon">Disk<wbr>Create<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskcreateoptiontypes" class="tsd-kind-icon">Disk<wbr>Create<wbr>Option<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbegincreateorupdateresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbegindeletemethodresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbegingrantaccessresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Grant<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbeginrevokeaccessresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Revoke<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksbeginupdateresponse" class="tsd-kind-icon">Disks<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskscreateorupdateresponse" class="tsd-kind-icon">Disks<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksdeletemethodresponse" class="tsd-kind-icon">Disks<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksgetresponse" class="tsd-kind-icon">Disks<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksgrantaccessresponse" class="tsd-kind-icon">Disks<wbr>Grant<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistbyresourcegroupnextresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistbyresourcegroupresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistnextresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#diskslistresponse" class="tsd-kind-icon">Disks<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksrevokeaccessresponse" class="tsd-kind-icon">Disks<wbr>Revoke<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#disksupdateresponse" class="tsd-kind-icon">Disks<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ipversion" class="tsd-kind-icon">IPVersion</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesbegincreateorupdateresponse" class="tsd-kind-icon">Images<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesbegindeletemethodresponse" class="tsd-kind-icon">Images<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesbeginupdateresponse" class="tsd-kind-icon">Images<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagescreateorupdateresponse" class="tsd-kind-icon">Images<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesdeletemethodresponse" class="tsd-kind-icon">Images<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesgetresponse" class="tsd-kind-icon">Images<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageslistbyresourcegroupnextresponse" class="tsd-kind-icon">Images<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageslistbyresourcegroupresponse" class="tsd-kind-icon">Images<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageslistnextresponse" class="tsd-kind-icon">Images<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imageslistresponse" class="tsd-kind-icon">Images<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagesupdateresponse" class="tsd-kind-icon">Images<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#instanceviewtypes" class="tsd-kind-icon">Instance<wbr>View<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#intervalinmins" class="tsd-kind-icon">Interval<wbr>InMins</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loganalyticsbeginexportrequestratebyintervalresponse" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Begin<wbr>Export<wbr>Request<wbr>Rate<wbr>ByInterval<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loganalyticsbeginexportthrottledrequestsresponse" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Begin<wbr>Export<wbr>Throttled<wbr>Requests<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loganalyticsexportrequestratebyintervalresponse" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Export<wbr>Request<wbr>Rate<wbr>ByInterval<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#loganalyticsexportthrottledrequestsresponse" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Export<wbr>Throttled<wbr>Requests<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#maintenanceoperationresultcodetypes" class="tsd-kind-icon">Maintenance<wbr>Operation<wbr>Result<wbr>Code<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operatingsystemstatetypes" class="tsd-kind-icon">Operating<wbr>System<wbr>State<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operatingsystemtypes" class="tsd-kind-icon">Operating<wbr>System<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#passnames" class="tsd-kind-icon">Pass<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protocoltypes" class="tsd-kind-icon">Protocol<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourceidentitytype" class="tsd-kind-icon">Resource<wbr>Identity<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rollingupgradeactiontype" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Action<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#rollingupgradestatuscode" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Status<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#settingnames" class="tsd-kind-icon">Setting<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsbegincreateorupdateresponse" class="tsd-kind-icon">Snapshots<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsbegindeletemethodresponse" class="tsd-kind-icon">Snapshots<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsbegingrantaccessresponse" class="tsd-kind-icon">Snapshots<wbr>Begin<wbr>Grant<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsbeginrevokeaccessresponse" class="tsd-kind-icon">Snapshots<wbr>Begin<wbr>Revoke<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsbeginupdateresponse" class="tsd-kind-icon">Snapshots<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotscreateorupdateresponse" class="tsd-kind-icon">Snapshots<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsdeletemethodresponse" class="tsd-kind-icon">Snapshots<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsgetresponse" class="tsd-kind-icon">Snapshots<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsgrantaccessresponse" class="tsd-kind-icon">Snapshots<wbr>Grant<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotslistbyresourcegroupnextresponse" class="tsd-kind-icon">Snapshots<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotslistbyresourcegroupresponse" class="tsd-kind-icon">Snapshots<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotslistnextresponse" class="tsd-kind-icon">Snapshots<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotslistresponse" class="tsd-kind-icon">Snapshots<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsrevokeaccessresponse" class="tsd-kind-icon">Snapshots<wbr>Revoke<wbr>Access<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotsupdateresponse" class="tsd-kind-icon">Snapshots<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#statusleveltypes" class="tsd-kind-icon">Status<wbr>Level<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storageaccounttypes" class="tsd-kind-icon">Storage<wbr>Account<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#upgrademode" class="tsd-kind-icon">Upgrade<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#upgradeoperationinvoker" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>Invoker</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#upgradestate" class="tsd-kind-icon">Upgrade<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usagelistnextresponse" class="tsd-kind-icon">Usage<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usagelistresponse" class="tsd-kind-icon">Usage<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineevictionpolicytypes" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Eviction<wbr>Policy<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionimagesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Images<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionimageslisttypesresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Images<wbr>List<wbr>Types<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionimageslistversionsresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Images<wbr>List<wbr>Versions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsbegindeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsbeginupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsdeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineextensionsupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineimagesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineimageslistoffersresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>List<wbr>Offers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineimageslistpublishersresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>List<wbr>Publishers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineimageslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineimageslistskusresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Images<wbr>List<wbr>Skus<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineprioritytypes" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Priority<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionsbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionsbegindeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionsdeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionsgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetextensionslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extensions<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetrollingupgradesbegincancelresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades<wbr>Begin<wbr>Cancel<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetrollingupgradesbeginstartosupgraderesponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades<wbr>Begin<wbr>StartOSUpgrade<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetrollingupgradescancelresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades<wbr>Cancel<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetrollingupgradesgetlatestresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades<wbr>Get<wbr>Latest<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetrollingupgradesstartosupgraderesponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Rolling<wbr>Upgrades<wbr>StartOSUpgrade<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetskuscaletype" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Sku<wbr>Scale<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbegindeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbegindeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginpoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginreimageallresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Reimage<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginreimageresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Reimage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginstartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsbeginupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsdeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsdeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsgetinstanceviewresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Get<wbr>Instance<wbr>View<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmspoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsreimageallresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Reimage<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsreimageresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Reimage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsstartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetvmsupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbegindeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbegindeleteinstancesresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Delete<wbr>Instances<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbegindeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginpoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginreimageallresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Reimage<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginreimageresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Reimage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginstartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginupdateinstancesresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Update<wbr>Instances<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsbeginupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetscreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsdeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsdeleteinstancesresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Delete<wbr>Instances<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsdeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsforcerecoveryservicefabricplatformupdatedomainwalkresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Force<wbr>Recovery<wbr>Service<wbr>Fabric<wbr>Platform<wbr>Update<wbr>Domain<wbr>Walk<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsgetinstanceviewresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Get<wbr>Instance<wbr>View<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsgetosupgradehistorynextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>GetOSUpgrade<wbr>History<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsgetosupgradehistoryresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>GetOSUpgrade<wbr>History<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsgetresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistallnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistallresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistskusnextresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>Skus<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetslistskusresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>List<wbr>Skus<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetspoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsreimageallresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Reimage<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsreimageresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Reimage<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsstartresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsupdateinstancesresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Update<wbr>Instances<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescalesetsupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Sets<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesizetypes" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Size<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesizeslistresponse" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Sizes<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbegincaptureresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Capture<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginconverttomanageddisksresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Convert<wbr>ToManaged<wbr>Disks<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbegincreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbegindeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbegindeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginpoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginstartresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesbeginupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescaptureresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Capture<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesconverttomanageddisksresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Convert<wbr>ToManaged<wbr>Disks<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinescreateorupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesdeallocateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Deallocate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesdeletemethodresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgeneralizeresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Generalize<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgetextensionsresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Extensions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesgetresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesinstanceviewresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Instance<wbr>View<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistallnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>All<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistallresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>All<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistavailablesizesresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Available<wbr>Sizes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbylocationnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>ByLocation<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistbylocationresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>ByLocation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistnextresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachineslistresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesperformmaintenanceresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Perform<wbr>Maintenance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinespoweroffresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Power<wbr>Off<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesredeployresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Redeploy<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesrestartresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Restart<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesstartresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Start<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#virtualmachinesupdateresponse" class="tsd-kind-icon">Virtual<wbr>Machines<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accessuri" class="tsd-kind-icon">Access<wbr>Uri</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#additionalunattendcontent" class="tsd-kind-icon">Additional<wbr>Unattend<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apientityreference" class="tsd-kind-icon">Api<wbr>Entity<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apierror" class="tsd-kind-icon">Api<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apierrorbase" class="tsd-kind-icon">Api<wbr>Error<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoosupgradepolicy" class="tsd-kind-icon">AutoOSUpgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availabilityset" class="tsd-kind-icon">Availability<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availabilitysetlistresult" class="tsd-kind-icon">Availability<wbr>Set<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availabilitysetupdate" class="tsd-kind-icon">Availability<wbr>Set<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bootdiagnostics" class="tsd-kind-icon">Boot<wbr>Diagnostics</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bootdiagnosticsinstanceview" class="tsd-kind-icon">Boot<wbr>Diagnostics<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computelongrunningoperationproperties" class="tsd-kind-icon">Compute<wbr>Long<wbr>Running<wbr>Operation<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computeoperationlistresult" class="tsd-kind-icon">Compute<wbr>Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computeoperationvalue" class="tsd-kind-icon">Compute<wbr>Operation<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#creationdata" class="tsd-kind-icon">Creation<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadisk" class="tsd-kind-icon">Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadiskimage" class="tsd-kind-icon">Data<wbr>Disk<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diagnosticsprofile" class="tsd-kind-icon">Diagnostics<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disk" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskencryptionsettings" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskinstanceview" class="tsd-kind-icon">Disk<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disklist" class="tsd-kind-icon">Disk<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disksku" class="tsd-kind-icon">Disk<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskupdate" class="tsd-kind-icon">Disk<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptionsettings" class="tsd-kind-icon">Encryption<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#grantaccessdata" class="tsd-kind-icon">Grant<wbr>Access<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hardwareprofile" class="tsd-kind-icon">Hardware<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#image" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagedatadisk" class="tsd-kind-icon">Image<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagediskreference" class="tsd-kind-icon">Image<wbr>Disk<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagelistresult" class="tsd-kind-icon">Image<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageosdisk" class="tsd-kind-icon">ImageOSDisk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagereference" class="tsd-kind-icon">Image<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagestorageprofile" class="tsd-kind-icon">Image<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageupdate" class="tsd-kind-icon">Image<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#innererror" class="tsd-kind-icon">Inner<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#instanceviewstatus" class="tsd-kind-icon">Instance<wbr>View<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultandkeyreference" class="tsd-kind-icon">Key<wbr>Vault<wbr>And<wbr>Key<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultandsecretreference" class="tsd-kind-icon">Key<wbr>Vault<wbr>And<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultkeyreference" class="tsd-kind-icon">Key<wbr>Vault<wbr>Key<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaultsecretreference" class="tsd-kind-icon">Key<wbr>Vault<wbr>Secret<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linuxconfiguration" class="tsd-kind-icon">Linux<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listusagesresult" class="tsd-kind-icon">List<wbr>Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loganalyticsinputbase" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Input<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loganalyticsoperationresult" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Operation<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#loganalyticsoutput" class="tsd-kind-icon">Log<wbr>Analytics<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maintenanceredeploystatus" class="tsd-kind-icon">Maintenance<wbr>Redeploy<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#manageddiskparameters" class="tsd-kind-icon">Managed<wbr>Disk<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkinterfacereference" class="tsd-kind-icon">Network<wbr>Interface<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkprofile" class="tsd-kind-icon">Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osdisk" class="tsd-kind-icon">OSDisk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osdiskimage" class="tsd-kind-icon">OSDisk<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osprofile" class="tsd-kind-icon">OSProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatusresponse" class="tsd-kind-icon">Operation<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#plan" class="tsd-kind-icon">Plan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#purchaseplan" class="tsd-kind-icon">Purchase<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverywalkresponse" class="tsd-kind-icon">Recovery<wbr>Walk<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#requestratebyintervalinput" class="tsd-kind-icon">Request<wbr>Rate<wbr>ByInterval<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourceupdate" class="tsd-kind-icon">Resource<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rollbackstatusinfo" class="tsd-kind-icon">Rollback<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rollingupgradepolicy" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rollingupgradeprogressinfo" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Progress<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rollingupgraderunningstatus" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Running<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rollingupgradestatusinfo" class="tsd-kind-icon">Rolling<wbr>Upgrade<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sku" class="tsd-kind-icon">Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshot" class="tsd-kind-icon">Snapshot</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshotlist" class="tsd-kind-icon">Snapshot<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshotupdate" class="tsd-kind-icon">Snapshot<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourcevault" class="tsd-kind-icon">Source<wbr>Vault</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sshconfiguration" class="tsd-kind-icon">Ssh<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sshpublickey" class="tsd-kind-icon">Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageprofile" class="tsd-kind-icon">Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresource" class="tsd-kind-icon">Sub<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subresourcereadonly" class="tsd-kind-icon">Sub<wbr>Resource<wbr>Read<wbr>Only</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#throttledrequestsinput" class="tsd-kind-icon">Throttled<wbr>Requests<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updateresource" class="tsd-kind-icon">Update<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#upgradeoperationhistoricalstatusinfo" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>Historical<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#upgradeoperationhistoricalstatusinfoproperties" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>Historical<wbr>Status<wbr>Info<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#upgradeoperationhistorystatus" class="tsd-kind-icon">Upgrade<wbr>Operation<wbr>History<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#upgradepolicy" class="tsd-kind-icon">Upgrade<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usage" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usagename" class="tsd-kind-icon">Usage<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vaultcertificate" class="tsd-kind-icon">Vault<wbr>Certificate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vaultsecretgroup" class="tsd-kind-icon">Vault<wbr>Secret<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualharddisk" class="tsd-kind-icon">Virtual<wbr>Hard<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachine" class="tsd-kind-icon">Virtual<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineagentinstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Agent<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinecaptureparameters" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Capture<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinecaptureresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Capture<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextension" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextensionhandlerinstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Handler<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextensionimage" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextensioninstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextensionupdate" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extension<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineextensionslistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Extensions<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinehealthstatus" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Health<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineidentity" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineimage" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineimageresource" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Image<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineinstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinelistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescaleset" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetdatadisk" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Data<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetextension" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetextensionlistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetextensionprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Extension<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetipconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetidentity" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetinstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Instance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetinstanceviewstatusessummary" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Instance<wbr>View<wbr>Statuses<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetlistosupgradehistory" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>ListOSUpgrade<wbr>History</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetlistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetlistskusresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>Skus<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetlistwithlinkresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>List<wbr>With<wbr>Link<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetmanageddiskparameters" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Managed<wbr>Disk<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetnetworkconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetnetworkconfigurationdnssettings" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Configuration<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetnetworkprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetosdisk" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetOSDisk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetosprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetOSProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetpublicipaddressconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>PublicIPAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetpublicipaddressconfigurationdnssettings" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>PublicIPAddress<wbr>Configuration<wbr>Dns<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetsku" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Sku</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetskucapacity" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Sku<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetstorageprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdate" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdateipconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateIPConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdatenetworkconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Network<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdatenetworkprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdateosdisk" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateOSDisk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdateosprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateOSProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdatepublicipaddressconfiguration" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>PublicIPAddress<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdatestorageprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Update<wbr>Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetupdatevmprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>UpdateVMProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvm" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVM</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvmextensionssummary" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMExtensions<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvminstanceids" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstanceIDs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvminstancerequiredids" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstance<wbr>RequiredIDs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvminstanceview" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMInstance<wbr>View</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvmlistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMList<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetvmprofile" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Scale<wbr>SetVMProfile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinesize" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinesizelistresult" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Size<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinestatuscodecount" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Status<wbr>Code<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachineupdate" class="tsd-kind-icon">Virtual<wbr>Machine<wbr>Update</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#winrmconfiguration" class="tsd-kind-icon">WinRMConfiguration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#winrmlistener" class="tsd-kind-icon">WinRMListener</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#windowsconfiguration" class="tsd-kind-icon">Windows<wbr>Configuration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion0" class="tsd-kind-icon">api<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion1" class="tsd-kind-icon">api<wbr>Version1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availabilitysetname" class="tsd-kind-icon">availability<wbr>Set<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskname" class="tsd-kind-icon">disk<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand0" class="tsd-kind-icon">expand0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand1" class="tsd-kind-icon">expand1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagename" class="tsd-kind-icon">image<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#instanceid" class="tsd-kind-icon">instance<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location0" class="tsd-kind-icon">location0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location1" class="tsd-kind-icon">location1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#offer" class="tsd-kind-icon">offer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby" class="tsd-kind-icon">orderby</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#platformupdatedomain" class="tsd-kind-icon">platform<wbr>Update<wbr>Domain</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publishername" class="tsd-kind-icon">publisher<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#select" class="tsd-kind-icon">select</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skus" class="tsd-kind-icon">skus</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshotname" class="tsd-kind-icon">snapshot<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#type" class="tsd-kind-icon">type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#version" class="tsd-kind-icon">version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualmachinescalesetname" class="tsd-kind-icon">virtual<wbr>Machine<wbr>Scale<wbr>Set<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmextensionname" class="tsd-kind-icon">vm<wbr>Extension<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmname" class="tsd-kind-icon">vm<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmscalesetname" class="tsd-kind-icon">vm<wbr>Scale<wbr>Set<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmssextensionname" class="tsd-kind-icon">vmss<wbr>Extension<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

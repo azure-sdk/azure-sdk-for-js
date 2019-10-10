@@ -1,0 +1,561 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/event-processor-host</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/event-processor-host</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/event-processor-host</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azureevent-processor-host" id="azureevent-processor-host" style="color: inherit; text-decoration: none;">
+					<h1>@azure/event-processor-host</h1>
+				</a>
+				<p>Azure Event Processor Host helps you efficiently receive events from an EventHub. It will create EventHub Receivers
+					across all the partitions in the provided consumer group of an EventHub and provide you messages received across
+					all the partitions. It will checkpoint metadata about the received messages at regular interval in an
+				Azure Storage Blob. This makes it easy to continue receiving messages from where you left at a later time.</p>
+				<a href="#conceptual-overview" id="conceptual-overview" style="color: inherit; text-decoration: none;">
+					<h4>Conceptual Overview</h4>
+				</a>
+				<p><img src="https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/eventhub/event-processor-host/eph.png" alt="overview"></p>
+				<ul>
+					<li>More information about Azure Event Processor Host can be found over <a href="https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host">here</a>.</li>
+					<li>General overview of how the Event Processor Host SDK works internally can be found over <a href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/overview.md">here</a>.</li>
+				</ul>
+				<a href="#pre-requisite" id="pre-requisite" style="color: inherit; text-decoration: none;">
+					<h2>Pre-requisite</h2>
+				</a>
+				<ul>
+					<li><strong>Node.js version: 6.x or higher.</strong> </li>
+					<li>We would <strong>still encourage you</strong> to install the latest available LTS version at any given time from <a href="https://nodejs.org">https://nodejs.org</a>. <strong>It is a good practice to always install the latest available LTS version of node.js.</strong></li>
+					<li>Installing node.js on <strong>Windows or macOS</strong> is very simple with available installers on the <a href="https://nodejs.org">node.js website</a>. If you are using a <strong>linux based OS</strong>, then you can find easy to follow, one step installation instructions over <a href="https://nodejs.org/en/download/package-manager/">here</a>.</li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code class="language-bash">npm install @azure/event-processor-host</code></pre>
+				<a href="#ide" id="ide" style="color: inherit; text-decoration: none;">
+					<h2>IDE</h2>
+				</a>
+				<p>This sdk has been developed in <a href="https://typescriptlang.org">TypeScript</a> and has good source code documentation. It is highly recommended to use <a href="https://code.visualstudio.com">vscode</a>
+				or any other IDE that provides better intellisense and exposes the full power of source code documentation.</p>
+				<a href="#debug-logs" id="debug-logs" style="color: inherit; text-decoration: none;">
+					<h2>Debug logs</h2>
+				</a>
+				<p>You can set the following environment variable to get the debug logs.</p>
+				<ul>
+					<li>Getting debug logs <strong>only</strong> from the Event Processor Host SDK<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:eph*</code></pre>
+					</li>
+					<li>Getting debug logs from the Event Processor Host SDK <strong>and</strong> the protocol level library.<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:eph*,rhea*</code></pre>
+					</li>
+					<li>Getting debug logs from the <strong>Event Processor Host SDK, the Event Hub SDK and the protocol level library.</strong><pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*,rhea*</code></pre>
+					</li>
+					<li>If you are <strong>not interested in viewing the message transformation</strong> (which consumes lot of console/disk space) then you can set the <code>DEBUG</code> environment variable as follows:<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:amqp-common:datatransformer</code></pre>
+					</li>
+					<li>If you are interested only in <strong>errors</strong>, then you can set the <code>DEBUG</code> environment variable as follows:<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:eph:error,azure:event-hubs:error,azure-amqp-common:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow</code></pre>
+					</li>
+				</ul>
+				<a href="#logging-to-a-file" id="logging-to-a-file" style="color: inherit; text-decoration: none;">
+					<h4>Logging to a file</h4>
+				</a>
+				<ul>
+					<li>Set the <code>DEBUG</code> environment variable as shown above and then run your test script as follows:<ul>
+							<li>Logging statements from your test script go to <code>out.log</code> and logging statements from the sdk go to <code>debug.log</code>.<pre><code class="language-bash">node your-test-script.js &gt; out.log 2&gt;debug.log</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code> by redirecting stderr to stdout (&amp;1), and then redirect stdout to a file:<pre><code class="language-bash">node your-test-script.js &gt;out.log 2&gt;&amp;1</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code>.<pre><code class="language-bash">  node your-test-script.js &amp;&gt; out.log</code></pre>
+								<a href="#recommendation" id="recommendation" style="color: inherit; text-decoration: none;">
+									<h2>Recommendation</h2>
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li>You will find the sample provided below demonstrates a multi eph instance in the same process. Since node.js is single threaded, it has to load balance between managing(renew, steal, acquire, update) leases and receive messages across all the partitions. It is better to
+					create each instance in a separate process or a separate machine. This should provide better results.</li>
+				</ul>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<ul>
+					<li>Examples can be found over
+					<a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples">here</a>.</li>
+				</ul>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#note" id="note" style="color: inherit; text-decoration: none;">
+					<h3>NOTE</h3>
+				</a>
+				<p>The following samples focus on EPH (Event Processor Host) which is responsible for receiving messages.
+					For sending messages to the EventHub, please use the <code>azure-event-hubs</code> package from npm. More
+					information about the event hub client can be found over <a href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs">here</a>.
+					You can also use <a href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/samples/sendBatch.ts">this example</a> that sends
+					multiple messages batched together. You should be able to run the <code>send</code> example from one terminal window and see those messages
+				being received in the <code>singleEph</code> or <code>multipleEph</code> example being run in the second terminal window.</p>
+				<a href="#single-eph-instance" id="single-eph-instance" style="color: inherit; text-decoration: none;">
+					<h3>Single EPH instance.</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { EventProcessorHost, delay } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/event-processor-host"</span>);
+
+<span class="hljs-keyword">const</span> path = process.env.EVENTHUB_NAME;
+<span class="hljs-keyword">const</span> storageCS = process.env.STORAGE_CONNECTION_STRING;
+<span class="hljs-keyword">const</span> ehCS = process.env.EVENTHUB_CONNECTION_STRING;
+<span class="hljs-keyword">const</span> storageContainerName = <span class="hljs-string">"test-container"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// Create the Event Processo Host</span>
+  <span class="hljs-keyword">const</span> eph = EventProcessorHost.createFromConnectionString(
+    EventProcessorHost.createHostName(<span class="hljs-string">"my-host"</span>),
+    storageCS,
+    storageContainerName,
+    ehCS,
+    {
+      <span class="hljs-attr">eventHubPath</span>: path
+    },
+    <span class="hljs-attr">onEphError</span>: <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"This handler will notify you of any internal errors that happen "</span> +
+      <span class="hljs-string">"during partition and lease management: %O"</span>, error);
+    }
+  );
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-comment">// Message event handler</span>
+  <span class="hljs-keyword">const</span> onMessage = <span class="hljs-keyword">async</span> (context<span class="hljs-comment">/*PartitionContext*/</span>, data <span class="hljs-comment">/*EventData*/</span>) =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; Rx message from '%s': '%s'"</span>, context.partitionId, data.body);
+    count++;
+    <span class="hljs-comment">// let us checkpoint every 100th message that is received across all the partitions.</span>
+    <span class="hljs-keyword">if</span> (count % <span class="hljs-number">100</span> === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> context.checkpoint();
+    }
+  };
+  <span class="hljs-comment">// Error event handler</span>
+  <span class="hljs-keyword">const</span> onError = <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; Received Error: %O"</span>, error);
+  };
+  <span class="hljs-comment">// start the EPH</span>
+  <span class="hljs-keyword">await</span> eph.start(onMessage, onError);
+  <span class="hljs-comment">// After some time let' say 2 minutes</span>
+  <span class="hljs-keyword">await</span> delay(<span class="hljs-number">120000</span>);
+  <span class="hljs-comment">// This will stop the EPH.</span>
+  <span class="hljs-keyword">await</span> eph.stop();
+}
+
+main().catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(err);
+});</code></pre>
+				<a href="#multiple-eph-instances-in-the-same-process" id="multiple-eph-instances-in-the-same-process" style="color: inherit; text-decoration: none;">
+					<h3>Multiple EPH instances in the same process.</h3>
+				</a>
+				<p>This example creates 2 instances of EPH in the same process. It is also perfectly fine to create
+				multiple EPH instances in different processes on the same or different machine.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { EventProcessorHost, delay } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/event-processor-host"</span>);
+
+<span class="hljs-comment">// set the values from environment variables.</span>
+<span class="hljs-keyword">const</span> path = process.env.EVENTHUB_NAME || <span class="hljs-string">""</span>;
+<span class="hljs-keyword">const</span> storageCS = process.env.STORAGE_CONNECTION_STRING;
+<span class="hljs-keyword">const</span> ehCS = process.env.EVENTHUB_CONNECTION_STRING;
+
+<span class="hljs-comment">// set the names of eph and the lease container.</span>
+<span class="hljs-keyword">const</span> storageContainerName = <span class="hljs-string">"test-container"</span>;
+<span class="hljs-keyword">const</span> ephName1 = <span class="hljs-string">"eph-1"</span>;
+<span class="hljs-keyword">const</span> ephName2 = <span class="hljs-string">"eph-2"</span>;
+
+<span class="hljs-comment">/**
+ * The main function that executes the sample.
+ */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// 1. Start eph-1.</span>
+  <span class="hljs-keyword">const</span> eph1 = <span class="hljs-keyword">await</span> startEph(ephName1);
+  <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">20</span>);
+  <span class="hljs-comment">// 2. After 20 seconds start eph-2.</span>
+  <span class="hljs-keyword">const</span> eph2 = <span class="hljs-keyword">await</span> startEph(ephName2);
+  <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">90</span>);
+  <span class="hljs-comment">// 3. Now, load will be evenly balanced between eph-1 and eph-2. After 90 seconds stop eph-1.</span>
+  <span class="hljs-keyword">await</span> stopEph(eph1);
+  <span class="hljs-keyword">await</span> sleep(<span class="hljs-number">40</span>);
+  <span class="hljs-comment">// 4. Now, eph-1 will regain access to all the partitions and will close after 40 seconds.</span>
+  <span class="hljs-keyword">await</span> stopEph(eph2);
+}
+
+<span class="hljs-comment">// calling the main().</span>
+main().catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Exiting from main() due to an error: %O."</span>, err);
+});
+
+<span class="hljs-comment">/**
+ * Sleeps for the given number of seconds.
+ * @param timeInSeconds Time to sleep in seconds.
+ */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">sleep</span>(<span class="hljs-params">timeInSeconds <span class="hljs-regexp">/**number**/</span></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt; Sleeping for %d seconds.."</span>, timeInSeconds);
+  <span class="hljs-keyword">await</span> delay(timeInSeconds * <span class="hljs-number">1000</span>);
+}
+
+<span class="hljs-comment">/**
+ * Creates an EPH with the given name and starts the EPH.
+ * @param ephName The name of the EPH.
+ * @returns {Promise&lt;EventProcessorHost&gt;} Promise&lt;EventProcessorHost&gt;
+ */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">startEph</span>(<span class="hljs-params">ephName <span class="hljs-regexp">/**string**/</span></span>) </span>{
+  <span class="hljs-comment">// Create the Event Processor Host</span>
+  <span class="hljs-keyword">const</span> eph = EventProcessorHost.createFromConnectionString(
+    ephName,
+    storageCS,
+    storageContainerName,
+    ehCS,
+    {
+      <span class="hljs-attr">eventHubPath</span>: path,
+      <span class="hljs-comment">// This method will provide errors that occur during lease and partition management. The</span>
+      <span class="hljs-comment">// errors that occur while receiving messages will be provided in the onError handler</span>
+      <span class="hljs-comment">// provided in the eph.start() method.</span>
+      onEphError: <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt;&gt; [%s] Error: %O"</span>, ephName, error);
+      }
+    }
+  );
+  <span class="hljs-comment">// Message handler</span>
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">const</span> onMessage <span class="hljs-comment">/**OnReceivedMessage**/</span> = <span class="hljs-keyword">async</span> (context <span class="hljs-comment">/**PartitionContext**/</span>, data <span class="hljs-comment">/**EventData**/</span>) =&gt; {
+    count++;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"##### [%s] %d - Rx message from '%s': '%s'"</span>, ephName, count, context.partitionId,
+      data.body);
+    <span class="hljs-comment">// Checkpointing every 200th event that is received acrosss all the partitions.</span>
+    <span class="hljs-keyword">if</span> (count % <span class="hljs-number">200</span> === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"***** [%s] EPH is currently receiving messages from partitions: %O"</span>, ephName,
+          eph.receivingFromPartitions);
+        <span class="hljs-keyword">await</span> context.checkpoint();
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"$$$$ [%s] Successfully checkpointed message number %d"</span>, ephName, count);
+      } <span class="hljs-keyword">catch</span> (err) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt;&gt; [%s] An error occurred while checkpointing msg number %d: %O"</span>,
+          ephName, count, err);
+      }
+    }
+  };
+  <span class="hljs-comment">// Error handler</span>
+  <span class="hljs-keyword">const</span> onError <span class="hljs-comment">/**OnReceivedError**/</span> = <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; [%s] Received Error: %O"</span>, ephName, error);
+  };
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt; Starting the EPH - %s"</span>, ephName);
+  <span class="hljs-keyword">await</span> eph.start(onMessage, onError);
+  <span class="hljs-keyword">return</span> eph;
+}
+
+<span class="hljs-comment">/**
+ * Stops the given EventProcessorHost.
+ * @param eph The event processor host.
+ * @returns {Promise&lt;void&gt;} Promise&lt;void&gt;
+ */</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stopEph</span>(<span class="hljs-params">eph <span class="hljs-regexp">/**EventProcessorHost**/</span></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt; Stopping the EPH - '%s'."</span>, eph.hostName);
+  <span class="hljs-keyword">await</span> eph.stop();
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt;&gt; Successfully stopped the EPH - '%s'."</span>, eph.hostName);
+}</code></pre>
+				<a href="#eph-with-iothub-connection-string" id="eph-with-iothub-connection-string" style="color: inherit; text-decoration: none;">
+					<h3>EPH with IotHub connection string</h3>
+				</a>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { EventProcessorHost, delay } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@azure/event-processor-host"</span>);
+
+<span class="hljs-keyword">const</span> path = process.env.EVENTHUB_NAME || <span class="hljs-string">""</span>;
+<span class="hljs-keyword">const</span> storageCS = process.env.STORAGE_CONNECTION_STRING;
+<span class="hljs-keyword">const</span> iothubCS = process.env.IOTHUB_CONNECTION_STRING;
+<span class="hljs-keyword">const</span> storageContainerName = <span class="hljs-string">"test-container"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// Create the Event Processo Host</span>
+  <span class="hljs-keyword">const</span> eph = <span class="hljs-keyword">await</span> EventProcessorHost.createFromIotHubConnectionString(
+    EventProcessorHost.createHostName(<span class="hljs-string">"my-host"</span>),
+    storageCS,
+    storageContainerName,
+    iothubCS,
+    {
+      <span class="hljs-attr">eventHubPath</span>: path
+    }
+  );
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-comment">// Message event handler</span>
+  <span class="hljs-keyword">const</span> onMessage = <span class="hljs-keyword">async</span> (context<span class="hljs-comment">/*PartitionContext*/</span>, data <span class="hljs-comment">/*EventData*/</span>) =&gt; {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; Rx message from '%s': '%s'"</span>, context.partitionId, data.body);
+    count++;
+    <span class="hljs-comment">// let us checkpoint every 100th message that is received across all the partitions.</span>
+    <span class="hljs-keyword">if</span> (count % <span class="hljs-number">100</span> === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> context.checkpoint();
+    }
+  };
+  <span class="hljs-comment">// Error event handler</span>
+  <span class="hljs-keyword">const</span> onError = <span class="hljs-function">(<span class="hljs-params">error</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; Received Error: %O"</span>, error);
+  };
+  <span class="hljs-comment">// start the EPH</span>
+  <span class="hljs-keyword">await</span> eph.start(onMessage, onError);
+  <span class="hljs-comment">// After some time let' say 2 minutes</span>
+  <span class="hljs-keyword">await</span> delay(<span class="hljs-number">120000</span>);
+  <span class="hljs-comment">// This will stop the EPH.</span>
+  <span class="hljs-keyword">await</span> eph.stop();
+}
+
+main().catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(err);
+});</code></pre>
+				<a href="#amqp-dependencies" id="amqp-dependencies" style="color: inherit; text-decoration: none;">
+					<h2>AMQP Dependencies</h2>
+				</a>
+				<p>It depends on <a href="https://github.com/amqp/rhea">rhea</a> library for managing connections, sending and receiving events over the <a href="http://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf">AMQP</a> protocol.</p>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/eventhub/event-processor-host/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/checkpointinfo.html">Checkpoint<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/azurebloblease.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/baselease.html" class="tsd-kind-icon">Base<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/completelease.html" class="tsd-kind-icon">Complete<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/eventprocessorhost.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/partitioncontext.html" class="tsd-kind-icon">Partition<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureblobleaseinfo.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/baseleaseinfo.html" class="tsd-kind-icon">Base<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checkpointmanager.html" class="tsd-kind-icon">Checkpoint<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/completeleaseinfo.html" class="tsd-kind-icon">Complete<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ephdiagnosticinfo.html" class="tsd-kind-icon">EPHDiagnostic<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventprocessorhostoptions.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fromconnectionstringoptions.html" class="tsd-kind-icon">From<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fromtokenprovideroptions.html" class="tsd-kind-icon">From<wbr>Token<wbr>Provider<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hostcontextwithpumpmanager.html" class="tsd-kind-icon">Host<wbr>Context<wbr>With<wbr>Pump<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/leaseinfo.html" class="tsd-kind-icon">Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/leasemanager.html" class="tsd-kind-icon">Lease<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fromiothubconnectionstringoptions" class="tsd-kind-icon">From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onepherror" class="tsd-kind-icon">On<wbr>Eph<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onreceivederror" class="tsd-kind-icon">On<wbr>Received<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#onreceivedmessage" class="tsd-kind-icon">On<wbr>Received<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultcheckpointtimeoutinseconds" class="tsd-kind-icon">default<wbr>Checkpoint<wbr>Timeout<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultconsumergroup" class="tsd-kind-icon">default<wbr>Consumer<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultfastscanintervalinseconds" class="tsd-kind-icon">default<wbr>Fast<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultleasedurationinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultleaserenewintervalinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Renew<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultmaximumexecutiontimeinms" class="tsd-kind-icon">default<wbr>Maximum<wbr>Execution<wbr>Time<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultslowscanintervalinseconds" class="tsd-kind-icon">default<wbr>Slow<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultstartupscandelayinseconds" class="tsd-kind-icon">default<wbr>Startup<wbr>Scan<wbr>Delay<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#leaseidmismatchwithbloboperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Blob<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#leaseidmismatchwithleaseoperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Lease<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#leaselost" class="tsd-kind-icon">lease<wbr>Lost</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxleasedurationinseconds" class="tsd-kind-icon">max<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maximumexecutiontimeinmsforleaserenewal" class="tsd-kind-icon">maximum<wbr>Execution<wbr>Time<wbr>InMs<wbr>For<wbr>Lease<wbr>Renewal</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#metadataownername" class="tsd-kind-icon">metadata<wbr>Owner<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#minleasedurationinseconds" class="tsd-kind-icon">min<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#randomnumberfrominterval" class="tsd-kind-icon">random<wbr>Number<wbr>From<wbr>Interval</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#validatetype" class="tsd-kind-icon">validate<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#packageinfo" class="tsd-kind-icon">package<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

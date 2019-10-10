@@ -1,0 +1,1387 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BlobClient | @azure/storage-blob</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/storage-blob</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="blobclient.html">BlobClient</a>
+				</li>
+			</ul>
+			<h1>Class BlobClient</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
+						append blob, or page blob.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>export</dt>
+						<dd></dd>
+						<dt>class</dt>
+						<dd><p>BlobClient</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<a href="storageclient.html" class="tsd-signature-type">StorageClient</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">BlobClient</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="appendblobclient.html" class="tsd-signature-type">AppendBlobClient</a>
+									</li>
+									<li>
+										<a href="blockblobclient.html" class="tsd-signature-type">BlockBlobClient</a>
+									</li>
+									<li>
+										<a href="pageblobclient.html" class="tsd-signature-type">PageBlobClient</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="blobclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-inherited">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="blobclient.html#accountname" class="tsd-kind-icon">account<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="blobclient.html#credential" class="tsd-kind-icon">credential</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="blobclient.html#ishttps" class="tsd-kind-icon">is<wbr>Https</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="blobclient.html#storageclientcontext" class="tsd-kind-icon">storage<wbr>Client<wbr>Context</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="blobclient.html#url" class="tsd-kind-icon">url</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobclient.html#blobname" class="tsd-kind-icon">blob<wbr>Name</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="blobclient.html#containername" class="tsd-kind-icon">container<wbr>Name</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#abortcopyfromurl" class="tsd-kind-icon">abort<wbr>Copy<wbr>FromURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#createsnapshot" class="tsd-kind-icon">create<wbr>Snapshot</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#download" class="tsd-kind-icon">download</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#downloadtobuffer" class="tsd-kind-icon">download<wbr>ToBuffer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#downloadtofile" class="tsd-kind-icon">download<wbr>ToFile</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#exists" class="tsd-kind-icon">exists</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#getappendblobclient" class="tsd-kind-icon">get<wbr>Append<wbr>Blob<wbr>Client</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#getblockblobclient" class="tsd-kind-icon">get<wbr>Block<wbr>Blob<wbr>Client</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#getleaseclient" class="tsd-kind-icon">get<wbr>Lease<wbr>Client</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#getpageblobclient" class="tsd-kind-icon">get<wbr>Page<wbr>Blob<wbr>Client</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#setaccesstier" class="tsd-kind-icon">set<wbr>Access<wbr>Tier</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#sethttpheaders" class="tsd-kind-icon">setHTTPHeaders</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#setmetadata" class="tsd-kind-icon">set<wbr>Metadata</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#startcopyfromurl" class="tsd-kind-icon">start<wbr>Copy<wbr>FromURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#synccopyfromurl" class="tsd-kind-icon">sync<wbr>Copy<wbr>FromURL</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#undelete" class="tsd-kind-icon">undelete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="blobclient.html#withsnapshot" class="tsd-kind-icon">with<wbr>Snapshot</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span>connectionString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, containerName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, blobName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/newpipelineoptions.html" class="tsd-signature-type">NewPipelineOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blobclient.html" class="tsd-signature-type">BlobClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, credential<span class="tsd-signature-symbol">?: </span><a href="sharedkeycredential.html" class="tsd-signature-type">SharedKeyCredential</a><span class="tsd-signature-symbol"> | </span><a href="anonymouscredential.html" class="tsd-signature-type">AnonymousCredential</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TokenCredential</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/newpipelineoptions.html" class="tsd-signature-type">NewPipelineOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blobclient.html" class="tsd-signature-type">BlobClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, pipeline<span class="tsd-signature-symbol">: </span><a href="pipeline.html" class="tsd-signature-type">Pipeline</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blobclient.html" class="tsd-signature-type">BlobClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L709">BlobClient.ts:709</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of BlobClient from connection string.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connectionString: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Account connection string or a SAS connection string of an Azure storage account.
+												[ Note - Account connection string can only be used in NODE.JS runtime. ]
+												Account connection string example -
+												<code>DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net</code>
+												SAS connection string example -
+											<code>BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString</code></p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>containerName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Container name.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>blobName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Blob name.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/newpipelineoptions.html" class="tsd-signature-type">NewPipelineOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="blobclient.html" class="tsd-signature-type">BlobClient</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L731">BlobClient.ts:731</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of BlobClient.
+										This method accepts an encoded URL or non-encoded URL pointing to a blob.
+										Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+									If a blob name includes ? or %, blob name must be encoded in the URL.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>A Client string pointing to Azure Storage blob service, such as
+												&quot;<a href="https://myaccount.blob.core.windows.net&quot;">https://myaccount.blob.core.windows.net&quot;</a>. You can append a SAS
+											if using AnonymousCredential, such as &quot;<a href="https://myaccount.blob.core.windows.net?sasString&quot;">https://myaccount.blob.core.windows.net?sasString&quot;</a>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> credential: <a href="sharedkeycredential.html" class="tsd-signature-type">SharedKeyCredential</a><span class="tsd-signature-symbol"> | </span><a href="anonymouscredential.html" class="tsd-signature-type">AnonymousCredential</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TokenCredential</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Such as AnonymousCredential, SharedKeyCredential
+												or a TokenCredential from @azure/identity. If not specified,
+											AnonymousCredential is used.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/newpipelineoptions.html" class="tsd-signature-type">NewPipelineOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="blobclient.html" class="tsd-signature-type">BlobClient</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#constructor">constructor</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L751">BlobClient.ts:751</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates an instance of BlobClient.
+										This method accepts an encoded URL or non-encoded URL pointing to a blob.
+										Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
+									If a blob name includes ? or %, blob name must be encoded in the URL.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>A Client string pointing to Azure Storage blob service, such as
+												&quot;<a href="https://myaccount.blob.core.windows.net&quot;">https://myaccount.blob.core.windows.net&quot;</a>. You can append a SAS
+											if using AnonymousCredential, such as &quot;<a href="https://myaccount.blob.core.windows.net?sasString&quot;">https://myaccount.blob.core.windows.net?sasString&quot;</a>.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>pipeline: <a href="pipeline.html" class="tsd-signature-type">Pipeline</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Call newPipeline() to create a default
+											pipeline, or provide a customized pipeline.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="blobclient.html" class="tsd-signature-type">BlobClient</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="accountname" class="tsd-anchor"></a>
+					<h3>account<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">account<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#accountname">accountName</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/StorageClient.ts#L33">StorageClient.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="credential" class="tsd-anchor"></a>
+					<h3>credential</h3>
+					<div class="tsd-signature tsd-kind-icon">credential<span class="tsd-signature-symbol">:</span> <a href="sharedkeycredential.html" class="tsd-signature-type">SharedKeyCredential</a><span class="tsd-signature-symbol"> | </span><a href="anonymouscredential.html" class="tsd-signature-type">AnonymousCredential</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TokenCredential</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#credential">credential</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/StorageClient.ts#L49">StorageClient.ts:49</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Credential used for authentication and authorization.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{string}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageClient</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="ishttps" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> is<wbr>Https</h3>
+					<div class="tsd-signature tsd-kind-icon">is<wbr>Https<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#ishttps">isHttps</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/StorageClient.ts#L64">StorageClient.ts:64</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{boolean}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageClient</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="storageclientcontext" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> storage<wbr>Client<wbr>Context</h3>
+					<div class="tsd-signature tsd-kind-icon">storage<wbr>Client<wbr>Context<span class="tsd-signature-symbol">:</span> <a href="storageclientcontext.html" class="tsd-signature-type">StorageClientContext</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#storageclientcontext">storageClientContext</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/StorageClient.ts#L58">StorageClient.ts:58</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>StorageClient is a reference to protocol layer operations entry, which is
+							generated by AutoRest generator.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{StorageClientContext}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageClient</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="url" class="tsd-anchor"></a>
+					<h3>url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="storageclient.html">StorageClient</a>.<a href="storageclient.html#url">url</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/StorageClient.ts#L32">StorageClient.ts:32</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Encoded URL string value.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>type</dt>
+							<dd><p>{string}</p>
+							</dd>
+							<dt>memberof</dt>
+							<dd><p>StorageClient</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="blobname" class="tsd-anchor"></a>
+					<h3>blob<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> blobName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L703">BlobClient.ts:703</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="containername" class="tsd-anchor"></a>
+					<h3>container<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> containerName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L707">BlobClient.ts:707</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="abortcopyfromurl" class="tsd-anchor"></a>
+					<h3>abort<wbr>Copy<wbr>FromURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">abort<wbr>Copy<wbr>FromURL<span class="tsd-signature-symbol">(</span>copyId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobabortcopyfromurloptions.html" class="tsd-signature-type">BlobAbortCopyFromURLOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobAbortCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1345">BlobClient.ts:1345</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Aborts a pending asynchronous Copy Blob operation, and leaves a destination blob with zero
+									length and full metadata. Version 2012-02-12 and newer.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/abort-copy-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>copyId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Id of the Copy From URL operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobabortcopyfromurloptions.html" class="tsd-signature-type">BlobAbortCopyFromURLOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobAbortCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createsnapshot" class="tsd-anchor"></a>
+					<h3>create<wbr>Snapshot</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Snapshot<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobcreatesnapshotoptions.html" class="tsd-signature-type">BlobCreateSnapshotOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobCreateSnapshotResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1259">BlobClient.ts:1259</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a read-only snapshot of a blob.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/snapshot-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobcreatesnapshotoptions.html" class="tsd-signature-type">BlobCreateSnapshotOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobCreateSnapshotResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="delete" class="tsd-anchor"></a>
+					<h3>delete</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobdeleteoptions.html" class="tsd-signature-type">BlobDeleteOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1109">BlobClient.ts:1109</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Marks the specified blob or snapshot for deletion. The blob is later deleted
+										during garbage collection. Note that in order to delete a blob, you must delete
+										all of its snapshots. You can delete both at the same time with the Delete
+									Blob operation.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobdeleteoptions.html" class="tsd-signature-type">BlobDeleteOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="download" class="tsd-anchor"></a>
+					<h3>download</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<span class="tsd-signature-symbol">(</span>offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobdownloadoptions.html" class="tsd-signature-type">BlobDownloadOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDownloadResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L922">BlobClient.ts:922</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reads or downloads a blob from the system, including its metadata and properties.
+									You can also call Get Blob to read a snapshot.</p>
+								</div>
+								<ul>
+									<li>In Node.js, data returns in a Readable stream readableStreamBody</li>
+									<li>In browsers, data returns in a promise blobBody</li>
+								</ul>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> offset: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> count: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobdownloadoptions.html" class="tsd-signature-type">BlobDownloadOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDownloadResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="downloadtobuffer" class="tsd-anchor"></a>
+					<h3>download<wbr>ToBuffer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<wbr>ToBuffer<span class="tsd-signature-symbol">(</span>buffer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span>, offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/downloadfrombloboptions.html" class="tsd-signature-type">DownloadFromBlobOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1461">BlobClient.ts:1461</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>ONLY AVAILABLE IN NODE.JS RUNTIME.</p>
+								</div>
+								<p>Downloads an Azure Blob in parallel to a buffer.
+								Offset and count are optional, pass 0 for both to download the entire blob.</p>
+								<dl class="tsd-comment-tags">
+									<dt>export</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>buffer: <span class="tsd-signature-type">Buffer</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Buffer to be fill, must have length larger than count</p>
+									</div>
+								</li>
+								<li>
+									<h5>offset: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>From which position of the block blob to download(in bytes)</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> count: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/downloadfrombloboptions.html" class="tsd-signature-type">DownloadFromBlobOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="downloadtofile" class="tsd-anchor"></a>
+					<h3>download<wbr>ToFile</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">download<wbr>ToFile<span class="tsd-signature-symbol">(</span>filePath<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, offset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, count<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobdownloadoptions.html" class="tsd-signature-type">BlobDownloadOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDownloadResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1567">BlobClient.ts:1567</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>ONLY AVAILABLE IN NODE.JS RUNTIME.</p>
+								</div>
+								<p>Downloads an Azure Blob to a local file.
+									Fails if the the given file path already exits.
+								Offset and count are optional, pass 0 and undefined respectively to download the entire blob.</p>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>filePath: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> offset: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> count: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobdownloadoptions.html" class="tsd-signature-type">BlobDownloadOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobDownloadResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>The response data for blob download operation,
+								but with readableStreamBody set to undefined since its
+								content is already read and written into a local file
+							at the specified path.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="exists" class="tsd-anchor"></a>
+					<h3>exists</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">exists<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobexistsoptions.html" class="tsd-signature-type">BlobExistsOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1036">BlobClient.ts:1036</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns true if the Azrue blob resource represented by this client exists; false otherwise.</p>
+								</div>
+								<p>NOTE: use this function with care since an existing blob might be deleted by other clients or
+									applications. Vice versa new blobs might be added by other clients or applications after this
+								function completes.</p>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobexistsoptions.html" class="tsd-signature-type">BlobExistsOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getappendblobclient" class="tsd-anchor"></a>
+					<h3>get<wbr>Append<wbr>Blob<wbr>Client</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Append<wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="appendblobclient.html" class="tsd-signature-type">AppendBlobClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L883">BlobClient.ts:883</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a AppendBlobClient object.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="appendblobclient.html" class="tsd-signature-type">AppendBlobClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getblockblobclient" class="tsd-anchor"></a>
+					<h3>get<wbr>Block<wbr>Blob<wbr>Client</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Block<wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blockblobclient.html" class="tsd-signature-type">BlockBlobClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L893">BlobClient.ts:893</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a BlockBlobClient object.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="blockblobclient.html" class="tsd-signature-type">BlockBlobClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getleaseclient" class="tsd-anchor"></a>
+					<h3>get<wbr>Lease<wbr>Client</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Lease<wbr>Client<span class="tsd-signature-symbol">(</span>proposeLeaseId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="leaseclient.html" class="tsd-signature-type">LeaseClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1247">BlobClient.ts:1247</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a LeaseClient that manages leases on the blob.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> proposeLeaseId: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="leaseclient.html" class="tsd-signature-type">LeaseClient</a></h4>
+							<p>A new LeaseClient object for managing leases on the blob.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getpageblobclient" class="tsd-anchor"></a>
+					<h3>get<wbr>Page<wbr>Blob<wbr>Client</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Page<wbr>Blob<wbr>Client<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="pageblobclient.html" class="tsd-signature-type">PageBlobClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L903">BlobClient.ts:903</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a PageBlobClient object.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="pageblobclient.html" class="tsd-signature-type">PageBlobClient</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getproperties" class="tsd-anchor"></a>
+					<h3>get<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Properties<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobgetpropertiesoptions.html" class="tsd-signature-type">BlobGetPropertiesOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1073">BlobClient.ts:1073</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns all user-defined metadata, standard HTTP properties, and system properties
+									for the blob. It does not return the content of the blob.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties">https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-properties</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobgetpropertiesoptions.html" class="tsd-signature-type">BlobGetPropertiesOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobGetPropertiesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setaccesstier" class="tsd-anchor"></a>
+					<h3>set<wbr>Access<wbr>Tier</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Access<wbr>Tier<span class="tsd-signature-symbol">(</span>tier<span class="tsd-signature-symbol">: </span><a href="../enums/blockblobtier.html" class="tsd-signature-type">BlockBlobTier</a><span class="tsd-signature-symbol"> | </span><a href="../enums/premiumpageblobtier.html" class="tsd-signature-type">PremiumPageBlobTier</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobsettieroptions.html" class="tsd-signature-type">BlobSetTierOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetTierResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1423">BlobClient.ts:1423</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the tier on a blob. The operation is allowed on a page blob in a premium
+										storage account and on a block blob in a blob storage account (locally redundant
+										storage only). A premium page blob&#39;s tier determines the allowed size, IOPS,
+										and bandwidth of the blob. A block blob&#39;s tier determines Hot/Cool/Archive
+									storage type. This operation does not update the blob&#39;s ETag.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier">https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-tier</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>tier: <a href="../enums/blockblobtier.html" class="tsd-signature-type">BlockBlobTier</a><span class="tsd-signature-symbol"> | </span><a href="../enums/premiumpageblobtier.html" class="tsd-signature-type">PremiumPageBlobTier</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The tier to be set on the blob. Valid values are Hot, Cool, or Archive.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobsettieroptions.html" class="tsd-signature-type">BlobSetTierOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetTierResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="sethttpheaders" class="tsd-anchor"></a>
+					<h3>setHTTPHeaders</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">setHTTPHeaders<span class="tsd-signature-symbol">(</span>blobHTTPHeaders<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.BlobHTTPHeaders</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobsethttpheadersoptions.html" class="tsd-signature-type">BlobSetHTTPHeadersOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetHTTPHeadersResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1173">BlobClient.ts:1173</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets system properties on the blob.</p>
+								</div>
+								<p>If no value provided, or no value provided for the specificed blob HTTP headers,
+								these blob HTTP headers without a value will be cleared.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties">https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-properties</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> blobHTTPHeaders: <span class="tsd-signature-type">Models.BlobHTTPHeaders</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobsethttpheadersoptions.html" class="tsd-signature-type">BlobSetHTTPHeadersOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetHTTPHeadersResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setmetadata" class="tsd-anchor"></a>
+					<h3>set<wbr>Metadata</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Metadata<span class="tsd-signature-symbol">(</span>metadata<span class="tsd-signature-symbol">?: </span><a href="../interfaces/metadata.html" class="tsd-signature-type">Metadata</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobsetmetadataoptions.html" class="tsd-signature-type">BlobSetMetadataOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetMetadataResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1213">BlobClient.ts:1213</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets user-defined metadata for the specified blob as one or more name-value pairs.</p>
+								</div>
+								<p>If no option provided, or no metadata defined in the parameter, the blob
+								metadata will be removed.</p>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata">https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-metadata</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> metadata: <a href="../interfaces/metadata.html" class="tsd-signature-type">Metadata</a></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobsetmetadataoptions.html" class="tsd-signature-type">BlobSetMetadataOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobSetMetadataResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startcopyfromurl" class="tsd-anchor"></a>
+					<h3>start<wbr>Copy<wbr>FromURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Copy<wbr>FromURL<span class="tsd-signature-symbol">(</span>copySource<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobstartcopyfromurloptions.html" class="tsd-signature-type">BlobStartCopyFromURLOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobStartCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1300">BlobClient.ts:1300</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Asynchronously copies a blob to a destination within the storage account.
+										In version 2012-02-12 and later, the source for a Copy Blob operation can be
+										a committed blob in any Azure storage account.
+										Beginning with version 2015-02-21, the source for a Copy Blob operation can be
+										an Azure file in any Azure storage account.
+										Only storage accounts created on or after June 7th, 2012 allow the Copy Blob
+									operation to copy from another storage account.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>copySource: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>url to the ource Azure Blob/File.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobstartcopyfromurloptions.html" class="tsd-signature-type">BlobStartCopyFromURLOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobStartCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="synccopyfromurl" class="tsd-anchor"></a>
+					<h3>sync<wbr>Copy<wbr>FromURL</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">sync<wbr>Copy<wbr>FromURL<span class="tsd-signature-symbol">(</span>copySource<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobsynccopyfromurloptions.html" class="tsd-signature-type">BlobSyncCopyFromURLOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1377">BlobClient.ts:1377</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The synchronous Copy From URL operation copies a blob or an internet resource to a new blob. It will not
+									return a response until the copy is complete.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url">https://docs.microsoft.com/en-us/rest/api/storageservices/copy-blob-from-url</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobURL</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>copySource: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The source URL to copy from, Shared Access Signature(SAS) maybe needed for authentication</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobsynccopyfromurloptions.html" class="tsd-signature-type">BlobSyncCopyFromURLOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobCopyFromURLResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="undelete" class="tsd-anchor"></a>
+					<h3>undelete</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">undelete<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/blobundeleteoptions.html" class="tsd-signature-type">BlobUndeleteOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobUndeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L1141">BlobClient.ts:1141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Restores the contents and metadata of soft deleted blob and any associated
+										soft deleted snapshots. Undelete Blob is supported only on version 2017-07-29
+									or later.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob">https://docs.microsoft.com/en-us/rest/api/storageservices/undelete-blob</a></p>
+									</dd>
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="../interfaces/blobundeleteoptions.html" class="tsd-signature-type">BlobUndeleteOptions</a><span class="tsd-signature-symbol"> =&nbsp;{}</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.BlobUndeleteResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="withsnapshot" class="tsd-anchor"></a>
+					<h3>with<wbr>Snapshot</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Snapshot<span class="tsd-signature-symbol">(</span>snapshot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="blobclient.html" class="tsd-signature-type">BlobClient</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/BlobClient.ts#L866">BlobClient.ts:866</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new BlobClient object identical to the source but with the specified snapshot timestamp.
+									Provide &quot;&quot; will remove the snapshot and return a Client to the base blob.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>memberof</dt>
+									<dd><p>BlobClient</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>snapshot: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The snapshot timestamp.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="blobclient.html" class="tsd-signature-type">BlobClient</a></h4>
+							<p>A new BlobClient object identical to the source but with the specified snapshot timestamp</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="blobclient.html" class="tsd-kind-icon">Blob<wbr>Client</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="blobclient.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="blobclient.html#accountname" class="tsd-kind-icon">account<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="blobclient.html#credential" class="tsd-kind-icon">credential</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="blobclient.html#ishttps" class="tsd-kind-icon">is<wbr>Https</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="blobclient.html#storageclientcontext" class="tsd-kind-icon">storage<wbr>Client<wbr>Context</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="blobclient.html#url" class="tsd-kind-icon">url</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobclient.html#blobname" class="tsd-kind-icon">blob<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="blobclient.html#containername" class="tsd-kind-icon">container<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#abortcopyfromurl" class="tsd-kind-icon">abort<wbr>Copy<wbr>FromURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#createsnapshot" class="tsd-kind-icon">create<wbr>Snapshot</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#delete" class="tsd-kind-icon">delete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#download" class="tsd-kind-icon">download</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#downloadtobuffer" class="tsd-kind-icon">download<wbr>ToBuffer</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#downloadtofile" class="tsd-kind-icon">download<wbr>ToFile</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#exists" class="tsd-kind-icon">exists</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#getappendblobclient" class="tsd-kind-icon">get<wbr>Append<wbr>Blob<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#getblockblobclient" class="tsd-kind-icon">get<wbr>Block<wbr>Blob<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#getleaseclient" class="tsd-kind-icon">get<wbr>Lease<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#getpageblobclient" class="tsd-kind-icon">get<wbr>Page<wbr>Blob<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#getproperties" class="tsd-kind-icon">get<wbr>Properties</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#setaccesstier" class="tsd-kind-icon">set<wbr>Access<wbr>Tier</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#sethttpheaders" class="tsd-kind-icon">setHTTPHeaders</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#setmetadata" class="tsd-kind-icon">set<wbr>Metadata</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#startcopyfromurl" class="tsd-kind-icon">start<wbr>Copy<wbr>FromURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#synccopyfromurl" class="tsd-kind-icon">sync<wbr>Copy<wbr>FromURL</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#undelete" class="tsd-kind-icon">undelete</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="blobclient.html#withsnapshot" class="tsd-kind-icon">with<wbr>Snapshot</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

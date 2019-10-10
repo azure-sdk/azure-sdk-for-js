@@ -1,0 +1,766 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/core-amqp</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/core-amqp</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/core-amqp</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-core-amqp-client-library-for-amqp-operations" id="azure-core-amqp-client-library-for-amqp-operations" style="color: inherit; text-decoration: none;">
+					<h1>Azure Core AMQP client library for AMQP operations</h1>
+				</a>
+				<p>Azure Core AMQP is a library that provides common functionality for <strong>Azure</strong> Javascript
+					libraries that use <a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide">AMQP protocol</a>
+				like the ones for Azure Service Bus and Azure Event Hubs.</p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h3>Installation</h3>
+				</a>
+				<p>Install this library using npm as follows:</p>
+				<pre><code class="language-bash">npm install @azure/core-amqp</code></pre>
+				<p><strong>Note</strong>: <a href="https://github.com/amqp/rhea-promise"><code>rhea-promise</code></a> is a peer dependency. You need to explicitly install this library as a dependency
+				in your application.</p>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key concepts</h2>
+				</a>
+				<p>Some of the key features of Azure Core AMQP library are:</p>
+				<ul>
+					<li><a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization">Claims based Authorization</a></li>
+					<li>Request-Response link for <a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#amqp-management">sending request and receiving response over AMQP</a></li>
+					<li>A Data Transformer class to encode given data to an AMQP message and decode a given AMQP message. Useful for sending and receiving messages that are not of type Buffer.</li>
+					<li>Error translation of AMQP error codes along with errors specific to Azure Service Bus and Azure Event Hubs.</li>
+					<li>RetryPolicy for retrying a given operation if a retryable error was encountered.</li>
+				</ul>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<p><a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-protocol-guide#claims-based-authorization">Claims Based Authorization</a>
+					need to be done for every AMQP link that your application creates. The claims also has to be renewed periodically.
+				For more details on CBS, please see the <a href="https://www.oasis-open.org/committees/download.php/62097/amqp-cbs-v1.0-wd05.doc">CBS Specification</a>.</p>
+				<p>In the below examples, we use the Shared Key details present in the connection string to create a SAS token.
+					This token is then used to make a request on the $cbs link to carry out Claims Based Authorization for a link to the given entity
+				in Azure Service Bus or Azure Event Hubs.</p>
+				<p>The examples below expect a connection string to a Azure Service Bus or Azure Event Hubs instance.
+					The entity path refers to an Event Hub name in case of Azure Event Hubs and a queue or a topic name
+				in case of Azure Service Bus.</p>
+				<a href="#create-a-sender-link" id="create-a-sender-link" style="color: inherit; text-decoration: none;">
+					<h2>Create a sender link</h2>
+				</a>
+				<p>In the below example, we first create a <code>ConnectionContext</code> which is used to carry out the claims
+					based authorization. Then, we create a sender link using the <code>ConnectionContext.connection</code> to
+				send a message.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> connectionConfig = ConnectionConfig.create(
+    <span class="hljs-string">"your-connection-string-with-shared-key"</span>,
+    <span class="hljs-string">"entity-path"</span>
+  );
+  <span class="hljs-keyword">const</span> connectionContext = ConnectionContextBase.create({
+    <span class="hljs-attr">config</span>: connectionConfig,
+    <span class="hljs-attr">connectionProperties</span>: {
+      <span class="hljs-attr">product</span>: <span class="hljs-string">"product"</span>,
+      <span class="hljs-attr">userAgent</span>: <span class="hljs-string">"/user-agent"</span>,
+      <span class="hljs-attr">version</span>: <span class="hljs-string">"0.0.0"</span>
+    }
+  });
+
+  <span class="hljs-comment">// Carry out the Claims Based Authorization</span>
+  <span class="hljs-keyword">await</span> connectionContext.cbsSession.init();
+  <span class="hljs-keyword">const</span> token = <span class="hljs-keyword">await</span> connectionContext.tokenCredential.getToken(audience);
+  <span class="hljs-keyword">await</span> connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
+
+  <span class="hljs-comment">// Create a sender</span>
+  <span class="hljs-keyword">const</span> senderName = <span class="hljs-string">"your-sender-name"</span>;
+  <span class="hljs-keyword">const</span> senderOptions = {
+    <span class="hljs-attr">name</span>: senderName,
+    <span class="hljs-attr">target</span>: {
+      <span class="hljs-comment">// For an EventHub Sender bound to a partition, the address will be "&lt;EventHubName&gt;/Partitions/&lt;PartitionId&gt;"</span>
+      address: <span class="hljs-string">`<span class="hljs-subst">${connectionConfig.entityPath}</span>`</span>
+    },
+    <span class="hljs-attr">onError</span>: <span class="hljs-function">(<span class="hljs-params">context</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> senderError = context.sender &amp;&amp; context.sender.error;
+      <span class="hljs-keyword">if</span> (senderError) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred for sender '%s': %O."</span>, senderName, senderError);
+      }
+    },
+    <span class="hljs-attr">onSessionError</span>: <span class="hljs-function">(<span class="hljs-params">context</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> sessionError = context.session &amp;&amp; context.session.error;
+      <span class="hljs-keyword">if</span> (sessionError) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred for session of sender '%s': %O."</span>, senderName, sessionError);
+      }
+    }
+  };
+  <span class="hljs-keyword">const</span> sender = <span class="hljs-keyword">await</span> connectionContext.connection.createSender(senderOptions);
+
+  <span class="hljs-comment">// Send a message</span>
+  <span class="hljs-keyword">const</span> delivery = <span class="hljs-keyword">await</span> sender.send({ <span class="hljs-attr">body</span>: <span class="hljs-string">"your-message-body"</span> });
+
+  <span class="hljs-keyword">await</span> sender.close();
+  <span class="hljs-keyword">await</span> connectionContext.connection.close();
+}
+
+main().catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(err));</code></pre>
+				<a href="#create-a-receiver-link" id="create-a-receiver-link" style="color: inherit; text-decoration: none;">
+					<h2>Create a receiver link</h2>
+				</a>
+				<p>In the below example, we first create a <code>ConnectionContext</code> which is used to carry out the claims
+					based authorization. Then, we create a receiver link using the <code>ConnectionContext.connection</code> to
+				receive messages for 30 seconds.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> connectionConfig = ConnectionConfig.create(
+    <span class="hljs-string">"your-connection-string-with-shared-key"</span>,
+    <span class="hljs-string">"entity-path"</span>
+  );
+  <span class="hljs-keyword">const</span> connectionContext = ConnectionContextBase.create({
+    <span class="hljs-attr">config</span>: connectionConfig,
+    <span class="hljs-attr">connectionProperties</span>: {
+      <span class="hljs-attr">product</span>: <span class="hljs-string">"product"</span>,
+      <span class="hljs-attr">userAgent</span>: <span class="hljs-string">"/user-agent"</span>,
+      <span class="hljs-attr">version</span>: <span class="hljs-string">"0.0.0"</span>
+    }
+  });
+
+  <span class="hljs-comment">// Carry out the Claims Based Authorization</span>
+  <span class="hljs-keyword">await</span> connectionContext.cbsSession.init();
+  <span class="hljs-keyword">const</span> token = <span class="hljs-keyword">await</span> connectionContext.tokenCredential.getToken(audience);
+  <span class="hljs-keyword">await</span> connectionContext.cbsSession.negotiateClaim(audience, token, TokenType.CbsTokenTypeSas);
+
+  <span class="hljs-comment">// Create a receiver</span>
+  <span class="hljs-keyword">const</span> receiverName = <span class="hljs-string">"your-receiver-name"</span>;
+  <span class="hljs-keyword">const</span> filterClause = <span class="hljs-string">`amqp.annotation.x-opt-enqueued-time &gt; '<span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now() - <span class="hljs-number">3600</span> * <span class="hljs-number">1000</span>}</span>'`</span>; <span class="hljs-comment">// Get messages from the past hour</span>
+  <span class="hljs-keyword">const</span> receiverAddress = <span class="hljs-string">`<span class="hljs-subst">${connectionConfig.entityPath}</span>/ConsumerGroups/$default/Partitions/0`</span>; <span class="hljs-comment">// For ServiceBus "&lt;QueueName&gt;"</span>
+  <span class="hljs-keyword">const</span> receiverOptions = {
+    <span class="hljs-attr">name</span>: receiverName,
+    <span class="hljs-attr">source</span>: {
+      <span class="hljs-attr">address</span>: receiverAddress,
+      <span class="hljs-attr">filter</span>: {
+        <span class="hljs-comment">// May not be required for ServiceBus. The current example is for EventHubs.</span>
+        <span class="hljs-string">"apache.org:selector-filter:string"</span>: types.wrap_described(filterClause, <span class="hljs-number">0x468c00000004</span>)
+      }
+    },
+    <span class="hljs-attr">onError</span>: <span class="hljs-function">(<span class="hljs-params">context</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> receiverError = context.receiver &amp;&amp; context.receiver.error;
+      <span class="hljs-keyword">if</span> (receiverError) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred for receiver '%s': %O."</span>, receiverName, receiverError);
+      }
+    },
+    <span class="hljs-attr">onMessage</span>: <span class="hljs-function">(<span class="hljs-params">context</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Received message: %O"</span>, context.message);
+    },
+    <span class="hljs-attr">onSessionError</span>: <span class="hljs-function">(<span class="hljs-params">context</span>) =&gt;</span> {
+      <span class="hljs-keyword">const</span> sessionError = context.session &amp;&amp; context.session.error;
+      <span class="hljs-keyword">if</span> (sessionError) {
+        <span class="hljs-built_in">console</span>.log(
+          <span class="hljs-string">"An error occurred for session of receiver '%s': %O."</span>,
+          receiverName,
+          sessionError
+        );
+      }
+    }
+  };
+  <span class="hljs-keyword">const</span> receiver = <span class="hljs-keyword">await</span> connectionContext.connection.createReceiver(receiverOptions);
+
+  <span class="hljs-comment">// sleeping for 30 seconds to let the receiver receive messages</span>
+  <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function">(<span class="hljs-params">r</span>) =&gt;</span> setTimeout(r, <span class="hljs-number">30000</span>));
+
+  <span class="hljs-comment">// Close the receiver to stop receiving messages</span>
+  <span class="hljs-keyword">await</span> receiver.close();
+  <span class="hljs-keyword">await</span> connectionContext.connection.close();
+}
+
+main().catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(err));</code></pre>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<p>You can set the following environment variable to get the debug logs.</p>
+				<ul>
+					<li>Getting debug logs from the Event Hub SDK.</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:core-amqp*</code></pre>
+				<ul>
+					<li>Getting debug logs from the Event Hub SDK and the protocol level library.</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:core-amqp*,rhea*</code></pre>
+				<ul>
+					<li>If you are <strong>not interested in viewing the message transformation</strong> (which consumes lot of console/disk space) then you can set the <code>DEBUG</code> environment variable as follows:</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure:core-amqp*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransformer</code></pre>
+				<ul>
+					<li>If you are interested only in <strong>errors</strong>, then you can set the <code>DEBUG</code> environment variable as follows:</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow</code></pre>
+				<a href="#logging-to-a-file" id="logging-to-a-file" style="color: inherit; text-decoration: none;">
+					<h4>Logging to a file</h4>
+				</a>
+				<ul>
+					<li>Set the <code>DEBUG</code> environment variable as shown above and then run your test script as follows:<ul>
+							<li>Logging statements from you test script go to <code>out.log</code> and logging statement from the sdk go to <code>debug.log</code>.<pre><code class="language-bash">node your-test-script.js &gt; out.log 2&gt;debug.log</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code> by redirecting stderr to stdout (&amp;1), and then redirect stdout to a file:<pre><code class="language-bash">node your-test-script.js &gt;out.log 2&gt;&amp;1</code></pre>
+							</li>
+							<li>Logging statements from your test script and the sdk go to the same file <code>out.log</code>.<pre><code class="language-bash">  node your-test-script.js &amp;&gt; out.log</code></pre>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h1>Next steps</h1>
+				</a>
+				<p>Please take a look at the <a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-amqp/samples">samples</a> directory for detailed samples.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h1>Contributing</h1>
+				</a>
+				<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a
+					Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
+				the rights to use your contribution. For details, visit <a href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
+				<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
+					a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
+				provided by the bot. You will only need to do this once across all repos using our CLA.</p>
+				<p>If you&#39;d like to contribute to this library, please read the <a href="../../../CONTRIBUTING.md">contributing guide</a> to learn more about how to build and test the code.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+				contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/connectionconfig.html">Connection<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/connectioncontextbase.html">Connection<wbr>Context<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/eventhubconnectionconfig.html">Event<wbr>Hub<wbr>Connection<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/messageheader.html">Message<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/messageproperties.html">Message<wbr>Properties</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/conditionerrornamemapper.html" class="tsd-kind-icon">Condition<wbr>Error<wbr>Name<wbr>Mapper</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/conditionstatusmapper.html" class="tsd-kind-icon">Condition<wbr>Status<wbr>Mapper</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/errornameconditionmapper.html" class="tsd-kind-icon">Error<wbr>Name<wbr>Condition<wbr>Mapper</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/retrymode.html" class="tsd-kind-icon">Retry<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/retryoperationtype.html" class="tsd-kind-icon">Retry<wbr>Operation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/systemerrorconditionmapper.html" class="tsd-kind-icon">System<wbr>Error<wbr>Condition<wbr>Mapper</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/tokentype.html" class="tsd-kind-icon">Token<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cbsclient.html" class="tsd-kind-icon">Cbs<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/defaultdatatransformer.html" class="tsd-kind-icon">Default<wbr>Data<wbr>Transformer</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/messagingerror.html" class="tsd-kind-icon">Messaging<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/requestresponselink.html" class="tsd-kind-icon">Request<wbr>Response<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/sharedkeycredential.html" class="tsd-kind-icon">Shared<wbr>Key<wbr>Credential</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/timeout.html" class="tsd-kind-icon">Timeout</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/asynclockoptions.html" class="tsd-kind-icon">Async<wbr>Lock<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cbsresponse.html" class="tsd-kind-icon">Cbs<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionconfigoptions.html" class="tsd-kind-icon">Connection<wbr>Config<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectionproperties.html" class="tsd-kind-icon">Connection<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createconnectioncontextbaseparameters.html" class="tsd-kind-icon">Create<wbr>Connection<wbr>Context<wbr>Base<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datatransformer.html" class="tsd-kind-icon">Data<wbr>Transformer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/eventhubconnectionstringmodel.html" class="tsd-kind-icon">Event<wbr>Hub<wbr>Connection<wbr>String<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iothubconnectionstringmodel.html" class="tsd-kind-icon">Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/retryconfig.html" class="tsd-kind-icon">Retry<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retryoptions.html" class="tsd-kind-icon">Retry<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sendrequestoptions.html" class="tsd-kind-icon">Send<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/servicebusconnectionstringmodel.html" class="tsd-kind-icon">Service<wbr>Bus<wbr>Connection<wbr>String<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageconnectionstringmodel.html" class="tsd-kind-icon">Storage<wbr>Connection<wbr>String<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#func" class="tsd-kind-icon">Func</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#parsedoutput" class="tsd-kind-icon">Parsed<wbr>Output</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#tls" class="tsd-kind-icon">TLS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aadeventhubsaudience" class="tsd-kind-icon">aad<wbr>Event<wbr>Hubs<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aadeventhubsscope" class="tsd-kind-icon">aad<wbr>Event<wbr>Hubs<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aadservicebusaudience" class="tsd-kind-icon">aad<wbr>Service<wbr>Bus<wbr>Audience</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aadservicebusscope" class="tsd-kind-icon">aad<wbr>Service<wbr>Bus<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#aadtokenvaliditymargininms" class="tsd-kind-icon">aad<wbr>Token<wbr>Validity<wbr>Margin<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#associatedlinkname" class="tsd-kind-icon">associated<wbr>Link<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#attachepoch" class="tsd-kind-icon">attach<wbr>Epoch</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#cbsendpoint" class="tsd-kind-icon">cbs<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#cbsreplyto" class="tsd-kind-icon">cbs<wbr>Reply<wbr>To</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#connectionerror" class="tsd-kind-icon">connection<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#connectionreconnectdelay" class="tsd-kind-icon">connection<wbr>Reconnect<wbr>Delay</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#datetimeoffset" class="tsd-kind-icon">date<wbr>Time<wbr>Offset</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#deadletterdescription" class="tsd-kind-icon">dead<wbr>Letter<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#deadlettername" class="tsd-kind-icon">dead<wbr>Letter<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#deadletterreason" class="tsd-kind-icon">dead<wbr>Letter<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#deadlettersource" class="tsd-kind-icon">dead<wbr>Letter<wbr>Source</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultconsumergroup" class="tsd-kind-icon">default<wbr>Consumer<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultdelaybetweenoperationretriesinms" class="tsd-kind-icon">default<wbr>Delay<wbr>Between<wbr>Operation<wbr>Retries<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultlock" class="tsd-kind-icon">default<wbr>Lock</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultmaxdelayforexponentialretryinms" class="tsd-kind-icon">default<wbr>Max<wbr>Delay<wbr>For<wbr>Exponential<wbr>Retry<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultmaxretries" class="tsd-kind-icon">default<wbr>Max<wbr>Retries</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultmaxretriesforconnection" class="tsd-kind-icon">default<wbr>Max<wbr>Retries<wbr>For<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultoperationtimeoutinms" class="tsd-kind-icon">default<wbr>Operation<wbr>Timeout<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#defaultprefetchcount" class="tsd-kind-icon">default<wbr>Prefetch<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#dispositionstatus" class="tsd-kind-icon">disposition<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#enablereceiverruntimemetricname" class="tsd-kind-icon">enable<wbr>Receiver<wbr>Runtime<wbr>Metric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#enqueuesequencenumber" class="tsd-kind-icon">enqueue<wbr>Sequence<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#enqueuedtime" class="tsd-kind-icon">enqueued<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#enqueuedtimeannotation" class="tsd-kind-icon">enqueued<wbr>Time<wbr>Annotation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#ensurecontainerandblob" class="tsd-kind-icon">ensure<wbr>Container<wbr>And<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#errorcondition" class="tsd-kind-icon">error<wbr>Condition</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#establishconnection" class="tsd-kind-icon">establish<wbr>Connection</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#eventhub" class="tsd-kind-icon">event<wbr>Hub</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#fromsequencenumber" class="tsd-kind-icon">from<wbr>Sequence<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#guidsize" class="tsd-kind-icon">guid<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#isnode" class="tsd-kind-icon">is<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#locktokenmapkey" class="tsd-kind-icon">lock<wbr>Token<wbr>Map<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#locktokens" class="tsd-kind-icon">lock<wbr>Tokens</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#lockeduntil" class="tsd-kind-icon">locked<wbr>Until</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#management" class="tsd-kind-icon">management</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#managementrequestkey" class="tsd-kind-icon">management<wbr>Request<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxabsoluteexpirytime" class="tsd-kind-icon">max<wbr>Absolute<wbr>Expiry<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxdeadletterreasonlength" class="tsd-kind-icon">max<wbr>Dead<wbr>Letter<wbr>Reason<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxdurationvalue" class="tsd-kind-icon">max<wbr>Duration<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxmessageidlength" class="tsd-kind-icon">max<wbr>Message<wbr>IdLength</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxpartitionkeylength" class="tsd-kind-icon">max<wbr>Partition<wbr>Key<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxsessionidlength" class="tsd-kind-icon">max<wbr>Session<wbr>IdLength</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maxuseragentlength" class="tsd-kind-icon">max<wbr>User<wbr>Agent<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maximumsqlfilterstatementlength" class="tsd-kind-icon">maximum<wbr>Sql<wbr>Filter<wbr>Statement<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#maximumsqlruleactionstatementlength" class="tsd-kind-icon">maximum<wbr>Sql<wbr>Rule<wbr>Action<wbr>Statement<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#message" class="tsd-kind-icon">message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#messagecount" class="tsd-kind-icon">message<wbr>Count</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#messageidmapkey" class="tsd-kind-icon">message<wbr>IdMap<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#mindurationvalue" class="tsd-kind-icon">min<wbr>Duration<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#negotiatecbskey" class="tsd-kind-icon">negotiate<wbr>Cbs<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#negotiateclaim" class="tsd-kind-icon">negotiate<wbr>Claim</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#offset" class="tsd-kind-icon">offset</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#offsetannotation" class="tsd-kind-icon">offset<wbr>Annotation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#operationputtoken" class="tsd-kind-icon">operation<wbr>Put<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#partition" class="tsd-kind-icon">partition</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#partitionid" class="tsd-kind-icon">partition<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#partitionidname" class="tsd-kind-icon">partition<wbr>IdName</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#partitionkey" class="tsd-kind-icon">partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#pathdelimiter" class="tsd-kind-icon">path<wbr>Delimiter</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#propertiestomodify" class="tsd-kind-icon">properties<wbr>ToModify</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#publisher" class="tsd-kind-icon">publisher</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#readoperation" class="tsd-kind-icon">read<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#receivererror" class="tsd-kind-icon">receiver<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#receiveridentifiername" class="tsd-kind-icon">receiver<wbr>Identifier<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#receiversettlemode" class="tsd-kind-icon">receiver<wbr>Settle<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#reconnectlimit" class="tsd-kind-icon">reconnect<wbr>Limit</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#retryableerrors" class="tsd-kind-icon">retryable<wbr>Errors</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#rulenamemaximumlength" class="tsd-kind-icon">rule<wbr>Name<wbr>Maximum<wbr>Length</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#scheduledenqueuetime" class="tsd-kind-icon">scheduled<wbr>Enqueue<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sendererror" class="tsd-kind-icon">sender<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sequencenumber" class="tsd-kind-icon">sequence<wbr>Number</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sequencenumberannotation" class="tsd-kind-icon">sequence<wbr>Number<wbr>Annotation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sequencenumbermapkey" class="tsd-kind-icon">sequence<wbr>Number<wbr>Map<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sequencenumbers" class="tsd-kind-icon">sequence<wbr>Numbers</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#servertimeout" class="tsd-kind-icon">server<wbr>Timeout</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sessionerror" class="tsd-kind-icon">session<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sessionfiltername" class="tsd-kind-icon">session<wbr>Filter<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#sessionidmapkey" class="tsd-kind-icon">session<wbr>IdMap<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#statuscode" class="tsd-kind-icon">status<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#statusdescription" class="tsd-kind-icon">status<wbr>Description</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#timespan" class="tsd-kind-icon">timespan</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#trackingid" class="tsd-kind-icon">tracking<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#uri" class="tsd-kind-icon">uri</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#vendorstring" class="tsd-kind-icon">vendor<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#viapartitionkey" class="tsd-kind-icon">via<wbr>Partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#delay" class="tsd-kind-icon">delay</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#executepromisessequentially" class="tsd-kind-icon">execute<wbr>Promises<wbr>Sequentially</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getnewasynclock" class="tsd-kind-icon">get<wbr>New<wbr>Async<wbr>Lock</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isiothubconnectionstring" class="tsd-kind-icon">is<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#issystemerror" class="tsd-kind-icon">is<wbr>System<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#parseconnectionstring" class="tsd-kind-icon">parse<wbr>Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#randomnumberfrominterval" class="tsd-kind-icon">random<wbr>Number<wbr>From<wbr>Interval</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#translate" class="tsd-kind-icon">translate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#descriptorcodes" class="tsd-kind-icon">descriptor<wbr>Codes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operations" class="tsd-kind-icon">operations</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

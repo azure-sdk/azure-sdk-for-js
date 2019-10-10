@@ -1,0 +1,499 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-formrecognizer</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-formrecognizer</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-formrecognizer</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---formrecognizerclient" id="an-isomorphic-javascript-sdk-for---formrecognizerclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - FormRecognizerClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for FormRecognizerClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-formrecognizer</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-getextractedkeys-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-getextractedkeys-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and getExtractedKeys as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-azure-js" id="install-azurems-rest-azure-js" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-azure-js</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-azure-js</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>The following sample reads the scanned copy of a sample receipt. To know more, refer to the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview">Azure Documentation on Form Recognizer</a></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { FormRecognizerClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-formrecognizer"</span>;
+<span class="hljs-keyword">import</span> { CognitiveServicesCredentials } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">void</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> formRecognizerKey = process.env[<span class="hljs-string">"formRecognizerKey"</span>] || <span class="hljs-string">"&lt;formRecognizerKey&gt;"</span>;
+  <span class="hljs-keyword">const</span> endPoint = process.env[<span class="hljs-string">"endPoint"</span>] || <span class="hljs-string">"&lt;endPoint&gt;"</span>;
+  <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> CognitiveServicesCredentials(formRecognizerKey);
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> FormRecognizerClient(cognitiveServiceCredentials, endPoint);
+
+  client
+    .batchReadReceipt(
+      <span class="hljs-string">"https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-receipt.png"</span>
+    )
+    .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(result);
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+      <span class="hljs-built_in">console</span>.error(err);
+    });
+}
+
+main();</code></pre>
+				<a href="#browser---authentication-client-creation-and-getextractedkeys-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-getextractedkeys-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and getExtractedKeys as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li>index.html</li>
+				</ul>
+				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-formrecognizer sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-formrecognizer/dist/cognitiveservices-formrecognizer.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-keyword">const</span> formRecognizerKey = <span class="hljs-string">"&lt;YOUR_FORM_RECOGNIZER_KEY&gt;"</span>;
+      <span class="hljs-keyword">const</span> endPoint = <span class="hljs-string">"&lt;YOUR_FORM_RECOGNIZER_ENDPOINT&gt;"</span>;
+      <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> msRest.ApiKeyCredentials({
+        <span class="hljs-attr">inHeader</span>: {
+          <span class="hljs-string">"Ocp-Apim-Subscription-Key"</span>: formRecognizerKey
+        }
+      });
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesFormrecognizer.FormRecognizerClient(
+        cognitiveServiceCredentials,
+        endPoint
+      );
+      client
+        .batchReadReceipt(
+          <span class="hljs-string">"https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-receipt.png"</span>
+        )
+        .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(result);
+        })
+        .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+          <span class="hljs-built_in">console</span>.error(err);
+        });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-formrecognizer/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/formrecognizerclientcontext.html" class="tsd-kind-icon">Form<wbr>Recognizer<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/analyzeresult.html" class="tsd-kind-icon">Analyze<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchreadreceiptheaders.html" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchreadreceiptinstreamheaders.html" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>InStream<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computervisionerror.html" class="tsd-kind-icon">Computer<wbr>Vision<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/elementreference.html" class="tsd-kind-icon">Element<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorinformation.html" class="tsd-kind-icon">Error<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extractedkeyvaluepair.html" class="tsd-kind-icon">Extracted<wbr>Key<wbr>Value<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extractedpage.html" class="tsd-kind-icon">Extracted<wbr>Page</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extractedtable.html" class="tsd-kind-icon">Extracted<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extractedtablecolumn.html" class="tsd-kind-icon">Extracted<wbr>Table<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extractedtoken.html" class="tsd-kind-icon">Extracted<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/fieldvalue.html" class="tsd-kind-icon">Field<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formdocumentreport.html" class="tsd-kind-icon">Form<wbr>Document<wbr>Report</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formoperationerror.html" class="tsd-kind-icon">Form<wbr>Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/formrecognizerclientanalyzewithcustommodeloptionalparams.html" class="tsd-kind-icon">Form<wbr>Recognizer<wbr>Client<wbr>Analyze<wbr>With<wbr>Custom<wbr>Model<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurl.html" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/innererror.html" class="tsd-kind-icon">Inner<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keysresult.html" class="tsd-kind-icon">Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/line.html" class="tsd-kind-icon">Line</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelresult.html" class="tsd-kind-icon">Model<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelsresult.html" class="tsd-kind-icon">Models<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/numbervalue.html" class="tsd-kind-icon">Number<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/readreceiptresult.html" class="tsd-kind-icon">Read<wbr>Receipt<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/stringvalue.html" class="tsd-kind-icon">String<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textrecognitionresult.html" class="tsd-kind-icon">Text<wbr>Recognition<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainrequest.html" class="tsd-kind-icon">Train<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainresult.html" class="tsd-kind-icon">Train<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainsourcefilter.html" class="tsd-kind-icon">Train<wbr>Source<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/understandingresult.html" class="tsd-kind-icon">Understanding<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/word.html" class="tsd-kind-icon">Word</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#analyzewithcustommodelresponse" class="tsd-kind-icon">Analyze<wbr>With<wbr>Custom<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchreadreceiptinstreamresponse" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>InStream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#batchreadreceiptresponse" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fieldvalueunion" class="tsd-kind-icon">Field<wbr>Value<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getcustommodelresponse" class="tsd-kind-icon">Get<wbr>Custom<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getcustommodelsresponse" class="tsd-kind-icon">Get<wbr>Custom<wbr>Models<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getextractedkeysresponse" class="tsd-kind-icon">Get<wbr>Extracted<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getreadreceiptresultresponse" class="tsd-kind-icon">Get<wbr>Read<wbr>Receipt<wbr>Result<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status" class="tsd-kind-icon">Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status1" class="tsd-kind-icon">Status1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status2" class="tsd-kind-icon">Status2</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textoperationstatuscodes" class="tsd-kind-icon">Text<wbr>Operation<wbr>Status<wbr>Codes</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textrecognitionresultconfidenceclass" class="tsd-kind-icon">Text<wbr>Recognition<wbr>Result<wbr>Confidence<wbr>Class</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textrecognitionresultdimensionunit" class="tsd-kind-icon">Text<wbr>Recognition<wbr>Result<wbr>Dimension<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#traincustommodelresponse" class="tsd-kind-icon">Train<wbr>Custom<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#analyzeresult" class="tsd-kind-icon">Analyze<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchreadreceiptheaders" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchreadreceiptinstreamheaders" class="tsd-kind-icon">Batch<wbr>Read<wbr>Receipt<wbr>InStream<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computervisionerror" class="tsd-kind-icon">Computer<wbr>Vision<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#elementreference" class="tsd-kind-icon">Element<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorinformation" class="tsd-kind-icon">Error<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extractedkeyvaluepair" class="tsd-kind-icon">Extracted<wbr>Key<wbr>Value<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extractedpage" class="tsd-kind-icon">Extracted<wbr>Page</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extractedtable" class="tsd-kind-icon">Extracted<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extractedtablecolumn" class="tsd-kind-icon">Extracted<wbr>Table<wbr>Column</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extractedtoken" class="tsd-kind-icon">Extracted<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fieldvalue" class="tsd-kind-icon">Field<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formdocumentreport" class="tsd-kind-icon">Form<wbr>Document<wbr>Report</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formoperationerror" class="tsd-kind-icon">Form<wbr>Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurl" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#innererror" class="tsd-kind-icon">Inner<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keysresult" class="tsd-kind-icon">Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#line" class="tsd-kind-icon">Line</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelresult" class="tsd-kind-icon">Model<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelsresult" class="tsd-kind-icon">Models<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#numbervalue" class="tsd-kind-icon">Number<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#readreceiptresult" class="tsd-kind-icon">Read<wbr>Receipt<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#stringvalue" class="tsd-kind-icon">String<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#textrecognitionresult" class="tsd-kind-icon">Text<wbr>Recognition<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trainrequest" class="tsd-kind-icon">Train<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trainresult" class="tsd-kind-icon">Train<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trainsourcefilter" class="tsd-kind-icon">Train<wbr>Source<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#understandingresult" class="tsd-kind-icon">Understanding<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#word" class="tsd-kind-icon">Word</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#formstream" class="tsd-kind-icon">form<wbr>Stream</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#id" class="tsd-kind-icon">id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keys" class="tsd-kind-icon">keys</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationid" class="tsd-kind-icon">operation<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -1,0 +1,859 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-policyinsights</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-policyinsights</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-policyinsights</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-policyinsightsclient-sdk-for-javascript" id="azure-policyinsightsclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure PolicyInsightsClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for PolicyInsightsClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-policyinsights</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-listformanagementgroup-remediations-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-listformanagementgroup-remediations-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and listForManagementGroup remediations as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { PolicyInsightsClient, PolicyInsightsModels, PolicyInsightsMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-policyinsights"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> PolicyInsightsClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> managementGroupId = <span class="hljs-string">"testmanagementGroupId"</span>;
+  <span class="hljs-keyword">const</span> top = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">const</span> filter = <span class="hljs-string">"testfilter"</span>;
+  client.remediations.listForManagementGroup(managementGroupId, top, filter).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-listformanagementgroup-remediations-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-listformanagementgroup-remediations-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and listForManagementGroup remediations as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-policyinsights sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-policyinsights/dist/arm-policyinsights.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmPolicyinsights.PolicyInsightsClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> managementGroupId = <span class="hljs-string">"testmanagementGroupId"</span>;
+      <span class="hljs-keyword">const</span> top = <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">const</span> filter = <span class="hljs-string">"testfilter"</span>;
+      client.remediations.listForManagementGroup(managementGroupId, top, filter).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policyevents.html" class="tsd-kind-icon">Policy<wbr>Events</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policyinsightsclientcontext.html" class="tsd-kind-icon">Policy<wbr>Insights<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policystates.html" class="tsd-kind-icon">Policy<wbr>States</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/policytrackedresources.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/remediations.html" class="tsd-kind-icon">Remediations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errordefinition.html" class="tsd-kind-icon">Error<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/expressionevaluationdetails.html" class="tsd-kind-icon">Expression<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ifnotexistsevaluationdetails.html" class="tsd-kind-icon">If<wbr>Not<wbr>Exists<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationslistresults.html" class="tsd-kind-icon">Operations<wbr>List<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyassignmentsummary.html" class="tsd-kind-icon">Policy<wbr>Assignment<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policydefinitionsummary.html" class="tsd-kind-icon">Policy<wbr>Definition<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policydetails.html" class="tsd-kind-icon">Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyevaluationdetails.html" class="tsd-kind-icon">Policy<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyevent.html" class="tsd-kind-icon">Policy<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsformanagementgroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforpolicydefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforpolicysetdefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforresourcegrouplevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforresourcegroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforresourceoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforsubscriptionlevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventslistqueryresultsforsubscriptionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyeventsqueryresults.html" class="tsd-kind-icon">Policy<wbr>Events<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policyinsightsclientoptions.html" class="tsd-kind-icon">Policy<wbr>Insights<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystate.html" class="tsd-kind-icon">Policy<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsformanagementgroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforpolicydefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforpolicysetdefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforresourcegrouplevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforresourcegroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforresourceoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforsubscriptionlevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystateslistqueryresultsforsubscriptionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatesqueryresults.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeformanagementgroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Management<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforpolicydefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Policy<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforpolicysetdefinitionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforresourcegrouplevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforresourcegroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforresourceoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforsubscriptionlevelpolicyassignmentoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policystatessummarizeforsubscriptionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Subscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresource.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresourceslistqueryresultsformanagementgroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresourceslistqueryresultsforresourcegroupoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresourceslistqueryresultsforresourceoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresourceslistqueryresultsforsubscriptionoptionalparams.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/policytrackedresourcesqueryresults.html" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryfailure.html" class="tsd-kind-icon">Query<wbr>Failure</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryfailureerror.html" class="tsd-kind-icon">Query<wbr>Failure<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/queryoptions.html" class="tsd-kind-icon">Query<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediation.html" class="tsd-kind-icon">Remediation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationdeployment.html" class="tsd-kind-icon">Remediation<wbr>Deployment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationdeploymentsummary.html" class="tsd-kind-icon">Remediation<wbr>Deployment<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationdeploymentslistresult.html" class="tsd-kind-icon">Remediation<wbr>Deployments<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationfilters.html" class="tsd-kind-icon">Remediation<wbr>Filters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationlistresult.html" class="tsd-kind-icon">Remediation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistdeploymentsatmanagementgroupoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtManagement<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistdeploymentsatresourcegroupoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistdeploymentsatresourceoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistdeploymentsatsubscriptionoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtSubscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistformanagementgroupoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Management<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistforresourcegroupoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Group<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistforresourceoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/remediationslistforsubscriptionoptionalparams.html" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Subscription<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/summarizeresults.html" class="tsd-kind-icon">Summarize<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/summary.html" class="tsd-kind-icon">Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/summaryresults.html" class="tsd-kind-icon">Summary<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trackedresourcemodificationdetails.html" class="tsd-kind-icon">Tracked<wbr>Resource<wbr>Modification<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/typederrorinfo.html" class="tsd-kind-icon">Typed<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventsgetmetadataresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>Get<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsformanagementgroupresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforpolicydefinitionresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforpolicysetdefinitionresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforresourcegrouplevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforresourcegroupresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforresourceresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforsubscriptionlevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policyeventslistqueryresultsforsubscriptionresponse" class="tsd-kind-icon">Policy<wbr>Events<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatesgetmetadataresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Get<wbr>Metadata<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsformanagementgroupresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforpolicydefinitionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforpolicysetdefinitionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforresourcegrouplevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforresourcegroupresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforresourceresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforsubscriptionlevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystateslistqueryresultsforsubscriptionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatesresource" class="tsd-kind-icon">Policy<wbr>States<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeformanagementgroupresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Management<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforpolicydefinitionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Policy<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforpolicysetdefinitionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Policy<wbr>Set<wbr>Definition<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforresourcegrouplevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Group<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforresourcegroupresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforresourceresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Resource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforsubscriptionlevelpolicyassignmentresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Subscription<wbr>Level<wbr>Policy<wbr>Assignment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policystatessummarizeforsubscriptionresponse" class="tsd-kind-icon">Policy<wbr>States<wbr>Summarize<wbr>For<wbr>Subscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsformanagementgroupnextresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsformanagementgroupresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Management<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforresourcegroupnextresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforresourcegroupresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforresourcenextresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforresourceresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Resource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforsubscriptionnextresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytrackedresourceslistqueryresultsforsubscriptionresponse" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>List<wbr>Query<wbr>Results<wbr>For<wbr>Subscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscancelatmanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>Cancel<wbr>AtManagement<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscancelatresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>Cancel<wbr>AtResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscancelatresourceresponse" class="tsd-kind-icon">Remediations<wbr>Cancel<wbr>AtResource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscancelatsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>Cancel<wbr>AtSubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscreateorupdateatmanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>Create<wbr>OrUpdate<wbr>AtManagement<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscreateorupdateatresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>Create<wbr>OrUpdate<wbr>AtResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscreateorupdateatresourceresponse" class="tsd-kind-icon">Remediations<wbr>Create<wbr>OrUpdate<wbr>AtResource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationscreateorupdateatsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>Create<wbr>OrUpdate<wbr>AtSubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsdeleteatmanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>Delete<wbr>AtManagement<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsdeleteatresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>Delete<wbr>AtResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsdeleteatresourceresponse" class="tsd-kind-icon">Remediations<wbr>Delete<wbr>AtResource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsdeleteatsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>Delete<wbr>AtSubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsgetatmanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>Get<wbr>AtManagement<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsgetatresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>Get<wbr>AtResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsgetatresourceresponse" class="tsd-kind-icon">Remediations<wbr>Get<wbr>AtResource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationsgetatsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>Get<wbr>AtSubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatmanagementgroupnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtManagement<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatmanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtManagement<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatresourcegroupnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatresourcenextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatresourceresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtResource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatsubscriptionnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtSubscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistdeploymentsatsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>Deployments<wbr>AtSubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistformanagementgroupnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Management<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistformanagementgroupresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Management<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforresourcegroupnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforresourcegroupresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforresourcenextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforresourceresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Resource<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforsubscriptionnextresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Subscription<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#remediationslistforsubscriptionresponse" class="tsd-kind-icon">Remediations<wbr>List<wbr>For<wbr>Subscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errordefinition" class="tsd-kind-icon">Error<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expressionevaluationdetails" class="tsd-kind-icon">Expression<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ifnotexistsevaluationdetails" class="tsd-kind-icon">If<wbr>Not<wbr>Exists<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationslistresults" class="tsd-kind-icon">Operations<wbr>List<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyassignmentsummary" class="tsd-kind-icon">Policy<wbr>Assignment<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policydefinitionsummary" class="tsd-kind-icon">Policy<wbr>Definition<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policydetails" class="tsd-kind-icon">Policy<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyevaluationdetails" class="tsd-kind-icon">Policy<wbr>Evaluation<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyevent" class="tsd-kind-icon">Policy<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyeventsqueryresults" class="tsd-kind-icon">Policy<wbr>Events<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policystate" class="tsd-kind-icon">Policy<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policystatesqueryresults" class="tsd-kind-icon">Policy<wbr>States<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policytrackedresource" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policytrackedresourcesqueryresults" class="tsd-kind-icon">Policy<wbr>Tracked<wbr>Resources<wbr>Query<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queryfailure" class="tsd-kind-icon">Query<wbr>Failure</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queryfailureerror" class="tsd-kind-icon">Query<wbr>Failure<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#queryoptions" class="tsd-kind-icon">Query<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediation" class="tsd-kind-icon">Remediation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationdeployment" class="tsd-kind-icon">Remediation<wbr>Deployment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationdeploymentsummary" class="tsd-kind-icon">Remediation<wbr>Deployment<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationdeploymentslistresult" class="tsd-kind-icon">Remediation<wbr>Deployments<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationfilters" class="tsd-kind-icon">Remediation<wbr>Filters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationlistresult" class="tsd-kind-icon">Remediation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#summarizeresults" class="tsd-kind-icon">Summarize<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#summary" class="tsd-kind-icon">Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#summaryresults" class="tsd-kind-icon">Summary<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trackedresourcemodificationdetails" class="tsd-kind-icon">Tracked<wbr>Resource<wbr>Modification<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#typederrorinfo" class="tsd-kind-icon">Typed<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion0" class="tsd-kind-icon">api<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion1" class="tsd-kind-icon">api<wbr>Version1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apply" class="tsd-kind-icon">apply</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#authorizationnamespace" class="tsd-kind-icon">authorization<wbr>Namespace</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand" class="tsd-kind-icon">expand</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#from" class="tsd-kind-icon">from</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managementgroupid" class="tsd-kind-icon">management<wbr>Group<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managementgroupname" class="tsd-kind-icon">management<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#managementgroupsnamespace" class="tsd-kind-icon">management<wbr>Groups<wbr>Namespace</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#orderby" class="tsd-kind-icon">order<wbr>By</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyassignmentname" class="tsd-kind-icon">policy<wbr>Assignment<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policydefinitionname" class="tsd-kind-icon">policy<wbr>Definition<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyeventsresource" class="tsd-kind-icon">policy<wbr>Events<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policysetdefinitionname" class="tsd-kind-icon">policy<wbr>Set<wbr>Definition<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policystatesresource" class="tsd-kind-icon">policy<wbr>States<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policystatessummaryresource" class="tsd-kind-icon">policy<wbr>States<wbr>Summary<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policytrackedresourcesresource" class="tsd-kind-icon">policy<wbr>Tracked<wbr>Resources<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#remediationname" class="tsd-kind-icon">remediation<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourceid" class="tsd-kind-icon">resource<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scope" class="tsd-kind-icon">scope</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#select" class="tsd-kind-icon">select</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#to" class="tsd-kind-icon">to</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top" class="tsd-kind-icon">top</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

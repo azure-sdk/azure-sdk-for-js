@@ -1,0 +1,2556 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>VirtualNetworkGateways | @azure/arm-network</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/arm-network</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="virtualnetworkgateways.html">VirtualNetworkGateways</a>
+				</li>
+			</ul>
+			<h1>Class VirtualNetworkGateways</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class representing a VirtualNetworkGateways.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">VirtualNetworkGateways</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="virtualnetworkgateways.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begincreateorupdate" class="tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begindeletemethod" class="tsd-kind-icon">begin<wbr>Delete<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingeneratevpnprofile" class="tsd-kind-icon">begin<wbr>Generate<wbr>Vpn<wbr>Profile</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingeneratevpnclientpackage" class="tsd-kind-icon">begin<wbr>Generatevpnclientpackage</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetadvertisedroutes" class="tsd-kind-icon">begin<wbr>Get<wbr>Advertised<wbr>Routes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetbgppeerstatus" class="tsd-kind-icon">begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetlearnedroutes" class="tsd-kind-icon">begin<wbr>Get<wbr>Learned<wbr>Routes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetvpnprofilepackageurl" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetvpnclientconnectionhealth" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Connection<wbr>Health</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#begingetvpnclientipsecparameters" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginreset" class="tsd-kind-icon">begin<wbr>Reset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginresetvpnclientsharedkey" class="tsd-kind-icon">begin<wbr>Reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginsetvpnclientipsecparameters" class="tsd-kind-icon">begin<wbr>Set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginstartpacketcapture" class="tsd-kind-icon">begin<wbr>Start<wbr>Packet<wbr>Capture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginstoppacketcapture" class="tsd-kind-icon">begin<wbr>Stop<wbr>Packet<wbr>Capture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#beginupdatetags" class="tsd-kind-icon">begin<wbr>Update<wbr>Tags</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#createorupdate" class="tsd-kind-icon">create<wbr>OrUpdate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#generatevpnprofile" class="tsd-kind-icon">generate<wbr>Vpn<wbr>Profile</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#generatevpnclientpackage" class="tsd-kind-icon">generatevpnclientpackage</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getadvertisedroutes" class="tsd-kind-icon">get<wbr>Advertised<wbr>Routes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getbgppeerstatus" class="tsd-kind-icon">get<wbr>Bgp<wbr>Peer<wbr>Status</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getlearnedroutes" class="tsd-kind-icon">get<wbr>Learned<wbr>Routes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getvpnprofilepackageurl" class="tsd-kind-icon">get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getvpnclientconnectionhealth" class="tsd-kind-icon">get<wbr>Vpnclient<wbr>Connection<wbr>Health</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#getvpnclientipsecparameters" class="tsd-kind-icon">get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#list" class="tsd-kind-icon">list</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#listconnections" class="tsd-kind-icon">list<wbr>Connections</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#listconnectionsnext" class="tsd-kind-icon">list<wbr>Connections<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#listnext" class="tsd-kind-icon">list<wbr>Next</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#reset" class="tsd-kind-icon">reset</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#resetvpnclientsharedkey" class="tsd-kind-icon">reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#setvpnclientipsecparameters" class="tsd-kind-icon">set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#startpacketcapture" class="tsd-kind-icon">start<wbr>Packet<wbr>Capture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#stoppacketcapture" class="tsd-kind-icon">stop<wbr>Packet<wbr>Capture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#supportedvpndevices" class="tsd-kind-icon">supported<wbr>Vpn<wbr>Devices</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#updatetags" class="tsd-kind-icon">update<wbr>Tags</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="virtualnetworkgateways.html#vpndeviceconfigurationscript" class="tsd-kind-icon">vpn<wbr>Device<wbr>Configuration<wbr>Script</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Virtual<wbr>Network<wbr>Gateways<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="networkmanagementclientcontext.html" class="tsd-signature-type">NetworkManagementClientContext</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="virtualnetworkgateways.html" class="tsd-signature-type">VirtualNetworkGateways</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L20">operations/virtualNetworkGateways.ts:20</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Create a VirtualNetworkGateways.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>client: <a href="networkmanagementclientcontext.html" class="tsd-signature-type">NetworkManagementClientContext</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Reference to the service client.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="virtualnetworkgateways.html" class="tsd-signature-type">VirtualNetworkGateways</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begincreateorupdate" class="tsd-anchor"></a>
+					<h3>begin<wbr>Create<wbr>OrUpdate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L413">operations/virtualNetworkGateways.ts:413</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates or updates a virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to create or update virtual network gateway operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begindeletemethod" class="tsd-anchor"></a>
+					<h3>begin<wbr>Delete<wbr>Method</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Delete<wbr>Method<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L432">operations/virtualNetworkGateways.ts:432</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes the specified virtual network gateway.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingeneratevpnprofile" class="tsd-anchor"></a>
+					<h3>begin<wbr>Generate<wbr>Vpn<wbr>Profile</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Generate<wbr>Vpn<wbr>Profile<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L531">operations/virtualNetworkGateways.ts:531</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates VPN profile for P2S client of the virtual network gateway in the specified resource
+									group. Used for IKEV2 and radius based authentication.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate virtual network gateway VPN client package
+										operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingeneratevpnclientpackage" class="tsd-anchor"></a>
+					<h3>begin<wbr>Generatevpnclientpackage</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Generatevpnclientpackage<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L509">operations/virtualNetworkGateways.ts:509</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates VPN client package for P2S client of the virtual network gateway in the specified
+									resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate virtual network gateway VPN client package
+										operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetadvertisedroutes" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Advertised<wbr>Routes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Advertised<wbr>Routes<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, peer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L608">operations/virtualNetworkGateways.ts:608</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This operation retrieves a list of routes the virtual network gateway is advertising to the
+									specified peer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>peer: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The IP address of the peer.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetbgppeerstatus" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginGetBgpPeerStatusOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L569">operations/virtualNetworkGateways.ts:569</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The GetBgpPeerStatus operation retrieves the status of all BGP peers.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginGetBgpPeerStatusOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetlearnedroutes" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Learned<wbr>Routes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Learned<wbr>Routes<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L588">operations/virtualNetworkGateways.ts:588</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This operation retrieves a list of routes the virtual network gateway has learned, including
+									routes learned from BGP peers.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetvpnprofilepackageurl" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L551">operations/virtualNetworkGateways.ts:551</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified
+									resource group. The profile needs to be generated first using generateVpnProfile.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetvpnclientconnectionhealth" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Vpnclient<wbr>Connection<wbr>Health</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Connection<wbr>Health<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L709">operations/virtualNetworkGateways.ts:709</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get VPN client connection health detail per P2S client connection of the virtual network gateway
+									in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="begingetvpnclientipsecparameters" class="tsd-anchor"></a>
+					<h3>begin<wbr>Get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L651">operations/virtualNetworkGateways.ts:651</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec
+										policy for P2S client of virtual network gateway in the specified resource group through Network
+									resource provider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The virtual network gateway name.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginreset" class="tsd-anchor"></a>
+					<h3>begin<wbr>Reset</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Reset<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginResetOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L470">operations/virtualNetworkGateways.ts:470</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resets the primary of the virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginResetOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginresetvpnclientsharedkey" class="tsd-anchor"></a>
+					<h3>begin<wbr>Reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L488">operations/virtualNetworkGateways.ts:488</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resets the VPN client shared key of the virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginsetvpnclientipsecparameters" class="tsd-anchor"></a>
+					<h3>begin<wbr>Set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, vpnclientIpsecParams<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientipsecparameters.html" class="tsd-signature-type">VpnClientIPsecParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L630">operations/virtualNetworkGateways.ts:630</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of
+									virtual network gateway in the specified resource group through Network resource provider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>vpnclientIpsecParams: <a href="../interfaces/vpnclientipsecparameters.html" class="tsd-signature-type">VpnClientIPsecParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the Begin Set vpnclient ipsec parameters of
+										Virtual Network Gateway P2S client operation through Network resource provider.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginstartpacketcapture" class="tsd-anchor"></a>
+					<h3>begin<wbr>Start<wbr>Packet<wbr>Capture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Start<wbr>Packet<wbr>Capture<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginStartPacketCaptureOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L669">operations/virtualNetworkGateways.ts:669</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts packet capture on virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysBeginStartPacketCaptureOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginstoppacketcapture" class="tsd-anchor"></a>
+					<h3>begin<wbr>Stop<wbr>Packet<wbr>Capture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Stop<wbr>Packet<wbr>Capture<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnpacketcapturestopparameters.html" class="tsd-signature-type">VpnPacketCaptureStopParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L689">operations/virtualNetworkGateways.ts:689</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops packet capture on virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnpacketcapturestopparameters.html" class="tsd-signature-type">VpnPacketCaptureStopParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Virtual network gateway packet capture parameters supplied to stop packet
+										capture on gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="beginupdatetags" class="tsd-anchor"></a>
+					<h3>begin<wbr>Update<wbr>Tags</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">begin<wbr>Update<wbr>Tags<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/tagsobject.html" class="tsd-signature-type">TagsObject</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L451">operations/virtualNetworkGateways.ts:451</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates a virtual network gateway tags.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/tagsobject.html" class="tsd-signature-type">TagsObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to update virtual network gateway tags.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">LROPoller</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRestAzure.LROPoller&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="createorupdate" class="tsd-anchor"></a>
+					<h3>create<wbr>OrUpdate</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>OrUpdate<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysCreateOrUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L38">operations/virtualNetworkGateways.ts:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates or updates a virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to create or update virtual network gateway operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysCreateOrUpdateResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysCreateOrUpdateResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="deletemethod" class="tsd-anchor"></a>
+					<h3>delete<wbr>Method</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">delete<wbr>Method<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L82">operations/virtualNetworkGateways.ts:82</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Deletes the specified virtual network gateway.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRest.RestResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="generatevpnprofile" class="tsd-anchor"></a>
+					<h3>generate<wbr>Vpn<wbr>Profile</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Vpn<wbr>Profile<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGenerateVpnProfileResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L209">operations/virtualNetworkGateways.ts:209</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates VPN profile for P2S client of the virtual network gateway in the specified resource
+									group. Used for IKEV2 and radius based authentication.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate virtual network gateway VPN client package
+										operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGenerateVpnProfileResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGenerateVpnProfileResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="generatevpnclientpackage" class="tsd-anchor"></a>
+					<h3>generatevpnclientpackage</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">generatevpnclientpackage<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L194">operations/virtualNetworkGateways.ts:194</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generates VPN client package for P2S client of the virtual network gateway in the specified
+									resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnclientparameters.html" class="tsd-signature-type">VpnClientParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate virtual network gateway VPN client package
+										operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGeneratevpnclientpackageResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="get" class="tsd-anchor"></a>
+					<h3>get</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L50">operations/virtualNetworkGateways.ts:50</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the specified virtual network gateway by resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L56">operations/virtualNetworkGateways.ts:56</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L63">operations/virtualNetworkGateways.ts:63</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgateway.html" class="tsd-signature-type">VirtualNetworkGateway</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getadvertisedroutes" class="tsd-anchor"></a>
+					<h3>get<wbr>Advertised<wbr>Routes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Advertised<wbr>Routes<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, peer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetAdvertisedRoutesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L293">operations/virtualNetworkGateways.ts:293</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This operation retrieves a list of routes the virtual network gateway is advertising to the
+									specified peer.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>peer: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The IP address of the peer.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetAdvertisedRoutesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetAdvertisedRoutesResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getbgppeerstatus" class="tsd-anchor"></a>
+					<h3>get<wbr>Bgp<wbr>Peer<wbr>Status</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Bgp<wbr>Peer<wbr>Status<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetBgpPeerStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L234">operations/virtualNetworkGateways.ts:234</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The GetBgpPeerStatus operation retrieves the status of all BGP peers.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetBgpPeerStatusOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetBgpPeerStatusResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetBgpPeerStatusResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getlearnedroutes" class="tsd-anchor"></a>
+					<h3>get<wbr>Learned<wbr>Routes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Learned<wbr>Routes<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetLearnedRoutesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L279">operations/virtualNetworkGateways.ts:279</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This operation retrieves a list of routes the virtual network gateway has learned, including
+									routes learned from BGP peers.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetLearnedRoutesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetLearnedRoutesResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvpnprofilepackageurl" class="tsd-anchor"></a>
+					<h3>get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L222">operations/virtualNetworkGateways.ts:222</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified
+									resource group. The profile needs to be generated first using generateVpnProfile.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetVpnProfilePackageUrlResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvpnclientconnectionhealth" class="tsd-anchor"></a>
+					<h3>get<wbr>Vpnclient<wbr>Connection<wbr>Health</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vpnclient<wbr>Connection<wbr>Health<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L400">operations/virtualNetworkGateways.ts:400</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get VPN client connection health detail per P2S client connection of the virtual network gateway
+									in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvpnclientipsecparameters" class="tsd-anchor"></a>
+					<h3>get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L322">operations/virtualNetworkGateways.ts:322</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec
+										policy for P2S client of virtual network gateway in the specified resource group through Network
+									resource provider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The virtual network gateway name.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysGetVpnclientIpsecParametersResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="list" class="tsd-anchor"></a>
+					<h3>list</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L106">operations/virtualNetworkGateways.ts:106</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all virtual network gateways by resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysListResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L111">operations/virtualNetworkGateways.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L117">operations/virtualNetworkGateways.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listconnections" class="tsd-anchor"></a>
+					<h3>list<wbr>Connections</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListConnectionsResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L135">operations/virtualNetworkGateways.ts:135</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all the connections in a virtual network gateway.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListConnectionsResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysListConnectionsResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L141">operations/virtualNetworkGateways.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L148">operations/virtualNetworkGateways.ts:148</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listconnectionsnext" class="tsd-anchor"></a>
+					<h3>list<wbr>Connections<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListConnectionsNextResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Connections<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L754">operations/virtualNetworkGateways.ts:754</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all the connections in a virtual network gateway.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListConnectionsNextResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysListConnectionsNextResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L759">operations/virtualNetworkGateways.ts:759</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L765">operations/virtualNetworkGateways.ts:765</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistconnectionsresult.html" class="tsd-signature-type">VirtualNetworkGatewayListConnectionsResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listnext" class="tsd-anchor"></a>
+					<h3>list<wbr>Next</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListNextResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<wbr>Next<span class="tsd-signature-symbol">(</span>nextPageLink<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L726">operations/virtualNetworkGateways.ts:726</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all virtual network gateways by resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysListNextResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysListNextResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L731">operations/virtualNetworkGateways.ts:731</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L737">operations/virtualNetworkGateways.ts:737</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>nextPageLink: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The NextLink from the previous successful call to List operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/virtualnetworkgatewaylistresult.html" class="tsd-signature-type">VirtualNetworkGatewayListResult</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="reset" class="tsd-anchor"></a>
+					<h3>reset</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">reset<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysResetOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysResetResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L167">operations/virtualNetworkGateways.ts:167</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resets the primary of the virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysResetOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysResetResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysResetResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="resetvpnclientsharedkey" class="tsd-anchor"></a>
+					<h3>reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L179">operations/virtualNetworkGateways.ts:179</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Resets the VPN client shared key of the virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RestResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;msRest.RestResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setvpnclientipsecparameters" class="tsd-anchor"></a>
+					<h3>set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, vpnclientIpsecParams<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnclientipsecparameters.html" class="tsd-signature-type">VpnClientIPsecParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L308">operations/virtualNetworkGateways.ts:308</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of
+									virtual network gateway in the specified resource group through Network resource provider.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>vpnclientIpsecParams: <a href="../interfaces/vpnclientipsecparameters.html" class="tsd-signature-type">VpnClientIPsecParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the Begin Set vpnclient ipsec parameters of
+										Virtual Network Gateway P2S client operation through Network resource provider.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysSetVpnclientIpsecParametersResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startpacketcapture" class="tsd-anchor"></a>
+					<h3>start<wbr>Packet<wbr>Capture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Packet<wbr>Capture<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysStartPacketCaptureOptionalParams</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysStartPacketCaptureResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L373">operations/virtualNetworkGateways.ts:373</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts packet capture on virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">Models.VirtualNetworkGatewaysStartPacketCaptureOptionalParams</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysStartPacketCaptureResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysStartPacketCaptureResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stoppacketcapture" class="tsd-anchor"></a>
+					<h3>stop<wbr>Packet<wbr>Capture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Packet<wbr>Capture<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpnpacketcapturestopparameters.html" class="tsd-signature-type">VpnPacketCaptureStopParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysStopPacketCaptureResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L387">operations/virtualNetworkGateways.ts:387</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops packet capture on virtual network gateway in the specified resource group.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpnpacketcapturestopparameters.html" class="tsd-signature-type">VpnPacketCaptureStopParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Virtual network gateway packet capture parameters supplied to stop packet
+										capture on gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysStopPacketCaptureResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysStopPacketCaptureResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="supportedvpndevices" class="tsd-anchor"></a>
+					<h3>supported<wbr>Vpn<wbr>Devices</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">supported<wbr>Vpn<wbr>Devices<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysSupportedVpnDevicesResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">supported<wbr>Vpn<wbr>Devices<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">supported<wbr>Vpn<wbr>Devices<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L246">operations/virtualNetworkGateways.ts:246</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a xml format representation for supported vpn devices.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysSupportedVpnDevicesResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysSupportedVpnDevicesResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L252">operations/virtualNetworkGateways.ts:252</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L259">operations/virtualNetworkGateways.ts:259</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updatetags" class="tsd-anchor"></a>
+					<h3>update<wbr>Tags</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Tags<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/tagsobject.html" class="tsd-signature-type">TagsObject</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysUpdateTagsResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L95">operations/virtualNetworkGateways.ts:95</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Updates a virtual network gateway tags.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/tagsobject.html" class="tsd-signature-type">TagsObject</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to update virtual network gateway tags.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysUpdateTagsResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysUpdateTagsResponse&gt;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="vpndeviceconfigurationscript" class="tsd-anchor"></a>
+					<h3>vpn<wbr>Device<wbr>Configuration<wbr>Script</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">vpn<wbr>Device<wbr>Configuration<wbr>Script<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayConnectionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">msRest.RequestOptionsBase</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">vpn<wbr>Device<wbr>Configuration<wbr>Script<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayConnectionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">vpn<wbr>Device<wbr>Configuration<wbr>Script<span class="tsd-signature-symbol">(</span>resourceGroupName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, virtualNetworkGatewayConnectionName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, parameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RequestOptionsBase</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L336">operations/virtualNetworkGateways.ts:336</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a xml format representation for vpn device configuration script.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayConnectionName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway connection
+										for which the configuration script is generated.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate vpn device script operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">msRest.RequestOptionsBase</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>Promise&lt;Models.VirtualNetworkGatewaysVpnDeviceConfigurationScriptResponse&gt;</p>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L344">operations/virtualNetworkGateways.ts:344</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayConnectionName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway connection
+										for which the configuration script is generated.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate vpn device script operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/network/arm-network/src/operations/virtualNetworkGateways.ts#L353">operations/virtualNetworkGateways.ts:353</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>resourceGroupName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the resource group.</p>
+									</div>
+								</li>
+								<li>
+									<h5>virtualNetworkGatewayConnectionName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the virtual network gateway connection
+										for which the configuration script is generated.</p>
+									</div>
+								</li>
+								<li>
+									<h5>parameters: <a href="../interfaces/vpndevicescriptparameters.html" class="tsd-signature-type">VpnDeviceScriptParameters</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameters supplied to the generate vpn device script operation.</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">RequestOptionsBase</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The optional parameters</p>
+									</div>
+								</li>
+								<li>
+									<h5>callback: <span class="tsd-signature-type">ServiceCallback</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The callback</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="virtualnetworkgateways.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Gateways</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begincreateorupdate" class="tsd-kind-icon">begin<wbr>Create<wbr>OrUpdate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begindeletemethod" class="tsd-kind-icon">begin<wbr>Delete<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingeneratevpnprofile" class="tsd-kind-icon">begin<wbr>Generate<wbr>Vpn<wbr>Profile</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingeneratevpnclientpackage" class="tsd-kind-icon">begin<wbr>Generatevpnclientpackage</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetadvertisedroutes" class="tsd-kind-icon">begin<wbr>Get<wbr>Advertised<wbr>Routes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetbgppeerstatus" class="tsd-kind-icon">begin<wbr>Get<wbr>Bgp<wbr>Peer<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetlearnedroutes" class="tsd-kind-icon">begin<wbr>Get<wbr>Learned<wbr>Routes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetvpnprofilepackageurl" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetvpnclientconnectionhealth" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Connection<wbr>Health</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#begingetvpnclientipsecparameters" class="tsd-kind-icon">begin<wbr>Get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginreset" class="tsd-kind-icon">begin<wbr>Reset</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginresetvpnclientsharedkey" class="tsd-kind-icon">begin<wbr>Reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginsetvpnclientipsecparameters" class="tsd-kind-icon">begin<wbr>Set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginstartpacketcapture" class="tsd-kind-icon">begin<wbr>Start<wbr>Packet<wbr>Capture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginstoppacketcapture" class="tsd-kind-icon">begin<wbr>Stop<wbr>Packet<wbr>Capture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#beginupdatetags" class="tsd-kind-icon">begin<wbr>Update<wbr>Tags</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#createorupdate" class="tsd-kind-icon">create<wbr>OrUpdate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#deletemethod" class="tsd-kind-icon">delete<wbr>Method</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#generatevpnprofile" class="tsd-kind-icon">generate<wbr>Vpn<wbr>Profile</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#generatevpnclientpackage" class="tsd-kind-icon">generatevpnclientpackage</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getadvertisedroutes" class="tsd-kind-icon">get<wbr>Advertised<wbr>Routes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getbgppeerstatus" class="tsd-kind-icon">get<wbr>Bgp<wbr>Peer<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getlearnedroutes" class="tsd-kind-icon">get<wbr>Learned<wbr>Routes</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getvpnprofilepackageurl" class="tsd-kind-icon">get<wbr>Vpn<wbr>Profile<wbr>Package<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getvpnclientconnectionhealth" class="tsd-kind-icon">get<wbr>Vpnclient<wbr>Connection<wbr>Health</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#getvpnclientipsecparameters" class="tsd-kind-icon">get<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#list" class="tsd-kind-icon">list</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#listconnections" class="tsd-kind-icon">list<wbr>Connections</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#listconnectionsnext" class="tsd-kind-icon">list<wbr>Connections<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#listnext" class="tsd-kind-icon">list<wbr>Next</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#reset" class="tsd-kind-icon">reset</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#resetvpnclientsharedkey" class="tsd-kind-icon">reset<wbr>Vpn<wbr>Client<wbr>Shared<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#setvpnclientipsecparameters" class="tsd-kind-icon">set<wbr>Vpnclient<wbr>Ipsec<wbr>Parameters</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#startpacketcapture" class="tsd-kind-icon">start<wbr>Packet<wbr>Capture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#stoppacketcapture" class="tsd-kind-icon">stop<wbr>Packet<wbr>Capture</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#supportedvpndevices" class="tsd-kind-icon">supported<wbr>Vpn<wbr>Devices</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#updatetags" class="tsd-kind-icon">update<wbr>Tags</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="virtualnetworkgateways.html#vpndeviceconfigurationscript" class="tsd-kind-icon">vpn<wbr>Device<wbr>Configuration<wbr>Script</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

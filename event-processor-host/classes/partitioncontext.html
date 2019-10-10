@@ -1,0 +1,613 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>PartitionContext | @azure/event-processor-host</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/event-processor-host</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="partitioncontext.html">PartitionContext</a>
+				</li>
+			</ul>
+			<h1>Class PartitionContext</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Describes the Partition Context.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>class</dt>
+						<dd><p>PartitionContext</p>
+						</dd>
+					</dl>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">PartitionContext</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="partitioncontext.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="partitioncontext.html#lease" class="tsd-kind-icon">lease</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="partitioncontext.html#partitionid" class="tsd-kind-icon">partition<wbr>Id</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="partitioncontext.html#consumergroup" class="tsd-kind-icon">consumer<wbr>Group</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="partitioncontext.html#eventhubpath" class="tsd-kind-icon">eventhub<wbr>Path</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="partitioncontext.html#owner" class="tsd-kind-icon">owner</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="partitioncontext.html#checkpoint" class="tsd-kind-icon">checkpoint</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="partitioncontext.html#checkpointfromeventdata" class="tsd-kind-icon">checkpoint<wbr>From<wbr>Event<wbr>Data</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="partitioncontext.html#setoffsetandsequencenumber" class="tsd-kind-icon">set<wbr>Offset<wbr>And<wbr>Sequence<wbr>Number</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Partition<wbr>Context<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">HostContextWithCheckpointLeaseManager</span>, partitionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, lease<span class="tsd-signature-symbol">: </span><a href="completelease.html" class="tsd-signature-type">CompleteLease</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="partitioncontext.html" class="tsd-signature-type">PartitionContext</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L49">partitionContext.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new PartitionContext.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>context: <span class="tsd-signature-type">HostContextWithCheckpointLeaseManager</span></h5>
+								</li>
+								<li>
+									<h5>partitionId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The eventhub partition id.</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>lease: <a href="completelease.html" class="tsd-signature-type">CompleteLease</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>The lease object.</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="partitioncontext.html" class="tsd-signature-type">PartitionContext</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="lease" class="tsd-anchor"></a>
+					<h3>lease</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<span class="tsd-signature-symbol">:</span> <a href="completelease.html" class="tsd-signature-type">CompleteLease</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L19">partitionContext.ts:19</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{Lease} lease The most recdent checkpointed lease with the partitionId.</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="partitionid" class="tsd-anchor"></a>
+					<h3>partition<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">partition<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L24">partitionContext.ts:24</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>property</dt>
+							<dd><p>{string} partitionId The eventhub partition id.</p>
+							</dd>
+							<dt>readonly</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="consumergroup" class="tsd-anchor"></a>
+					<h3>consumer<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> consumerGroup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L43">partitionContext.ts:43</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>property</dt>
+									<dd><p>{string} consumerGroup The name of the consumer group.</p>
+									</dd>
+									<dt>readonly</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="eventhubpath" class="tsd-anchor"></a>
+					<h3>eventhub<wbr>Path</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> eventhubPath<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L36">partitionContext.ts:36</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>property</dt>
+									<dd><p>{string} eventhubPath The path of the eventhub</p>
+									</dd>
+									<dt>readonly</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="owner" class="tsd-anchor"></a>
+					<h3>owner</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> owner<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L29">partitionContext.ts:29</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>property</dt>
+									<dd><p>{string} owner The host/owner of the partition.</p>
+									</dd>
+									<dt>readonly</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checkpoint" class="tsd-anchor"></a>
+					<h3>checkpoint</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">checkpoint<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L88">partitionContext.ts:88</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Writes the current offset and sequenceNumber to the checkpoint store via the checkpoint manager.</p>
+								</div>
+								<p>The checkpoint data is structured as a JSON payload (example):
+									<code>{ &quot;partitionId&quot;:&quot;0&quot;,&quot;owner&quot;:&quot;ephtest&quot;,&quot;token&quot;:&quot;48e209e3-55f0-41b8-a8dd-d9c09ff6c35a&quot;,
+&quot;epoch&quot;:1,&quot;offset&quot;:&quot;&quot;,&quot;SequenceNumber&quot;:0 }</code>.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="checkpointfromeventdata" class="tsd-anchor"></a>
+					<h3>checkpoint<wbr>From<wbr>Event<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">checkpoint<wbr>From<wbr>Event<wbr>Data<span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L111">partitionContext.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Writes the current offset and sequenceNumber to the checkpoint store via the checkpoint manager.</p>
+								</div>
+								<p>The checkpoint data is structured as a JSON payload (example):
+									<code>{ &quot;partitionId&quot;:&quot;0&quot;,&quot;owner&quot;:&quot;ephtest&quot;,&quot;token&quot;:&quot;48e209e3-55f0-41b8-a8dd-d9c09ff6c35a&quot;,
+&quot;epoch&quot;:1,&quot;offset&quot;:&quot;&quot;,&quot;SequenceNumber&quot;:0 }</code>.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventData: <span class="tsd-signature-type">EventData</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The event data received from the EventHubReceiver.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setoffsetandsequencenumber" class="tsd-anchor"></a>
+					<h3>set<wbr>Offset<wbr>And<wbr>Sequence<wbr>Number</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Offset<wbr>And<wbr>Sequence<wbr>Number<span class="tsd-signature-symbol">(</span>eventData<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EventData</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/32c4de69b/sdk/eventhub/event-processor-host/src/partitionContext.ts#L71">partitionContext.ts:71</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the offset and sequence number of the partition context from the provided EventData.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventData: <span class="tsd-signature-type">EventData</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The event data <code>received</code> from the EventHubReceiver.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="azurebloblease.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="baselease.html" class="tsd-kind-icon">Base<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="completelease.html" class="tsd-kind-icon">Complete<wbr>Lease</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="eventprocessorhost.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
+						<a href="partitioncontext.html" class="tsd-kind-icon">Partition<wbr>Context</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="partitioncontext.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="partitioncontext.html#lease" class="tsd-kind-icon">lease</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="partitioncontext.html#partitionid" class="tsd-kind-icon">partition<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="partitioncontext.html#consumergroup" class="tsd-kind-icon">consumer<wbr>Group</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="partitioncontext.html#eventhubpath" class="tsd-kind-icon">eventhub<wbr>Path</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="partitioncontext.html#owner" class="tsd-kind-icon">owner</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="partitioncontext.html#checkpoint" class="tsd-kind-icon">checkpoint</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="partitioncontext.html#checkpointfromeventdata" class="tsd-kind-icon">checkpoint<wbr>From<wbr>Event<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="partitioncontext.html#setoffsetandsequencenumber" class="tsd-kind-icon">set<wbr>Offset<wbr>And<wbr>Sequence<wbr>Number</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/azureblobleaseinfo.html" class="tsd-kind-icon">Azure<wbr>Blob<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/baseleaseinfo.html" class="tsd-kind-icon">Base<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/checkpointmanager.html" class="tsd-kind-icon">Checkpoint<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/completeleaseinfo.html" class="tsd-kind-icon">Complete<wbr>Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ephdiagnosticinfo.html" class="tsd-kind-icon">EPHDiagnostic<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/eventprocessorhostoptions.html" class="tsd-kind-icon">Event<wbr>Processor<wbr>Host<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/fromconnectionstringoptions.html" class="tsd-kind-icon">From<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/fromtokenprovideroptions.html" class="tsd-kind-icon">From<wbr>Token<wbr>Provider<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/hostcontextwithpumpmanager.html" class="tsd-kind-icon">Host<wbr>Context<wbr>With<wbr>Pump<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/leaseinfo.html" class="tsd-kind-icon">Lease<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/leasemanager.html" class="tsd-kind-icon">Lease<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#fromiothubconnectionstringoptions" class="tsd-kind-icon">From<wbr>Iot<wbr>Hub<wbr>Connection<wbr>String<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onepherror" class="tsd-kind-icon">On<wbr>Eph<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivederror" class="tsd-kind-icon">On<wbr>Received<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="../globals.html#onreceivedmessage" class="tsd-kind-icon">On<wbr>Received<wbr>Message</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultcheckpointtimeoutinseconds" class="tsd-kind-icon">default<wbr>Checkpoint<wbr>Timeout<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultconsumergroup" class="tsd-kind-icon">default<wbr>Consumer<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultfastscanintervalinseconds" class="tsd-kind-icon">default<wbr>Fast<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleasedurationinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultleaserenewintervalinseconds" class="tsd-kind-icon">default<wbr>Lease<wbr>Renew<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultmaximumexecutiontimeinms" class="tsd-kind-icon">default<wbr>Maximum<wbr>Execution<wbr>Time<wbr>InMs</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultslowscanintervalinseconds" class="tsd-kind-icon">default<wbr>Slow<wbr>Scan<wbr>Interval<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#defaultstartupscandelayinseconds" class="tsd-kind-icon">default<wbr>Startup<wbr>Scan<wbr>Delay<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithbloboperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Blob<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaseidmismatchwithleaseoperation" class="tsd-kind-icon">lease<wbr>IdMismatch<wbr>With<wbr>Lease<wbr>Operation</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#leaselost" class="tsd-kind-icon">lease<wbr>Lost</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maxleasedurationinseconds" class="tsd-kind-icon">max<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#maximumexecutiontimeinmsforleaserenewal" class="tsd-kind-icon">maximum<wbr>Execution<wbr>Time<wbr>InMs<wbr>For<wbr>Lease<wbr>Renewal</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#metadataownername" class="tsd-kind-icon">metadata<wbr>Owner<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="../globals.html#minleasedurationinseconds" class="tsd-kind-icon">min<wbr>Lease<wbr>Duration<wbr>InSeconds</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#randomnumberfrominterval" class="tsd-kind-icon">random<wbr>Number<wbr>From<wbr>Interval</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#validatetype" class="tsd-kind-icon">validate<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="../globals.html#packageinfo" class="tsd-kind-icon">package<wbr>Info</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

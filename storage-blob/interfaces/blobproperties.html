@@ -1,0 +1,664 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>BlobProperties | @azure/storage-blob</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@azure/storage-blob</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="blobproperties.html">BlobProperties</a>
+				</li>
+			</ul>
+			<h1>Interface BlobProperties</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Properties of a blob</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">BlobProperties</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#accesstier" class="tsd-kind-icon">access<wbr>Tier</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#accesstierchangetime" class="tsd-kind-icon">access<wbr>Tier<wbr>Change<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#accesstierinferred" class="tsd-kind-icon">access<wbr>Tier<wbr>Inferred</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#archivestatus" class="tsd-kind-icon">archive<wbr>Status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#blobsequencenumber" class="tsd-kind-icon">blob<wbr>Sequence<wbr>Number</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#blobtype" class="tsd-kind-icon">blob<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#cachecontrol" class="tsd-kind-icon">cache<wbr>Control</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contentdisposition" class="tsd-kind-icon">content<wbr>Disposition</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contentencoding" class="tsd-kind-icon">content<wbr>Encoding</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contentlanguage" class="tsd-kind-icon">content<wbr>Language</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contentmd5" class="tsd-kind-icon">contentMD5</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copycompletiontime" class="tsd-kind-icon">copy<wbr>Completion<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copyprogress" class="tsd-kind-icon">copy<wbr>Progress</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copystatus" class="tsd-kind-icon">copy<wbr>Status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#copystatusdescription" class="tsd-kind-icon">copy<wbr>Status<wbr>Description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#creationtime" class="tsd-kind-icon">creation<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#customerprovidedkeysha256" class="tsd-kind-icon">customer<wbr>Provided<wbr>Key<wbr>Sha256</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#deletedtime" class="tsd-kind-icon">deleted<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#destinationsnapshot" class="tsd-kind-icon">destination<wbr>Snapshot</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#etag" class="tsd-kind-icon">etag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#incrementalcopy" class="tsd-kind-icon">incremental<wbr>Copy</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#lastmodified" class="tsd-kind-icon">last<wbr>Modified</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#leasestate" class="tsd-kind-icon">lease<wbr>State</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#leasestatus" class="tsd-kind-icon">lease<wbr>Status</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#remainingretentiondays" class="tsd-kind-icon">remaining<wbr>Retention<wbr>Days</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="blobproperties.html#serverencrypted" class="tsd-kind-icon">server<wbr>Encrypted</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="accesstier" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> access<wbr>Tier</h3>
+					<div class="tsd-signature tsd-kind-icon">access<wbr>Tier<span class="tsd-signature-symbol">:</span> <a href="../globals.html#accesstier" class="tsd-signature-type">AccessTier</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L169">generated/src/models/index.ts:169</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;P4&#39;, &#39;P6&#39;, &#39;P10&#39;, &#39;P15&#39;, &#39;P20&#39;, &#39;P30&#39;, &#39;P40&#39;, &#39;P50&#39;, &#39;P60&#39;, &#39;P70&#39;,
+							&#39;P80&#39;, &#39;Hot&#39;, &#39;Cool&#39;, &#39;Archive&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="accesstierchangetime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> access<wbr>Tier<wbr>Change<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">access<wbr>Tier<wbr>Change<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L176">generated/src/models/index.ts:176</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="accesstierinferred" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> access<wbr>Tier<wbr>Inferred</h3>
+					<div class="tsd-signature tsd-kind-icon">access<wbr>Tier<wbr>Inferred<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L170">generated/src/models/index.ts:170</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="archivestatus" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> archive<wbr>Status</h3>
+					<div class="tsd-signature tsd-kind-icon">archive<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#archivestatus" class="tsd-signature-type">ArchiveStatus</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L174">generated/src/models/index.ts:174</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;rehydrate-pending-to-hot&#39;, &#39;rehydrate-pending-to-cool&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="blobsequencenumber" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> blob<wbr>Sequence<wbr>Number</h3>
+					<div class="tsd-signature tsd-kind-icon">blob<wbr>Sequence<wbr>Number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L134">generated/src/models/index.ts:134</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="blobtype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> blob<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">blob<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../globals.html#blobtype" class="tsd-signature-type">BlobType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L138">generated/src/models/index.ts:138</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;BlockBlob&#39;, &#39;PageBlob&#39;, &#39;AppendBlob&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="cachecontrol" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> cache<wbr>Control</h3>
+					<div class="tsd-signature tsd-kind-icon">cache<wbr>Control<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L133">generated/src/models/index.ts:133</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentdisposition" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Disposition</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Disposition<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L132">generated/src/models/index.ts:132</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentencoding" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L129">generated/src/models/index.ts:129</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentlanguage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Language</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L130">generated/src/models/index.ts:130</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentlength" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Length</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L127">generated/src/models/index.ts:127</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Size in bytes</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contentmd5" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> contentMD5</h3>
+					<div class="tsd-signature tsd-kind-icon">contentMD5<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Uint8Array</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L131">generated/src/models/index.ts:131</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="contenttype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> content<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">content<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L128">generated/src/models/index.ts:128</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copycompletiontime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Completion<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Completion<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L158">generated/src/models/index.ts:158</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copyid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L151">generated/src/models/index.ts:151</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copyprogress" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Progress</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Progress<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L157">generated/src/models/index.ts:157</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copysource" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Source</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Source<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L156">generated/src/models/index.ts:156</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copystatus" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Status</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#copystatustype" class="tsd-signature-type">CopyStatusType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L155">generated/src/models/index.ts:155</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;pending&#39;, &#39;success&#39;, &#39;aborted&#39;, &#39;failed&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="copystatusdescription" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> copy<wbr>Status<wbr>Description</h3>
+					<div class="tsd-signature tsd-kind-icon">copy<wbr>Status<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L159">generated/src/models/index.ts:159</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="creationtime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> creation<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">creation<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L121">generated/src/models/index.ts:121</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="customerprovidedkeysha256" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> customer<wbr>Provided<wbr>Key<wbr>Sha256</h3>
+					<div class="tsd-signature tsd-kind-icon">customer<wbr>Provided<wbr>Key<wbr>Sha256<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L175">generated/src/models/index.ts:175</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="deletedtime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> deleted<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">deleted<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L163">generated/src/models/index.ts:163</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="destinationsnapshot" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> destination<wbr>Snapshot</h3>
+					<div class="tsd-signature tsd-kind-icon">destination<wbr>Snapshot<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L162">generated/src/models/index.ts:162</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="etag" class="tsd-anchor"></a>
+					<h3>etag</h3>
+					<div class="tsd-signature tsd-kind-icon">etag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L123">generated/src/models/index.ts:123</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="incrementalcopy" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> incremental<wbr>Copy</h3>
+					<div class="tsd-signature tsd-kind-icon">incremental<wbr>Copy<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L161">generated/src/models/index.ts:161</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="lastmodified" class="tsd-anchor"></a>
+					<h3>last<wbr>Modified</h3>
+					<div class="tsd-signature tsd-kind-icon">last<wbr>Modified<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L122">generated/src/models/index.ts:122</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leaseduration" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lease<wbr>Duration</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<wbr>Duration<span class="tsd-signature-symbol">:</span> <a href="../globals.html#leasedurationtype" class="tsd-signature-type">LeaseDurationType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L150">generated/src/models/index.ts:150</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;infinite&#39;, &#39;fixed&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leasestate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lease<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../globals.html#leasestatetype" class="tsd-signature-type">LeaseStateType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L146">generated/src/models/index.ts:146</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;available&#39;, &#39;leased&#39;, &#39;expired&#39;, &#39;breaking&#39;, &#39;broken&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="leasestatus" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> lease<wbr>Status</h3>
+					<div class="tsd-signature tsd-kind-icon">lease<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#leasestatustype" class="tsd-signature-type">LeaseStatusType</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L142">generated/src/models/index.ts:142</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible values include: &#39;locked&#39;, &#39;unlocked&#39;</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="remainingretentiondays" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> remaining<wbr>Retention<wbr>Days</h3>
+					<div class="tsd-signature tsd-kind-icon">remaining<wbr>Retention<wbr>Days<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L164">generated/src/models/index.ts:164</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="serverencrypted" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> server<wbr>Encrypted</h3>
+					<div class="tsd-signature tsd-kind-icon">server<wbr>Encrypted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Azure/azure-sdk-for-js/blob/b45ddedc1/sdk/storage/storage-blob/src/generated/src/models/index.ts#L160">generated/src/models/index.ts:160</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface">
+						<a href="blobproperties.html" class="tsd-kind-icon">Blob<wbr>Properties</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#accesstier" class="tsd-kind-icon">access<wbr>Tier</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#accesstierchangetime" class="tsd-kind-icon">access<wbr>Tier<wbr>Change<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#accesstierinferred" class="tsd-kind-icon">access<wbr>Tier<wbr>Inferred</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#archivestatus" class="tsd-kind-icon">archive<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#blobsequencenumber" class="tsd-kind-icon">blob<wbr>Sequence<wbr>Number</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#blobtype" class="tsd-kind-icon">blob<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#cachecontrol" class="tsd-kind-icon">cache<wbr>Control</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contentdisposition" class="tsd-kind-icon">content<wbr>Disposition</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contentencoding" class="tsd-kind-icon">content<wbr>Encoding</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contentlanguage" class="tsd-kind-icon">content<wbr>Language</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contentlength" class="tsd-kind-icon">content<wbr>Length</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contentmd5" class="tsd-kind-icon">contentMD5</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#contenttype" class="tsd-kind-icon">content<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copycompletiontime" class="tsd-kind-icon">copy<wbr>Completion<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copyid" class="tsd-kind-icon">copy<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copyprogress" class="tsd-kind-icon">copy<wbr>Progress</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copysource" class="tsd-kind-icon">copy<wbr>Source</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copystatus" class="tsd-kind-icon">copy<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#copystatusdescription" class="tsd-kind-icon">copy<wbr>Status<wbr>Description</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#creationtime" class="tsd-kind-icon">creation<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#customerprovidedkeysha256" class="tsd-kind-icon">customer<wbr>Provided<wbr>Key<wbr>Sha256</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#deletedtime" class="tsd-kind-icon">deleted<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#destinationsnapshot" class="tsd-kind-icon">destination<wbr>Snapshot</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#etag" class="tsd-kind-icon">etag</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#incrementalcopy" class="tsd-kind-icon">incremental<wbr>Copy</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#lastmodified" class="tsd-kind-icon">last<wbr>Modified</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#leaseduration" class="tsd-kind-icon">lease<wbr>Duration</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#leasestate" class="tsd-kind-icon">lease<wbr>State</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#leasestatus" class="tsd-kind-icon">lease<wbr>Status</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#remainingretentiondays" class="tsd-kind-icon">remaining<wbr>Retention<wbr>Days</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="blobproperties.html#serverencrypted" class="tsd-kind-icon">server<wbr>Encrypted</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

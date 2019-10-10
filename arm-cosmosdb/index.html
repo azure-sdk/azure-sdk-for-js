@@ -1,0 +1,1251 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-cosmosdb</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-cosmosdb</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-cosmosdb</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-cosmosdbmanagementclient-sdk-for-javascript" id="azure-cosmosdbmanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure CosmosDBManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for CosmosDBManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-cosmosdb</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-databaseaccounts-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-databaseaccounts-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get databaseAccounts as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<ul>
+					<li>Please install minimum version of <code>&quot;@azure/ms-rest-nodeauth&quot;: &quot;^3.0.0&quot;</code>.<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth@<span class="hljs-string">"^3.0.0"</span></code></pre>
+					</li>
+				</ul>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { CosmosDBManagementClient, CosmosDBManagementModels, CosmosDBManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-cosmosdb"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> CosmosDBManagementClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+  client.databaseAccounts.get(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-databaseaccounts-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-databaseaccounts-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get databaseAccounts as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-cosmosdb sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-cosmosdb/dist/arm-cosmosdb.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmCosmosdb.CosmosDBManagementClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> accountName = <span class="hljs-string">"testaccountName"</span>;
+      client.databaseAccounts.get(resourceGroupName, accountName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cosmosdb/arm-cosmosdb/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/collection.html" class="tsd-kind-icon">Collection</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/collectionpartition.html" class="tsd-kind-icon">Collection<wbr>Partition</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/collectionpartitionregion.html" class="tsd-kind-icon">Collection<wbr>Partition<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/collectionregion.html" class="tsd-kind-icon">Collection<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cosmosdbmanagementclientcontext.html" class="tsd-kind-icon">CosmosDBManagement<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/database.html" class="tsd-kind-icon">Database</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/databaseaccountregion.html" class="tsd-kind-icon">Database<wbr>Account<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/databaseaccounts.html" class="tsd-kind-icon">Database<wbr>Accounts</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/partitionkeyrangeid.html" class="tsd-kind-icon">Partition<wbr>Key<wbr>Range<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/partitionkeyrangeidregion.html" class="tsd-kind-icon">Partition<wbr>Key<wbr>Range<wbr>IdRegion</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/percentile.html" class="tsd-kind-icon">Percentile</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/percentilesourcetarget.html" class="tsd-kind-icon">Percentile<wbr>Source<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/percentiletarget.html" class="tsd-kind-icon">Percentile<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/capability.html" class="tsd-kind-icon">Capability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrakeyspace.html" class="tsd-kind-icon">Cassandra<wbr>Keyspace</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrakeyspacecreateupdateparameters.html" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrakeyspacelistresult.html" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrakeyspaceresource.html" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandrapartitionkey.html" class="tsd-kind-icon">Cassandra<wbr>Partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandraschema.html" class="tsd-kind-icon">Cassandra<wbr>Schema</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandratable.html" class="tsd-kind-icon">Cassandra<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandratablecreateupdateparameters.html" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandratablelistresult.html" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cassandratableresource.html" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterkey.html" class="tsd-kind-icon">Cluster<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/collectionlistusagesoptionalparams.html" class="tsd-kind-icon">Collection<wbr>List<wbr>Usages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/collectionpartitionlistusagesoptionalparams.html" class="tsd-kind-icon">Collection<wbr>Partition<wbr>List<wbr>Usages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/column.html" class="tsd-kind-icon">Column</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/conflictresolutionpolicy.html" class="tsd-kind-icon">Conflict<wbr>Resolution<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/consistencypolicy.html" class="tsd-kind-icon">Consistency<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containerpartitionkey.html" class="tsd-kind-icon">Container<wbr>Partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cosmosdbmanagementclientoptions.html" class="tsd-kind-icon">CosmosDBManagement<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccount.html" class="tsd-kind-icon">Database<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountconnectionstring.html" class="tsd-kind-icon">Database<wbr>Account<wbr>Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountcreateupdateparameters.html" class="tsd-kind-icon">Database<wbr>Account<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountlistconnectionstringsresult.html" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Connection<wbr>Strings<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountlistkeysresult.html" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountlistreadonlykeysresult.html" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Read<wbr>Only<wbr>Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountpatchparameters.html" class="tsd-kind-icon">Database<wbr>Account<wbr>Patch<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountregeneratekeyparameters.html" class="tsd-kind-icon">Database<wbr>Account<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountslistresult.html" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaseaccountslistusagesoptionalparams.html" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Usages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/databaselistusagesoptionalparams.html" class="tsd-kind-icon">Database<wbr>List<wbr>Usages<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/excludedpath.html" class="tsd-kind-icon">Excluded<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extendedresourceproperties.html" class="tsd-kind-icon">Extended<wbr>Resource<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverpolicies.html" class="tsd-kind-icon">Failover<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/failoverpolicy.html" class="tsd-kind-icon">Failover<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlindatabase.html" class="tsd-kind-icon">Gremlin<wbr>Database</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlindatabasecreateupdateparameters.html" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlindatabaselistresult.html" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlindatabaseresource.html" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlingraph.html" class="tsd-kind-icon">Gremlin<wbr>Graph</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlingraphcreateupdateparameters.html" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlingraphlistresult.html" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gremlingraphresource.html" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/includedpath.html" class="tsd-kind-icon">Included<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/indexes.html" class="tsd-kind-icon">Indexes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/indexingpolicy.html" class="tsd-kind-icon">Indexing<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metric.html" class="tsd-kind-icon">Metric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricavailability.html" class="tsd-kind-icon">Metric<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricdefinition.html" class="tsd-kind-icon">Metric<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricdefinitionslistresult.html" class="tsd-kind-icon">Metric<wbr>Definitions<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metriclistresult.html" class="tsd-kind-icon">Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricname.html" class="tsd-kind-icon">Metric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metricvalue.html" class="tsd-kind-icon">Metric<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbcollection.html" class="tsd-kind-icon">MongoDBCollection</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbcollectioncreateupdateparameters.html" class="tsd-kind-icon">MongoDBCollection<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbcollectionlistresult.html" class="tsd-kind-icon">MongoDBCollection<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbcollectionresource.html" class="tsd-kind-icon">MongoDBCollection<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbdatabase.html" class="tsd-kind-icon">MongoDBDatabase</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbdatabasecreateupdateparameters.html" class="tsd-kind-icon">MongoDBDatabase<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbdatabaselistresult.html" class="tsd-kind-icon">MongoDBDatabase<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongodbdatabaseresource.html" class="tsd-kind-icon">MongoDBDatabase<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongoindex.html" class="tsd-kind-icon">Mongo<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongoindexkeys.html" class="tsd-kind-icon">Mongo<wbr>Index<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mongoindexoptions.html" class="tsd-kind-icon">Mongo<wbr>Index<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/partitionmetric.html" class="tsd-kind-icon">Partition<wbr>Metric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/partitionmetriclistresult.html" class="tsd-kind-icon">Partition<wbr>Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/partitionusage.html" class="tsd-kind-icon">Partition<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/partitionusagesresult.html" class="tsd-kind-icon">Partition<wbr>Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/percentilemetric.html" class="tsd-kind-icon">Percentile<wbr>Metric</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/percentilemetriclistresult.html" class="tsd-kind-icon">Percentile<wbr>Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/percentilemetricvalue.html" class="tsd-kind-icon">Percentile<wbr>Metric<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regionforonlineoffline.html" class="tsd-kind-icon">Region<wbr>For<wbr>Online<wbr>Offline</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlcontainer.html" class="tsd-kind-icon">Sql<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlcontainercreateupdateparameters.html" class="tsd-kind-icon">Sql<wbr>Container<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlcontainerlistresult.html" class="tsd-kind-icon">Sql<wbr>Container<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqlcontainerresource.html" class="tsd-kind-icon">Sql<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatabase.html" class="tsd-kind-icon">Sql<wbr>Database</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatabasecreateupdateparameters.html" class="tsd-kind-icon">Sql<wbr>Database<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatabaselistresult.html" class="tsd-kind-icon">Sql<wbr>Database<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatabaseresource.html" class="tsd-kind-icon">Sql<wbr>Database<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/table.html" class="tsd-kind-icon">Table</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tablecreateupdateparameters.html" class="tsd-kind-icon">Table<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tablelistresult.html" class="tsd-kind-icon">Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tableresource.html" class="tsd-kind-icon">Table<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/throughput.html" class="tsd-kind-icon">Throughput</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/throughputresource.html" class="tsd-kind-icon">Throughput<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/throughputupdateparameters.html" class="tsd-kind-icon">Throughput<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/uniquekey.html" class="tsd-kind-icon">Unique<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/uniquekeypolicy.html" class="tsd-kind-icon">Unique<wbr>Key<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usage.html" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usagesresult.html" class="tsd-kind-icon">Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkrule.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionlistmetricdefinitionsresponse" class="tsd-kind-icon">Collection<wbr>List<wbr>Metric<wbr>Definitions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionlistmetricsresponse" class="tsd-kind-icon">Collection<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionlistusagesresponse" class="tsd-kind-icon">Collection<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionpartitionlistmetricsresponse" class="tsd-kind-icon">Collection<wbr>Partition<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionpartitionlistusagesresponse" class="tsd-kind-icon">Collection<wbr>Partition<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionpartitionregionlistmetricsresponse" class="tsd-kind-icon">Collection<wbr>Partition<wbr>Region<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#collectionregionlistmetricsresponse" class="tsd-kind-icon">Collection<wbr>Region<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#conflictresolutionmode" class="tsd-kind-icon">Conflict<wbr>Resolution<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#connectoroffer" class="tsd-kind-icon">Connector<wbr>Offer</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datatype" class="tsd-kind-icon">Data<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountkind" class="tsd-kind-icon">Database<wbr>Account<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountoffertype" class="tsd-kind-icon">Database<wbr>Account<wbr>Offer<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountregionlistmetricsresponse" class="tsd-kind-icon">Database<wbr>Account<wbr>Region<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateorupdateresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatecassandrakeyspaceresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Cassandra<wbr>Keyspace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatecassandratableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Cassandra<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdategremlindatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Gremlin<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdategremlingraphresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Gremlin<wbr>Graph<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatemongodbcollectionresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>MongoDBCollection<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatemongodbdatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>MongoDBDatabase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatesqlcontainerresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Sql<wbr>Container<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatesqldatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Sql<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbegincreateupdatetableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Create<wbr>Update<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginpatchresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Patch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatecassandrakeyspacethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Cassandra<wbr>Keyspace<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatecassandratablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Cassandra<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdategremlindatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Gremlin<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdategremlingraphthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Gremlin<wbr>Graph<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatemongodbcollectionthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>MongoDBCollection<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatemongodbdatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>MongoDBDatabase<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatesqlcontainerthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Sql<wbr>Container<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatesqldatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Sql<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsbeginupdatetablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Begin<wbr>Update<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountschecknameexistsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Check<wbr>Name<wbr>Exists<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateorupdateresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatecassandrakeyspaceresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Cassandra<wbr>Keyspace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatecassandratableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Cassandra<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdategremlindatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Gremlin<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdategremlingraphresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Gremlin<wbr>Graph<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatemongodbcollectionresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>MongoDBCollection<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatemongodbdatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>MongoDBDatabase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatesqlcontainerresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Sql<wbr>Container<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatesqldatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Sql<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountscreateupdatetableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Create<wbr>Update<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetcassandrakeyspaceresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Cassandra<wbr>Keyspace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetcassandrakeyspacethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Cassandra<wbr>Keyspace<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetcassandratableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Cassandra<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetcassandratablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Cassandra<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetgremlindatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Gremlin<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetgremlindatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Gremlin<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetgremlingraphresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Gremlin<wbr>Graph<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetgremlingraphthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Gremlin<wbr>Graph<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetmongodbcollectionresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>MongoDBCollection<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetmongodbcollectionthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>MongoDBCollection<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetmongodbdatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>MongoDBDatabase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetmongodbdatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>MongoDBDatabase<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetreadonlykeysresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Read<wbr>Only<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetsqlcontainerresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Sql<wbr>Container<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetsqlcontainerthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Sql<wbr>Container<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetsqldatabaseresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Sql<wbr>Database<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgetsqldatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Sql<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgettableresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Table<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsgettablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Get<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistbyresourcegroupresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistcassandrakeyspacesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Cassandra<wbr>Keyspaces<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistcassandratablesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Cassandra<wbr>Tables<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistconnectionstringsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Connection<wbr>Strings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistgremlindatabasesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Gremlin<wbr>Databases<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistgremlingraphsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Gremlin<wbr>Graphs<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistkeysresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistmetricdefinitionsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Metric<wbr>Definitions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistmetricsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistmongodbcollectionsresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>MongoDBCollections<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistmongodbdatabasesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>MongoDBDatabases<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistreadonlykeysresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Read<wbr>Only<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistsqlcontainersresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Sql<wbr>Containers<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistsqldatabasesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Sql<wbr>Databases<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslisttablesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Tables<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountslistusagesresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountspatchresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Patch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatecassandrakeyspacethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Cassandra<wbr>Keyspace<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatecassandratablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Cassandra<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdategremlindatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Gremlin<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdategremlingraphthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Gremlin<wbr>Graph<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatemongodbcollectionthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>MongoDBCollection<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatemongodbdatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>MongoDBDatabase<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatesqlcontainerthroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Sql<wbr>Container<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatesqldatabasethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Sql<wbr>Database<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaseaccountsupdatetablethroughputresponse" class="tsd-kind-icon">Database<wbr>Accounts<wbr>Update<wbr>Table<wbr>Throughput<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaselistmetricdefinitionsresponse" class="tsd-kind-icon">Database<wbr>List<wbr>Metric<wbr>Definitions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaselistmetricsresponse" class="tsd-kind-icon">Database<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#databaselistusagesresponse" class="tsd-kind-icon">Database<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#defaultconsistencylevel" class="tsd-kind-icon">Default<wbr>Consistency<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#indexkind" class="tsd-kind-icon">Index<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#indexingmode" class="tsd-kind-icon">Indexing<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#keykind" class="tsd-kind-icon">Key<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#partitionkeyrangeidlistmetricsresponse" class="tsd-kind-icon">Partition<wbr>Key<wbr>Range<wbr>IdList<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#partitionkeyrangeidregionlistmetricsresponse" class="tsd-kind-icon">Partition<wbr>Key<wbr>Range<wbr>IdRegion<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#partitionkind" class="tsd-kind-icon">Partition<wbr>Kind</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#percentilelistmetricsresponse" class="tsd-kind-icon">Percentile<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#percentilesourcetargetlistmetricsresponse" class="tsd-kind-icon">Percentile<wbr>Source<wbr>Target<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#percentiletargetlistmetricsresponse" class="tsd-kind-icon">Percentile<wbr>Target<wbr>List<wbr>Metrics<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#primaryaggregationtype" class="tsd-kind-icon">Primary<wbr>Aggregation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#unittype" class="tsd-kind-icon">Unit<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#capability" class="tsd-kind-icon">Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrakeyspace" class="tsd-kind-icon">Cassandra<wbr>Keyspace</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrakeyspacecreateupdateparameters" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrakeyspacelistresult" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrakeyspaceresource" class="tsd-kind-icon">Cassandra<wbr>Keyspace<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandrapartitionkey" class="tsd-kind-icon">Cassandra<wbr>Partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandraschema" class="tsd-kind-icon">Cassandra<wbr>Schema</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandratable" class="tsd-kind-icon">Cassandra<wbr>Table</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandratablecreateupdateparameters" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandratablelistresult" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cassandratableresource" class="tsd-kind-icon">Cassandra<wbr>Table<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterkey" class="tsd-kind-icon">Cluster<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#column" class="tsd-kind-icon">Column</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#conflictresolutionpolicy" class="tsd-kind-icon">Conflict<wbr>Resolution<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#consistencypolicy" class="tsd-kind-icon">Consistency<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containerpartitionkey" class="tsd-kind-icon">Container<wbr>Partition<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccount" class="tsd-kind-icon">Database<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountconnectionstring" class="tsd-kind-icon">Database<wbr>Account<wbr>Connection<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountcreateupdateparameters" class="tsd-kind-icon">Database<wbr>Account<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountlistconnectionstringsresult" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Connection<wbr>Strings<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountlistkeysresult" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountlistreadonlykeysresult" class="tsd-kind-icon">Database<wbr>Account<wbr>List<wbr>Read<wbr>Only<wbr>Keys<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountpatchparameters" class="tsd-kind-icon">Database<wbr>Account<wbr>Patch<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountregeneratekeyparameters" class="tsd-kind-icon">Database<wbr>Account<wbr>Regenerate<wbr>Key<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaseaccountslistresult" class="tsd-kind-icon">Database<wbr>Accounts<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#excludedpath" class="tsd-kind-icon">Excluded<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extendedresourceproperties" class="tsd-kind-icon">Extended<wbr>Resource<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverpolicies" class="tsd-kind-icon">Failover<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#failoverpolicy" class="tsd-kind-icon">Failover<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlindatabase" class="tsd-kind-icon">Gremlin<wbr>Database</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlindatabasecreateupdateparameters" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlindatabaselistresult" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlindatabaseresource" class="tsd-kind-icon">Gremlin<wbr>Database<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlingraph" class="tsd-kind-icon">Gremlin<wbr>Graph</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlingraphcreateupdateparameters" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlingraphlistresult" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gremlingraphresource" class="tsd-kind-icon">Gremlin<wbr>Graph<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#includedpath" class="tsd-kind-icon">Included<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#indexes" class="tsd-kind-icon">Indexes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#indexingpolicy" class="tsd-kind-icon">Indexing<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metric" class="tsd-kind-icon">Metric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricavailability" class="tsd-kind-icon">Metric<wbr>Availability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricdefinition" class="tsd-kind-icon">Metric<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricdefinitionslistresult" class="tsd-kind-icon">Metric<wbr>Definitions<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metriclistresult" class="tsd-kind-icon">Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricname" class="tsd-kind-icon">Metric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metricvalue" class="tsd-kind-icon">Metric<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbcollection" class="tsd-kind-icon">MongoDBCollection</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbcollectioncreateupdateparameters" class="tsd-kind-icon">MongoDBCollection<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbcollectionlistresult" class="tsd-kind-icon">MongoDBCollection<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbcollectionresource" class="tsd-kind-icon">MongoDBCollection<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbdatabase" class="tsd-kind-icon">MongoDBDatabase</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbdatabasecreateupdateparameters" class="tsd-kind-icon">MongoDBDatabase<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbdatabaselistresult" class="tsd-kind-icon">MongoDBDatabase<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongodbdatabaseresource" class="tsd-kind-icon">MongoDBDatabase<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongoindex" class="tsd-kind-icon">Mongo<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongoindexkeys" class="tsd-kind-icon">Mongo<wbr>Index<wbr>Keys</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mongoindexoptions" class="tsd-kind-icon">Mongo<wbr>Index<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#partitionmetric" class="tsd-kind-icon">Partition<wbr>Metric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#partitionmetriclistresult" class="tsd-kind-icon">Partition<wbr>Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#partitionusage" class="tsd-kind-icon">Partition<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#partitionusagesresult" class="tsd-kind-icon">Partition<wbr>Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#percentilemetric" class="tsd-kind-icon">Percentile<wbr>Metric</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#percentilemetriclistresult" class="tsd-kind-icon">Percentile<wbr>Metric<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#percentilemetricvalue" class="tsd-kind-icon">Percentile<wbr>Metric<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionforonlineoffline" class="tsd-kind-icon">Region<wbr>For<wbr>Online<wbr>Offline</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlcontainer" class="tsd-kind-icon">Sql<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlcontainercreateupdateparameters" class="tsd-kind-icon">Sql<wbr>Container<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlcontainerlistresult" class="tsd-kind-icon">Sql<wbr>Container<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqlcontainerresource" class="tsd-kind-icon">Sql<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatabase" class="tsd-kind-icon">Sql<wbr>Database</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatabasecreateupdateparameters" class="tsd-kind-icon">Sql<wbr>Database<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatabaselistresult" class="tsd-kind-icon">Sql<wbr>Database<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatabaseresource" class="tsd-kind-icon">Sql<wbr>Database<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#table" class="tsd-kind-icon">Table</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tablecreateupdateparameters" class="tsd-kind-icon">Table<wbr>Create<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tablelistresult" class="tsd-kind-icon">Table<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tableresource" class="tsd-kind-icon">Table<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#throughput" class="tsd-kind-icon">Throughput</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#throughputresource" class="tsd-kind-icon">Throughput<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#throughputupdateparameters" class="tsd-kind-icon">Throughput<wbr>Update<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#uniquekey" class="tsd-kind-icon">Unique<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#uniquekeypolicy" class="tsd-kind-icon">Unique<wbr>Key<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usage" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usagesresult" class="tsd-kind-icon">Usages<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkrule" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accountname" class="tsd-kind-icon">account<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#collectionname" class="tsd-kind-icon">collection<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#collectionrid" class="tsd-kind-icon">collection<wbr>Rid</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containername" class="tsd-kind-icon">container<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databasename" class="tsd-kind-icon">database<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#databaserid" class="tsd-kind-icon">database<wbr>Rid</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter0" class="tsd-kind-icon">filter0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter1" class="tsd-kind-icon">filter1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#graphname" class="tsd-kind-icon">graph<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyspacename" class="tsd-kind-icon">keyspace<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#partitionkeyrangeid" class="tsd-kind-icon">partition<wbr>Key<wbr>Range<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#region" class="tsd-kind-icon">region</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sourceregion" class="tsd-kind-icon">source<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tablename" class="tsd-kind-icon">table<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetregion" class="tsd-kind-icon">target<wbr>Region</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

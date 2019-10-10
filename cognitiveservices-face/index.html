@@ -1,0 +1,928 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-face</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-face</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-face</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---faceclient" id="an-isomorphic-javascript-sdk-for---faceclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - FaceClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for FaceClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-face</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-persongroupperson-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-persongroupperson-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list personGroupPerson as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-azure-js" id="install-azurems-rest-azure-js" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-azure-js</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-azure-js</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>The following sample detects the facial features on the given image. To know more, refer to the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/face/overview">Azure Documentation on Face APIs</a></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { FaceClient, FaceModels } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-face"</span>;
+<span class="hljs-keyword">import</span> { CognitiveServicesCredentials } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">void</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> faceKey = process.env[<span class="hljs-string">"faceKey"</span>] || <span class="hljs-string">"&lt;faceKey&gt;"</span>;
+  <span class="hljs-keyword">const</span> faceEndPoint = process.env[<span class="hljs-string">"faceEndPoint"</span>] || <span class="hljs-string">"&lt;faceEndPoint&gt;"</span>;
+  <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> CognitiveServicesCredentials(faceKey);
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> FaceClient(cognitiveServiceCredentials, faceEndPoint);
+  <span class="hljs-keyword">const</span> url =
+    <span class="hljs-string">"https://pbs.twimg.com/profile_images/3354326900/3a5168f2b45c07d0965098be1a4e3007.jpeg"</span>;
+  <span class="hljs-keyword">const</span> options: FaceModels.FaceDetectWithUrlOptionalParams = {
+    returnFaceLandmarks: <span class="hljs-literal">true</span>
+  };
+  client.face
+    .detectWithUrl(url, options)
+    .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+      <span class="hljs-built_in">console</span>.log(result);
+    })
+    .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+      <span class="hljs-built_in">console</span>.error(err);
+    });
+}
+
+main();</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-persongroupperson-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-persongroupperson-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list personGroupPerson as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li><p>index.html</p>
+						<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-face sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-face/dist/cognitiveservices-face.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> faceKey = <span class="hljs-string">"&lt;YOUR_FACE_KEY&gt;"</span>;
+    <span class="hljs-keyword">const</span> faceEndPoint = <span class="hljs-string">"&lt;YOUR_FACE_ENDPOINT&gt;"</span>;
+    <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> msRest.ApiKeyCredentials({
+      <span class="hljs-attr">inHeader</span>: {
+        <span class="hljs-string">"Ocp-Apim-Subscription-Key"</span>: faceKey
+      }
+    });
+    <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesFace.FaceClient(
+      cognitiveServiceCredentials,
+      faceEndPoint
+    );
+
+    <span class="hljs-keyword">const</span> url =
+      <span class="hljs-string">"https://pbs.twimg.com/profile_images/3354326900/3a5168f2b45c07d0965098be1a4e3007.jpeg"</span>;
+    <span class="hljs-keyword">const</span> options = {
+      <span class="hljs-attr">returnFaceLandmarks</span>: <span class="hljs-literal">true</span>
+    };
+    client.face
+      .detectWithUrl(url, options)
+      .then(<span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      })
+      .catch(<span class="hljs-function"><span class="hljs-params">err</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-face/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/face.html" class="tsd-kind-icon">Face</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/faceclientcontext.html" class="tsd-kind-icon">Face<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/facelistoperations.html" class="tsd-kind-icon">Face<wbr>List<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/largefacelistoperations.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/largepersongroupoperations.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/largepersongroupperson.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/persongroupoperations.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/persongroupperson.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/snapshotoperations.html" class="tsd-kind-icon">Snapshot<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apierror.html" class="tsd-kind-icon">APIError</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/accessory.html" class="tsd-kind-icon">Accessory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applysnapshotrequest.html" class="tsd-kind-icon">Apply<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/blur.html" class="tsd-kind-icon">Blur</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/coordinate.html" class="tsd-kind-icon">Coordinate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/detectedface.html" class="tsd-kind-icon">Detected<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/emotion.html" class="tsd-kind-icon">Emotion</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errormodel.html" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exposure.html" class="tsd-kind-icon">Exposure</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/faceattributes.html" class="tsd-kind-icon">Face<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facedetectwithstreamoptionalparams.html" class="tsd-kind-icon">Face<wbr>Detect<wbr>With<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facedetectwithurloptionalparams.html" class="tsd-kind-icon">Face<wbr>Detect<wbr>With<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facefindsimilaroptionalparams.html" class="tsd-kind-icon">Face<wbr>Find<wbr>Similar<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/faceidentifyoptionalparams.html" class="tsd-kind-icon">Face<wbr>Identify<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelandmarks.html" class="tsd-kind-icon">Face<wbr>Landmarks</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelist.html" class="tsd-kind-icon">Face<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistaddfacefromstreamoptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistaddfacefromurloptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistcreateoptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistgetoptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistlistoptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facelistupdateoptionalparams.html" class="tsd-kind-icon">Face<wbr>List<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facerectangle.html" class="tsd-kind-icon">Face<wbr>Rectangle</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/faceverifyfacetopersonoptionalparams.html" class="tsd-kind-icon">Face<wbr>Verify<wbr>Face<wbr>ToPerson<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/facialhair.html" class="tsd-kind-icon">Facial<wbr>Hair</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/findsimilarrequest.html" class="tsd-kind-icon">Find<wbr>Similar<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/grouprequest.html" class="tsd-kind-icon">Group<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupresult.html" class="tsd-kind-icon">Group<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hair.html" class="tsd-kind-icon">Hair</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/haircolor.html" class="tsd-kind-icon">Hair<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/headpose.html" class="tsd-kind-icon">Head<wbr>Pose</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identifycandidate.html" class="tsd-kind-icon">Identify<wbr>Candidate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identifyrequest.html" class="tsd-kind-icon">Identify<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/identifyresult.html" class="tsd-kind-icon">Identify<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurl.html" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelist.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistaddfacefromstreamoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistaddfacefromurloptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistcreateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistgetoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistlistfacesoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>List<wbr>Faces<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistlistoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistupdatefaceoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Update<wbr>Face<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largefacelistupdateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongroup.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongroupcreateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongroupgetoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouplistoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersonaddfacefromstreamoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersonaddfacefromurloptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersoncreateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersonlistoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersonupdatefaceoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Update<wbr>Face<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongrouppersonupdateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/largepersongroupupdateoptionalparams.html" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/makeup.html" class="tsd-kind-icon">Makeup</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/metadatacontract.html" class="tsd-kind-icon">Meta<wbr>Data<wbr>Contract</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/nameanduserdatacontract.html" class="tsd-kind-icon">Name<wbr>And<wbr>User<wbr>Data<wbr>Contract</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/noise.html" class="tsd-kind-icon">Noise</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/occlusion.html" class="tsd-kind-icon">Occlusion</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatus.html" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persistedface.html" class="tsd-kind-icon">Persisted<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/person.html" class="tsd-kind-icon">Person</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongroup.html" class="tsd-kind-icon">Person<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongroupcreateoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongroupgetoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouplistoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersonaddfacefromstreamoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersonaddfacefromurloptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersoncreateoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersonlistoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersonupdatefaceoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Update<wbr>Face<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongrouppersonupdateoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/persongroupupdateoptionalparams.html" class="tsd-kind-icon">Person<wbr>Group<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/similarface.html" class="tsd-kind-icon">Similar<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshot.html" class="tsd-kind-icon">Snapshot</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotapplyheaders.html" class="tsd-kind-icon">Snapshot<wbr>Apply<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotapplyoptionalparams.html" class="tsd-kind-icon">Snapshot<wbr>Apply<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotlistoptionalparams.html" class="tsd-kind-icon">Snapshot<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshottakeheaders.html" class="tsd-kind-icon">Snapshot<wbr>Take<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshottakeoptionalparams.html" class="tsd-kind-icon">Snapshot<wbr>Take<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/snapshotupdateoptionalparams.html" class="tsd-kind-icon">Snapshot<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/takesnapshotrequest.html" class="tsd-kind-icon">Take<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trainingstatus.html" class="tsd-kind-icon">Training<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatefacerequest.html" class="tsd-kind-icon">Update<wbr>Face<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatesnapshotrequest.html" class="tsd-kind-icon">Update<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verifyfacetofacerequest.html" class="tsd-kind-icon">Verify<wbr>Face<wbr>ToFace<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verifyfacetopersonrequest.html" class="tsd-kind-icon">Verify<wbr>Face<wbr>ToPerson<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/verifyresult.html" class="tsd-kind-icon">Verify<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#accessorytype" class="tsd-kind-icon">Accessory<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#blurlevel" class="tsd-kind-icon">Blur<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#detectionmodel" class="tsd-kind-icon">Detection<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exposurelevel" class="tsd-kind-icon">Exposure<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#faceattributetype" class="tsd-kind-icon">Face<wbr>Attribute<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facedetectwithstreamresponse" class="tsd-kind-icon">Face<wbr>Detect<wbr>With<wbr>Stream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facedetectwithurlresponse" class="tsd-kind-icon">Face<wbr>Detect<wbr>With<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facefindsimilarresponse" class="tsd-kind-icon">Face<wbr>Find<wbr>Similar<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facegroupresponse" class="tsd-kind-icon">Face<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#faceidentifyresponse" class="tsd-kind-icon">Face<wbr>Identify<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facelistaddfacefromstreamresponse" class="tsd-kind-icon">Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facelistaddfacefromurlresponse" class="tsd-kind-icon">Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facelistgetresponse" class="tsd-kind-icon">Face<wbr>List<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#facelistlistresponse" class="tsd-kind-icon">Face<wbr>List<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#faceverifyfacetofaceresponse" class="tsd-kind-icon">Face<wbr>Verify<wbr>Face<wbr>ToFace<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#faceverifyfacetopersonresponse" class="tsd-kind-icon">Face<wbr>Verify<wbr>Face<wbr>ToPerson<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#findsimilarmatchmode" class="tsd-kind-icon">Find<wbr>Similar<wbr>Match<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#gender" class="tsd-kind-icon">Gender</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#glassestype" class="tsd-kind-icon">Glasses<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#haircolortype" class="tsd-kind-icon">Hair<wbr>Color<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistaddfacefromstreamresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistaddfacefromurlresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistgetfaceresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Get<wbr>Face<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistgetresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistgettrainingstatusresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>Get<wbr>Training<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistlistfacesresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>List<wbr>Faces<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largefacelistlistresponse" class="tsd-kind-icon">Large<wbr>Face<wbr>List<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongroupgetresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongroupgettrainingstatusresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Get<wbr>Training<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouplistresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersonaddfacefromstreamresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersonaddfacefromurlresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersoncreateresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersongetfaceresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Get<wbr>Face<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersongetresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#largepersongrouppersonlistresponse" class="tsd-kind-icon">Large<wbr>Person<wbr>Group<wbr>Person<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#noiselevel" class="tsd-kind-icon">Noise<wbr>Level</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationstatustype" class="tsd-kind-icon">Operation<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongroupgetresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongroupgettrainingstatusresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Get<wbr>Training<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouplistresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersonaddfacefromstreamresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Stream<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersonaddfacefromurlresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Add<wbr>Face<wbr>From<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersoncreateresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersongetfaceresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Get<wbr>Face<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersongetresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#persongrouppersonlistresponse" class="tsd-kind-icon">Person<wbr>Group<wbr>Person<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recognitionmodel" class="tsd-kind-icon">Recognition<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotapplymode" class="tsd-kind-icon">Snapshot<wbr>Apply<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotapplyresponse" class="tsd-kind-icon">Snapshot<wbr>Apply<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotgetoperationstatusresponse" class="tsd-kind-icon">Snapshot<wbr>Get<wbr>Operation<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotgetresponse" class="tsd-kind-icon">Snapshot<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotlistresponse" class="tsd-kind-icon">Snapshot<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshotobjecttype" class="tsd-kind-icon">Snapshot<wbr>Object<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#snapshottakeresponse" class="tsd-kind-icon">Snapshot<wbr>Take<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trainingstatustype" class="tsd-kind-icon">Training<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apierror" class="tsd-kind-icon">APIError</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#accessory" class="tsd-kind-icon">Accessory</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applysnapshotrequest" class="tsd-kind-icon">Apply<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#blur" class="tsd-kind-icon">Blur</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#coordinate" class="tsd-kind-icon">Coordinate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detectedface" class="tsd-kind-icon">Detected<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#emotion" class="tsd-kind-icon">Emotion</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errormodel" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exposure" class="tsd-kind-icon">Exposure</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#faceattributes" class="tsd-kind-icon">Face<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facelandmarks" class="tsd-kind-icon">Face<wbr>Landmarks</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facelist" class="tsd-kind-icon">Face<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facerectangle" class="tsd-kind-icon">Face<wbr>Rectangle</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facialhair" class="tsd-kind-icon">Facial<wbr>Hair</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#findsimilarrequest" class="tsd-kind-icon">Find<wbr>Similar<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#grouprequest" class="tsd-kind-icon">Group<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupresult" class="tsd-kind-icon">Group<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hair" class="tsd-kind-icon">Hair</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#haircolor" class="tsd-kind-icon">Hair<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#headpose" class="tsd-kind-icon">Head<wbr>Pose</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identifycandidate" class="tsd-kind-icon">Identify<wbr>Candidate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identifyrequest" class="tsd-kind-icon">Identify<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#identifyresult" class="tsd-kind-icon">Identify<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurl" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#largefacelist" class="tsd-kind-icon">Large<wbr>Face<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#largepersongroup" class="tsd-kind-icon">Large<wbr>Person<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#makeup" class="tsd-kind-icon">Makeup</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#metadatacontract" class="tsd-kind-icon">Meta<wbr>Data<wbr>Contract</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nameanduserdatacontract" class="tsd-kind-icon">Name<wbr>And<wbr>User<wbr>Data<wbr>Contract</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#noise" class="tsd-kind-icon">Noise</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#occlusion" class="tsd-kind-icon">Occlusion</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatus" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#persistedface" class="tsd-kind-icon">Persisted<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#person" class="tsd-kind-icon">Person</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#persongroup" class="tsd-kind-icon">Person<wbr>Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#similarface" class="tsd-kind-icon">Similar<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshot" class="tsd-kind-icon">Snapshot</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshotapplyheaders" class="tsd-kind-icon">Snapshot<wbr>Apply<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshottakeheaders" class="tsd-kind-icon">Snapshot<wbr>Take<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#takesnapshotrequest" class="tsd-kind-icon">Take<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trainingstatus" class="tsd-kind-icon">Training<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatefacerequest" class="tsd-kind-icon">Update<wbr>Face<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updatesnapshotrequest" class="tsd-kind-icon">Update<wbr>Snapshot<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verifyfacetofacerequest" class="tsd-kind-icon">Verify<wbr>Face<wbr>ToFace<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verifyfacetopersonrequest" class="tsd-kind-icon">Verify<wbr>Face<wbr>ToPerson<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#verifyresult" class="tsd-kind-icon">Verify<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applyscope" class="tsd-kind-icon">apply<wbr>Scope</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detectionmodel" class="tsd-kind-icon">detection<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#facelistid" class="tsd-kind-icon">face<wbr>List<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#largefacelistid" class="tsd-kind-icon">large<wbr>Face<wbr>List<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#largepersongroupid" class="tsd-kind-icon">large<wbr>Person<wbr>Group<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationid" class="tsd-kind-icon">operation<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#persistedfaceid" class="tsd-kind-icon">persisted<wbr>Face<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#persongroupid" class="tsd-kind-icon">person<wbr>Group<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#personid" class="tsd-kind-icon">person<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recognitionmodel" class="tsd-kind-icon">recognition<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#returnfaceattributes" class="tsd-kind-icon">return<wbr>Face<wbr>Attributes</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#returnfaceid" class="tsd-kind-icon">return<wbr>Face<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#returnfacelandmarks" class="tsd-kind-icon">return<wbr>Face<wbr>Landmarks</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#returnrecognitionmodel" class="tsd-kind-icon">return<wbr>Recognition<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#snapshotid" class="tsd-kind-icon">snapshot<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#start0" class="tsd-kind-icon">start0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#start1" class="tsd-kind-icon">start1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetface" class="tsd-kind-icon">target<wbr>Face</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top0" class="tsd-kind-icon">top0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#top1" class="tsd-kind-icon">top1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#type" class="tsd-kind-icon">type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

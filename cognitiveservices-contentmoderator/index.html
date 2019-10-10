@@ -1,0 +1,935 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-contentmoderator</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-contentmoderator</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-contentmoderator</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---contentmoderatorclient" id="an-isomorphic-javascript-sdk-for---contentmoderatorclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - ContentModeratorClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for ContentModeratorClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-contentmoderator</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-getdetails-listmanagementimagelists-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-getdetails-listmanagementimagelists-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and getDetails listManagementImageLists as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-azure-js" id="install-azurems-rest-azure-js" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-azure-js</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-azure-js</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>The following sample detects the langauge of text provided using text moderator APIs. To know more, refer to the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/content-moderator/overview">Azure Documentation on Content Moderator</a></p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { ContentModeratorClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-contentmoderator"</span>;
+<span class="hljs-keyword">import</span> { CognitiveServicesCredentials } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">Promise</span>&lt;<span class="hljs-title">void</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> contentModeratorKey = process.env[<span class="hljs-string">"contentModeratorKey"</span>] || <span class="hljs-string">"&lt;contentModeratorKey&gt;"</span>;
+  <span class="hljs-keyword">const</span> contentModeratorEndPoint =
+    process.env[<span class="hljs-string">"contentModeratorEndPoint"</span>] || <span class="hljs-string">"&lt;contentModeratorEndPoint&gt;"</span>;
+
+  <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> CognitiveServicesCredentials(contentModeratorKey);
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ContentModeratorClient(cognitiveServiceCredentials, contentModeratorEndPoint);
+
+  client.textModeration
+    .detectLanguage(<span class="hljs-string">"text/plain"</span>, <span class="hljs-string">"A Random Text"</span>)
+    .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+      <span class="hljs-built_in">console</span>.log(result);
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+      <span class="hljs-built_in">console</span>.error(err);
+    });
+}
+
+main();</code></pre>
+				<a href="#browser---authentication-client-creation-and-getdetails-listmanagementimagelists-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-getdetails-listmanagementimagelists-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and getDetails listManagementImageLists as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li>index.html</li>
+				</ul>
+				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-contentmoderator sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-contentmoderator/dist/cognitiveservices-contentmoderator.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-keyword">const</span> contentModeratorKey = <span class="hljs-string">"&lt;YOUR_CONTENT_MODERATOR_KEY&gt;"</span>;
+      <span class="hljs-keyword">const</span> contentModeratorEndPoint = <span class="hljs-string">"&lt;YOUR_CONTENT_MODERATOR_ENDPOINT&gt;"</span>;
+      <span class="hljs-keyword">const</span> cognitiveServiceCredentials = <span class="hljs-keyword">new</span> msRest.ApiKeyCredentials({
+        <span class="hljs-attr">inHeader</span>: {
+          <span class="hljs-string">"Ocp-Apim-Subscription-Key"</span>: contentModeratorKey
+        }
+      });
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesContentmoderator.ContentModeratorClient(
+        cognitiveServiceCredentials,
+        contentModeratorEndPoint
+      );
+
+      client.textModeration
+        .detectLanguage(<span class="hljs-string">"text/plain"</span>, <span class="hljs-string">"A Random Text"</span>)
+        .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is: "</span>);
+          <span class="hljs-built_in">console</span>.log(result);
+        })
+        .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+          <span class="hljs-built_in">console</span>.error(err);
+        });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-contentmoderator/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/contentmoderatorclientcontext.html" class="tsd-kind-icon">Content<wbr>Moderator<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/imagemoderation.html" class="tsd-kind-icon">Image<wbr>Moderation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/listmanagementimage.html" class="tsd-kind-icon">List<wbr>Management<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/listmanagementimagelists.html" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/listmanagementterm.html" class="tsd-kind-icon">List<wbr>Management<wbr>Term</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/listmanagementtermlists.html" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reviews.html" class="tsd-kind-icon">Reviews</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/textmoderation.html" class="tsd-kind-icon">Text<wbr>Moderation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/apierror.html" class="tsd-kind-icon">APIError</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/address.html" class="tsd-kind-icon">Address</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/body.html" class="tsd-kind-icon">Body</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/candidate.html" class="tsd-kind-icon">Candidate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/classification.html" class="tsd-kind-icon">Classification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/classificationcategory1.html" class="tsd-kind-icon">Classification<wbr>Category1</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/classificationcategory2.html" class="tsd-kind-icon">Classification<wbr>Category2</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/classificationcategory3.html" class="tsd-kind-icon">Classification<wbr>Category3</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/content.html" class="tsd-kind-icon">Content</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createreviewbodyitem.html" class="tsd-kind-icon">Create<wbr>Review<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createreviewbodyitemmetadataitem.html" class="tsd-kind-icon">Create<wbr>Review<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createvideoreviewsbodyitem.html" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createvideoreviewsbodyitemmetadataitem.html" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createvideoreviewsbodyitemvideoframesitem.html" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createvideoreviewsbodyitemvideoframesitemmetadataitem.html" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/createvideoreviewsbodyitemvideoframesitemreviewerresulttagsitem.html" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item<wbr>Reviewer<wbr>Result<wbr>Tags<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/detectedlanguage.html" class="tsd-kind-icon">Detected<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/detectedterms.html" class="tsd-kind-icon">Detected<wbr>Terms</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/email.html" class="tsd-kind-icon">Email</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errormodel.html" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/evaluate.html" class="tsd-kind-icon">Evaluate</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/face.html" class="tsd-kind-icon">Face</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/foundfaces.html" class="tsd-kind-icon">Found<wbr>Faces</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/frame.html" class="tsd-kind-icon">Frame</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/frames.html" class="tsd-kind-icon">Frames</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipa.html" class="tsd-kind-icon">IPA</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/image.html" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageadditionalinfoitem.html" class="tsd-kind-icon">Image<wbr>Additional<wbr>Info<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageids.html" class="tsd-kind-icon">Image<wbr>Ids</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagelist.html" class="tsd-kind-icon">Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationevaluatefileinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>File<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationevaluatemethodoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationevaluateurlinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>Url<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationfindfacesfileinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>File<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationfindfacesoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationfindfacesurlinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>Url<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationmatchfileinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>File<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationmatchmethodoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationmatchurlinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>Url<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationocrfileinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>ModerationOCRFile<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationocrmethodoptionalparams.html" class="tsd-kind-icon">Image<wbr>ModerationOCRMethod<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imagemoderationocrurlinputoptionalparams.html" class="tsd-kind-icon">Image<wbr>ModerationOCRUrl<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/imageurl.html" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/job.html" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobexecutionreportdetails.html" class="tsd-kind-icon">Job<wbr>Execution<wbr>Report<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobid.html" class="tsd-kind-icon">Job<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/joblistresult.html" class="tsd-kind-icon">Job<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyvaluepair.html" class="tsd-kind-icon">Key<wbr>Value<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listmanagementimageaddimagefileinputoptionalparams.html" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>File<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listmanagementimageaddimageoptionalparams.html" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listmanagementimageaddimageurlinputoptionalparams.html" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>Url<wbr>Input<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listmanagementtermgetalltermsoptionalparams.html" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Get<wbr>All<wbr>Terms<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/match.html" class="tsd-kind-icon">Match</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/matchresponse.html" class="tsd-kind-icon">Match<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ocr.html" class="tsd-kind-icon">OCR</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pii.html" class="tsd-kind-icon">PII</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phone.html" class="tsd-kind-icon">Phone</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/refreshindex.html" class="tsd-kind-icon">Refresh<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/review.html" class="tsd-kind-icon">Review</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewsaddvideoframeoptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Add<wbr>Video<wbr>Frame<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewsaddvideoframestreamoptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Add<wbr>Video<wbr>Frame<wbr>Stream<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewsaddvideoframeurloptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Add<wbr>Video<wbr>Frame<wbr>Url<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewscreatejoboptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Job<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewscreatereviewsoptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Reviews<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewscreatevideoreviewsoptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Video<wbr>Reviews<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reviewsgetvideoframesoptionalparams.html" class="tsd-kind-icon">Reviews<wbr>Get<wbr>Video<wbr>Frames<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ssn.html" class="tsd-kind-icon">SSN</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/screen.html" class="tsd-kind-icon">Screen</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/status.html" class="tsd-kind-icon">Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tag.html" class="tsd-kind-icon">Tag</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/termlist.html" class="tsd-kind-icon">Term<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/terms.html" class="tsd-kind-icon">Terms</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/termsdata.html" class="tsd-kind-icon">Terms<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/termsinlist.html" class="tsd-kind-icon">Terms<wbr>InList</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/termspaging.html" class="tsd-kind-icon">Terms<wbr>Paging</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/textmoderationscreentextoptionalparams.html" class="tsd-kind-icon">Text<wbr>Moderation<wbr>Screen<wbr>Text<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transcriptmoderationbodyitem.html" class="tsd-kind-icon">Transcript<wbr>Moderation<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/transcriptmoderationbodyitemtermsitem.html" class="tsd-kind-icon">Transcript<wbr>Moderation<wbr>Body<wbr>Item<wbr>Terms<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videoframebodyitem.html" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videoframebodyitemmetadataitem.html" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/videoframebodyitemreviewerresulttagsitem.html" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item<wbr>Reviewer<wbr>Result<wbr>Tags<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#contenttype" class="tsd-kind-icon">Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationevaluatefileinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>File<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationevaluatemethodresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationevaluateurlinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Evaluate<wbr>Url<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationfindfacesfileinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>File<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationfindfacesresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationfindfacesurlinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Find<wbr>Faces<wbr>Url<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationmatchfileinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>File<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationmatchmethodresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationmatchurlinputresponse" class="tsd-kind-icon">Image<wbr>Moderation<wbr>Match<wbr>Url<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationocrfileinputresponse" class="tsd-kind-icon">Image<wbr>ModerationOCRFile<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationocrmethodresponse" class="tsd-kind-icon">Image<wbr>ModerationOCRMethod<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#imagemoderationocrurlinputresponse" class="tsd-kind-icon">Image<wbr>ModerationOCRUrl<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobcontenttype" class="tsd-kind-icon">Job<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimageaddimagefileinputresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>File<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimageaddimageresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimageaddimageurlinputresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Add<wbr>Image<wbr>Url<wbr>Input<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagedeleteallimagesresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Delete<wbr>All<wbr>Images<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagedeleteimageresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Delete<wbr>Image<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagegetallimageidsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Get<wbr>All<wbr>Image<wbr>Ids<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistscreateresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistsdeletemethodresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistsgetallimagelistsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Get<wbr>All<wbr>Image<wbr>Lists<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistsgetdetailsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Get<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistsrefreshindexmethodresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Refresh<wbr>Index<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementimagelistsupdateresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Image<wbr>Lists<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermdeletealltermsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Delete<wbr>All<wbr>Terms<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermdeletetermresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Delete<wbr>Term<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermgetalltermsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Get<wbr>All<wbr>Terms<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistscreateresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistsdeletemethodresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistsgetalltermlistsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Get<wbr>All<wbr>Term<wbr>Lists<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistsgetdetailsresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Get<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistsrefreshindexmethodresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Refresh<wbr>Index<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#listmanagementtermlistsupdateresponse" class="tsd-kind-icon">List<wbr>Management<wbr>Term<wbr>Lists<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewscreatejobresponse" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Job<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewscreatereviewsresponse" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Reviews<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewscreatevideoreviewsresponse" class="tsd-kind-icon">Reviews<wbr>Create<wbr>Video<wbr>Reviews<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewsgetjobdetailsresponse" class="tsd-kind-icon">Reviews<wbr>Get<wbr>Job<wbr>Details<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewsgetreviewresponse" class="tsd-kind-icon">Reviews<wbr>Get<wbr>Review<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reviewsgetvideoframesresponse" class="tsd-kind-icon">Reviews<wbr>Get<wbr>Video<wbr>Frames<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#statusenum" class="tsd-kind-icon">Status<wbr>Enum</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textcontenttype" class="tsd-kind-icon">Text<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textcontenttype1" class="tsd-kind-icon">Text<wbr>Content<wbr>Type1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textmoderationdetectlanguageresponse" class="tsd-kind-icon">Text<wbr>Moderation<wbr>Detect<wbr>Language<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#textmoderationscreentextresponse" class="tsd-kind-icon">Text<wbr>Moderation<wbr>Screen<wbr>Text<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#type" class="tsd-kind-icon">Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apierror" class="tsd-kind-icon">APIError</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#address" class="tsd-kind-icon">Address</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#body" class="tsd-kind-icon">Body</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#candidate" class="tsd-kind-icon">Candidate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classification" class="tsd-kind-icon">Classification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classificationcategory1" class="tsd-kind-icon">Classification<wbr>Category1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classificationcategory2" class="tsd-kind-icon">Classification<wbr>Category2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classificationcategory3" class="tsd-kind-icon">Classification<wbr>Category3</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#content" class="tsd-kind-icon">Content</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createreviewbodyitem" class="tsd-kind-icon">Create<wbr>Review<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createreviewbodyitemmetadataitem" class="tsd-kind-icon">Create<wbr>Review<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createvideoreviewsbodyitem" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createvideoreviewsbodyitemmetadataitem" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createvideoreviewsbodyitemvideoframesitem" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createvideoreviewsbodyitemvideoframesitemmetadataitem" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#createvideoreviewsbodyitemvideoframesitemreviewerresulttagsitem" class="tsd-kind-icon">Create<wbr>Video<wbr>Reviews<wbr>Body<wbr>Item<wbr>Video<wbr>Frames<wbr>Item<wbr>Reviewer<wbr>Result<wbr>Tags<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detectedlanguage" class="tsd-kind-icon">Detected<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#detectedterms" class="tsd-kind-icon">Detected<wbr>Terms</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#email" class="tsd-kind-icon">Email</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errormodel" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#evaluate" class="tsd-kind-icon">Evaluate</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#face" class="tsd-kind-icon">Face</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#foundfaces" class="tsd-kind-icon">Found<wbr>Faces</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#frame" class="tsd-kind-icon">Frame</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#frames" class="tsd-kind-icon">Frames</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ipa" class="tsd-kind-icon">IPA</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#image" class="tsd-kind-icon">Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageadditionalinfoitem" class="tsd-kind-icon">Image<wbr>Additional<wbr>Info<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageids" class="tsd-kind-icon">Image<wbr>Ids</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imagelist" class="tsd-kind-icon">Image<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageurl" class="tsd-kind-icon">Image<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#job" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobexecutionreportdetails" class="tsd-kind-icon">Job<wbr>Execution<wbr>Report<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobid" class="tsd-kind-icon">Job<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#joblistresult" class="tsd-kind-icon">Job<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyvaluepair" class="tsd-kind-icon">Key<wbr>Value<wbr>Pair</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#match" class="tsd-kind-icon">Match</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#matchresponse" class="tsd-kind-icon">Match<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ocr" class="tsd-kind-icon">OCR</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pii" class="tsd-kind-icon">PII</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phone" class="tsd-kind-icon">Phone</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#refreshindex" class="tsd-kind-icon">Refresh<wbr>Index</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#review" class="tsd-kind-icon">Review</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ssn" class="tsd-kind-icon">SSN</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#screen" class="tsd-kind-icon">Screen</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#status" class="tsd-kind-icon">Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tag" class="tsd-kind-icon">Tag</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#termlist" class="tsd-kind-icon">Term<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#terms" class="tsd-kind-icon">Terms</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#termsdata" class="tsd-kind-icon">Terms<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#termsinlist" class="tsd-kind-icon">Terms<wbr>InList</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#termspaging" class="tsd-kind-icon">Terms<wbr>Paging</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transcriptmoderationbodyitem" class="tsd-kind-icon">Transcript<wbr>Moderation<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#transcriptmoderationbodyitemtermsitem" class="tsd-kind-icon">Transcript<wbr>Moderation<wbr>Body<wbr>Item<wbr>Terms<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videoframebodyitem" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videoframebodyitemmetadataitem" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item<wbr>Metadata<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#videoframebodyitemreviewerresulttagsitem" class="tsd-kind-icon">Video<wbr>Frame<wbr>Body<wbr>Item<wbr>Reviewer<wbr>Result<wbr>Tags<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autocorrect" class="tsd-kind-icon">autocorrect</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cacheimage" class="tsd-kind-icon">cache<wbr>Image</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#callbackendpoint" class="tsd-kind-icon">call<wbr>Back<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#classify" class="tsd-kind-icon">classify</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contentid" class="tsd-kind-icon">content<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contenttype0" class="tsd-kind-icon">content<wbr>Type0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contenttype1" class="tsd-kind-icon">content<wbr>Type1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#contenttype2" class="tsd-kind-icon">content<wbr>Type2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enhanced" class="tsd-kind-icon">enhanced</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#frameimagezip" class="tsd-kind-icon">frame<wbr>Image<wbr>Zip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#framemetadata" class="tsd-kind-icon">frame<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#imageid" class="tsd-kind-icon">image<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobcontenttype" class="tsd-kind-icon">job<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobid" class="tsd-kind-icon">job<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#label" class="tsd-kind-icon">label</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#language0" class="tsd-kind-icon">language0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#language1" class="tsd-kind-icon">language1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#limit" class="tsd-kind-icon">limit</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listid0" class="tsd-kind-icon">list<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#listid1" class="tsd-kind-icon">list<wbr>Id1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#noofrecords" class="tsd-kind-icon">no<wbr>OfRecords</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#offset" class="tsd-kind-icon">offset</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pii" class="tsd-kind-icon">pII</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reviewid" class="tsd-kind-icon">review<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#startseed" class="tsd-kind-icon">start<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subteam" class="tsd-kind-icon">sub<wbr>Team</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tag" class="tsd-kind-icon">tag</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#teamname" class="tsd-kind-icon">team<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#term" class="tsd-kind-icon">term</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#textcontenttype" class="tsd-kind-icon">text<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#timescale" class="tsd-kind-icon">timescale</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#urlcontenttype" class="tsd-kind-icon">url<wbr>Content<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workflowname" class="tsd-kind-icon">workflow<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

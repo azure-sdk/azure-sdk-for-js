@@ -1,0 +1,897 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-hdinsight</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-hdinsight</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-hdinsight</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-hdinsightmanagementclient-sdk-for-javascript" id="azure-hdinsightmanagementclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure HDInsightManagementClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for HDInsightManagementClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-hdinsight</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-clusters-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-clusters-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get clusters as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { HDInsightManagementClient, HDInsightManagementModels, HDInsightManagementMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-hdinsight"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> HDInsightManagementClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> clusterName = <span class="hljs-string">"testclusterName"</span>;
+  client.clusters.get(resourceGroupName, clusterName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-clusters-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-clusters-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get clusters as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-hdinsight sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-hdinsight/dist/arm-hdinsight.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmHdinsight.HDInsightManagementClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> clusterName = <span class="hljs-string">"testclusterName"</span>;
+      client.clusters.get(resourceGroupName, clusterName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/hdinsight/arm-hdinsight/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/applications.html" class="tsd-kind-icon">Applications</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clusters.html" class="tsd-kind-icon">Clusters</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/configurations.html" class="tsd-kind-icon">Configurations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/extensions.html" class="tsd-kind-icon">Extensions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/hdinsightmanagementclientcontext.html" class="tsd-kind-icon">HDInsight<wbr>Management<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/locations.html" class="tsd-kind-icon">Locations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scriptactions.html" class="tsd-kind-icon">Script<wbr>Actions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scriptexecutionhistory.html" class="tsd-kind-icon">Script<wbr>Execution<wbr>History</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/application.html" class="tsd-kind-icon">Application</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationgetendpoint.html" class="tsd-kind-icon">Application<wbr>Get<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationgethttpsendpoint.html" class="tsd-kind-icon">Application<wbr>Get<wbr>Https<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationlistresult.html" class="tsd-kind-icon">Application<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationproperties.html" class="tsd-kind-icon">Application<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscale.html" class="tsd-kind-icon">Autoscale</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscalecapacity.html" class="tsd-kind-icon">Autoscale<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscalerecurrence.html" class="tsd-kind-icon">Autoscale<wbr>Recurrence</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscaleschedule.html" class="tsd-kind-icon">Autoscale<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/autoscaletimeandcapacity.html" class="tsd-kind-icon">Autoscale<wbr>Time<wbr>And<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/billingmeters.html" class="tsd-kind-icon">Billing<wbr>Meters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/billingresources.html" class="tsd-kind-icon">Billing<wbr>Resources</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/billingresponselistresult.html" class="tsd-kind-icon">Billing<wbr>Response<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/capabilitiesresult.html" class="tsd-kind-icon">Capabilities<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/cluster.html" class="tsd-kind-icon">Cluster</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterconfigurations.html" class="tsd-kind-icon">Cluster<wbr>Configurations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clustercreateparametersextended.html" class="tsd-kind-icon">Cluster<wbr>Create<wbr>Parameters<wbr>Extended</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clustercreateproperties.html" class="tsd-kind-icon">Cluster<wbr>Create<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterdefinition.html" class="tsd-kind-icon">Cluster<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterdiskencryptionparameters.html" class="tsd-kind-icon">Cluster<wbr>Disk<wbr>Encryption<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clustergetproperties.html" class="tsd-kind-icon">Cluster<wbr>Get<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusteridentity.html" class="tsd-kind-icon">Cluster<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusteridentityuserassignedidentitiesvalue.html" class="tsd-kind-icon">Cluster<wbr>Identity<wbr>User<wbr>Assigned<wbr>Identities<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterlistpersistedscriptactionsresult.html" class="tsd-kind-icon">Cluster<wbr>List<wbr>Persisted<wbr>Script<wbr>Actions<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterlistresult.html" class="tsd-kind-icon">Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterlistruntimescriptactiondetailresult.html" class="tsd-kind-icon">Cluster<wbr>List<wbr>Runtime<wbr>Script<wbr>Action<wbr>Detail<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clustermonitoringrequest.html" class="tsd-kind-icon">Cluster<wbr>Monitoring<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clustermonitoringresponse.html" class="tsd-kind-icon">Cluster<wbr>Monitoring<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterpatchparameters.html" class="tsd-kind-icon">Cluster<wbr>Patch<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clusterresizeparameters.html" class="tsd-kind-icon">Cluster<wbr>Resize<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/computeprofile.html" class="tsd-kind-icon">Compute<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/connectivityendpoint.html" class="tsd-kind-icon">Connectivity<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/datadisksgroups.html" class="tsd-kind-icon">Data<wbr>Disks<wbr>Groups</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskbillingmeters.html" class="tsd-kind-icon">Disk<wbr>Billing<wbr>Meters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/diskencryptionproperties.html" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errors.html" class="tsd-kind-icon">Errors</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/executescriptactionparameters.html" class="tsd-kind-icon">Execute<wbr>Script<wbr>Action<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extension.html" class="tsd-kind-icon">Extension</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/gatewaysettings.html" class="tsd-kind-icon">Gateway<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hdinsightmanagementclientoptions.html" class="tsd-kind-icon">HDInsight<wbr>Management<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hardwareprofile.html" class="tsd-kind-icon">Hardware<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/linuxoperatingsystemprofile.html" class="tsd-kind-icon">Linux<wbr>Operating<wbr>System<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/localizedname.html" class="tsd-kind-icon">Localized<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlistresult.html" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresource.html" class="tsd-kind-icon">Operation<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/osprofile.html" class="tsd-kind-icon">Os<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/proxyresource.html" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quotacapability.html" class="tsd-kind-icon">Quota<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/quotainfo.html" class="tsd-kind-icon">Quota<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regionalquotacapability.html" class="tsd-kind-icon">Regional<wbr>Quota<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regionscapability.html" class="tsd-kind-icon">Regions<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/role.html" class="tsd-kind-icon">Role</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runtimescriptaction.html" class="tsd-kind-icon">Runtime<wbr>Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/runtimescriptactiondetail.html" class="tsd-kind-icon">Runtime<wbr>Script<wbr>Action<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptaction.html" class="tsd-kind-icon">Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptactionexecutionhistorylist.html" class="tsd-kind-icon">Script<wbr>Action<wbr>Execution<wbr>History<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptactionexecutionsummary.html" class="tsd-kind-icon">Script<wbr>Action<wbr>Execution<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptactionpersistedgetresponsespec.html" class="tsd-kind-icon">Script<wbr>Action<wbr>Persisted<wbr>Get<wbr>Response<wbr>Spec</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scriptactionslist.html" class="tsd-kind-icon">Script<wbr>Actions<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/securityprofile.html" class="tsd-kind-icon">Security<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sshprofile.html" class="tsd-kind-icon">Ssh<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sshpublickey.html" class="tsd-kind-icon">Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageaccount.html" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/storageprofile.html" class="tsd-kind-icon">Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/trackedresource.html" class="tsd-kind-icon">Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updategatewaysettingsparameters.html" class="tsd-kind-icon">Update<wbr>Gateway<wbr>Settings<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usage.html" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usageslistresult.html" class="tsd-kind-icon">Usages<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versionspec.html" class="tsd-kind-icon">Version<wbr>Spec</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versionscapability.html" class="tsd-kind-icon">Versions<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/virtualnetworkprofile.html" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmsizecompatibilityfilter.html" class="tsd-kind-icon">Vm<wbr>Size<wbr>Compatibility<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmsizecompatibilityfilterv2.html" class="tsd-kind-icon">Vm<wbr>Size<wbr>Compatibility<wbr>Filter<wbr>V2</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmsizescapability.html" class="tsd-kind-icon">Vm<wbr>Sizes<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationsbegincreateresponse" class="tsd-kind-icon">Applications<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationscreateresponse" class="tsd-kind-icon">Applications<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationsgetresponse" class="tsd-kind-icon">Applications<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationslistbyclusternextresponse" class="tsd-kind-icon">Applications<wbr>List<wbr>ByCluster<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#applicationslistbyclusterresponse" class="tsd-kind-icon">Applications<wbr>List<wbr>ByCluster<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#asyncoperationstate" class="tsd-kind-icon">Async<wbr>Operation<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clustersbegincreateresponse" class="tsd-kind-icon">Clusters<wbr>Begin<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clusterscreateresponse" class="tsd-kind-icon">Clusters<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clustersgetgatewaysettingsresponse" class="tsd-kind-icon">Clusters<wbr>Get<wbr>Gateway<wbr>Settings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clustersgetresponse" class="tsd-kind-icon">Clusters<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clusterslistbyresourcegroupnextresponse" class="tsd-kind-icon">Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clusterslistbyresourcegroupresponse" class="tsd-kind-icon">Clusters<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clusterslistnextresponse" class="tsd-kind-icon">Clusters<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clusterslistresponse" class="tsd-kind-icon">Clusters<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#clustersupdateresponse" class="tsd-kind-icon">Clusters<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#configurationsgetresponse" class="tsd-kind-icon">Configurations<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#configurationslistresponse" class="tsd-kind-icon">Configurations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#daysofweek" class="tsd-kind-icon">Days<wbr>OfWeek</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#directorytype" class="tsd-kind-icon">Directory<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#extensionsgetmonitoringstatusresponse" class="tsd-kind-icon">Extensions<wbr>Get<wbr>Monitoring<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#extensionsgetresponse" class="tsd-kind-icon">Extensions<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#filtermode" class="tsd-kind-icon">Filter<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#hdinsightclusterprovisioningstate" class="tsd-kind-icon">HDInsight<wbr>Cluster<wbr>Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jsonwebkeyencryptionalgorithm" class="tsd-kind-icon">Json<wbr>Web<wbr>Key<wbr>Encryption<wbr>Algorithm</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationsgetcapabilitiesresponse" class="tsd-kind-icon">Locations<wbr>Get<wbr>Capabilities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationslistbillingspecsresponse" class="tsd-kind-icon">Locations<wbr>List<wbr>Billing<wbr>Specs<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationslistusagesresponse" class="tsd-kind-icon">Locations<wbr>List<wbr>Usages<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ostype" class="tsd-kind-icon">OSType</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#resourceidentitytype" class="tsd-kind-icon">Resource<wbr>Identity<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scriptactionsgetexecutiondetailresponse" class="tsd-kind-icon">Script<wbr>Actions<wbr>Get<wbr>Execution<wbr>Detail<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scriptactionslistbyclusternextresponse" class="tsd-kind-icon">Script<wbr>Actions<wbr>List<wbr>ByCluster<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scriptactionslistbyclusterresponse" class="tsd-kind-icon">Script<wbr>Actions<wbr>List<wbr>ByCluster<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scriptexecutionhistorylistbyclusternextresponse" class="tsd-kind-icon">Script<wbr>Execution<wbr>History<wbr>List<wbr>ByCluster<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scriptexecutionhistorylistbyclusterresponse" class="tsd-kind-icon">Script<wbr>Execution<wbr>History<wbr>List<wbr>ByCluster<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#tier" class="tsd-kind-icon">Tier</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#application" class="tsd-kind-icon">Application</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationgetendpoint" class="tsd-kind-icon">Application<wbr>Get<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationgethttpsendpoint" class="tsd-kind-icon">Application<wbr>Get<wbr>Https<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationlistresult" class="tsd-kind-icon">Application<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationproperties" class="tsd-kind-icon">Application<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscale" class="tsd-kind-icon">Autoscale</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscalecapacity" class="tsd-kind-icon">Autoscale<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscalerecurrence" class="tsd-kind-icon">Autoscale<wbr>Recurrence</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscaleschedule" class="tsd-kind-icon">Autoscale<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#autoscaletimeandcapacity" class="tsd-kind-icon">Autoscale<wbr>Time<wbr>And<wbr>Capacity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#billingmeters" class="tsd-kind-icon">Billing<wbr>Meters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#billingresources" class="tsd-kind-icon">Billing<wbr>Resources</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#billingresponselistresult" class="tsd-kind-icon">Billing<wbr>Response<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#capabilitiesresult" class="tsd-kind-icon">Capabilities<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cluster" class="tsd-kind-icon">Cluster</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterconfigurations" class="tsd-kind-icon">Cluster<wbr>Configurations</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustercreateparametersextended" class="tsd-kind-icon">Cluster<wbr>Create<wbr>Parameters<wbr>Extended</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustercreateproperties" class="tsd-kind-icon">Cluster<wbr>Create<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterdefinition" class="tsd-kind-icon">Cluster<wbr>Definition</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterdiskencryptionparameters" class="tsd-kind-icon">Cluster<wbr>Disk<wbr>Encryption<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustergetproperties" class="tsd-kind-icon">Cluster<wbr>Get<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusteridentity" class="tsd-kind-icon">Cluster<wbr>Identity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusteridentityuserassignedidentitiesvalue" class="tsd-kind-icon">Cluster<wbr>Identity<wbr>User<wbr>Assigned<wbr>Identities<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterlistpersistedscriptactionsresult" class="tsd-kind-icon">Cluster<wbr>List<wbr>Persisted<wbr>Script<wbr>Actions<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterlistresult" class="tsd-kind-icon">Cluster<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterlistruntimescriptactiondetailresult" class="tsd-kind-icon">Cluster<wbr>List<wbr>Runtime<wbr>Script<wbr>Action<wbr>Detail<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustermonitoringrequest" class="tsd-kind-icon">Cluster<wbr>Monitoring<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustermonitoringresponse" class="tsd-kind-icon">Cluster<wbr>Monitoring<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterpatchparameters" class="tsd-kind-icon">Cluster<wbr>Patch<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clusterresizeparameters" class="tsd-kind-icon">Cluster<wbr>Resize<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#computeprofile" class="tsd-kind-icon">Compute<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#connectivityendpoint" class="tsd-kind-icon">Connectivity<wbr>Endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#datadisksgroups" class="tsd-kind-icon">Data<wbr>Disks<wbr>Groups</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskbillingmeters" class="tsd-kind-icon">Disk<wbr>Billing<wbr>Meters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#diskencryptionproperties" class="tsd-kind-icon">Disk<wbr>Encryption<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errors" class="tsd-kind-icon">Errors</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#executescriptactionparameters" class="tsd-kind-icon">Execute<wbr>Script<wbr>Action<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extension" class="tsd-kind-icon">Extension</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#gatewaysettings" class="tsd-kind-icon">Gateway<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hardwareprofile" class="tsd-kind-icon">Hardware<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#linuxoperatingsystemprofile" class="tsd-kind-icon">Linux<wbr>Operating<wbr>System<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#localizedname" class="tsd-kind-icon">Localized<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlistresult" class="tsd-kind-icon">Operation<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresource" class="tsd-kind-icon">Operation<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#osprofile" class="tsd-kind-icon">Os<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#proxyresource" class="tsd-kind-icon">Proxy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quotacapability" class="tsd-kind-icon">Quota<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#quotainfo" class="tsd-kind-icon">Quota<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionalquotacapability" class="tsd-kind-icon">Regional<wbr>Quota<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regionscapability" class="tsd-kind-icon">Regions<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#role" class="tsd-kind-icon">Role</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runtimescriptaction" class="tsd-kind-icon">Runtime<wbr>Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#runtimescriptactiondetail" class="tsd-kind-icon">Runtime<wbr>Script<wbr>Action<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptaction" class="tsd-kind-icon">Script<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptactionexecutionhistorylist" class="tsd-kind-icon">Script<wbr>Action<wbr>Execution<wbr>History<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptactionexecutionsummary" class="tsd-kind-icon">Script<wbr>Action<wbr>Execution<wbr>Summary</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptactionpersistedgetresponsespec" class="tsd-kind-icon">Script<wbr>Action<wbr>Persisted<wbr>Get<wbr>Response<wbr>Spec</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptactionslist" class="tsd-kind-icon">Script<wbr>Actions<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#securityprofile" class="tsd-kind-icon">Security<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sshprofile" class="tsd-kind-icon">Ssh<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sshpublickey" class="tsd-kind-icon">Ssh<wbr>Public<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageaccount" class="tsd-kind-icon">Storage<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#storageprofile" class="tsd-kind-icon">Storage<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#trackedresource" class="tsd-kind-icon">Tracked<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#updategatewaysettingsparameters" class="tsd-kind-icon">Update<wbr>Gateway<wbr>Settings<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usage" class="tsd-kind-icon">Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usageslistresult" class="tsd-kind-icon">Usages<wbr>List<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versionspec" class="tsd-kind-icon">Version<wbr>Spec</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versionscapability" class="tsd-kind-icon">Versions<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#virtualnetworkprofile" class="tsd-kind-icon">Virtual<wbr>Network<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmsizecompatibilityfilter" class="tsd-kind-icon">Vm<wbr>Size<wbr>Compatibility<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmsizecompatibilityfilterv2" class="tsd-kind-icon">Vm<wbr>Size<wbr>Compatibility<wbr>Filter<wbr>V2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmsizescapability" class="tsd-kind-icon">Vm<wbr>Sizes<wbr>Capability</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationname" class="tsd-kind-icon">application<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clustername" class="tsd-kind-icon">cluster<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#configurationname" class="tsd-kind-icon">configuration<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extensionname" class="tsd-kind-icon">extension<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#rolename" class="tsd-kind-icon">role<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptexecutionid" class="tsd-kind-icon">script<wbr>Execution<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scriptname" class="tsd-kind-icon">script<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

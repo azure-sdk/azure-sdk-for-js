@@ -1,0 +1,727 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-migrate</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-migrate</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-migrate</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-azuremigrate-sdk-for-javascript" id="azure-azuremigrate-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure AzureMigrate SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for AzureMigrate.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">arm</span>-<span class="hljs-keyword">migrate</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-assessmentoptions-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-assessmentoptions-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get assessmentOptions as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { AzureMigrate, AzureMigrateModels, AzureMigrateMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-migrate"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> AzureMigrate(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> locationName = <span class="hljs-string">"testlocationName"</span>;
+  client.assessmentOptions.get(locationName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-assessmentoptions-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-assessmentoptions-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get assessmentOptions as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-migrate sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-migrate/dist/arm-migrate.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmMigrate.AzureMigrate(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> locationName = <span class="hljs-string">"testlocationName"</span>;
+      client.assessmentOptions.get(locationName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/migrate/arm-migrate/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/assessedmachines.html" class="tsd-kind-icon">Assessed<wbr>Machines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/assessmentoptions.html" class="tsd-kind-icon">Assessment<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/assessments.html" class="tsd-kind-icon">Assessments</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/azuremigratecontext.html" class="tsd-kind-icon">Azure<wbr>Migrate<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/groups.html" class="tsd-kind-icon">Groups</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/location.html" class="tsd-kind-icon">Location</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/machines.html" class="tsd-kind-icon">Machines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/projects.html" class="tsd-kind-icon">Projects</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assesseddisk.html" class="tsd-kind-icon">Assessed<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessedmachine.html" class="tsd-kind-icon">Assessed<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessedmachineresultlist.html" class="tsd-kind-icon">Assessed<wbr>Machine<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessedmachinesgetheaders.html" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessedmachineslistbyassessmentheaders.html" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>List<wbr>ByAssessment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessednetworkadapter.html" class="tsd-kind-icon">Assessed<wbr>Network<wbr>Adapter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessment.html" class="tsd-kind-icon">Assessment</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentoptionsresultlist.html" class="tsd-kind-icon">Assessment<wbr>Options<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentresultlist.html" class="tsd-kind-icon">Assessment<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentscreateheaders.html" class="tsd-kind-icon">Assessments<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentscreateoptionalparams.html" class="tsd-kind-icon">Assessments<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentsdeleteheaders.html" class="tsd-kind-icon">Assessments<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentsgetheaders.html" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentsgetreportdownloadurlheaders.html" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Report<wbr>Download<wbr>Url<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentslistbygroupheaders.html" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByGroup<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/assessmentslistbyprojectheaders.html" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuremigrateoptions.html" class="tsd-kind-icon">Azure<wbr>Migrate<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checknameavailabilityparameters.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/checknameavailabilityresult.html" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/disk.html" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/downloadurl.html" class="tsd-kind-icon">Download<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/group.html" class="tsd-kind-icon">Group</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupresultlist.html" class="tsd-kind-icon">Group<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupscreateheaders.html" class="tsd-kind-icon">Groups<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupscreateoptionalparams.html" class="tsd-kind-icon">Groups<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupsdeleteheaders.html" class="tsd-kind-icon">Groups<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupsgetheaders.html" class="tsd-kind-icon">Groups<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/groupslistbyprojectheaders.html" class="tsd-kind-icon">Groups<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/machine.html" class="tsd-kind-icon">Machine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/machineresultlist.html" class="tsd-kind-icon">Machine<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/machinesgetheaders.html" class="tsd-kind-icon">Machines<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/machineslistbyprojectheaders.html" class="tsd-kind-icon">Machines<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/networkadapter.html" class="tsd-kind-icon">Network<wbr>Adapter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresultlist.html" class="tsd-kind-icon">Operation<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/project.html" class="tsd-kind-icon">Project</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectkey.html" class="tsd-kind-icon">Project<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectresultlist.html" class="tsd-kind-icon">Project<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectscreateheaders.html" class="tsd-kind-icon">Projects<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectscreateoptionalparams.html" class="tsd-kind-icon">Projects<wbr>Create<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsdeleteheaders.html" class="tsd-kind-icon">Projects<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsgetheaders.html" class="tsd-kind-icon">Projects<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsgetkeysheaders.html" class="tsd-kind-icon">Projects<wbr>Get<wbr>Keys<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectslistbyresourcegroupheaders.html" class="tsd-kind-icon">Projects<wbr>List<wbr>ByResource<wbr>Group<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectslistbysubscriptionheaders.html" class="tsd-kind-icon">Projects<wbr>List<wbr>BySubscription<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsupdateheaders.html" class="tsd-kind-icon">Projects<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/projectsupdateoptionalparams.html" class="tsd-kind-icon">Projects<wbr>Update<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/vmfamily.html" class="tsd-kind-icon">Vm<wbr>Family</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessedmachinesgetresponse" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessedmachineslistbyassessmentresponse" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>List<wbr>ByAssessment<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentoptionsgetresponse" class="tsd-kind-icon">Assessment<wbr>Options<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentsizingcriterion" class="tsd-kind-icon">Assessment<wbr>Sizing<wbr>Criterion</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentstage" class="tsd-kind-icon">Assessment<wbr>Stage</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentstatus" class="tsd-kind-icon">Assessment<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentscreateresponse" class="tsd-kind-icon">Assessments<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentsdeleteresponse" class="tsd-kind-icon">Assessments<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentsgetreportdownloadurlresponse" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Report<wbr>Download<wbr>Url<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentsgetresponse" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentslistbygroupresponse" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByGroup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#assessmentslistbyprojectresponse" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByProject<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azuredisksize" class="tsd-kind-icon">Azure<wbr>Disk<wbr>Size</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azuredisksuitabilityexplanation" class="tsd-kind-icon">Azure<wbr>Disk<wbr>Suitability<wbr>Explanation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azuredisktype" class="tsd-kind-icon">Azure<wbr>Disk<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurehybridusebenefit" class="tsd-kind-icon">Azure<wbr>Hybrid<wbr>Use<wbr>Benefit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurelocation" class="tsd-kind-icon">Azure<wbr>Location</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurenetworkadaptersuitabilityexplanation" class="tsd-kind-icon">Azure<wbr>Network<wbr>Adapter<wbr>Suitability<wbr>Explanation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureoffercode" class="tsd-kind-icon">Azure<wbr>Offer<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurepricingtier" class="tsd-kind-icon">Azure<wbr>Pricing<wbr>Tier</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurestorageredundancy" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Redundancy</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurevmsize" class="tsd-kind-icon">Azure<wbr>VmSize</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurevmsuitabilityexplanation" class="tsd-kind-icon">Azure<wbr>VmSuitability<wbr>Explanation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#cloudsuitability" class="tsd-kind-icon">Cloud<wbr>Suitability</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#currency" class="tsd-kind-icon">Currency</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#discoverystatus" class="tsd-kind-icon">Discovery<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#groupscreateresponse" class="tsd-kind-icon">Groups<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#groupsdeleteresponse" class="tsd-kind-icon">Groups<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#groupsgetresponse" class="tsd-kind-icon">Groups<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#groupslistbyprojectresponse" class="tsd-kind-icon">Groups<wbr>List<wbr>ByProject<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#locationchecknameavailabilityresponse" class="tsd-kind-icon">Location<wbr>Check<wbr>Name<wbr>Availability<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#machineboottype" class="tsd-kind-icon">Machine<wbr>Boot<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#machinesgetresponse" class="tsd-kind-icon">Machines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#machineslistbyprojectresponse" class="tsd-kind-icon">Machines<wbr>List<wbr>ByProject<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#nameavailabilityreason" class="tsd-kind-icon">Name<wbr>Availability<wbr>Reason</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#percentile" class="tsd-kind-icon">Percentile</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectscreateresponse" class="tsd-kind-icon">Projects<wbr>Create<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectsdeleteresponse" class="tsd-kind-icon">Projects<wbr>Delete<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectsgetkeysresponse" class="tsd-kind-icon">Projects<wbr>Get<wbr>Keys<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectsgetresponse" class="tsd-kind-icon">Projects<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectslistbyresourcegroupresponse" class="tsd-kind-icon">Projects<wbr>List<wbr>ByResource<wbr>Group<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectslistbysubscriptionresponse" class="tsd-kind-icon">Projects<wbr>List<wbr>BySubscription<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#projectsupdateresponse" class="tsd-kind-icon">Projects<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#provisioningstate" class="tsd-kind-icon">Provisioning<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#timerange" class="tsd-kind-icon">Time<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assesseddisk" class="tsd-kind-icon">Assessed<wbr>Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessedmachine" class="tsd-kind-icon">Assessed<wbr>Machine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessedmachineresultlist" class="tsd-kind-icon">Assessed<wbr>Machine<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessedmachinesgetheaders" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessedmachineslistbyassessmentheaders" class="tsd-kind-icon">Assessed<wbr>Machines<wbr>List<wbr>ByAssessment<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessednetworkadapter" class="tsd-kind-icon">Assessed<wbr>Network<wbr>Adapter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessment" class="tsd-kind-icon">Assessment</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentoptionsresultlist" class="tsd-kind-icon">Assessment<wbr>Options<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentresultlist" class="tsd-kind-icon">Assessment<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentscreateheaders" class="tsd-kind-icon">Assessments<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentsdeleteheaders" class="tsd-kind-icon">Assessments<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentsgetheaders" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentsgetreportdownloadurlheaders" class="tsd-kind-icon">Assessments<wbr>Get<wbr>Report<wbr>Download<wbr>Url<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentslistbygroupheaders" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByGroup<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentslistbyprojectheaders" class="tsd-kind-icon">Assessments<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#checknameavailabilityparameters" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Parameters</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#checknameavailabilityresult" class="tsd-kind-icon">Check<wbr>Name<wbr>Availability<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#disk" class="tsd-kind-icon">Disk</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#downloadurl" class="tsd-kind-icon">Download<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#group" class="tsd-kind-icon">Group</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupresultlist" class="tsd-kind-icon">Group<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupscreateheaders" class="tsd-kind-icon">Groups<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupsdeleteheaders" class="tsd-kind-icon">Groups<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupsgetheaders" class="tsd-kind-icon">Groups<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupslistbyprojectheaders" class="tsd-kind-icon">Groups<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#machine" class="tsd-kind-icon">Machine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#machineresultlist" class="tsd-kind-icon">Machine<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#machinesgetheaders" class="tsd-kind-icon">Machines<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#machineslistbyprojectheaders" class="tsd-kind-icon">Machines<wbr>List<wbr>ByProject<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#networkadapter" class="tsd-kind-icon">Network<wbr>Adapter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operation" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresultlist" class="tsd-kind-icon">Operation<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#project" class="tsd-kind-icon">Project</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectkey" class="tsd-kind-icon">Project<wbr>Key</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectresultlist" class="tsd-kind-icon">Project<wbr>Result<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectscreateheaders" class="tsd-kind-icon">Projects<wbr>Create<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectsdeleteheaders" class="tsd-kind-icon">Projects<wbr>Delete<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectsgetheaders" class="tsd-kind-icon">Projects<wbr>Get<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectsgetkeysheaders" class="tsd-kind-icon">Projects<wbr>Get<wbr>Keys<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectslistbyresourcegroupheaders" class="tsd-kind-icon">Projects<wbr>List<wbr>ByResource<wbr>Group<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectslistbysubscriptionheaders" class="tsd-kind-icon">Projects<wbr>List<wbr>BySubscription<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectsupdateheaders" class="tsd-kind-icon">Projects<wbr>Update<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vmfamily" class="tsd-kind-icon">Vm<wbr>Family</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessedmachinename" class="tsd-kind-icon">assessed<wbr>Machine<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#assessmentname" class="tsd-kind-icon">assessment<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#groupname" class="tsd-kind-icon">group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#locationname" class="tsd-kind-icon">location<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#machinename" class="tsd-kind-icon">machine<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#projectname" class="tsd-kind-icon">project<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

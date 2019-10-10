@@ -1,0 +1,637 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-reservations</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-reservations</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-reservations</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-azurereservationapi-sdk-for-javascript" id="azure-azurereservationapi-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure AzureReservationAPI SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for AzureReservationAPI.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/arm-reservations</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-list-reservation-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-list-reservation-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and list reservation as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<ul>
+					<li>Please install minimum version of <code>&quot;@azure/ms-rest-nodeauth&quot;: &quot;^3.0.0&quot;</code>.<pre><code class="language-bash">npm install @azure/ms-rest-nodeauth@<span class="hljs-string">"^3.0.0"</span></code></pre>
+					</li>
+				</ul>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { AzureReservationAPI, AzureReservationAPIModels, AzureReservationAPIMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-reservations"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> AzureReservationAPI(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> reservationOrderId = <span class="hljs-string">"testreservationOrderId"</span>;
+  client.reservation.list(reservationOrderId).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-list-reservation-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-list-reservation-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and list reservation as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-browserauth</code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-reservations sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-reservations/dist/arm-reservations.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmReservations.AzureReservationAPI(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> reservationOrderId = <span class="hljs-string">"testreservationOrderId"</span>;
+      client.reservation.list(reservationOrderId).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/reservations/arm-reservations/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/azurereservationapicontext.html" class="tsd-kind-icon">Azure<wbr>ReservationAPIContext</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reservation.html" class="tsd-kind-icon">Reservation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reservationorder.html" class="tsd-kind-icon">Reservation<wbr>Order</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appliedreservationlist.html" class="tsd-kind-icon">Applied<wbr>Reservation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appliedreservations.html" class="tsd-kind-icon">Applied<wbr>Reservations</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurereservationapigetcatalogoptionalparams.html" class="tsd-kind-icon">Azure<wbr>ReservationAPIGet<wbr>Catalog<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurereservationapioptions.html" class="tsd-kind-icon">Azure<wbr>ReservationAPIOptions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/calculatepriceresponse.html" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/calculatepriceresponseproperties.html" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/calculatepriceresponsepropertiesbillingcurrencytotal.html" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties<wbr>Billing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/calculatepriceresponsepropertiespricingcurrencytotal.html" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties<wbr>Pricing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/catalog.html" class="tsd-kind-icon">Catalog</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/catalogbillingplansitem.html" class="tsd-kind-icon">Catalog<wbr>Billing<wbr>Plans<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errormodel.html" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extendederrorinfo.html" class="tsd-kind-icon">Extended<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/extendedstatusinfo.html" class="tsd-kind-icon">Extended<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mergerequest.html" class="tsd-kind-icon">Merge<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationdisplay.html" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationlist.html" class="tsd-kind-icon">Operation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresponse.html" class="tsd-kind-icon">Operation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patch.html" class="tsd-kind-icon">Patch</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patchpropertiesrenewproperties.html" class="tsd-kind-icon">Patch<wbr>Properties<wbr>Renew<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/paymentdetail.html" class="tsd-kind-icon">Payment<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/price.html" class="tsd-kind-icon">Price</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/properties.html" class="tsd-kind-icon">Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/purchaserequest.html" class="tsd-kind-icon">Purchase<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/purchaserequestpropertiesreservedresourceproperties.html" class="tsd-kind-icon">Purchase<wbr>Request<wbr>Properties<wbr>Reserved<wbr>Resource<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renewpropertiesresponse.html" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renewpropertiesresponsebillingcurrencytotal.html" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response<wbr>Billing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/renewpropertiesresponsepricingcurrencytotal.html" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response<wbr>Pricing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationgetoptionalparams.html" class="tsd-kind-icon">Reservation<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationlist.html" class="tsd-kind-icon">Reservation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationmergeproperties.html" class="tsd-kind-icon">Reservation<wbr>Merge<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationorderbillingplaninformation.html" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Billing<wbr>Plan<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationordergetoptionalparams.html" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationorderlist.html" class="tsd-kind-icon">Reservation<wbr>Order<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationorderresponse.html" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationproperties.html" class="tsd-kind-icon">Reservation<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationresponse.html" class="tsd-kind-icon">Reservation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/reservationsplitproperties.html" class="tsd-kind-icon">Reservation<wbr>Split<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/scopeproperties.html" class="tsd-kind-icon">Scope<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skuname.html" class="tsd-kind-icon">Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skuproperty.html" class="tsd-kind-icon">Sku<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/skurestriction.html" class="tsd-kind-icon">Sku<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/splitrequest.html" class="tsd-kind-icon">Split<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subscriptionscopeproperties.html" class="tsd-kind-icon">Subscription<wbr>Scope<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appliedscopetype" class="tsd-kind-icon">Applied<wbr>Scope<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#errorresponsecode" class="tsd-kind-icon">Error<wbr>Response<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getappliedreservationlistresponse" class="tsd-kind-icon">Get<wbr>Applied<wbr>Reservation<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#getcatalogresponse" class="tsd-kind-icon">Get<wbr>Catalog<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#instanceflexibility" class="tsd-kind-icon">Instance<wbr>Flexibility</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationlistnextresponse" class="tsd-kind-icon">Operation<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationlistresponse" class="tsd-kind-icon">Operation<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#paymentstatus" class="tsd-kind-icon">Payment<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationavailablescopesresponse" class="tsd-kind-icon">Reservation<wbr>Available<wbr>Scopes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationbeginavailablescopesresponse" class="tsd-kind-icon">Reservation<wbr>Begin<wbr>Available<wbr>Scopes<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationbeginmergeresponse" class="tsd-kind-icon">Reservation<wbr>Begin<wbr>Merge<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationbeginsplitresponse" class="tsd-kind-icon">Reservation<wbr>Begin<wbr>Split<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationbeginupdateresponse" class="tsd-kind-icon">Reservation<wbr>Begin<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationbillingplan" class="tsd-kind-icon">Reservation<wbr>Billing<wbr>Plan</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationgetresponse" class="tsd-kind-icon">Reservation<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationlistnextresponse" class="tsd-kind-icon">Reservation<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationlistresponse" class="tsd-kind-icon">Reservation<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationlistrevisionsnextresponse" class="tsd-kind-icon">Reservation<wbr>List<wbr>Revisions<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationlistrevisionsresponse" class="tsd-kind-icon">Reservation<wbr>List<wbr>Revisions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationmergeresponse" class="tsd-kind-icon">Reservation<wbr>Merge<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationorderbeginpurchaseresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Begin<wbr>Purchase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationordercalculateresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Calculate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationordergetresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationorderlistnextresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationorderlistresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationorderpurchaseresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Purchase<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationsplitresponse" class="tsd-kind-icon">Reservation<wbr>Split<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationstatuscode" class="tsd-kind-icon">Reservation<wbr>Status<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationterm" class="tsd-kind-icon">Reservation<wbr>Term</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservationupdateresponse" class="tsd-kind-icon">Reservation<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reservedresourcetype" class="tsd-kind-icon">Reserved<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appliedreservationlist" class="tsd-kind-icon">Applied<wbr>Reservation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appliedreservations" class="tsd-kind-icon">Applied<wbr>Reservations</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#calculatepriceresponse" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#calculatepriceresponseproperties" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#calculatepriceresponsepropertiesbillingcurrencytotal" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties<wbr>Billing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#calculatepriceresponsepropertiespricingcurrencytotal" class="tsd-kind-icon">Calculate<wbr>Price<wbr>Response<wbr>Properties<wbr>Pricing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#catalog" class="tsd-kind-icon">Catalog</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#catalogbillingplansitem" class="tsd-kind-icon">Catalog<wbr>Billing<wbr>Plans<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errormodel" class="tsd-kind-icon">Error<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extendederrorinfo" class="tsd-kind-icon">Extended<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#extendedstatusinfo" class="tsd-kind-icon">Extended<wbr>Status<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mergerequest" class="tsd-kind-icon">Merge<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationdisplay" class="tsd-kind-icon">Operation<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationlist" class="tsd-kind-icon">Operation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresponse" class="tsd-kind-icon">Operation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patch" class="tsd-kind-icon">Patch</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patchpropertiesrenewproperties" class="tsd-kind-icon">Patch<wbr>Properties<wbr>Renew<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#paymentdetail" class="tsd-kind-icon">Payment<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#price" class="tsd-kind-icon">Price</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#properties" class="tsd-kind-icon">Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#purchaserequest" class="tsd-kind-icon">Purchase<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#purchaserequestpropertiesreservedresourceproperties" class="tsd-kind-icon">Purchase<wbr>Request<wbr>Properties<wbr>Reserved<wbr>Resource<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renewpropertiesresponse" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renewpropertiesresponsebillingcurrencytotal" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response<wbr>Billing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#renewpropertiesresponsepricingcurrencytotal" class="tsd-kind-icon">Renew<wbr>Properties<wbr>Response<wbr>Pricing<wbr>Currency<wbr>Total</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationlist" class="tsd-kind-icon">Reservation<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationmergeproperties" class="tsd-kind-icon">Reservation<wbr>Merge<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationorderbillingplaninformation" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Billing<wbr>Plan<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationorderlist" class="tsd-kind-icon">Reservation<wbr>Order<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationorderresponse" class="tsd-kind-icon">Reservation<wbr>Order<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationproperties" class="tsd-kind-icon">Reservation<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationresponse" class="tsd-kind-icon">Reservation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationsplitproperties" class="tsd-kind-icon">Reservation<wbr>Split<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#scopeproperties" class="tsd-kind-icon">Scope<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skuname" class="tsd-kind-icon">Sku<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skuproperty" class="tsd-kind-icon">Sku<wbr>Property</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skurestriction" class="tsd-kind-icon">Sku<wbr>Restriction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#splitrequest" class="tsd-kind-icon">Split<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionscopeproperties" class="tsd-kind-icon">Subscription<wbr>Scope<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion" class="tsd-kind-icon">api<wbr>Version</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand0" class="tsd-kind-icon">expand0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expand1" class="tsd-kind-icon">expand1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#location" class="tsd-kind-icon">location</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationid" class="tsd-kind-icon">reservation<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservationorderid" class="tsd-kind-icon">reservation<wbr>Order<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#reservedresourcetype" class="tsd-kind-icon">reserved<wbr>Resource<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

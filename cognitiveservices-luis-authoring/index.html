@@ -1,0 +1,1617 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/cognitiveservices-luis-authoring</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/cognitiveservices-luis-authoring</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/cognitiveservices-luis-authoring</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#an-isomorphic-javascript-sdk-for---luisauthoringclient" id="an-isomorphic-javascript-sdk-for---luisauthoringclient" style="color: inherit; text-decoration: none;">
+					<h2>An isomorphic javascript sdk for - LUISAuthoringClient</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for LUISAuthoringClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code class="language-bash">npm install @azure/cognitiveservices-luis-authoring</code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-listapplicationversionpatternfeatures-features-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-listapplicationversionpatternfeatures-features-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-azure-js" id="install-azurems-rest-azure-js" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-azure-js</h5>
+				</a>
+				<pre><code class="language-bash">npm install @azure/ms-rest-azure-js</code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { CognitiveServicesCredentials } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> { LUISAuthoringClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/cognitiveservices-luis-authoring"</span>;
+
+<span class="hljs-keyword">let</span> authoringKey = process.env[<span class="hljs-string">"luis-authoring-key"</span>];
+<span class="hljs-keyword">const</span> creds = <span class="hljs-keyword">new</span> CognitiveServicesCredentials(authoringKey);
+
+<span class="hljs-comment">// check the following link to find your region</span>
+<span class="hljs-comment">// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions</span>
+<span class="hljs-keyword">const</span> region = <span class="hljs-string">"&lt;your-region&gt;"</span>;
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> LUISAuthoringClient(
+  creds,
+  <span class="hljs-string">"https://"</span> + region + <span class="hljs-string">".api.cognitive.microsoft.com/"</span>
+);
+
+<span class="hljs-keyword">const</span> appId = <span class="hljs-string">"&lt;your-app-id&gt;"</span>; <span class="hljs-comment">// replace this with your appId.</span>
+<span class="hljs-keyword">const</span> versionId = <span class="hljs-string">"0.1"</span>; <span class="hljs-comment">// replace with version of your luis application. Initial value will be 0.1</span>
+
+<span class="hljs-keyword">const</span> skip = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">const</span> take = <span class="hljs-number">1</span>;
+
+client.features
+  .listApplicationVersionPatternFeatures(appId, versionId, { skip, take })
+  .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  })
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.error(err);
+  });</code></pre>
+				<a href="#browser---authentication-client-creation-and-listapplicationversionpatternfeatures-features-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-listapplicationversionpatternfeatures-features-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and listApplicationVersionPatternFeatures features as an example written in JavaScript.</h4>
+				</a>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<ul>
+					<li>index.html</li>
+				</ul>
+				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/cognitiveservices-luis-authoring sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/cognitiveservices-luis-authoring/dist/cognitiveservices-luis-authoring.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+      <span class="hljs-keyword">let</span> authoringKey = process.env[<span class="hljs-string">"luis-authoring-key"</span>];
+      <span class="hljs-keyword">const</span> creds = <span class="hljs-keyword">new</span> msRest.ApiKeyCredentials({ <span class="hljs-attr">inHeader</span>: { <span class="hljs-string">'Ocp-Apim-Subscription-Key'</span>: authoringKey } });
+
+      <span class="hljs-keyword">const</span> region = <span class="hljs-string">"&lt;your-region&gt;"</span>;
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.CognitiveservicesLuisAuthoring.LUISAuthoringClient(
+        creds,
+        <span class="hljs-string">"https://"</span> + region + <span class="hljs-string">".api.cognitive.microsoft.com/"</span>
+      );
+      <span class="hljs-keyword">const</span> appId = <span class="hljs-string">"&lt;your-app-id&gt;"</span>; <span class="hljs-comment">// replace this with your appId.</span>
+      <span class="hljs-keyword">const</span> versionId = <span class="hljs-string">"0.1"</span>; <span class="hljs-comment">// replace with version of your luis application. Initial value will be 0.1</span>
+      <span class="hljs-keyword">const</span> skip = <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">const</span> take = <span class="hljs-number">1</span>;
+      client.features
+        .listApplicationVersionPatternFeatures(appId, versionId, { skip, take })
+        .then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+          <span class="hljs-built_in">console</span>.log(result);
+        })
+        .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+          <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+          <span class="hljs-built_in">console</span>.error(err);
+        });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/cognitiveservices/cognitiveservices-luis-authoring/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/apps.html" class="tsd-kind-icon">Apps</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/azureaccounts.html" class="tsd-kind-icon">Azure<wbr>Accounts</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/examples.html" class="tsd-kind-icon">Examples</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/features.html" class="tsd-kind-icon">Features</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/luisauthoringclientcontext.html" class="tsd-kind-icon">LUISAuthoring<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/model.html" class="tsd-kind-icon">Model</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/pattern.html" class="tsd-kind-icon">Pattern</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/permissions.html" class="tsd-kind-icon">Permissions</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/settings.html" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/train.html" class="tsd-kind-icon">Train</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/versions.html" class="tsd-kind-icon">Versions</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appversionsettingobject.html" class="tsd-kind-icon">App<wbr>Version<wbr>Setting<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationcreateobject.html" class="tsd-kind-icon">Application<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationinforesponse.html" class="tsd-kind-icon">Application<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationpublishobject.html" class="tsd-kind-icon">Application<wbr>Publish<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationsettingupdateobject.html" class="tsd-kind-icon">Application<wbr>Setting<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationsettings.html" class="tsd-kind-icon">Application<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/applicationupdateobject.html" class="tsd-kind-icon">Application<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appsdeletemethodoptionalparams.html" class="tsd-kind-icon">Apps<wbr>Delete<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appsimportmethodoptionalparams.html" class="tsd-kind-icon">Apps<wbr>Import<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appslistoptionalparams.html" class="tsd-kind-icon">Apps<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableculture.html" class="tsd-kind-icon">Available<wbr>Culture</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/availableprebuiltentitymodel.html" class="tsd-kind-icon">Available<wbr>Prebuilt<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureaccountinfoobject.html" class="tsd-kind-icon">Azure<wbr>Account<wbr>Info<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureaccountsassigntoappoptionalparams.html" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>Assign<wbr>ToApp<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureaccountsremovefromappoptionalparams.html" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>Remove<wbr>From<wbr>App<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/batchlabelexample.html" class="tsd-kind-icon">Batch<wbr>Label<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/childentity.html" class="tsd-kind-icon">Child<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/closedlist.html" class="tsd-kind-icon">Closed<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/closedlistentityextractor.html" class="tsd-kind-icon">Closed<wbr>List<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/closedlistmodelcreateobject.html" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/closedlistmodelpatchobject.html" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Patch<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/closedlistmodelupdateobject.html" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/collaboratorsarray.html" class="tsd-kind-icon">Collaborators<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/compositechildmodelcreateobject.html" class="tsd-kind-icon">Composite<wbr>Child<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/compositeentityextractor.html" class="tsd-kind-icon">Composite<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/compositeentitymodel.html" class="tsd-kind-icon">Composite<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/customprebuiltmodel.html" class="tsd-kind-icon">Custom<wbr>Prebuilt<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/endpointinfo.html" class="tsd-kind-icon">Endpoint<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/enqueuetrainingresponse.html" class="tsd-kind-icon">Enqueue<wbr>Training<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entitiessuggestionexample.html" class="tsd-kind-icon">Entities<wbr>Suggestion<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entityextractor.html" class="tsd-kind-icon">Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entitylabel.html" class="tsd-kind-icon">Entity<wbr>Label</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entitylabelobject.html" class="tsd-kind-icon">Entity<wbr>Label<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entitymodelinfo.html" class="tsd-kind-icon">Entity<wbr>Model<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entityprediction.html" class="tsd-kind-icon">Entity<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entityrole.html" class="tsd-kind-icon">Entity<wbr>Role</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entityrolecreateobject.html" class="tsd-kind-icon">Entity<wbr>Role<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/entityroleupdateobject.html" class="tsd-kind-icon">Entity<wbr>Role<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/examplelabelobject.html" class="tsd-kind-icon">Example<wbr>Label<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exampleslistoptionalparams.html" class="tsd-kind-icon">Examples<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/explicitlistitem.html" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/explicitlistitemcreateobject.html" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/explicitlistitemupdateobject.html" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featureinfoobject.html" class="tsd-kind-icon">Feature<wbr>Info<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featureslistapplicationversionpatternfeaturesoptionalparams.html" class="tsd-kind-icon">Features<wbr>List<wbr>Application<wbr>Version<wbr>Pattern<wbr>Features<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featureslistoptionalparams.html" class="tsd-kind-icon">Features<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featureslistphraselistsoptionalparams.html" class="tsd-kind-icon">Features<wbr>List<wbr>Phrase<wbr>Lists<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featuresresponseobject.html" class="tsd-kind-icon">Features<wbr>Response<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featuresupdatephraselistoptionalparams.html" class="tsd-kind-icon">Features<wbr>Update<wbr>Phrase<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalchildentity.html" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalchildmodelcreateobject.html" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalchildmodelupdateobject.html" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalentityextractor.html" class="tsd-kind-icon">Hierarchical<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalentitymodel.html" class="tsd-kind-icon">Hierarchical<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hierarchicalmodel.html" class="tsd-kind-icon">Hierarchical<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/intentclassifier.html" class="tsd-kind-icon">Intent<wbr>Classifier</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/intentprediction.html" class="tsd-kind-icon">Intent<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/intentssuggestionexample.html" class="tsd-kind-icon">Intents<wbr>Suggestion<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonentity.html" class="tsd-kind-icon">JSONEntity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonmodelfeature.html" class="tsd-kind-icon">JSONModel<wbr>Feature</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonregexfeature.html" class="tsd-kind-icon">JSONRegex<wbr>Feature</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jsonutterance.html" class="tsd-kind-icon">JSONUtterance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labelexampleresponse.html" class="tsd-kind-icon">Label<wbr>Example<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labeltextobject.html" class="tsd-kind-icon">Label<wbr>Text<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/labeledutterance.html" class="tsd-kind-icon">Labeled<wbr>Utterance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/luisapp.html" class="tsd-kind-icon">Luis<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelcreateobject.html" class="tsd-kind-icon">Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modeldeleteintentoptionalparams.html" class="tsd-kind-icon">Model<wbr>Delete<wbr>Intent<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelexamplesmethodoptionalparams.html" class="tsd-kind-icon">Model<wbr>Examples<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelinfo.html" class="tsd-kind-icon">Model<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelinforesponse.html" class="tsd-kind-icon">Model<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistclosedlistsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Closed<wbr>Lists<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistcompositeentitiesoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Composite<wbr>Entities<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistentitiesoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Entities<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistentitysuggestionsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Entity<wbr>Suggestions<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellisthierarchicalentitiesoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Hierarchical<wbr>Entities<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistintentsuggestionsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Intent<wbr>Suggestions<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistintentsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Intents<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistmodelsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Models<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistpatternanyentityinfosoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Infos<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistprebuiltsoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Prebuilts<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modellistregexentityinfosoptionalparams.html" class="tsd-kind-icon">Model<wbr>List<wbr>Regex<wbr>Entity<wbr>Infos<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modeltrainingdetails.html" class="tsd-kind-icon">Model<wbr>Training<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modeltraininginfo.html" class="tsd-kind-icon">Model<wbr>Training<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/modelupdateobject.html" class="tsd-kind-icon">Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationerror.html" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatus.html" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternany.html" class="tsd-kind-icon">Pattern<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternanyentityextractor.html" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternanymodelcreateobject.html" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternanymodelupdateobject.html" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patterncreateobject.html" class="tsd-kind-icon">Pattern<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternfeatureinfo.html" class="tsd-kind-icon">Pattern<wbr>Feature<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternlistintentpatternsoptionalparams.html" class="tsd-kind-icon">Pattern<wbr>List<wbr>Intent<wbr>Patterns<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternlistpatternsoptionalparams.html" class="tsd-kind-icon">Pattern<wbr>List<wbr>Patterns<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternrule.html" class="tsd-kind-icon">Pattern<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternrulecreateobject.html" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternruleinfo.html" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternruleupdateobject.html" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/patternupdateobject.html" class="tsd-kind-icon">Pattern<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/personalassistantsresponse.html" class="tsd-kind-icon">Personal<wbr>Assistants<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phraselistfeatureinfo.html" class="tsd-kind-icon">Phrase<wbr>List<wbr>Feature<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phraselistcreateobject.html" class="tsd-kind-icon">Phraselist<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/phraselistupdateobject.html" class="tsd-kind-icon">Phraselist<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomain.html" class="tsd-kind-icon">Prebuilt<wbr>Domain</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomaincreatebaseobject.html" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Create<wbr>Base<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomaincreateobject.html" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomainitem.html" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomainmodelcreateobject.html" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltdomainobject.html" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltentity.html" class="tsd-kind-icon">Prebuilt<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebuiltentityextractor.html" class="tsd-kind-icon">Prebuilt<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/productionorstagingendpointinfo.html" class="tsd-kind-icon">Production<wbr>OrStaging<wbr>Endpoint<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publishsettingupdateobject.html" class="tsd-kind-icon">Publish<wbr>Setting<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publishsettings.html" class="tsd-kind-icon">Publish<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regexentity.html" class="tsd-kind-icon">Regex<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regexentityextractor.html" class="tsd-kind-icon">Regex<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regexmodelcreateobject.html" class="tsd-kind-icon">Regex<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/regexmodelupdateobject.html" class="tsd-kind-icon">Regex<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subclosedlist.html" class="tsd-kind-icon">Sub<wbr>Closed<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subclosedlistresponse.html" class="tsd-kind-icon">Sub<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/taskupdateobject.html" class="tsd-kind-icon">Task<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/useraccesslist.html" class="tsd-kind-icon">User<wbr>Access<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/usercollaborator.html" class="tsd-kind-icon">User<wbr>Collaborator</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versioninfo.html" class="tsd-kind-icon">Version<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versionsimportmethodoptionalparams.html" class="tsd-kind-icon">Versions<wbr>Import<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/versionslistoptionalparams.html" class="tsd-kind-icon">Versions<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/wordlistbaseupdateobject.html" class="tsd-kind-icon">Word<wbr>List<wbr>Base<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/wordlistobject.html" class="tsd-kind-icon">Word<wbr>List<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsaddcustomprebuiltdomainresponse" class="tsd-kind-icon">Apps<wbr>Add<wbr>Custom<wbr>Prebuilt<wbr>Domain<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsaddresponse" class="tsd-kind-icon">Apps<wbr>Add<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsdeletemethodresponse" class="tsd-kind-icon">Apps<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsdownloadquerylogsresponse" class="tsd-kind-icon">Apps<wbr>Download<wbr>Query<wbr>Logs<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsgetpublishsettingsresponse" class="tsd-kind-icon">Apps<wbr>Get<wbr>Publish<wbr>Settings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsgetresponse" class="tsd-kind-icon">Apps<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsgetsettingsresponse" class="tsd-kind-icon">Apps<wbr>Get<wbr>Settings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsimportmethodresponse" class="tsd-kind-icon">Apps<wbr>Import<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistavailablecustomprebuiltdomainsforcultureresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Available<wbr>Custom<wbr>Prebuilt<wbr>Domains<wbr>For<wbr>Culture<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistavailablecustomprebuiltdomainsresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Available<wbr>Custom<wbr>Prebuilt<wbr>Domains<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistcortanaendpointsresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Cortana<wbr>Endpoints<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistdomainsresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Domains<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistendpointsresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Endpoints<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistsupportedculturesresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Supported<wbr>Cultures<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appslistusagescenariosresponse" class="tsd-kind-icon">Apps<wbr>List<wbr>Usage<wbr>Scenarios<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appspackagepublishedapplicationasgzipresponse" class="tsd-kind-icon">Apps<wbr>Package<wbr>Published<wbr>Application<wbr>AsGzip<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appspackagetrainedapplicationasgzipresponse" class="tsd-kind-icon">Apps<wbr>Package<wbr>Trained<wbr>Application<wbr>AsGzip<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appspublishresponse" class="tsd-kind-icon">Apps<wbr>Publish<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsupdatepublishsettingsresponse" class="tsd-kind-icon">Apps<wbr>Update<wbr>Publish<wbr>Settings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsupdateresponse" class="tsd-kind-icon">Apps<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#appsupdatesettingsresponse" class="tsd-kind-icon">Apps<wbr>Update<wbr>Settings<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureaccountsassigntoappresponse" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>Assign<wbr>ToApp<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureaccountsgetassignedresponse" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>Get<wbr>Assigned<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureaccountslistuserluisaccountsresponse" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>List<wbr>UserLUISAccounts<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureaccountsremovefromappresponse" class="tsd-kind-icon">Azure<wbr>Accounts<wbr>Remove<wbr>From<wbr>App<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#examplesaddresponse" class="tsd-kind-icon">Examples<wbr>Add<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#examplesbatchresponse" class="tsd-kind-icon">Examples<wbr>Batch<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#examplesdeletemethodresponse" class="tsd-kind-icon">Examples<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exampleslistresponse" class="tsd-kind-icon">Examples<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresaddphraselistresponse" class="tsd-kind-icon">Features<wbr>Add<wbr>Phrase<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresdeletephraselistresponse" class="tsd-kind-icon">Features<wbr>Delete<wbr>Phrase<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresgetphraselistresponse" class="tsd-kind-icon">Features<wbr>Get<wbr>Phrase<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featureslistapplicationversionpatternfeaturesresponse" class="tsd-kind-icon">Features<wbr>List<wbr>Application<wbr>Version<wbr>Pattern<wbr>Features<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featureslistphraselistsresponse" class="tsd-kind-icon">Features<wbr>List<wbr>Phrase<wbr>Lists<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featureslistresponse" class="tsd-kind-icon">Features<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresupdatephraselistresponse" class="tsd-kind-icon">Features<wbr>Update<wbr>Phrase<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdclosedlistresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdcompositeentitychildresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Composite<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdcompositeentityresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Composite<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdcustomprebuiltdomainresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Custom<wbr>Prebuilt<wbr>Domain<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdcustomprebuiltentityresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Custom<wbr>Prebuilt<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdcustomprebuiltintentresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Custom<wbr>Prebuilt<wbr>Intent<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdentityresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdexplicitlistitemresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Explicit<wbr>List<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdhierarchicalentitychildresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Hierarchical<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdhierarchicalentityresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Hierarchical<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdintentresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Intent<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdprebuiltresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Prebuilt<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeladdsublistresponse" class="tsd-kind-icon">Model<wbr>Add<wbr>Sub<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreateclosedlistentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Closed<wbr>List<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreatecompositeentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Composite<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreatecustomprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Custom<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreateentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreatehierarchicalentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Hierarchical<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreatepatternanyentitymodelresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreatepatternanyentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreateprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreateregexentitymodelresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Regex<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelcreateregexentityroleresponse" class="tsd-kind-icon">Model<wbr>Create<wbr>Regex<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteclosedlistentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Closed<wbr>List<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteclosedlistresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletecompositeentitychildresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Composite<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletecompositeentityresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Composite<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletecompositeentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Composite<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletecustomentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Custom<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletecustomprebuiltdomainresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Custom<wbr>Prebuilt<wbr>Domain<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteentityresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteexplicitlistitemresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Explicit<wbr>List<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletehierarchicalentitychildresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Hierarchical<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletehierarchicalentityresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Hierarchical<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletehierarchicalentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Hierarchical<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteintentresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Intent<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletepatternanyentitymodelresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletepatternanyentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteprebuiltresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Prebuilt<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteregexentitymodelresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Regex<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeleteregexentityroleresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Regex<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modeldeletesublistresponse" class="tsd-kind-icon">Model<wbr>Delete<wbr>Sub<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelexamplesmethodresponse" class="tsd-kind-icon">Model<wbr>Examples<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetclosedlistentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Closed<wbr>List<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetclosedlistresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetcompositeentityresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Composite<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetcompositeentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Composite<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetcustomentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Custom<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetentityresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetexplicitlistitemresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Explicit<wbr>List<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetexplicitlistresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Explicit<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgethierarchicalentitychildresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Hierarchical<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgethierarchicalentityresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Hierarchical<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgethierarchicalentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Hierarchical<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetintentresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Intent<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetpatternanyentityinforesponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetpatternanyentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetprebuiltresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Prebuilt<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetregexentityentityinforesponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Regex<wbr>Entity<wbr>Entity<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelgetregexentityroleresponse" class="tsd-kind-icon">Model<wbr>Get<wbr>Regex<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistclosedlistentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Closed<wbr>List<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistclosedlistsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Closed<wbr>Lists<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcompositeentitiesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Composite<wbr>Entities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcompositeentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Composite<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcustomprebuiltentitiesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Custom<wbr>Prebuilt<wbr>Entities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcustomprebuiltentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Custom<wbr>Prebuilt<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcustomprebuiltintentsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Custom<wbr>Prebuilt<wbr>Intents<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistcustomprebuiltmodelsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Custom<wbr>Prebuilt<wbr>Models<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistentitiesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Entities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistentitysuggestionsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Entity<wbr>Suggestions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellisthierarchicalentitiesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Hierarchical<wbr>Entities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellisthierarchicalentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Hierarchical<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistintentsuggestionsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Intent<wbr>Suggestions<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistintentsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Intents<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistmodelsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Models<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistpatternanyentityinfosresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Infos<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistpatternanyentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistprebuiltentitiesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Prebuilt<wbr>Entities<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistprebuiltentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Prebuilt<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistprebuiltsresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Prebuilts<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistregexentityinfosresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Regex<wbr>Entity<wbr>Infos<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modellistregexentityrolesresponse" class="tsd-kind-icon">Model<wbr>List<wbr>Regex<wbr>Entity<wbr>Roles<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelpatchclosedlistresponse" class="tsd-kind-icon">Model<wbr>Patch<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateclosedlistentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Closed<wbr>List<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateclosedlistresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatecompositeentityresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Composite<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatecompositeentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Composite<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatecustomprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Custom<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateentityresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateexplicitlistitemresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Explicit<wbr>List<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatehierarchicalentitychildresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Hierarchical<wbr>Entity<wbr>Child<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatehierarchicalentityresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Hierarchical<wbr>Entity<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatehierarchicalentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Hierarchical<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateintentresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Intent<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatepatternanyentitymodelresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatepatternanyentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Pattern<wbr>Any<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateprebuiltentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Prebuilt<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateregexentitymodelresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Regex<wbr>Entity<wbr>Model<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdateregexentityroleresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Regex<wbr>Entity<wbr>Role<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#modelupdatesublistresponse" class="tsd-kind-icon">Model<wbr>Update<wbr>Sub<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationstatustype" class="tsd-kind-icon">Operation<wbr>Status<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternaddpatternresponse" class="tsd-kind-icon">Pattern<wbr>Add<wbr>Pattern<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternbatchaddpatternsresponse" class="tsd-kind-icon">Pattern<wbr>Batch<wbr>Add<wbr>Patterns<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patterndeletepatternresponse" class="tsd-kind-icon">Pattern<wbr>Delete<wbr>Pattern<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patterndeletepatternsresponse" class="tsd-kind-icon">Pattern<wbr>Delete<wbr>Patterns<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternlistintentpatternsresponse" class="tsd-kind-icon">Pattern<wbr>List<wbr>Intent<wbr>Patterns<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternlistpatternsresponse" class="tsd-kind-icon">Pattern<wbr>List<wbr>Patterns<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternupdatepatternresponse" class="tsd-kind-icon">Pattern<wbr>Update<wbr>Pattern<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#patternupdatepatternsresponse" class="tsd-kind-icon">Pattern<wbr>Update<wbr>Patterns<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#permissionsaddresponse" class="tsd-kind-icon">Permissions<wbr>Add<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#permissionsdeletemethodresponse" class="tsd-kind-icon">Permissions<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#permissionslistresponse" class="tsd-kind-icon">Permissions<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#permissionsupdateresponse" class="tsd-kind-icon">Permissions<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype" class="tsd-kind-icon">Readable<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype1" class="tsd-kind-icon">Readable<wbr>Type1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype10" class="tsd-kind-icon">Readable<wbr>Type10</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype2" class="tsd-kind-icon">Readable<wbr>Type2</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype3" class="tsd-kind-icon">Readable<wbr>Type3</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype4" class="tsd-kind-icon">Readable<wbr>Type4</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype5" class="tsd-kind-icon">Readable<wbr>Type5</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype6" class="tsd-kind-icon">Readable<wbr>Type6</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype7" class="tsd-kind-icon">Readable<wbr>Type7</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype8" class="tsd-kind-icon">Readable<wbr>Type8</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#readabletype9" class="tsd-kind-icon">Readable<wbr>Type9</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#settingslistresponse" class="tsd-kind-icon">Settings<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#settingsupdateresponse" class="tsd-kind-icon">Settings<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status" class="tsd-kind-icon">Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#status1" class="tsd-kind-icon">Status1</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#traingetstatusresponse" class="tsd-kind-icon">Train<wbr>Get<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#traintrainversionresponse" class="tsd-kind-icon">Train<wbr>Train<wbr>Version<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#trainingstatus" class="tsd-kind-icon">Training<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionscloneresponse" class="tsd-kind-icon">Versions<wbr>Clone<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsdeletemethodresponse" class="tsd-kind-icon">Versions<wbr>Delete<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsdeleteunlabelledutteranceresponse" class="tsd-kind-icon">Versions<wbr>Delete<wbr>Unlabelled<wbr>Utterance<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsexportmethodresponse" class="tsd-kind-icon">Versions<wbr>Export<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsgetresponse" class="tsd-kind-icon">Versions<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsimportmethodresponse" class="tsd-kind-icon">Versions<wbr>Import<wbr>Method<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionslistresponse" class="tsd-kind-icon">Versions<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#versionsupdateresponse" class="tsd-kind-icon">Versions<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appversionsettingobject" class="tsd-kind-icon">App<wbr>Version<wbr>Setting<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationcreateobject" class="tsd-kind-icon">Application<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationinforesponse" class="tsd-kind-icon">Application<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationpublishobject" class="tsd-kind-icon">Application<wbr>Publish<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationsettingupdateobject" class="tsd-kind-icon">Application<wbr>Setting<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationsettings" class="tsd-kind-icon">Application<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#applicationupdateobject" class="tsd-kind-icon">Application<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableculture" class="tsd-kind-icon">Available<wbr>Culture</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#availableprebuiltentitymodel" class="tsd-kind-icon">Available<wbr>Prebuilt<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureaccountinfoobject" class="tsd-kind-icon">Azure<wbr>Account<wbr>Info<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#batchlabelexample" class="tsd-kind-icon">Batch<wbr>Label<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#childentity" class="tsd-kind-icon">Child<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#closedlist" class="tsd-kind-icon">Closed<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#closedlistentityextractor" class="tsd-kind-icon">Closed<wbr>List<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#closedlistmodelcreateobject" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#closedlistmodelpatchobject" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Patch<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#closedlistmodelupdateobject" class="tsd-kind-icon">Closed<wbr>List<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#collaboratorsarray" class="tsd-kind-icon">Collaborators<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#compositechildmodelcreateobject" class="tsd-kind-icon">Composite<wbr>Child<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#compositeentityextractor" class="tsd-kind-icon">Composite<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#compositeentitymodel" class="tsd-kind-icon">Composite<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#customprebuiltmodel" class="tsd-kind-icon">Custom<wbr>Prebuilt<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpointinfo" class="tsd-kind-icon">Endpoint<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#enqueuetrainingresponse" class="tsd-kind-icon">Enqueue<wbr>Training<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entitiessuggestionexample" class="tsd-kind-icon">Entities<wbr>Suggestion<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityextractor" class="tsd-kind-icon">Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entitylabel" class="tsd-kind-icon">Entity<wbr>Label</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entitylabelobject" class="tsd-kind-icon">Entity<wbr>Label<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entitymodelinfo" class="tsd-kind-icon">Entity<wbr>Model<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityprediction" class="tsd-kind-icon">Entity<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityrole" class="tsd-kind-icon">Entity<wbr>Role</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityrolecreateobject" class="tsd-kind-icon">Entity<wbr>Role<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityroleupdateobject" class="tsd-kind-icon">Entity<wbr>Role<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errorresponse" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#examplelabelobject" class="tsd-kind-icon">Example<wbr>Label<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#explicitlistitem" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#explicitlistitemcreateobject" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#explicitlistitemupdateobject" class="tsd-kind-icon">Explicit<wbr>List<wbr>Item<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#featureinfoobject" class="tsd-kind-icon">Feature<wbr>Info<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#featuresresponseobject" class="tsd-kind-icon">Features<wbr>Response<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalchildentity" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalchildmodelcreateobject" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalchildmodelupdateobject" class="tsd-kind-icon">Hierarchical<wbr>Child<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalentityextractor" class="tsd-kind-icon">Hierarchical<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalentitymodel" class="tsd-kind-icon">Hierarchical<wbr>Entity<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hierarchicalmodel" class="tsd-kind-icon">Hierarchical<wbr>Model</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#intentclassifier" class="tsd-kind-icon">Intent<wbr>Classifier</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#intentprediction" class="tsd-kind-icon">Intent<wbr>Prediction</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#intentssuggestionexample" class="tsd-kind-icon">Intents<wbr>Suggestion<wbr>Example</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonentity" class="tsd-kind-icon">JSONEntity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonmodelfeature" class="tsd-kind-icon">JSONModel<wbr>Feature</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonregexfeature" class="tsd-kind-icon">JSONRegex<wbr>Feature</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jsonutterance" class="tsd-kind-icon">JSONUtterance</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labelexampleresponse" class="tsd-kind-icon">Label<wbr>Example<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labeltextobject" class="tsd-kind-icon">Label<wbr>Text<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#labeledutterance" class="tsd-kind-icon">Labeled<wbr>Utterance</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#luisapp" class="tsd-kind-icon">Luis<wbr>App</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelcreateobject" class="tsd-kind-icon">Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelinfo" class="tsd-kind-icon">Model<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelinforesponse" class="tsd-kind-icon">Model<wbr>Info<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modeltrainingdetails" class="tsd-kind-icon">Model<wbr>Training<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modeltraininginfo" class="tsd-kind-icon">Model<wbr>Training<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelupdateobject" class="tsd-kind-icon">Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationerror" class="tsd-kind-icon">Operation<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatus" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternany" class="tsd-kind-icon">Pattern<wbr>Any</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternanyentityextractor" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternanymodelcreateobject" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternanymodelupdateobject" class="tsd-kind-icon">Pattern<wbr>Any<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patterncreateobject" class="tsd-kind-icon">Pattern<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternfeatureinfo" class="tsd-kind-icon">Pattern<wbr>Feature<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternrule" class="tsd-kind-icon">Pattern<wbr>Rule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternrulecreateobject" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternruleinfo" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternruleupdateobject" class="tsd-kind-icon">Pattern<wbr>Rule<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternupdateobject" class="tsd-kind-icon">Pattern<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#personalassistantsresponse" class="tsd-kind-icon">Personal<wbr>Assistants<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phraselistfeatureinfo" class="tsd-kind-icon">Phrase<wbr>List<wbr>Feature<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phraselistcreateobject" class="tsd-kind-icon">Phraselist<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phraselistupdateobject" class="tsd-kind-icon">Phraselist<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomain" class="tsd-kind-icon">Prebuilt<wbr>Domain</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomaincreatebaseobject" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Create<wbr>Base<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomaincreateobject" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomainitem" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomainmodelcreateobject" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltdomainobject" class="tsd-kind-icon">Prebuilt<wbr>Domain<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltentity" class="tsd-kind-icon">Prebuilt<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltentityextractor" class="tsd-kind-icon">Prebuilt<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#productionorstagingendpointinfo" class="tsd-kind-icon">Production<wbr>OrStaging<wbr>Endpoint<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publishsettingupdateobject" class="tsd-kind-icon">Publish<wbr>Setting<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#publishsettings" class="tsd-kind-icon">Publish<wbr>Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regexentity" class="tsd-kind-icon">Regex<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regexentityextractor" class="tsd-kind-icon">Regex<wbr>Entity<wbr>Extractor</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regexmodelcreateobject" class="tsd-kind-icon">Regex<wbr>Model<wbr>Create<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regexmodelupdateobject" class="tsd-kind-icon">Regex<wbr>Model<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subclosedlist" class="tsd-kind-icon">Sub<wbr>Closed<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subclosedlistresponse" class="tsd-kind-icon">Sub<wbr>Closed<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#taskupdateobject" class="tsd-kind-icon">Task<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#useraccesslist" class="tsd-kind-icon">User<wbr>Access<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#usercollaborator" class="tsd-kind-icon">User<wbr>Collaborator</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versioninfo" class="tsd-kind-icon">Version<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#wordlistbaseupdateobject" class="tsd-kind-icon">Word<wbr>List<wbr>Base<wbr>Update<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#wordlistobject" class="tsd-kind-icon">Word<wbr>List<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appid" class="tsd-kind-icon">app<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#appname" class="tsd-kind-icon">app<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#cchildid" class="tsd-kind-icon">c<wbr>Child<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#centityid" class="tsd-kind-icon">c<wbr>Entity<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clentityid" class="tsd-kind-icon">cl<wbr>Entity<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#culture" class="tsd-kind-icon">culture</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#deleteutterances" class="tsd-kind-icon">delete<wbr>Utterances</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#domainname" class="tsd-kind-icon">domain<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#endpoint" class="tsd-kind-icon">endpoint</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#entityid" class="tsd-kind-icon">entity<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exampleid" class="tsd-kind-icon">example<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#force" class="tsd-kind-icon">force</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hchildid" class="tsd-kind-icon">h<wbr>Child<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#hentityid" class="tsd-kind-icon">h<wbr>Entity<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#intentid" class="tsd-kind-icon">intent<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#itemid" class="tsd-kind-icon">item<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#modelid" class="tsd-kind-icon">model<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#patternid" class="tsd-kind-icon">pattern<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#phraselistid" class="tsd-kind-icon">phraselist<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebuiltid" class="tsd-kind-icon">prebuilt<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#regexentityid" class="tsd-kind-icon">regex<wbr>Entity<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#roleid" class="tsd-kind-icon">role<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skip" class="tsd-kind-icon">skip</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#slotname" class="tsd-kind-icon">slot<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sublistid" class="tsd-kind-icon">sub<wbr>List<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#take" class="tsd-kind-icon">take</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versionid0" class="tsd-kind-icon">version<wbr>Id0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#versionid1" class="tsd-kind-icon">version<wbr>Id1</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

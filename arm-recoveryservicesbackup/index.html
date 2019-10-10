@@ -1,0 +1,2278 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/arm-recoveryservicesbackup</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/arm-recoveryservicesbackup</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/arm-recoveryservicesbackup</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-recoveryservicesbackupclient-sdk-for-javascript" id="azure-recoveryservicesbackupclient-sdk-for-javascript" style="color: inherit; text-decoration: none;">
+					<h2>Azure RecoveryServicesBackupClient SDK for JavaScript</h2>
+				</a>
+				<p>This package contains an isomorphic SDK for RecoveryServicesBackupClient.</p>
+				<a href="#currently-supported-environments" id="currently-supported-environments" style="color: inherit; text-decoration: none;">
+					<h3>Currently supported environments</h3>
+				</a>
+				<ul>
+					<li>Node.js version 6.x.x or higher</li>
+					<li>Browser JavaScript</li>
+				</ul>
+				<a href="#how-to-install" id="how-to-install" style="color: inherit; text-decoration: none;">
+					<h3>How to Install</h3>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">arm</span>-<span class="hljs-keyword">recoveryservicesbackup</span></code></pre>
+				<a href="#how-to-use" id="how-to-use" style="color: inherit; text-decoration: none;">
+					<h3>How to use</h3>
+				</a>
+				<a href="#nodejs---authentication-client-creation-and-get-protectionintent-as-an-example-written-in-typescript" id="nodejs---authentication-client-creation-and-get-protectionintent-as-an-example-written-in-typescript" style="color: inherit; text-decoration: none;">
+					<h4>nodejs - Authentication, client creation and get protectionIntent as an example written in TypeScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-nodeauth" id="install-azurems-rest-nodeauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-nodeauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">nodeauth</span></code></pre>
+				<a href="#sample-code" id="sample-code" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<pre><code class="language-ts"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRest <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestAzure <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-azure-js"</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> msRestNodeAuth <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/ms-rest-nodeauth"</span>;
+<span class="hljs-keyword">import</span> { RecoveryServicesBackupClient, RecoveryServicesBackupModels, RecoveryServicesBackupMappers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/arm-recoveryservicesbackup"</span>;
+<span class="hljs-keyword">const</span> subscriptionId = process.env[<span class="hljs-string">"AZURE_SUBSCRIPTION_ID"</span>];
+
+msRestNodeAuth.interactiveLogin().then(<span class="hljs-function">(<span class="hljs-params">creds</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> RecoveryServicesBackupClient(creds, subscriptionId);
+  <span class="hljs-keyword">const</span> vaultName = <span class="hljs-string">"testvaultName"</span>;
+  <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+  <span class="hljs-keyword">const</span> fabricName = <span class="hljs-string">"testfabricName"</span>;
+  <span class="hljs-keyword">const</span> intentObjectName = <span class="hljs-string">"testintentObjectName"</span>;
+  client.protectionIntent.get(vaultName, resourceGroupName, fabricName, intentObjectName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+    <span class="hljs-built_in">console</span>.log(result);
+  });
+}).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.error(err);
+});</code></pre>
+				<a href="#browser---authentication-client-creation-and-get-protectionintent-as-an-example-written-in-javascript" id="browser---authentication-client-creation-and-get-protectionintent-as-an-example-written-in-javascript" style="color: inherit; text-decoration: none;">
+					<h4>browser - Authentication, client creation and get protectionIntent as an example written in JavaScript.</h4>
+				</a>
+				<a href="#install-azurems-rest-browserauth" id="install-azurems-rest-browserauth" style="color: inherit; text-decoration: none;">
+					<h5>Install @azure/ms-rest-browserauth</h5>
+				</a>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">azure</span>/<span class="hljs-keyword">ms</span>-<span class="hljs-keyword">rest</span>-<span class="hljs-keyword">browserauth</span></code></pre>
+				<a href="#sample-code-1" id="sample-code-1" style="color: inherit; text-decoration: none;">
+					<h5>Sample code</h5>
+				</a>
+				<p>See <a href="https://github.com/Azure/ms-rest-browserauth">https://github.com/Azure/ms-rest-browserauth</a> to learn how to authenticate to Azure in the browser.</p>
+				<ul>
+					<li>index.html<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>@azure/arm-recoveryservicesbackup sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-js/dist/msRest.browser.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-azure-js/dist/msRestAzure.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"node_modules/@azure/arm-recoveryservicesbackup/dist/arm-recoveryservicesbackup.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+    <span class="hljs-keyword">const</span> subscriptionId = <span class="hljs-string">"&lt;Subscription_Id&gt;"</span>;
+    <span class="hljs-keyword">const</span> authManager = <span class="hljs-keyword">new</span> msAuth.AuthManager({
+      <span class="hljs-attr">clientId</span>: <span class="hljs-string">"&lt;client id for your Azure AD app&gt;"</span>,
+      <span class="hljs-attr">tenant</span>: <span class="hljs-string">"&lt;optional tenant for your organization&gt;"</span>
+    });
+    authManager.finalizeLogin().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span> (!res.isLoggedIn) {
+        <span class="hljs-comment">// may cause redirects</span>
+        authManager.login();
+      }
+      <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Azure.ArmRecoveryservicesbackup.RecoveryServicesBackupClient(res.creds, subscriptionId);
+      <span class="hljs-keyword">const</span> vaultName = <span class="hljs-string">"testvaultName"</span>;
+      <span class="hljs-keyword">const</span> resourceGroupName = <span class="hljs-string">"testresourceGroupName"</span>;
+      <span class="hljs-keyword">const</span> fabricName = <span class="hljs-string">"testfabricName"</span>;
+      <span class="hljs-keyword">const</span> intentObjectName = <span class="hljs-string">"testintentObjectName"</span>;
+      client.protectionIntent.get(vaultName, resourceGroupName, fabricName, intentObjectName).then(<span class="hljs-function">(<span class="hljs-params">result</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"The result is:"</span>);
+        <span class="hljs-built_in">console</span>.log(result);
+      }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"An error occurred:"</span>);
+        <span class="hljs-built_in">console</span>.error(err);
+      });
+    });
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+					</li>
+				</ul>
+				<a href="#related-projects" id="related-projects" style="color: inherit; text-decoration: none;">
+					<h2>Related projects</h2>
+				</a>
+				<ul>
+					<li><a href="https://github.com/Azure/azure-sdk-for-js">Microsoft Azure SDK for Javascript</a></li>
+				</ul>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/backupengines.html" class="tsd-kind-icon">Backup<wbr>Engines</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupjobs.html" class="tsd-kind-icon">Backup<wbr>Jobs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupoperationresults.html" class="tsd-kind-icon">Backup<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupoperationstatuses.html" class="tsd-kind-icon">Backup<wbr>Operation<wbr>Statuses</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backuppolicies.html" class="tsd-kind-icon">Backup<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupprotectableitems.html" class="tsd-kind-icon">Backup<wbr>Protectable<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupprotecteditems.html" class="tsd-kind-icon">Backup<wbr>Protected<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupprotectioncontainers.html" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Containers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupprotectionintent.html" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupresourcestorageconfigs.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Storage<wbr>Configs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupresourcevaultconfigs.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Configs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupstatus.html" class="tsd-kind-icon">Backup<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupusagesummaries.html" class="tsd-kind-icon">Backup<wbr>Usage<wbr>Summaries</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backupworkloaditems.html" class="tsd-kind-icon">Backup<wbr>Workload<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/backups.html" class="tsd-kind-icon">Backups</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/exportjobsoperationresults.html" class="tsd-kind-icon">Export<wbr>Jobs<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/featuresupport.html" class="tsd-kind-icon">Feature<wbr>Support</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/itemlevelrecoveryconnections.html" class="tsd-kind-icon">Item<wbr>Level<wbr>Recovery<wbr>Connections</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jobcancellations.html" class="tsd-kind-icon">Job<wbr>Cancellations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jobdetails.html" class="tsd-kind-icon">Job<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/joboperationresults.html" class="tsd-kind-icon">Job<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/jobs.html" class="tsd-kind-icon">Jobs</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operation.html" class="tsd-kind-icon">Operation</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/operations.html" class="tsd-kind-icon">Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectablecontainers.html" class="tsd-kind-icon">Protectable<wbr>Containers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protecteditemoperationresults.html" class="tsd-kind-icon">Protected<wbr>Item<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protecteditemoperationstatuses.html" class="tsd-kind-icon">Protected<wbr>Item<wbr>Operation<wbr>Statuses</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protecteditems.html" class="tsd-kind-icon">Protected<wbr>Items</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectioncontaineroperationresults.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectioncontainerrefreshoperationresults.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Refresh<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectioncontainers.html" class="tsd-kind-icon">Protection<wbr>Containers</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectionintentoperations.html" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Operations</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectionpolicies.html" class="tsd-kind-icon">Protection<wbr>Policies</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectionpolicyoperationresults.html" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Operation<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/protectionpolicyoperationstatuses.html" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Operation<wbr>Statuses</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/recoverypoints.html" class="tsd-kind-icon">Recovery<wbr>Points</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/recoveryservicesbackupclientcontext.html" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Backup<wbr>Client<wbr>Context</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/restores.html" class="tsd-kind-icon">Restores</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/securitypins.html" class="tsd-kind-icon">SecurityPINs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurebackupgoalfeaturesupportrequest.html" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Goal<wbr>Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurebackupservercontainer.html" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Server<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurebackupserverengine.html" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Server<wbr>Engine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefilesharebackuprequest.html" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefileshareprotectableitem.html" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefileshareprotectionpolicy.html" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefilesharerecoverypoint.html" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefilesharerestorerequest.html" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefileshareprotecteditem.html" class="tsd-kind-icon">Azure<wbr>Fileshare<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurefileshareprotecteditemextendedinfo.html" class="tsd-kind-icon">Azure<wbr>Fileshare<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasclassiccomputevmcontainer.html" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMContainer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasclassiccomputevmprotectableitem.html" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasclassiccomputevmprotecteditem.html" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaascomputevmcontainer.html" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMContainer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaascomputevmprotectableitem.html" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaascomputevmprotecteditem.html" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmerrorinfo.html" class="tsd-kind-icon">Azure<wbr>IaaSVMError<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmhealthdetails.html" class="tsd-kind-icon">Azure<wbr>IaaSVMHealth<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmjob.html" class="tsd-kind-icon">Azure<wbr>IaaSVMJob</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmjobextendedinfo.html" class="tsd-kind-icon">Azure<wbr>IaaSVMJob<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmjobtaskdetails.html" class="tsd-kind-icon">Azure<wbr>IaaSVMJob<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmprotecteditem.html" class="tsd-kind-icon">Azure<wbr>IaaSVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmprotecteditemextendedinfo.html" class="tsd-kind-icon">Azure<wbr>IaaSVMProtected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureiaasvmprotectionpolicy.html" class="tsd-kind-icon">Azure<wbr>IaaSVMProtection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurerecoveryservicevaultprotectionintent.html" class="tsd-kind-icon">Azure<wbr>Recovery<wbr>Service<wbr>Vault<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureresourceprotectionintent.html" class="tsd-kind-icon">Azure<wbr>Resource<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqlagworkloadcontainerprotectioncontainer.html" class="tsd-kind-icon">AzureSQLAGWorkload<wbr>Container<wbr>Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqlcontainer.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqlprotecteditem.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqlprotecteditemextendedinfo.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azuresqlprotectionpolicy.html" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestoragecontainer.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestorageerrorinfo.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestoragejob.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestoragejobextendedinfo.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestoragejobtaskdetails.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurestorageprotectablecontainer.html" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmappcontainerprotectablecontainer.html" class="tsd-kind-icon">AzureVMApp<wbr>Container<wbr>Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmappcontainerprotectioncontainer.html" class="tsd-kind-icon">AzureVMApp<wbr>Container<wbr>Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmresourcefeaturesupportrequest.html" class="tsd-kind-icon">AzureVMResource<wbr>Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmresourcefeaturesupportresponse.html" class="tsd-kind-icon">AzureVMResource<wbr>Feature<wbr>Support<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloaditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadprotecteditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadprotecteditemextendedinfo.html" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadprotectionpolicy.html" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsaphanadatabaseprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsaphanadatabaseprotecteditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsaphanadatabaseworkloaditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsaphanasystemprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>System<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsaphanasystemworkloaditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>System<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqlavailabilitygroupprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLAvailability<wbr>Group<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqldatabaseprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqldatabaseprotecteditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqldatabaseworkloaditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqlinstanceprotectableitem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLInstance<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azurevmworkloadsqlinstanceworkloaditem.html" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLInstance<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadautoprotectionintent.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Auto<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadbackuprequest.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadcontainer.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadcontainerextendedinfo.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloaderrorinfo.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadjob.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadjobextendedinfo.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadjobtaskdetails.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadrecoverypoint.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadrestorerequest.html" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsaphanapointintimerecoverypoint.html" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Point<wbr>InTime<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsaphanapointintimerestorerequest.html" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Point<wbr>InTime<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsaphanarecoverypoint.html" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsaphanarestorerequest.html" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlautoprotectionintent.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLAuto<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlpointintimerecoverypoint.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLPoint<wbr>InTime<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlpointintimerestorerequest.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLPoint<wbr>InTime<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlrecoverypoint.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRecovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlrecoverypointextendedinfo.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRecovery<wbr>Point<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/azureworkloadsqlrestorerequest.html" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRestore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bekdetails.html" class="tsd-kind-icon">BEKDetails</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsbackupenginequeryobject.html" class="tsd-kind-icon">BMSBackup<wbr>Engine<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsbackupenginesqueryobject.html" class="tsd-kind-icon">BMSBackup<wbr>Engines<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsbackupsummariesqueryobject.html" class="tsd-kind-icon">BMSBackup<wbr>Summaries<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmscontainerqueryobject.html" class="tsd-kind-icon">BMSContainer<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmscontainersinquiryqueryobject.html" class="tsd-kind-icon">BMSContainers<wbr>Inquiry<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmspoqueryobject.html" class="tsd-kind-icon">BMSPOQuery<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsrpqueryobject.html" class="tsd-kind-icon">BMSRPQuery<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsrefreshcontainersqueryobject.html" class="tsd-kind-icon">BMSRefresh<wbr>Containers<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/bmsworkloaditemqueryobject.html" class="tsd-kind-icon">BMSWorkload<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupenginebase.html" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupenginebaseresource.html" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupenginebaseresourcelist.html" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupengineextendedinfo.html" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupenginesgetoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Engines<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupengineslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Engines<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupjobslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Jobs<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupmanagementusage.html" class="tsd-kind-icon">Backup<wbr>Management<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupmanagementusagelist.html" class="tsd-kind-icon">Backup<wbr>Management<wbr>Usage<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backuppolicieslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Policies<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupprotectableitemslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Protectable<wbr>Items<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupprotecteditemslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Protected<wbr>Items<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupprotectioncontainerslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Containers<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupprotectionintentlistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Intent<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backuprequest.html" class="tsd-kind-icon">Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backuprequestresource.html" class="tsd-kind-icon">Backup<wbr>Request<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupresourceconfig.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupresourceconfigresource.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Config<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupresourcevaultconfig.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupresourcevaultconfigresource.html" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Config<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupstatusrequest.html" class="tsd-kind-icon">Backup<wbr>Status<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupstatusresponse.html" class="tsd-kind-icon">Backup<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupusagesummarieslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Usage<wbr>Summaries<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/backupworkloaditemslistoptionalparams.html" class="tsd-kind-icon">Backup<wbr>Workload<wbr>Items<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoverydisplay.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoveryforlogspecification.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoveryforproperties.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoveryforservicespecification.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoveryresponse.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientdiscoveryvalueforsingleapi.html" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Value<wbr>For<wbr>Single<wbr>Api</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/clientscriptforconnect.html" class="tsd-kind-icon">Client<wbr>Script<wbr>For<wbr>Connect</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/containeridentityinfo.html" class="tsd-kind-icon">Container<wbr>Identity<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmcontainerextendedinfo.html" class="tsd-kind-icon">DPMContainer<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmprotecteditem.html" class="tsd-kind-icon">DPMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmprotecteditemextendedinfo.html" class="tsd-kind-icon">DPMProtected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dailyretentionformat.html" class="tsd-kind-icon">Daily<wbr>Retention<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dailyretentionschedule.html" class="tsd-kind-icon">Daily<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/day.html" class="tsd-kind-icon">Day</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/distributednodesinfo.html" class="tsd-kind-icon">Distributed<wbr>Nodes<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmbackupengine.html" class="tsd-kind-icon">Dpm<wbr>Backup<wbr>Engine</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmcontainer.html" class="tsd-kind-icon">Dpm<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmerrorinfo.html" class="tsd-kind-icon">Dpm<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmjob.html" class="tsd-kind-icon">Dpm<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmjobextendedinfo.html" class="tsd-kind-icon">Dpm<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/dpmjobtaskdetails.html" class="tsd-kind-icon">Dpm<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/encryptiondetails.html" class="tsd-kind-icon">Encryption<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/errordetail.html" class="tsd-kind-icon">Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/exportjobsoperationresultinfo.html" class="tsd-kind-icon">Export<wbr>Jobs<wbr>Operation<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/featuresupportrequest.html" class="tsd-kind-icon">Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericcontainer.html" class="tsd-kind-icon">Generic<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericcontainerextendedinfo.html" class="tsd-kind-icon">Generic<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericprotecteditem.html" class="tsd-kind-icon">Generic<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericprotectionpolicy.html" class="tsd-kind-icon">Generic<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/genericrecoverypoint.html" class="tsd-kind-icon">Generic<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/getprotecteditemqueryobject.html" class="tsd-kind-icon">Get<wbr>Protected<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ilrrequest.html" class="tsd-kind-icon">ILRRequest</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ilrrequestresource.html" class="tsd-kind-icon">ILRRequest<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmcontainer.html" class="tsd-kind-icon">IaaSVMContainer</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmprotectableitem.html" class="tsd-kind-icon">IaaSVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmbackuprequest.html" class="tsd-kind-icon">IaasVMBackup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmilrregistrationrequest.html" class="tsd-kind-icon">IaasVMILRRegistration<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmrecoverypoint.html" class="tsd-kind-icon">IaasVMRecovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iaasvmrestorerequest.html" class="tsd-kind-icon">IaasVMRestore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inquiryinfo.html" class="tsd-kind-icon">Inquiry<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/inquiryvalidation.html" class="tsd-kind-icon">Inquiry<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/instantitemrecoverytarget.html" class="tsd-kind-icon">Instant<wbr>Item<wbr>Recovery<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/job.html" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobqueryobject.html" class="tsd-kind-icon">Job<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobresource.html" class="tsd-kind-icon">Job<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobresourcelist.html" class="tsd-kind-icon">Job<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/jobsexportmethodoptionalparams.html" class="tsd-kind-icon">Jobs<wbr>Export<wbr>Method<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/kekdetails.html" class="tsd-kind-icon">KEKDetails</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/keyandsecretdetails.html" class="tsd-kind-icon">Key<wbr>And<wbr>Secret<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/logschedulepolicy.html" class="tsd-kind-icon">Log<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/longtermretentionpolicy.html" class="tsd-kind-icon">Long<wbr>Term<wbr>Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/longtermschedulepolicy.html" class="tsd-kind-icon">Long<wbr>Term<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabcontainerhealthdetails.html" class="tsd-kind-icon">MABContainer<wbr>Health<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabcontainer.html" class="tsd-kind-icon">Mab<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabcontainerextendedinfo.html" class="tsd-kind-icon">Mab<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/maberrorinfo.html" class="tsd-kind-icon">Mab<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabfilefolderprotecteditem.html" class="tsd-kind-icon">Mab<wbr>File<wbr>Folder<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabfilefolderprotecteditemextendedinfo.html" class="tsd-kind-icon">Mab<wbr>File<wbr>Folder<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabjob.html" class="tsd-kind-icon">Mab<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabjobextendedinfo.html" class="tsd-kind-icon">Mab<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabjobtaskdetails.html" class="tsd-kind-icon">Mab<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/mabprotectionpolicy.html" class="tsd-kind-icon">Mab<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/monthlyretentionschedule.html" class="tsd-kind-icon">Monthly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/nameinfo.html" class="tsd-kind-icon">Name<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresultinfo.html" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresultinfobase.html" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationresultinfobaseresource.html" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info<wbr>Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatus.html" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatuserror.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatusextendedinfo.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatusjobextendedinfo.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatusjobsextendedinfo.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>Jobs<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationstatusprovisionilrextendedinfo.html" class="tsd-kind-icon">Operation<wbr>Status<wbr>ProvisionILRExtended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/operationworkerresponse.html" class="tsd-kind-icon">Operation<wbr>Worker<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/pointintimerange.html" class="tsd-kind-icon">Point<wbr>InTime<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prebackupvalidation.html" class="tsd-kind-icon">Pre<wbr>Backup<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prevalidateenablebackuprequest.html" class="tsd-kind-icon">Pre<wbr>Validate<wbr>Enable<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/prevalidateenablebackupresponse.html" class="tsd-kind-icon">Pre<wbr>Validate<wbr>Enable<wbr>Backup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectablecontainer.html" class="tsd-kind-icon">Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectablecontainerresource.html" class="tsd-kind-icon">Protectable<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectablecontainerresourcelist.html" class="tsd-kind-icon">Protectable<wbr>Container<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectablecontainerslistoptionalparams.html" class="tsd-kind-icon">Protectable<wbr>Containers<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditem.html" class="tsd-kind-icon">Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditemqueryobject.html" class="tsd-kind-icon">Protected<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditemresource.html" class="tsd-kind-icon">Protected<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditemresourcelist.html" class="tsd-kind-icon">Protected<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protecteditemsgetoptionalparams.html" class="tsd-kind-icon">Protected<wbr>Items<wbr>Get<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainer.html" class="tsd-kind-icon">Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainerresource.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainerresourcelist.html" class="tsd-kind-icon">Protection<wbr>Container<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainersinquireoptionalparams.html" class="tsd-kind-icon">Protection<wbr>Containers<wbr>Inquire<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectioncontainersrefreshoptionalparams.html" class="tsd-kind-icon">Protection<wbr>Containers<wbr>Refresh<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionintent.html" class="tsd-kind-icon">Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionintentqueryobject.html" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionintentresource.html" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionintentresourcelist.html" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionpolicy.html" class="tsd-kind-icon">Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionpolicyqueryobject.html" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionpolicyresource.html" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/protectionpolicyresourcelist.html" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypoint.html" class="tsd-kind-icon">Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointresource.html" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointresourcelist.html" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointtierinformation.html" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Tier<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoverypointslistoptionalparams.html" class="tsd-kind-icon">Recovery<wbr>Points<wbr>List<wbr>Optional<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/recoveryservicesbackupclientoptions.html" class="tsd-kind-icon">Recovery<wbr>Services<wbr>Backup<wbr>Client<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resource.html" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/resourcelist.html" class="tsd-kind-icon">Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/restorefilespecs.html" class="tsd-kind-icon">Restore<wbr>File<wbr>Specs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/restorerequest.html" class="tsd-kind-icon">Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/restorerequestresource.html" class="tsd-kind-icon">Restore<wbr>Request<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionduration.html" class="tsd-kind-icon">Retention<wbr>Duration</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/retentionpolicy.html" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatadirectory.html" class="tsd-kind-icon">SQLData<wbr>Directory</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/sqldatadirectorymapping.html" class="tsd-kind-icon">SQLData<wbr>Directory<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/schedulepolicy.html" class="tsd-kind-icon">Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/settings.html" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/simpleretentionpolicy.html" class="tsd-kind-icon">Simple<wbr>Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/simpleschedulepolicy.html" class="tsd-kind-icon">Simple<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/subprotectionpolicy.html" class="tsd-kind-icon">Sub<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetafsrestoreinfo.html" class="tsd-kind-icon">TargetAFSRestore<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/targetrestoreinfo.html" class="tsd-kind-icon">Target<wbr>Restore<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/tokeninformation.html" class="tsd-kind-icon">Token<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validateiaasvmrestoreoperationrequest.html" class="tsd-kind-icon">Validate<wbr>IaasVMRestore<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validateoperationrequest.html" class="tsd-kind-icon">Validate<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validateoperationresponse.html" class="tsd-kind-icon">Validate<wbr>Operation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validateoperationsresponse.html" class="tsd-kind-icon">Validate<wbr>Operations<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/validaterestoreoperationrequest.html" class="tsd-kind-icon">Validate<wbr>Restore<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weeklyretentionformat.html" class="tsd-kind-icon">Weekly<wbr>Retention<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/weeklyretentionschedule.html" class="tsd-kind-icon">Weekly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloadinquirydetails.html" class="tsd-kind-icon">Workload<wbr>Inquiry<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloaditem.html" class="tsd-kind-icon">Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloaditemresource.html" class="tsd-kind-icon">Workload<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloaditemresourcelist.html" class="tsd-kind-icon">Workload<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloadprotectableitem.html" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloadprotectableitemresource.html" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/workloadprotectableitemresourcelist.html" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/yearlyretentionschedule.html" class="tsd-kind-icon">Yearly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurefilesharetype" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureiaasvmprotecteditemunion" class="tsd-kind-icon">Azure<wbr>IaaSVMProtected<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurerecoveryservicevaultprotectionintentunion" class="tsd-kind-icon">Azure<wbr>Recovery<wbr>Service<wbr>Vault<wbr>Protection<wbr>Intent<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurevmworkloaditemunion" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurevmworkloadprotectableitemunion" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protectable<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azurevmworkloadprotecteditemunion" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protected<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadautoprotectionintentunion" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Auto<wbr>Protection<wbr>Intent<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadcontainerunion" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Container<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadrecoverypointunion" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Recovery<wbr>Point<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadrestorerequestunion" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Restore<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadsaphanarecoverypointunion" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Recovery<wbr>Point<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadsaphanarestorerequestunion" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Restore<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadsqlrecoverypointunion" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRecovery<wbr>Point<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#azureworkloadsqlrestorerequestunion" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRestore<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupenginebaseunion" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupenginesgetresponse" class="tsd-kind-icon">Backup<wbr>Engines<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupengineslistnextresponse" class="tsd-kind-icon">Backup<wbr>Engines<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupengineslistresponse" class="tsd-kind-icon">Backup<wbr>Engines<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupitemtype" class="tsd-kind-icon">Backup<wbr>Item<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupjobslistnextresponse" class="tsd-kind-icon">Backup<wbr>Jobs<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupjobslistresponse" class="tsd-kind-icon">Backup<wbr>Jobs<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupmanagementtype" class="tsd-kind-icon">Backup<wbr>Management<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupoperationstatusesgetresponse" class="tsd-kind-icon">Backup<wbr>Operation<wbr>Statuses<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backuppolicieslistnextresponse" class="tsd-kind-icon">Backup<wbr>Policies<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backuppolicieslistresponse" class="tsd-kind-icon">Backup<wbr>Policies<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectableitemslistnextresponse" class="tsd-kind-icon">Backup<wbr>Protectable<wbr>Items<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectableitemslistresponse" class="tsd-kind-icon">Backup<wbr>Protectable<wbr>Items<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotecteditemslistnextresponse" class="tsd-kind-icon">Backup<wbr>Protected<wbr>Items<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotecteditemslistresponse" class="tsd-kind-icon">Backup<wbr>Protected<wbr>Items<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectioncontainerslistnextresponse" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Containers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectioncontainerslistresponse" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Containers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectionintentlistnextresponse" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Intent<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupprotectionintentlistresponse" class="tsd-kind-icon">Backup<wbr>Protection<wbr>Intent<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backuprequestunion" class="tsd-kind-icon">Backup<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupresourcestorageconfigsgetresponse" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Storage<wbr>Configs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupresourcevaultconfigsgetresponse" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Configs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupresourcevaultconfigsupdateresponse" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Configs<wbr>Update<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupstatusgetresponse" class="tsd-kind-icon">Backup<wbr>Status<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backuptype" class="tsd-kind-icon">Backup<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupusagesummarieslistresponse" class="tsd-kind-icon">Backup<wbr>Usage<wbr>Summaries<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupworkloaditemslistnextresponse" class="tsd-kind-icon">Backup<wbr>Workload<wbr>Items<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#backupworkloaditemslistresponse" class="tsd-kind-icon">Backup<wbr>Workload<wbr>Items<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#containertype" class="tsd-kind-icon">Container<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#copyoptions" class="tsd-kind-icon">Copy<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#createmode" class="tsd-kind-icon">Create<wbr>Mode</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#datasourcetype" class="tsd-kind-icon">Data<wbr>Source<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#dayofweek" class="tsd-kind-icon">Day<wbr>OfWeek</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#enhancedsecuritystate" class="tsd-kind-icon">Enhanced<wbr>Security<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#exportjobsoperationresultsgetresponse" class="tsd-kind-icon">Export<wbr>Jobs<wbr>Operation<wbr>Results<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#fabricname" class="tsd-kind-icon">Fabric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresupportrequestunion" class="tsd-kind-icon">Feature<wbr>Support<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#featuresupportvalidateresponse" class="tsd-kind-icon">Feature<wbr>Support<wbr>Validate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#healthstate" class="tsd-kind-icon">Health<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#healthstatus" class="tsd-kind-icon">Health<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#httpstatuscode" class="tsd-kind-icon">Http<wbr>Status<wbr>Code</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#ilrrequestunion" class="tsd-kind-icon">ILRRequest<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iaasvmcontainerunion" class="tsd-kind-icon">IaaSVMContainer<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#iaasvmprotectableitemunion" class="tsd-kind-icon">IaaSVMProtectable<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#inquirystatus" class="tsd-kind-icon">Inquiry<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#intentitemtype" class="tsd-kind-icon">Intent<wbr>Item<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobdetailsgetresponse" class="tsd-kind-icon">Job<wbr>Details<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#joboperationtype" class="tsd-kind-icon">Job<wbr>Operation<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobstatus" class="tsd-kind-icon">Job<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobsupportedaction" class="tsd-kind-icon">Job<wbr>Supported<wbr>Action</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#jobunion" class="tsd-kind-icon">Job<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#lastbackupstatus" class="tsd-kind-icon">Last<wbr>Backup<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#mabservertype" class="tsd-kind-icon">Mab<wbr>Server<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#monthofyear" class="tsd-kind-icon">Month<wbr>OfYear</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationresultinfobaseunion" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info<wbr>Base<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationstatusextendedinfounion" class="tsd-kind-icon">Operation<wbr>Status<wbr>Extended<wbr>Info<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationstatusvalues" class="tsd-kind-icon">Operation<wbr>Status<wbr>Values</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationvalidateresponse" class="tsd-kind-icon">Operation<wbr>Validate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistnextresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#operationslistresponse" class="tsd-kind-icon">Operations<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#overwriteoptions" class="tsd-kind-icon">Overwrite<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#policytype" class="tsd-kind-icon">Policy<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectablecontainerunion" class="tsd-kind-icon">Protectable<wbr>Container<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectablecontainerslistnextresponse" class="tsd-kind-icon">Protectable<wbr>Containers<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectablecontainerslistresponse" class="tsd-kind-icon">Protectable<wbr>Containers<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemhealthstatus" class="tsd-kind-icon">Protected<wbr>Item<wbr>Health<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemoperationresultsgetresponse" class="tsd-kind-icon">Protected<wbr>Item<wbr>Operation<wbr>Results<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemoperationstatusesgetresponse" class="tsd-kind-icon">Protected<wbr>Item<wbr>Operation<wbr>Statuses<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemstate" class="tsd-kind-icon">Protected<wbr>Item<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemunion" class="tsd-kind-icon">Protected<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemscreateorupdateresponse" class="tsd-kind-icon">Protected<wbr>Items<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protecteditemsgetresponse" class="tsd-kind-icon">Protected<wbr>Items<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectioncontaineroperationresultsgetresponse" class="tsd-kind-icon">Protection<wbr>Container<wbr>Operation<wbr>Results<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectioncontainerunion" class="tsd-kind-icon">Protection<wbr>Container<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectioncontainersgetresponse" class="tsd-kind-icon">Protection<wbr>Containers<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectioncontainersregisterresponse" class="tsd-kind-icon">Protection<wbr>Containers<wbr>Register<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionintentcreateorupdateresponse" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionintentgetresponse" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionintentunion" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionintentvalidateresponse" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Validate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionpoliciescreateorupdateresponse" class="tsd-kind-icon">Protection<wbr>Policies<wbr>Create<wbr>OrUpdate<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionpoliciesgetresponse" class="tsd-kind-icon">Protection<wbr>Policies<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionpolicyoperationresultsgetresponse" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Operation<wbr>Results<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionpolicyoperationstatusesgetresponse" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Operation<wbr>Statuses<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionpolicyunion" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionstate" class="tsd-kind-icon">Protection<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#protectionstatus" class="tsd-kind-icon">Protection<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointtierstatus" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Tier<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointtiertype" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Tier<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointunion" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointsgetresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointslistnextresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>List<wbr>Next<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverypointslistresponse" class="tsd-kind-icon">Recovery<wbr>Points<wbr>List<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#recoverytype" class="tsd-kind-icon">Recovery<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#restorepointquerytype" class="tsd-kind-icon">Restore<wbr>Point<wbr>Query<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#restorepointtype" class="tsd-kind-icon">Restore<wbr>Point<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#restorerequesttype" class="tsd-kind-icon">Restore<wbr>Request<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#restorerequestunion" class="tsd-kind-icon">Restore<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#retentiondurationtype" class="tsd-kind-icon">Retention<wbr>Duration<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#retentionpolicyunion" class="tsd-kind-icon">Retention<wbr>Policy<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#retentionscheduleformat" class="tsd-kind-icon">Retention<wbr>Schedule<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#sqldatadirectorytype" class="tsd-kind-icon">SQLData<wbr>Directory<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#schedulepolicyunion" class="tsd-kind-icon">Schedule<wbr>Policy<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#scheduleruntype" class="tsd-kind-icon">Schedule<wbr>Run<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#securitypinsgetresponse" class="tsd-kind-icon">SecurityPINs<wbr>Get<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storagetype" class="tsd-kind-icon">Storage<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#storagetypestate" class="tsd-kind-icon">Storage<wbr>Type<wbr>State</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#supportstatus" class="tsd-kind-icon">Support<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#type" class="tsd-kind-icon">Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#usagesunit" class="tsd-kind-icon">Usages<wbr>Unit</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validateoperationrequestunion" class="tsd-kind-icon">Validate<wbr>Operation<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validaterestoreoperationrequestunion" class="tsd-kind-icon">Validate<wbr>Restore<wbr>Operation<wbr>Request<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#validationstatus" class="tsd-kind-icon">Validation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#weekofmonth" class="tsd-kind-icon">Week<wbr>OfMonth</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#workloaditemtype" class="tsd-kind-icon">Workload<wbr>Item<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#workloaditemunion" class="tsd-kind-icon">Workload<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#workloadprotectableitemunion" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item<wbr>Union</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#workloadtype" class="tsd-kind-icon">Workload<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#baseresource" class="tsd-kind-icon">Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#clouderror" class="tsd-kind-icon">Cloud<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurebackupgoalfeaturesupportrequest" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Goal<wbr>Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurebackupservercontainer" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Server<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurebackupserverengine" class="tsd-kind-icon">Azure<wbr>Backup<wbr>Server<wbr>Engine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefilesharebackuprequest" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefileshareprotectableitem" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefileshareprotectionpolicy" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefilesharerecoverypoint" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefilesharerestorerequest" class="tsd-kind-icon">Azure<wbr>File<wbr>Share<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefileshareprotecteditem" class="tsd-kind-icon">Azure<wbr>Fileshare<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurefileshareprotecteditemextendedinfo" class="tsd-kind-icon">Azure<wbr>Fileshare<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasclassiccomputevmcontainer" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMContainer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasclassiccomputevmprotectableitem" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasclassiccomputevmprotecteditem" class="tsd-kind-icon">Azure<wbr>IaaSClassic<wbr>ComputeVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaascomputevmcontainer" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMContainer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaascomputevmprotectableitem" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaascomputevmprotecteditem" class="tsd-kind-icon">Azure<wbr>IaaSComputeVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmerrorinfo" class="tsd-kind-icon">Azure<wbr>IaaSVMError<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmhealthdetails" class="tsd-kind-icon">Azure<wbr>IaaSVMHealth<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmjob" class="tsd-kind-icon">Azure<wbr>IaaSVMJob</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmjobextendedinfo" class="tsd-kind-icon">Azure<wbr>IaaSVMJob<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmjobtaskdetails" class="tsd-kind-icon">Azure<wbr>IaaSVMJob<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmprotecteditem" class="tsd-kind-icon">Azure<wbr>IaaSVMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmprotecteditemextendedinfo" class="tsd-kind-icon">Azure<wbr>IaaSVMProtected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureiaasvmprotectionpolicy" class="tsd-kind-icon">Azure<wbr>IaaSVMProtection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurerecoveryservicevaultprotectionintent" class="tsd-kind-icon">Azure<wbr>Recovery<wbr>Service<wbr>Vault<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureresourceprotectionintent" class="tsd-kind-icon">Azure<wbr>Resource<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqlagworkloadcontainerprotectioncontainer" class="tsd-kind-icon">AzureSQLAGWorkload<wbr>Container<wbr>Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqlcontainer" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqlprotecteditem" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqlprotecteditemextendedinfo" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azuresqlprotectionpolicy" class="tsd-kind-icon">Azure<wbr>Sql<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestoragecontainer" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestorageerrorinfo" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestoragejob" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestoragejobextendedinfo" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestoragejobtaskdetails" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurestorageprotectablecontainer" class="tsd-kind-icon">Azure<wbr>Storage<wbr>Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmappcontainerprotectablecontainer" class="tsd-kind-icon">AzureVMApp<wbr>Container<wbr>Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmappcontainerprotectioncontainer" class="tsd-kind-icon">AzureVMApp<wbr>Container<wbr>Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmresourcefeaturesupportrequest" class="tsd-kind-icon">AzureVMResource<wbr>Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmresourcefeaturesupportresponse" class="tsd-kind-icon">AzureVMResource<wbr>Feature<wbr>Support<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloaditem" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadprotecteditem" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadprotecteditemextendedinfo" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadprotectionpolicy" class="tsd-kind-icon">Azure<wbr>VmWorkload<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsaphanadatabaseprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsaphanadatabaseprotecteditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsaphanadatabaseworkloaditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>Database<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsaphanasystemprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>System<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsaphanasystemworkloaditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSAPHana<wbr>System<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqlavailabilitygroupprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLAvailability<wbr>Group<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqldatabaseprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqldatabaseprotecteditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqldatabaseworkloaditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLDatabase<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqlinstanceprotectableitem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLInstance<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azurevmworkloadsqlinstanceworkloaditem" class="tsd-kind-icon">Azure<wbr>VmWorkloadSQLInstance<wbr>Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadautoprotectionintent" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Auto<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadbackuprequest" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadcontainer" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadcontainerextendedinfo" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloaderrorinfo" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadjob" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadjobextendedinfo" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadjobtaskdetails" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadrecoverypoint" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadrestorerequest" class="tsd-kind-icon">Azure<wbr>Workload<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsaphanapointintimerecoverypoint" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Point<wbr>InTime<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsaphanapointintimerestorerequest" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Point<wbr>InTime<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsaphanarecoverypoint" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsaphanarestorerequest" class="tsd-kind-icon">Azure<wbr>WorkloadSAPHana<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlautoprotectionintent" class="tsd-kind-icon">Azure<wbr>WorkloadSQLAuto<wbr>Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlpointintimerecoverypoint" class="tsd-kind-icon">Azure<wbr>WorkloadSQLPoint<wbr>InTime<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlpointintimerestorerequest" class="tsd-kind-icon">Azure<wbr>WorkloadSQLPoint<wbr>InTime<wbr>Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlrecoverypoint" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRecovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlrecoverypointextendedinfo" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRecovery<wbr>Point<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureworkloadsqlrestorerequest" class="tsd-kind-icon">Azure<wbr>WorkloadSQLRestore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bekdetails" class="tsd-kind-icon">BEKDetails</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsbackupenginequeryobject" class="tsd-kind-icon">BMSBackup<wbr>Engine<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsbackupenginesqueryobject" class="tsd-kind-icon">BMSBackup<wbr>Engines<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsbackupsummariesqueryobject" class="tsd-kind-icon">BMSBackup<wbr>Summaries<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmscontainerqueryobject" class="tsd-kind-icon">BMSContainer<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmscontainersinquiryqueryobject" class="tsd-kind-icon">BMSContainers<wbr>Inquiry<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmspoqueryobject" class="tsd-kind-icon">BMSPOQuery<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsrpqueryobject" class="tsd-kind-icon">BMSRPQuery<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsrefreshcontainersqueryobject" class="tsd-kind-icon">BMSRefresh<wbr>Containers<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#bmsworkloaditemqueryobject" class="tsd-kind-icon">BMSWorkload<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupenginebase" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupenginebaseresource" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupenginebaseresourcelist" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Base<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupengineextendedinfo" class="tsd-kind-icon">Backup<wbr>Engine<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupmanagementusage" class="tsd-kind-icon">Backup<wbr>Management<wbr>Usage</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupmanagementusagelist" class="tsd-kind-icon">Backup<wbr>Management<wbr>Usage<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backuprequest" class="tsd-kind-icon">Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backuprequestresource" class="tsd-kind-icon">Backup<wbr>Request<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupresourceconfig" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupresourceconfigresource" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Config<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupresourcevaultconfig" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupresourcevaultconfigresource" class="tsd-kind-icon">Backup<wbr>Resource<wbr>Vault<wbr>Config<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupstatusrequest" class="tsd-kind-icon">Backup<wbr>Status<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupstatusresponse" class="tsd-kind-icon">Backup<wbr>Status<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoverydisplay" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Display</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoveryforlogspecification" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Log<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoveryforproperties" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoveryforservicespecification" class="tsd-kind-icon">Client<wbr>Discovery<wbr>For<wbr>Service<wbr>Specification</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoveryresponse" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientdiscoveryvalueforsingleapi" class="tsd-kind-icon">Client<wbr>Discovery<wbr>Value<wbr>For<wbr>Single<wbr>Api</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clientscriptforconnect" class="tsd-kind-icon">Client<wbr>Script<wbr>For<wbr>Connect</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containeridentityinfo" class="tsd-kind-icon">Container<wbr>Identity<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmcontainerextendedinfo" class="tsd-kind-icon">DPMContainer<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmprotecteditem" class="tsd-kind-icon">DPMProtected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmprotecteditemextendedinfo" class="tsd-kind-icon">DPMProtected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dailyretentionformat" class="tsd-kind-icon">Daily<wbr>Retention<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dailyretentionschedule" class="tsd-kind-icon">Daily<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#day" class="tsd-kind-icon">Day</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#distributednodesinfo" class="tsd-kind-icon">Distributed<wbr>Nodes<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmbackupengine" class="tsd-kind-icon">Dpm<wbr>Backup<wbr>Engine</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmcontainer" class="tsd-kind-icon">Dpm<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmerrorinfo" class="tsd-kind-icon">Dpm<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmjob" class="tsd-kind-icon">Dpm<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmjobextendedinfo" class="tsd-kind-icon">Dpm<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#dpmjobtaskdetails" class="tsd-kind-icon">Dpm<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#encryptiondetails" class="tsd-kind-icon">Encryption<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#errordetail" class="tsd-kind-icon">Error<wbr>Detail</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#exportjobsoperationresultinfo" class="tsd-kind-icon">Export<wbr>Jobs<wbr>Operation<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#featuresupportrequest" class="tsd-kind-icon">Feature<wbr>Support<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#genericcontainer" class="tsd-kind-icon">Generic<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#genericcontainerextendedinfo" class="tsd-kind-icon">Generic<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#genericprotecteditem" class="tsd-kind-icon">Generic<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#genericprotectionpolicy" class="tsd-kind-icon">Generic<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#genericrecoverypoint" class="tsd-kind-icon">Generic<wbr>Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#getprotecteditemqueryobject" class="tsd-kind-icon">Get<wbr>Protected<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ilrrequest" class="tsd-kind-icon">ILRRequest</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#ilrrequestresource" class="tsd-kind-icon">ILRRequest<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmcontainer" class="tsd-kind-icon">IaaSVMContainer</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmprotectableitem" class="tsd-kind-icon">IaaSVMProtectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmbackuprequest" class="tsd-kind-icon">IaasVMBackup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmilrregistrationrequest" class="tsd-kind-icon">IaasVMILRRegistration<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmrecoverypoint" class="tsd-kind-icon">IaasVMRecovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#iaasvmrestorerequest" class="tsd-kind-icon">IaasVMRestore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inquiryinfo" class="tsd-kind-icon">Inquiry<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#inquiryvalidation" class="tsd-kind-icon">Inquiry<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#instantitemrecoverytarget" class="tsd-kind-icon">Instant<wbr>Item<wbr>Recovery<wbr>Target</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#job" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobqueryobject" class="tsd-kind-icon">Job<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobresource" class="tsd-kind-icon">Job<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobresourcelist" class="tsd-kind-icon">Job<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#kekdetails" class="tsd-kind-icon">KEKDetails</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#keyandsecretdetails" class="tsd-kind-icon">Key<wbr>And<wbr>Secret<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#logschedulepolicy" class="tsd-kind-icon">Log<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#longtermretentionpolicy" class="tsd-kind-icon">Long<wbr>Term<wbr>Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#longtermschedulepolicy" class="tsd-kind-icon">Long<wbr>Term<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabcontainerhealthdetails" class="tsd-kind-icon">MABContainer<wbr>Health<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabcontainer" class="tsd-kind-icon">Mab<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabcontainerextendedinfo" class="tsd-kind-icon">Mab<wbr>Container<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#maberrorinfo" class="tsd-kind-icon">Mab<wbr>Error<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabfilefolderprotecteditem" class="tsd-kind-icon">Mab<wbr>File<wbr>Folder<wbr>Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabfilefolderprotecteditemextendedinfo" class="tsd-kind-icon">Mab<wbr>File<wbr>Folder<wbr>Protected<wbr>Item<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabjob" class="tsd-kind-icon">Mab<wbr>Job</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabjobextendedinfo" class="tsd-kind-icon">Mab<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabjobtaskdetails" class="tsd-kind-icon">Mab<wbr>Job<wbr>Task<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#mabprotectionpolicy" class="tsd-kind-icon">Mab<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#monthlyretentionschedule" class="tsd-kind-icon">Monthly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nameinfo" class="tsd-kind-icon">Name<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresultinfo" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresultinfobase" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info<wbr>Base</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationresultinfobaseresource" class="tsd-kind-icon">Operation<wbr>Result<wbr>Info<wbr>Base<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatus" class="tsd-kind-icon">Operation<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatuserror" class="tsd-kind-icon">Operation<wbr>Status<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatusextendedinfo" class="tsd-kind-icon">Operation<wbr>Status<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatusjobextendedinfo" class="tsd-kind-icon">Operation<wbr>Status<wbr>Job<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatusjobsextendedinfo" class="tsd-kind-icon">Operation<wbr>Status<wbr>Jobs<wbr>Extended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationstatusprovisionilrextendedinfo" class="tsd-kind-icon">Operation<wbr>Status<wbr>ProvisionILRExtended<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationworkerresponse" class="tsd-kind-icon">Operation<wbr>Worker<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#pointintimerange" class="tsd-kind-icon">Point<wbr>InTime<wbr>Range</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prebackupvalidation" class="tsd-kind-icon">Pre<wbr>Backup<wbr>Validation</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prevalidateenablebackuprequest" class="tsd-kind-icon">Pre<wbr>Validate<wbr>Enable<wbr>Backup<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#prevalidateenablebackupresponse" class="tsd-kind-icon">Pre<wbr>Validate<wbr>Enable<wbr>Backup<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectablecontainer" class="tsd-kind-icon">Protectable<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectablecontainerresource" class="tsd-kind-icon">Protectable<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectablecontainerresourcelist" class="tsd-kind-icon">Protectable<wbr>Container<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditem" class="tsd-kind-icon">Protected<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditemqueryobject" class="tsd-kind-icon">Protected<wbr>Item<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditemresource" class="tsd-kind-icon">Protected<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditemresourcelist" class="tsd-kind-icon">Protected<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainer" class="tsd-kind-icon">Protection<wbr>Container</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainerresource" class="tsd-kind-icon">Protection<wbr>Container<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectioncontainerresourcelist" class="tsd-kind-icon">Protection<wbr>Container<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionintent" class="tsd-kind-icon">Protection<wbr>Intent</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionintentqueryobject" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionintentresource" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionintentresourcelist" class="tsd-kind-icon">Protection<wbr>Intent<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionpolicy" class="tsd-kind-icon">Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionpolicyqueryobject" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Query<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionpolicyresource" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protectionpolicyresourcelist" class="tsd-kind-icon">Protection<wbr>Policy<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypoint" class="tsd-kind-icon">Recovery<wbr>Point</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointresource" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointresourcelist" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointtierinformation" class="tsd-kind-icon">Recovery<wbr>Point<wbr>Tier<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resource" class="tsd-kind-icon">Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcelist" class="tsd-kind-icon">Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restorefilespecs" class="tsd-kind-icon">Restore<wbr>File<wbr>Specs</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restorerequest" class="tsd-kind-icon">Restore<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#restorerequestresource" class="tsd-kind-icon">Restore<wbr>Request<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionduration" class="tsd-kind-icon">Retention<wbr>Duration</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#retentionpolicy" class="tsd-kind-icon">Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatadirectory" class="tsd-kind-icon">SQLData<wbr>Directory</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#sqldatadirectorymapping" class="tsd-kind-icon">SQLData<wbr>Directory<wbr>Mapping</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#schedulepolicy" class="tsd-kind-icon">Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#settings" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#simpleretentionpolicy" class="tsd-kind-icon">Simple<wbr>Retention<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#simpleschedulepolicy" class="tsd-kind-icon">Simple<wbr>Schedule<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subprotectionpolicy" class="tsd-kind-icon">Sub<wbr>Protection<wbr>Policy</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetafsrestoreinfo" class="tsd-kind-icon">TargetAFSRestore<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#targetrestoreinfo" class="tsd-kind-icon">Target<wbr>Restore<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#tokeninformation" class="tsd-kind-icon">Token<wbr>Information</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#validateiaasvmrestoreoperationrequest" class="tsd-kind-icon">Validate<wbr>IaasVMRestore<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#validateoperationrequest" class="tsd-kind-icon">Validate<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#validateoperationresponse" class="tsd-kind-icon">Validate<wbr>Operation<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#validateoperationsresponse" class="tsd-kind-icon">Validate<wbr>Operations<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#validaterestoreoperationrequest" class="tsd-kind-icon">Validate<wbr>Restore<wbr>Operation<wbr>Request</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weeklyretentionformat" class="tsd-kind-icon">Weekly<wbr>Retention<wbr>Format</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#weeklyretentionschedule" class="tsd-kind-icon">Weekly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloadinquirydetails" class="tsd-kind-icon">Workload<wbr>Inquiry<wbr>Details</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloaditem" class="tsd-kind-icon">Workload<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloaditemresource" class="tsd-kind-icon">Workload<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloaditemresourcelist" class="tsd-kind-icon">Workload<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloadprotectableitem" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloadprotectableitemresource" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item<wbr>Resource</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#workloadprotectableitemresourcelist" class="tsd-kind-icon">Workload<wbr>Protectable<wbr>Item<wbr>Resource<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#yearlyretentionschedule" class="tsd-kind-icon">Yearly<wbr>Retention<wbr>Schedule</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#acceptlanguage" class="tsd-kind-icon">accept<wbr>Language</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion0" class="tsd-kind-icon">api<wbr>Version0</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion1" class="tsd-kind-icon">api<wbr>Version1</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#apiversion2" class="tsd-kind-icon">api<wbr>Version2</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#azureregion" class="tsd-kind-icon">azure<wbr>Region</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#backupenginename" class="tsd-kind-icon">backup<wbr>Engine<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#containername" class="tsd-kind-icon">container<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#discriminators" class="tsd-kind-icon">discriminators</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#fabricname" class="tsd-kind-icon">fabric<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#intentobjectname" class="tsd-kind-icon">intent<wbr>Object<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#jobname" class="tsd-kind-icon">job<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#nextpagelink" class="tsd-kind-icon">next<wbr>Page<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationid" class="tsd-kind-icon">operation<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#policyname" class="tsd-kind-icon">policy<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#protecteditemname" class="tsd-kind-icon">protected<wbr>Item<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#recoverypointid" class="tsd-kind-icon">recovery<wbr>Point<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#resourcegroupname" class="tsd-kind-icon">resource<wbr>Group<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#skiptoken" class="tsd-kind-icon">skip<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#subscriptionid" class="tsd-kind-icon">subscription<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#vaultname" class="tsd-kind-icon">vault<wbr>Name</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

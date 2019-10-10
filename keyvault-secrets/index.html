@@ -1,0 +1,448 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@azure/keyvault-secrets</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@azure/keyvault-secrets</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> @azure/keyvault-secrets</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#azure-key-vault-secrets-client-library-for-js" id="azure-key-vault-secrets-client-library-for-js" style="color: inherit; text-decoration: none;">
+					<h1>Azure Key Vault Secrets client library for JS</h1>
+				</a>
+				<p>Azure Key Vault is a service that allows you to encrypt authentication keys,
+					storage account keys, data encryption keys, .pfx files, and passwords by using
+					keys that are protected by hardware security modules (HSMs). If you would like
+					to know more about Azure Key Vault, you may want to review &quot;<a href="https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview">What is Azure Key
+				Vault?</a>&quot;.</p>
+				<p>Azure Key Vault Secrets management allows you to securely store and
+					tightly control access to tokens, passwords, certificates, API keys,
+				and other secrets.</p>
+				<p>Use the client library for Azure Key Vault Secrets in your Node.js application to</p>
+				<ul>
+					<li>Get, set and delete a secret.</li>
+					<li>Update a secret and it&#39;s attributes.</li>
+					<li>Backup and restore a secret.</li>
+					<li>Get, purge or recover a deleted secret.</li>
+					<li>Get all the versions of a secret.</li>
+					<li>Get all secrets.</li>
+					<li>Get all deleted secrets.</li>
+				</ul>
+				<p><strong>Please Note:</strong> This is a preview version of the Key Vault Secrets library</p>
+				<p><a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets">Source code</a> | <a href="https://www.npmjs.com/package/@azure/keyvault-secrets">Package (npm)</a> | <a href="https://azure.github.io/azure-sdk-for-js/keyvault-secrets">API Reference Documentation</a> | <a href="https://azure.microsoft.com/en-us/services/key-vault/">Product documentation</a> | <a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples">Samples</a></p>
+				<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
+					<h2>Getting started</h2>
+				</a>
+				<a href="#install-the-package" id="install-the-package" style="color: inherit; text-decoration: none;">
+					<h3>Install the package</h3>
+				</a>
+				<p>Install the Azure Key Vault Secrets client library using npm:</p>
+				<p><code>npm install @azure/keyvault-secrets</code></p>
+				<p><strong>Prerequisites</strong>: You must have an <a href="https://azure.microsoft.com/free/">Azure subscription</a> and a
+					<a href="https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal">Key Vault resource</a> to use this package.
+				If you are using this package in a Node.js application, then use Node.js 6.x or higher.</p>
+				<p>To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:</p>
+				<p><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2Ftests-resources.json"><img src="http://azuredeploy.net/deploybutton.png" alt=""></a></p>
+				<a href="#configure-typescript" id="configure-typescript" style="color: inherit; text-decoration: none;">
+					<h3>Configure TypeScript</h3>
+				</a>
+				<p>TypeScript users need to have Node type definitions installed:</p>
+				<pre><code class="language-bash">npm install @types/node</code></pre>
+				<p>You also need to enable <code>compilerOptions.allowSyntheticDefaultImports</code> in your tsconfig.json. Note that if you have enabled <code>compilerOptions.esModuleInterop</code>, <code>allowSyntheticDefaultImports</code> is enabled by default. See <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html">TypeScript&#39;s compiler options handbook</a> for more information.</p>
+				<a href="#configuring-your-key-vault" id="configuring-your-key-vault" style="color: inherit; text-decoration: none;">
+					<h3>Configuring your Key Vault</h3>
+				</a>
+				<p>Use the <a href="https://shell.azure.com/bash">Azure Cloud Shell</a> snippet below to create/get client secret credentials.</p>
+				<ul>
+					<li><p>Create a service principal and configure its access to Azure resources:</p>
+						<pre><code class="language-Bash">az ad sp create-for-rbac -n &lt;your-application-name&gt; --skip-assignment</code></pre>
+						<p>Output:</p>
+						<pre><code class="language-json">{
+  <span class="hljs-attr">"appId"</span>: <span class="hljs-string">"generated-app-ID"</span>,
+  <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"dummy-app-name"</span>,
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"http://dummy-app-name"</span>,
+  <span class="hljs-attr">"password"</span>: <span class="hljs-string">"random-password"</span>,
+  <span class="hljs-attr">"tenant"</span>: <span class="hljs-string">"tenant-ID"</span>
+}</code></pre>
+					</li>
+					<li><p>Use the above returned credentials information to set <strong>AZURE_CLIENT_ID</strong>(appId), <strong>AZURE_CLIENT_SECRET</strong>(password) and <strong>AZURE_TENANT_ID</strong>(tenant) environment variables. The following example shows a way to do this in Bash:</p>
+						<pre><code class="language-Bash">  <span class="hljs-built_in">export</span> AZURE_CLIENT_ID=<span class="hljs-string">"generated-app-ID"</span>
+  <span class="hljs-built_in">export</span> AZURE_CLIENT_SECRET=<span class="hljs-string">"random-password"</span>
+  <span class="hljs-built_in">export</span> AZURE_TENANT_ID=<span class="hljs-string">"tenant-ID"</span></code></pre>
+					</li>
+					<li><p>Grant the above mentioned application authorization to perform secret operations on the keyvault:</p>
+						<pre><code class="language-Bash">az keyvault <span class="hljs-built_in">set</span>-policy --name &lt;your-key-vault-name&gt; --spn <span class="hljs-variable">$AZURE_CLIENT_ID</span> --secret-permissions backup delete get list purge recover restore <span class="hljs-built_in">set</span></code></pre>
+						<blockquote>
+							<p>--secret-permissions:
+							Accepted values: backup, delete, get, list, purge, recover, restore, set</p>
+						</blockquote>
+					</li>
+					<li><p>Use the above mentioned Key Vault name to retrieve details of your Vault which also contains your Key Vault URL:</p>
+						<pre><code class="language-Bash">az keyvault show --name &lt;your-key-vault-name&gt;</code></pre>
+					</li>
+				</ul>
+				<a href="#key-concepts" id="key-concepts" style="color: inherit; text-decoration: none;">
+					<h2>Key concepts</h2>
+				</a>
+				<ul>
+					<li>The <strong>Secrets client</strong> is the primary interface to interact with the API methods
+						related to secrets in the Azure Key Vault API from a JavaScript application.
+						Once initialized, it provides a basic set of methods that can be used to
+					create, read, update and delete secrets.</li>
+					<li>A <strong>Secret version</strong> is a version of a secret in the Key Vault.
+						Each time a user assigns a value to a unique secret name, a new <strong>version</strong>
+						of that secret is created. Retrieving a secret by a name will always return
+						the latest value assigned, unless a specific version is provided to the
+					query.</li>
+					<li><strong>Soft delete</strong> allows Key Vaults to support deletion and purging as two
+						separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
+						has <a href="https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete">soft-delete</a>
+					enabled.</li>
+					<li>A <strong>Secret backup</strong> can be generated from any created secret. These backups come as
+					binary data, and can only be used to regenerate a previously deleted secret.</li>
+				</ul>
+				<a href="#authenticating-the-client" id="authenticating-the-client" style="color: inherit; text-decoration: none;">
+					<h2>Authenticating the client</h2>
+				</a>
+				<p>To use the Key Vault from TypeScript/JavaScript, you need to first authenticate with the Key Vault service. To authenticate, first we import the identity and SecretsClient, which will connect to the key vault.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { DefaultAzureCredential } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/identity"</span>;
+<span class="hljs-keyword">import</span> { SecretsClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"@azure/keyvault-secrets"</span>;</code></pre>
+				<p>Once these are imported, we can next connect to the Key Vault service. To do this, we&#39;ll need to copy some settings from the Key Vault we are connecting to into our environment variables. Once they are in our environment, we can access them with the following code:</p>
+				<pre><code class="language-typescript"><span class="hljs-comment">// DefaultAzureCredential expects the following three environment variables:</span>
+<span class="hljs-comment">// * AZURE_TENANT_ID: The tenant ID in Azure Active Directory</span>
+<span class="hljs-comment">// * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant</span>
+<span class="hljs-comment">// * AZURE_CLIENT_SECRET: The client secret for the registered application</span>
+<span class="hljs-keyword">const</span> credential = <span class="hljs-keyword">new</span> DefaultAzureCredential();
+
+<span class="hljs-comment">// Build the URL to reach your key vault</span>
+<span class="hljs-keyword">const</span> vaultName = <span class="hljs-string">"&lt;YOUR KEYVAULT NAME&gt;"</span>;
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://<span class="hljs-subst">${vaultName}</span>.vault.azure.net`</span>;
+
+<span class="hljs-comment">// Lastly, create our secrets client and connect to the service</span>
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> SecretsClient(url, credential);</code></pre>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<p>The following sections provide code snippets that cover some of the common
+				tasks using Azure Key Vault Secrets. The scenarios that are covered here consist of:</p>
+				<ul>
+					<li><a href="#creating-and-setting-a-secret">Creating and setting a secret</a>.</li>
+					<li><a href="#getting-a-secret">Getting a secret</a>.</li>
+					<li><a href="#creating-and-updating-secrets-with-attributes">Creating and updating secrets with attributes</a>.</li>
+					<li><a href="#deleting-a-secret">Deleting a secret</a>.</li>
+					<li><a href="#iterating-lists-of-secrets">Iterating lists of secrets</a>.</li>
+				</ul>
+				<a href="#creating-and-setting-a-secret" id="creating-and-setting-a-secret" style="color: inherit; text-decoration: none;">
+					<h3>Creating and setting a secret</h3>
+				</a>
+				<p><code>setSecret</code> assigns a provided value to the specified secret name. If a secret
+				with the same name already exists, then a new version of the secret is created.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> secretName = <span class="hljs-string">"MySecretName"</span>;
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> client.setSecret(secretName, <span class="hljs-string">"MySecretValue"</span>);</code></pre>
+				<a href="#getting-a-secret" id="getting-a-secret" style="color: inherit; text-decoration: none;">
+					<h3>Getting a secret</h3>
+				</a>
+				<p>The simplest way to read secrets back from the vault is to get a secret by
+					name. This will retrieve the most recent version of the secret. You can
+					optionally get a different version of the key if you specify it as part of the
+				optional parameters.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> latestSecret = <span class="hljs-keyword">await</span> client.getSecret(secretName);
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Latest version of the secret <span class="hljs-subst">${secretName}</span>: `</span>, latestSecret);
+<span class="hljs-keyword">const</span> specificSecret = <span class="hljs-keyword">await</span> client.getSecret(secretName, { <span class="hljs-attr">version</span>: latestSecret.version! });
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`The secret <span class="hljs-subst">${secretName}</span> at the version <span class="hljs-subst">${latestSecret.version!}</span>: `</span>, specificSecret);</code></pre>
+				<a href="#creating-and-updating-secrets-with-attributes" id="creating-and-updating-secrets-with-attributes" style="color: inherit; text-decoration: none;">
+					<h3>Creating and updating secrets with attributes</h3>
+				</a>
+				<p>A secret can have more information than its name and its value. They can also include
+				the following attributes:</p>
+				<ul>
+					<li><code>tags</code>: Any set of key-values that can be used to search and filter secrets.</li>
+					<li><code>contentType</code>: Any string that can be used to help the receiver of the secret understand how to use the secret value.</li>
+					<li><code>enabled</code>: A boolean value that determines whether the secret value can be read or not.</li>
+					<li><code>notBefore</code>: A given date after which the secret value can be retrieved.</li>
+					<li><code>expires</code>: A given date after which the secret value cannot be retrieved.</li>
+				</ul>
+				<p>An object with these attributes can be sent as the third parameter of
+				<code>setSecret</code>, right after the secret&#39;s name and value, as follows:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> client.setSecret(secretName, <span class="hljs-string">"MySecretValue"</span>, {
+  <span class="hljs-attr">enabled</span>: <span class="hljs-literal">false</span>
+});</code></pre>
+				<p>This will create a new version of the same secret, which will have the latest
+				provided attributes.</p>
+				<p>Attributes can also be updated to an existing secret version with
+				<code>updateSecretAttributes</code>, as follows:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> result = client.getSecret(secretName);
+<span class="hljs-keyword">await</span> client.updateSecretAttributes(secretName, result.parameters.version, { <span class="hljs-attr">enabled</span>: <span class="hljs-literal">false</span> });</code></pre>
+				<a href="#deleting-a-secret" id="deleting-a-secret" style="color: inherit; text-decoration: none;">
+					<h3>Deleting a secret</h3>
+				</a>
+				<p>The <code>deleteSecret</code> method sets a secret up for deletion. This process will
+				happen in the background as soon as the necessary resources are available.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> client.deleteSecret(secretName);</code></pre>
+				<p>If <a href="https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete">soft-delete</a>
+					is enabled for the Key Vault, this operation will only label the secret as a
+					<em>deleted</em> secret. A deleted secret can&#39;t be updated. They can only be either
+				read, recovered or purged.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">await</span> client.deleteSecret(secretName);
+
+<span class="hljs-comment">// If soft-delete is enabled, we can eventually do:</span>
+<span class="hljs-keyword">await</span> client.getDeletedSecret(secretName);
+<span class="hljs-comment">// Deleted secrets can also be recovered or purged:</span>
+<span class="hljs-keyword">await</span> client.recoverDeletedSecret(secretName);
+<span class="hljs-comment">// await client.purgeDeletedSecret(secretName);</span></code></pre>
+				<p>Since the deletion of a secret won&#39;t happen instantly, some time is needed
+					after the <code>deleteSecret</code> method is called before the deleted secret is
+				available to be read, recovered or purged.</p>
+				<a href="#iterating-lists-of-secrets" id="iterating-lists-of-secrets" style="color: inherit; text-decoration: none;">
+					<h3>Iterating lists of secrets</h3>
+				</a>
+				<p>Using the SecretsClient, you can retrieve and iterate through all of the
+					secrets in a Key Vault, as well as through all of the deleted secrets and the
+				versions of a specific secret. The following API methods are available:</p>
+				<ul>
+					<li><code>listSecrets</code> will list all of your non-deleted secrets by their names, only
+					at their latest versions.</li>
+					<li><code>listDeletedSecrets</code> will list all of your deleted secrets by their names,
+					only at their latest versions.</li>
+					<li><code>listSecretVersions</code> will list all the versions of a secret based on a secret
+					name.</li>
+				</ul>
+				<p>Which can be used as follows:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> secret <span class="hljs-keyword">of</span> client.listSecrets()) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Secret: "</span>, secret);
+}
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> deletedSecret <span class="hljs-keyword">of</span> client.listDeletedSecrets()) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Deleted secret: "</span>, deletedSecret);
+}
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> version <span class="hljs-keyword">of</span> client.listSecretVersions(secretName)) {
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Version: "</span>, version);
+}</code></pre>
+				<p>All of these methods will return <strong>all of the available results</strong> at once. To
+					retrieve them by pages, add <code>.byPage()</code> right after invoking the API method you
+				want to use, as follows:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> page <span class="hljs-keyword">of</span> client.listSecrets().byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> secret <span class="hljs-keyword">of</span> page) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Secret: "</span>, secret);
+  }
+}
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> page <span class="hljs-keyword">of</span> client.listDeletedSecrets().byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> deletedSecret <span class="hljs-keyword">of</span> page) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Deleted secret: "</span>, deletedSecret);
+  }
+}
+<span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">let</span> page <span class="hljs-keyword">of</span> client.listSecretVersions(secretName).byPage()) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> version <span class="hljs-keyword">of</span> page) {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Version: "</span>, version);
+  }
+}</code></pre>
+				<a href="#troubleshooting" id="troubleshooting" style="color: inherit; text-decoration: none;">
+					<h2>Troubleshooting</h2>
+				</a>
+				<a href="#enable-logs" id="enable-logs" style="color: inherit; text-decoration: none;">
+					<h3>Enable logs</h3>
+				</a>
+				<p>You can set the following environment variable to get the debug logs when using this library.</p>
+				<ul>
+					<li>Getting debug logs from the Key Vault Secrets SDK</li>
+				</ul>
+				<pre><code class="language-bash"><span class="hljs-built_in">export</span> DEBUG=azure*</code></pre>
+				<a href="#next-steps" id="next-steps" style="color: inherit; text-decoration: none;">
+					<h2>Next steps</h2>
+				</a>
+				<p>Please take a look at the
+					<a href="https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples">samples</a>
+				directory for detailed examples on how to use this library.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h2>Contributing</h2>
+				</a>
+				<p>This project welcomes contributions and suggestions. Please read the
+					<a href="https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md">contributing guidelines</a>
+				for detailed information about how to contribute and what to expect while contributing.</p>
+				<a href="#testing" id="testing" style="color: inherit; text-decoration: none;">
+					<h3>Testing</h3>
+				</a>
+				<p>To run our tests, first install the dependencies (with <code>npm install</code> or <code>rush install</code>),
+					then run the unit tests with: <code>npm run unit-test</code>.
+					Our unit tests that target the behavior of our library against remotely
+					available endpoints are executed using previously recorded HTTP request and
+				responses.</p>
+				<p>Our integration tests will run against the live resources, which are determined
+					by the environment variables you provide. To run the integration tests, you can
+					run <code>npm run integration-test</code>, but make sure to provide the following
+				environment variables:</p>
+				<ul>
+					<li><code>AZURE_CLIENT_ID</code>: The Client ID of your Azure account.</li>
+					<li><code>AZURE_CLIENT_SECRET</code>: The secret of your Azure account.</li>
+					<li><code>AZURE_TENANT_ID</code>: The Tenant ID of your Azure account.</li>
+					<li><code>KEYVAULT_NAME</code>: The name of the Key Vault you want to run the tests against.</li>
+				</ul>
+				<p><strong>WARNING:</strong>
+				Integration tests will wipe all of the existing records in the targeted Key Vault.</p>
+				<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>.
+					For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or
+				contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+				<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/keyvault/keyvault-secrets/README.png" alt="Impressions"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/secretsclient.html" class="tsd-kind-icon">Secrets<wbr>Client</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/deletedsecret.html" class="tsd-kind-icon">Deleted<wbr>Secret</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/getsecretoptions.html" class="tsd-kind-icon">Get<wbr>Secret<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/listsecretsoptions.html" class="tsd-kind-icon">List<wbr>Secrets<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secret.html" class="tsd-kind-icon">Secret</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/secretproperties.html" class="tsd-kind-icon">Secret<wbr>Properties</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/setsecretoptions.html" class="tsd-kind-icon">Set<wbr>Secret<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/updatesecretoptions.html" class="tsd-kind-icon">Update<wbr>Secret<wbr>Options</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
