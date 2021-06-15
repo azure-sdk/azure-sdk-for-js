@@ -1,5 +1,16 @@
 # Release History
 
+## 1.0.12 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Key Bugs Fixed
+
+### Fixed
+
+
 ## 1.0.11 (2021-06-15)
 
 - Test Release Pipeline
