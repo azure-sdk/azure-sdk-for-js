@@ -504,6 +504,72 @@ export const SiteSeal: coreClient.CompositeMapper = {
   }
 };
 
+export const CertificateOrderAction: coreClient.CompositeMapper = {
+  serializedName: "CertificateOrderAction",
+  type: {
+    name: "Composite",
+    className: "CertificateOrderAction",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        xmlName: "actionType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CertificateIssued",
+            "CertificateOrderCanceled",
+            "CertificateOrderCreated",
+            "CertificateRevoked",
+            "DomainValidationComplete",
+            "FraudDetected",
+            "OrgNameChange",
+            "OrgValidationComplete",
+            "SanDrop",
+            "FraudCleared",
+            "CertificateExpired",
+            "CertificateExpirationWarning",
+            "FraudDocumentationRequired",
+            "Unknown"
+          ]
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        readOnly: true,
+        xmlName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CertificateEmail: coreClient.CompositeMapper = {
+  serializedName: "CertificateEmail",
+  type: {
+    name: "Composite",
+    className: "CertificateEmail",
+    modelProperties: {
+      emailId: {
+        serializedName: "emailId",
+        xmlName: "emailId",
+        type: {
+          name: "String"
+        }
+      },
+      timeStamp: {
+        serializedName: "timeStamp",
+        xmlName: "timeStamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const DetectorResponseCollection: coreClient.CompositeMapper = {
   serializedName: "DetectorResponseCollection",
   type: {
@@ -12805,8 +12871,7 @@ export const AppServiceCertificateOrder: coreClient.CompositeMapper = {
         serializedName: "properties.appServiceCertificateNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.appServiceCertificateNotRenewableReasons",
-        xmlElementName:
-          "AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -13055,7 +13120,7 @@ export const Domain: coreClient.CompositeMapper = {
         serializedName: "properties.domainNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.domainNotRenewableReasons",
-        xmlElementName: "DomainPropertiesDomainNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -13393,6 +13458,27 @@ export const Site: coreClient.CompositeMapper = {
         xmlName: "properties.lastModifiedTimeUtc",
         type: {
           name: "DateTime"
+        }
+      },
+      vnetRouteAllEnabled: {
+        serializedName: "properties.vnetRouteAllEnabled",
+        xmlName: "properties.vnetRouteAllEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      vnetImagePullEnabled: {
+        serializedName: "properties.vnetImagePullEnabled",
+        xmlName: "properties.vnetImagePullEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      vnetContentShareEnabled: {
+        serializedName: "properties.vnetContentShareEnabled",
+        xmlName: "properties.vnetContentShareEnabled",
+        type: {
+          name: "Boolean"
         }
       },
       siteConfig: {
@@ -14643,8 +14729,7 @@ export const AppServiceCertificateOrderPatchResource: coreClient.CompositeMapper
         serializedName: "properties.appServiceCertificateNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.appServiceCertificateNotRenewableReasons",
-        xmlElementName:
-          "AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -14785,74 +14870,6 @@ export const RenewCertificateOrderRequest: coreClient.CompositeMapper = {
         xmlName: "properties.isPrivateKeyExternal",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateOrderAction: coreClient.CompositeMapper = {
-  serializedName: "CertificateOrderAction",
-  type: {
-    name: "Composite",
-    className: "CertificateOrderAction",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      actionType: {
-        serializedName: "properties.actionType",
-        readOnly: true,
-        xmlName: "properties.actionType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "CertificateIssued",
-            "CertificateOrderCanceled",
-            "CertificateOrderCreated",
-            "CertificateRevoked",
-            "DomainValidationComplete",
-            "FraudDetected",
-            "OrgNameChange",
-            "OrgValidationComplete",
-            "SanDrop",
-            "FraudCleared",
-            "CertificateExpired",
-            "CertificateExpirationWarning",
-            "FraudDocumentationRequired",
-            "Unknown"
-          ]
-        }
-      },
-      createdAt: {
-        serializedName: "properties.createdAt",
-        readOnly: true,
-        xmlName: "properties.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateEmail: coreClient.CompositeMapper = {
-  serializedName: "CertificateEmail",
-  type: {
-    name: "Composite",
-    className: "CertificateEmail",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      emailId: {
-        serializedName: "properties.emailId",
-        xmlName: "properties.emailId",
-        type: {
-          name: "String"
-        }
-      },
-      timeStamp: {
-        serializedName: "properties.timeStamp",
-        xmlName: "properties.timeStamp",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -15095,8 +15112,7 @@ export const DomainPatchResource: coreClient.CompositeMapper = {
         serializedName: "properties.domainNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.domainNotRenewableReasons",
-        xmlElementName:
-          "DomainPatchResourcePropertiesDomainNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
