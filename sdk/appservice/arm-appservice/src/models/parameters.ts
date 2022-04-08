@@ -132,7 +132,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -933,6 +933,17 @@ export const typeParam: OperationParameter = {
 export const isFqdn: OperationParameter = {
   parameterPath: ["options", "isFqdn"],
   mapper: ResourceNameAvailabilityRequestMapper
+};
+
+export const hostname: OperationQueryParameter = {
+  parameterPath: "hostname",
+  mapper: {
+    serializedName: "hostname",
+    xmlName: "hostname",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const sku: OperationQueryParameter = {

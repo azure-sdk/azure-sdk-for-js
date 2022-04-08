@@ -1,15 +1,49 @@
 # Release History
+    
+## 12.0.0 (2022-04-08)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
+  - Added operation group Global_2
+  - Added operation WebApps.createOneDeployOperation
+  - Added operation WebApps.getAuthSettingsV2WithoutSecretsSlot
+  - Added operation WebApps.getOneDeployStatus
+  - Added Interface CertificateEmail
+  - Added Interface CertificateOrderAction
+  - Added Interface WebAppsCreateOneDeployOperationOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  - Added Interface WebAppsGetOneDeployStatusOptionalParams
+  - Added Type Alias Enum12
+  - Added Type Alias Enum13
+  - Added Type Alias Enum14
+  - Added Type Alias ResourceNotRenewableReason
+  - Added Type Alias WebAppsCreateOneDeployOperationResponse
+  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse
+  - Added Type Alias WebAppsGetOneDeployStatusResponse
+  - Interface WebSiteManagementClientOptionalParams has a new optional parameter hostname
+  - Class WebSiteManagementClient has a new parameter hostname
+  - Added Enum KnownEnum12
+  - Added Enum KnownEnum13
+  - Added Enum KnownEnum14
+  - Added Enum KnownResourceNotRenewableReason
+  - Enum KnownCustomDomainStatus has a new value Unhealthy
+  - Enum KnownEnum17 has a new value LinuxFunctions
+  - Enum KnownEnum17 has a new value WindowsFunctions
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Global
+  - Removed Enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownDomainPropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+  - Removed Enum KnownEnum20
+  - Enum KnownEnum15 no longer has value LinuxFunctions
+  - Enum KnownEnum15 no longer has value WindowsFunctions
+    
+    
 ## 11.0.0 (2022-01-10)
     
 **Features**
