@@ -1,8 +1,3 @@
-import { LargePersonGroupOperations } from "../operationsInterfaces";
-import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FaceClient } from "../faceClient";
 import {
   LargePersonGroupCreateOptionalParams,
   LargePersonGroupDeleteOptionalParams,
@@ -16,19 +11,8 @@ import {
   LargePersonGroupTrainOptionalParams
 } from "../models";
 
-/** Class containing LargePersonGroupOperations operations. */
-export class LargePersonGroupOperationsImpl
-  implements LargePersonGroupOperations {
-  private readonly client: FaceClient;
-
-  /**
-   * Initialize a new instance of the class LargePersonGroupOperations class.
-   * @param client Reference to the service client
-   */
-  constructor(client: FaceClient) {
-    this.client = client;
-  }
-
+/** Interface representing a LargePersonGroupOperations. */
+export interface LargePersonGroupOperations {
   /**
    * Create a new large person group with user-specified largePersonGroupId, name, an optional userData
    * and recognitionModel.
@@ -64,13 +48,7 @@ export class LargePersonGroupOperationsImpl
     largePersonGroupId: string,
     name: string,
     options?: LargePersonGroupCreateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, name, options },
-      createOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Delete an existing large person group. Persisted face features of all people in the large person
    * group will also be deleted.
@@ -80,13 +58,7 @@ export class LargePersonGroupOperationsImpl
   delete(
     largePersonGroupId: string,
     options?: LargePersonGroupDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      deleteOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve the information of a large person group, including its name, userData and recognitionModel.
    * This API returns large person group information only, use [LargePersonGroup Person -
@@ -99,13 +71,7 @@ export class LargePersonGroupOperationsImpl
   get(
     largePersonGroupId: string,
     options?: LargePersonGroupGetOptionalParams
-  ): Promise<LargePersonGroupGetResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      getOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupGetResponse>;
   /**
    * Update an existing large person group's display name and userData. The properties which does not
    * appear in request body will not be updated.
@@ -115,13 +81,7 @@ export class LargePersonGroupOperationsImpl
   update(
     largePersonGroupId: string,
     options?: LargePersonGroupUpdateOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      updateOperationSpec
-    );
-  }
-
+  ): Promise<void>;
   /**
    * Retrieve the training status of a large person group (completed or ongoing).
    * @param largePersonGroupId Id referencing a particular large person group.
@@ -130,13 +90,7 @@ export class LargePersonGroupOperationsImpl
   getTrainingStatus(
     largePersonGroupId: string,
     options?: LargePersonGroupGetTrainingStatusOptionalParams
-  ): Promise<LargePersonGroupGetTrainingStatusResponse> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      getTrainingStatusOperationSpec
-    );
-  }
-
+  ): Promise<LargePersonGroupGetTrainingStatusResponse>;
   /**
    * List all existing large person groups’ largePersonGroupId, name, userData and recognitionModel.<br
    * />
@@ -157,10 +111,7 @@ export class LargePersonGroupOperationsImpl
    */
   list(
     options?: LargePersonGroupListOptionalParams
-  ): Promise<LargePersonGroupListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
+  ): Promise<LargePersonGroupListResponse>;
   /**
    * Queue a large person group training task, the training task may not be started immediately.
    * @param largePersonGroupId Id referencing a particular large person group.
@@ -169,140 +120,5 @@ export class LargePersonGroupOperationsImpl
   train(
     largePersonGroupId: string,
     options?: LargePersonGroupTrainOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { largePersonGroupId, options },
-      trainOperationSpec
-    );
-  }
+  ): Promise<void>;
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["name"],
-      userData: ["options", "userData"],
-      recognitionModel: ["options", "recognitionModel"]
-    },
-    mapper: { ...Mappers.MetaDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LargePersonGroup
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [Parameters.returnRecognitionModel],
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      name: ["options", "name"],
-      userData: ["options", "userData"]
-    },
-    mapper: { ...Mappers.NameAndUserDataContract, required: true }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getTrainingStatusOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/training",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrainingStatus
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: {
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "LargePersonGroup" }
-          }
-        }
-      }
-    },
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  queryParameters: [
-    Parameters.returnRecognitionModel,
-    Parameters.start1,
-    Parameters.top1
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const trainOperationSpec: coreClient.OperationSpec = {
-  path: "/largepersongroups/{largePersonGroupId}/train",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    default: {
-      bodyMapper: Mappers.APIError
-    }
-  },
-  urlParameters: [Parameters.endpoint, Parameters.largePersonGroupId2],
-  headerParameters: [Parameters.accept],
-  serializer
-};
