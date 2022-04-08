@@ -21,7 +21,8 @@ import {
   AgentPool as AgentPoolMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
-  Snapshot as SnapshotMapper
+  Snapshot as SnapshotMapper,
+  ManagedClusterSnapshot as ManagedClusterSnapshotMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -51,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-01",
+    defaultValue: "2022-03-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -278,4 +279,9 @@ export const parameters7: OperationParameter = {
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedClusterSnapshotMapper
 };
