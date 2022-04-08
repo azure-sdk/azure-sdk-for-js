@@ -156,12 +156,10 @@ export class DeletedAccountsImpl implements DeletedAccounts {
       { location, resourceGroupName, accountName, options },
       purgeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

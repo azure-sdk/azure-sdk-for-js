@@ -1576,7 +1576,7 @@ export const CheckSkuAvailabilityParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      typeParam: {
+      type: {
         serializedName: "type",
         required: true,
         type: {
@@ -1794,7 +1794,7 @@ export const CheckDomainAvailabilityParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      typeParam: {
+      type: {
         serializedName: "type",
         required: true,
         type: {
