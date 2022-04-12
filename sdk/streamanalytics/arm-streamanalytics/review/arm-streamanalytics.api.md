@@ -11,6 +11,11 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AggregateFunctionProperties = FunctionProperties & {
+    type: "Aggregate";
+};
+
+// @public
 export type AuthenticationMode = string;
 
 // @public
@@ -41,6 +46,16 @@ export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceP
     dateFormat?: string;
     timeFormat?: string;
     authenticationMode?: AuthenticationMode;
+};
+
+// @public
+export type AzureFunctionOutputDataSource = OutputDataSource & {
+    type: "Microsoft.AzureFunction";
+    functionAppName?: string;
+    functionName?: string;
+    apiKey?: string;
+    maxBatchSize?: number;
+    maxBatchCount?: number;
 };
 
 // @public
@@ -157,6 +172,7 @@ export type AzureTableOutputDataSource = OutputDataSource & {
 
 // @public
 export interface BlobDataSourceProperties {
+    authenticationMode?: AuthenticationMode;
     container?: string;
     dateFormat?: string;
     pathPattern?: string;
@@ -176,9 +192,7 @@ export type BlobOutputDataSource = OutputDataSource & {
 };
 
 // @public
-export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {
-    authenticationMode?: AuthenticationMode;
-};
+export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {};
 
 // @public
 export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
@@ -188,6 +202,7 @@ export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
     pathPattern?: string;
     dateFormat?: string;
     timeFormat?: string;
+    authenticationMode?: AuthenticationMode;
 };
 
 // @public
@@ -201,6 +216,7 @@ export type BlobStreamInputDataSource = StreamInputDataSource & {
     pathPattern?: string;
     dateFormat?: string;
     timeFormat?: string;
+    authenticationMode?: AuthenticationMode;
     sourcePartitionCount?: number;
 };
 
@@ -519,12 +535,16 @@ export interface FunctionOutput {
 
 // @public
 export interface FunctionProperties {
+    binding?: FunctionBindingUnion;
     readonly etag?: string;
-    type: "Scalar";
+    // (undocumented)
+    inputs?: FunctionInput[];
+    output?: FunctionOutput;
+    type: "Scalar" | "Aggregate";
 }
 
 // @public (undocumented)
-export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties;
+export type FunctionPropertiesUnion = FunctionProperties | ScalarFunctionProperties | AggregateFunctionProperties;
 
 // @public
 export interface FunctionRetrieveDefaultDefinitionParameters {
@@ -976,11 +996,11 @@ export type Output = SubResource & {
 
 // @public
 export interface OutputDataSource {
-    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
+    type: "Microsoft.Storage/Blob" | "Microsoft.Storage/Table" | "Microsoft.ServiceBus/EventHub" | "Microsoft.EventHub/EventHub" | "Microsoft.Sql/Server/Database" | "Microsoft.Sql/Server/DataWarehouse" | "Microsoft.Storage/DocumentDB" | "Microsoft.AzureFunction" | "Microsoft.ServiceBus/Queue" | "Microsoft.ServiceBus/Topic" | "PowerBI" | "Microsoft.DataLake/Accounts";
 }
 
 // @public (undocumented)
-export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
+export type OutputDataSourceUnion = OutputDataSource | BlobOutputDataSource | AzureTableOutputDataSource | EventHubOutputDataSource | EventHubV2OutputDataSource | AzureSqlDatabaseOutputDataSource | AzureSynapseOutputDataSource | DocumentDbOutputDataSource | AzureFunctionOutputDataSource | ServiceBusQueueOutputDataSource | ServiceBusTopicOutputDataSource | PowerBIOutputDataSource | AzureDataLakeStoreOutputDataSource;
 
 // @public
 export type OutputErrorPolicy = string;
@@ -1211,9 +1231,6 @@ export interface ResourceTestStatus {
 // @public
 export type ScalarFunctionProperties = FunctionProperties & {
     type: "Scalar";
-    inputs?: FunctionInput[];
-    output?: FunctionOutput;
-    binding?: FunctionBindingUnion;
 };
 
 // @public

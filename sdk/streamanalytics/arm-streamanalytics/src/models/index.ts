@@ -27,13 +27,19 @@ export type OutputDataSourceUnion =
   | AzureSqlDatabaseOutputDataSource
   | AzureSynapseOutputDataSource
   | DocumentDbOutputDataSource
+  | AzureFunctionOutputDataSource
   | ServiceBusQueueOutputDataSource
   | ServiceBusTopicOutputDataSource
   | PowerBIOutputDataSource
   | AzureDataLakeStoreOutputDataSource;
 export type FunctionPropertiesUnion =
   | FunctionProperties
-  | ScalarFunctionProperties;
+  | ScalarFunctionProperties
+  | AggregateFunctionProperties;
+export type FunctionBindingUnion =
+  | FunctionBinding
+  | AzureMachineLearningWebServiceFunctionBinding
+  | JavaScriptFunctionBinding;
 export type FunctionRetrieveDefaultDefinitionParametersUnion =
   | FunctionRetrieveDefaultDefinitionParameters
   | AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters
@@ -48,10 +54,6 @@ export type ReferenceInputDataSourceUnion =
   | ReferenceInputDataSource
   | BlobReferenceInputDataSource
   | AzureSqlReferenceInputDataSource;
-export type FunctionBindingUnion =
-  | FunctionBinding
-  | AzureMachineLearningWebServiceFunctionBinding
-  | JavaScriptFunctionBinding;
 
 /** Result of the request to list Stream Analytics operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
@@ -230,6 +232,7 @@ export interface OutputDataSource {
     | "Microsoft.Sql/Server/Database"
     | "Microsoft.Sql/Server/DataWarehouse"
     | "Microsoft.Storage/DocumentDB"
+    | "Microsoft.AzureFunction"
     | "Microsoft.ServiceBus/Queue"
     | "Microsoft.ServiceBus/Topic"
     | "PowerBI"
@@ -239,12 +242,39 @@ export interface OutputDataSource {
 /** The properties that are associated with a function. */
 export interface FunctionProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Scalar";
+  type: "Scalar" | "Aggregate";
   /**
    * The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  inputs?: FunctionInput[];
+  /** Describes the output of a function. */
+  output?: FunctionOutput;
+  /** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
+  binding?: FunctionBindingUnion;
+}
+
+/** Describes one input parameter of a function. */
+export interface FunctionInput {
+  /** The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
+  dataType?: string;
+  /** A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false. */
+  isConfigurationParameter?: boolean;
+}
+
+/** Describes the output of a function. */
+export interface FunctionOutput {
+  /** The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
+  dataType?: string;
+}
+
+/** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
+export interface FunctionBinding {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type:
+    | "Microsoft.MachineLearning/WebService"
+    | "Microsoft.StreamAnalytics/JavascriptUdf";
 }
 
 /** The properties that are associated with an Azure Storage account */
@@ -536,6 +566,8 @@ export interface BlobDataSourceProperties {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 }
 
 /** The common properties that are associated with Service Bus data sources (Queues, Topics, Event Hubs, etc.). */
@@ -592,28 +624,6 @@ export interface OAuthBasedDataSourceProperties {
   tokenUserPrincipalName?: string;
   /** The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token. */
   tokenUserDisplayName?: string;
-}
-
-/** Describes one input parameter of a function. */
-export interface FunctionInput {
-  /** The (Azure Stream Analytics supported) data type of the function input parameter. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
-  /** A flag indicating if the parameter is a configuration parameter. True if this input parameter is expected to be a constant. Default is false. */
-  isConfigurationParameter?: boolean;
-}
-
-/** Describes the output of a function. */
-export interface FunctionOutput {
-  /** The (Azure Stream Analytics supported) data type of the function output. A list of valid Azure Stream Analytics data types are described at https://msdn.microsoft.com/en-us/library/azure/dn835065.aspx */
-  dataType?: string;
-}
-
-/** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
-export interface FunctionBinding {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "Microsoft.MachineLearning/WebService"
-    | "Microsoft.StreamAnalytics/JavascriptUdf";
 }
 
 /** The inputs for the Azure Machine Learning web service endpoint. */
@@ -891,6 +901,22 @@ export type DocumentDbOutputDataSource = OutputDataSource & {
   documentId?: string;
 };
 
+/** Defines the metadata of AzureFunctionOutputDataSource */
+export type AzureFunctionOutputDataSource = OutputDataSource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.AzureFunction";
+  /** The name of your Azure Functions app. */
+  functionAppName?: string;
+  /** The name of the function in your Azure Functions app. */
+  functionName?: string;
+  /** If you want to use an Azure Function from another subscription, you can do so by providing the key to access your function. */
+  apiKey?: string;
+  /** A property that lets you set the maximum size for each output batch that's sent to your Azure function. The input unit is in bytes. By default, this value is 262,144 bytes (256 KB). */
+  maxBatchSize?: number;
+  /** A property that lets you specify the maximum number of events in each batch that's sent to Azure Functions. The default value is 100. */
+  maxBatchCount?: number;
+};
+
 /** Describes a Service Bus Queue output data source. */
 export type ServiceBusQueueOutputDataSource = OutputDataSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -981,12 +1007,36 @@ export type AzureDataLakeStoreOutputDataSource = OutputDataSource & {
 export type ScalarFunctionProperties = FunctionProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Scalar";
-  /** A list of inputs describing the parameters of the function. */
-  inputs?: FunctionInput[];
-  /** The output of the function. */
-  output?: FunctionOutput;
-  /** The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint. */
-  binding?: FunctionBindingUnion;
+};
+
+/** The properties that are associated with an aggregate function. */
+export type AggregateFunctionProperties = FunctionProperties & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Aggregate";
+};
+
+/** The binding to an Azure Machine Learning web service. */
+export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.MachineLearning/WebService";
+  /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
+  endpoint?: string;
+  /** The API key used to authenticate with Request-Response endpoint. */
+  apiKey?: string;
+  /** The inputs for the Azure Machine Learning web service endpoint. */
+  inputs?: AzureMachineLearningWebServiceInputs;
+  /** A list of outputs from the Azure Machine Learning web service endpoint execution. */
+  outputs?: AzureMachineLearningWebServiceOutputColumn[];
+  /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
+  batchSize?: number;
+};
+
+/** The binding to a JavaScript function. */
+export type JavaScriptFunctionBinding = FunctionBinding & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Microsoft.StreamAnalytics/JavascriptUdf";
+  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }' */
+  script?: string;
 };
 
 /** The properties that are associated with an Azure Storage account with MSI */
@@ -1040,7 +1090,9 @@ export type BlobStreamInputDataSource = StreamInputDataSource & {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
-  /** The partition count of the blob input data source. Range 1 - 256. */
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
+  /** The partition count of the blob input data source. Range 1 - 1024. */
   sourcePartitionCount?: number;
 };
 
@@ -1110,6 +1162,8 @@ export type BlobReferenceInputDataSource = ReferenceInputDataSource & {
   dateFormat?: string;
   /** The time format. Wherever {time} appears in pathPattern, the value of this property is used as the time format instead. */
   timeFormat?: string;
+  /** Authentication Mode. */
+  authenticationMode?: AuthenticationMode;
 };
 
 /** Describes an Azure SQL database reference input data source. */
@@ -1138,7 +1192,7 @@ export type AzureSqlReferenceInputDataSource = ReferenceInputDataSource & {
 
 /** The properties that are associated with a blob input containing stream data. */
 export type BlobStreamInputDataSourceProperties = BlobDataSourceProperties & {
-  /** The partition count of the blob input data source. Range 1 - 256. */
+  /** The partition count of the blob input data source. Range 1 - 1024. */
   sourcePartitionCount?: number;
 };
 
@@ -1146,10 +1200,7 @@ export type BlobStreamInputDataSourceProperties = BlobDataSourceProperties & {
 export type BlobReferenceInputDataSourceProperties = BlobDataSourceProperties & {};
 
 /** The properties that are associated with a blob output. */
-export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {
-  /** Authentication Mode. */
-  authenticationMode?: AuthenticationMode;
-};
+export type BlobOutputDataSourceProperties = BlobDataSourceProperties & {};
 
 /** The common properties that are associated with Event Hub data sources. */
 export type EventHubDataSourceProperties = ServiceBusDataSourceProperties & {
@@ -1211,30 +1262,6 @@ export type AzureDataLakeStoreOutputDataSourceProperties = OAuthBasedDataSourceP
   timeFormat?: string;
   /** Authentication Mode. */
   authenticationMode?: AuthenticationMode;
-};
-
-/** The binding to an Azure Machine Learning web service. */
-export type AzureMachineLearningWebServiceFunctionBinding = FunctionBinding & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Microsoft.MachineLearning/WebService";
-  /** The Request-Response execute endpoint of the Azure Machine Learning web service. Find out more here: https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume-web-services#request-response-service-rrs */
-  endpoint?: string;
-  /** The API key used to authenticate with Request-Response endpoint. */
-  apiKey?: string;
-  /** The inputs for the Azure Machine Learning web service endpoint. */
-  inputs?: AzureMachineLearningWebServiceInputs;
-  /** A list of outputs from the Azure Machine Learning web service endpoint execution. */
-  outputs?: AzureMachineLearningWebServiceOutputColumn[];
-  /** Number between 1 and 10000 describing maximum number of rows for every Azure ML RRS execute request. Default is 1000. */
-  batchSize?: number;
-};
-
-/** The binding to a JavaScript function. */
-export type JavaScriptFunctionBinding = FunctionBinding & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Microsoft.StreamAnalytics/JavascriptUdf";
-  /** The JavaScript code containing a single function definition. For example: 'function (x, y) { return x + y; }' */
-  script?: string;
 };
 
 /** A streaming job object, containing all information associated with the named streaming job. */

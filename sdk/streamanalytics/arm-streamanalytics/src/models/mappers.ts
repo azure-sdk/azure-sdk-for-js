@@ -417,6 +417,89 @@ export const FunctionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      inputs: {
+        serializedName: "properties.inputs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FunctionInput"
+            }
+          }
+        }
+      },
+      output: {
+        serializedName: "properties.output",
+        type: {
+          name: "Composite",
+          className: "FunctionOutput"
+        }
+      },
+      binding: {
+        serializedName: "properties.binding",
+        type: {
+          name: "Composite",
+          className: "FunctionBinding"
+        }
+      }
+    }
+  }
+};
+
+export const FunctionInput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FunctionInput",
+    modelProperties: {
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      },
+      isConfigurationParameter: {
+        serializedName: "isConfigurationParameter",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const FunctionOutput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FunctionOutput",
+    modelProperties: {
+      dataType: {
+        serializedName: "dataType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FunctionBinding: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FunctionBinding",
+    uberParent: "FunctionBinding",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1050,6 +1133,12 @@ export const BlobDataSourceProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationMode: {
+        serializedName: "authenticationMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1203,63 +1292,6 @@ export const OAuthBasedDataSourceProperties: coreClient.CompositeMapper = {
       },
       tokenUserDisplayName: {
         serializedName: "tokenUserDisplayName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FunctionInput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FunctionInput",
-    modelProperties: {
-      dataType: {
-        serializedName: "dataType",
-        type: {
-          name: "String"
-        }
-      },
-      isConfigurationParameter: {
-        serializedName: "isConfigurationParameter",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const FunctionOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FunctionOutput",
-    modelProperties: {
-      dataType: {
-        serializedName: "dataType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const FunctionBinding: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FunctionBinding",
-    uberParent: "FunctionBinding",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
         type: {
           name: "String"
         }
@@ -2009,6 +2041,49 @@ export const DocumentDbOutputDataSource: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFunctionOutputDataSource: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.AzureFunction",
+  type: {
+    name: "Composite",
+    className: "AzureFunctionOutputDataSource",
+    uberParent: "OutputDataSource",
+    polymorphicDiscriminator: OutputDataSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OutputDataSource.type.modelProperties,
+      functionAppName: {
+        serializedName: "properties.functionAppName",
+        type: {
+          name: "String"
+        }
+      },
+      functionName: {
+        serializedName: "properties.functionName",
+        type: {
+          name: "String"
+        }
+      },
+      apiKey: {
+        serializedName: "properties.apiKey",
+        type: {
+          name: "String"
+        }
+      },
+      maxBatchSize: {
+        serializedName: "properties.maxBatchSize",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBatchCount: {
+        serializedName: "properties.maxBatchCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceBusQueueOutputDataSource: coreClient.CompositeMapper = {
   serializedName: "Microsoft.ServiceBus/Queue",
   type: {
@@ -2267,31 +2342,87 @@ export const ScalarFunctionProperties: coreClient.CompositeMapper = {
     uberParent: "FunctionProperties",
     polymorphicDiscriminator: FunctionProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...FunctionProperties.type.modelProperties,
+      ...FunctionProperties.type.modelProperties
+    }
+  }
+};
+
+export const AggregateFunctionProperties: coreClient.CompositeMapper = {
+  serializedName: "Aggregate",
+  type: {
+    name: "Composite",
+    className: "AggregateFunctionProperties",
+    uberParent: "FunctionProperties",
+    polymorphicDiscriminator: FunctionProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FunctionProperties.type.modelProperties
+    }
+  }
+};
+
+export const AzureMachineLearningWebServiceFunctionBinding: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.MachineLearning/WebService",
+  type: {
+    name: "Composite",
+    className: "AzureMachineLearningWebServiceFunctionBinding",
+    uberParent: "FunctionBinding",
+    polymorphicDiscriminator: FunctionBinding.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FunctionBinding.type.modelProperties,
+      endpoint: {
+        serializedName: "properties.endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      apiKey: {
+        serializedName: "properties.apiKey",
+        type: {
+          name: "String"
+        }
+      },
       inputs: {
         serializedName: "properties.inputs",
+        type: {
+          name: "Composite",
+          className: "AzureMachineLearningWebServiceInputs"
+        }
+      },
+      outputs: {
+        serializedName: "properties.outputs",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "FunctionInput"
+              className: "AzureMachineLearningWebServiceOutputColumn"
             }
           }
         }
       },
-      output: {
-        serializedName: "properties.output",
+      batchSize: {
+        serializedName: "properties.batchSize",
         type: {
-          name: "Composite",
-          className: "FunctionOutput"
+          name: "Number"
         }
-      },
-      binding: {
-        serializedName: "properties.binding",
+      }
+    }
+  }
+};
+
+export const JavaScriptFunctionBinding: coreClient.CompositeMapper = {
+  serializedName: "Microsoft.StreamAnalytics/JavascriptUdf",
+  type: {
+    name: "Composite",
+    className: "JavaScriptFunctionBinding",
+    uberParent: "FunctionBinding",
+    polymorphicDiscriminator: FunctionBinding.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FunctionBinding.type.modelProperties,
+      script: {
+        serializedName: "properties.script",
         type: {
-          name: "Composite",
-          className: "FunctionBinding"
+          name: "String"
         }
       }
     }
@@ -2446,6 +2577,12 @@ export const BlobStreamInputDataSource: coreClient.CompositeMapper = {
       },
       timeFormat: {
         serializedName: "properties.timeFormat",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationMode: {
+        serializedName: "properties.authenticationMode",
         type: {
           name: "String"
         }
@@ -2649,6 +2786,12 @@ export const BlobReferenceInputDataSource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationMode: {
+        serializedName: "properties.authenticationMode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2753,13 +2896,7 @@ export const BlobOutputDataSourceProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "BlobOutputDataSourceProperties",
     modelProperties: {
-      ...BlobDataSourceProperties.type.modelProperties,
-      authenticationMode: {
-        serializedName: "authenticationMode",
-        type: {
-          name: "String"
-        }
-      }
+      ...BlobDataSourceProperties.type.modelProperties
     }
   }
 };
@@ -2946,75 +3083,6 @@ export const AzureDataLakeStoreOutputDataSourceProperties: coreClient.CompositeM
       },
       authenticationMode: {
         serializedName: "authenticationMode",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureMachineLearningWebServiceFunctionBinding: coreClient.CompositeMapper = {
-  serializedName: "Microsoft.MachineLearning/WebService",
-  type: {
-    name: "Composite",
-    className: "AzureMachineLearningWebServiceFunctionBinding",
-    uberParent: "FunctionBinding",
-    polymorphicDiscriminator: FunctionBinding.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...FunctionBinding.type.modelProperties,
-      endpoint: {
-        serializedName: "properties.endpoint",
-        type: {
-          name: "String"
-        }
-      },
-      apiKey: {
-        serializedName: "properties.apiKey",
-        type: {
-          name: "String"
-        }
-      },
-      inputs: {
-        serializedName: "properties.inputs",
-        type: {
-          name: "Composite",
-          className: "AzureMachineLearningWebServiceInputs"
-        }
-      },
-      outputs: {
-        serializedName: "properties.outputs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AzureMachineLearningWebServiceOutputColumn"
-            }
-          }
-        }
-      },
-      batchSize: {
-        serializedName: "properties.batchSize",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const JavaScriptFunctionBinding: coreClient.CompositeMapper = {
-  serializedName: "Microsoft.StreamAnalytics/JavascriptUdf",
-  type: {
-    name: "Composite",
-    className: "JavaScriptFunctionBinding",
-    uberParent: "FunctionBinding",
-    polymorphicDiscriminator: FunctionBinding.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...FunctionBinding.type.modelProperties,
-      script: {
-        serializedName: "properties.script",
         type: {
           name: "String"
         }
@@ -3574,10 +3642,10 @@ export let discriminators = {
   Serialization: Serialization,
   OutputDataSource: OutputDataSource,
   FunctionProperties: FunctionProperties,
+  FunctionBinding: FunctionBinding,
   FunctionRetrieveDefaultDefinitionParameters: FunctionRetrieveDefaultDefinitionParameters,
   StreamInputDataSource: StreamInputDataSource,
   ReferenceInputDataSource: ReferenceInputDataSource,
-  FunctionBinding: FunctionBinding,
   "InputProperties.Stream": StreamInputProperties,
   "InputProperties.Reference": ReferenceInputProperties,
   "Serialization.Parquet": ParquetSerialization,
@@ -3591,11 +3659,15 @@ export let discriminators = {
   "OutputDataSource.Microsoft.Sql/Server/Database": AzureSqlDatabaseOutputDataSource,
   "OutputDataSource.Microsoft.Sql/Server/DataWarehouse": AzureSynapseOutputDataSource,
   "OutputDataSource.Microsoft.Storage/DocumentDB": DocumentDbOutputDataSource,
+  "OutputDataSource.Microsoft.AzureFunction": AzureFunctionOutputDataSource,
   "OutputDataSource.Microsoft.ServiceBus/Queue": ServiceBusQueueOutputDataSource,
   "OutputDataSource.Microsoft.ServiceBus/Topic": ServiceBusTopicOutputDataSource,
   "OutputDataSource.PowerBI": PowerBIOutputDataSource,
   "OutputDataSource.Microsoft.DataLake/Accounts": AzureDataLakeStoreOutputDataSource,
   "FunctionProperties.Scalar": ScalarFunctionProperties,
+  "FunctionProperties.Aggregate": AggregateFunctionProperties,
+  "FunctionBinding.Microsoft.MachineLearning/WebService": AzureMachineLearningWebServiceFunctionBinding,
+  "FunctionBinding.Microsoft.StreamAnalytics/JavascriptUdf": JavaScriptFunctionBinding,
   "FunctionRetrieveDefaultDefinitionParameters.Microsoft.MachineLearning/WebService": AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters,
   "FunctionRetrieveDefaultDefinitionParameters.Microsoft.StreamAnalytics/JavascriptUdf": JavaScriptFunctionRetrieveDefaultDefinitionParameters,
   "StreamInputDataSource.Microsoft.Storage/Blob": BlobStreamInputDataSource,
@@ -3603,7 +3675,5 @@ export let discriminators = {
   "StreamInputDataSource.Microsoft.EventHub/EventHub": EventHubV2StreamInputDataSource,
   "StreamInputDataSource.Microsoft.Devices/IotHubs": IoTHubStreamInputDataSource,
   "ReferenceInputDataSource.Microsoft.Storage/Blob": BlobReferenceInputDataSource,
-  "ReferenceInputDataSource.Microsoft.Sql/Server/Database": AzureSqlReferenceInputDataSource,
-  "FunctionBinding.Microsoft.MachineLearning/WebService": AzureMachineLearningWebServiceFunctionBinding,
-  "FunctionBinding.Microsoft.StreamAnalytics/JavascriptUdf": JavaScriptFunctionBinding
+  "ReferenceInputDataSource.Microsoft.Sql/Server/Database": AzureSqlReferenceInputDataSource
 };
