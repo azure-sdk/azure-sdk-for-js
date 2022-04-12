@@ -52,6 +52,7 @@ import {
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionAppSettingsResponse,
+  StaticSitesPurgeStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse,
   StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
@@ -91,6 +92,7 @@ import {
   StaticSitesDeletePrivateEndpointConnectionResponse,
   StaticSitesGetPrivateLinkResourcesOptionalParams,
   StaticSitesGetPrivateLinkResourcesResponse,
+  StaticSitesPurgeStaticSiteOptionalParams,
   StaticSiteResetPropertiesARMResource,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams,
@@ -436,6 +438,32 @@ export interface StaticSites {
     environmentName: string,
     options?: StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams
   ): Promise<StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
+  /**
+   * Description for Purges a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  beginPurgeStaticSiteBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesPurgeStaticSiteBuildOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Description for Purges a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  beginPurgeStaticSiteBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesPurgeStaticSiteBuildOptionalParams
+  ): Promise<void>;
   /**
    * Description for Gets the details of the user provided function app registered with a static site
    * build
@@ -853,6 +881,28 @@ export interface StaticSites {
     name: string,
     options?: StaticSitesGetPrivateLinkResourcesOptionalParams
   ): Promise<StaticSitesGetPrivateLinkResourcesResponse>;
+  /**
+   * Description for Purges a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param options The options parameters.
+   */
+  beginPurgeStaticSite(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesPurgeStaticSiteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Description for Purges a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param options The options parameters.
+   */
+  beginPurgeStaticSiteAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesPurgeStaticSiteOptionalParams
+  ): Promise<void>;
   /**
    * Description for Resets the api key for an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

@@ -73,6 +73,7 @@ import {
   StaticSitesListStaticSiteBuildAppSettingsResponse,
   StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams,
   StaticSitesListStaticSiteBuildFunctionAppSettingsResponse,
+  StaticSitesPurgeStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams,
   StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse,
@@ -116,6 +117,7 @@ import {
   StaticSitesDeletePrivateEndpointConnectionResponse,
   StaticSitesGetPrivateLinkResourcesOptionalParams,
   StaticSitesGetPrivateLinkResourcesResponse,
+  StaticSitesPurgeStaticSiteOptionalParams,
   StaticSiteResetPropertiesARMResource,
   StaticSitesResetStaticSiteApiKeyOptionalParams,
   StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse,
@@ -1395,6 +1397,91 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Description for Purges a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  async beginPurgeStaticSiteBuild(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesPurgeStaticSiteBuildOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, name, environmentName, options },
+      purgeStaticSiteBuildOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Description for Purges a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param environmentName The stage site identifier.
+   * @param options The options parameters.
+   */
+  async beginPurgeStaticSiteBuildAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentName: string,
+    options?: StaticSitesPurgeStaticSiteBuildOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginPurgeStaticSiteBuild(
+      resourceGroupName,
+      name,
+      environmentName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Description for Gets the details of the user provided function apps registered with a static site
    * build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -2468,6 +2555,86 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
+   * Description for Purges a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param options The options parameters.
+   */
+  async beginPurgeStaticSite(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesPurgeStaticSiteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, name, options },
+      purgeStaticSiteOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Description for Purges a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to purge.
+   * @param options The options parameters.
+   */
+  async beginPurgeStaticSiteAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: StaticSitesPurgeStaticSiteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginPurgeStaticSite(
+      resourceGroupName,
+      name,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Description for Resets the api key for an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
@@ -3359,6 +3526,30 @@ const listStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationS
   headerParameters: [Parameters.accept],
   serializer
 };
+const purgeStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/purge",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
@@ -3951,6 +4142,29 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PrivateLinkResourcesWrapper
     },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const purgeStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/purge",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
