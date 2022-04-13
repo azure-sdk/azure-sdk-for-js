@@ -305,6 +305,10 @@ import {
   WebAppsCreateMSDeployOperationResponse,
   WebAppsGetMSDeployLogOptionalParams,
   WebAppsGetMSDeployLogResponse,
+  WebAppsGetOneDeployStatusOptionalParams,
+  WebAppsGetOneDeployStatusResponse,
+  WebAppsCreateOneDeployOperationOptionalParams,
+  WebAppsCreateOneDeployOperationResponse,
   WebAppsListFunctionsResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
@@ -509,6 +513,8 @@ import {
   WebAppsUpdateAuthSettingsSlotResponse,
   WebAppsGetAuthSettingsSlotOptionalParams,
   WebAppsGetAuthSettingsSlotResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotResponse,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
@@ -5818,12 +5824,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -6081,12 +6085,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, backupId, request, options },
       restoreOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -6676,12 +6678,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       listPublishingCredentialsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -7323,12 +7323,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, mSDeploy, options },
       createMSDeployOperationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -7367,6 +7365,41 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getMSDeployLogOperationSpec
+    );
+  }
+
+  /**
+   * Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the
+   * site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  getOneDeployStatus(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetOneDeployStatusOptionalParams
+  ): Promise<WebAppsGetOneDeployStatusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getOneDeployStatusOperationSpec
+    );
+  }
+
+  /**
+   * Description for Invoke the OneDeploy publish web app extension.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  createOneDeployOperation(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsCreateOneDeployOperationOptionalParams
+  ): Promise<WebAppsCreateOneDeployOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      createOneDeployOperationOperationSpec
     );
   }
 
@@ -7487,12 +7520,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, functionName, functionEnvelope, options },
       createFunctionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -8129,12 +8160,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, instanceId, mSDeploy, options },
       createInstanceMSDeployOperationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -8455,12 +8484,10 @@ export class WebAppsImpl implements WebApps {
       { subscriptionName, resourceGroupName, name, migrationOptions, options },
       migrateStorageOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -8550,12 +8577,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, migrationRequestEnvelope, options },
       migrateMySqlOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -8794,12 +8819,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       startWebSiteNetworkTraceOperationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9192,12 +9215,10 @@ export class WebAppsImpl implements WebApps {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9287,12 +9308,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9667,12 +9686,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, request, options },
       restoreFromBackupBlobOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9754,12 +9771,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, restoreRequest, options },
       restoreFromDeletedAppOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9842,12 +9857,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, restoreRequest, options },
       restoreSnapshotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -9971,12 +9984,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteExtensionId, options },
       installSiteExtensionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -10123,12 +10134,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, siteEnvelope, options },
       createOrUpdateSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -10417,12 +10426,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, backupId, slot, request, options },
       restoreSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -10666,6 +10673,26 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, slot, options },
       getAuthSettingsSlotOperationSpec
+    );
+  }
+
+  /**
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
+   *             for the production slot.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecretsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      getAuthSettingsV2WithoutSecretsSlotOperationSpec
     );
   }
 
@@ -11084,12 +11111,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       listPublishingCredentialsSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -11777,12 +11802,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, mSDeploy, options },
       createMSDeployOperationSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -11961,12 +11984,10 @@ export class WebAppsImpl implements WebApps {
       },
       createInstanceFunctionSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -12689,12 +12710,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, instanceId, mSDeploy, options },
       createInstanceMSDeployOperationSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -13231,12 +13250,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       startWebSiteNetworkTraceOperationSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -13690,12 +13707,10 @@ export class WebAppsImpl implements WebApps {
       },
       approveOrRejectPrivateEndpointConnectionSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -13790,12 +13805,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, privateEndpointConnectionName, slot, options },
       deletePrivateEndpointConnectionSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14221,12 +14234,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, request, options },
       restoreFromBackupBlobSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14314,12 +14325,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, restoreRequest, options },
       restoreFromDeletedAppSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14407,12 +14416,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, restoreRequest, options },
       restoreSnapshotSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14548,12 +14555,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteExtensionId, slot, options },
       installSiteExtensionSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14686,12 +14691,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, slotSwapEntity, options },
       swapSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -14843,12 +14846,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, siteSourceControl, options },
       createOrUpdateSourceControlSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -15001,12 +15002,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slot, options },
       startNetworkTraceSlotOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -15584,12 +15583,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, slotSwapEntity, options },
       swapSlotWithProductionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -15727,12 +15724,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, siteSourceControl, options },
       createOrUpdateSourceControlOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -15870,12 +15865,10 @@ export class WebAppsImpl implements WebApps {
       { resourceGroupName, name, options },
       startNetworkTraceOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -19409,6 +19402,54 @@ const getMSDeployLogOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getOneDeployStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listFunctionsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions",
@@ -22363,6 +22404,29 @@ const getAuthSettingsSlotOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SiteAuthSettings
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthSettingsV2WithoutSecretsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

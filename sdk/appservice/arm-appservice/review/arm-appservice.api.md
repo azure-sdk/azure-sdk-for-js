@@ -195,7 +195,7 @@ export type AppServiceCertificateOrder = Resource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
@@ -227,16 +227,10 @@ export type AppServiceCertificateOrderPatchResource = ProxyOnlyResource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
-
-// @public
-export type AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-// @public
-export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem = string;
 
 // @public
 export interface AppServiceCertificateOrders {
@@ -431,6 +425,7 @@ export interface AppServiceEnvironment {
     readonly maximumNumberOfMachines?: number;
     readonly multiRoleCount?: number;
     multiSize?: string;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly status?: HostingEnvironmentStatus;
     readonly suspended?: boolean;
@@ -463,6 +458,7 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -483,6 +479,7 @@ export type AppServiceEnvironmentResource = Resource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -1388,6 +1385,11 @@ export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
     readonly externalInboundIpAddresses?: string[];
     readonly internalInboundIpAddresses?: string[];
     allowNewPrivateEndpointConnections?: boolean;
+    ftpEnabled?: boolean;
+    remoteDebugEnabled?: boolean;
+    numberOfOutboundIpAddresses?: number;
+    inboundIpAddressOverride?: string;
+    readonly targetNumberOfOutboundIpAddresses?: number;
 };
 
 // @public
@@ -1647,16 +1649,16 @@ export interface CertificateDetails {
 }
 
 // @public
-export type CertificateEmail = ProxyOnlyResource & {
+export interface CertificateEmail {
     emailId?: string;
     timeStamp?: Date;
-};
+}
 
 // @public
-export type CertificateOrderAction = ProxyOnlyResource & {
+export interface CertificateOrderAction {
     readonly actionType?: CertificateOrderActionType;
     readonly createdAt?: Date;
-};
+}
 
 // @public
 export type CertificateOrderActionType = "CertificateIssued" | "CertificateOrderCanceled" | "CertificateOrderCreated" | "CertificateRevoked" | "DomainValidationComplete" | "FraudDetected" | "OrgNameChange" | "OrgValidationComplete" | "SanDrop" | "FraudCleared" | "CertificateExpired" | "CertificateExpirationWarning" | "FraudDocumentationRequired" | "Unknown";
@@ -2931,7 +2933,7 @@ export type Domain = Resource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
@@ -2986,18 +2988,12 @@ export type DomainPatchResource = ProxyOnlyResource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPatchResourcePropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
     authCode?: string;
 };
-
-// @public
-export type DomainPatchResourcePropertiesDomainNotRenewableReasonsItem = string;
-
-// @public
-export type DomainPropertiesDomainNotRenewableReasonsItem = string;
 
 // @public
 export interface DomainPurchaseConsent {
@@ -3215,6 +3211,15 @@ export interface EndpointDetail {
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
+export type Enum12 = string;
+
+// @public
+export type Enum13 = string;
+
+// @public
+export type Enum14 = string;
+
+// @public
 export type Enum15 = string;
 
 // @public
@@ -3222,15 +3227,6 @@ export type Enum16 = string;
 
 // @public
 export type Enum17 = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
-
-// @public
-export type Enum20 = string;
 
 // @public
 export interface EnvironmentVar {
@@ -3773,26 +3769,6 @@ export enum KnownActiveRevisionsMode {
 }
 
 // @public
-export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
 export enum KnownBuildStatus {
     // (undocumented)
     Deleting = "Deleting",
@@ -3855,6 +3831,8 @@ export enum KnownCustomDomainStatus {
     // (undocumented)
     RetrievingValidationToken = "RetrievingValidationToken",
     // (undocumented)
+    Unhealthy = "Unhealthy",
+    // (undocumented)
     Validating = "Validating"
 }
 
@@ -3871,26 +3849,6 @@ export enum KnownDatabaseType {
 }
 
 // @public
-export enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
 export enum KnownEnterpriseGradeCdnStatus {
     // (undocumented)
     Disabled = "Disabled",
@@ -3903,7 +3861,7 @@ export enum KnownEnterpriseGradeCdnStatus {
 }
 
 // @public
-export enum KnownEnum15 {
+export enum KnownEnum12 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3914,6 +3872,36 @@ export enum KnownEnum15 {
     Windows = "Windows",
     // (undocumented)
     WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownEnum13 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum14 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum15 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
 }
 
 // @public
@@ -3928,36 +3916,6 @@ export enum KnownEnum16 {
 
 // @public
 export enum KnownEnum17 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum18 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum19 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum20 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -4028,6 +3986,16 @@ export enum KnownPublishingProfileFormat {
     Ftp = "Ftp",
     // (undocumented)
     WebDeploy = "WebDeploy"
+}
+
+// @public
+export enum KnownResourceNotRenewableReason {
+    // (undocumented)
+    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
+    // (undocumented)
+    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
+    // (undocumented)
+    SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 // @public
@@ -4903,7 +4871,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4912,7 +4880,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4921,7 +4889,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4930,7 +4898,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4938,7 +4906,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4946,7 +4914,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4954,7 +4922,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4962,7 +4930,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4970,7 +4938,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4978,7 +4946,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4986,7 +4954,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -4994,7 +4962,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -5517,6 +5485,9 @@ export interface ResourceNameAvailabilityRequest {
 }
 
 // @public
+export type ResourceNotRenewableReason = string;
+
+// @public
 export type ResourceScopeType = string;
 
 // @public
@@ -5652,6 +5623,9 @@ export type Site = Resource & {
     isXenon?: boolean;
     hyperV?: boolean;
     readonly lastModifiedTimeUtc?: Date;
+    vnetRouteAllEnabled?: boolean;
+    vnetImagePullEnabled?: boolean;
+    vnetContentShareEnabled?: boolean;
     siteConfig?: SiteConfig;
     readonly trafficManagerHostNames?: string[];
     scmSiteAlsoStopped?: boolean;
@@ -7472,6 +7446,7 @@ export interface WebApps {
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
+    createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
     createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
     createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
@@ -7548,6 +7523,7 @@ export interface WebApps {
     getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
     getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
     getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
+    getAuthSettingsV2WithoutSecretsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
     getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
@@ -7602,6 +7578,7 @@ export interface WebApps {
     getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams): Promise<WebAppsGetNetworkTracesSlotResponse>;
     getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams): Promise<WebAppsGetNetworkTracesSlotV2Response>;
     getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams): Promise<WebAppsGetNetworkTracesV2Response>;
+    getOneDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams): Promise<WebAppsGetOneDeployStatusResponse>;
     getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams): Promise<WebAppsGetPremierAddOnResponse>;
     getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams): Promise<WebAppsGetPremierAddOnSlotResponse>;
     getPrivateAccess(resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams): Promise<WebAppsGetPrivateAccessResponse>;
@@ -7959,6 +7936,13 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends coreCl
 
 // @public
 export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
+
+// @public
+export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -8444,6 +8428,13 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends co
 export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+// @public
 export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -8836,6 +8827,13 @@ export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.Oper
 
 // @public
 export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
+
+// @public
+export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {

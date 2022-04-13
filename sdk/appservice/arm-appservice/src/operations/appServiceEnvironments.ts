@@ -1794,12 +1794,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, hostingEnvironmentEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1879,12 +1877,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2017,12 +2013,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, vnetInfo, options },
       changeVnetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2214,12 +2208,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, multiRolePoolEnvelope, options },
       createOrUpdateMultiRolePoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2481,12 +2473,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2580,12 +2570,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2704,12 +2692,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       resumeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2806,12 +2792,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       suspendOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2933,12 +2917,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, workerPoolName, workerPoolEnvelope, options },
       createOrUpdateWorkerPoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
