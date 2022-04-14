@@ -1680,6 +1680,11 @@
       "packageName": "@azure/arm-dashboard",
       "projectFolder": "sdk/dashboard/arm-dashboard",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicelinker",
+      "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
     }
   ]
 }
