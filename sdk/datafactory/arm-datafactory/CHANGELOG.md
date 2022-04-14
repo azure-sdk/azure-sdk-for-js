@@ -1,15 +1,28 @@
 # Release History
+    
+## 10.4.0 (2022-04-14)
+    
+**Features**
 
-## 10.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GlobalParameters
+  - Added Interface GlobalParameterListResponse
+  - Added Interface GlobalParametersCreateOrUpdateOptionalParams
+  - Added Interface GlobalParametersDeleteOptionalParams
+  - Added Interface GlobalParametersGetOptionalParams
+  - Added Interface GlobalParametersListByFactoryNextOptionalParams
+  - Added Interface GlobalParametersListByFactoryOptionalParams
+  - Added Type Alias AppFiguresLinkedService
+  - Added Type Alias AsanaLinkedService
+  - Added Type Alias DataworldLinkedService
+  - Added Type Alias GlobalParameterResource
+  - Added Type Alias GlobalParametersCreateOrUpdateResponse
+  - Added Type Alias GlobalParametersGetResponse
+  - Added Type Alias GlobalParametersListByFactoryNextResponse
+  - Added Type Alias GlobalParametersListByFactoryResponse
+  - Added Type Alias TwilioLinkedService
+  - Class DataFactoryManagementClient has a new parameter globalParameters
+    
+    
 ## 10.3.0 (2022-04-06)
     
 **Features**

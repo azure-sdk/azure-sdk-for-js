@@ -83,6 +83,10 @@ export type LinkedServiceUnion =
   | QuickbaseLinkedService
   | SmartsheetLinkedService
   | ZendeskLinkedService
+  | DataworldLinkedService
+  | AppFiguresLinkedService
+  | AsanaLinkedService
+  | TwilioLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -1283,6 +1287,10 @@ export interface LinkedService {
     | "Quickbase"
     | "Smartsheet"
     | "Zendesk"
+    | "Dataworld"
+    | "AppFigures"
+    | "Asana"
+    | "Twilio"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -2277,6 +2285,14 @@ export interface PrivateLinkResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
+}
+
+/** A list of Global parameters. */
+export interface GlobalParameterListResponse {
+  /** List of global parameters. */
+  value: GlobalParameterResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
 }
 
 /** Azure Data Factory expression definition. */
@@ -3785,6 +3801,12 @@ export type PrivateLinkResource = SubResource & {
   properties?: PrivateLinkResourceProperties;
 };
 
+/** Global parameters resource type. */
+export type GlobalParameterResource = SubResource & {
+  /** Properties of the global parameter. */
+  properties: { [propertyName: string]: GlobalParameterSpecification };
+};
+
 /** Credential resource type. */
 export type CredentialResource = SubResource & {
   /** Properties of credentials. */
@@ -4983,6 +5005,48 @@ export type ZendeskLinkedService = LinkedService & {
   apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Dataworld. */
+export type DataworldLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Dataworld";
+  /** The api token for the Dataworld source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for AppFigures. */
+export type AppFiguresLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AppFigures";
+  /** The username of the Appfigures source. */
+  userName: Record<string, unknown>;
+  /** The password of the AppFigures source. */
+  password: SecretBaseUnion;
+  /** The client key for the AppFigures source. */
+  clientKey: SecretBaseUnion;
+};
+
+/** Linked service for Asana. */
+export type AsanaLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Asana";
+  /** The api token for the Asana source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Twilio. */
+export type TwilioLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Twilio";
+  /** The Account SID of Twilio service. */
+  userName: Record<string, unknown>;
+  /** The auth token of Twilio service. */
+  password: SecretBaseUnion;
 };
 
 /** Linked service for Amazon Redshift. */
@@ -13122,6 +13186,38 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper;
+
+/** Optional parameters. */
+export interface GlobalParametersListByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactory operation. */
+export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
+
+/** Optional parameters. */
+export interface GlobalParametersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GlobalParametersGetResponse = GlobalParameterResource;
+
+/** Optional parameters. */
+export interface GlobalParametersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
+
+/** Optional parameters. */
+export interface GlobalParametersDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GlobalParametersListByFactoryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactoryNext operation. */
+export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
 
 /** Optional parameters. */
 export interface DataFactoryManagementClientOptionalParams

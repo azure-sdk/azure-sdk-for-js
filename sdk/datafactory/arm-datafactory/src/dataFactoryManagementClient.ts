@@ -28,7 +28,8 @@ import {
   ManagedPrivateEndpointsImpl,
   PrivateEndPointConnectionsImpl,
   PrivateEndpointConnectionImpl,
-  PrivateLinkResourcesImpl
+  PrivateLinkResourcesImpl,
+  GlobalParametersImpl
 } from "./operations";
 import {
   Operations,
@@ -50,7 +51,8 @@ import {
   ManagedPrivateEndpoints,
   PrivateEndPointConnections,
   PrivateEndpointConnection,
-  PrivateLinkResources
+  PrivateLinkResources,
+  GlobalParameters
 } from "./operationsInterfaces";
 import { DataFactoryManagementClientOptionalParams } from "./models";
 
@@ -86,7 +88,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/10.3.1`;
+    const packageDetails = `azsdk-js-arm-datafactory/10.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -101,8 +103,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -133,6 +134,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     this.privateEndPointConnections = new PrivateEndPointConnectionsImpl(this);
     this.privateEndpointConnection = new PrivateEndpointConnectionImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.globalParameters = new GlobalParametersImpl(this);
   }
 
   operations: Operations;
@@ -155,4 +157,5 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
   privateEndPointConnections: PrivateEndPointConnections;
   privateEndpointConnection: PrivateEndpointConnection;
   privateLinkResources: PrivateLinkResources;
+  globalParameters: GlobalParameters;
 }
