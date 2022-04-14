@@ -789,11 +789,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -1874,7 +1871,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: 1;
+  status?: "1";
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -3942,7 +3939,7 @@ export type ThreatIntelligenceInformation = ResourceWithEtag & {
   kind: ThreatIntelligenceResourceKindEnum;
 };
 
-/** Represents a Watchlist in Azure Security Insights. */
+/** Represents a (Confidential) Watchlist in Azure Security Insights. */
 export type Watchlist = ResourceWithEtag & {
   /** The id (a Guid) of the watchlist */
   watchlistId?: string;
@@ -3980,12 +3977,24 @@ export type Watchlist = ResourceWithEtag & {
   numberOfLinesToSkip?: number;
   /** The raw content that represents to watchlist items to create. In case of csv/tsv content type, it's the content of the file that will parsed by the endpoint */
   rawContent?: string;
+  /** The Shared Access Signature (SAS) URI under which the large csv watchlist file is located and from which the watchlist and its items will be created */
+  sasUri?: string;
   /** The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
   itemsSearchKey?: string;
   /** The content type of the raw content. Example : text/csv or text/tsv */
   contentType?: string;
   /** The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
+  /**
+   * The provisioning state of the watchlist resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The watchlist category (normal or confidential). It's read only property, calculated by the API during PUT operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly watchlistCategory?: string;
 };
 
 /** Represents a Watchlist item in Azure Security Insights. */
@@ -4007,9 +4016,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -5670,11 +5679,8 @@ export type EyesOn = Settings & {
 
 /** Settings with single toggle. */
 export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
 };
 
 /** Settings with single toggle. */
@@ -5941,6 +5947,18 @@ export interface WatchlistsDeleteHeaders {
 
 /** Defines headers for Watchlists_createOrUpdate operation. */
 export interface WatchlistsCreateOrUpdateHeaders {
+  /** Contains the status URL on which clients are expected to poll the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ConfidentialWatchlists_delete operation. */
+export interface ConfidentialWatchlistsDeleteHeaders {
+  /** Contains the status URL on which clients are expected to poll the status of the delete operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for ConfidentialWatchlists_createOrUpdate operation. */
+export interface ConfidentialWatchlistsCreateOrUpdateHeaders {
   /** Contains the status URL on which clients are expected to poll the status of the operation. */
   azureAsyncOperation?: string;
 }
@@ -6812,8 +6830,8 @@ export type ThreatIntelligenceSortingCriteriaEnum = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
-  LocalFile = "Local file",
-  RemoteStorage = "Remote storage"
+  Local = "Local",
+  AzureStorage = "AzureStorage"
 }
 
 /**
@@ -6821,10 +6839,30 @@ export enum KnownSourceType {
  * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Local file** \
- * **Remote storage**
+ * **Local** \
+ * **AzureStorage**
  */
 export type SourceType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {
@@ -7402,6 +7440,22 @@ export enum KnownOutputType {
  * **Entity**
  */
 export type OutputType = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  ActiveDirectory = "ActiveDirectory",
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
 
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
@@ -8610,6 +8664,85 @@ export interface WatchlistItemsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type WatchlistItemsListNextResponse = WatchlistItemList;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConfidentialWatchlistsListResponse = WatchlistList;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfidentialWatchlistsGetResponse = Watchlist;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the delete operation. */
+export type ConfidentialWatchlistsDeleteResponse = ConfidentialWatchlistsDeleteHeaders;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConfidentialWatchlistsCreateOrUpdateResponse = Watchlist;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ConfidentialWatchlistsListNextResponse = WatchlistList;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistItemsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConfidentialWatchlistItemsListResponse = WatchlistItemList;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistItemsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfidentialWatchlistItemsGetResponse = WatchlistItem;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistItemsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistItemsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ConfidentialWatchlistItemsCreateOrUpdateResponse = WatchlistItem;
+
+/** Optional parameters. */
+export interface ConfidentialWatchlistItemsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ConfidentialWatchlistItemsListNextResponse = WatchlistItemList;
 
 /** Optional parameters. */
 export interface DataConnectorsListOptionalParams

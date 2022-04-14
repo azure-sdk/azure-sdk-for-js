@@ -521,7 +521,7 @@ export interface AutomationRuleTriggeringLogic {
 // @public
 export interface Availability {
     isPreview?: boolean;
-    status?: 1;
+    status?: "1";
 }
 
 // @public
@@ -900,6 +900,103 @@ export type ConfidenceLevel = string;
 
 // @public
 export type ConfidenceScoreStatus = string;
+
+// @public
+export interface ConfidentialWatchlistItems {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlistItemId: string, watchlistItem: WatchlistItem, options?: ConfidentialWatchlistItemsCreateOrUpdateOptionalParams): Promise<ConfidentialWatchlistItemsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlistItemId: string, options?: ConfidentialWatchlistItemsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlistItemId: string, options?: ConfidentialWatchlistItemsGetOptionalParams): Promise<ConfidentialWatchlistItemsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: ConfidentialWatchlistItemsListOptionalParams): PagedAsyncIterableIterator<WatchlistItem>;
+}
+
+// @public
+export interface ConfidentialWatchlistItemsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfidentialWatchlistItemsCreateOrUpdateResponse = WatchlistItem;
+
+// @public
+export interface ConfidentialWatchlistItemsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ConfidentialWatchlistItemsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfidentialWatchlistItemsGetResponse = WatchlistItem;
+
+// @public
+export interface ConfidentialWatchlistItemsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+}
+
+// @public
+export type ConfidentialWatchlistItemsListNextResponse = WatchlistItemList;
+
+// @public
+export interface ConfidentialWatchlistItemsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+}
+
+// @public
+export type ConfidentialWatchlistItemsListResponse = WatchlistItemList;
+
+// @public
+export interface ConfidentialWatchlists {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: ConfidentialWatchlistsCreateOrUpdateOptionalParams): Promise<ConfidentialWatchlistsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: ConfidentialWatchlistsDeleteOptionalParams): Promise<ConfidentialWatchlistsDeleteResponse>;
+    get(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: ConfidentialWatchlistsGetOptionalParams): Promise<ConfidentialWatchlistsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: ConfidentialWatchlistsListOptionalParams): PagedAsyncIterableIterator<Watchlist>;
+}
+
+// @public
+export interface ConfidentialWatchlistsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface ConfidentialWatchlistsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfidentialWatchlistsCreateOrUpdateResponse = Watchlist;
+
+// @public
+export interface ConfidentialWatchlistsDeleteHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface ConfidentialWatchlistsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfidentialWatchlistsDeleteResponse = ConfidentialWatchlistsDeleteHeaders;
+
+// @public
+export interface ConfidentialWatchlistsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfidentialWatchlistsGetResponse = Watchlist;
+
+// @public
+export interface ConfidentialWatchlistsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+}
+
+// @public
+export type ConfidentialWatchlistsListNextResponse = WatchlistList;
+
+// @public
+export interface ConfidentialWatchlistsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+}
+
+// @public
+export type ConfidentialWatchlistsListResponse = WatchlistList;
 
 // @public
 export type ConnectAuthKind = string;
@@ -1354,7 +1451,7 @@ export type Entity = Resource & {
 
 // @public
 export type EntityAnalytics = Settings & {
-    readonly isEnabled?: boolean;
+    entityProviders?: EntityProviders[];
 };
 
 // @public
@@ -1446,6 +1543,9 @@ export interface EntityMapping {
 
 // @public
 export type EntityMappingType = string;
+
+// @public
+export type EntityProviders = string;
 
 // @public
 export interface EntityQueries {
@@ -2057,7 +2157,7 @@ export interface IncidentOwnerInfo {
     assignedTo?: string;
     email?: string;
     objectId?: string;
-    readonly ownerType?: OwnerType;
+    ownerType?: OwnerType;
     userPrincipalName?: string;
 }
 
@@ -2777,6 +2877,14 @@ export enum KnownEntityMappingType {
 }
 
 // @public
+export enum KnownEntityProviders {
+    // (undocumented)
+    ActiveDirectory = "ActiveDirectory",
+    // (undocumented)
+    AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+// @public
 export enum KnownEntityQueryKind {
     // (undocumented)
     Activity = "Activity",
@@ -3028,6 +3136,18 @@ export enum KnownProviderName {
 }
 
 // @public
+export enum KnownProvisioningState {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownRegistryHive {
     HkeyA = "HKEY_A",
     HkeyClassesRoot = "HKEY_CLASSES_ROOT",
@@ -3106,9 +3226,9 @@ export enum KnownSourceKind {
 // @public
 export enum KnownSourceType {
     // (undocumented)
-    LocalFile = "Local file",
+    AzureStorage = "AzureStorage",
     // (undocumented)
-    RemoteStorage = "Remote storage"
+    Local = "Local"
 }
 
 // @public
@@ -4034,6 +4154,9 @@ export type PropertyConditionProperties = AutomationRuleCondition & {
 export type ProviderName = string;
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface QueryBasedAlertRuleTemplateProperties {
     alertDetailsOverride?: AlertDetailsOverride;
     customDetails?: {
@@ -4374,6 +4497,10 @@ export class SecurityInsights extends coreClient.ServiceClient {
     bookmarkRelations: BookmarkRelations;
     // (undocumented)
     bookmarks: Bookmarks;
+    // (undocumented)
+    confidentialWatchlistItems: ConfidentialWatchlistItems;
+    // (undocumented)
+    confidentialWatchlists: ConfidentialWatchlists;
     // (undocumented)
     dataConnectors: DataConnectors;
     // (undocumented)
@@ -5132,9 +5259,12 @@ export type Watchlist = ResourceWithEtag & {
     tenantId?: string;
     numberOfLinesToSkip?: number;
     rawContent?: string;
+    sasUri?: string;
     itemsSearchKey?: string;
     contentType?: string;
     uploadStatus?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly watchlistCategory?: string;
 };
 
 // @public
@@ -5147,8 +5277,12 @@ export type WatchlistItem = ResourceWithEtag & {
     updated?: Date;
     createdBy?: UserInfo;
     updatedBy?: UserInfo;
-    itemsKeyValue?: Record<string, unknown>;
-    entityMapping?: Record<string, unknown>;
+    itemsKeyValue?: {
+        [propertyName: string]: any;
+    };
+    entityMapping?: {
+        [propertyName: string]: any;
+    };
 };
 
 // @public

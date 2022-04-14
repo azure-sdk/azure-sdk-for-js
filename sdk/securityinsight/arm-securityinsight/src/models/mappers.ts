@@ -1940,7 +1940,6 @@ export const IncidentOwnerInfo: coreClient.CompositeMapper = {
       },
       ownerType: {
         serializedName: "ownerType",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -10302,6 +10301,12 @@ export const Watchlist: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      sasUri: {
+        serializedName: "properties.sasUri",
+        type: {
+          name: "String"
+        }
+      },
       itemsSearchKey: {
         serializedName: "properties.itemsSearchKey",
         type: {
@@ -10316,6 +10321,20 @@ export const Watchlist: coreClient.CompositeMapper = {
       },
       uploadStatus: {
         serializedName: "properties.uploadStatus",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      watchlistCategory: {
+        serializedName: "properties.watchlistCategory",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -14065,11 +14084,15 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
-      isEnabled: {
-        serializedName: "properties.isEnabled",
-        readOnly: true,
+      entityProviders: {
+        serializedName: "properties.entityProviders",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -14956,6 +14979,36 @@ export const WatchlistsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "WatchlistsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialWatchlistsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialWatchlistsDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialWatchlistsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialWatchlistsCreateOrUpdateHeaders",
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",

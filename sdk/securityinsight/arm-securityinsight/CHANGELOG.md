@@ -1,5 +1,54 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-04-14)
+    
+**Features**
+
+  - Added operation group ConfidentialWatchlistItems
+  - Added operation group ConfidentialWatchlists
+  - Added Interface ConfidentialWatchlistItemsCreateOrUpdateOptionalParams
+  - Added Interface ConfidentialWatchlistItemsDeleteOptionalParams
+  - Added Interface ConfidentialWatchlistItemsGetOptionalParams
+  - Added Interface ConfidentialWatchlistItemsListNextOptionalParams
+  - Added Interface ConfidentialWatchlistItemsListOptionalParams
+  - Added Interface ConfidentialWatchlistsCreateOrUpdateHeaders
+  - Added Interface ConfidentialWatchlistsCreateOrUpdateOptionalParams
+  - Added Interface ConfidentialWatchlistsDeleteHeaders
+  - Added Interface ConfidentialWatchlistsDeleteOptionalParams
+  - Added Interface ConfidentialWatchlistsGetOptionalParams
+  - Added Interface ConfidentialWatchlistsListNextOptionalParams
+  - Added Interface ConfidentialWatchlistsListOptionalParams
+  - Added Type Alias ConfidentialWatchlistItemsCreateOrUpdateResponse
+  - Added Type Alias ConfidentialWatchlistItemsGetResponse
+  - Added Type Alias ConfidentialWatchlistItemsListNextResponse
+  - Added Type Alias ConfidentialWatchlistItemsListResponse
+  - Added Type Alias ConfidentialWatchlistsCreateOrUpdateResponse
+  - Added Type Alias ConfidentialWatchlistsDeleteResponse
+  - Added Type Alias ConfidentialWatchlistsGetResponse
+  - Added Type Alias ConfidentialWatchlistsListNextResponse
+  - Added Type Alias ConfidentialWatchlistsListResponse
+  - Added Type Alias EntityProviders
+  - Added Type Alias ProvisioningState
+  - Class SecurityInsights has a new parameter confidentialWatchlistItems
+  - Class SecurityInsights has a new parameter confidentialWatchlists
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Type Alias Watchlist has a new parameter sasUri
+  - Type Alias Watchlist has a new parameter provisioningState
+  - Type Alias Watchlist has a new parameter watchlistCategory
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownProvisioningState
+  - Enum KnownSourceType has a new value AzureStorage
+  - Enum KnownSourceType has a new value Local
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+  - Enum KnownSourceType no longer has value LocalFile
+  - Enum KnownSourceType no longer has value RemoteStorage
+    
+    
 ## 1.0.0-beta.2 (2022-03-17)
     
 **Features**
