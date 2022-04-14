@@ -89,6 +89,9 @@ export type EntityQueryUnion =
 export type CustomEntityQueryUnion =
   | CustomEntityQuery
   | ActivityCustomEntityQuery;
+export type SecurityMLAnalyticsSettingUnion =
+  | SecurityMLAnalyticsSetting
+  | AnomalySecurityMLAnalyticsSettings;
 export type SettingsUnion =
   | Settings
   | Anomalies
@@ -718,6 +721,48 @@ export interface EntityQueryTemplateList {
   value: EntityQueryTemplateUnion[];
 }
 
+/** List all the file imports. */
+export interface FileImportList {
+  /**
+   * URL to fetch the next set of file imports.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of file imports. */
+  value: FileImport[];
+}
+
+/** Represents a file. */
+export interface FileMetadata {
+  /** The format of the file */
+  fileFormat?: FileFormat;
+  /** The name of the file. */
+  fileName?: string;
+  /** The size of the file. */
+  fileSize?: number;
+  /**
+   * A URI with a valid SAS token to allow uploading / downloading the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileContentUri?: string;
+  /**
+   * Indicates whether the file was deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deleteStatus?: DeleteStatus;
+}
+
+/** Describes an error encountered in the file during validation. */
+export interface ValidationError {
+  /** The number of the record that has the error. */
+  recordIndex?: number;
+  /**
+   * A list of descriptions of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessages?: string[];
+}
+
 /** List all the incidents. */
 export interface IncidentList {
   /**
@@ -789,11 +834,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -986,6 +1028,17 @@ export interface OfficeConsentList {
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
   value: SentinelOnboardingState[];
+}
+
+/** List all the SecurityMLAnalyticsSettings */
+export interface SecurityMLAnalyticsSettingsList {
+  /**
+   * URL to fetch the next set of SecurityMLAnalyticsSettings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of SecurityMLAnalyticsSettings */
+  value: SecurityMLAnalyticsSettingUnion[];
 }
 
 /** List of all the settings. */
@@ -1711,6 +1764,14 @@ export interface DataTypeDefinitions {
   dataType?: string;
 }
 
+/** security ml analytics settings data sources */
+export interface SecurityMLAnalyticsSettingsDataSource {
+  /** The connector id that provides the following data types */
+  connectorId?: string;
+  /** The data types used by the security ml analytics settings */
+  dataTypes?: string[];
+}
+
 /** The pricing tier of the solution */
 export interface Sku {
   /** The kind of the tier */
@@ -1874,7 +1935,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: 1;
+  status?: "1";
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -2140,6 +2201,63 @@ export type Entity = Resource & {
 export type EntityQueryTemplate = Resource & {
   /** the entity query template kind */
   kind: EntityQueryTemplateKind;
+};
+
+/** Represents a file import in Azure Security Insights. */
+export type FileImport = Resource & {
+  /** Describes how to ingest the records in the file. */
+  ingestionMode?: IngestionMode;
+  /** The content type of this file. */
+  contentType?: FileImportContentType;
+  /**
+   * The time the file was imported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeUTC?: Date;
+  /**
+   * Represents the error file (if the import was ingested with errors or failed the validation).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorFile?: FileMetadata;
+  /**
+   * An ordered list of some of the errors that were encountered during validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorsPreview?: ValidationError[];
+  /** Represents the imported file. */
+  importFile?: FileMetadata;
+  /**
+   * The number of records that have been successfully ingested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestedRecordCount?: number;
+  /** The source for the data in the file. */
+  source?: string;
+  /**
+   * The state of the file import.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: FileImportState;
+  /**
+   * The number of records in the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRecordCount?: number;
+  /**
+   * The number of records that have passed validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validRecordCount?: number;
+  /**
+   * The time the files associated with this import are deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesValidUntilTimeUTC?: Date;
+  /**
+   * The time the file import record is soft deleted from the database and history.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importValidUntilTimeUTC?: Date;
 };
 
 /** Consent for Office365 tenant that already made. */
@@ -3908,6 +4026,12 @@ export type SentinelOnboardingState = ResourceWithEtag & {
   customerManagedKey?: boolean;
 };
 
+/** Security ML Analytics Setting */
+export type SecurityMLAnalyticsSetting = ResourceWithEtag & {
+  /** The kind of security ML Analytics Settings */
+  kind: SecurityMLAnalyticsSettingsKind;
+};
+
 /** The Setting. */
 export type Settings = ResourceWithEtag & {
   /** The kind of the setting */
@@ -4007,9 +4131,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -5650,6 +5774,41 @@ export type ActivityCustomEntityQuery = CustomEntityQuery & {
   readonly lastModifiedTimeUtc?: Date;
 };
 
+/** Represents Anomaly Security ML Analytics Settings */
+export type AnomalySecurityMLAnalyticsSettings = SecurityMLAnalyticsSetting & {
+  /** The description of the SecurityMLAnalyticsSettings. */
+  description?: string;
+  /** The display name for settings created by this SecurityMLAnalyticsSettings. */
+  displayName?: string;
+  /** Determines whether this settings is enabled or disabled. */
+  enabled?: boolean;
+  /**
+   * The last time that this SecurityMLAnalyticsSettings has been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedUtc?: Date;
+  /** The required data sources for this SecurityMLAnalyticsSettings */
+  requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
+  /** The tactics of the SecurityMLAnalyticsSettings */
+  tactics?: AttackTactic[];
+  /** The techniques of the SecurityMLAnalyticsSettings */
+  techniques?: string[];
+  /** The anomaly version of the AnomalySecurityMLAnalyticsSettings. */
+  anomalyVersion?: string;
+  /** The customizable observations of the AnomalySecurityMLAnalyticsSettings. */
+  customizableObservations?: Record<string, unknown>;
+  /** The frequency that this SecurityMLAnalyticsSettings will be run. */
+  frequency?: string;
+  /** The anomaly SecurityMLAnalyticsSettings status */
+  settingsStatus?: SettingsStatus;
+  /** Determines whether this anomaly security ml analytics settings is a default settings */
+  isDefaultSettings?: boolean;
+  /** The anomaly settings version of the Anomaly security ml analytics settings that dictates whether job version gets updated or not. */
+  anomalySettingsVersion?: number;
+  /** The anomaly settings definition Id */
+  settingsDefinitionId?: string;
+};
+
 /** Settings with single toggle. */
 export type Anomalies = Settings & {
   /**
@@ -5670,11 +5829,8 @@ export type EyesOn = Settings & {
 
 /** Settings with single toggle. */
 export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
 };
 
 /** Settings with single toggle. */
@@ -6295,6 +6451,123 @@ export enum KnownEntityQueryTemplateKind {
  */
 export type EntityQueryTemplateKind = string;
 
+/** Known values of {@link IngestionMode} that the service accepts. */
+export enum KnownIngestionMode {
+  /** No records should be ingested when invalid records are detected. */
+  IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
+  /** Valid records should still be ingested when invalid records are detected. */
+  IngestAnyValidRecords = "IngestAnyValidRecords",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for IngestionMode. \
+ * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IngestOnlyIfAllAreValid**: No records should be ingested when invalid records are detected. \
+ * **IngestAnyValidRecords**: Valid records should still be ingested when invalid records are detected. \
+ * **Unspecified**: Unspecified
+ */
+export type IngestionMode = string;
+
+/** Known values of {@link FileImportContentType} that the service accepts. */
+export enum KnownFileImportContentType {
+  /** File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. */
+  BasicIndicator = "BasicIndicator",
+  /** File containing STIX indicators. */
+  StixIndicator = "StixIndicator",
+  /** File containing other records. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportContentType. \
+ * {@link KnownFileImportContentType} can be used interchangeably with FileImportContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BasicIndicator**: File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. \
+ * **StixIndicator**: File containing STIX indicators. \
+ * **Unspecified**: File containing other records.
+ */
+export type FileImportContentType = string;
+
+/** Known values of {@link FileFormat} that the service accepts. */
+export enum KnownFileFormat {
+  /** A CSV file. */
+  CSV = "CSV",
+  /** A JSON file. */
+  Json = "JSON",
+  /** A file of other format. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileFormat. \
+ * {@link KnownFileFormat} can be used interchangeably with FileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CSV**: A CSV file. \
+ * **JSON**: A JSON file. \
+ * **Unspecified**: A file of other format.
+ */
+export type FileFormat = string;
+
+/** Known values of {@link DeleteStatus} that the service accepts. */
+export enum KnownDeleteStatus {
+  /** The file was deleted. */
+  Deleted = "Deleted",
+  /** The file was not deleted. */
+  NotDeleted = "NotDeleted",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for DeleteStatus. \
+ * {@link KnownDeleteStatus} can be used interchangeably with DeleteStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deleted**: The file was deleted. \
+ * **NotDeleted**: The file was not deleted. \
+ * **Unspecified**: Unspecified
+ */
+export type DeleteStatus = string;
+
+/** Known values of {@link FileImportState} that the service accepts. */
+export enum KnownFileImportState {
+  /** A fatal error has occurred while ingesting the file. */
+  FatalError = "FatalError",
+  /** The file has been ingested. */
+  Ingested = "Ingested",
+  /** The file has been ingested with errors. */
+  IngestedWithErrors = "IngestedWithErrors",
+  /** The file ingestion is in progress. */
+  InProgress = "InProgress",
+  /** The file is invalid. */
+  Invalid = "Invalid",
+  /** Waiting for the file to be uploaded. */
+  WaitingForUpload = "WaitingForUpload",
+  /** Unspecified state. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportState. \
+ * {@link KnownFileImportState} can be used interchangeably with FileImportState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FatalError**: A fatal error has occurred while ingesting the file. \
+ * **Ingested**: The file has been ingested. \
+ * **IngestedWithErrors**: The file has been ingested with errors. \
+ * **InProgress**: The file ingestion is in progress. \
+ * **Invalid**: The file is invalid. \
+ * **WaitingForUpload**: Waiting for the file to be uploaded. \
+ * **Unspecified**: Unspecified state.
+ */
+export type FileImportState = string;
+
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
   /** Incident classification was undetermined */
@@ -6652,6 +6925,20 @@ export enum KnownOperator {
  * **OR**
  */
 export type Operator = string;
+
+/** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
+export enum KnownSecurityMLAnalyticsSettingsKind {
+  Anomaly = "Anomaly"
+}
+
+/**
+ * Defines values for SecurityMLAnalyticsSettingsKind. \
+ * {@link KnownSecurityMLAnalyticsSettingsKind} can be used interchangeably with SecurityMLAnalyticsSettingsKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anomaly**
+ */
+export type SecurityMLAnalyticsSettingsKind = string;
 
 /** Known values of {@link SettingKind} that the service accepts. */
 export enum KnownSettingKind {
@@ -7402,6 +7689,40 @@ export enum KnownOutputType {
  * **Entity**
  */
 export type OutputType = string;
+
+/** Known values of {@link SettingsStatus} that the service accepts. */
+export enum KnownSettingsStatus {
+  /** Anomaly settings status in Production mode */
+  Production = "Production",
+  /** Anomaly settings status in Flighting mode */
+  Flighting = "Flighting"
+}
+
+/**
+ * Defines values for SettingsStatus. \
+ * {@link KnownSettingsStatus} can be used interchangeably with SettingsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production**: Anomaly settings status in Production mode \
+ * **Flighting**: Anomaly settings status in Flighting mode
+ */
+export type SettingsStatus = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  ActiveDirectory = "ActiveDirectory",
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
 
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
@@ -8163,6 +8484,61 @@ export interface EntityQueryTemplatesListNextOptionalParams
 export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
 
 /** Optional parameters. */
+export interface FileImportsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type FileImportsListResponse = FileImportList;
+
+/** Optional parameters. */
+export interface FileImportsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FileImportsGetResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FileImportsCreateResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FileImportsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type FileImportsListNextResponse = FileImportList;
+
+/** Optional parameters. */
 export interface IncidentCommentsListOptionalParams
   extends coreClient.OperationOptions {
   /** Filters the results, based on a Boolean condition. Optional. */
@@ -8371,6 +8747,38 @@ export interface SentinelOnboardingStatesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSettingsList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityMLAnalyticsSettingsGetResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityMLAnalyticsSettingsCreateOrUpdateResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityMLAnalyticsSettingsListNextResponse = SecurityMLAnalyticsSettingsList;
 
 /** Optional parameters. */
 export interface ProductSettingsListOptionalParams

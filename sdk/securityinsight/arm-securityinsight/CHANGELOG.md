@@ -1,5 +1,65 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-04-14)
+    
+**Features**
+
+  - Added operation group FileImports
+  - Added operation group SecurityMLAnalyticsSettings
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsDataSource
+  - Added Interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsGetOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsList
+  - Added Interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsListOptionalParams
+  - Added Interface ValidationError
+  - Added Type Alias AnomalySecurityMLAnalyticsSettings
+  - Added Type Alias DeleteStatus
+  - Added Type Alias EntityProviders
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImport
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Added Type Alias SecurityMLAnalyticsSetting
+  - Added Type Alias SecurityMLAnalyticsSettingsCreateOrUpdateResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsGetResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsKind
+  - Added Type Alias SecurityMLAnalyticsSettingsListNextResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsListResponse
+  - Added Type Alias SecurityMLAnalyticsSettingUnion
+  - Added Type Alias SettingsStatus
+  - Class SecurityInsights has a new parameter fileImports
+  - Class SecurityInsights has a new parameter securityMLAnalyticsSettings
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+  - Added Enum KnownSecurityMLAnalyticsSettingsKind
+  - Added Enum KnownSettingsStatus
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+    
+    
 ## 1.0.0-beta.2 (2022-03-17)
     
 **Features**

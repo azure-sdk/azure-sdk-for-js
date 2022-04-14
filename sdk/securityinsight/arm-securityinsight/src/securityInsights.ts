@@ -25,11 +25,13 @@ import {
   EntityRelationsImpl,
   EntityQueriesImpl,
   EntityQueryTemplatesImpl,
+  FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
   MetadataImpl,
   OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
   SourceControlsImpl,
@@ -59,11 +61,13 @@ import {
   EntityRelations,
   EntityQueries,
   EntityQueryTemplates,
+  FileImports,
   IncidentComments,
   IncidentRelations,
   Metadata,
   OfficeConsents,
   SentinelOnboardingStates,
+  SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
   SourceControls,
@@ -110,7 +114,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,7 +137,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01-preview";
+    this.apiVersion = options.apiVersion || "2022-05-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -150,11 +154,15 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.entityRelations = new EntityRelationsImpl(this);
     this.entityQueries = new EntityQueriesImpl(this);
     this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
     this.metadata = new MetadataImpl(this);
     this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
+      this
+    );
     this.productSettings = new ProductSettingsImpl(this);
     this.sourceControlOperations = new SourceControlOperationsImpl(this);
     this.sourceControls = new SourceControlsImpl(this);
@@ -192,11 +200,13 @@ export class SecurityInsights extends coreClient.ServiceClient {
   entityRelations: EntityRelations;
   entityQueries: EntityQueries;
   entityQueryTemplates: EntityQueryTemplates;
+  fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
   metadata: Metadata;
   officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
   sourceControls: SourceControls;
