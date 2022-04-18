@@ -29,6 +29,7 @@ specifiers:
   '@rush-temp/arm-botservice': file:./projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
+  '@rush-temp/arm-chaos': file:./projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -303,6 +304,7 @@ dependencies:
   '@rush-temp/arm-botservice': file:projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
+  '@rush-temp/arm-chaos': file:projects/arm-chaos.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -9749,6 +9751,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-chaos.tgz:
+    resolution: {integrity: sha512-FOvZbnqcjpYt9naqEnE+MFjg2cHjyRWsmmcz3bUvI6La9rYpKkJa44d5YmCrk3VPfh7GNPMqbq8nHvykjTSkwQ==, tarball: file:projects/arm-chaos.tgz}
+    name: '@rush-temp/arm-chaos'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-cognitiveservices.tgz:
     resolution: {integrity: sha512-5ft5zJVV/bD87pD20Gk+GbCy0EVtHJwVIptjnVlrK5Z/iAlNCK0uCvqYjr0DKhQHI8wp3biKOOZbfCE8xrG/Fw==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
@@ -16098,7 +16127,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-xZEKu3aE6Hkt6dwHFG0AhSvy3ckK6GMgKPzXbfuk1CXxIUnDmFq8MzclLNVzyjVDXNtMmyqv3seBpd+2SLHV0Q==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-GAlXNvlXjweEKtCQ2VWR1aTnpyfkL2oqOPAfTT57pgVIu2KzUwnOpbkw/xVEJAL9yuLoJikmaFUN9qqylJgo5w==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -16901,7 +16930,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-6+gtsXHsjNFYtXySI3zLAZlzdZQ8B9f+P94mYZmsfPrU1n8xwv9f5g9a0gWf0CJFKLmqrOJcVwPJJcgRzeKVxQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-MEul5fHWS6WAUHpmjEMzHwBEHfk1PL6BvDeNIR9PjbvAvPQSDYi4eImkpy+v26FC0/LrLL0IC2wfYxcSG05b/g==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
