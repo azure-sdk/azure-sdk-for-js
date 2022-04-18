@@ -1,15 +1,36 @@
 # Release History
+    
+## 18.0.0 (2022-04-18)
+    
+**Features**
 
-## 17.3.2 (Unreleased)
+  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
+  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface ProximityPlacementGroupPropertiesIntent
+  - Added Interface WindowsVMGuestPatchAutomaticByPlatformSettings
+  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter useRollingUpgradePolicy
+  - Interface LinuxPatchSettings has a new optional parameter automaticByPlatformSettings
+  - Interface PatchSettings has a new optional parameter automaticByPlatformSettings
+  - Type Alias DedicatedHostGroup has a new parameter additionalCapabilities
+  - Type Alias DedicatedHostGroupUpdate has a new parameter additionalCapabilities
+  - Type Alias ProximityPlacementGroup has a new parameter zones
+  - Type Alias ProximityPlacementGroup has a new parameter intent
+  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DiskUpdate no longer has parameter dataAccessAuthMode
+  - Interface SnapshotUpdate no longer has parameter dataAccessAuthMode
+  - Interface SupportedCapabilities no longer has parameter architecture
+  - Type Alias Disk no longer has parameter dataAccessAuthMode
+  - Type Alias Snapshot no longer has parameter dataAccessAuthMode
+  - Type Alias VirtualMachineImage no longer has parameter architecture
+  - Removed Enum KnownArchitectureTypes
+  - Removed Enum KnownDataAccessAuthMode
+    
 ## 17.3.1 (2022-04-06)
 
 **features**
