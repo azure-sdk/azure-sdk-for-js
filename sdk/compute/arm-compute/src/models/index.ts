@@ -3412,6 +3412,13 @@ export interface UserArtifactManage {
   update?: string;
 }
 
+export interface UserArtifactSettings {
+  /** Optional. The file to rename the downloaded package to on the VM. If not present, then the file will be called <appname>. This is limited to 4096 characters. */
+  packageFileName?: string;
+  /** Optional. The file to rename the downloaded config to on the VM. If not present, then the file will be called <appname>_config. This is limited to 4096 characters. */
+  configFileName?: string;
+}
+
 /** The List Galleries operation response. */
 export interface GalleryList {
   /** A list of galleries. */
@@ -5906,6 +5913,9 @@ export type GalleryApplicationVersionPublishingProfile = GalleryArtifactPublishi
   manageActions?: UserArtifactManage;
   /** Optional. Whether or not this application reports health. */
   enableHealthCheck?: boolean;
+  settings?: UserArtifactSettings;
+  /** Optional. Additional settings to pass to the VMApp extension. For advanced used only. */
+  advancedSettings?: { [propertyName: string]: string };
 };
 
 /** Contains encryption settings for an OS disk image. */

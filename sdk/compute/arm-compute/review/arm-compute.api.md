@@ -2220,6 +2220,10 @@ export type GalleryApplicationVersionPublishingProfile = GalleryArtifactPublishi
     source: UserArtifactSource;
     manageActions?: UserArtifactManage;
     enableHealthCheck?: boolean;
+    settings?: UserArtifactSettings;
+    advancedSettings?: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -5727,6 +5731,12 @@ export interface UserArtifactManage {
     install: string;
     remove: string;
     update?: string;
+}
+
+// @public (undocumented)
+export interface UserArtifactSettings {
+    configFileName?: string;
+    packageFileName?: string;
 }
 
 // @public

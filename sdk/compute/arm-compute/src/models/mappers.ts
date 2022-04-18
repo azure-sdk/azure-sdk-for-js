@@ -8856,6 +8856,27 @@ export const UserArtifactManage: coreClient.CompositeMapper = {
   }
 };
 
+export const UserArtifactSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserArtifactSettings",
+    modelProperties: {
+      packageFileName: {
+        serializedName: "packageFileName",
+        type: {
+          name: "String"
+        }
+      },
+      configFileName: {
+        serializedName: "configFileName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15227,6 +15248,20 @@ export const GalleryApplicationVersionPublishingProfile: coreClient.CompositeMap
         serializedName: "enableHealthCheck",
         type: {
           name: "Boolean"
+        }
+      },
+      settings: {
+        serializedName: "settings",
+        type: {
+          name: "Composite",
+          className: "UserArtifactSettings"
+        }
+      },
+      advancedSettings: {
+        serializedName: "advancedSettings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
