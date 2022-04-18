@@ -60,6 +60,9 @@ import {
   SqlResourcesCreateUpdateSqlContainerOptionalParams,
   SqlResourcesCreateUpdateSqlContainerResponse,
   SqlResourcesDeleteSqlContainerOptionalParams,
+  MergeParameters,
+  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
+  SqlResourcesListSqlContainerPartitionMergeResponse,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputResponse,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
@@ -771,12 +774,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlDatabaseOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -861,12 +862,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       deleteSqlDatabaseOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -982,12 +981,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlDatabaseThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1078,12 +1075,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToAutoscaleOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1172,12 +1167,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToManualThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1323,12 +1316,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateClientEncryptionKeyOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1474,12 +1465,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlContainerOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1569,12 +1558,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       deleteSqlContainerOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1597,6 +1584,114 @@ export class SqlResourcesImpl implements SqlResources {
       accountName,
       databaseName,
       containerName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListSqlContainerPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesListSqlContainerPartitionMergeResponse>,
+      SqlResourcesListSqlContainerPartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        mergeParameters,
+        options
+      },
+      listSqlContainerPartitionMergeOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListSqlContainerPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> {
+    const poller = await this.beginListSqlContainerPartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      containerName,
+      mergeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -1697,12 +1792,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlContainerThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1798,12 +1891,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToAutoscaleOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1897,12 +1988,10 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToManualThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2058,12 +2147,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlStoredProcedureOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2166,12 +2253,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlStoredProcedureOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2332,12 +2417,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlUserDefinedFunctionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2440,12 +2523,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlUserDefinedFunctionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2603,12 +2684,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlTriggerOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2710,12 +2789,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlTriggerOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2836,12 +2913,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleDefinitionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2927,12 +3002,10 @@ export class SqlResourcesImpl implements SqlResources {
       { roleDefinitionId, resourceGroupName, accountName, options },
       deleteSqlRoleDefinitionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -3064,12 +3137,10 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleAssignmentOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -3155,12 +3226,10 @@ export class SqlResourcesImpl implements SqlResources {
       { roleAssignmentId, resourceGroupName, accountName, options },
       deleteSqlRoleAssignmentOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -3277,13 +3346,11 @@ export class SqlResourcesImpl implements SqlResources {
       },
       retrieveContinuousBackupInformationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -3677,6 +3744,41 @@ const deleteSqlContainerOperationSpec: coreClient.OperationSpec = {
     Parameters.databaseName,
     Parameters.containerName
   ],
+  serializer
+};
+const listSqlContainerPartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mergeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getSqlContainerThroughputOperationSpec: coreClient.OperationSpec = {

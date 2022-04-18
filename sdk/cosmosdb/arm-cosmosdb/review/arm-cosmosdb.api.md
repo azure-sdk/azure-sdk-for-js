@@ -648,6 +648,14 @@ export interface Certificate {
     pem?: string;
 }
 
+// @public (undocumented)
+export interface ClientEncryptionIncludedPath {
+    clientEncryptionKeyId: string;
+    encryptionAlgorithm: string;
+    encryptionType: string;
+    path: string;
+}
+
 // @public
 export interface ClientEncryptionKeyCreateUpdateParameters {
     resource: ClientEncryptionKeyResource;
@@ -672,6 +680,12 @@ export interface ClientEncryptionKeyResource {
 // @public
 export interface ClientEncryptionKeysListResult {
     readonly value?: ClientEncryptionKeyGetResults[];
+}
+
+// @public
+export interface ClientEncryptionPolicy {
+    includedPaths: ClientEncryptionIncludedPath[];
+    policyFormatVersion?: number;
 }
 
 // @public
@@ -897,7 +911,16 @@ export interface ContinuousBackupRestoreLocation {
 // @public
 export type ContinuousModeBackupPolicy = BackupPolicy & {
     type: "Continuous";
+    continuousModeProperties?: ContinuousModeProperties;
 };
+
+// @public
+export interface ContinuousModeProperties {
+    tier?: ContinuousTier;
+}
+
+// @public
+export type ContinuousTier = string;
 
 // @public
 export interface CorsPolicy {
@@ -1431,7 +1454,8 @@ export type DataTransferJobGetResults = ARMProxyResource & {
     source?: DataTransferDataSourceSinkUnion;
     destination?: DataTransferDataSourceSinkUnion;
     readonly status?: string;
-    readonly percentageComplete?: number;
+    readonly processedCount?: number;
+    readonly totalCount?: number;
     readonly lastUpdatedUtcTime?: Date;
     workerCount?: number;
     readonly error?: ErrorResponse;
@@ -1443,9 +1467,10 @@ export interface DataTransferJobProperties {
     readonly error?: ErrorResponse;
     readonly jobName?: string;
     readonly lastUpdatedUtcTime?: Date;
-    readonly percentageComplete?: number;
+    readonly processedCount?: number;
     source: DataTransferDataSourceSinkUnion;
     readonly status?: string;
+    readonly totalCount?: number;
     workerCount?: number;
 }
 
@@ -1899,6 +1924,7 @@ export type KeyKind = string;
 
 // @public
 export interface KeyWrapMetadata {
+    algorithm?: string;
     name?: string;
     type?: string;
     value?: string;
@@ -2004,6 +2030,14 @@ export enum KnownConnectionState {
 export enum KnownConnectorOffer {
     // (undocumented)
     Small = "Small"
+}
+
+// @public
+export enum KnownContinuousTier {
+    // (undocumented)
+    Continuous30Days = "Continuous30Days",
+    // (undocumented)
+    Continuous7Days = "Continuous7Days"
 }
 
 // @public
@@ -2202,6 +2236,8 @@ export enum KnownRestoreMode {
 export enum KnownServerVersion {
     // (undocumented)
     Four0 = "4.0",
+    // (undocumented)
+    Four2 = "4.2",
     // (undocumented)
     Three2 = "3.2",
     // (undocumented)
@@ -2424,6 +2460,11 @@ export type MaterializedViewsBuilderServiceResourceProperties = ServiceResourceP
 };
 
 // @public
+export interface MergeParameters {
+    isDryRun?: boolean;
+}
+
+// @public
 export interface Metric {
     readonly endTime?: Date;
     readonly metricValues?: MetricValue[];
@@ -2553,6 +2594,8 @@ export interface MongoDBResources {
     beginDeleteMongoRoleDefinitionAndWait(mongoRoleDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams): Promise<void>;
     beginDeleteMongoUserDefinition(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteMongoUserDefinitionAndWait(mongoUserDefinitionId: string, resourceGroupName: string, accountName: string, options?: MongoDBResourcesDeleteMongoUserDefinitionOptionalParams): Promise<void>;
+    beginListMongoDBCollectionPartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>, MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>>;
+    beginListMongoDBCollectionPartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, mergeParameters: MergeParameters, options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>;
     beginMigrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>, MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>>;
     beginMigrateMongoDBCollectionToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToAutoscaleOptionalParams): Promise<MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
     beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: MongoDBResourcesMigrateMongoDBCollectionToManualThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>, MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>>;
@@ -2680,6 +2723,15 @@ export interface MongoDBResourcesGetMongoUserDefinitionOptionalParams extends co
 
 // @public
 export type MongoDBResourcesGetMongoUserDefinitionResponse = MongoUserDefinitionGetResults;
+
+// @public
+export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesListMongoDBCollectionPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
 
 // @public
 export interface MongoDBResourcesListMongoDBCollectionsOptionalParams extends coreClient.OperationOptions {
@@ -3114,6 +3166,17 @@ export interface Permission {
 }
 
 // @public
+export interface PhysicalPartitionStorageInfo {
+    readonly id?: string;
+    readonly storageInKB?: number;
+}
+
+// @public
+export interface PhysicalPartitionStorageInfoCollection {
+    readonly physicalPartitionStorageInfoCollection?: PhysicalPartitionStorageInfo[];
+}
+
+// @public
 export type PrimaryAggregationType = string;
 
 // @public
@@ -3261,6 +3324,7 @@ export interface RestorableDatabaseAccountGetResult {
     readonly id?: string;
     location?: string;
     readonly name?: string;
+    oldestRestorableTime?: Date;
     readonly restorableLocations?: RestorableLocationResource[];
     readonly type?: string;
 }
@@ -3788,6 +3852,7 @@ export interface SqlContainerListResult {
 // @public
 export interface SqlContainerResource {
     analyticalStorageTtl?: number;
+    clientEncryptionPolicy?: ClientEncryptionPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     id: string;
@@ -3876,6 +3941,8 @@ export interface SqlResources {
     beginDeleteSqlTriggerAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: SqlResourcesDeleteSqlTriggerOptionalParams): Promise<void>;
     beginDeleteSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteSqlUserDefinedFunctionAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams): Promise<void>;
+    beginListSqlContainerPartitionMerge(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, mergeParameters: MergeParameters, options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesListSqlContainerPartitionMergeResponse>, SqlResourcesListSqlContainerPartitionMergeResponse>>;
+    beginListSqlContainerPartitionMergeAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, mergeParameters: MergeParameters, options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams): Promise<SqlResourcesListSqlContainerPartitionMergeResponse>;
     beginMigrateSqlContainerToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesMigrateSqlContainerToAutoscaleResponse>, SqlResourcesMigrateSqlContainerToAutoscaleResponse>>;
     beginMigrateSqlContainerToAutoscaleAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToAutoscaleOptionalParams): Promise<SqlResourcesMigrateSqlContainerToAutoscaleResponse>;
     beginMigrateSqlContainerToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesMigrateSqlContainerToManualThroughputResponse>, SqlResourcesMigrateSqlContainerToManualThroughputResponse>>;
@@ -4100,6 +4167,15 @@ export interface SqlResourcesListClientEncryptionKeysOptionalParams extends core
 
 // @public
 export type SqlResourcesListClientEncryptionKeysResponse = ClientEncryptionKeysListResult;
+
+// @public
+export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlResourcesListSqlContainerPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
 
 // @public
 export interface SqlResourcesListSqlContainersOptionalParams extends coreClient.OperationOptions {
