@@ -1940,7 +1940,6 @@ export const IncidentOwnerInfo: coreClient.CompositeMapper = {
       },
       ownerType: {
         serializedName: "ownerType",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -4281,6 +4280,65 @@ export const IncidentPropertiesAction: coreClient.CompositeMapper = {
   }
 };
 
+export const AutomationRulePropertyArrayChangedValuesCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationRulePropertyArrayChangedValuesCondition",
+    modelProperties: {
+      arrayType: {
+        serializedName: "arrayType",
+        type: {
+          name: "String"
+        }
+      },
+      changeType: {
+        serializedName: "changeType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomationRulePropertyValuesChangedCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationRulePropertyValuesChangedCondition",
+    modelProperties: {
+      propertyName: {
+        serializedName: "propertyName",
+        type: {
+          name: "String"
+        }
+      },
+      changeType: {
+        serializedName: "changeType",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      propertyValues: {
+        serializedName: "propertyValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AutomationRulePropertyValuesCondition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5889,6 +5947,48 @@ export const ActionRequestProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "PropertyArrayChanged",
+  type: {
+    name: "Composite",
+    className: "PropertyArrayChangedConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRulePropertyArrayChangedValuesCondition"
+        }
+      }
+    }
+  }
+};
+
+export const PropertyChangedConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "PropertyChanged",
+  type: {
+    name: "Composite",
+    className: "PropertyChangedConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRulePropertyValuesChangedCondition"
         }
       }
     }
@@ -14065,11 +14165,15 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
-      isEnabled: {
-        serializedName: "properties.isEnabled",
-        readOnly: true,
+      entityProviders: {
+        serializedName: "properties.entityProviders",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -14976,6 +15080,8 @@ export let discriminators = {
   "Resource.AlertRuleTemplate": AlertRuleTemplate,
   "Resource.Entity": Entity,
   "Resource.EntityQueryTemplate": EntityQueryTemplate,
+  "AutomationRuleCondition.PropertyArrayChanged": PropertyArrayChangedConditionProperties,
+  "AutomationRuleCondition.PropertyChanged": PropertyChangedConditionProperties,
   "AutomationRuleCondition.Property": PropertyConditionProperties,
   "AutomationRuleAction.ModifyProperties": AutomationRuleModifyPropertiesAction,
   "AutomationRuleAction.RunPlaybook": AutomationRuleRunPlaybookAction,

@@ -1,5 +1,35 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-04-19)
+    
+**Features**
+
+  - Added Interface AutomationRulePropertyArrayChangedValuesCondition
+  - Added Interface AutomationRulePropertyValuesChangedCondition
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Type Alias EntityProviders
+  - Added Type Alias PropertyArrayChangedConditionProperties
+  - Added Type Alias PropertyChangedConditionProperties
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Enum KnownEntityProviders
+  - Enum KnownConditionType has a new value PropertyArrayChanged
+  - Enum KnownConditionType has a new value PropertyChanged
+  - Enum KnownTriggersWhen has a new value Updated
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+    
+    
 ## 1.0.0-beta.2 (2022-03-17)
     
 **Features**

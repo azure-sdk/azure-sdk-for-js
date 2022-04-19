@@ -10,6 +10,8 @@ import * as coreClient from "@azure/core-client";
 
 export type AutomationRuleConditionUnion =
   | AutomationRuleCondition
+  | PropertyArrayChangedConditionProperties
+  | PropertyChangedConditionProperties
   | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
   | AutomationRuleAction
@@ -220,25 +222,25 @@ export interface AlertRuleTemplatesList {
   value: AlertRuleTemplateUnion[];
 }
 
-/** Describes automation rule triggering logic */
+/** Describes automation rule triggering logic. */
 export interface AutomationRuleTriggeringLogic {
-  /** Determines whether the automation rule is enabled or disabled */
+  /** Determines whether the automation rule is enabled or disabled. */
   isEnabled: boolean;
   /** Determines when the automation rule should automatically expire and be disabled. */
   expirationTimeUtc?: Date;
   triggersOn: TriggersOn;
   triggersWhen: TriggersWhen;
-  /** The conditions to evaluate to determine if the automation rule should be triggered on a given object */
+  /** The conditions to evaluate to determine if the automation rule should be triggered on a given object. */
   conditions?: AutomationRuleConditionUnion[];
 }
 
-/** Describes an automation rule condition */
+/** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType: "Property";
+  conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
 }
 
-/** Describes an automation rule action */
+/** Describes an automation rule action. */
 export interface AutomationRuleAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "ModifyProperties" | "RunPlaybook";
@@ -789,11 +791,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -1595,25 +1594,37 @@ export interface IncidentPropertiesAction {
   classification?: IncidentClassification;
   /** The classification reason the incident was closed with */
   classificationReason?: IncidentClassificationReason;
-  /** Describes the reason the incident was closed */
+  /** Describes the reason the incident was closed. */
   classificationComment?: string;
   /** Information on the user an incident is assigned to */
   owner?: IncidentOwnerInfo;
-  /** List of labels to add to the incident */
+  /** List of labels to add to the incident. */
   labels?: IncidentLabel[];
 }
 
+export interface AutomationRulePropertyArrayChangedValuesCondition {
+  arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
+  changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+export interface AutomationRulePropertyValuesChangedCondition {
+  propertyName?: AutomationRulePropertyChangedConditionSupportedPropertyType;
+  changeType?: AutomationRulePropertyChangedConditionSupportedChangedType;
+  operator?: AutomationRulePropertyConditionSupportedOperator;
+  propertyValues?: string[];
+}
+
 export interface AutomationRulePropertyValuesCondition {
-  /** The property to evaluate in an automation rule property condition */
+  /** The property to evaluate in an automation rule property condition. */
   propertyName?: AutomationRulePropertyConditionSupportedProperty;
   operator?: AutomationRulePropertyConditionSupportedOperator;
   propertyValues?: string[];
 }
 
 export interface PlaybookActionProperties {
-  /** The resource id of the playbook resource */
+  /** The resource id of the playbook resource. */
   logicAppResourceId?: string;
-  /** The tenant id of the playbook resource */
+  /** The tenant id of the playbook resource. */
   tenantId?: string;
 }
 
@@ -1874,7 +1885,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: 1;
+  status?: "1";
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -2160,6 +2171,20 @@ export type ActionResponseProperties = ActionPropertiesBase & {
 export type ActionRequestProperties = ActionPropertiesBase & {
   /** Logic App Callback URL for this specific workflow. */
   triggerUri: string;
+};
+
+/** Describes an automation rule condition that evaluates an array property's value change */
+export type PropertyArrayChangedConditionProperties = AutomationRuleCondition & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "PropertyArrayChanged";
+  conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
+};
+
+/** Describes an automation rule condition that evaluates a property's value change */
+export type PropertyChangedConditionProperties = AutomationRuleCondition & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "PropertyChanged";
+  conditionProperties?: AutomationRulePropertyValuesChangedCondition;
 };
 
 /** Describes an automation rule condition that evaluates a property's value */
@@ -3636,21 +3661,21 @@ export type ActionRequest = ResourceWithEtag & {
 };
 
 export type AutomationRule = ResourceWithEtag & {
-  /** The display name of the automation rule */
+  /** The display name of the automation rule. */
   displayName: string;
-  /** The order of execution of the automation rule */
+  /** The order of execution of the automation rule. */
   order: number;
-  /** Describes automation rule triggering logic */
+  /** Describes automation rule triggering logic. */
   triggeringLogic: AutomationRuleTriggeringLogic;
-  /** The actions to execute when the automation rule is triggered */
+  /** The actions to execute when the automation rule is triggered. */
   actions: AutomationRuleActionUnion[];
   /**
-   * The last time the automation rule was updated
+   * The last time the automation rule was updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
   /**
-   * The time the automation rule was created
+   * The time the automation rule was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTimeUtc?: Date;
@@ -4007,9 +4032,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -5670,11 +5695,8 @@ export type EyesOn = Settings & {
 
 /** Settings with single toggle. */
 export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
 };
 
 /** Settings with single toggle. */
@@ -6007,7 +6029,9 @@ export type TriggersOn = string;
 /** Known values of {@link TriggersWhen} that the service accepts. */
 export enum KnownTriggersWhen {
   /** Trigger on created objects */
-  Created = "Created"
+  Created = "Created",
+  /** Trigger on updated objects */
+  Updated = "Updated"
 }
 
 /**
@@ -6015,14 +6039,19 @@ export enum KnownTriggersWhen {
  * {@link KnownTriggersWhen} can be used interchangeably with TriggersWhen,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Created**: Trigger on created objects
+ * **Created**: Trigger on created objects \
+ * **Updated**: Trigger on updated objects
  */
 export type TriggersWhen = string;
 
 /** Known values of {@link ConditionType} that the service accepts. */
 export enum KnownConditionType {
   /** Evaluate an object property value */
-  Property = "Property"
+  Property = "Property",
+  /** Evaluate an object property changed value */
+  PropertyChanged = "PropertyChanged",
+  /** Evaluate an object array property changed value */
+  PropertyArrayChanged = "PropertyArrayChanged"
 }
 
 /**
@@ -6030,7 +6059,9 @@ export enum KnownConditionType {
  * {@link KnownConditionType} can be used interchangeably with ConditionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Property**: Evaluate an object property value
+ * **Property**: Evaluate an object property value \
+ * **PropertyChanged**: Evaluate an object property changed value \
+ * **PropertyArrayChanged**: Evaluate an object array property changed value
  */
 export type ConditionType = string;
 
@@ -7098,6 +7129,120 @@ export enum KnownEventGroupingAggregationKind {
  */
 export type EventGroupingAggregationKind = string;
 
+/** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedArrayType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
+  /** Evaluate the condition on the alerts */
+  Alerts = "Alerts",
+  /** Evaluate the condition on the labels */
+  Labels = "Labels",
+  /** Evaluate the condition on the tactics */
+  Tactics = "Tactics",
+  /** Evaluate the condition on the comments */
+  Comments = "Comments"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayChangedConditionSupportedArrayType. \
+ * {@link KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType} can be used interchangeably with AutomationRulePropertyArrayChangedConditionSupportedArrayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alerts**: Evaluate the condition on the alerts \
+ * **Labels**: Evaluate the condition on the labels \
+ * **Tactics**: Evaluate the condition on the tactics \
+ * **Comments**: Evaluate the condition on the comments
+ */
+export type AutomationRulePropertyArrayChangedConditionSupportedArrayType = string;
+
+/** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedChangeType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
+  /** Evaluate the condition on items added to the array */
+  Added = "Added"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayChangedConditionSupportedChangeType. \
+ * {@link KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType} can be used interchangeably with AutomationRulePropertyArrayChangedConditionSupportedChangeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Added**: Evaluate the condition on items added to the array
+ */
+export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
+
+/** Known values of {@link AutomationRulePropertyChangedConditionSupportedPropertyType} that the service accepts. */
+export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
+  /** Evaluate the condition on the incident severity */
+  IncidentSeverity = "IncidentSeverity",
+  /** Evaluate the condition on the incident status */
+  IncidentStatus = "IncidentStatus",
+  /** Evaluate the condition on the incident owner */
+  IncidentOwner = "IncidentOwner"
+}
+
+/**
+ * Defines values for AutomationRulePropertyChangedConditionSupportedPropertyType. \
+ * {@link KnownAutomationRulePropertyChangedConditionSupportedPropertyType} can be used interchangeably with AutomationRulePropertyChangedConditionSupportedPropertyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IncidentSeverity**: Evaluate the condition on the incident severity \
+ * **IncidentStatus**: Evaluate the condition on the incident status \
+ * **IncidentOwner**: Evaluate the condition on the incident owner
+ */
+export type AutomationRulePropertyChangedConditionSupportedPropertyType = string;
+
+/** Known values of {@link AutomationRulePropertyChangedConditionSupportedChangedType} that the service accepts. */
+export enum KnownAutomationRulePropertyChangedConditionSupportedChangedType {
+  /** Evaluate the condition on the previous value of the property */
+  ChangedFrom = "ChangedFrom",
+  /** Evaluate the condition on the updated value of the property */
+  ChangedTo = "ChangedTo"
+}
+
+/**
+ * Defines values for AutomationRulePropertyChangedConditionSupportedChangedType. \
+ * {@link KnownAutomationRulePropertyChangedConditionSupportedChangedType} can be used interchangeably with AutomationRulePropertyChangedConditionSupportedChangedType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ChangedFrom**: Evaluate the condition on the previous value of the property \
+ * **ChangedTo**: Evaluate the condition on the updated value of the property
+ */
+export type AutomationRulePropertyChangedConditionSupportedChangedType = string;
+
+/** Known values of {@link AutomationRulePropertyConditionSupportedOperator} that the service accepts. */
+export enum KnownAutomationRulePropertyConditionSupportedOperator {
+  /** Evaluates if the property equals at least one of the condition values */
+  Equals = "Equals",
+  /** Evaluates if the property does not equal any of the condition values */
+  NotEquals = "NotEquals",
+  /** Evaluates if the property contains at least one of the condition values */
+  Contains = "Contains",
+  /** Evaluates if the property does not contain any of the condition values */
+  NotContains = "NotContains",
+  /** Evaluates if the property starts with any of the condition values */
+  StartsWith = "StartsWith",
+  /** Evaluates if the property does not start with any of the condition values */
+  NotStartsWith = "NotStartsWith",
+  /** Evaluates if the property ends with any of the condition values */
+  EndsWith = "EndsWith",
+  /** Evaluates if the property does not end with any of the condition values */
+  NotEndsWith = "NotEndsWith"
+}
+
+/**
+ * Defines values for AutomationRulePropertyConditionSupportedOperator. \
+ * {@link KnownAutomationRulePropertyConditionSupportedOperator} can be used interchangeably with AutomationRulePropertyConditionSupportedOperator,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Equals**: Evaluates if the property equals at least one of the condition values \
+ * **NotEquals**: Evaluates if the property does not equal any of the condition values \
+ * **Contains**: Evaluates if the property contains at least one of the condition values \
+ * **NotContains**: Evaluates if the property does not contain any of the condition values \
+ * **StartsWith**: Evaluates if the property starts with any of the condition values \
+ * **NotStartsWith**: Evaluates if the property does not start with any of the condition values \
+ * **EndsWith**: Evaluates if the property ends with any of the condition values \
+ * **NotEndsWith**: Evaluates if the property does not end with any of the condition values
+ */
+export type AutomationRulePropertyConditionSupportedOperator = string;
+
 /** Known values of {@link AutomationRulePropertyConditionSupportedProperty} that the service accepts. */
 export enum KnownAutomationRulePropertyConditionSupportedProperty {
   /** The title of the incident */
@@ -7272,42 +7417,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  */
 export type AutomationRulePropertyConditionSupportedProperty = string;
 
-/** Known values of {@link AutomationRulePropertyConditionSupportedOperator} that the service accepts. */
-export enum KnownAutomationRulePropertyConditionSupportedOperator {
-  /** Evaluates if the property equals at least one of the condition values */
-  Equals = "Equals",
-  /** Evaluates if the property does not equal any of the condition values */
-  NotEquals = "NotEquals",
-  /** Evaluates if the property contains at least one of the condition values */
-  Contains = "Contains",
-  /** Evaluates if the property does not contain any of the condition values */
-  NotContains = "NotContains",
-  /** Evaluates if the property starts with any of the condition values */
-  StartsWith = "StartsWith",
-  /** Evaluates if the property does not start with any of the condition values */
-  NotStartsWith = "NotStartsWith",
-  /** Evaluates if the property ends with any of the condition values */
-  EndsWith = "EndsWith",
-  /** Evaluates if the property does not end with any of the condition values */
-  NotEndsWith = "NotEndsWith"
-}
-
-/**
- * Defines values for AutomationRulePropertyConditionSupportedOperator. \
- * {@link KnownAutomationRulePropertyConditionSupportedOperator} can be used interchangeably with AutomationRulePropertyConditionSupportedOperator,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Equals**: Evaluates if the property equals at least one of the condition values \
- * **NotEquals**: Evaluates if the property does not equal any of the condition values \
- * **Contains**: Evaluates if the property contains at least one of the condition values \
- * **NotContains**: Evaluates if the property does not contain any of the condition values \
- * **StartsWith**: Evaluates if the property starts with any of the condition values \
- * **NotStartsWith**: Evaluates if the property does not start with any of the condition values \
- * **EndsWith**: Evaluates if the property ends with any of the condition values \
- * **NotEndsWith**: Evaluates if the property does not end with any of the condition values
- */
-export type AutomationRulePropertyConditionSupportedOperator = string;
-
 /** Known values of {@link EntityType} that the service accepts. */
 export enum KnownEntityType {
   /** Entity represents account in the system. */
@@ -7402,6 +7511,22 @@ export enum KnownOutputType {
  * **Entity**
  */
 export type OutputType = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  ActiveDirectory = "ActiveDirectory",
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
 
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {

@@ -422,11 +422,11 @@ export type AutomationRuleActionUnion = AutomationRuleAction | AutomationRuleMod
 
 // @public
 export interface AutomationRuleCondition {
-    conditionType: "Property";
+    conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
 }
 
 // @public (undocumented)
-export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyConditionProperties;
+export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyArrayChangedConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
 
 // @public
 export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
@@ -435,10 +435,42 @@ export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
 };
 
 // @public
+export type AutomationRulePropertyArrayChangedConditionSupportedArrayType = string;
+
+// @public
+export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
+
+// @public (undocumented)
+export interface AutomationRulePropertyArrayChangedValuesCondition {
+    // (undocumented)
+    arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
+    // (undocumented)
+    changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+// @public
+export type AutomationRulePropertyChangedConditionSupportedChangedType = string;
+
+// @public
+export type AutomationRulePropertyChangedConditionSupportedPropertyType = string;
+
+// @public
 export type AutomationRulePropertyConditionSupportedOperator = string;
 
 // @public
 export type AutomationRulePropertyConditionSupportedProperty = string;
+
+// @public (undocumented)
+export interface AutomationRulePropertyValuesChangedCondition {
+    // (undocumented)
+    changeType?: AutomationRulePropertyChangedConditionSupportedChangedType;
+    // (undocumented)
+    operator?: AutomationRulePropertyConditionSupportedOperator;
+    // (undocumented)
+    propertyName?: AutomationRulePropertyChangedConditionSupportedPropertyType;
+    // (undocumented)
+    propertyValues?: string[];
+}
 
 // @public (undocumented)
 export interface AutomationRulePropertyValuesCondition {
@@ -521,7 +553,7 @@ export interface AutomationRuleTriggeringLogic {
 // @public
 export interface Availability {
     isPreview?: boolean;
-    status?: 1;
+    status?: "1";
 }
 
 // @public
@@ -1354,7 +1386,7 @@ export type Entity = Resource & {
 
 // @public
 export type EntityAnalytics = Settings & {
-    readonly isEnabled?: boolean;
+    entityProviders?: EntityProviders[];
 };
 
 // @public
@@ -1446,6 +1478,9 @@ export interface EntityMapping {
 
 // @public
 export type EntityMappingType = string;
+
+// @public
+export type EntityProviders = string;
 
 // @public
 export interface EntityQueries {
@@ -2057,7 +2092,7 @@ export interface IncidentOwnerInfo {
     assignedTo?: string;
     email?: string;
     objectId?: string;
-    readonly ownerType?: OwnerType;
+    ownerType?: OwnerType;
     userPrincipalName?: string;
 }
 
@@ -2491,6 +2526,32 @@ export enum KnownAttackTactic {
 }
 
 // @public
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
+    Alerts = "Alerts",
+    Comments = "Comments",
+    Labels = "Labels",
+    Tactics = "Tactics"
+}
+
+// @public
+export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
+    Added = "Added"
+}
+
+// @public
+export enum KnownAutomationRulePropertyChangedConditionSupportedChangedType {
+    ChangedFrom = "ChangedFrom",
+    ChangedTo = "ChangedTo"
+}
+
+// @public
+export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
+    IncidentOwner = "IncidentOwner",
+    IncidentSeverity = "IncidentSeverity",
+    IncidentStatus = "IncidentStatus"
+}
+
+// @public
 export enum KnownAutomationRulePropertyConditionSupportedOperator {
     Contains = "Contains",
     EndsWith = "EndsWith",
@@ -2562,7 +2623,9 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
 
 // @public
 export enum KnownConditionType {
-    Property = "Property"
+    Property = "Property",
+    PropertyArrayChanged = "PropertyArrayChanged",
+    PropertyChanged = "PropertyChanged"
 }
 
 // @public
@@ -2774,6 +2837,14 @@ export enum KnownEntityMappingType {
     SecurityGroup = "SecurityGroup",
     SubmissionMail = "SubmissionMail",
     URL = "URL"
+}
+
+// @public
+export enum KnownEntityProviders {
+    // (undocumented)
+    ActiveDirectory = "ActiveDirectory",
+    // (undocumented)
+    AzureActiveDirectory = "AzureActiveDirectory"
 }
 
 // @public
@@ -3150,7 +3221,8 @@ export enum KnownTriggersOn {
 
 // @public
 export enum KnownTriggersWhen {
-    Created = "Created"
+    Created = "Created",
+    Updated = "Updated"
 }
 
 // @public
@@ -4023,6 +4095,18 @@ export interface ProductSettingsUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type ProductSettingsUpdateResponse = SettingsUnion;
+
+// @public
+export type PropertyArrayChangedConditionProperties = AutomationRuleCondition & {
+    conditionType: "PropertyArrayChanged";
+    conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
+};
+
+// @public
+export type PropertyChangedConditionProperties = AutomationRuleCondition & {
+    conditionType: "PropertyChanged";
+    conditionProperties?: AutomationRulePropertyValuesChangedCondition;
+};
 
 // @public
 export type PropertyConditionProperties = AutomationRuleCondition & {
@@ -5147,8 +5231,12 @@ export type WatchlistItem = ResourceWithEtag & {
     updated?: Date;
     createdBy?: UserInfo;
     updatedBy?: UserInfo;
-    itemsKeyValue?: Record<string, unknown>;
-    entityMapping?: Record<string, unknown>;
+    itemsKeyValue?: {
+        [propertyName: string]: any;
+    };
+    entityMapping?: {
+        [propertyName: string]: any;
+    };
 };
 
 // @public
