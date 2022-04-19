@@ -1,15 +1,28 @@
 # Release History
+    
+## 18.0.0 (2022-04-19)
+    
+**Features**
 
-## 17.3.2 (Unreleased)
+  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
+  - Added Interface ProximityPlacementGroupPropertiesIntent
+  - Type Alias DedicatedHostGroup has a new parameter additionalCapabilities
+  - Type Alias DedicatedHostGroupUpdate has a new parameter additionalCapabilities
+  - Type Alias ProximityPlacementGroup has a new parameter zones
+  - Type Alias ProximityPlacementGroup has a new parameter intent
+  - Type Alias VirtualMachineScaleSetVM has a new parameter identity
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DiskUpdate no longer has parameter dataAccessAuthMode
+  - Interface SnapshotUpdate no longer has parameter dataAccessAuthMode
+  - Interface SupportedCapabilities no longer has parameter architecture
+  - Type Alias Disk no longer has parameter dataAccessAuthMode
+  - Type Alias Snapshot no longer has parameter dataAccessAuthMode
+  - Type Alias VirtualMachineImage no longer has parameter architecture
+  - Removed Enum KnownArchitectureTypes
+  - Removed Enum KnownDataAccessAuthMode
+    
 ## 17.3.1 (2022-04-06)
 
 **features**
