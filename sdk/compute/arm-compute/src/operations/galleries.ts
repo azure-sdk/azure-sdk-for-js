@@ -205,12 +205,10 @@ export class GalleriesImpl implements Galleries {
       { resourceGroupName, galleryName, gallery, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -299,12 +297,10 @@ export class GalleriesImpl implements Galleries {
       { resourceGroupName, galleryName, gallery, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -402,12 +398,10 @@ export class GalleriesImpl implements Galleries {
       { resourceGroupName, galleryName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -514,8 +508,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -547,8 +541,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -574,8 +568,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
@@ -597,8 +591,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName
   ],
   headerParameters: [Parameters.accept],
@@ -619,8 +613,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -655,9 +649,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer

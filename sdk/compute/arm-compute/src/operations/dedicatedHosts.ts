@@ -180,12 +180,10 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -277,12 +275,10 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -367,12 +363,10 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -494,12 +488,10 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       restartOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -570,12 +562,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -604,12 +596,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -633,8 +625,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -653,11 +645,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -679,8 +671,8 @@ const listByHostGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -702,8 +694,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -724,9 +716,9 @@ const listByHostGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
   ],
   headerParameters: [Parameters.accept],

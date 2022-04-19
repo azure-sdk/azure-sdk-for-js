@@ -68,9 +68,6 @@ export interface ApplicationProfile {
 export type Architecture = string;
 
 // @public
-export type ArchitectureTypes = string;
-
-// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
@@ -1127,9 +1124,6 @@ export interface CreationData {
 }
 
 // @public
-export type DataAccessAuthMode = string;
-
-// @public
 export interface DataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
@@ -1189,6 +1183,7 @@ export type DedicatedHostGroup = Resource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public (undocumented)
@@ -1200,6 +1195,11 @@ export interface DedicatedHostGroupInstanceView {
 export interface DedicatedHostGroupListResult {
     nextLink?: string;
     value: DedicatedHostGroup[];
+}
+
+// @public
+export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
+    ultraSSDEnabled?: boolean;
 }
 
 // @public
@@ -1273,6 +1273,7 @@ export type DedicatedHostGroupUpdate = UpdateResource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public
@@ -1440,7 +1441,6 @@ export type Disk = Resource & {
     securityProfile?: DiskSecurityProfile;
     completionPercent?: number;
     publicNetworkAccess?: PublicNetworkAccess;
-    dataAccessAuthMode?: DataAccessAuthMode;
 };
 
 // @public
@@ -1946,7 +1946,6 @@ export type DisksUpdateResponse = Disk;
 // @public
 export interface DiskUpdate {
     burstingEnabled?: boolean;
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
     diskIopsReadWrite?: number;
@@ -2874,14 +2873,6 @@ export enum KnownArchitecture {
 }
 
 // @public
-export enum KnownArchitectureTypes {
-    // (undocumented)
-    Arm64 = "Arm64",
-    // (undocumented)
-    X64 = "x64"
-}
-
-// @public
 export enum KnownAvailabilitySetSkuTypes {
     // (undocumented)
     Aligned = "Aligned",
@@ -2929,12 +2920,6 @@ export enum KnownConsistencyModeTypes {
     CrashConsistent = "CrashConsistent",
     // (undocumented)
     FileSystemConsistent = "FileSystemConsistent"
-}
-
-// @public
-export enum KnownDataAccessAuthMode {
-    AzureActiveDirectory = "AzureActiveDirectory",
-    None = "None"
 }
 
 // @public
@@ -4417,17 +4402,24 @@ export type ProtocolTypes = "Http" | "Https";
 
 // @public
 export type ProximityPlacementGroup = Resource & {
+    zones?: string[];
     proximityPlacementGroupType?: ProximityPlacementGroupType;
     readonly virtualMachines?: SubResourceWithColocationStatus[];
     readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
+    intent?: ProximityPlacementGroupPropertiesIntent;
 };
 
 // @public
 export interface ProximityPlacementGroupListResult {
     nextLink?: string;
     value: ProximityPlacementGroup[];
+}
+
+// @public
+export interface ProximityPlacementGroupPropertiesIntent {
+    vmSizes?: string[];
 }
 
 // @public
@@ -5304,7 +5296,6 @@ export type Snapshot = Resource & {
     supportsHibernation?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
     completionPercent?: number;
-    dataAccessAuthMode?: DataAccessAuthMode;
 };
 
 // @public
@@ -5415,7 +5406,6 @@ export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
 export interface SnapshotUpdate {
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskSizeGB?: number;
     encryption?: Encryption;
@@ -5592,7 +5582,6 @@ export type SubResourceWithColocationStatus = SubResource & {
 // @public
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
-    architecture?: Architecture;
 }
 
 // @public
@@ -5999,7 +5988,6 @@ export type VirtualMachineImage = VirtualMachineImageResource & {
     hyperVGeneration?: HyperVGenerationTypes;
     disallowed?: DisallowedConfiguration;
     features?: VirtualMachineImageFeature[];
-    architecture?: ArchitectureTypes;
 };
 
 // @public
@@ -6457,6 +6445,7 @@ export type VirtualMachineScaleSet = Resource & {
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
@@ -6685,6 +6674,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
 export interface VirtualMachineScaleSetOSDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
@@ -7085,6 +7075,7 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 // @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
