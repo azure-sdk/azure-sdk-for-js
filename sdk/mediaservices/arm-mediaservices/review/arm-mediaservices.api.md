@@ -25,23 +25,6 @@ export type AbsoluteClipTime = ClipTime & {
     time: string;
 };
 
-// @public (undocumented)
-export interface AccessControl {
-    defaultAction?: DefaultAction;
-    ipAllowList?: string[];
-}
-
-// @public (undocumented)
-export interface AccountEncryption {
-    identity?: ResourceIdentity;
-    keyVaultProperties?: KeyVaultProperties;
-    readonly status?: string;
-    type: AccountEncryptionKeyType;
-}
-
-// @public
-export type AccountEncryptionKeyType = string;
-
 // @public
 export type AccountFilter = ProxyResource & {
     readonly systemData?: SystemData;
@@ -103,9 +86,6 @@ export interface AccountFiltersUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type AccountFiltersUpdateResponse = AccountFilter;
-
-// @public
-export type ActionType = string;
 
 // @public
 export interface AkamaiAccessControl {
@@ -417,6 +397,8 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     // (undocumented)
     accountFilters: AccountFilters;
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     assetFilters: AssetFilters;
     // (undocumented)
     assets: Assets;
@@ -429,19 +411,9 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     // (undocumented)
     liveOutputs: LiveOutputs;
     // (undocumented)
-    locations: Locations;
-    // (undocumented)
-    mediaservices: Mediaservices;
-    // (undocumented)
     operationResults: OperationResults;
     // (undocumented)
-    operations: Operations;
-    // (undocumented)
     operationStatuses: OperationStatuses;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     streamingEndpoints: StreamingEndpoints;
     // (undocumented)
@@ -459,6 +431,7 @@ export class AzureMediaServices extends coreClient.ServiceClient {
 // @public
 export interface AzureMediaServicesOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -487,12 +460,6 @@ export interface CencDrmConfiguration {
 
 // @public
 export type ChannelMapping = string;
-
-// @public
-export interface CheckNameAvailabilityInput {
-    name?: string;
-    type?: string;
-}
 
 // @public
 export interface ClipTime {
@@ -719,7 +686,6 @@ export interface ContentKeyPolicyPlayReadyPlayRight {
     imageConstraintForAnalogComponentVideoRestriction: boolean;
     imageConstraintForAnalogComputerMonitorRestriction: boolean;
     scmsRestriction?: number;
-    uncompressedDigitalAudioOpl?: number;
     uncompressedDigitalVideoOpl?: number;
 }
 
@@ -827,9 +793,6 @@ export interface CrossSiteAccessPolicies {
 }
 
 // @public
-export type DefaultAction = string;
-
-// @public
 export interface DefaultKey {
     label?: string;
     policyName?: string;
@@ -847,27 +810,6 @@ export type DeinterlaceMode = string;
 // @public
 export type DeinterlaceParity = string;
 
-// @public (undocumented)
-export interface EdgePolicies {
-    // (undocumented)
-    usageDataCollectionPolicy?: EdgeUsageDataCollectionPolicy;
-}
-
-// @public (undocumented)
-export interface EdgeUsageDataCollectionPolicy {
-    dataCollectionFrequency?: string;
-    dataReportingFrequency?: string;
-    eventHubDetails?: EdgeUsageDataEventHub;
-    maxAllowedUnreportedUsageDuration?: string;
-}
-
-// @public (undocumented)
-export interface EdgeUsageDataEventHub {
-    name?: string;
-    namespace?: string;
-    token?: string;
-}
-
 // @public
 export interface EnabledProtocols {
     dash: boolean;
@@ -881,13 +823,6 @@ export type EncoderNamedPreset = string;
 
 // @public
 export type EncryptionScheme = string;
-
-// @public
-export interface EntityNameAvailabilityCheckOutput {
-    message?: string;
-    nameAvailable: boolean;
-    reason?: string;
-}
 
 // @public
 export type EntropyMode = string;
@@ -1300,33 +1235,11 @@ export type JpgLayer = Layer & {
     quality?: number;
 };
 
-// @public (undocumented)
-export interface KeyDelivery {
-    accessControl?: AccessControl;
-}
-
-// @public (undocumented)
-export interface KeyVaultProperties {
-    readonly currentKeyIdentifier?: string;
-    keyIdentifier?: string;
-}
-
 // @public
 export enum KnownAacAudioProfile {
     AacLc = "AacLc",
     HeAacV1 = "HeAacV1",
     HeAacV2 = "HeAacV2"
-}
-
-// @public
-export enum KnownAccountEncryptionKeyType {
-    CustomerKey = "CustomerKey",
-    SystemKey = "SystemKey"
-}
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
 }
 
 // @public
@@ -1441,12 +1354,6 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
-}
-
-// @public
-export enum KnownDefaultAction {
-    Allow = "Allow",
-    Deny = "Deny"
 }
 
 // @public
@@ -1643,20 +1550,6 @@ export enum KnownLiveOutputResourceState {
 }
 
 // @public
-export enum KnownMetricAggregationType {
-    Average = "Average",
-    Count = "Count",
-    Total = "Total"
-}
-
-// @public
-export enum KnownMetricUnit {
-    Bytes = "Bytes",
-    Count = "Count",
-    Milliseconds = "Milliseconds"
-}
-
-// @public
 export enum KnownOnErrorType {
     ContinueJob = "ContinueJob",
     StopProcessingJob = "StopProcessingJob"
@@ -1670,38 +1563,10 @@ export enum KnownPriority {
 }
 
 // @public
-export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
-    Deleting = "Deleting",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
-    Approved = "Approved",
-    // (undocumented)
-    Pending = "Pending",
-    // (undocumented)
-    Rejected = "Rejected"
-}
-
-// @public
 export enum KnownProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPublicNetworkAccess {
-    Disabled = "Disabled",
-    Enabled = "Enabled"
 }
 
 // @public
@@ -1712,18 +1577,6 @@ export enum KnownRotation {
     Rotate180 = "Rotate180",
     Rotate270 = "Rotate270",
     Rotate90 = "Rotate90"
-}
-
-// @public
-export enum KnownStorageAccountType {
-    Primary = "Primary",
-    Secondary = "Secondary"
-}
-
-// @public
-export enum KnownStorageAuthentication {
-    ManagedIdentity = "ManagedIdentity",
-    System = "System"
 }
 
 // @public
@@ -1813,11 +1666,6 @@ export interface ListContainerSasInput {
 // @public
 export interface ListContentKeysResponse {
     contentKeys?: StreamingLocatorContentKey[];
-}
-
-// @public (undocumented)
-export interface ListEdgePoliciesInput {
-    deviceId?: string;
 }
 
 // @public
@@ -2093,173 +1941,6 @@ export interface LiveOutputsListOptionalParams extends coreClient.OperationOptio
 export type LiveOutputsListResponse = LiveOutputListResult;
 
 // @public
-export interface Locations {
-    checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityInput, options?: LocationsCheckNameAvailabilityOptionalParams): Promise<LocationsCheckNameAvailabilityResponse>;
-}
-
-// @public
-export interface LocationsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationsCheckNameAvailabilityResponse = EntityNameAvailabilityCheckOutput;
-
-// @public
-export interface LogSpecification {
-    readonly blobDuration?: string;
-    readonly displayName?: string;
-    readonly name?: string;
-}
-
-// @public
-export type MediaService = TrackedResource & {
-    identity?: MediaServiceIdentity;
-    readonly systemData?: SystemData;
-    readonly mediaServiceId?: string;
-    storageAccounts?: StorageAccount[];
-    storageAuthentication?: StorageAuthentication;
-    encryption?: AccountEncryption;
-    keyDelivery?: KeyDelivery;
-    publicNetworkAccess?: PublicNetworkAccess;
-};
-
-// @public
-export interface MediaServiceCollection {
-    odataNextLink?: string;
-    value?: MediaService[];
-}
-
-// @public (undocumented)
-export interface MediaServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: string;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedManagedIdentity;
-    };
-}
-
-// @public
-export interface Mediaservices {
-    createOrUpdate(resourceGroupName: string, accountName: string, parameters: MediaService, options?: MediaservicesCreateOrUpdateOptionalParams): Promise<MediaservicesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, accountName: string, options?: MediaservicesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, options?: MediaservicesGetOptionalParams): Promise<MediaservicesGetResponse>;
-    list(resourceGroupName: string, options?: MediaservicesListOptionalParams): PagedAsyncIterableIterator<MediaService>;
-    listBySubscription(options?: MediaservicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MediaService>;
-    listEdgePolicies(resourceGroupName: string, accountName: string, parameters: ListEdgePoliciesInput, options?: MediaservicesListEdgePoliciesOptionalParams): Promise<MediaservicesListEdgePoliciesResponse>;
-    syncStorageKeys(resourceGroupName: string, accountName: string, parameters: SyncStorageKeysInput, options?: MediaservicesSyncStorageKeysOptionalParams): Promise<void>;
-    update(resourceGroupName: string, accountName: string, parameters: MediaServiceUpdate, options?: MediaservicesUpdateOptionalParams): Promise<MediaservicesUpdateResponse>;
-}
-
-// @public
-export interface MediaservicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesCreateOrUpdateResponse = MediaService;
-
-// @public
-export interface MediaservicesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MediaservicesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesGetResponse = MediaService;
-
-// @public
-export interface MediaservicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesListBySubscriptionNextResponse = MediaServiceCollection;
-
-// @public
-export interface MediaservicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesListBySubscriptionResponse = MediaServiceCollection;
-
-// @public
-export interface MediaservicesListEdgePoliciesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesListEdgePoliciesResponse = EdgePolicies;
-
-// @public
-export interface MediaservicesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesListNextResponse = MediaServiceCollection;
-
-// @public
-export interface MediaservicesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesListResponse = MediaServiceCollection;
-
-// @public
-export interface MediaservicesSyncStorageKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MediaservicesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MediaservicesUpdateResponse = MediaService;
-
-// @public
-export interface MediaServiceUpdate {
-    encryption?: AccountEncryption;
-    identity?: MediaServiceIdentity;
-    keyDelivery?: KeyDelivery;
-    readonly mediaServiceId?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    storageAccounts?: StorageAccount[];
-    // (undocumented)
-    storageAuthentication?: StorageAuthentication;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type MetricAggregationType = string;
-
-// @public
-export interface MetricDimension {
-    readonly displayName?: string;
-    readonly name?: string;
-    readonly toBeExportedForShoebox?: boolean;
-}
-
-// @public
-export interface MetricSpecification {
-    readonly aggregationType?: MetricAggregationType;
-    readonly dimensions?: MetricDimension[];
-    readonly displayDescription?: string;
-    readonly displayName?: string;
-    readonly enableRegionalMdmAccount?: boolean;
-    readonly lockAggregationType?: MetricAggregationType;
-    readonly name?: string;
-    readonly sourceMdmAccount?: string;
-    readonly sourceMdmNamespace?: string;
-    supportedAggregationTypes?: string[];
-    readonly supportedTimeGrainTypes?: string[];
-    readonly unit?: MetricUnit;
-}
-
-// @public
-export type MetricUnit = string;
-
-// @public
 export type Mp4Format = MultiBitrateFormat & {
     odataType: "#Microsoft.Media.Mp4Format";
 };
@@ -2282,29 +1963,6 @@ export interface NoEncryption {
 export type OnErrorType = string;
 
 // @public
-export interface Operation {
-    actionType?: ActionType;
-    display?: OperationDisplay;
-    isDataAction?: boolean;
-    name: string;
-    origin?: string;
-    properties?: Properties;
-}
-
-// @public
-export interface OperationCollection {
-    value?: Operation[];
-}
-
-// @public
-export interface OperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
 export interface OperationResults {
     get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
 }
@@ -2322,18 +1980,6 @@ export interface OperationResultsGetOptionalParams extends coreClient.OperationO
 
 // @public
 export type OperationResultsGetResponse = AssetTrack;
-
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
-}
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationCollection;
 
 // @public
 export interface OperationStatuses {
@@ -2414,113 +2060,10 @@ export type PresetUnion = Preset | FaceDetectorPreset | AudioAnalyzerPresetUnion
 export type Priority = string;
 
 // @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export type PrivateEndpointConnection = Resource & {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
-
-// @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
-}
-
-// @public
-export type PrivateEndpointConnectionProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnections {
-    createOrUpdate(resourceGroupName: string, accountName: string, name: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, accountName: string, name: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, accountName: string, name: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export type PrivateLinkResource = Resource & {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-};
-
-// @public
-export interface PrivateLinkResourceListResult {
-    value?: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, accountName: string, name: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, accountName: string, options?: PrivateLinkResourcesListOptionalParams): Promise<PrivateLinkResourcesListResponse>;
-}
-
-// @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface Properties {
-    readonly serviceSpecification?: ServiceSpecification;
-}
-
-// @public
 export type ProvisioningState = string;
 
 // @public
 export type ProxyResource = Resource & {};
-
-// @public
-export type PublicNetworkAccess = string;
 
 // @public
 export interface Rectangle {
@@ -2535,12 +2078,6 @@ export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly type?: string;
-}
-
-// @public (undocumented)
-export interface ResourceIdentity {
-    userAssignedIdentity?: string;
-    useSystemAssignedIdentity: boolean;
 }
 
 // @public
@@ -2575,32 +2112,12 @@ export type SelectVideoTrackById = VideoTrackDescriptor & {
 };
 
 // @public
-export interface ServiceSpecification {
-    readonly logSpecifications?: LogSpecification[];
-    readonly metricSpecifications?: MetricSpecification[];
-}
-
-// @public
 export type StandardEncoderPreset = Preset & {
     odataType: "#Microsoft.Media.StandardEncoderPreset";
     filters?: Filters;
     codecs: CodecUnion[];
     formats: FormatUnion[];
 };
-
-// @public
-export interface StorageAccount {
-    id?: string;
-    identity?: ResourceIdentity;
-    readonly status?: string;
-    type: StorageAccountType;
-}
-
-// @public
-export type StorageAccountType = string;
-
-// @public
-export type StorageAuthentication = string;
 
 // @public
 export interface StorageEncryptedAssetDecryptionData {
@@ -2952,11 +2469,6 @@ export type StreamOptionsFlag = string;
 export type StretchMode = string;
 
 // @public
-export interface SyncStorageKeysInput {
-    id?: string;
-}
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -3192,12 +2704,6 @@ export type TransformsUpdateResponse = Transform;
 export type TransportStreamFormat = MultiBitrateFormat & {
     odataType: "#Microsoft.Media.TransportStreamFormat";
 };
-
-// @public (undocumented)
-export interface UserAssignedManagedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export type UtcClipTime = ClipTime & {

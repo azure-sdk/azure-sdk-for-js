@@ -239,12 +239,10 @@ export class LiveOutputsImpl implements LiveOutputs {
       },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -341,12 +339,10 @@ export class LiveOutputsImpl implements LiveOutputs {
       },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -467,7 +463,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

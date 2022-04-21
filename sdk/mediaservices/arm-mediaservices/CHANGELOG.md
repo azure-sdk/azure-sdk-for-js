@@ -1,15 +1,37 @@
 # Release History
+    
+## 12.0.0 (2022-04-21)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
+  - Interface AzureMediaServicesOptionalParams has a new optional parameter apiVersion
+  - Class AzureMediaServices has a new parameter apiVersion
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Locations
+  - Removed operation group Mediaservices
+  - Removed operation group Operations
+  - Removed operation group PrivateEndpointConnections
+  - Removed operation group PrivateLinkResources
+  - Interface ContentKeyPolicyPlayReadyPlayRight no longer has parameter uncompressedDigitalAudioOpl
+  - Class AzureMediaServices no longer has parameter locations
+  - Class AzureMediaServices no longer has parameter mediaservices
+  - Class AzureMediaServices no longer has parameter operations
+  - Class AzureMediaServices no longer has parameter privateEndpointConnections
+  - Class AzureMediaServices no longer has parameter privateLinkResources
+  - Removed Enum KnownAccountEncryptionKeyType
+  - Removed Enum KnownActionType
+  - Removed Enum KnownDefaultAction
+  - Removed Enum KnownMetricAggregationType
+  - Removed Enum KnownMetricUnit
+  - Removed Enum KnownPrivateEndpointConnectionProvisioningState
+  - Removed Enum KnownPrivateEndpointServiceConnectionStatus
+  - Removed Enum KnownPublicNetworkAccess
+  - Removed Enum KnownStorageAccountType
+  - Removed Enum KnownStorageAuthentication
+    
+    
 ## 11.0.0 (2022-04-14)
     
 **Features**

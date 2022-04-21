@@ -206,12 +206,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -303,12 +301,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -393,12 +389,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -480,12 +474,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       allocateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -568,12 +560,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -658,12 +648,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -750,12 +738,10 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       resetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -870,7 +856,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
@@ -904,7 +890,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters10,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1002,7 +988,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
