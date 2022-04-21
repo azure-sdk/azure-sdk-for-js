@@ -973,12 +973,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteEnvelope, options },
       createOrUpdateStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1059,12 +1057,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       deleteStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1269,12 +1265,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, environmentName, options },
       deleteStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1518,12 +1512,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1644,12 +1636,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       createZipDeploymentForStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1850,12 +1840,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       createOrUpdateStaticSiteCustomDomainOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1942,12 +1930,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, domainName, options },
       deleteStaticSiteCustomDomainOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2038,12 +2024,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       validateCustomDomainCanBeAddedToStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2127,12 +2111,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       detachStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2347,12 +2329,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2442,12 +2422,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2617,12 +2595,10 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2728,12 +2704,10 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteZipDeploymentEnvelope, options },
       createZipDeploymentForStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

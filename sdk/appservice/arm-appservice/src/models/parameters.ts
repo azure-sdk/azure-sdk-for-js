@@ -89,7 +89,9 @@ import {
   DeletedAppRestoreRequest as DeletedAppRestoreRequestMapper,
   SnapshotRestoreRequest as SnapshotRestoreRequestMapper,
   SiteSourceControl as SiteSourceControlMapper,
-  VnetInfoResource as VnetInfoResourceMapper
+  VnetInfoResource as VnetInfoResourceMapper,
+  RegenerateActionParameter as RegenerateActionParameterMapper,
+  Workflow as WorkflowMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -132,7 +134,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1651,4 +1653,144 @@ export const additionalFlags: OperationQueryParameter = {
 export const connectionEnvelope4: OperationParameter = {
   parameterPath: "connectionEnvelope",
   mapper: VnetInfoResourceMapper
+};
+
+export const keyType1: OperationParameter = {
+  parameterPath: "keyType",
+  mapper: RegenerateActionParameterMapper
+};
+
+export const name2: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    xmlName: "name",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const workflowName: OperationURLParameter = {
+  parameterPath: "workflowName",
+  mapper: {
+    serializedName: "workflowName",
+    required: true,
+    xmlName: "workflowName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const validate: OperationParameter = {
+  parameterPath: "validate",
+  mapper: WorkflowMapper
+};
+
+export const top1: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    serializedName: "$top",
+    xmlName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const filter1: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    xmlName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const runName: OperationURLParameter = {
+  parameterPath: "runName",
+  mapper: {
+    serializedName: "runName",
+    required: true,
+    xmlName: "runName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const actionName: OperationURLParameter = {
+  parameterPath: "actionName",
+  mapper: {
+    serializedName: "actionName",
+    required: true,
+    xmlName: "actionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const repetitionName: OperationURLParameter = {
+  parameterPath: "repetitionName",
+  mapper: {
+    serializedName: "repetitionName",
+    required: true,
+    xmlName: "repetitionName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const requestHistoryName: OperationURLParameter = {
+  parameterPath: "requestHistoryName",
+  mapper: {
+    serializedName: "requestHistoryName",
+    required: true,
+    xmlName: "requestHistoryName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const triggerName: OperationURLParameter = {
+  parameterPath: "triggerName",
+  mapper: {
+    serializedName: "triggerName",
+    required: true,
+    xmlName: "triggerName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const historyName: OperationURLParameter = {
+  parameterPath: "historyName",
+  mapper: {
+    serializedName: "historyName",
+    required: true,
+    xmlName: "historyName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const versionId: OperationURLParameter = {
+  parameterPath: "versionId",
+  mapper: {
+    serializedName: "versionId",
+    required: true,
+    xmlName: "versionId",
+    type: {
+      name: "String"
+    }
+  }
 };

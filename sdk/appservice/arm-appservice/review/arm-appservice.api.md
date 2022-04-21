@@ -195,7 +195,7 @@ export type AppServiceCertificateOrder = Resource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
@@ -227,16 +227,10 @@ export type AppServiceCertificateOrderPatchResource = ProxyOnlyResource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
-
-// @public
-export type AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-// @public
-export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem = string;
 
 // @public
 export interface AppServiceCertificateOrders {
@@ -431,6 +425,7 @@ export interface AppServiceEnvironment {
     readonly maximumNumberOfMachines?: number;
     readonly multiRoleCount?: number;
     multiSize?: string;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly status?: HostingEnvironmentStatus;
     readonly suspended?: boolean;
@@ -463,6 +458,7 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -483,6 +479,7 @@ export type AppServiceEnvironmentResource = Resource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -1388,6 +1385,11 @@ export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
     readonly externalInboundIpAddresses?: string[];
     readonly internalInboundIpAddresses?: string[];
     allowNewPrivateEndpointConnections?: boolean;
+    ftpEnabled?: boolean;
+    remoteDebugEnabled?: boolean;
+    numberOfOutboundIpAddresses?: number;
+    inboundIpAddressOverride?: string;
+    readonly targetNumberOfOutboundIpAddresses?: number;
 };
 
 // @public
@@ -1474,6 +1476,12 @@ export interface AzureBlobStorageHttpLogsConfig {
     retentionInDays?: number;
     sasUrl?: string;
 }
+
+// @public
+export type AzureResourceErrorInfo = ErrorInfo & {
+    message: string;
+    details?: AzureResourceErrorInfo[];
+};
 
 // @public
 export type AzureResourceType = "Website" | "TrafficManager";
@@ -1647,16 +1655,16 @@ export interface CertificateDetails {
 }
 
 // @public
-export type CertificateEmail = ProxyOnlyResource & {
+export interface CertificateEmail {
     emailId?: string;
     timeStamp?: Date;
-};
+}
 
 // @public
-export type CertificateOrderAction = ProxyOnlyResource & {
+export interface CertificateOrderAction {
     readonly actionType?: CertificateOrderActionType;
     readonly createdAt?: Date;
-};
+}
 
 // @public
 export type CertificateOrderActionType = "CertificateIssued" | "CertificateOrderCanceled" | "CertificateOrderCreated" | "CertificateRevoked" | "DomainValidationComplete" | "FraudDetected" | "OrgNameChange" | "OrgValidationComplete" | "SanDrop" | "FraudCleared" | "CertificateExpired" | "CertificateExpirationWarning" | "FraudDocumentationRequired" | "Unknown";
@@ -2155,6 +2163,21 @@ export interface ContainerThrottlingData {
 }
 
 // @public
+export interface ContentHash {
+    algorithm?: string;
+    value?: string;
+}
+
+// @public
+export interface ContentLink {
+    readonly contentHash?: ContentHash;
+    readonly contentSize?: number;
+    readonly contentVersion?: string;
+    readonly metadata?: Record<string, unknown>;
+    uri?: string;
+}
+
+// @public
 export type ContinuousWebJob = ProxyOnlyResource & {
     status?: ContinuousWebJobStatus;
     detailedStatus?: string;
@@ -2187,6 +2210,11 @@ export interface CookieExpiration {
 
 // @public
 export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
+
+// @public
+export interface Correlation {
+    clientTrackingId?: string;
+}
 
 // @public
 export interface CorsSettings {
@@ -2380,6 +2408,12 @@ export interface DataTableResponseObject {
     rows?: string[][];
     tableName?: string;
 }
+
+// @public
+export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+
+// @public
+export type DaysOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 // @public
 export interface DefaultAuthorizationPolicy {
@@ -2931,7 +2965,7 @@ export type Domain = Resource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
@@ -2986,18 +3020,12 @@ export type DomainPatchResource = ProxyOnlyResource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPatchResourcePropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
     authCode?: string;
 };
-
-// @public
-export type DomainPatchResourcePropertiesDomainNotRenewableReasonsItem = string;
-
-// @public
-export type DomainPropertiesDomainNotRenewableReasonsItem = string;
 
 // @public
 export interface DomainPurchaseConsent {
@@ -3215,6 +3243,15 @@ export interface EndpointDetail {
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
+export type Enum12 = string;
+
+// @public
+export type Enum13 = string;
+
+// @public
+export type Enum14 = string;
+
+// @public
 export type Enum15 = string;
 
 // @public
@@ -3222,15 +3259,6 @@ export type Enum16 = string;
 
 // @public
 export type Enum17 = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
-
-// @public
-export type Enum20 = string;
 
 // @public
 export interface EnvironmentVar {
@@ -3252,8 +3280,43 @@ export interface ErrorEntity {
 }
 
 // @public
+export interface ErrorInfo {
+    code: string;
+}
+
+// @public
+export interface ErrorProperties {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorProperties;
+}
+
+// @public
 export interface Experiments {
     rampUpRules?: RampUpRule[];
+}
+
+// @public
+export interface Expression {
+    error?: AzureResourceErrorInfo;
+    subexpressions?: Expression[];
+    text?: string;
+    value?: any;
+}
+
+// @public
+export type ExpressionRoot = Expression & {
+    path?: string;
+};
+
+// @public
+export interface ExpressionTraces {
+    // (undocumented)
+    inputs?: ExpressionRoot[];
 }
 
 // @public
@@ -3285,6 +3348,32 @@ export interface FileSystemHttpLogsConfig {
 // @public
 export interface FileSystemTokenStore {
     directory?: string;
+}
+
+// @public
+export interface FlowAccessControlConfiguration {
+    actions?: FlowAccessControlConfigurationPolicy;
+    contents?: FlowAccessControlConfigurationPolicy;
+    triggers?: FlowAccessControlConfigurationPolicy;
+    workflowManagement?: FlowAccessControlConfigurationPolicy;
+}
+
+// @public
+export interface FlowAccessControlConfigurationPolicy {
+    allowedCallerIpAddresses?: IpAddressRange[];
+    openAuthenticationPolicies?: OpenAuthenticationAccessPolicies;
+}
+
+// @public
+export interface FlowEndpoints {
+    accessEndpointIpAddresses?: IpAddress[];
+    outgoingIpAddresses?: IpAddress[];
+}
+
+// @public
+export interface FlowEndpointsConfiguration {
+    connector?: FlowEndpoints;
+    workflow?: FlowEndpoints;
 }
 
 // @public
@@ -3721,6 +3810,16 @@ export type IngressTransportMethod = string;
 export type InsightStatus = "Critical" | "Warning" | "Info" | "Success" | "None";
 
 // @public
+export interface IpAddress {
+    address?: string;
+}
+
+// @public
+export interface IpAddressRange {
+    addressRange?: string;
+}
+
+// @public
 export type IpFilterTag = string;
 
 // @public
@@ -3744,6 +3843,12 @@ export interface IpSecurityRestriction {
 export type IssueType = "ServiceIncident" | "AppDeployment" | "AppCrash" | "RuntimeIssueDetected" | "AseDeployment" | "UserIssue" | "PlatformIssue" | "Other";
 
 // @public
+export interface JsonSchema {
+    content?: string;
+    title?: string;
+}
+
+// @public
 export interface JwtClaimChecks {
     allowedClientApplications?: string[];
     allowedGroups?: string[];
@@ -3754,6 +3859,10 @@ export interface KeyInfo {
     name?: string;
     value?: string;
 }
+
+// @public
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
 
 // @public (undocumented)
 export interface KeyValuePairStringObject {
@@ -3770,26 +3879,6 @@ export enum KnownActiveRevisionsMode {
     Multiple = "multiple",
     // (undocumented)
     Single = "single"
-}
-
-// @public
-export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 // @public
@@ -3855,6 +3944,8 @@ export enum KnownCustomDomainStatus {
     // (undocumented)
     RetrievingValidationToken = "RetrievingValidationToken",
     // (undocumented)
+    Unhealthy = "Unhealthy",
+    // (undocumented)
     Validating = "Validating"
 }
 
@@ -3871,26 +3962,6 @@ export enum KnownDatabaseType {
 }
 
 // @public
-export enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
 export enum KnownEnterpriseGradeCdnStatus {
     // (undocumented)
     Disabled = "Disabled",
@@ -3903,7 +3974,7 @@ export enum KnownEnterpriseGradeCdnStatus {
 }
 
 // @public
-export enum KnownEnum15 {
+export enum KnownEnum12 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3914,6 +3985,36 @@ export enum KnownEnum15 {
     Windows = "Windows",
     // (undocumented)
     WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownEnum13 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum14 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum15 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
 }
 
 // @public
@@ -3928,36 +4029,6 @@ export enum KnownEnum16 {
 
 // @public
 export enum KnownEnum17 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum18 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum19 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum20 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -4009,6 +4080,16 @@ export enum KnownIpFilterTag {
 }
 
 // @public
+export enum KnownKeyType {
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Primary = "Primary",
+    // (undocumented)
+    Secondary = "Secondary"
+}
+
+// @public
 export enum KnownLoadBalancingMode {
     // (undocumented)
     None = "None",
@@ -4021,6 +4102,34 @@ export enum KnownLoadBalancingMode {
 }
 
 // @public
+export enum KnownOpenAuthenticationProviderType {
+    // (undocumented)
+    AAD = "AAD"
+}
+
+// @public
+export enum KnownParameterType {
+    // (undocumented)
+    Array = "Array",
+    // (undocumented)
+    Bool = "Bool",
+    // (undocumented)
+    Float = "Float",
+    // (undocumented)
+    Int = "Int",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Object = "Object",
+    // (undocumented)
+    SecureObject = "SecureObject",
+    // (undocumented)
+    SecureString = "SecureString",
+    // (undocumented)
+    String = "String"
+}
+
+// @public
 export enum KnownPublishingProfileFormat {
     // (undocumented)
     FileZilla3 = "FileZilla3",
@@ -4028,6 +4137,36 @@ export enum KnownPublishingProfileFormat {
     Ftp = "Ftp",
     // (undocumented)
     WebDeploy = "WebDeploy"
+}
+
+// @public
+export enum KnownRecurrenceFrequency {
+    // (undocumented)
+    Day = "Day",
+    // (undocumented)
+    Hour = "Hour",
+    // (undocumented)
+    Minute = "Minute",
+    // (undocumented)
+    Month = "Month",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Second = "Second",
+    // (undocumented)
+    Week = "Week",
+    // (undocumented)
+    Year = "Year"
+}
+
+// @public
+export enum KnownResourceNotRenewableReason {
+    // (undocumented)
+    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
+    // (undocumented)
+    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
+    // (undocumented)
+    SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 // @public
@@ -4123,6 +4262,8 @@ export enum KnownSkuName {
     // (undocumented)
     IsolatedV2 = "IsolatedV2",
     // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
     Premium = "Premium",
     // (undocumented)
     PremiumContainer = "PremiumContainer",
@@ -4162,6 +4303,140 @@ export enum KnownValidateResourceTypes {
     ServerFarm = "ServerFarm",
     // (undocumented)
     Site = "Site"
+}
+
+// @public
+export enum KnownWorkflowProvisioningState {
+    // (undocumented)
+    Accepted = "Accepted",
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Created = "Created",
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleted = "Deleted",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Moving = "Moving",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Pending = "Pending",
+    // (undocumented)
+    Ready = "Ready",
+    // (undocumented)
+    Registered = "Registered",
+    // (undocumented)
+    Registering = "Registering",
+    // (undocumented)
+    Renewing = "Renewing",
+    // (undocumented)
+    Running = "Running",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Unregistered = "Unregistered",
+    // (undocumented)
+    Unregistering = "Unregistering",
+    // (undocumented)
+    Updating = "Updating",
+    // (undocumented)
+    Waiting = "Waiting"
+}
+
+// @public
+export enum KnownWorkflowState {
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Deleted = "Deleted",
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Suspended = "Suspended"
+}
+
+// @public
+export enum KnownWorkflowStatus {
+    // (undocumented)
+    Aborted = "Aborted",
+    // (undocumented)
+    Cancelled = "Cancelled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Faulted = "Faulted",
+    // (undocumented)
+    Ignored = "Ignored",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Paused = "Paused",
+    // (undocumented)
+    Running = "Running",
+    // (undocumented)
+    Skipped = "Skipped",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Suspended = "Suspended",
+    // (undocumented)
+    TimedOut = "TimedOut",
+    // (undocumented)
+    Waiting = "Waiting"
+}
+
+// @public
+export enum KnownWorkflowTriggerProvisioningState {
+    // (undocumented)
+    Accepted = "Accepted",
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    Created = "Created",
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleted = "Deleted",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Moving = "Moving",
+    // (undocumented)
+    NotSpecified = "NotSpecified",
+    // (undocumented)
+    Ready = "Ready",
+    // (undocumented)
+    Registered = "Registered",
+    // (undocumented)
+    Registering = "Registering",
+    // (undocumented)
+    Running = "Running",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Unregistered = "Unregistered",
+    // (undocumented)
+    Unregistering = "Unregistering",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -4616,6 +4891,28 @@ export interface Nonce {
 export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
 
 // @public
+export interface OpenAuthenticationAccessPolicies {
+    policies?: {
+        [propertyName: string]: OpenAuthenticationAccessPolicy;
+    };
+}
+
+// @public
+export interface OpenAuthenticationAccessPolicy {
+    claims?: OpenAuthenticationPolicyClaim[];
+    type?: OpenAuthenticationProviderType;
+}
+
+// @public
+export interface OpenAuthenticationPolicyClaim {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export type OpenAuthenticationProviderType = string;
+
+// @public
 export interface OpenIdConnectClientCredential {
     clientSecretSettingName?: string;
     method?: "ClientSecretPost";
@@ -4656,6 +4953,28 @@ export interface Operation {
 }
 
 // @public
+export type OperationResult = OperationResultProperties & {
+    readonly trackingId?: string;
+    readonly inputs?: Record<string, unknown>;
+    readonly inputsLink?: ContentLink;
+    readonly outputs?: Record<string, unknown>;
+    readonly outputsLink?: ContentLink;
+    readonly trackedProperties?: Record<string, unknown>;
+    retryHistory?: RetryHistory[];
+    iterationCount?: number;
+};
+
+// @public
+export interface OperationResultProperties {
+    code?: string;
+    correlation?: RunActionCorrelation;
+    endTime?: Date;
+    error?: any;
+    startTime?: Date;
+    status?: WorkflowStatus;
+}
+
+// @public
 export type OperationStatus = "InProgress" | "Failed" | "Succeeded" | "TimedOut" | "Created";
 
 // @public
@@ -4669,6 +4988,9 @@ export interface OutboundEnvironmentEndpointCollection {
     readonly nextLink?: string;
     value: OutboundEnvironmentEndpoint[];
 }
+
+// @public
+export type ParameterType = string;
 
 // @public
 export interface PerfMonCounterCollection {
@@ -4903,7 +5225,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4912,7 +5234,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4921,7 +5243,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4930,7 +5252,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4938,7 +5260,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4946,7 +5268,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4954,7 +5276,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4962,7 +5284,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4970,7 +5292,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4978,7 +5300,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4986,7 +5308,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -4994,7 +5316,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -5299,7 +5621,30 @@ export interface RecommendationsResetAllFiltersOptionalParams extends coreClient
 }
 
 // @public
+export type RecurrenceFrequency = string;
+
+// @public
+export interface RecurrenceSchedule {
+    hours?: number[];
+    minutes?: number[];
+    monthDays?: number[];
+    monthlyOccurrences?: RecurrenceScheduleOccurrence[];
+    weekDays?: DaysOfWeek[];
+}
+
+// @public
+export interface RecurrenceScheduleOccurrence {
+    day?: DayOfWeek;
+    occurrence?: number;
+}
+
+// @public
 export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
+
+// @public
+export interface RegenerateActionParameter {
+    keyType?: KeyType_2;
+}
 
 // @public
 export interface RegistryCredentials {
@@ -5361,6 +5706,39 @@ export type RenewCertificateOrderRequest = ProxyOnlyResource & {
 };
 
 // @public
+export interface RepetitionIndex {
+    itemIndex: number;
+    scopeName?: string;
+}
+
+// @public
+interface Request_2 {
+    headers?: Record<string, unknown>;
+    method?: string;
+    uri?: string;
+}
+export { Request_2 as Request }
+
+// @public
+export type RequestHistory = ResourceAutoGenerated & {
+    properties?: RequestHistoryProperties;
+};
+
+// @public
+export interface RequestHistoryListResult {
+    nextLink?: string;
+    value?: RequestHistory[];
+}
+
+// @public
+export interface RequestHistoryProperties {
+    endTime?: Date;
+    request?: Request_2;
+    response?: Response_2;
+    startTime?: Date;
+}
+
+// @public
 export interface RequestsBasedTrigger {
     count?: number;
     timeInterval?: string;
@@ -5374,6 +5752,17 @@ export interface Resource {
     readonly id?: string;
     kind?: string;
     location: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    location?: string;
     readonly name?: string;
     tags?: {
         [propertyName: string]: string;
@@ -5517,7 +5906,25 @@ export interface ResourceNameAvailabilityRequest {
 }
 
 // @public
+export type ResourceNotRenewableReason = string;
+
+// @public
+export interface ResourceReference {
+    id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
 export type ResourceScopeType = string;
+
+// @public
+interface Response_2 {
+    bodyLink?: ContentLink;
+    headers?: Record<string, unknown>;
+    statusCode?: number;
+}
+export { Response_2 as Response }
 
 // @public
 export interface ResponseMessageEnvelopeRemotePrivateEndpointConnection {
@@ -5558,6 +5965,16 @@ export type RestoreRequest = ProxyOnlyResource & {
 };
 
 // @public
+export interface RetryHistory {
+    clientRequestId?: string;
+    code?: string;
+    endTime?: Date;
+    error?: ErrorResponse;
+    serviceRequestId?: string;
+    startTime?: Date;
+}
+
+// @public
 export type Revision = Resource & {
     readonly createdTime?: Date;
     readonly fqdn?: string;
@@ -5584,6 +6001,17 @@ export type RevisionProvisioningState = string;
 
 // @public
 export type RouteType = string;
+
+// @public
+export type RunActionCorrelation = RunCorrelation & {
+    actionTrackingId?: string;
+};
+
+// @public
+export interface RunCorrelation {
+    clientKeywords?: string[];
+    clientTrackingId?: string;
+}
 
 // @public
 export interface SampleUtterance {
@@ -5652,6 +6080,9 @@ export type Site = Resource & {
     isXenon?: boolean;
     hyperV?: boolean;
     readonly lastModifiedTimeUtc?: Date;
+    vnetRouteAllEnabled?: boolean;
+    vnetImagePullEnabled?: boolean;
+    vnetContentShareEnabled?: boolean;
     siteConfig?: SiteConfig;
     readonly trafficManagerHostNames?: string[];
     scmSiteAlsoStopped?: boolean;
@@ -6059,6 +6490,12 @@ export type SiteSourceControl = ProxyOnlyResource & {
     isMercurial?: boolean;
     gitHubActionConfiguration?: GitHubActionConfiguration;
 };
+
+// @public
+export interface Sku {
+    name: SkuName;
+    plan?: ResourceReference;
+}
 
 // @public
 export interface SkuCapacity {
@@ -6970,6 +7407,11 @@ export type StringList = ProxyOnlyResource & {
 };
 
 // @public
+export interface SubResource {
+    readonly id?: string;
+}
+
+// @public
 export type SupportedTlsVersions = string;
 
 // @public
@@ -7472,6 +7914,7 @@ export interface WebApps {
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
+    createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
     createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
     createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
@@ -7548,6 +7991,7 @@ export interface WebApps {
     getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
     getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
     getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
+    getAuthSettingsV2WithoutSecretsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
     getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
@@ -7602,6 +8046,7 @@ export interface WebApps {
     getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams): Promise<WebAppsGetNetworkTracesSlotResponse>;
     getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams): Promise<WebAppsGetNetworkTracesSlotV2Response>;
     getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams): Promise<WebAppsGetNetworkTracesV2Response>;
+    getOneDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams): Promise<WebAppsGetOneDeployStatusResponse>;
     getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams): Promise<WebAppsGetPremierAddOnResponse>;
     getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams): Promise<WebAppsGetPremierAddOnSlotResponse>;
     getPrivateAccess(resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams): Promise<WebAppsGetPrivateAccessResponse>;
@@ -7959,6 +8404,13 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends coreCl
 
 // @public
 export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
+
+// @public
+export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -8444,6 +8896,13 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends co
 export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+// @public
 export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -8836,6 +9295,13 @@ export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.Oper
 
 // @public
 export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
+
+// @public
+export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
@@ -10956,7 +11422,7 @@ export type WebSiteInstanceStatus = ProxyOnlyResource & {
 export class WebSiteManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: WebSiteManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, name: string, options?: WebSiteManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -11000,6 +11466,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     listSourceControls(options?: ListSourceControlsOptionalParams): PagedAsyncIterableIterator<SourceControl>;
     move(resourceGroupName: string, moveResourceEnvelope: CsmMoveResourceEnvelope, options?: MoveOptionalParams): Promise<void>;
     // (undocumented)
+    name: string;
+    // (undocumented)
     provider: Provider;
     // (undocumented)
     recommendations: Recommendations;
@@ -11018,6 +11486,24 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     verifyHostingEnvironmentVnet(parameters: VnetParameters, options?: VerifyHostingEnvironmentVnetOptionalParams): Promise<VerifyHostingEnvironmentVnetResponse>;
     // (undocumented)
     webApps: WebApps;
+    // (undocumented)
+    workflowRunActionRepetitions: WorkflowRunActionRepetitions;
+    // (undocumented)
+    workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
+    // (undocumented)
+    workflowRunActions: WorkflowRunActions;
+    // (undocumented)
+    workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
+    // (undocumented)
+    workflowRuns: WorkflowRuns;
+    // (undocumented)
+    workflows: Workflows;
+    // (undocumented)
+    workflowTriggerHistories: WorkflowTriggerHistories;
+    // (undocumented)
+    workflowTriggers: WorkflowTriggers;
+    // (undocumented)
+    workflowVersions: WorkflowVersions;
 }
 
 // @public
@@ -11057,6 +11543,544 @@ export type WorkerPoolResource = ProxyOnlyResource & {
 
 // @public
 export type WorkerSizeOptions = "Small" | "Medium" | "Large" | "D1" | "D2" | "D3" | "SmallV3" | "MediumV3" | "LargeV3" | "NestedSmall" | "NestedSmallLinux" | "Default";
+
+// @public
+export type Workflow = ResourceAutoGenerated & {
+    identity?: ManagedServiceIdentity;
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly createdTime?: Date;
+    readonly changedTime?: Date;
+    state?: WorkflowState;
+    readonly version?: string;
+    readonly accessEndpoint?: string;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
+    accessControl?: FlowAccessControlConfiguration;
+    readonly sku?: Sku;
+    integrationAccount?: ResourceReference;
+    integrationServiceEnvironment?: ResourceReference;
+    definition?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: WorkflowParameter;
+    };
+};
+
+// @public
+export interface WorkflowFilter {
+    state?: WorkflowState;
+}
+
+// @public
+export interface WorkflowListResult {
+    nextLink?: string;
+    value?: Workflow[];
+}
+
+// @public
+export type WorkflowOutputParameter = WorkflowParameter & {
+    readonly error?: Record<string, unknown>;
+};
+
+// @public
+export interface WorkflowParameter {
+    description?: string;
+    metadata?: Record<string, unknown>;
+    type?: ParameterType;
+    value?: Record<string, unknown>;
+}
+
+// @public
+export type WorkflowProvisioningState = string;
+
+// @public
+export type WorkflowRun = SubResource & {
+    readonly name?: string;
+    readonly type?: string;
+    readonly waitEndTime?: Date;
+    readonly startTime?: Date;
+    readonly endTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly code?: string;
+    readonly error?: Record<string, unknown>;
+    readonly correlationId?: string;
+    correlation?: Correlation;
+    readonly workflow?: ResourceReference;
+    readonly trigger?: WorkflowRunTrigger;
+    readonly outputs?: {
+        [propertyName: string]: WorkflowOutputParameter;
+    };
+    readonly response?: WorkflowRunTrigger;
+};
+
+// @public
+export type WorkflowRunAction = SubResource & {
+    readonly name?: string;
+    readonly type?: string;
+    readonly startTime?: Date;
+    readonly endTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly code?: string;
+    readonly error?: Record<string, unknown>;
+    readonly trackingId?: string;
+    correlation?: RunActionCorrelation;
+    readonly inputsLink?: ContentLink;
+    readonly outputsLink?: ContentLink;
+    readonly trackedProperties?: Record<string, unknown>;
+    retryHistory?: RetryHistory[];
+};
+
+// @public
+export interface WorkflowRunActionListResult {
+    nextLink?: string;
+    value?: WorkflowRunAction[];
+}
+
+// @public
+export type WorkflowRunActionRepetitionDefinition = ResourceAutoGenerated & {
+    startTime?: Date;
+    endTime?: Date;
+    correlation?: RunActionCorrelation;
+    status?: WorkflowStatus;
+    code?: string;
+    error?: any;
+    readonly trackingId?: string;
+    readonly inputs?: Record<string, unknown>;
+    readonly inputsLink?: ContentLink;
+    readonly outputs?: Record<string, unknown>;
+    readonly outputsLink?: ContentLink;
+    readonly trackedProperties?: Record<string, unknown>;
+    retryHistory?: RetryHistory[];
+    iterationCount?: number;
+    repetitionIndexes?: RepetitionIndex[];
+};
+
+// @public
+export interface WorkflowRunActionRepetitionDefinitionCollection {
+    nextLink?: string;
+    // (undocumented)
+    value?: WorkflowRunActionRepetitionDefinition[];
+}
+
+// @public
+export type WorkflowRunActionRepetitionProperties = OperationResult & {
+    repetitionIndexes?: RepetitionIndex[];
+};
+
+// @public
+export interface WorkflowRunActionRepetitions {
+    get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsGetOptionalParams): Promise<WorkflowRunActionRepetitionsGetResponse>;
+    list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+}
+
+// @public
+export interface WorkflowRunActionRepetitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+
+// @public
+export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
+
+// @public
+export interface WorkflowRunActionRepetitionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+// @public
+export interface WorkflowRunActionRepetitionsRequestHistories {
+    get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, requestHistoryName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams): Promise<WorkflowRunActionRepetitionsRequestHistoriesGetResponse>;
+    list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams): PagedAsyncIterableIterator<RequestHistory>;
+}
+
+// @public
+export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
+
+// @public
+export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
+
+// @public
+export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
+
+// @public
+export interface WorkflowRunActions {
+    get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsGetOptionalParams): Promise<WorkflowRunActionsGetResponse>;
+    list(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunActionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunAction>;
+    listExpressionTraces(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionsListExpressionTracesOptionalParams): PagedAsyncIterableIterator<ExpressionRoot>;
+}
+
+// @public
+export interface WorkflowRunActionScopeRepetitions {
+    get(resourceGroupName: string, workflowName: string, runName: string, actionName: string, repetitionName: string, options?: WorkflowRunActionScopeRepetitionsGetOptionalParams): Promise<WorkflowRunActionScopeRepetitionsGetResponse>;
+    list(resourceGroupName: string, workflowName: string, runName: string, actionName: string, options?: WorkflowRunActionScopeRepetitionsListOptionalParams): PagedAsyncIterableIterator<WorkflowRunActionRepetitionDefinition>;
+}
+
+// @public
+export interface WorkflowRunActionScopeRepetitionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+
+// @public
+export interface WorkflowRunActionScopeRepetitionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+// @public
+export interface WorkflowRunActionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionsGetResponse = WorkflowRunAction;
+
+// @public
+export interface WorkflowRunActionsListExpressionTracesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
+
+// @public
+export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
+
+// @public
+export interface WorkflowRunActionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowRunActionsListResponse = WorkflowRunActionListResult;
+
+// @public
+export interface WorkflowRunFilter {
+    status?: WorkflowStatus;
+}
+
+// @public
+export interface WorkflowRunListResult {
+    nextLink?: string;
+    value?: WorkflowRun[];
+}
+
+// @public
+export interface WorkflowRuns {
+    cancel(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunsCancelOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workflowName: string, runName: string, options?: WorkflowRunsGetOptionalParams): Promise<WorkflowRunsGetResponse>;
+    list(resourceGroupName: string, workflowName: string, options?: WorkflowRunsListOptionalParams): PagedAsyncIterableIterator<WorkflowRun>;
+}
+
+// @public
+export interface WorkflowRunsCancelOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface WorkflowRunsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowRunsGetResponse = WorkflowRun;
+
+// @public
+export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowRunsListNextResponse = WorkflowRunListResult;
+
+// @public
+export interface WorkflowRunsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowRunsListResponse = WorkflowRunListResult;
+
+// @public
+export interface WorkflowRunTrigger {
+    readonly code?: string;
+    correlation?: Correlation;
+    readonly endTime?: Date;
+    readonly error?: Record<string, unknown>;
+    readonly inputs?: Record<string, unknown>;
+    readonly inputsLink?: ContentLink;
+    readonly name?: string;
+    readonly outputs?: Record<string, unknown>;
+    readonly outputsLink?: ContentLink;
+    readonly scheduledTime?: Date;
+    readonly startTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly trackedProperties?: Record<string, unknown>;
+    readonly trackingId?: string;
+}
+
+// @public
+export interface Workflows {
+    regenerateAccessKey(resourceGroupName: string, workflowName: string, keyType: RegenerateActionParameter, options?: WorkflowsRegenerateAccessKeyOptionalParams): Promise<void>;
+    validate(resourceGroupName: string, workflowName: string, validate: Workflow, options?: WorkflowsValidateOptionalParams): Promise<void>;
+}
+
+// @public
+export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowState = string;
+
+// @public
+export type WorkflowStatus = string;
+
+// @public
+export interface WorkflowsValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTrigger = SubResource & {
+    readonly name?: string;
+    readonly type?: string;
+    readonly provisioningState?: WorkflowTriggerProvisioningState;
+    readonly createdTime?: Date;
+    readonly changedTime?: Date;
+    readonly state?: WorkflowState;
+    readonly status?: WorkflowStatus;
+    readonly lastExecutionTime?: Date;
+    readonly nextExecutionTime?: Date;
+    readonly recurrence?: WorkflowTriggerRecurrence;
+    readonly workflow?: ResourceReference;
+};
+
+// @public
+export interface WorkflowTriggerCallbackUrl {
+    readonly basePath?: string;
+    readonly method?: string;
+    queries?: WorkflowTriggerListCallbackUrlQueries;
+    readonly relativePath?: string;
+    relativePathParameters?: string[];
+    readonly value?: string;
+}
+
+// @public
+export interface WorkflowTriggerHistories {
+    get(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesGetOptionalParams): Promise<WorkflowTriggerHistoriesGetResponse>;
+    list(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggerHistoriesListOptionalParams): PagedAsyncIterableIterator<WorkflowTriggerHistory>;
+    resubmit(resourceGroupName: string, workflowName: string, triggerName: string, historyName: string, options?: WorkflowTriggerHistoriesResubmitOptionalParams): Promise<void>;
+}
+
+// @public
+export interface WorkflowTriggerHistoriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
+
+// @public
+export interface WorkflowTriggerHistoriesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
+
+// @public
+export interface WorkflowTriggerHistoriesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
+
+// @public
+export interface WorkflowTriggerHistoriesResubmitOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTriggerHistory = SubResource & {
+    readonly name?: string;
+    readonly type?: string;
+    readonly startTime?: Date;
+    readonly endTime?: Date;
+    readonly scheduledTime?: Date;
+    readonly status?: WorkflowStatus;
+    readonly code?: string;
+    readonly error?: Record<string, unknown>;
+    readonly trackingId?: string;
+    correlation?: Correlation;
+    readonly inputsLink?: ContentLink;
+    readonly outputsLink?: ContentLink;
+    readonly fired?: boolean;
+    readonly run?: ResourceReference;
+};
+
+// @public
+export interface WorkflowTriggerHistoryListResult {
+    nextLink?: string;
+    value?: WorkflowTriggerHistory[];
+}
+
+// @public
+export interface WorkflowTriggerListCallbackUrlQueries {
+    apiVersion?: string;
+    se?: string;
+    sig?: string;
+    sp?: string;
+    sv?: string;
+}
+
+// @public
+export interface WorkflowTriggerListResult {
+    nextLink?: string;
+    value?: WorkflowTrigger[];
+}
+
+// @public
+export type WorkflowTriggerProvisioningState = string;
+
+// @public
+export interface WorkflowTriggerRecurrence {
+    endTime?: string;
+    frequency?: RecurrenceFrequency;
+    interval?: number;
+    schedule?: RecurrenceSchedule;
+    startTime?: string;
+    timeZone?: string;
+}
+
+// @public
+export interface WorkflowTriggers {
+    get(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetOptionalParams): Promise<WorkflowTriggersGetResponse>;
+    getSchemaJson(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersGetSchemaJsonOptionalParams): Promise<WorkflowTriggersGetSchemaJsonResponse>;
+    list(resourceGroupName: string, workflowName: string, options?: WorkflowTriggersListOptionalParams): PagedAsyncIterableIterator<WorkflowTrigger>;
+    listCallbackUrl(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersListCallbackUrlOptionalParams): Promise<WorkflowTriggersListCallbackUrlResponse>;
+    run(resourceGroupName: string, workflowName: string, triggerName: string, options?: WorkflowTriggersRunOptionalParams): Promise<void>;
+}
+
+// @public
+export interface WorkflowTriggersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTriggersGetResponse = WorkflowTrigger;
+
+// @public
+export interface WorkflowTriggersGetSchemaJsonOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
+
+// @public
+export interface WorkflowTriggersListCallbackUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+
+// @public
+export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
+
+// @public
+export interface WorkflowTriggersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
+
+// @public
+export interface WorkflowTriggersRunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowVersion = ResourceAutoGenerated & {
+    readonly provisioningState?: WorkflowProvisioningState;
+    readonly createdTime?: Date;
+    readonly changedTime?: Date;
+    state?: WorkflowState;
+    readonly version?: string;
+    readonly accessEndpoint?: string;
+    endpointsConfiguration?: FlowEndpointsConfiguration;
+    accessControl?: FlowAccessControlConfiguration;
+    readonly sku?: Sku;
+    integrationAccount?: ResourceReference;
+    definition?: Record<string, unknown>;
+    parameters?: {
+        [propertyName: string]: WorkflowParameter;
+    };
+};
+
+// @public
+export interface WorkflowVersionListResult {
+    nextLink?: string;
+    value?: WorkflowVersion[];
+}
+
+// @public
+export interface WorkflowVersions {
+    get(resourceGroupName: string, workflowName: string, versionId: string, options?: WorkflowVersionsGetOptionalParams): Promise<WorkflowVersionsGetResponse>;
+    list(resourceGroupName: string, workflowName: string, options?: WorkflowVersionsListOptionalParams): PagedAsyncIterableIterator<WorkflowVersion>;
+}
+
+// @public
+export interface WorkflowVersionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkflowVersionsGetResponse = WorkflowVersion;
+
+// @public
+export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
+
+// @public
+export interface WorkflowVersionsListOptionalParams extends coreClient.OperationOptions {
+    top?: number;
+}
+
+// @public
+export type WorkflowVersionsListResponse = WorkflowVersionListResult;
 
 // (No @packageDocumentation comment for this package)
 

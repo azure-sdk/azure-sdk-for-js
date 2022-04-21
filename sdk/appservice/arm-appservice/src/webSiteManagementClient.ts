@@ -29,7 +29,16 @@ import {
   RecommendationsImpl,
   ResourceHealthMetadataOperationsImpl,
   StaticSitesImpl,
-  WebAppsImpl
+  WebAppsImpl,
+  WorkflowsImpl,
+  WorkflowRunsImpl,
+  WorkflowRunActionsImpl,
+  WorkflowRunActionRepetitionsImpl,
+  WorkflowRunActionRepetitionsRequestHistoriesImpl,
+  WorkflowRunActionScopeRepetitionsImpl,
+  WorkflowTriggersImpl,
+  WorkflowTriggerHistoriesImpl,
+  WorkflowVersionsImpl
 } from "./operations";
 import {
   AppServiceCertificateOrders,
@@ -51,7 +60,16 @@ import {
   Recommendations,
   ResourceHealthMetadataOperations,
   StaticSites,
-  WebApps
+  WebApps,
+  Workflows,
+  WorkflowRuns,
+  WorkflowRunActions,
+  WorkflowRunActionRepetitions,
+  WorkflowRunActionRepetitionsRequestHistories,
+  WorkflowRunActionScopeRepetitions,
+  WorkflowTriggers,
+  WorkflowTriggerHistories,
+  WorkflowVersions
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -120,17 +138,20 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
+  name: string;
 
   /**
    * Initializes a new instance of the WebSiteManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId Your Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000).
+   * @param name Site name.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
+    name: string,
     options?: WebSiteManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
@@ -138,6 +159,9 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
+    }
+    if (name === undefined) {
+      throw new Error("'name' cannot be null");
     }
 
     // Initializing default values for options
@@ -149,7 +173,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/12.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/13.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -164,16 +188,16 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.subscriptionId = subscriptionId;
+    this.name = name;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-03-01";
+    this.apiVersion = options.apiVersion || "2022-03-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -202,6 +226,21 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
     );
     this.staticSites = new StaticSitesImpl(this);
     this.webApps = new WebAppsImpl(this);
+    this.workflows = new WorkflowsImpl(this);
+    this.workflowRuns = new WorkflowRunsImpl(this);
+    this.workflowRunActions = new WorkflowRunActionsImpl(this);
+    this.workflowRunActionRepetitions = new WorkflowRunActionRepetitionsImpl(
+      this
+    );
+    this.workflowRunActionRepetitionsRequestHistories = new WorkflowRunActionRepetitionsRequestHistoriesImpl(
+      this
+    );
+    this.workflowRunActionScopeRepetitions = new WorkflowRunActionScopeRepetitionsImpl(
+      this
+    );
+    this.workflowTriggers = new WorkflowTriggersImpl(this);
+    this.workflowTriggerHistories = new WorkflowTriggerHistoriesImpl(this);
+    this.workflowVersions = new WorkflowVersionsImpl(this);
   }
 
   /**
@@ -838,6 +877,15 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   resourceHealthMetadataOperations: ResourceHealthMetadataOperations;
   staticSites: StaticSites;
   webApps: WebApps;
+  workflows: Workflows;
+  workflowRuns: WorkflowRuns;
+  workflowRunActions: WorkflowRunActions;
+  workflowRunActionRepetitions: WorkflowRunActionRepetitions;
+  workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
+  workflowRunActionScopeRepetitions: WorkflowRunActionScopeRepetitions;
+  workflowTriggers: WorkflowTriggers;
+  workflowTriggerHistories: WorkflowTriggerHistories;
+  workflowVersions: WorkflowVersions;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
