@@ -1,15 +1,47 @@
 # Release History
+    
+## 18.0.0 (2022-04-22)
+    
+**Features**
 
-## 17.3.2 (Unreleased)
+  - Added operation CommunityGalleryImages.list
+  - Added operation CommunityGalleryImageVersions.list
+  - Added Interface CommunityGalleryImageList
+  - Added Interface CommunityGalleryImagesListNextOptionalParams
+  - Added Interface CommunityGalleryImagesListOptionalParams
+  - Added Interface CommunityGalleryImageVersionList
+  - Added Interface CommunityGalleryImageVersionsListNextOptionalParams
+  - Added Interface CommunityGalleryImageVersionsListOptionalParams
+  - Added Interface SharedGalleryDiskImage
+  - Added Interface SharedGalleryImageVersionStorageProfile
+  - Added Type Alias CommunityGalleryImagesListNextResponse
+  - Added Type Alias CommunityGalleryImagesListResponse
+  - Added Type Alias CommunityGalleryImageVersionsListNextResponse
+  - Added Type Alias CommunityGalleryImageVersionsListResponse
+  - Added Type Alias GalleryProvisioningState
+  - Added Type Alias SharedGalleryDataDiskImage
+  - Added Type Alias SharedGalleryHostCaching
+  - Added Type Alias SharedGalleryOSDiskImage
+  - Type Alias CommunityGalleryImage has a new parameter architecture
+  - Type Alias CommunityGalleryImage has a new parameter privacyStatementUri
+  - Type Alias CommunityGalleryImage has a new parameter eula
+  - Type Alias CommunityGalleryImageVersion has a new parameter excludeFromLatest
+  - Type Alias CommunityGalleryImageVersion has a new parameter storageProfile
+  - Type Alias SharedGalleryImage has a new parameter architecture
+  - Type Alias SharedGalleryImageVersion has a new parameter excludeFromLatest
+  - Type Alias SharedGalleryImageVersion has a new parameter storageProfile
+  - Added Enum KnownGalleryProvisioningState
+  - Added Enum KnownSharedGalleryHostCaching
+  - Enum KnownGallerySharingPermissionTypes has a new value Community
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownGalleryApplicationVersionPropertiesProvisioningState
+  - Removed Enum KnownGalleryImagePropertiesProvisioningState
+  - Removed Enum KnownGalleryImageVersionPropertiesProvisioningState
+  - Removed Enum KnownGalleryPropertiesProvisioningState
+  - Enum KnownSharingProfileGroupTypes no longer has value Community
+    
 ## 17.3.1 (2022-04-06)
 
 **features**
