@@ -170,12 +170,10 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       { resourceGroupName, applicationDefinitionName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -259,12 +257,10 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       { resourceGroupName, applicationDefinitionName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -376,12 +372,10 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       { resourceGroupName, applicationDefinitionName, options },
       deleteByIdOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -465,12 +459,10 @@ export class ApplicationDefinitionsImpl implements ApplicationDefinitions {
       { resourceGroupName, applicationDefinitionName, parameters, options },
       createOrUpdateByIdOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
