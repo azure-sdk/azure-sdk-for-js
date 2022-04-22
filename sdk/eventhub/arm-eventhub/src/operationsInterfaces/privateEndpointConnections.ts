@@ -23,8 +23,8 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * Gets the available PrivateEndpointConnections within a namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   list(
@@ -34,8 +34,8 @@ export interface PrivateEndpointConnections {
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Creates or updates PrivateEndpointConnections of service namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param parameters Parameters supplied to update Status of PrivateEndPoint Connection to namespace
    *                   resource.
@@ -51,8 +51,8 @@ export interface PrivateEndpointConnections {
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
    */
@@ -65,8 +65,8 @@ export interface PrivateEndpointConnections {
   /**
    * Deletes an existing namespace. This operation also removes all associated resources under the
    * namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
    */
@@ -78,8 +78,8 @@ export interface PrivateEndpointConnections {
   ): Promise<void>;
   /**
    * Gets a description for the specified Private Endpoint Connection name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
    */
