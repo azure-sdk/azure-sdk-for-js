@@ -3641,6 +3641,28 @@ export const PrivateLinkConnectionApprovalRequest: coreClient.CompositeMapper = 
           name: "Composite",
           className: "PrivateLinkConnectionState"
         }
+      },
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
