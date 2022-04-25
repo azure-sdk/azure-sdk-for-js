@@ -646,6 +646,21 @@ packages:
       - encoding
     dev: false
 
+  /@azure/arm-compute/17.3.1:
+    resolution: {integrity: sha512-Yk2griZ/NiWzYCd5X6jS9dmKckp2A9f4LO57v8uQalqJNhgAZtSK8IvIYZEDQdPSinF3a1VHD4M5sfGSpl9hMw==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.5.0
+      '@azure/core-lro': 2.2.4
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.8.0
+      tslib: 2.3.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-msi/2.0.0:
     resolution: {integrity: sha512-yBprEoMQRNLyHtR/RuJh8ehQCcF6rO5049Pfped79uRd/Y8EW+pNpbW0EjqWC5lVllC1VG4B89aC5PwE3XeISA==}
     engines: {node: '>=12.0.0'}
@@ -10004,28 +10019,27 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-U8bi5v2TKt1zbWZ/XqVC6fHPxw3m7I4trTo0ZuMCIO7K4Q3Vo7eIYIuAUIIkQFCQ8t0FP1hhatDKyhXJpgGHHg==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-CkJMDR3d+f00GcPgkTOQG1FbkqKiPDJoPakHKYohtZRQoPHP98UIcpTmJT6MG4KZm6dCrywUQQG66cL/QfKTxg==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11143,11 +11157,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-0szUbCv+bLGGa4eT9OCm+JTO5apFPl2kooGKOYe0t7kq2KMrf8TNV8p1GDZjbBpkctXm1hLEgxku2cMNCyWvRw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-l+Hc4YSks1Ql9Ww9NWcpdTQYp+IEsUmTYGzbCVy+bm8TeF9i+TMDNg01ratepixXNhPBSIKGN598+K0sx+nzFg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-compute': 17.3.1
       '@azure/arm-msi': 2.0.0
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
@@ -15021,7 +15036,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-/Dpf2haY7btQZGQuvHBOvp+FV73jJdRtvEb9Iq2FlChhxnlxi3rnU+c5d3RiTER/V7CN2eTqZTmGqU81I5hofA==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-4fU57xg4ogr10JRjNfFZSQHD/efBKZZGYEsX6yLNQLr7d+v8DeUkBR6wL01Eu2X4BVVSWkhB+Hg+cgnbhlxQfg==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -15468,7 +15483,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-eYZc1OhjpW+iMs7ckvpoPSXLSq0Z4otKFuEFl8wcsvlTyeqq/bjRElOHVmNwl4dtRw1fNy4DGQUdoH5aXsT17w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-qEzFrCUOGxmgQ19d6cFJDtwdEhlb6Dn9yYLO5yrMg8KYyH6hLQa5JaxVbgvfK6ZFneTaYVaLnEMiZzmzXMgZVg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -15989,7 +16004,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-Fe2F+/VXo+2tFHmXPDJLFMmhQOYnX5wSqu+TG6Msek9ViI1x/cL8DhW3LcMwUvw5ohysFX8QsTfd9OPKO1msaQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-rWiPsZxSnuYGdFux77mxyZBjJ1I9LgMWvb+x04sDyizzAp4495+V81pN9O+9btqu1hr72zKv/hNseMEpUEf31A==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
