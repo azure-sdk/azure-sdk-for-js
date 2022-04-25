@@ -1973,6 +1973,12 @@ export const KeyWrapMetadata: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      algorithm: {
+        serializedName: "algorithm",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2090,6 +2096,13 @@ export const SqlContainerResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ConflictResolutionPolicy"
+        }
+      },
+      clientEncryptionPolicy: {
+        serializedName: "clientEncryptionPolicy",
+        type: {
+          name: "Composite",
+          className: "ClientEncryptionPolicy"
         }
       },
       analyticalStorageTtl: {
@@ -2402,6 +2415,234 @@ export const ConflictResolutionPolicy: coreClient.CompositeMapper = {
         serializedName: "conflictResolutionProcedure",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClientEncryptionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClientEncryptionPolicy",
+    modelProperties: {
+      includedPaths: {
+        serializedName: "includedPaths",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientEncryptionIncludedPath"
+            }
+          }
+        }
+      },
+      policyFormatVersion: {
+        defaultValue: 1,
+        serializedName: "policyFormatVersion",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClientEncryptionIncludedPath: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClientEncryptionIncludedPath",
+    modelProperties: {
+      path: {
+        serializedName: "path",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientEncryptionKeyId: {
+        serializedName: "clientEncryptionKeyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      encryptionType: {
+        serializedName: "encryptionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      encryptionAlgorithm: {
+        serializedName: "encryptionAlgorithm",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MergeParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MergeParameters",
+    modelProperties: {
+      isDryRun: {
+        serializedName: "isDryRun",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const PhysicalPartitionStorageInfoCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhysicalPartitionStorageInfoCollection",
+    modelProperties: {
+      physicalPartitionStorageInfoCollection: {
+        serializedName: "physicalPartitionStorageInfoCollection",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhysicalPartitionStorageInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PhysicalPartitionStorageInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhysicalPartitionStorageInfo",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      storageInKB: {
+        serializedName: "storageInKB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RetrieveThroughputPropertiesResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RetrieveThroughputPropertiesResource",
+    modelProperties: {
+      physicalPartitionIds: {
+        serializedName: "physicalPartitionIds",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhysicalPartitionId"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PhysicalPartitionId: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhysicalPartitionId",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RedistributeThroughputPropertiesResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RedistributeThroughputPropertiesResource",
+    modelProperties: {
+      throughputPolicy: {
+        serializedName: "throughputPolicy",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetPhysicalPartitionThroughputInfo: {
+        serializedName: "targetPhysicalPartitionThroughputInfo",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhysicalPartitionThroughputInfoResource"
+            }
+          }
+        }
+      },
+      sourcePhysicalPartitionThroughputInfo: {
+        serializedName: "sourcePhysicalPartitionThroughputInfo",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PhysicalPartitionThroughputInfoResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PhysicalPartitionThroughputInfoResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhysicalPartitionThroughputInfoResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      throughput: {
+        serializedName: "throughput",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3206,6 +3447,20 @@ export const DataTransferJobProperties: coreClient.CompositeMapper = {
       },
       percentageComplete: {
         serializedName: "percentageComplete",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      processedCount: {
+        serializedName: "processedCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalCount: {
+        serializedName: "totalCount",
         readOnly: true,
         type: {
           name: "Number"
@@ -4610,6 +4865,12 @@ export const RestorableDatabaseAccountGetResult: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
+      oldestRestorableTime: {
+        serializedName: "properties.oldestRestorableTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       deletionTime: {
         serializedName: "properties.deletionTime",
         type: {
@@ -5682,6 +5943,21 @@ export const PeriodicModeProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const ContinuousModeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContinuousModeProperties",
+    modelProperties: {
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5814,7 +6090,14 @@ export const ContinuousModeBackupPolicy: coreClient.CompositeMapper = {
     uberParent: "BackupPolicy",
     polymorphicDiscriminator: BackupPolicy.type.polymorphicDiscriminator,
     modelProperties: {
-      ...BackupPolicy.type.modelProperties
+      ...BackupPolicy.type.modelProperties,
+      continuousModeProperties: {
+        serializedName: "continuousModeProperties",
+        type: {
+          name: "Composite",
+          className: "ContinuousModeProperties"
+        }
+      }
     }
   }
 };
@@ -6545,6 +6828,40 @@ export const SqlContainerCreateUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CreateUpdateOptions"
+        }
+      }
+    }
+  }
+};
+
+export const RetrieveThroughputParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RetrieveThroughputParameters",
+    modelProperties: {
+      ...ARMResourceProperties.type.modelProperties,
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RetrieveThroughputPropertiesResource"
+        }
+      }
+    }
+  }
+};
+
+export const RedistributeThroughputParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RedistributeThroughputParameters",
+    modelProperties: {
+      ...ARMResourceProperties.type.modelProperties,
+      resource: {
+        serializedName: "properties.resource",
+        type: {
+          name: "Composite",
+          className: "RedistributeThroughputPropertiesResource"
         }
       }
     }
@@ -7623,6 +7940,20 @@ export const DataTransferJobGetResults: coreClient.CompositeMapper = {
       },
       percentageComplete: {
         serializedName: "properties.percentageComplete",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      processedCount: {
+        serializedName: "properties.processedCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalCount: {
+        serializedName: "properties.totalCount",
         readOnly: true,
         type: {
           name: "Number"
