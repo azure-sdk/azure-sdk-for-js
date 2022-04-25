@@ -1,0 +1,24 @@
+import {
+  QueryBody,
+  QueryExecuteOptionalParams,
+  QueryExecuteResponse
+} from "../models";
+
+/** Interface representing a Query. */
+export interface Query {
+  /**
+   * Executes an Analytics query for data.
+   * [Here](https://dev.loganalytics.io/documentation/Using-the-API) is an example for using POST with an
+   * Analytics query.
+   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
+   *                    portal.
+   * @param body The Analytics query. Learn more about the [Analytics query
+   *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
+   * @param options The options parameters.
+   */
+  execute(
+    workspaceId: string,
+    body: QueryBody,
+    options?: QueryExecuteOptionalParams
+  ): Promise<QueryExecuteResponse>;
+}
