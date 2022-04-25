@@ -10897,28 +10897,27 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-koQB0eiTj4i4mpQQo+oM4b7D4L/dLlBH5MVN4B+P6W+q+aZb2gJXnUtqsisvl+hqMHUP6hPxKN9MyuhACUZTng==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-seh2WpPJ8BoEP/3UtSi8DrBkSDW5k41eLs8d/Qxed25F/AmcwMZEP9fyDHxbFE0n8YhE3tjtS3EmGYwZy83pHw==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11393,28 +11392,27 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-aKiMEyhgNzp2uO6X9Axy3v8+I94B2o5DAa1v3+HWsDc8A/5XbBs3Jned7WOm/4ngqlziQA4vFywQ9QeEvtzQFQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-u5K/78lQo8Mea0XUlUL+GETL0pWC64zJ2Rj0ZyVpyPC5w/TC4FWMnVOqkrXDadQV7iBl3xXHx6Y9ueTztz3VFA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11476,28 +11474,27 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-7KM4vQCCbyWcab2W8c20NoCTeCgCyUoFok1I1SHyiCbizm+tH6K46AD0tYHJM/kxmqudivJzxM247ESyo4odTg==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-KLDGpZVb12CRM+s+KKScSssY0Y0P2NxJb1v/4IXGOtOBahYpbmUgqvphUOB3DPhNH52LyQ/jqoJeGiV1Ohkx2w==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11612,28 +11609,27 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-Ae7b+w5w8IF29B7dfC1xaVlwO+1CLRSI1agwbPv2hBu/lchiHJuOmYKPS8/6myIM2MZltBqjLicn/chIzHXRgQ==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-ESNBiXG4ME4FyO7omVHkss9ZQQ0Xs1idGQj7+ROOsAcHZY9ZDQqqeDGBzlW7j3luhZU7kq7lTDw/x6iHkuDAIQ==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -12296,28 +12292,27 @@ packages:
     dev: false
 
   file:projects/arm-policy.tgz:
-    resolution: {integrity: sha512-iSUVJXAlWs5sKsoQ4uu0TcF3D9AjFq8Kf3m6SCxefLvh+j3wWPJ6vLcGE8rXgVoi5Pyl+pgJZ//n4YfNS5K4/w==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-EG0S5PlxbR8ocu9bOg8uK7reHAGpLft+pomreXRrKEK8UG8OKmKUF7oYZ90M7VwND7sYhyyfglAvWpYazsM6Rw==, tarball: file:projects/arm-policy.tgz}
     name: '@rush-temp/arm-policy'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -12868,56 +12863,54 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-ajIKIo1wNiuaRAE2pzPY8FkB6TfD2oQQyj5Lso9u3ccmqoJiFmIF4xEbOIYQ32rkBuAzWiVLfGoWgLNSVzHASQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-M0QFJRWxjf9yZbEnC2khio6l/l7Yn2S9AlmzQwzguJESYpUoyV5TXOpsKqcQ8HU5qbE0oBpLXqYX/f82GZoTGQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-epl4txrifrImepCL/xH7kk1Xo2X10yGZJOFBm0C6gRiuF7smFfbqqUQm+7aEbh3QC8f1FM6Wb97zESnQRwzqAA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-aLyB9+Cme0GYjVkv6MUgwJHkgJCujzuu+fZZnUE/0On3Ac73AizM0R9zkL8nfVPzzGJBh00UaGZPR5B9NEFWxg==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13554,28 +13547,27 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-nCCIxGrlUhe08M2vSmRUolW0g+aoL8z9UHPnVCbpCUm9/PT2rxbS3zkOC8uy3DZm6wqNXpMTvM8PET33BxH0UQ==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-rmVk8IeXhRp7wolZMEv5+Le3zR+eNVJru/hrRrFB45tJ+trrc9F3xiDzM/K2U4VL8DmqJaI+panvcv53ZHfoZA==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -15021,7 +15013,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-/Dpf2haY7btQZGQuvHBOvp+FV73jJdRtvEb9Iq2FlChhxnlxi3rnU+c5d3RiTER/V7CN2eTqZTmGqU81I5hofA==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-4fU57xg4ogr10JRjNfFZSQHD/efBKZZGYEsX6yLNQLr7d+v8DeUkBR6wL01Eu2X4BVVSWkhB+Hg+cgnbhlxQfg==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -15468,7 +15460,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-eYZc1OhjpW+iMs7ckvpoPSXLSq0Z4otKFuEFl8wcsvlTyeqq/bjRElOHVmNwl4dtRw1fNy4DGQUdoH5aXsT17w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-qEzFrCUOGxmgQ19d6cFJDtwdEhlb6Dn9yYLO5yrMg8KYyH6hLQa5JaxVbgvfK6ZFneTaYVaLnEMiZzmzXMgZVg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -15989,7 +15981,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-Fe2F+/VXo+2tFHmXPDJLFMmhQOYnX5wSqu+TG6Msek9ViI1x/cL8DhW3LcMwUvw5ohysFX8QsTfd9OPKO1msaQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-rWiPsZxSnuYGdFux77mxyZBjJ1I9LgMWvb+x04sDyizzAp4495+V81pN9O+9btqu1hr72zKv/hNseMEpUEf31A==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
