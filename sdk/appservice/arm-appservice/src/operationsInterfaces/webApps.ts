@@ -225,6 +225,10 @@ import {
   WebAppsCreateMSDeployOperationResponse,
   WebAppsGetMSDeployLogOptionalParams,
   WebAppsGetMSDeployLogResponse,
+  WebAppsGetOneDeployStatusOptionalParams,
+  WebAppsGetOneDeployStatusResponse,
+  WebAppsCreateOneDeployOperationOptionalParams,
+  WebAppsCreateOneDeployOperationResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
   WebAppsGetFunctionOptionalParams,
@@ -411,6 +415,8 @@ import {
   WebAppsUpdateAuthSettingsSlotResponse,
   WebAppsGetAuthSettingsSlotOptionalParams,
   WebAppsGetAuthSettingsSlotResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotResponse,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
@@ -2399,6 +2405,29 @@ export interface WebApps {
     options?: WebAppsGetMSDeployLogOptionalParams
   ): Promise<WebAppsGetMSDeployLogResponse>;
   /**
+   * Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the
+   * site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  getOneDeployStatus(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetOneDeployStatusOptionalParams
+  ): Promise<WebAppsGetOneDeployStatusResponse>;
+  /**
+   * Description for Invoke the OneDeploy publish web app extension.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  createOneDeployOperation(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsCreateOneDeployOperationOptionalParams
+  ): Promise<WebAppsCreateOneDeployOperationResponse>;
+  /**
    * Description for Fetch a short lived token that can be exchanged for a master key.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -4006,6 +4035,20 @@ export interface WebApps {
     slot: string,
     options?: WebAppsGetAuthSettingsSlotOptionalParams
   ): Promise<WebAppsGetAuthSettingsSlotResponse>;
+  /**
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
+   *             for the production slot.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecretsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
   /**
    * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
