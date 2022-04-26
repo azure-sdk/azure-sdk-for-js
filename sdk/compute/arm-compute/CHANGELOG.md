@@ -1,15 +1,11 @@
 # Release History
+    
+## 17.4.0 (2022-04-26)
+    
+**Features**
 
-## 17.3.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type Alias DiskRestorePoint has a new parameter securityProfile
+    
 ## 17.3.1 (2022-04-06)
 
 **features**

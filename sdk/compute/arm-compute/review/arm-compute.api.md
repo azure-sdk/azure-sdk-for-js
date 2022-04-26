@@ -1766,6 +1766,7 @@ export type DiskRestorePoint = ProxyOnlyResource & {
     completionPercent?: number;
     readonly replicationState?: string;
     readonly sourceResourceLocation?: string;
+    securityProfile?: DiskSecurityProfile;
 };
 
 // @public
