@@ -217,12 +217,10 @@ export class TableResourcesImpl implements TableResources {
       },
       createUpdateTableOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -307,12 +305,10 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       deleteTableOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -428,12 +424,10 @@ export class TableResourcesImpl implements TableResources {
       },
       updateTableThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -524,12 +518,10 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToAutoscaleOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -616,12 +608,10 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToManualThroughputOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -712,13 +702,11 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, location, options },
       retrieveContinuousBackupInformationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
