@@ -3129,7 +3129,7 @@ export interface GalleryIdentifier {
 
 /** Profile for gallery sharing to subscription or tenant */
 export interface SharingProfile {
-  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** */
+  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
   permissions?: GallerySharingPermissionTypes;
   /**
    * A list of sharing profile groups.
@@ -3142,7 +3142,7 @@ export interface SharingProfile {
 
 /** Group of the gallery sharing profile */
 export interface SharingProfileGroup {
-  /** This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** <br><br> **Community** */
+  /** This property allows you to specify the type of sharing group. <br><br> Possible values are: <br><br> **Subscriptions** <br><br> **AADTenants** */
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
@@ -3412,6 +3412,14 @@ export interface UserArtifactManage {
   update?: string;
 }
 
+/** Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set. */
+export interface UserArtifactSettings {
+  /** Optional. The name to assign the downloaded package file on the VM. This is limited to 4096 characters. If not specified, the package file will be named the same as the Gallery Application name. */
+  packageFileName?: string;
+  /** Optional. The name to assign the downloaded config file on the VM. This is limited to 4096 characters. If not specified, the config file will be named the Gallery Application name appended with "_config". */
+  configFileName?: string;
+}
+
 /** The List Galleries operation response. */
 export interface GalleryList {
   /** A list of galleries. */
@@ -3498,6 +3506,25 @@ export interface SharedGalleryImageVersionList {
   nextLink?: string;
 }
 
+/** This is the storage profile of a Gallery Image Version. */
+export interface SharedGalleryImageVersionStorageProfile {
+  /** This is the OS disk image. */
+  osDiskImage?: SharedGalleryOSDiskImage;
+  /** A list of data disk images. */
+  dataDiskImages?: SharedGalleryDataDiskImage[];
+}
+
+/** This is the disk image base class. */
+export interface SharedGalleryDiskImage {
+  /**
+   * This property indicates the size of the VHD to be created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskSizeGB?: number;
+  /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
+  hostCaching?: SharedGalleryHostCaching;
+}
+
 /** Base information about the community gallery resource in pir. */
 export interface PirCommunityGalleryResource {
   /**
@@ -3517,6 +3544,22 @@ export interface PirCommunityGalleryResource {
   readonly type?: string;
   /** The unique id of this community gallery. */
   uniqueId?: string;
+}
+
+/** The List Community Gallery Images operation response. */
+export interface CommunityGalleryImageList {
+  /** A list of community gallery images. */
+  value: CommunityGalleryImage[];
+  /** The uri to fetch the next page of community gallery images. Call ListNext() with this to fetch the next page of community gallery images. */
+  nextLink?: string;
+}
+
+/** The List Community Gallery Image versions operation response. */
+export interface CommunityGalleryImageVersionList {
+  /** A list of community gallery image versions. */
+  value: CommunityGalleryImageVersion[];
+  /** The uri to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions. */
+  nextLink?: string;
 }
 
 export interface RoleInstance {
@@ -4099,13 +4142,13 @@ export interface DiskRestorePointReplicationStatus {
 
 /** Information of community gallery if current gallery is shared to community */
 export interface CommunityGalleryInfo {
-  /** Community gallery publisher uri */
+  /** The link to the publisher website. Visible to all users. */
   publisherUri?: string;
-  /** Community gallery publisher contact email */
+  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
   publisherContact?: string;
-  /** Community gallery publisher eula */
+  /** End-user license agreement for community gallery image. */
   eula?: string;
-  /** Community gallery public name prefix */
+  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
   publicNamePrefix?: string;
   /**
    * Contains info about whether community gallery sharing is enabled.
@@ -5055,7 +5098,7 @@ export type Gallery = Resource & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
   /** Contains information about the soft deletion policy of the gallery. */
@@ -5097,10 +5140,10 @@ export type GalleryImage = Resource & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryImagePropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 };
 
@@ -5112,7 +5155,7 @@ export type GalleryImageVersion = Resource & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
   /**
@@ -5146,7 +5189,7 @@ export type GalleryApplicationVersion = Resource & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5797,7 +5840,7 @@ export type GalleryUpdate = UpdateResourceDefinition & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
   /** Contains information about the soft deletion policy of the gallery. */
@@ -5839,10 +5882,10 @@ export type GalleryImageUpdate = UpdateResourceDefinition & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryImagePropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
+  /** CPU architecture supported by an OS disk. */
   architecture?: Architecture;
 };
 
@@ -5854,7 +5897,7 @@ export type GalleryImageVersionUpdate = UpdateResourceDefinition & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
   /**
@@ -5888,7 +5931,7 @@ export type GalleryApplicationVersionUpdate = UpdateResourceDefinition & {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
+  readonly provisioningState?: GalleryProvisioningState;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5904,6 +5947,10 @@ export type GalleryApplicationVersionPublishingProfile = GalleryArtifactPublishi
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSource;
   manageActions?: UserArtifactManage;
+  /** Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set. */
+  settings?: UserArtifactSettings;
+  /** Optional. Additional settings to pass to the vm-application-manager extension. For advanced use only. */
+  advancedSettings?: { [propertyName: string]: string };
   /** Optional. Whether or not this application reports health. */
   enableHealthCheck?: boolean;
 };
@@ -5935,6 +5982,15 @@ export type PirSharedGalleryResource = PirResource & {
   uniqueId?: string;
 };
 
+/** This is the OS disk image. */
+export type SharedGalleryOSDiskImage = SharedGalleryDiskImage & {};
+
+/** This is the data disk image. */
+export type SharedGalleryDataDiskImage = SharedGalleryDiskImage & {
+  /** This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine. */
+  lun: number;
+};
+
 /** Specifies information about the Community Gallery that you want to create or update. */
 export type CommunityGallery = PirCommunityGalleryResource & {};
 
@@ -5958,6 +6014,12 @@ export type CommunityGalleryImage = PirCommunityGalleryResource & {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
+  /** CPU architecture supported by an OS disk. */
+  architecture?: Architecture;
+  /** Privacy statement uri for the current community gallery image. */
+  privacyStatementUri?: string;
+  /** End-user license agreement for the current community gallery image. */
+  eula?: string;
 };
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -5966,6 +6028,10 @@ export type CommunityGalleryImageVersion = PirCommunityGalleryResource & {
   publishedDate?: Date;
   /** The end of life date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
+  /** If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version. */
+  excludeFromLatest?: boolean;
+  /** Describes the storage profile of the image version. */
+  storageProfile?: SharedGalleryImageVersionStorageProfile;
 };
 
 /** Describes a Virtual Machine Image. */
@@ -6015,6 +6081,8 @@ export type SharedGalleryImage = PirSharedGalleryResource & {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
+  /** CPU architecture supported by an OS disk. */
+  architecture?: Architecture;
 };
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6023,6 +6091,10 @@ export type SharedGalleryImageVersion = PirSharedGalleryResource & {
   publishedDate?: Date;
   /** The end of life date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
+  /** If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version. */
+  excludeFromLatest?: boolean;
+  /** Describes the storage profile of the image version. */
+  storageProfile?: SharedGalleryImageVersionStorageProfile;
 };
 
 /** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
@@ -7595,8 +7667,8 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Known values of {@link GalleryPropertiesProvisioningState} that the service accepts. */
-export enum KnownGalleryPropertiesProvisioningState {
+/** Known values of {@link GalleryProvisioningState} that the service accepts. */
+export enum KnownGalleryProvisioningState {
   Creating = "Creating",
   Updating = "Updating",
   Failed = "Failed",
@@ -7606,8 +7678,8 @@ export enum KnownGalleryPropertiesProvisioningState {
 }
 
 /**
- * Defines values for GalleryPropertiesProvisioningState. \
- * {@link KnownGalleryPropertiesProvisioningState} can be used interchangeably with GalleryPropertiesProvisioningState,
+ * Defines values for GalleryProvisioningState. \
+ * {@link KnownGalleryProvisioningState} can be used interchangeably with GalleryProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -7617,12 +7689,13 @@ export enum KnownGalleryPropertiesProvisioningState {
  * **Deleting** \
  * **Migrating**
  */
-export type GalleryPropertiesProvisioningState = string;
+export type GalleryProvisioningState = string;
 
 /** Known values of {@link GallerySharingPermissionTypes} that the service accepts. */
 export enum KnownGallerySharingPermissionTypes {
   Private = "Private",
-  Groups = "Groups"
+  Groups = "Groups",
+  Community = "Community"
 }
 
 /**
@@ -7631,15 +7704,15 @@ export enum KnownGallerySharingPermissionTypes {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Private** \
- * **Groups**
+ * **Groups** \
+ * **Community**
  */
 export type GallerySharingPermissionTypes = string;
 
 /** Known values of {@link SharingProfileGroupTypes} that the service accepts. */
 export enum KnownSharingProfileGroupTypes {
   Subscriptions = "Subscriptions",
-  AADTenants = "AADTenants",
-  Community = "Community"
+  AADTenants = "AADTenants"
 }
 
 /**
@@ -7648,8 +7721,7 @@ export enum KnownSharingProfileGroupTypes {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Subscriptions** \
- * **AADTenants** \
- * **Community**
+ * **AADTenants**
  */
 export type SharingProfileGroupTypes = string;
 
@@ -7700,30 +7772,6 @@ export enum KnownGalleryExpandParams {
  * **SharingProfile\/Groups**
  */
 export type GalleryExpandParams = string;
-
-/** Known values of {@link GalleryImagePropertiesProvisioningState} that the service accepts. */
-export enum KnownGalleryImagePropertiesProvisioningState {
-  Creating = "Creating",
-  Updating = "Updating",
-  Failed = "Failed",
-  Succeeded = "Succeeded",
-  Deleting = "Deleting",
-  Migrating = "Migrating"
-}
-
-/**
- * Defines values for GalleryImagePropertiesProvisioningState. \
- * {@link KnownGalleryImagePropertiesProvisioningState} can be used interchangeably with GalleryImagePropertiesProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Failed** \
- * **Succeeded** \
- * **Deleting** \
- * **Migrating**
- */
-export type GalleryImagePropertiesProvisioningState = string;
 
 /** Known values of {@link StorageAccountType} that the service accepts. */
 export enum KnownStorageAccountType {
@@ -7793,30 +7841,6 @@ export enum KnownGalleryExtendedLocationType {
  */
 export type GalleryExtendedLocationType = string;
 
-/** Known values of {@link GalleryImageVersionPropertiesProvisioningState} that the service accepts. */
-export enum KnownGalleryImageVersionPropertiesProvisioningState {
-  Creating = "Creating",
-  Updating = "Updating",
-  Failed = "Failed",
-  Succeeded = "Succeeded",
-  Deleting = "Deleting",
-  Migrating = "Migrating"
-}
-
-/**
- * Defines values for GalleryImageVersionPropertiesProvisioningState. \
- * {@link KnownGalleryImageVersionPropertiesProvisioningState} can be used interchangeably with GalleryImageVersionPropertiesProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Failed** \
- * **Succeeded** \
- * **Deleting** \
- * **Migrating**
- */
-export type GalleryImageVersionPropertiesProvisioningState = string;
-
 /** Known values of {@link AggregatedReplicationState} that the service accepts. */
 export enum KnownAggregatedReplicationState {
   Unknown = "Unknown",
@@ -7871,30 +7895,6 @@ export enum KnownReplicationStatusTypes {
  */
 export type ReplicationStatusTypes = string;
 
-/** Known values of {@link GalleryApplicationVersionPropertiesProvisioningState} that the service accepts. */
-export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
-  Creating = "Creating",
-  Updating = "Updating",
-  Failed = "Failed",
-  Succeeded = "Succeeded",
-  Deleting = "Deleting",
-  Migrating = "Migrating"
-}
-
-/**
- * Defines values for GalleryApplicationVersionPropertiesProvisioningState. \
- * {@link KnownGalleryApplicationVersionPropertiesProvisioningState} can be used interchangeably with GalleryApplicationVersionPropertiesProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Failed** \
- * **Succeeded** \
- * **Deleting** \
- * **Migrating**
- */
-export type GalleryApplicationVersionPropertiesProvisioningState = string;
-
 /** Known values of {@link SharingUpdateOperationTypes} that the service accepts. */
 export enum KnownSharingUpdateOperationTypes {
   Add = "Add",
@@ -7928,6 +7928,24 @@ export enum KnownSharedToValues {
  * **tenant**
  */
 export type SharedToValues = string;
+
+/** Known values of {@link SharedGalleryHostCaching} that the service accepts. */
+export enum KnownSharedGalleryHostCaching {
+  None = "None",
+  ReadOnly = "ReadOnly",
+  ReadWrite = "ReadWrite"
+}
+
+/**
+ * Defines values for SharedGalleryHostCaching. \
+ * {@link KnownSharedGalleryHostCaching} can be used interchangeably with SharedGalleryHostCaching,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ReadOnly** \
+ * **ReadWrite**
+ */
+export type SharedGalleryHostCaching = string;
 
 /** Known values of {@link CloudServiceUpgradeMode} that the service accepts. */
 export enum KnownCloudServiceUpgradeMode {
@@ -10662,11 +10680,39 @@ export interface CommunityGalleryImagesGetOptionalParams
 export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
 
 /** Optional parameters. */
+export interface CommunityGalleryImagesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
+
+/** Optional parameters. */
+export interface CommunityGalleryImagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
+
+/** Optional parameters. */
 export interface CommunityGalleryImageVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
+
+/** Optional parameters. */
+export interface CommunityGalleryImageVersionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
+
+/** Optional parameters. */
+export interface CommunityGalleryImageVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface CloudServiceRoleInstancesDeleteOptionalParams
