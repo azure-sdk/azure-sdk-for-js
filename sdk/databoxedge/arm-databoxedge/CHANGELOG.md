@@ -1,15 +1,42 @@
 # Release History
+    
+## 2.1.0 (2022-04-28)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group DeviceCapacityCheck
+  - Added operation group DeviceCapacityInfoOperations
+  - Added Interface ClusterCapacityViewData
+  - Added Interface ClusterGpuCapacity
+  - Added Interface ClusterMemoryCapacity
+  - Added Interface ClusterStorageViewData
+  - Added Interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
+  - Added Interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  - Added Interface DeviceCapacityRequestInfo
+  - Added Interface HostCapacity
+  - Added Interface NumaNodeData
+  - Added Interface VmMemory
+  - Added Interface VmPlacementRequestResult
+  - Added Type Alias ClusterWitnessType
+  - Added Type Alias DeviceCapacityInfo
+  - Added Type Alias DeviceCapacityInfoGetDeviceCapacityInfoResponse
+  - Class DataBoxEdgeManagementClient has a new parameter deviceCapacityCheck
+  - Class DataBoxEdgeManagementClient has a new parameter deviceCapacityInfoOperations
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter systemData
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter clusterWitnessType
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter fileShareWitnessLocation
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter fileShareWitnessUsername
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter cloudWitnessStorageAccountName
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter cloudWitnessContainerName
+  - Type Alias DataBoxEdgeDeviceExtendedInfo has a new parameter cloudWitnessStorageEndpoint
+  - Type Alias Order has a new parameter kind
+  - Type Alias Order has a new parameter orderId
+  - Added Enum KnownClusterWitnessType
+  - Enum KnownSkuName has a new value EdgeMRTCP
+  - Enum KnownSkuName has a new value EP2128GPU1Mx1W
+  - Enum KnownSkuName has a new value EP2256GPU2Mx1
+  - Enum KnownSkuName has a new value EP264Mx1W
+    
 ## 2.0.1 (2022-04-15)
 
 **features**

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SupportPackages } from "../operationsInterfaces";
+import { DeviceCapacityCheck } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -14,16 +14,16 @@ import { DataBoxEdgeManagementClient } from "../dataBoxEdgeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  TriggerSupportPackageRequest,
-  SupportPackagesTriggerSupportPackageOptionalParams
+  DeviceCapacityRequestInfo,
+  DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
 } from "../models";
 
-/** Class containing SupportPackages operations. */
-export class SupportPackagesImpl implements SupportPackages {
+/** Class containing DeviceCapacityCheck operations. */
+export class DeviceCapacityCheckImpl implements DeviceCapacityCheck {
   private readonly client: DataBoxEdgeManagementClient;
 
   /**
-   * Initialize a new instance of the class SupportPackages class.
+   * Initialize a new instance of the class DeviceCapacityCheck class.
    * @param client Reference to the service client
    */
   constructor(client: DataBoxEdgeManagementClient) {
@@ -31,17 +31,17 @@ export class SupportPackagesImpl implements SupportPackages {
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Posts the device capacity request info to check feasibility.
    * @param resourceGroupName The resource group name.
-   * @param triggerSupportPackageRequest The trigger support package request object
+   * @param deviceName The device name.
+   * @param deviceCapacityRequestInfo The device capacity request info.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackage(
-    deviceName: string,
+  async beginCheckResourceCreationFeasibility(
     resourceGroupName: string,
-    triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    deviceName: string,
+    deviceCapacityRequestInfo: DeviceCapacityRequestInfo,
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -84,32 +84,33 @@ export class SupportPackagesImpl implements SupportPackages {
 
     const lro = new LroImpl(
       sendOperation,
-      { deviceName, resourceGroupName, triggerSupportPackageRequest, options },
-      triggerSupportPackageOperationSpec
+      { resourceGroupName, deviceName, deviceCapacityRequestInfo, options },
+      checkResourceCreationFeasibilityOperationSpec
     );
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
   }
 
   /**
-   * Triggers support package on the device
-   * @param deviceName The device name.
+   * Posts the device capacity request info to check feasibility.
    * @param resourceGroupName The resource group name.
-   * @param triggerSupportPackageRequest The trigger support package request object
+   * @param deviceName The device name.
+   * @param deviceCapacityRequestInfo The device capacity request info.
    * @param options The options parameters.
    */
-  async beginTriggerSupportPackageAndWait(
-    deviceName: string,
+  async beginCheckResourceCreationFeasibilityAndWait(
     resourceGroupName: string,
-    triggerSupportPackageRequest: TriggerSupportPackageRequest,
-    options?: SupportPackagesTriggerSupportPackageOptionalParams
+    deviceName: string,
+    deviceCapacityRequestInfo: DeviceCapacityRequestInfo,
+    options?: DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
   ): Promise<void> {
-    const poller = await this.beginTriggerSupportPackage(
-      deviceName,
+    const poller = await this.beginCheckResourceCreationFeasibility(
       resourceGroupName,
-      triggerSupportPackageRequest,
+      deviceName,
+      deviceCapacityRequestInfo,
       options
     );
     return poller.pollUntilDone();
@@ -118,9 +119,9 @@ export class SupportPackagesImpl implements SupportPackages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
+const checkResourceCreationFeasibilityOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/triggerSupportPackage",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/{deviceName}/deviceCapacityCheck",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -131,8 +132,8 @@ const triggerSupportPackageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.triggerSupportPackageRequest,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.deviceCapacityRequestInfo,
+  queryParameters: [Parameters.apiVersion, Parameters.capacityName],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
