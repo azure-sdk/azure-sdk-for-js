@@ -56,6 +56,7 @@ import {
   StaticSiteUserInvitationRequestResource as StaticSiteUserInvitationRequestResourceMapper,
   StaticSiteCustomDomainRequestPropertiesARMResource as StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
   StaticSiteResetPropertiesARMResource as StaticSiteResetPropertiesARMResourceMapper,
+  StaticSiteLinkedBackendARMResource as StaticSiteLinkedBackendARMResourceMapper,
   Site as SiteMapper,
   SitePatchResource as SitePatchResourceMapper,
   CsmSlotEntity as CsmSlotEntityMapper,
@@ -132,7 +133,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1103,6 +1104,34 @@ export const resetPropertiesEnvelope: OperationParameter = {
   mapper: StaticSiteResetPropertiesARMResourceMapper
 };
 
+export const staticSiteLinkedBackendEnvelope: OperationParameter = {
+  parameterPath: "staticSiteLinkedBackendEnvelope",
+  mapper: StaticSiteLinkedBackendARMResourceMapper
+};
+
+export const linkedBackendName: OperationURLParameter = {
+  parameterPath: "linkedBackendName",
+  mapper: {
+    serializedName: "linkedBackendName",
+    required: true,
+    xmlName: "linkedBackendName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const isCleaningAuthConfig: OperationQueryParameter = {
+  parameterPath: ["options", "isCleaningAuthConfig"],
+  mapper: {
+    serializedName: "isCleaningAuthConfig",
+    xmlName: "isCleaningAuthConfig",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const includeSlots: OperationQueryParameter = {
   parameterPath: ["options", "includeSlots"],
   mapper: {
@@ -1300,6 +1329,18 @@ export const webJobName: OperationURLParameter = {
     serializedName: "webJobName",
     required: true,
     xmlName: "webJobName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const deploymentStatusId: OperationURLParameter = {
+  parameterPath: "deploymentStatusId",
+  mapper: {
+    serializedName: "deploymentStatusId",
+    required: true,
+    xmlName: "deploymentStatusId",
     type: {
       name: "String"
     }
