@@ -376,6 +376,40 @@ export type Anomalies = Settings & {
 };
 
 // @public
+export type AnomalySecurityMLAnalyticsSettings = SecurityMLAnalyticsSetting & {
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    readonly lastModifiedUtc?: Date;
+    requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
+    tactics?: AttackTactic[];
+    techniques?: string[];
+    anomalyVersion?: string;
+    customizableObservations?: Record<string, unknown>;
+    frequency?: string;
+    settingsStatus?: SettingsStatus;
+    isDefaultSettings?: boolean;
+    anomalySettingsVersion?: number;
+    settingsDefinitionId?: string;
+};
+
+// @public
+export type AnomalyTimelineItem = EntityTimelineItem & {
+    kind: "Anomaly";
+    azureResourceId: string;
+    productName?: string;
+    description?: string;
+    displayName: string;
+    endTimeUtc: Date;
+    startTimeUtc: Date;
+    timeGenerated: Date;
+    vendor?: string;
+    intent?: string;
+    techniques?: string[];
+    reasons?: string[];
+};
+
+// @public
 export type AntispamMailDirection = string;
 
 // @public
@@ -521,7 +555,7 @@ export interface AutomationRuleTriggeringLogic {
 // @public
 export interface Availability {
     isPreview?: boolean;
-    status?: 1;
+    status?: "1";
 }
 
 // @public
@@ -1354,7 +1388,7 @@ export type Entity = Resource & {
 
 // @public
 export type EntityAnalytics = Settings & {
-    readonly isEnabled?: boolean;
+    entityProviders?: EntityProviders[];
 };
 
 // @public
@@ -1448,6 +1482,9 @@ export interface EntityMapping {
 export type EntityMappingType = string;
 
 // @public
+export type EntityProviders = string;
+
+// @public
 export interface EntityQueries {
     createOrUpdate(resourceGroupName: string, workspaceName: string, entityQueryId: string, entityQuery: CustomEntityQueryUnion, options?: EntityQueriesCreateOrUpdateOptionalParams): Promise<EntityQueriesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, entityQueryId: string, options?: EntityQueriesDeleteOptionalParams): Promise<void>;
@@ -1475,7 +1512,7 @@ export type EntityQueriesGetResponse = EntityQueryUnion;
 
 // @public
 export interface EntityQueriesListNextOptionalParams extends coreClient.OperationOptions {
-    kind?: Enum12;
+    kind?: Enum13;
 }
 
 // @public
@@ -1483,7 +1520,7 @@ export type EntityQueriesListNextResponse = EntityQueryList;
 
 // @public
 export interface EntityQueriesListOptionalParams extends coreClient.OperationOptions {
-    kind?: Enum12;
+    kind?: Enum13;
 }
 
 // @public
@@ -1588,11 +1625,11 @@ export type EntityRelationsGetRelationResponse = Relation;
 
 // @public
 export interface EntityTimelineItem {
-    kind: "Activity" | "Bookmark" | "SecurityAlert";
+    kind: "Activity" | "Bookmark" | "Anomaly" | "SecurityAlert";
 }
 
 // @public (undocumented)
-export type EntityTimelineItemUnion = EntityTimelineItem | ActivityTimelineItem | BookmarkTimelineItem | SecurityAlertTimelineItem;
+export type EntityTimelineItemUnion = EntityTimelineItem | ActivityTimelineItem | BookmarkTimelineItem | AnomalyTimelineItem | SecurityAlertTimelineItem;
 
 // @public
 export type EntityTimelineKind = string;
@@ -1618,7 +1655,7 @@ export type EntityType = string;
 export type EntityUnion = Entity | SecurityAlert | HuntingBookmark | AccountEntity | AzureResourceEntity | CloudApplicationEntity | DnsEntity | FileEntity | FileHashEntity | HostEntity | IoTDeviceEntity | IpEntity | MailboxEntity | MailClusterEntity | MailMessageEntity | MalwareEntity | ProcessEntity | RegistryKeyEntity | RegistryValueEntity | SecurityGroupEntity | SubmissionMailEntity | UrlEntity;
 
 // @public
-export type Enum12 = string;
+export type Enum13 = string;
 
 // @public
 export type EventGroupingAggregationKind = string;
@@ -1794,15 +1831,18 @@ export interface GeoLocation {
 }
 
 // @public
-export interface GetInsightsError {
+export type GetInsightsError = string;
+
+// @public
+export interface GetInsightsErrorKind {
     errorMessage: string;
-    kind: "Insight";
+    kind: GetInsightsError;
     queryId?: string;
 }
 
 // @public
 export interface GetInsightsResultsMetadata {
-    errors?: GetInsightsError[];
+    errors?: GetInsightsErrorKind[];
     totalCount: number;
 }
 
@@ -2057,7 +2097,7 @@ export interface IncidentOwnerInfo {
     assignedTo?: string;
     email?: string;
     objectId?: string;
-    readonly ownerType?: OwnerType;
+    ownerType?: OwnerType;
     userPrincipalName?: string;
 }
 
@@ -2777,6 +2817,14 @@ export enum KnownEntityMappingType {
 }
 
 // @public
+export enum KnownEntityProviders {
+    // (undocumented)
+    ActiveDirectory = "ActiveDirectory",
+    // (undocumented)
+    AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+// @public
 export enum KnownEntityQueryKind {
     // (undocumented)
     Activity = "Activity",
@@ -2795,6 +2843,7 @@ export enum KnownEntityQueryTemplateKind {
 // @public
 export enum KnownEntityTimelineKind {
     Activity = "Activity",
+    Anomaly = "Anomaly",
     Bookmark = "Bookmark",
     SecurityAlert = "SecurityAlert"
 }
@@ -2825,7 +2874,7 @@ export enum KnownEntityType {
 }
 
 // @public
-export enum KnownEnum12 {
+export enum KnownEnum13 {
     // (undocumented)
     Activity = "Activity",
     // (undocumented)
@@ -2847,6 +2896,12 @@ export enum KnownFileHashAlgorithm {
     SHA256 = "SHA256",
     SHA256AC = "SHA256AC",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownGetInsightsError {
+    // (undocumented)
+    Insight = "Insight"
 }
 
 // @public
@@ -3062,6 +3117,12 @@ export enum KnownRepoType {
 }
 
 // @public
+export enum KnownSecurityMLAnalyticsSettingsKind {
+    // (undocumented)
+    Anomaly = "Anomaly"
+}
+
+// @public
 export enum KnownSettingKind {
     // (undocumented)
     Anomalies = "Anomalies",
@@ -3071,6 +3132,12 @@ export enum KnownSettingKind {
     EyesOn = "EyesOn",
     // (undocumented)
     Ueba = "Ueba"
+}
+
+// @public
+export enum KnownSettingsStatus {
+    Flighting = "Flighting",
+    Production = "Production"
 }
 
 // @public
@@ -4409,6 +4476,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     productSettings: ProductSettings;
     // (undocumented)
+    securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
+    // (undocumented)
     sentinelOnboardingStates: SentinelOnboardingStates;
     // (undocumented)
     sourceControlOperations: SourceControlOperations;
@@ -4434,6 +4503,69 @@ export interface SecurityInsightsOptionalParams extends coreClient.ServiceClient
     apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type SecurityMLAnalyticsSetting = ResourceWithEtag & {
+    kind: SecurityMLAnalyticsSettingsKind;
+};
+
+// @public
+export interface SecurityMLAnalyticsSettings {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, settingsResourceName: string, securityMLAnalyticsSetting: SecurityMLAnalyticsSettingUnion, options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams): Promise<SecurityMLAnalyticsSettingsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, settingsResourceName: string, options?: SecurityMLAnalyticsSettingsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, settingsResourceName: string, options?: SecurityMLAnalyticsSettingsGetOptionalParams): Promise<SecurityMLAnalyticsSettingsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: SecurityMLAnalyticsSettingsListOptionalParams): PagedAsyncIterableIterator<SecurityMLAnalyticsSettingUnion>;
+}
+
+// @public
+export interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityMLAnalyticsSettingsCreateOrUpdateResponse = SecurityMLAnalyticsSettingUnion;
+
+// @public
+export interface SecurityMLAnalyticsSettingsDataSource {
+    connectorId?: string;
+    dataTypes?: string[];
+}
+
+// @public
+export interface SecurityMLAnalyticsSettingsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityMLAnalyticsSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityMLAnalyticsSettingsGetResponse = SecurityMLAnalyticsSettingUnion;
+
+// @public
+export type SecurityMLAnalyticsSettingsKind = string;
+
+// @public
+export interface SecurityMLAnalyticsSettingsList {
+    readonly nextLink?: string;
+    value: SecurityMLAnalyticsSettingUnion[];
+}
+
+// @public
+export interface SecurityMLAnalyticsSettingsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityMLAnalyticsSettingsListNextResponse = SecurityMLAnalyticsSettingsList;
+
+// @public
+export interface SecurityMLAnalyticsSettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSettingsList;
+
+// @public (undocumented)
+export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
 
 // @public
 export type SentinelOnboardingState = ResourceWithEtag & {
@@ -4491,6 +4623,9 @@ export interface SettingList {
 export type Settings = ResourceWithEtag & {
     kind: SettingKind;
 };
+
+// @public
+export type SettingsStatus = string;
 
 // @public (undocumented)
 export type SettingsUnion = Settings | Anomalies | EyesOn | EntityAnalytics | Ueba;
@@ -5147,8 +5282,12 @@ export type WatchlistItem = ResourceWithEtag & {
     updated?: Date;
     createdBy?: UserInfo;
     updatedBy?: UserInfo;
-    itemsKeyValue?: Record<string, unknown>;
-    entityMapping?: Record<string, unknown>;
+    itemsKeyValue?: {
+        [propertyName: string]: any;
+    };
+    entityMapping?: {
+        [propertyName: string]: any;
+    };
 };
 
 // @public

@@ -1567,7 +1567,7 @@ export const GetInsightsResultsMetadata: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GetInsightsError"
+              className: "GetInsightsErrorKind"
             }
           }
         }
@@ -1576,15 +1576,14 @@ export const GetInsightsResultsMetadata: coreClient.CompositeMapper = {
   }
 };
 
-export const GetInsightsError: coreClient.CompositeMapper = {
+export const GetInsightsErrorKind: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GetInsightsError",
+    className: "GetInsightsErrorKind",
     modelProperties: {
       kind: {
-        defaultValue: "Insight",
-        isConstant: true,
         serializedName: "kind",
+        required: true,
         type: {
           name: "String"
         }
@@ -1940,7 +1939,6 @@ export const IncidentOwnerInfo: coreClient.CompositeMapper = {
       },
       ownerType: {
         serializedName: "ownerType",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -2458,6 +2456,35 @@ export const SentinelOnboardingStatesList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SentinelOnboardingState"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SecurityMLAnalyticsSettingsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityMLAnalyticsSettingsList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SecurityMLAnalyticsSetting"
             }
           }
         }
@@ -4631,6 +4658,32 @@ export const DataTypeDefinitions: coreClient.CompositeMapper = {
   }
 };
 
+export const SecurityMLAnalyticsSettingsDataSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecurityMLAnalyticsSettingsDataSource",
+    modelProperties: {
+      connectorId: {
+        serializedName: "connectorId",
+        type: {
+          name: "String"
+        }
+      },
+      dataTypes: {
+        serializedName: "dataTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6075,6 +6128,100 @@ export const BookmarkTimelineItem: coreClient.CompositeMapper = {
       },
       labels: {
         serializedName: "labels",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyTimelineItem: coreClient.CompositeMapper = {
+  serializedName: "Anomaly",
+  type: {
+    name: "Composite",
+    className: "AnomalyTimelineItem",
+    uberParent: "EntityTimelineItem",
+    polymorphicDiscriminator: EntityTimelineItem.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...EntityTimelineItem.type.modelProperties,
+      azureResourceId: {
+        serializedName: "azureResourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      productName: {
+        serializedName: "productName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      endTimeUtc: {
+        serializedName: "endTimeUtc",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      startTimeUtc: {
+        serializedName: "startTimeUtc",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      timeGenerated: {
+        serializedName: "timeGenerated",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      vendor: {
+        serializedName: "vendor",
+        type: {
+          name: "String"
+        }
+      },
+      intent: {
+        serializedName: "intent",
+        type: {
+          name: "String"
+        }
+      },
+      techniques: {
+        serializedName: "techniques",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      reasons: {
+        serializedName: "reasons",
         type: {
           name: "Sequence",
           element: {
@@ -10063,6 +10210,29 @@ export const SentinelOnboardingState: coreClient.CompositeMapper = {
   }
 };
 
+export const SecurityMLAnalyticsSetting: coreClient.CompositeMapper = {
+  serializedName: "SecurityMLAnalyticsSetting",
+  type: {
+    name: "Composite",
+    className: "SecurityMLAnalyticsSetting",
+    uberParent: "Resource",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      ...ResourceWithEtag.type.modelProperties,
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Settings: coreClient.CompositeMapper = {
   serializedName: "Settings",
   type: {
@@ -14016,6 +14186,121 @@ export const ActivityCustomEntityQuery: coreClient.CompositeMapper = {
   }
 };
 
+export const AnomalySecurityMLAnalyticsSettings: coreClient.CompositeMapper = {
+  serializedName: "Anomaly",
+  type: {
+    name: "Composite",
+    className: "AnomalySecurityMLAnalyticsSettings",
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SecurityMLAnalyticsSetting.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      lastModifiedUtc: {
+        serializedName: "properties.lastModifiedUtc",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      requiredDataConnectors: {
+        serializedName: "properties.requiredDataConnectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SecurityMLAnalyticsSettingsDataSource"
+            }
+          }
+        }
+      },
+      tactics: {
+        serializedName: "properties.tactics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      techniques: {
+        serializedName: "properties.techniques",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      anomalyVersion: {
+        serializedName: "properties.anomalyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      customizableObservations: {
+        serializedName: "properties.customizableObservations",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      frequency: {
+        serializedName: "properties.frequency",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      settingsStatus: {
+        serializedName: "properties.settingsStatus",
+        type: {
+          name: "String"
+        }
+      },
+      isDefaultSettings: {
+        serializedName: "properties.isDefaultSettings",
+        type: {
+          name: "Boolean"
+        }
+      },
+      anomalySettingsVersion: {
+        serializedName: "properties.anomalySettingsVersion",
+        type: {
+          name: "Number"
+        }
+      },
+      settingsDefinitionId: {
+        serializedName: "properties.settingsDefinitionId",
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
 export const Anomalies: coreClient.CompositeMapper = {
   serializedName: "Anomalies",
   type: {
@@ -14065,11 +14350,15 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
-      isEnabled: {
-        serializedName: "properties.isEnabled",
-        readOnly: true,
+      entityProviders: {
+        serializedName: "properties.entityProviders",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -14981,6 +15270,7 @@ export let discriminators = {
   "AutomationRuleAction.RunPlaybook": AutomationRuleRunPlaybookAction,
   "EntityTimelineItem.Activity": ActivityTimelineItem,
   "EntityTimelineItem.Bookmark": BookmarkTimelineItem,
+  "EntityTimelineItem.Anomaly": AnomalyTimelineItem,
   "EntityTimelineItem.SecurityAlert": SecurityAlertTimelineItem,
   "EntityQueryItem.Insight": InsightQueryItem,
   "DataConnectorsCheckRequirements.AzureActiveDirectory": AADCheckRequirements,
@@ -15003,6 +15293,7 @@ export let discriminators = {
   "Resource.AlertRule": AlertRule,
   "Resource.EntityQuery": EntityQuery,
   "Resource.CustomEntityQuery": CustomEntityQuery,
+  "Resource.SecurityMLAnalyticsSetting": SecurityMLAnalyticsSetting,
   "Resource.Settings": Settings,
   "Resource.ThreatIntelligenceInformation": ThreatIntelligenceInformation,
   "Resource.DataConnector": DataConnector,
@@ -15035,6 +15326,7 @@ export let discriminators = {
   "Resource.Url": UrlEntity,
   "Resource.Activity": ActivityCustomEntityQuery,
   "Resource.Expansion": ExpansionEntityQuery,
+  "Resource.Anomaly": AnomalySecurityMLAnalyticsSettings,
   "Resource.Anomalies": Anomalies,
   "Resource.EyesOn": EyesOn,
   "Resource.EntityAnalytics": EntityAnalytics,
