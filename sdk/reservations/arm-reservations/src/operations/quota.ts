@@ -148,12 +148,9 @@ export class QuotaImpl implements Quota {
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
    *  Steps:
-   * 
-  1. Make the Get request to get the quota information for specific resource.
-   * 
-  2. To increase the quota, update the limit field in the response from Get request to new value.
-   * 
-  3. Submit the JSON to the quota request API to update the quota.
+   *   1. Make the Get request to get the quota information for specific resource.
+   *   2. To increase the quota, update the limit field in the response from Get request to new value.
+   *   3. Submit the JSON to the quota request API to update the quota.
    *   The Create quota request may be constructed as follows. The PUT operation can be used to update
    * the quota.
    * @param subscriptionId Azure subscription ID.
@@ -228,24 +225,19 @@ export class QuotaImpl implements Quota {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Create or update the quota (service limits) of a resource to the requested value.
    *  Steps:
-   * 
-  1. Make the Get request to get the quota information for specific resource.
-   * 
-  2. To increase the quota, update the limit field in the response from Get request to new value.
-   * 
-  3. Submit the JSON to the quota request API to update the quota.
+   *   1. Make the Get request to get the quota information for specific resource.
+   *   2. To increase the quota, update the limit field in the response from Get request to new value.
+   *   3. Submit the JSON to the quota request API to update the quota.
    *   The Create quota request may be constructed as follows. The PUT operation can be used to update
    * the quota.
    * @param subscriptionId Azure subscription ID.
@@ -277,12 +269,9 @@ export class QuotaImpl implements Quota {
 
   /**
    * Update the quota (service limits) of this resource to the requested value.
-   * 
-  • To get the quota information for specific resource, send a GET request.
-   * 
-  • To increase the quota, update the limit field from the GET response to a new value.
-   * 
-  • To update the quota value, submit the JSON response to the quota request API to update the
+   *   • To get the quota information for specific resource, send a GET request.
+   *   • To increase the quota, update the limit field from the GET response to a new value.
+   *   • To update the quota value, submit the JSON response to the quota request API to update the
    * quota.
    *   • To update the quota. use the PATCH operation.
    * @param subscriptionId Azure subscription ID.
@@ -354,23 +343,18 @@ export class QuotaImpl implements Quota {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Update the quota (service limits) of this resource to the requested value.
-   * 
-  • To get the quota information for specific resource, send a GET request.
-   * 
-  • To increase the quota, update the limit field from the GET response to a new value.
-   * 
-  • To update the quota value, submit the JSON response to the quota request API to update the
+   *   • To get the quota information for specific resource, send a GET request.
+   *   • To increase the quota, update the limit field from the GET response to a new value.
+   *   • To update the quota value, submit the JSON response to the quota request API to update the
    * quota.
    *   • To update the quota. use the PATCH operation.
    * @param subscriptionId Azure subscription ID.
