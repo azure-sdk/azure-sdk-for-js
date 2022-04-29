@@ -1690,6 +1690,11 @@
       "packageName": "@azure/arm-scvmm",
       "projectFolder": "sdk/scvmm/arm-scvmm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-automanage",
+      "projectFolder": "sdk/automanage/arm-automanage",
+      "versionPolicyName": "management"
     }
   ]
 }
