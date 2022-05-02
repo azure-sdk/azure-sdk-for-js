@@ -18,6 +18,7 @@ export * from "./reservationRecommendations";
 export * from "./reservationRecommendationDetails";
 export * from "./reservationTransactions";
 export * from "./priceSheet";
+export * from "./forecasts";
 export * from "./operations";
 export * from "./aggregatedCost";
 export * from "./eventsOperations";

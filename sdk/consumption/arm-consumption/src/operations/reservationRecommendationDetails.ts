@@ -12,6 +12,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
+  Scope,
   Term,
   LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
@@ -39,6 +40,7 @@ export class ReservationRecommendationDetailsImpl
    *              /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope
+   * @param scope1 Scope of the reservation.
    * @param region Used to select the region the recommendation should be generated for.
    * @param term Specify length of reservation recommendation term.
    * @param lookBackPeriod Filter the time period on which reservation recommendation results are based.
@@ -48,6 +50,7 @@ export class ReservationRecommendationDetailsImpl
    */
   get(
     scope: string,
+    scope1: Scope,
     region: string,
     term: Term,
     lookBackPeriod: LookBackPeriod,
@@ -55,7 +58,7 @@ export class ReservationRecommendationDetailsImpl
     options?: ReservationRecommendationDetailsGetOptionalParams
   ): Promise<ReservationRecommendationDetailsGetResponse> {
     return this.client.sendOperationRequest(
-      { scope, region, term, lookBackPeriod, product, options },
+      { scope, scope1, region, term, lookBackPeriod, product, options },
       getOperationSpec
     );
   }
@@ -78,6 +81,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.scope1,
     Parameters.region,
     Parameters.term,
     Parameters.lookBackPeriod,

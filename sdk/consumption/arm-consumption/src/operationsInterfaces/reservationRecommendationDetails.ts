@@ -7,6 +7,7 @@
  */
 
 import {
+  Scope,
   Term,
   LookBackPeriod,
   ReservationRecommendationDetailsGetOptionalParams,
@@ -23,6 +24,7 @@ export interface ReservationRecommendationDetails {
    *              /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope, and
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope
+   * @param scope1 Scope of the reservation.
    * @param region Used to select the region the recommendation should be generated for.
    * @param term Specify length of reservation recommendation term.
    * @param lookBackPeriod Filter the time period on which reservation recommendation results are based.
@@ -32,6 +34,7 @@ export interface ReservationRecommendationDetails {
    */
   get(
     scope: string,
+    scope1: Scope,
     region: string,
     term: Term,
     lookBackPeriod: LookBackPeriod,

@@ -21,6 +21,7 @@ import {
   ReservationRecommendationDetailsImpl,
   ReservationTransactionsImpl,
   PriceSheetImpl,
+  ForecastsImpl,
   OperationsImpl,
   AggregatedCostImpl,
   EventsOperationsImpl,
@@ -40,6 +41,7 @@ import {
   ReservationRecommendationDetails,
   ReservationTransactions,
   PriceSheet,
+  Forecasts,
   Operations,
   AggregatedCost,
   EventsOperations,
@@ -80,7 +82,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-consumption/9.0.2`;
+    const packageDetails = `azsdk-js-arm-consumption/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -95,8 +97,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -104,7 +105,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2021-05-01";
     this.usageDetails = new UsageDetailsImpl(this);
     this.marketplaces = new MarketplacesImpl(this);
     this.budgets = new BudgetsImpl(this);
@@ -119,6 +120,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     );
     this.reservationTransactions = new ReservationTransactionsImpl(this);
     this.priceSheet = new PriceSheetImpl(this);
+    this.forecasts = new ForecastsImpl(this);
     this.operations = new OperationsImpl(this);
     this.aggregatedCost = new AggregatedCostImpl(this);
     this.eventsOperations = new EventsOperationsImpl(this);
@@ -138,6 +140,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
   reservationRecommendationDetails: ReservationRecommendationDetails;
   reservationTransactions: ReservationTransactions;
   priceSheet: PriceSheet;
+  forecasts: Forecasts;
   operations: Operations;
   aggregatedCost: AggregatedCost;
   eventsOperations: EventsOperations;

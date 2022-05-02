@@ -96,7 +96,7 @@ export const top: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01",
+    defaultValue: "2021-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -264,6 +264,17 @@ export const filter1: OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
     serializedName: "$filter",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: "scope1",
+  mapper: {
+    serializedName: "scope",
     required: true,
     type: {
       name: "String"
