@@ -10276,28 +10276,27 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-KYAF7nM4Jg3NRQFKe8+g4qIT3ai7ltTLdgY/K8jPVQXJcLuRKM3jRnxR8e8dJywVA0MraKWiKkUtggF8jNUoZA==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-xt/1SjsT2CIDzxfmcmO2WnbgXH70/zG3iqB/aN9r31uhW75GEeC4B7x7U/h79V8lZ1BTBs/UnoAOQgn52GCfgA==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      '@microsoft/api-extractor': 7.23.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
