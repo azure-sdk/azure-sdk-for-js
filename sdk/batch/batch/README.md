@@ -1,111 +1,98 @@
-## Azure BatchServiceClient SDK for JavaScript
+# Azure BatchService client library for JavaScript
 
-This package contains an isomorphic SDK for BatchServiceClient.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure BatchService client.
+
+A client for issuing REST requests to the Azure Batch service.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/batch) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/batch?view=azure-node-preview) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+
+## Getting started
 
 ### Currently supported environments
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
-- Latest versions of Safari, Chrome, Edge, and Firefox.
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
-See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
+### Prerequisites
 
-### How to Install
+- An [Azure subscription][azure_sub].
+
+### Install the `@azure/batch` package
+
+Install the Azure BatchService client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/batch
 ```
 
-### How to use
+### Create and authenticate a `BatchServiceClient`
 
-#### nodejs - Authentication, client creation and list application as an example written in TypeScript.
+To create a client object to access the Azure BatchService API, you will need the `endpoint` of your Azure BatchService resource and a `credential`. The Azure BatchService client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure BatchService resource in the [Azure Portal][azure_portal].
 
-##### Install @azure/ms-rest-nodeauth
+You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
+
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/identity
 ```
 
-##### Authentication
+You will also need to **register a new AAD application and grant access to Azure BatchService** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-1. Use the `BatchSharedKeyCredentials` exported from `@azure/batch`.
+For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```typescript
-import { BatchServiceClient, BatchSharedKeyCredentials } from "@azure/batch";
-
-const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
-const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
-
-async function main(): Promise<void> {
-  try {
-    const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
-    const client = new BatchServiceClient(creds, batchEndpoint);
-  } catch (err) {
-    console.log(err);
-  }
-}
+```javascript
+const { BatchServiceClient } = require("@azure/batch");
+const { DefaultAzureCredential } = require("@azure/identity");
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new BatchServiceClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
-2. Use the `MSIVmTokenCredentials` exported from `@azure/ms-rest-nodeauth`.
 
-```typescript
-import { BatchServiceClient } from "@azure/batch";
-import { loginWithVmMSI } from "@azure/ms-rest-nodeauth";
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+## Key concepts
 
-async function main(): Promise<void> {
-  try {
-    const creds = await loginWithVmMSI({
-      resource: "https://batch.core.windows.net/"
-    });
-    const client = new BatchServiceClient(creds, batchEndpoint);
-  } catch (err) {
-    console.log(err);
-  }
-}
+### BatchServiceClient
+
+`BatchServiceClient` is the primary interface for developers using the Azure BatchService client library. Explore the methods on this client object to understand the different features of the Azure BatchService service that you can access.
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```javascript
+const { setLogLevel } = require("@azure/logger");
+setLogLevel("info");
 ```
 
-##### Sample code
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-```typescript
-import { BatchServiceClient, BatchServiceModels, BatchSharedKeyCredentials } from "@azure/batch";
+## Next steps
 
-const batchAccountName = process.env["AZURE_BATCH_ACCOUNT_NAME"] || "";
-const batchAccountKey = process.env["AZURE_BATCH_ACCOUNT_KEY"] || "";
-const batchEndpoint = process.env["AZURE_BATCH_ENDPOINT"] || "";
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
-const creds = new BatchSharedKeyCredentials(batchAccountName, batchAccountKey);
-const client = new BatchServiceClient(creds, batchEndpoint);
+## Contributing
 
-const options: BatchServiceModels.JobListOptionalParams = {
-  jobListOptions: { maxResults: 10 }
-};
-
-async function loop(res: BatchServiceModels.JobListResponse, nextLink?: string): Promise<void> {
-  if (nextLink !== undefined) {
-    const res1 = await client.job.listNext(nextLink);
-    if (res1.length) {
-      for (const item of res1) {
-        res.push(item);
-      }
-    }
-    return loop(res, res1.odatanextLink);
-  }
-  return Promise.resolve();
-}
-
-async function main(): Promise<void> {
-  const result = await client.job.list(options);
-  await loop(result, result.odatanextLink);
-  console.dir(result, { depth: null, colors: true });
-}
-
-main().catch((err) => console.log("An error occurred: ", err));
-```
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ## Related projects
 
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fbatch%2Fbatch%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
