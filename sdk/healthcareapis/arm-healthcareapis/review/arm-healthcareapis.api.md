@@ -20,6 +20,15 @@ export interface CheckNameAvailabilityParameters {
 }
 
 // @public
+export interface CorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -27,6 +36,7 @@ export type DicomService = TaggedResource & ServiceManagedIdentity & {
     readonly systemData?: SystemData;
     readonly provisioningState?: ProvisioningState;
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    corsConfiguration?: CorsConfiguration;
     readonly serviceUrl?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: PublicNetworkAccess;
