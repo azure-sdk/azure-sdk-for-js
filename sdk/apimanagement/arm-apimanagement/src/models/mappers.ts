@@ -3609,388 +3609,6 @@ export const CertificateCreateOrUpdateParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const ConnectivityCheckRequest: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityCheckRequest",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckRequest",
-    modelProperties: {
-      source: {
-        serializedName: "source",
-        xmlName: "source",
-        type: {
-          name: "Composite",
-          className: "ConnectivityCheckRequestSource"
-        }
-      },
-      destination: {
-        serializedName: "destination",
-        xmlName: "destination",
-        type: {
-          name: "Composite",
-          className: "ConnectivityCheckRequestDestination"
-        }
-      },
-      preferredIPVersion: {
-        serializedName: "preferredIPVersion",
-        xmlName: "preferredIPVersion",
-        type: {
-          name: "String"
-        }
-      },
-      protocol: {
-        serializedName: "protocol",
-        xmlName: "protocol",
-        type: {
-          name: "String"
-        }
-      },
-      protocolConfiguration: {
-        serializedName: "protocolConfiguration",
-        xmlName: "protocolConfiguration",
-        type: {
-          name: "Composite",
-          className: "ConnectivityCheckRequestProtocolConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityCheckRequestSource: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityCheckRequestSource",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckRequestSource",
-    modelProperties: {
-      region: {
-        serializedName: "region",
-        required: true,
-        xmlName: "region",
-        type: {
-          name: "String"
-        }
-      },
-      instance: {
-        serializedName: "instance",
-        xmlName: "instance",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityCheckRequestDestination: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityCheckRequestDestination",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckRequestDestination",
-    modelProperties: {
-      address: {
-        serializedName: "address",
-        required: true,
-        xmlName: "address",
-        type: {
-          name: "String"
-        }
-      },
-      port: {
-        serializedName: "port",
-        required: true,
-        xmlName: "port",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityCheckRequestProtocolConfiguration: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityCheckRequestProtocolConfiguration",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckRequestProtocolConfiguration",
-    modelProperties: {
-      httpConfiguration: {
-        serializedName: "HTTPConfiguration",
-        xmlName: "HTTPConfiguration",
-        type: {
-          name: "Composite",
-          className:
-            "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityCheckRequestProtocolConfigurationHttpConfiguration: coreClient.CompositeMapper = {
-  serializedName:
-    "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration",
-    modelProperties: {
-      method: {
-        serializedName: "method",
-        xmlName: "method",
-        type: {
-          name: "String"
-        }
-      },
-      validStatusCodes: {
-        serializedName: "validStatusCodes",
-        xmlName: "validStatusCodes",
-        xmlElementName: "ArrayItemschema",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      headers: {
-        serializedName: "headers",
-        xmlName: "headers",
-        xmlElementName: "HttpHeader",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HttpHeader"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const HttpHeader: coreClient.CompositeMapper = {
-  serializedName: "HttpHeader",
-  type: {
-    name: "Composite",
-    className: "HttpHeader",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        xmlName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        xmlName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityCheckResponse: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityCheckResponse",
-  type: {
-    name: "Composite",
-    className: "ConnectivityCheckResponse",
-    modelProperties: {
-      hops: {
-        serializedName: "hops",
-        readOnly: true,
-        xmlName: "hops",
-        xmlElementName: "ConnectivityHop",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectivityHop"
-            }
-          }
-        }
-      },
-      connectionStatus: {
-        serializedName: "connectionStatus",
-        readOnly: true,
-        xmlName: "connectionStatus",
-        type: {
-          name: "String"
-        }
-      },
-      avgLatencyInMs: {
-        serializedName: "avgLatencyInMs",
-        readOnly: true,
-        xmlName: "avgLatencyInMs",
-        type: {
-          name: "Number"
-        }
-      },
-      minLatencyInMs: {
-        serializedName: "minLatencyInMs",
-        readOnly: true,
-        xmlName: "minLatencyInMs",
-        type: {
-          name: "Number"
-        }
-      },
-      maxLatencyInMs: {
-        serializedName: "maxLatencyInMs",
-        readOnly: true,
-        xmlName: "maxLatencyInMs",
-        type: {
-          name: "Number"
-        }
-      },
-      probesSent: {
-        serializedName: "probesSent",
-        readOnly: true,
-        xmlName: "probesSent",
-        type: {
-          name: "Number"
-        }
-      },
-      probesFailed: {
-        serializedName: "probesFailed",
-        readOnly: true,
-        xmlName: "probesFailed",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityHop: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityHop",
-  type: {
-    name: "Composite",
-    className: "ConnectivityHop",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        xmlName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        xmlName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      address: {
-        serializedName: "address",
-        readOnly: true,
-        xmlName: "address",
-        type: {
-          name: "String"
-        }
-      },
-      resourceId: {
-        serializedName: "resourceId",
-        readOnly: true,
-        xmlName: "resourceId",
-        type: {
-          name: "String"
-        }
-      },
-      nextHopIds: {
-        serializedName: "nextHopIds",
-        readOnly: true,
-        xmlName: "nextHopIds",
-        xmlElementName: "ConnectivityHopNextHopIdsItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      issues: {
-        serializedName: "issues",
-        readOnly: true,
-        xmlName: "issues",
-        xmlElementName: "ConnectivityIssue",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ConnectivityIssue"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ConnectivityIssue: coreClient.CompositeMapper = {
-  serializedName: "ConnectivityIssue",
-  type: {
-    name: "Composite",
-    className: "ConnectivityIssue",
-    modelProperties: {
-      origin: {
-        serializedName: "origin",
-        readOnly: true,
-        xmlName: "origin",
-        type: {
-          name: "String"
-        }
-      },
-      severity: {
-        serializedName: "severity",
-        readOnly: true,
-        xmlName: "severity",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        xmlName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      context: {
-        serializedName: "context",
-        readOnly: true,
-        xmlName: "context",
-        xmlElementName: "IssueContext",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Dictionary",
-              value: { type: { name: "String" } }
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ContentTypeCollection: coreClient.CompositeMapper = {
   serializedName: "ContentTypeCollection",
   type: {
@@ -9244,6 +8862,388 @@ export const UserTokenResult: coreClient.CompositeMapper = {
         xmlName: "value",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckRequest: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityCheckRequest",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckRequest",
+    modelProperties: {
+      source: {
+        serializedName: "source",
+        xmlName: "source",
+        type: {
+          name: "Composite",
+          className: "ConnectivityCheckRequestSource"
+        }
+      },
+      destination: {
+        serializedName: "destination",
+        xmlName: "destination",
+        type: {
+          name: "Composite",
+          className: "ConnectivityCheckRequestDestination"
+        }
+      },
+      preferredIPVersion: {
+        serializedName: "preferredIPVersion",
+        xmlName: "preferredIPVersion",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
+        xmlName: "protocol",
+        type: {
+          name: "String"
+        }
+      },
+      protocolConfiguration: {
+        serializedName: "protocolConfiguration",
+        xmlName: "protocolConfiguration",
+        type: {
+          name: "Composite",
+          className: "ConnectivityCheckRequestProtocolConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckRequestSource: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityCheckRequestSource",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckRequestSource",
+    modelProperties: {
+      region: {
+        serializedName: "region",
+        required: true,
+        xmlName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      instance: {
+        serializedName: "instance",
+        xmlName: "instance",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckRequestDestination: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityCheckRequestDestination",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckRequestDestination",
+    modelProperties: {
+      address: {
+        serializedName: "address",
+        required: true,
+        xmlName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      port: {
+        serializedName: "port",
+        required: true,
+        xmlName: "port",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckRequestProtocolConfiguration: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityCheckRequestProtocolConfiguration",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckRequestProtocolConfiguration",
+    modelProperties: {
+      httpConfiguration: {
+        serializedName: "HTTPConfiguration",
+        xmlName: "HTTPConfiguration",
+        type: {
+          name: "Composite",
+          className:
+            "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckRequestProtocolConfigurationHttpConfiguration: coreClient.CompositeMapper = {
+  serializedName:
+    "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckRequestProtocolConfigurationHttpConfiguration",
+    modelProperties: {
+      method: {
+        serializedName: "method",
+        xmlName: "method",
+        type: {
+          name: "String"
+        }
+      },
+      validStatusCodes: {
+        serializedName: "validStatusCodes",
+        xmlName: "validStatusCodes",
+        xmlElementName: "ArrayItemschema",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        xmlName: "headers",
+        xmlElementName: "HttpHeader",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HttpHeader"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const HttpHeader: coreClient.CompositeMapper = {
+  serializedName: "HttpHeader",
+  type: {
+    name: "Composite",
+    className: "HttpHeader",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        xmlName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityCheckResponse: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityCheckResponse",
+  type: {
+    name: "Composite",
+    className: "ConnectivityCheckResponse",
+    modelProperties: {
+      hops: {
+        serializedName: "hops",
+        readOnly: true,
+        xmlName: "hops",
+        xmlElementName: "ConnectivityHop",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectivityHop"
+            }
+          }
+        }
+      },
+      connectionStatus: {
+        serializedName: "connectionStatus",
+        readOnly: true,
+        xmlName: "connectionStatus",
+        type: {
+          name: "String"
+        }
+      },
+      avgLatencyInMs: {
+        serializedName: "avgLatencyInMs",
+        readOnly: true,
+        xmlName: "avgLatencyInMs",
+        type: {
+          name: "Number"
+        }
+      },
+      minLatencyInMs: {
+        serializedName: "minLatencyInMs",
+        readOnly: true,
+        xmlName: "minLatencyInMs",
+        type: {
+          name: "Number"
+        }
+      },
+      maxLatencyInMs: {
+        serializedName: "maxLatencyInMs",
+        readOnly: true,
+        xmlName: "maxLatencyInMs",
+        type: {
+          name: "Number"
+        }
+      },
+      probesSent: {
+        serializedName: "probesSent",
+        readOnly: true,
+        xmlName: "probesSent",
+        type: {
+          name: "Number"
+        }
+      },
+      probesFailed: {
+        serializedName: "probesFailed",
+        readOnly: true,
+        xmlName: "probesFailed",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityHop: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityHop",
+  type: {
+    name: "Composite",
+    className: "ConnectivityHop",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        xmlName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        xmlName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      address: {
+        serializedName: "address",
+        readOnly: true,
+        xmlName: "address",
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        readOnly: true,
+        xmlName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      nextHopIds: {
+        serializedName: "nextHopIds",
+        readOnly: true,
+        xmlName: "nextHopIds",
+        xmlElementName: "ConnectivityHopNextHopIdsItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      issues: {
+        serializedName: "issues",
+        readOnly: true,
+        xmlName: "issues",
+        xmlElementName: "ConnectivityIssue",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectivityIssue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConnectivityIssue: coreClient.CompositeMapper = {
+  serializedName: "ConnectivityIssue",
+  type: {
+    name: "Composite",
+    className: "ConnectivityIssue",
+    modelProperties: {
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        xmlName: "origin",
+        type: {
+          name: "String"
+        }
+      },
+      severity: {
+        serializedName: "severity",
+        readOnly: true,
+        xmlName: "severity",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        xmlName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      context: {
+        serializedName: "context",
+        readOnly: true,
+        xmlName: "context",
+        xmlElementName: "IssueContext",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "String" } }
+            }
+          }
         }
       }
     }

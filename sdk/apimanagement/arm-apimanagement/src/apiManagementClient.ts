@@ -204,7 +204,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.0.2`;
+    const packageDetails = `azsdk-js-arm-apimanagement/8.0.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -219,8 +219,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -228,7 +227,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-01";
+    this.apiVersion = options.apiVersion || "2021-04-01-preview";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -381,13 +380,11 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       },
       performConnectivityCheckAsyncOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

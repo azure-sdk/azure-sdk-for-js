@@ -36,7 +36,6 @@ import {
   CacheContract as CacheContractMapper,
   CacheUpdateParameters as CacheUpdateParametersMapper,
   CertificateCreateOrUpdateParameters as CertificateCreateOrUpdateParametersMapper,
-  ConnectivityCheckRequest as ConnectivityCheckRequestMapper,
   ApiManagementServiceBackupRestoreParameters as ApiManagementServiceBackupRestoreParametersMapper,
   ApiManagementServiceResource as ApiManagementServiceResourceMapper,
   ApiManagementServiceUpdateParameters as ApiManagementServiceUpdateParametersMapper,
@@ -75,7 +74,8 @@ import {
   SaveConfigurationParameter as SaveConfigurationParameterMapper,
   UserCreateParameters as UserCreateParametersMapper,
   UserUpdateParameters as UserUpdateParametersMapper,
-  UserTokenParameters as UserTokenParametersMapper
+  UserTokenParameters as UserTokenParametersMapper,
+  ConnectivityCheckRequest as ConnectivityCheckRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -196,7 +196,7 @@ export const expandApiVersionSet: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2021-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -806,11 +806,6 @@ export const certificateId: OperationURLParameter = {
 export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: CertificateCreateOrUpdateParametersMapper
-};
-
-export const connectivityCheckRequestParams: OperationParameter = {
-  parameterPath: "connectivityCheckRequestParams",
-  mapper: ConnectivityCheckRequestMapper
 };
 
 export const contentTypeId: OperationURLParameter = {
@@ -1443,4 +1438,9 @@ export const parameters60: OperationParameter = {
 export const parameters61: OperationParameter = {
   parameterPath: "parameters",
   mapper: UserTokenParametersMapper
+};
+
+export const connectivityCheckRequestParams: OperationParameter = {
+  parameterPath: "connectivityCheckRequestParams",
+  mapper: ConnectivityCheckRequestMapper
 };

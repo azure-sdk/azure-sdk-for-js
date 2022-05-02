@@ -1068,157 +1068,6 @@ export interface CertificateCreateOrUpdateParameters {
   keyVault?: KeyVaultContractCreateProperties;
 }
 
-/** A request to perform the connectivity check operation on a API Management service. */
-export interface ConnectivityCheckRequest {
-  /** Definitions about the connectivity check origin. */
-  source: ConnectivityCheckRequestSource;
-  /** The connectivity check operation destination. */
-  destination: ConnectivityCheckRequestDestination;
-  /** The IP version to be used. Only IPv4 is supported for now. */
-  preferredIPVersion?: PreferredIPVersion;
-  /** The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value. */
-  protocol?: ConnectivityCheckProtocol;
-  /** Protocol-specific configuration. */
-  protocolConfiguration?: ConnectivityCheckRequestProtocolConfiguration;
-}
-
-/** Definitions about the connectivity check origin. */
-export interface ConnectivityCheckRequestSource {
-  /** The API Management service region from where to start the connectivity check operation. */
-  region: string;
-  /** The particular VMSS instance from which to fire the request. */
-  instance?: number;
-}
-
-/** The connectivity check operation destination. */
-export interface ConnectivityCheckRequestDestination {
-  /** Destination address. Can either be an IP address or a FQDN. */
-  address: string;
-  /** Destination port. */
-  port: number;
-}
-
-/** Protocol-specific configuration. */
-export interface ConnectivityCheckRequestProtocolConfiguration {
-  /** Configuration for HTTP or HTTPS requests. */
-  httpConfiguration?: ConnectivityCheckRequestProtocolConfigurationHttpConfiguration;
-}
-
-/** Configuration for HTTP or HTTPS requests. */
-export interface ConnectivityCheckRequestProtocolConfigurationHttpConfiguration {
-  /** The HTTP method to be used. */
-  method?: Method;
-  /** List of HTTP status codes considered valid for the request response. */
-  validStatusCodes?: number[];
-  /** List of headers to be included in the request. */
-  headers?: HttpHeader[];
-}
-
-/** HTTP header and it's value. */
-export interface HttpHeader {
-  /** Header name. */
-  name: string;
-  /** Header value. */
-  value: string;
-}
-
-/** Information on the connectivity status. */
-export interface ConnectivityCheckResponse {
-  /**
-   * List of hops between the source and the destination.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hops?: ConnectivityHop[];
-  /**
-   * The connection status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectionStatus?: ConnectionStatus;
-  /**
-   * Average latency in milliseconds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly avgLatencyInMs?: number;
-  /**
-   * Minimum latency in milliseconds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minLatencyInMs?: number;
-  /**
-   * Maximum latency in milliseconds.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxLatencyInMs?: number;
-  /**
-   * Total number of probes sent.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly probesSent?: number;
-  /**
-   * Number of failed probes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly probesFailed?: number;
-}
-
-/** Information about a hop between the source and the destination. */
-export interface ConnectivityHop {
-  /**
-   * The type of the hop.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The ID of the hop.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The IP address of the hop.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly address?: string;
-  /**
-   * The ID of the resource corresponding to this hop.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceId?: string;
-  /**
-   * List of next hop identifiers.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextHopIds?: string[];
-  /**
-   * List of issues.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issues?: ConnectivityIssue[];
-}
-
-/** Information about an issue encountered in the process of checking for connectivity. */
-export interface ConnectivityIssue {
-  /**
-   * The origin of the issue.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * The severity of the issue.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly severity?: Severity;
-  /**
-   * The type of issue.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: IssueType;
-  /**
-   * Provides additional context on the issue.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly context?: { [propertyName: string]: string }[];
-}
-
 /** Paged list of content types. */
 export interface ContentTypeCollection {
   /**
@@ -2925,6 +2774,157 @@ export interface UserTokenParameters {
 export interface UserTokenResult {
   /** Shared Access Authorization token for the User. */
   value?: string;
+}
+
+/** A request to perform the connectivity check operation on a API Management service. */
+export interface ConnectivityCheckRequest {
+  /** Definitions about the connectivity check origin. */
+  source: ConnectivityCheckRequestSource;
+  /** The connectivity check operation destination. */
+  destination: ConnectivityCheckRequestDestination;
+  /** The IP version to be used. Only IPv4 is supported for now. */
+  preferredIPVersion?: PreferredIPVersion;
+  /** The request's protocol. Specific protocol configuration can be available based on this selection. The specified destination address must be coherent with this value. */
+  protocol?: ConnectivityCheckProtocol;
+  /** Protocol-specific configuration. */
+  protocolConfiguration?: ConnectivityCheckRequestProtocolConfiguration;
+}
+
+/** Definitions about the connectivity check origin. */
+export interface ConnectivityCheckRequestSource {
+  /** The API Management service region from where to start the connectivity check operation. */
+  region: string;
+  /** The particular VMSS instance from which to fire the request. */
+  instance?: number;
+}
+
+/** The connectivity check operation destination. */
+export interface ConnectivityCheckRequestDestination {
+  /** Destination address. Can either be an IP address or a FQDN. */
+  address: string;
+  /** Destination port. */
+  port: number;
+}
+
+/** Protocol-specific configuration. */
+export interface ConnectivityCheckRequestProtocolConfiguration {
+  /** Configuration for HTTP or HTTPS requests. */
+  httpConfiguration?: ConnectivityCheckRequestProtocolConfigurationHttpConfiguration;
+}
+
+/** Configuration for HTTP or HTTPS requests. */
+export interface ConnectivityCheckRequestProtocolConfigurationHttpConfiguration {
+  /** The HTTP method to be used. */
+  method?: Method;
+  /** List of HTTP status codes considered valid for the request response. */
+  validStatusCodes?: number[];
+  /** List of headers to be included in the request. */
+  headers?: HttpHeader[];
+}
+
+/** HTTP header and it's value. */
+export interface HttpHeader {
+  /** Header name. */
+  name: string;
+  /** Header value. */
+  value: string;
+}
+
+/** Information on the connectivity status. */
+export interface ConnectivityCheckResponse {
+  /**
+   * List of hops between the source and the destination.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hops?: ConnectivityHop[];
+  /**
+   * The connection status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectionStatus?: ConnectionStatus;
+  /**
+   * Average latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly avgLatencyInMs?: number;
+  /**
+   * Minimum latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minLatencyInMs?: number;
+  /**
+   * Maximum latency in milliseconds.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxLatencyInMs?: number;
+  /**
+   * Total number of probes sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly probesSent?: number;
+  /**
+   * Number of failed probes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly probesFailed?: number;
+}
+
+/** Information about a hop between the source and the destination. */
+export interface ConnectivityHop {
+  /**
+   * The type of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The ID of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The IP address of the hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly address?: string;
+  /**
+   * The ID of the resource corresponding to this hop.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * List of next hop identifiers.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextHopIds?: string[];
+  /**
+   * List of issues.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issues?: ConnectivityIssue[];
+}
+
+/** Information about an issue encountered in the process of checking for connectivity. */
+export interface ConnectivityIssue {
+  /**
+   * The origin of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * The severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * The type of issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: IssueType;
+  /**
+   * Provides additional context on the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly context?: { [propertyName: string]: string }[];
 }
 
 /** Object used to create an API Revision or Version based on an existing API Revision */
@@ -5746,138 +5746,6 @@ export enum KnownBackendProtocol {
  */
 export type BackendProtocol = string;
 
-/** Known values of {@link PreferredIPVersion} that the service accepts. */
-export enum KnownPreferredIPVersion {
-  IPv4 = "IPv4"
-}
-
-/**
- * Defines values for PreferredIPVersion. \
- * {@link KnownPreferredIPVersion} can be used interchangeably with PreferredIPVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPv4**
- */
-export type PreferredIPVersion = string;
-
-/** Known values of {@link ConnectivityCheckProtocol} that the service accepts. */
-export enum KnownConnectivityCheckProtocol {
-  TCP = "TCP",
-  Http = "HTTP",
-  Https = "HTTPS"
-}
-
-/**
- * Defines values for ConnectivityCheckProtocol. \
- * {@link KnownConnectivityCheckProtocol} can be used interchangeably with ConnectivityCheckProtocol,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TCP** \
- * **HTTP** \
- * **HTTPS**
- */
-export type ConnectivityCheckProtocol = string;
-
-/** Known values of {@link Method} that the service accepts. */
-export enum KnownMethod {
-  GET = "GET",
-  Post = "POST"
-}
-
-/**
- * Defines values for Method. \
- * {@link KnownMethod} can be used interchangeably with Method,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GET** \
- * **POST**
- */
-export type Method = string;
-
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  Local = "Local",
-  Inbound = "Inbound",
-  Outbound = "Outbound"
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Local** \
- * **Inbound** \
- * **Outbound**
- */
-export type Origin = string;
-
-/** Known values of {@link Severity} that the service accepts. */
-export enum KnownSeverity {
-  Error = "Error",
-  Warning = "Warning"
-}
-
-/**
- * Defines values for Severity. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Error** \
- * **Warning**
- */
-export type Severity = string;
-
-/** Known values of {@link IssueType} that the service accepts. */
-export enum KnownIssueType {
-  Unknown = "Unknown",
-  AgentStopped = "AgentStopped",
-  GuestFirewall = "GuestFirewall",
-  DnsResolution = "DnsResolution",
-  SocketBind = "SocketBind",
-  NetworkSecurityRule = "NetworkSecurityRule",
-  UserDefinedRoute = "UserDefinedRoute",
-  PortThrottled = "PortThrottled",
-  Platform = "Platform"
-}
-
-/**
- * Defines values for IssueType. \
- * {@link KnownIssueType} can be used interchangeably with IssueType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **AgentStopped** \
- * **GuestFirewall** \
- * **DnsResolution** \
- * **SocketBind** \
- * **NetworkSecurityRule** \
- * **UserDefinedRoute** \
- * **PortThrottled** \
- * **Platform**
- */
-export type IssueType = string;
-
-/** Known values of {@link ConnectionStatus} that the service accepts. */
-export enum KnownConnectionStatus {
-  Unknown = "Unknown",
-  Connected = "Connected",
-  Disconnected = "Disconnected",
-  Degraded = "Degraded"
-}
-
-/**
- * Defines values for ConnectionStatus. \
- * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **Connected** \
- * **Disconnected** \
- * **Degraded**
- */
-export type ConnectionStatus = string;
-
 /** Known values of {@link SkuType} that the service accepts. */
 export enum KnownSkuType {
   /** Developer SKU of Api Management. */
@@ -6434,6 +6302,138 @@ export enum KnownConfirmation {
  * **invite**: Send an e-mail inviting the user to sign-up and complete registration.
  */
 export type Confirmation = string;
+
+/** Known values of {@link PreferredIPVersion} that the service accepts. */
+export enum KnownPreferredIPVersion {
+  IPv4 = "IPv4"
+}
+
+/**
+ * Defines values for PreferredIPVersion. \
+ * {@link KnownPreferredIPVersion} can be used interchangeably with PreferredIPVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**
+ */
+export type PreferredIPVersion = string;
+
+/** Known values of {@link ConnectivityCheckProtocol} that the service accepts. */
+export enum KnownConnectivityCheckProtocol {
+  TCP = "TCP",
+  Http = "HTTP",
+  Https = "HTTPS"
+}
+
+/**
+ * Defines values for ConnectivityCheckProtocol. \
+ * {@link KnownConnectivityCheckProtocol} can be used interchangeably with ConnectivityCheckProtocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP** \
+ * **HTTP** \
+ * **HTTPS**
+ */
+export type ConnectivityCheckProtocol = string;
+
+/** Known values of {@link Method} that the service accepts. */
+export enum KnownMethod {
+  GET = "GET",
+  Post = "POST"
+}
+
+/**
+ * Defines values for Method. \
+ * {@link KnownMethod} can be used interchangeably with Method,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GET** \
+ * **POST**
+ */
+export type Method = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  Local = "Local",
+  Inbound = "Inbound",
+  Outbound = "Outbound"
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Local** \
+ * **Inbound** \
+ * **Outbound**
+ */
+export type Origin = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  Error = "Error",
+  Warning = "Warning"
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Error** \
+ * **Warning**
+ */
+export type Severity = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  Unknown = "Unknown",
+  AgentStopped = "AgentStopped",
+  GuestFirewall = "GuestFirewall",
+  DnsResolution = "DnsResolution",
+  SocketBind = "SocketBind",
+  NetworkSecurityRule = "NetworkSecurityRule",
+  UserDefinedRoute = "UserDefinedRoute",
+  PortThrottled = "PortThrottled",
+  Platform = "Platform"
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **AgentStopped** \
+ * **GuestFirewall** \
+ * **DnsResolution** \
+ * **SocketBind** \
+ * **NetworkSecurityRule** \
+ * **UserDefinedRoute** \
+ * **PortThrottled** \
+ * **Platform**
+ */
+export type IssueType = string;
+
+/** Known values of {@link ConnectionStatus} that the service accepts. */
+export enum KnownConnectionStatus {
+  Unknown = "Unknown",
+  Connected = "Connected",
+  Disconnected = "Disconnected",
+  Degraded = "Degraded"
+}
+
+/**
+ * Defines values for ConnectionStatus. \
+ * {@link KnownConnectionStatus} can be used interchangeably with ConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Connected** \
+ * **Disconnected** \
+ * **Degraded**
+ */
+export type ConnectionStatus = string;
 /** Defines values for ProductState. */
 export type ProductState = "notPublished" | "published";
 /** Defines values for AuthorizationMethod. */
@@ -7833,18 +7833,6 @@ export interface CertificateListByServiceNextOptionalParams
 
 /** Contains response data for the listByServiceNext operation. */
 export type CertificateListByServiceNextResponse = CertificateCollection;
-
-/** Optional parameters. */
-export interface PerformConnectivityCheckAsyncOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the performConnectivityCheckAsync operation. */
-export type PerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 /** Optional parameters. */
 export interface ContentTypeListByServiceOptionalParams
@@ -10303,6 +10291,18 @@ export interface UserConfirmationPasswordSendOptionalParams
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
   appType?: AppType;
 }
+
+/** Optional parameters. */
+export interface PerformConnectivityCheckAsyncOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the performConnectivityCheckAsync operation. */
+export type PerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 /** Optional parameters. */
 export interface ApiManagementClientOptionalParams
