@@ -1035,13 +1035,6 @@ export const InvoiceListResult: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      totalCount: {
-        serializedName: "totalCount",
-        readOnly: true,
-        type: {
-          name: "Number"
-        }
       }
     }
   }

@@ -1186,7 +1186,6 @@ export type InvoiceDocumentType = string;
 // @public
 export interface InvoiceListResult {
     readonly nextLink?: string;
-    readonly totalCount?: number;
     readonly value?: Invoice[];
 }
 

@@ -1,15 +1,11 @@
 # Release History
+    
+## 5.0.0-beta.1 (2022-05-02)
+    
+**Breaking Changes**
 
-## 4.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface InvoiceListResult no longer has parameter totalCount
+    
 ## 4.0.1 (2022-04-11)
 
   - Bug fix

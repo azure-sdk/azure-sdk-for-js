@@ -513,11 +513,6 @@ export interface InvoiceListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-  /**
-   * Total number of records.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalCount?: number;
 }
 
 /** The properties of a document. */
