@@ -738,12 +738,6 @@ export const IpAddress: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      dnsNameLabelReusePolicy: {
-        serializedName: "dnsNameLabelReusePolicy",
-        type: {
-          name: "String"
-        }
-      },
       fqdn: {
         serializedName: "fqdn",
         readOnly: true,
@@ -1200,17 +1194,6 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
-        }
-      },
-      zones: {
-        serializedName: "zones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }
