@@ -19,6 +19,7 @@ export type EntityTimelineItemUnion =
   | EntityTimelineItem
   | ActivityTimelineItem
   | BookmarkTimelineItem
+  | AnomalyTimelineItem
   | SecurityAlertTimelineItem;
 export type EntityQueryItemUnion = EntityQueryItem | InsightQueryItem;
 export type DataConnectorsCheckRequirementsUnion =
@@ -89,6 +90,9 @@ export type EntityQueryUnion =
 export type CustomEntityQueryUnion =
   | CustomEntityQuery
   | ActivityCustomEntityQuery;
+export type SecurityMLAnalyticsSettingUnion =
+  | SecurityMLAnalyticsSetting
+  | AnomalySecurityMLAnalyticsSettings;
 export type SettingsUnion =
   | Settings
   | Anomalies
@@ -599,7 +603,7 @@ export interface TimelineError {
 /** Entity timeline Item. */
 export interface EntityTimelineItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity" | "Bookmark" | "SecurityAlert";
+  kind: "Activity" | "Bookmark" | "Anomaly" | "SecurityAlert";
 }
 
 /** Retrieve queries for entity result operation response. */
@@ -648,13 +652,13 @@ export interface GetInsightsResultsMetadata {
   /** the total items found for the insights request */
   totalCount: number;
   /** information about the failed queries */
-  errors?: GetInsightsError[];
+  errors?: GetInsightsErrorKind[];
 }
 
 /** GetInsights Query Errors. */
-export interface GetInsightsError {
+export interface GetInsightsErrorKind {
   /** the query kind */
-  kind: "Insight";
+  kind: GetInsightsError;
   /** the query id */
   queryId?: string;
   /** the error message */
@@ -789,11 +793,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -986,6 +987,17 @@ export interface OfficeConsentList {
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
   value: SentinelOnboardingState[];
+}
+
+/** List all the SecurityMLAnalyticsSettings */
+export interface SecurityMLAnalyticsSettingsList {
+  /**
+   * URL to fetch the next set of SecurityMLAnalyticsSettings.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of SecurityMLAnalyticsSettings */
+  value: SecurityMLAnalyticsSettingUnion[];
 }
 
 /** List of all the settings. */
@@ -1711,12 +1723,12 @@ export interface DataTypeDefinitions {
   dataType?: string;
 }
 
-/** The pricing tier of the solution */
-export interface Sku {
-  /** The kind of the tier */
-  name?: SkuKind;
-  /** The amount of reservation level */
-  capacityReservationLevel?: number;
+/** security ml analytics settings data sources */
+export interface SecurityMLAnalyticsSettingsDataSource {
+  /** The connector id that provides the following data types */
+  connectorId?: string;
+  /** The data types used by the security ml analytics settings */
+  dataTypes?: string[];
 }
 
 /** Properties data connector on tenant level. */
@@ -1874,7 +1886,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: 1;
+  status?: "1";
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -2223,6 +2235,34 @@ export type BookmarkTimelineItem = EntityTimelineItem & {
   createdBy?: UserInfo;
   /** List of labels relevant to this bookmark */
   labels?: string[];
+};
+
+/** Represents anomaly timeline item. */
+export type AnomalyTimelineItem = EntityTimelineItem & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "Anomaly";
+  /** The anomaly azure resource id. */
+  azureResourceId: string;
+  /** The anomaly product name. */
+  productName?: string;
+  /** The anomaly description. */
+  description?: string;
+  /** The anomaly name. */
+  displayName: string;
+  /** The anomaly end time. */
+  endTimeUtc: Date;
+  /** The anomaly start time. */
+  startTimeUtc: Date;
+  /** The anomaly generated time. */
+  timeGenerated: Date;
+  /** The name of the anomaly vendor. */
+  vendor?: string;
+  /** The intent of the anomaly. */
+  intent?: string;
+  /** The techniques of the anomaly. */
+  techniques?: string[];
+  /** The reasons that cause the anomaly. */
+  reasons?: string[];
 };
 
 /** Represents security alert timeline item. */
@@ -3908,6 +3948,12 @@ export type SentinelOnboardingState = ResourceWithEtag & {
   customerManagedKey?: boolean;
 };
 
+/** Security ML Analytics Setting */
+export type SecurityMLAnalyticsSetting = ResourceWithEtag & {
+  /** The kind of security ML Analytics Settings */
+  kind: SecurityMLAnalyticsSettingsKind;
+};
+
 /** The Setting. */
 export type Settings = ResourceWithEtag & {
   /** The kind of the setting */
@@ -4007,9 +4053,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -5650,6 +5696,41 @@ export type ActivityCustomEntityQuery = CustomEntityQuery & {
   readonly lastModifiedTimeUtc?: Date;
 };
 
+/** Represents Anomaly Security ML Analytics Settings */
+export type AnomalySecurityMLAnalyticsSettings = SecurityMLAnalyticsSetting & {
+  /** The description of the SecurityMLAnalyticsSettings. */
+  description?: string;
+  /** The display name for settings created by this SecurityMLAnalyticsSettings. */
+  displayName?: string;
+  /** Determines whether this settings is enabled or disabled. */
+  enabled?: boolean;
+  /**
+   * The last time that this SecurityMLAnalyticsSettings has been modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedUtc?: Date;
+  /** The required data sources for this SecurityMLAnalyticsSettings */
+  requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
+  /** The tactics of the SecurityMLAnalyticsSettings */
+  tactics?: AttackTactic[];
+  /** The techniques of the SecurityMLAnalyticsSettings */
+  techniques?: string[];
+  /** The anomaly version of the AnomalySecurityMLAnalyticsSettings. */
+  anomalyVersion?: string;
+  /** The customizable observations of the AnomalySecurityMLAnalyticsSettings. */
+  customizableObservations?: Record<string, unknown>;
+  /** The frequency that this SecurityMLAnalyticsSettings will be run. */
+  frequency?: string;
+  /** The anomaly SecurityMLAnalyticsSettings status */
+  settingsStatus?: SettingsStatus;
+  /** Determines whether this anomaly security ml analytics settings is a default settings */
+  isDefaultSettings?: boolean;
+  /** The anomaly settings version of the Anomaly security ml analytics settings that dictates whether job version gets updated or not. */
+  anomalySettingsVersion?: number;
+  /** The anomaly settings definition Id */
+  settingsDefinitionId?: string;
+};
+
 /** Settings with single toggle. */
 export type Anomalies = Settings & {
   /**
@@ -5670,11 +5751,8 @@ export type EyesOn = Settings & {
 
 /** Settings with single toggle. */
 export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
 };
 
 /** Settings with single toggle. */
@@ -6204,7 +6282,9 @@ export enum KnownEntityTimelineKind {
   /** bookmarks */
   Bookmark = "Bookmark",
   /** security alerts */
-  SecurityAlert = "SecurityAlert"
+  SecurityAlert = "SecurityAlert",
+  /** anomaly */
+  Anomaly = "Anomaly"
 }
 
 /**
@@ -6214,7 +6294,8 @@ export enum KnownEntityTimelineKind {
  * ### Known values supported by the service
  * **Activity**: activity \
  * **Bookmark**: bookmarks \
- * **SecurityAlert**: security alerts
+ * **SecurityAlert**: security alerts \
+ * **Anomaly**: anomaly
  */
 export type EntityTimelineKind = string;
 
@@ -6251,21 +6332,35 @@ export enum KnownEntityQueryKind {
  */
 export type EntityQueryKind = string;
 
-/** Known values of {@link Enum12} that the service accepts. */
-export enum KnownEnum12 {
+/** Known values of {@link GetInsightsError} that the service accepts. */
+export enum KnownGetInsightsError {
+  Insight = "Insight"
+}
+
+/**
+ * Defines values for GetInsightsError. \
+ * {@link KnownGetInsightsError} can be used interchangeably with GetInsightsError,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Insight**
+ */
+export type GetInsightsError = string;
+
+/** Known values of {@link Enum13} that the service accepts. */
+export enum KnownEnum13 {
   Expansion = "Expansion",
   Activity = "Activity"
 }
 
 /**
- * Defines values for Enum12. \
- * {@link KnownEnum12} can be used interchangeably with Enum12,
+ * Defines values for Enum13. \
+ * {@link KnownEnum13} can be used interchangeably with Enum13,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Expansion** \
  * **Activity**
  */
-export type Enum12 = string;
+export type Enum13 = string;
 
 /** Known values of {@link CustomEntityQueryKind} that the service accepts. */
 export enum KnownCustomEntityQueryKind {
@@ -6652,6 +6747,20 @@ export enum KnownOperator {
  * **OR**
  */
 export type Operator = string;
+
+/** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
+export enum KnownSecurityMLAnalyticsSettingsKind {
+  Anomaly = "Anomaly"
+}
+
+/**
+ * Defines values for SecurityMLAnalyticsSettingsKind. \
+ * {@link KnownSecurityMLAnalyticsSettingsKind} can be used interchangeably with SecurityMLAnalyticsSettingsKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anomaly**
+ */
+export type SecurityMLAnalyticsSettingsKind = string;
 
 /** Known values of {@link SettingKind} that the service accepts. */
 export enum KnownSettingKind {
@@ -7403,6 +7512,40 @@ export enum KnownOutputType {
  */
 export type OutputType = string;
 
+/** Known values of {@link SettingsStatus} that the service accepts. */
+export enum KnownSettingsStatus {
+  /** Anomaly settings status in Production mode */
+  Production = "Production",
+  /** Anomaly settings status in Flighting mode */
+  Flighting = "Flighting"
+}
+
+/**
+ * Defines values for SettingsStatus. \
+ * {@link KnownSettingsStatus} can be used interchangeably with SettingsStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production**: Anomaly settings status in Production mode \
+ * **Flighting**: Anomaly settings status in Flighting mode
+ */
+export type SettingsStatus = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  ActiveDirectory = "ActiveDirectory",
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
+
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
   AuditLogs = "AuditLogs",
@@ -7422,22 +7565,6 @@ export enum KnownUebaDataSources {
  * **SigninLogs**
  */
 export type UebaDataSources = string;
-
-/** Known values of {@link SkuKind} that the service accepts. */
-export enum KnownSkuKind {
-  PerGB = "PerGB",
-  CapacityReservation = "CapacityReservation"
-}
-
-/**
- * Defines values for SkuKind. \
- * {@link KnownSkuKind} can be used interchangeably with SkuKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PerGB** \
- * **CapacityReservation**
- */
-export type SkuKind = string;
 
 /** Known values of {@link DataTypeState} that the service accepts. */
 export enum KnownDataTypeState {
@@ -8107,7 +8234,7 @@ export type EntityRelationsGetRelationResponse = Relation;
 export interface EntityQueriesListOptionalParams
   extends coreClient.OperationOptions {
   /** The entity query kind we want to fetch */
-  kind?: Enum12;
+  kind?: Enum13;
 }
 
 /** Contains response data for the list operation. */
@@ -8135,7 +8262,7 @@ export interface EntityQueriesDeleteOptionalParams
 export interface EntityQueriesListNextOptionalParams
   extends coreClient.OperationOptions {
   /** The entity query kind we want to fetch */
-  kind?: Enum12;
+  kind?: Enum13;
 }
 
 /** Contains response data for the listNext operation. */
@@ -8371,6 +8498,38 @@ export interface SentinelOnboardingStatesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSettingsList;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SecurityMLAnalyticsSettingsGetResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SecurityMLAnalyticsSettingsCreateOrUpdateResponse = SecurityMLAnalyticsSettingUnion;
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SecurityMLAnalyticsSettingsListNextResponse = SecurityMLAnalyticsSettingsList;
 
 /** Optional parameters. */
 export interface ProductSettingsListOptionalParams

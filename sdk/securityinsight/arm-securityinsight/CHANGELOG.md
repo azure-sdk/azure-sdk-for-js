@@ -1,5 +1,49 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-05-02)
+    
+**Features**
+
+  - Added operation group SecurityMLAnalyticsSettings
+  - Added Interface GetInsightsErrorKind
+  - Added Interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsDataSource
+  - Added Interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsGetOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsList
+  - Added Interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsListOptionalParams
+  - Added Type Alias AnomalySecurityMLAnalyticsSettings
+  - Added Type Alias AnomalyTimelineItem
+  - Added Type Alias EntityProviders
+  - Added Type Alias Enum13
+  - Added Type Alias GetInsightsError
+  - Added Type Alias SecurityMLAnalyticsSetting
+  - Added Type Alias SecurityMLAnalyticsSettingsCreateOrUpdateResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsGetResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsKind
+  - Added Type Alias SecurityMLAnalyticsSettingsListNextResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsListResponse
+  - Added Type Alias SecurityMLAnalyticsSettingUnion
+  - Added Type Alias SettingsStatus
+  - Class SecurityInsights has a new parameter securityMLAnalyticsSettings
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownEnum13
+  - Added Enum KnownGetInsightsError
+  - Added Enum KnownSecurityMLAnalyticsSettingsKind
+  - Added Enum KnownSettingsStatus
+  - Enum KnownEntityTimelineKind has a new value Anomaly
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownSkuKind
+    
+    
 ## 1.0.0-beta.2 (2022-03-17)
     
 **Features**
