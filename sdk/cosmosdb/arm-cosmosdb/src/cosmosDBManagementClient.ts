@@ -7,8 +7,8 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DatabaseAccountsImpl,
   OperationsImpl,
@@ -29,10 +29,6 @@ import {
   TableResourcesImpl,
   CassandraResourcesImpl,
   GremlinResourcesImpl,
-  LocationsImpl,
-  DataTransferJobsImpl,
-  CassandraClustersImpl,
-  CassandraDataCentersImpl,
   NotebookWorkspacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -43,11 +39,8 @@ import {
   RestorableMongodbDatabasesImpl,
   RestorableMongodbCollectionsImpl,
   RestorableMongodbResourcesImpl,
-  RestorableGremlinDatabasesImpl,
-  RestorableGremlinGraphsImpl,
-  RestorableGremlinResourcesImpl,
-  RestorableTablesImpl,
-  RestorableTableResourcesImpl,
+  CassandraClustersImpl,
+  CassandraDataCentersImpl,
   ServiceImpl
 } from "./operations";
 import {
@@ -70,10 +63,6 @@ import {
   TableResources,
   CassandraResources,
   GremlinResources,
-  Locations,
-  DataTransferJobs,
-  CassandraClusters,
-  CassandraDataCenters,
   NotebookWorkspaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -84,15 +73,22 @@ import {
   RestorableMongodbDatabases,
   RestorableMongodbCollections,
   RestorableMongodbResources,
-  RestorableGremlinDatabases,
-  RestorableGremlinGraphs,
-  RestorableGremlinResources,
-  RestorableTables,
-  RestorableTableResources,
+  CassandraClusters,
+  CassandraDataCenters,
   Service
 } from "./operationsInterfaces";
-import { CosmosDBManagementClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  CosmosDBManagementClientOptionalParams,
+  LocationGetResult,
+  LocationListOptionalParams,
+  LocationListResponse,
+  LocationGetOptionalParams,
+  LocationGetResponse
+} from "./models";
 
+/// <reference lib="esnext.asynciterable" />
 export class CosmosDBManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
@@ -140,39 +136,15 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-15-preview";
+    this.apiVersion = options.apiVersion || "2021-07-01-preview";
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -192,10 +164,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.tableResources = new TableResourcesImpl(this);
     this.cassandraResources = new CassandraResourcesImpl(this);
     this.gremlinResources = new GremlinResourcesImpl(this);
-    this.locations = new LocationsImpl(this);
-    this.dataTransferJobs = new DataTransferJobsImpl(this);
-    this.cassandraClusters = new CassandraClustersImpl(this);
-    this.cassandraDataCenters = new CassandraDataCentersImpl(this);
     this.notebookWorkspaces = new NotebookWorkspacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -208,12 +176,70 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       this
     );
     this.restorableMongodbResources = new RestorableMongodbResourcesImpl(this);
-    this.restorableGremlinDatabases = new RestorableGremlinDatabasesImpl(this);
-    this.restorableGremlinGraphs = new RestorableGremlinGraphsImpl(this);
-    this.restorableGremlinResources = new RestorableGremlinResourcesImpl(this);
-    this.restorableTables = new RestorableTablesImpl(this);
-    this.restorableTableResources = new RestorableTableResourcesImpl(this);
+    this.cassandraClusters = new CassandraClustersImpl(this);
+    this.cassandraDataCenters = new CassandraDataCentersImpl(this);
     this.service = new ServiceImpl(this);
+  }
+
+  /**
+   * List Cosmos DB locations and their properties
+   * @param options The options parameters.
+   */
+  public listLocationList(
+    options?: LocationListOptionalParams
+  ): PagedAsyncIterableIterator<LocationGetResult> {
+    const iter = this.locationListPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.locationListPagingPage(options);
+      }
+    };
+  }
+
+  private async *locationListPagingPage(
+    options?: LocationListOptionalParams
+  ): AsyncIterableIterator<LocationGetResult[]> {
+    let result = await this._locationList(options);
+    yield result.value || [];
+  }
+
+  private async *locationListPagingAll(
+    options?: LocationListOptionalParams
+  ): AsyncIterableIterator<LocationGetResult> {
+    for await (const page of this.locationListPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List Cosmos DB locations and their properties
+   * @param options The options parameters.
+   */
+  private _locationList(
+    options?: LocationListOptionalParams
+  ): Promise<LocationListResponse> {
+    return this.sendOperationRequest({ options }, locationListOperationSpec);
+  }
+
+  /**
+   * Get the properties of an existing Cosmos DB location
+   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param options The options parameters.
+   */
+  locationGet(
+    location: string,
+    options?: LocationGetOptionalParams
+  ): Promise<LocationGetResponse> {
+    return this.sendOperationRequest(
+      { location, options },
+      locationGetOperationSpec
+    );
   }
 
   databaseAccounts: DatabaseAccounts;
@@ -235,10 +261,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   tableResources: TableResources;
   cassandraResources: CassandraResources;
   gremlinResources: GremlinResources;
-  locations: Locations;
-  dataTransferJobs: DataTransferJobs;
-  cassandraClusters: CassandraClusters;
-  cassandraDataCenters: CassandraDataCenters;
   notebookWorkspaces: NotebookWorkspaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
@@ -249,10 +271,48 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   restorableMongodbDatabases: RestorableMongodbDatabases;
   restorableMongodbCollections: RestorableMongodbCollections;
   restorableMongodbResources: RestorableMongodbResources;
-  restorableGremlinDatabases: RestorableGremlinDatabases;
-  restorableGremlinGraphs: RestorableGremlinGraphs;
-  restorableGremlinResources: RestorableGremlinResources;
-  restorableTables: RestorableTables;
-  restorableTableResources: RestorableTableResources;
+  cassandraClusters: CassandraClusters;
+  cassandraDataCenters: CassandraDataCenters;
   service: Service;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const locationListOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocationListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const locationGetOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocationGetResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};

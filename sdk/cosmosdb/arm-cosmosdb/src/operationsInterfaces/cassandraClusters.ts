@@ -21,15 +21,12 @@ import {
   CassandraClustersCreateUpdateResponse,
   CassandraClustersUpdateOptionalParams,
   CassandraClustersUpdateResponse,
-  CommandPostBody,
-  CassandraClustersInvokeCommandOptionalParams,
-  CassandraClustersInvokeCommandResponse,
+  RepairPostBody,
+  CassandraClustersRequestRepairOptionalParams,
+  CassandraClustersFetchNodeStatusOptionalParams,
+  CassandraClustersFetchNodeStatusResponse,
   CassandraClustersGetBackupOptionalParams,
-  CassandraClustersGetBackupResponse,
-  CassandraClustersDeallocateOptionalParams,
-  CassandraClustersStartOptionalParams,
-  CassandraClustersStatusOptionalParams,
-  CassandraClustersStatusResponse
+  CassandraClustersGetBackupResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -160,36 +157,58 @@ export interface CassandraClusters {
     options?: CassandraClustersUpdateOptionalParams
   ): Promise<CassandraClustersUpdateResponse>;
   /**
-   * Invoke a command like nodetool for cassandra maintenance
+   * Request that repair begin on this cluster as soon as possible.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
-   * @param body Specification which command to run where
+   * @param body Specification of what keyspaces and tables to run repair on.
    * @param options The options parameters.
    */
-  beginInvokeCommand(
+  beginRequestRepair(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
-    options?: CassandraClustersInvokeCommandOptionalParams
+    body: RepairPostBody,
+    options?: CassandraClustersRequestRepairOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Request that repair begin on this cluster as soon as possible.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param body Specification of what keyspaces and tables to run repair on.
+   * @param options The options parameters.
+   */
+  beginRequestRepairAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    body: RepairPostBody,
+    options?: CassandraClustersRequestRepairOptionalParams
+  ): Promise<void>;
+  /**
+   * Request the status of all nodes in the cluster (as returned by 'nodetool status').
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName Managed Cassandra cluster name.
+   * @param options The options parameters.
+   */
+  beginFetchNodeStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: CassandraClustersFetchNodeStatusOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<CassandraClustersInvokeCommandResponse>,
-      CassandraClustersInvokeCommandResponse
+      PollOperationState<CassandraClustersFetchNodeStatusResponse>,
+      CassandraClustersFetchNodeStatusResponse
     >
   >;
   /**
-   * Invoke a command like nodetool for cassandra maintenance
+   * Request the status of all nodes in the cluster (as returned by 'nodetool status').
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
-   * @param body Specification which command to run where
    * @param options The options parameters.
    */
-  beginInvokeCommandAndWait(
+  beginFetchNodeStatusAndWait(
     resourceGroupName: string,
     clusterName: string,
-    body: CommandPostBody,
-    options?: CassandraClustersInvokeCommandOptionalParams
-  ): Promise<CassandraClustersInvokeCommandResponse>;
+    options?: CassandraClustersFetchNodeStatusOptionalParams
+  ): Promise<CassandraClustersFetchNodeStatusResponse>;
   /**
    * Get the properties of an individual backup of this cluster that is available to restore.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -203,67 +222,4 @@ export interface CassandraClusters {
     backupId: string,
     options?: CassandraClustersGetBackupOptionalParams
   ): Promise<CassandraClustersGetBackupResponse>;
-  /**
-   * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
-   * the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an
-   * already deallocated cluster. Use Start to restart the cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName Managed Cassandra cluster name.
-   * @param options The options parameters.
-   */
-  beginDeallocate(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersDeallocateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate
-   * the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an
-   * already deallocated cluster. Use Start to restart the cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName Managed Cassandra cluster name.
-   * @param options The options parameters.
-   */
-  beginDeallocateAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersDeallocateOptionalParams
-  ): Promise<void>;
-  /**
-   * Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual
-   * machine of this cluster with reserved data disk. This won't do anything on an already running
-   * cluster. Use Deallocate to deallocate the cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName Managed Cassandra cluster name.
-   * @param options The options parameters.
-   */
-  beginStart(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual
-   * machine of this cluster with reserved data disk. This won't do anything on an already running
-   * cluster. Use Deallocate to deallocate the cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName Managed Cassandra cluster name.
-   * @param options The options parameters.
-   */
-  beginStartAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersStartOptionalParams
-  ): Promise<void>;
-  /**
-   * Gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName Managed Cassandra cluster name.
-   * @param options The options parameters.
-   */
-  status(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersStatusOptionalParams
-  ): Promise<CassandraClustersStatusResponse>;
 }

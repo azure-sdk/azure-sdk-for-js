@@ -20,7 +20,6 @@ import {
   GraphResourceCreateUpdateParameters as GraphResourceCreateUpdateParametersMapper,
   SqlDatabaseCreateUpdateParameters as SqlDatabaseCreateUpdateParametersMapper,
   ThroughputSettingsUpdateParameters as ThroughputSettingsUpdateParametersMapper,
-  ClientEncryptionKeyCreateUpdateParameters as ClientEncryptionKeyCreateUpdateParametersMapper,
   SqlContainerCreateUpdateParameters as SqlContainerCreateUpdateParametersMapper,
   SqlStoredProcedureCreateUpdateParameters as SqlStoredProcedureCreateUpdateParametersMapper,
   SqlUserDefinedFunctionCreateUpdateParameters as SqlUserDefinedFunctionCreateUpdateParametersMapper,
@@ -30,20 +29,17 @@ import {
   ContinuousBackupRestoreLocation as ContinuousBackupRestoreLocationMapper,
   MongoDBDatabaseCreateUpdateParameters as MongoDBDatabaseCreateUpdateParametersMapper,
   MongoDBCollectionCreateUpdateParameters as MongoDBCollectionCreateUpdateParametersMapper,
-  MongoRoleDefinitionCreateUpdateParameters as MongoRoleDefinitionCreateUpdateParametersMapper,
-  MongoUserDefinitionCreateUpdateParameters as MongoUserDefinitionCreateUpdateParametersMapper,
   TableCreateUpdateParameters as TableCreateUpdateParametersMapper,
   CassandraKeyspaceCreateUpdateParameters as CassandraKeyspaceCreateUpdateParametersMapper,
   CassandraTableCreateUpdateParameters as CassandraTableCreateUpdateParametersMapper,
   CassandraViewCreateUpdateParameters as CassandraViewCreateUpdateParametersMapper,
   GremlinDatabaseCreateUpdateParameters as GremlinDatabaseCreateUpdateParametersMapper,
   GremlinGraphCreateUpdateParameters as GremlinGraphCreateUpdateParametersMapper,
-  CreateJobRequest as CreateJobRequestMapper,
-  ClusterResource as ClusterResourceMapper,
-  CommandPostBody as CommandPostBodyMapper,
-  DataCenterResource as DataCenterResourceMapper,
   NotebookWorkspaceCreateUpdateParameters as NotebookWorkspaceCreateUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  ClusterResource as ClusterResourceMapper,
+  RepairPostBody as RepairPostBodyMapper,
+  DataCenterResource as DataCenterResourceMapper,
   ServiceResourceCreateUpdateParameters as ServiceResourceCreateUpdateParametersMapper
 } from "../models/mappers";
 
@@ -119,7 +115,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-15-preview",
+    defaultValue: "2021-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -306,22 +302,6 @@ export const updateThroughputParameters: OperationParameter = {
   mapper: ThroughputSettingsUpdateParametersMapper
 };
 
-export const clientEncryptionKeyName: OperationURLParameter = {
-  parameterPath: "clientEncryptionKeyName",
-  mapper: {
-    serializedName: "clientEncryptionKeyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateClientEncryptionKeyParameters: OperationParameter = {
-  parameterPath: "createUpdateClientEncryptionKeyParameters",
-  mapper: ClientEncryptionKeyCreateUpdateParametersMapper
-};
-
 export const containerName: OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {
@@ -444,38 +424,6 @@ export const createUpdateMongoDBCollectionParameters: OperationParameter = {
   mapper: MongoDBCollectionCreateUpdateParametersMapper
 };
 
-export const mongoRoleDefinitionId: OperationURLParameter = {
-  parameterPath: "mongoRoleDefinitionId",
-  mapper: {
-    serializedName: "mongoRoleDefinitionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateMongoRoleDefinitionParameters: OperationParameter = {
-  parameterPath: "createUpdateMongoRoleDefinitionParameters",
-  mapper: MongoRoleDefinitionCreateUpdateParametersMapper
-};
-
-export const mongoUserDefinitionId: OperationURLParameter = {
-  parameterPath: "mongoUserDefinitionId",
-  mapper: {
-    serializedName: "mongoUserDefinitionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const createUpdateMongoUserDefinitionParameters: OperationParameter = {
-  parameterPath: "createUpdateMongoUserDefinitionParameters",
-  mapper: MongoUserDefinitionCreateUpdateParametersMapper
-};
-
 export const tableName: OperationURLParameter = {
   parameterPath: "tableName",
   mapper: {
@@ -548,85 +496,6 @@ export const location1: OperationURLParameter = {
       name: "String"
     }
   }
-};
-
-export const jobCreateParameters: OperationParameter = {
-  parameterPath: "jobCreateParameters",
-  mapper: CreateJobRequestMapper
-};
-
-export const jobName: OperationURLParameter = {
-  parameterPath: "jobName",
-  mapper: {
-    serializedName: "jobName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const clusterName: OperationURLParameter = {
-  parameterPath: "clusterName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"),
-      MaxLength: 100,
-      MinLength: 1
-    },
-    serializedName: "clusterName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: ClusterResourceMapper
-};
-
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: CommandPostBodyMapper
-};
-
-export const backupId: OperationURLParameter = {
-  parameterPath: "backupId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[0-9]+$"),
-      MaxLength: 15,
-      MinLength: 1
-    },
-    serializedName: "backupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const dataCenterName: OperationURLParameter = {
-  parameterPath: "dataCenterName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"),
-      MaxLength: 100,
-      MinLength: 1
-    },
-    serializedName: "dataCenterName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body2: OperationParameter = {
-  parameterPath: "body",
-  mapper: DataCenterResourceMapper
 };
 
 export const notebookWorkspaceName: OperationURLParameter = {
@@ -743,14 +612,67 @@ export const restorableMongodbDatabaseRid: OperationQueryParameter = {
   }
 };
 
-export const restorableGremlinDatabaseRid: OperationQueryParameter = {
-  parameterPath: ["options", "restorableGremlinDatabaseRid"],
+export const clusterName: OperationURLParameter = {
+  parameterPath: "clusterName",
   mapper: {
-    serializedName: "restorableGremlinDatabaseRid",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "clusterName",
+    required: true,
     type: {
       name: "String"
     }
   }
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: ClusterResourceMapper
+};
+
+export const body1: OperationParameter = {
+  parameterPath: "body",
+  mapper: RepairPostBodyMapper
+};
+
+export const backupId: OperationURLParameter = {
+  parameterPath: "backupId",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9]+$"),
+      MaxLength: 15,
+      MinLength: 1
+    },
+    serializedName: "backupId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const dataCenterName: OperationURLParameter = {
+  parameterPath: "dataCenterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "dataCenterName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body2: OperationParameter = {
+  parameterPath: "body",
+  mapper: DataCenterResourceMapper
 };
 
 export const createUpdateParameters1: OperationParameter = {
