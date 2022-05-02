@@ -11,14 +11,17 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export interface CloudError {
-    error?: CloudErrorBody;
+export interface ApiError {
+    code?: string;
+    details?: ApiErrorBase[];
+    innerError?: InnerError;
+    message?: string;
+    target?: string;
 }
 
 // @public
-export interface CloudErrorBody {
+export interface ApiErrorBase {
     code?: string;
-    details?: CloudErrorBody[];
     message?: string;
     target?: string;
 }
@@ -28,9 +31,6 @@ export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassig
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type CreatedByType = string;
 
 // @public (undocumented)
 export class ImageBuilderClient extends coreClient.ServiceClient {
@@ -55,9 +55,8 @@ export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClie
 }
 
 // @public
-export type ImageTemplate = TrackedResource & {
+export type ImageTemplate = Resource & {
     identity: ImageTemplateIdentity;
-    readonly systemData?: SystemData;
     source?: ImageTemplateSourceUnion;
     customize?: ImageTemplateCustomizerUnion[];
     distribute?: ImageTemplateDistributorUnion[];
@@ -140,7 +139,6 @@ export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
     offer?: string;
     sku?: string;
     version?: string;
-    readonly exactVersion?: string;
     planInfo?: PlatformImagePurchasePlan;
 };
 
@@ -210,7 +208,6 @@ export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
 // @public
 export interface ImageTemplateVmProfile {
     osDiskSizeGB?: number;
-    userAssignedIdentities?: string[];
     vmSize?: string;
     vnetConfig?: VirtualNetworkConfig;
 }
@@ -224,15 +221,9 @@ export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
 };
 
 // @public
-export enum KnownCreatedByType {
-    // (undocumented)
-    Application = "Application",
-    // (undocumented)
-    Key = "Key",
-    // (undocumented)
-    ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
-    User = "User"
+export interface InnerError {
+    errorDetail?: string;
+    exceptionType?: string;
 }
 
 // @public
@@ -333,7 +324,11 @@ export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed"
 // @public
 export interface Resource {
     readonly id?: string;
+    location: string;
     readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     readonly type?: string;
 }
 
@@ -368,24 +363,6 @@ export interface SubResource {
     name: string;
     readonly type?: string;
 }
-
-// @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export type TrackedResource = Resource & {
-    tags?: {
-        [propertyName: string]: string;
-    };
-    location: string;
-};
 
 // @public
 export interface VirtualMachineImageTemplates {
@@ -500,7 +477,6 @@ export type VirtualMachineImageTemplatesUpdateResponse = ImageTemplate;
 
 // @public
 export interface VirtualNetworkConfig {
-    proxyVmSize?: string;
     subnetId?: string;
 }
 

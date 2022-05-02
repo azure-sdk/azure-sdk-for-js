@@ -1,15 +1,25 @@
 # Release History
+    
+## 2.0.0 (2022-05-02)
+    
+**Features**
 
-## 1.0.3 (Unreleased)
+  - Added Interface ApiError
+  - Added Interface ApiErrorBase
+  - Added Interface InnerError
+  - Interface Resource has a new optional parameter tags
+  - Add parameters of Resource to TypeAlias ImageTemplate
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ImageTemplateVmProfile no longer has parameter userAssignedIdentities
+  - Interface VirtualNetworkConfig no longer has parameter proxyVmSize
+  - Interface Resource has a new required parameter location
+  - Delete parameters of TrackedResource in TypeAlias ImageTemplate
+  - Type Alias ImageTemplate no longer has parameter systemData
+  - Type Alias ImageTemplatePlatformImageSource no longer has parameter exactVersion
+  - Removed Enum KnownCreatedByType
+    
 ## 1.0.2 (2022-04-26)
 
 **Features**

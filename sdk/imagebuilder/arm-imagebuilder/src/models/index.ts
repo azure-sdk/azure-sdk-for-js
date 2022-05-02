@@ -82,12 +82,10 @@ export interface ImageTemplateLastRunStatus {
 
 /** Describes the virtual machine used to build, customize and capture images */
 export interface ImageTemplateVmProfile {
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D2ds_v4). */
+  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
   vmSize?: string;
   /** Size of the OS disk in GB. Omit or specify 0 to use Azure's default OS disk size. */
   osDiskSizeGB?: number;
-  /** Optional array of resource IDs of user assigned managed identities to be configured on the build VM. This may include the identity of the image template. */
-  userAssignedIdentities?: string[];
   /** Optional configuration of the virtual network to use to deploy the build virtual machine in. Omit if no specific virtual network needs to be used. */
   vnetConfig?: VirtualNetworkConfig;
 }
@@ -96,8 +94,6 @@ export interface ImageTemplateVmProfile {
 export interface VirtualNetworkConfig {
   /** Resource id of a pre-existing subnet. */
   subnetId?: string;
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
-  proxyVmSize?: string;
 }
 
 /** Identity for the image template. */
@@ -123,57 +119,59 @@ export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassig
   readonly clientId?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
+/** The Resource model definition. */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The name of the resource
+   * Resource name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * Resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
 }
 
-/** An error response from the Azure VM Image Builder service. */
-export interface CloudError {
-  /** Details about the error. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the Azure VM Image Builder service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+/** Api error. */
+export interface ApiError {
+  /** The Api error details */
+  details?: ApiErrorBase[];
+  /** The Api inner error */
+  innerError?: InnerError;
+  /** The error code. */
   code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
+  /** The target of the particular error. */
   target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+  /** The error message. */
+  message?: string;
+}
+
+/** Api error base. */
+export interface ApiErrorBase {
+  /** The error code. */
+  code?: string;
+  /** The target of the particular error. */
+  target?: string;
+  /** The error message. */
+  message?: string;
+}
+
+/** Inner error details. */
+export interface InnerError {
+  /** The exception type. */
+  exceptionType?: string;
+  /** The internal error message or exception dump. */
+  errorDetail?: string;
 }
 
 /** Parameters for updating an image template. */
@@ -262,13 +260,8 @@ export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
   offer?: string;
   /** Image sku from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
   sku?: string;
-  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. */
+  /** Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). If 'latest' is specified here, the version is evaluated when the image build takes place, not when the template is submitted. Specifying 'latest' could cause ROUNDTRIP_INCONSISTENT_PROPERTY issue which will be fixed. */
   version?: string;
-  /**
-   * Image version from the [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly exactVersion?: string;
   /** Optional configuration of purchase plan for platform image. */
   planInfo?: PlatformImagePurchasePlan;
 };
@@ -385,36 +378,10 @@ export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
   type: "VHD";
 };
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-};
-
-/** Represents an output that was created by running an image template. */
-export type RunOutput = SubResource & {
-  /** The resource id of the artifact. */
-  artifactId?: string;
-  /** The location URI of the artifact. */
-  artifactUri?: string;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
-
 /** Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider */
-export type ImageTemplate = TrackedResource & {
+export type ImageTemplate = Resource & {
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Specifies the properties used to describe the source image. */
   source?: ImageTemplateSourceUnion;
   /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
@@ -440,6 +407,19 @@ export type ImageTemplate = TrackedResource & {
   buildTimeoutInMinutes?: number;
   /** Describes how virtual machine is set up to build images */
   vmProfile?: ImageTemplateVmProfile;
+};
+
+/** Represents an output that was created by running an image template. */
+export type RunOutput = SubResource & {
+  /** The resource id of the artifact. */
+  artifactId?: string;
+  /** The location URI of the artifact. */
+  artifactUri?: string;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 };
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
@@ -475,26 +455,6 @@ export enum KnownProvisioningErrorCode {
  * **Other**
  */
 export type ProvisioningErrorCode = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link SharedImageStorageAccountType} that the service accepts. */
 export enum KnownSharedImageStorageAccountType {

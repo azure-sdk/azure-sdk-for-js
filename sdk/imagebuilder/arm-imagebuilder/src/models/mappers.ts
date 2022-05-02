@@ -212,17 +212,6 @@ export const ImageTemplateVmProfile: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      userAssignedIdentities: {
-        serializedName: "userAssignedIdentities",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
       vnetConfig: {
         serializedName: "vnetConfig",
         type: {
@@ -241,13 +230,6 @@ export const VirtualNetworkConfig: coreClient.CompositeMapper = {
     modelProperties: {
       subnetId: {
         serializedName: "subnetId",
-        type: {
-          name: "String"
-        }
-      },
-      proxyVmSize: {
-        defaultValue: "",
-        serializedName: "proxyVmSize",
         type: {
           name: "String"
         }
@@ -309,51 +291,6 @@ export const ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassignedi
   }
 };
 
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -379,40 +316,51 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CloudErrorBody"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorBody: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorBody",
-    modelProperties: {
-      code: {
-        serializedName: "code",
+      },
+      location: {
+        serializedName: "location",
+        required: true,
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ApiError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiError",
+    modelProperties: {
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ApiErrorBase"
+            }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innerError",
+        type: {
+          name: "Composite",
+          className: "InnerError"
+        }
+      },
+      code: {
+        serializedName: "code",
         type: {
           name: "String"
         }
@@ -423,16 +371,58 @@ export const CloudErrorBody: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      details: {
-        serializedName: "details",
+      message: {
+        serializedName: "message",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorBody"
-            }
-          }
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiErrorBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApiErrorBase",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const InnerError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InnerError",
+    modelProperties: {
+      exceptionType: {
+        serializedName: "exceptionType",
+        type: {
+          name: "String"
+        }
+      },
+      errorDetail: {
+        serializedName: "errorDetail",
+        type: {
+          name: "String"
         }
       }
     }
@@ -679,13 +669,6 @@ export const ImageTemplatePlatformImageSource: coreClient.CompositeMapper = {
       },
       version: {
         serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      exactVersion: {
-        serializedName: "exactVersion",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -1035,84 +1018,17 @@ export const ImageTemplateVhdDistributor: coreClient.CompositeMapper = {
   }
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RunOutput: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RunOutput",
-    modelProperties: {
-      ...SubResource.type.modelProperties,
-      artifactId: {
-        serializedName: "properties.artifactId",
-        type: {
-          name: "String"
-        }
-      },
-      artifactUri: {
-        serializedName: "properties.artifactUri",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Creating",
-            "Updating",
-            "Succeeded",
-            "Failed",
-            "Deleting"
-          ]
-        }
-      }
-    }
-  }
-};
-
 export const ImageTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageTemplate",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...Resource.type.modelProperties,
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
           className: "ImageTemplateIdentity"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
         }
       },
       source: {
@@ -1190,6 +1106,42 @@ export const ImageTemplate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageTemplateVmProfile"
+        }
+      }
+    }
+  }
+};
+
+export const RunOutput: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RunOutput",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      artifactId: {
+        serializedName: "properties.artifactId",
+        type: {
+          name: "String"
+        }
+      },
+      artifactUri: {
+        serializedName: "properties.artifactUri",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Creating",
+            "Updating",
+            "Succeeded",
+            "Failed",
+            "Deleting"
+          ]
         }
       }
     }

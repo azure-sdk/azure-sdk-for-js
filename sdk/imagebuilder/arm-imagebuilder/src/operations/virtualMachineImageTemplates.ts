@@ -310,13 +310,11 @@ export class VirtualMachineImageTemplatesImpl
       { resourceGroupName, imageTemplateName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -403,13 +401,11 @@ export class VirtualMachineImageTemplatesImpl
       { resourceGroupName, imageTemplateName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -506,13 +502,11 @@ export class VirtualMachineImageTemplatesImpl
       { resourceGroupName, imageTemplateName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -589,13 +583,11 @@ export class VirtualMachineImageTemplatesImpl
       { resourceGroupName, imageTemplateName, options },
       runOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -672,13 +664,11 @@ export class VirtualMachineImageTemplatesImpl
       { resourceGroupName, imageTemplateName, options },
       cancelOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -799,7 +789,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -816,7 +806,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -846,7 +836,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   requestBody: Parameters.parameters,
@@ -879,7 +869,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   requestBody: Parameters.parameters1,
@@ -903,7 +893,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -926,7 +916,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -949,7 +939,7 @@ const runOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -972,7 +962,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -994,7 +984,7 @@ const listRunOutputsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutputCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1016,7 +1006,7 @@ const getRunOutputOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutput
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1038,7 +1028,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1058,7 +1048,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1079,7 +1069,7 @@ const listRunOutputsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutputCollection
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   queryParameters: [Parameters.apiVersion],
