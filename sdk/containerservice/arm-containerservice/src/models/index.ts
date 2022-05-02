@@ -166,7 +166,7 @@ export interface PowerState {
 
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
-  /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
+  /** Desired Number of agents (VMs) specified to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
   vmSize?: string;
@@ -214,8 +214,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
+  /**
+   * Describes whether the Agent Pool is Running or Stopped
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerState?: PowerState;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
@@ -392,18 +395,6 @@ export interface ManagedClusterWindowsProfile {
   licenseType?: LicenseType;
   /** For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy). */
   enableCSIProxy?: boolean;
-  /** The Windows gMSA Profile in the Managed Cluster. */
-  gmsaProfile?: WindowsGmsaProfile;
-}
-
-/** Windows gMSA Profile in the managed cluster. */
-export interface WindowsGmsaProfile {
-  /** Specifies whether to enable Windows gMSA in the managed cluster. */
-  enabled?: boolean;
-  /** Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. */
-  dnsServer?: string;
-  /** Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. */
-  rootDomainName?: string;
 }
 
 /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
@@ -525,12 +516,6 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
-  /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
-  podCidrs?: string[];
-  /** One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
-  serviceCidrs?: string[];
-  /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: IpFamily[];
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -553,10 +538,8 @@ export interface ManagedClusterLoadBalancerProfile {
 
 /** Desired managed outbound IPs for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
-  /** The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
+  /** The desired number of outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
   count?: number;
-  /** The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. */
-  countIPv6?: number;
 }
 
 /** Desired outbound IP Prefix resources for the cluster load balancer. */
@@ -714,44 +697,27 @@ export interface ManagedClusterSecurityProfileAzureDefender {
   logAnalyticsWorkspaceResourceId?: string;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
+/** The Resource model definition. */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Resource Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The name of the resource
+   * Resource name
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * Resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
 }
 
 /** The list of available upgrades for compute pools. */
@@ -834,6 +800,22 @@ export interface MaintenanceConfigurationListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The UTC timestamp of resource creation. */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The type of identity that last modified the resource. */
+  lastModifiedAt?: Date;
 }
 
 /** Time in a week. */
@@ -1139,34 +1121,6 @@ export interface ContainerServiceVMDiagnostics {
   readonly storageUri?: string;
 }
 
-/** Storage profile for the container service cluster. */
-export interface ManagedClusterStorageProfile {
-  /** AzureDisk CSI Driver settings for the storage profile. */
-  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
-  /** AzureFile CSI Driver settings for the storage profile. */
-  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
-  /** Snapshot Controller settings for the storage profile. */
-  snapshotController?: ManagedClusterStorageProfileSnapshotController;
-}
-
-/** AzureDisk CSI Driver settings for the storage profile. */
-export interface ManagedClusterStorageProfileDiskCSIDriver {
-  /** Whether to enable AzureDisk CSI Driver. The default value is true. */
-  enabled?: boolean;
-}
-
-/** AzureFile CSI Driver settings for the storage profile. */
-export interface ManagedClusterStorageProfileFileCSIDriver {
-  /** Whether to enable AzureFile CSI Driver. The default value is true. */
-  enabled?: boolean;
-}
-
-/** Snapshot Controller settings for the storage profile. */
-export interface ManagedClusterStorageProfileSnapshotController {
-  /** Whether to enable Snapshot Controller. The default value is true. */
-  enabled?: boolean;
-}
-
 /** Profile for the container service agent pool. */
 export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
   /** Windows agent pool names must be 6 characters or less. */
@@ -1176,117 +1130,8 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 /** Information of user assigned identity used by this add-on. */
 export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-};
-
-/** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
-export type MaintenanceConfiguration = SubResource & {
-  /**
-   * The system metadata relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. */
-  timeInWeek?: TimeInWeek[];
-  /** Time slots on which upgrade is not allowed. */
-  notAllowedTime?: TimeSpan[];
-};
-
-/** Agent Pool. */
-export type AgentPool = SubResource & {
-  /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
-  count?: number;
-  /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
-  vmSize?: string;
-  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
-  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType;
-  /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
-  kubeletDiskType?: KubeletDiskType;
-  /** Determines the type of workload a node can run. */
-  workloadRuntime?: WorkloadRuntime;
-  /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  vnetSubnetID?: string;
-  /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  podSubnetID?: string;
-  /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
-  /** The operating system type. The default is Linux. */
-  osType?: OSType;
-  /** Specifies an OS SKU. This value must not be specified if OSType is Windows. */
-  osSKU?: Ossku;
-  /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
-  /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
-  /** Whether to enable auto-scaler */
-  enableAutoScaling?: boolean;
-  /** This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
-  scaleDownMode?: ScaleDownMode;
-  /** The type of Agent Pool. */
-  typePropertiesType?: AgentPoolType;
-  /** A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
-  mode?: AgentPoolMode;
-  /** As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
-  orchestratorVersion?: string;
-  /**
-   * The version of node image
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeImageVersion?: string;
-  /** Settings for upgrading the agentpool */
-  upgradeSettings?: AgentPoolUpgradeSettings;
-  /**
-   * The current deployment or provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
-  /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
-  availabilityZones?: string[];
-  /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
-  enableNodePublicIP?: boolean;
-  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
-  nodePublicIPPrefixID?: string;
-  /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
-  scaleSetPriority?: ScaleSetPriority;
-  /** This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'. */
-  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
-  /** Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
-  spotMaxPrice?: number;
-  /** The tags to be persisted on the agent pool virtual machine scale set. */
-  tags?: { [propertyName: string]: string };
-  /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: { [propertyName: string]: string };
-  /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: string[];
-  /** The ID for Proximity Placement Group. */
-  proximityPlacementGroupID?: string;
-  /** The Kubelet configuration on the agent pool nodes. */
-  kubeletConfig?: KubeletConfig;
-  /** The OS configuration of Linux agent nodes. */
-  linuxOSConfig?: LinuxOSConfig;
-  /** This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
-  enableEncryptionAtHost?: boolean;
-  /** Whether to enable UltraSSD */
-  enableUltraSSD?: boolean;
-  /** See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
-  enableFips?: boolean;
-  /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
-  gpuInstanceProfile?: GPUInstanceProfile;
-  /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
-};
-
 /** Managed cluster. */
-export type ManagedCluster = TrackedResource & {
+export type ManagedCluster = Resource & {
   /** The managed cluster SKU. */
   sku?: ManagedClusterSKU;
   /** The extended location of the Virtual Machine. */
@@ -1369,59 +1214,132 @@ export type ManagedCluster = TrackedResource & {
   httpProxyConfig?: ManagedClusterHttpProxyConfig;
   /** Security profile for the managed cluster. */
   securityProfile?: ManagedClusterSecurityProfile;
-  /** Allow or deny public network access for AKS */
+  /** Default value is 'Enabled' (case insensitive). Could be set to 'Disabled' to enable private cluster */
   publicNetworkAccess?: PublicNetworkAccess;
 };
 
 /** Managed cluster Access Profile. */
-export type ManagedClusterAccessProfile = TrackedResource & {
+export type ManagedClusterAccessProfile = Resource & {
   /** Base64-encoded Kubernetes configuration file. */
   kubeConfig?: Uint8Array;
 };
 
 /** A node pool snapshot resource. */
-export type Snapshot = TrackedResource & {
+export type Snapshot = Resource & {
+  /**
+   * The system metadata relating to this snapshot.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
   snapshotType?: SnapshotType;
+};
+
+/** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
+export type MaintenanceConfiguration = SubResource & {
   /**
-   * The version of Kubernetes.
+   * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kubernetesVersion?: string;
+  readonly systemData?: SystemData;
+  /** If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. */
+  timeInWeek?: TimeInWeek[];
+  /** Time slots on which upgrade is not allowed. */
+  notAllowedTime?: TimeSpan[];
+};
+
+/** Agent Pool. */
+export type AgentPool = SubResource & {
+  /** Desired Number of agents (VMs) specified to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
+  count?: number;
+  /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
+  vmSize?: string;
+  /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
+  osDiskSizeGB?: number;
+  /** The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
+  osDiskType?: OSDiskType;
+  /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
+  kubeletDiskType?: KubeletDiskType;
+  /** Determines the type of workload a node can run. */
+  workloadRuntime?: WorkloadRuntime;
+  /** If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  vnetSubnetID?: string;
+  /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
+  podSubnetID?: string;
+  /** The maximum number of pods that can run on a node. */
+  maxPods?: number;
+  /** The operating system type. The default is Linux. */
+  osType?: OSType;
+  /** Specifies an OS SKU. This value must not be specified if OSType is Windows. */
+  osSKU?: Ossku;
+  /** The maximum number of nodes for auto-scaling */
+  maxCount?: number;
+  /** The minimum number of nodes for auto-scaling */
+  minCount?: number;
+  /** Whether to enable auto-scaler */
+  enableAutoScaling?: boolean;
+  /** This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
+  scaleDownMode?: ScaleDownMode;
+  /** The type of Agent Pool. */
+  typePropertiesType?: AgentPoolType;
+  /** A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
+  mode?: AgentPoolMode;
+  /** As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
+  orchestratorVersion?: string;
   /**
-   * The version of node image.
+   * The version of node image
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nodeImageVersion?: string;
+  /** Settings for upgrading the agentpool */
+  upgradeSettings?: AgentPoolUpgradeSettings;
   /**
-   * The operating system type. The default is Linux.
+   * The current deployment or provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly osType?: OSType;
+  readonly provisioningState?: string;
   /**
-   * Specifies an OS SKU. This value must not be specified if OSType is Windows.
+   * Describes whether the Agent Pool is Running or Stopped
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly osSku?: Ossku;
-  /**
-   * The size of the VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmSize?: string;
-  /**
-   * Whether to use a FIPS-enabled OS.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enableFips?: boolean;
+  readonly powerState?: PowerState;
+  /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
+  availabilityZones?: string[];
+  /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
+  enableNodePublicIP?: boolean;
+  /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
+  nodePublicIPPrefixID?: string;
+  /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
+  scaleSetPriority?: ScaleSetPriority;
+  /** This cannot be specified unless the scaleSetPriority is 'Spot'. If not specified, the default is 'Delete'. */
+  scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
+  /** Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
+  spotMaxPrice?: number;
+  /** The tags to be persisted on the agent pool virtual machine scale set. */
+  tags?: { [propertyName: string]: string };
+  /** The node labels to be persisted across all nodes in agent pool. */
+  nodeLabels?: { [propertyName: string]: string };
+  /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
+  nodeTaints?: string[];
+  /** The ID for Proximity Placement Group. */
+  proximityPlacementGroupID?: string;
+  /** The Kubelet configuration on the agent pool nodes. */
+  kubeletConfig?: KubeletConfig;
+  /** The OS configuration of Linux agent nodes. */
+  linuxOSConfig?: LinuxOSConfig;
+  /** This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
+  enableEncryptionAtHost?: boolean;
+  /** Whether to enable UltraSSD */
+  enableUltraSSD?: boolean;
+  /** See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
+  enableFips?: boolean;
+  /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
+  gpuInstanceProfile?: GPUInstanceProfile;
+  /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
+  creationData?: CreationData;
 };
-
-/** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
-export interface AgentPoolsUpgradeNodeImageVersionHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-}
 
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
@@ -1821,22 +1739,6 @@ export enum KnownLoadBalancerSku {
  */
 export type LoadBalancerSku = string;
 
-/** Known values of {@link IpFamily} that the service accepts. */
-export enum KnownIpFamily {
-  IPv4 = "IPv4",
-  IPv6 = "IPv6"
-}
-
-/**
- * Defines values for IpFamily. \
- * {@link KnownIpFamily} can be used interchangeably with IpFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPv4** \
- * **IPv6**
- */
-export type IpFamily = string;
-
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {
   /** Automatically upgrade the cluster to the latest supported patch release on the latest supported minor version. In cases where the cluster is at a version of Kubernetes that is at an N-2 minor version where N is the latest supported minor version, the cluster first upgrades to the latest supported patch version on N-1 minor version. For example, if a cluster is running version 1.17.7 and versions 1.17.9, 1.18.4, 1.18.6, and 1.19.1 are available, your cluster first is upgraded to 1.18.6, then is upgraded to 1.19.1. */
@@ -1923,24 +1825,6 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
-
-/** Known values of {@link Format} that the service accepts. */
-export enum KnownFormat {
-  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
-  Azure = "azure",
-  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
-  Exec = "exec"
-}
-
-/**
- * Defines values for Format. \
- * {@link KnownFormat} can be used interchangeably with Format,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
- * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
- */
-export type Format = string;
 
 /** Known values of {@link WeekDay} that the service accepts. */
 export enum KnownWeekDay {
@@ -2463,8 +2347,6 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams
   extends coreClient.OperationOptions {
   /** server fqdn type for credentials to be returned */
   serverFqdn?: string;
-  /** Only apply to AAD clusters, specifies the format of returned kubeconfig. Format 'azure' will return azure auth-provider kubeconfig; format 'exec' will return exec format kubeconfig, which requires kubelogin binary in the path. */
-  format?: Format;
 }
 
 /** Contains response data for the listClusterUserCredentials operation. */

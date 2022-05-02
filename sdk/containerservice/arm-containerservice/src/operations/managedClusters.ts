@@ -120,7 +120,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Lists managed clusters in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -174,7 +174,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * managed cluster. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -245,7 +245,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of Azure region.
+   * @param location The name of a supported Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -270,7 +270,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Lists managed clusters in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -285,7 +285,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Gets the upgrade profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -306,7 +306,7 @@ export class ManagedClustersImpl implements ManagedClusters {
    * or
    * [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials)
    * .
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param roleName The name of the role for managed cluster accessProfile resource.
    * @param options The options parameters.
@@ -325,7 +325,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Lists the admin credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -342,7 +342,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Lists the user credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -359,7 +359,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Lists the cluster monitoring user credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -376,7 +376,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Gets a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -393,7 +393,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Creates or updates a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The managed cluster to create or update.
    * @param options The options parameters.
@@ -453,17 +453,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Creates or updates a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The managed cluster to create or update.
    * @param options The options parameters.
@@ -485,7 +483,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Updates tags on a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update Managed Cluster Tags operation.
    * @param options The options parameters.
@@ -545,17 +543,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       updateTagsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Updates tags on a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update Managed Cluster Tags operation.
    * @param options The options parameters.
@@ -577,7 +573,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Deletes a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -630,17 +626,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Deletes a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -659,7 +653,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * This action cannot be performed on a cluster that is not using a service principal
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The service principal profile to set on the managed cluster.
    * @param options The options parameters.
@@ -714,17 +708,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       resetServicePrincipalProfileOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * This action cannot be performed on a cluster that is not using a service principal
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The service principal profile to set on the managed cluster.
    * @param options The options parameters.
@@ -746,7 +738,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Reset the AAD Profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
    * @param options The options parameters.
@@ -801,17 +793,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       resetAADProfileOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * Reset the AAD Profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
    * @param options The options parameters.
@@ -834,7 +824,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -887,18 +877,16 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       rotateClusterCertificatesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -921,7 +909,7 @@ export class ManagedClustersImpl implements ManagedClusters {
    * cluster does not accrue charges while it is stopped. See [stopping a
    * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a
    * cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -974,12 +962,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -988,7 +974,7 @@ export class ManagedClustersImpl implements ManagedClusters {
    * cluster does not accrue charges while it is stopped. See [stopping a
    * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a
    * cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -1008,7 +994,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -1061,18 +1047,16 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -1093,7 +1077,7 @@ export class ManagedClustersImpl implements ManagedClusters {
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
    * information see [AKS Run
    * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param requestPayload The run command request
    * @param options The options parameters.
@@ -1153,19 +1137,17 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, requestPayload, options },
       runCommandOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
    * information see [AKS Run
    * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param requestPayload The run command request
    * @param options The options parameters.
@@ -1187,7 +1169,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * Gets the results of a command which has been run on the Managed Cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param commandId Id of the command.
    * @param options The options parameters.
@@ -1207,7 +1189,7 @@ export class ManagedClustersImpl implements ManagedClusters {
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * managed cluster. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -1239,7 +1221,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -1256,7 +1238,7 @@ export class ManagedClustersImpl implements ManagedClusters {
 
   /**
    * ListOutboundNetworkDependenciesEndpointsNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListOutboundNetworkDependenciesEndpoints method.
@@ -1417,11 +1399,7 @@ const listClusterUserCredentialsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.serverFqdn,
-    Parameters.format
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.serverFqdn],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

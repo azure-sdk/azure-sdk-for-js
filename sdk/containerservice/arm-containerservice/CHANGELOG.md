@@ -1,25 +1,28 @@
 # Release History
     
-## 16.0.0 (2022-04-20)
+## 16.0.0 (2022-05-02)
     
 **Features**
 
-  - Added Interface ManagedClusterStorageProfile
-  - Added Interface ManagedClusterStorageProfileDiskCSIDriver
-  - Added Interface ManagedClusterStorageProfileFileCSIDriver
-  - Added Interface ManagedClusterStorageProfileSnapshotController
-  - Added Type Alias TrackedResource
-  - Add parameters of TrackedResource to TypeAlias ManagedCluster
-  - Add parameters of TrackedResource to TypeAlias ManagedClusterAccessProfile
-  - Add parameters of TrackedResource to TypeAlias Snapshot
+  - Type Alias Snapshot has a new parameter systemData
 
 **Breaking Changes**
 
-  - Interface Resource no longer has parameter location
-  - Interface Resource no longer has parameter tags
-  - Delete parameters of Resource in TypeAlias ManagedCluster
-  - Delete parameters of Resource in TypeAlias ManagedClusterAccessProfile
-  - Delete parameters of Resource in TypeAlias Snapshot
+  - Interface ContainerServiceNetworkProfile no longer has parameter ipFamilies
+  - Interface ContainerServiceNetworkProfile no longer has parameter podCidrs
+  - Interface ContainerServiceNetworkProfile no longer has parameter serviceCidrs
+  - Interface ManagedClusterLoadBalancerProfileManagedOutboundIPs no longer has parameter countIPv6
+  - Interface ManagedClustersListClusterUserCredentialsOptionalParams no longer has parameter format
+  - Interface ManagedClusterWindowsProfile no longer has parameter gmsaProfile
+  - Interface Resource no longer has parameter systemData
+  - Type Alias Snapshot no longer has parameter kubernetesVersion
+  - Type Alias Snapshot no longer has parameter nodeImageVersion
+  - Type Alias Snapshot no longer has parameter osType
+  - Type Alias Snapshot no longer has parameter osSku
+  - Type Alias Snapshot no longer has parameter vmSize
+  - Type Alias Snapshot no longer has parameter enableFips
+  - Removed Enum KnownFormat
+  - Removed Enum KnownIpFamily
     
     
 ## 15.2.0 (2022-03-23)
