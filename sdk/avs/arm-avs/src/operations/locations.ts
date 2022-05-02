@@ -75,7 +75,7 @@ const checkTrialAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.sku],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

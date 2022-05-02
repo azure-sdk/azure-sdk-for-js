@@ -108,6 +108,16 @@ export const location: OperationURLParameter = {
   }
 };
 
+export const sku: OperationQueryParameter = {
+  parameterPath: ["options", "sku"],
+  mapper: {
+    serializedName: "sku",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {

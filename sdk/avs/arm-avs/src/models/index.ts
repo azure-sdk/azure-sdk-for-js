@@ -2435,7 +2435,10 @@ export type OperationsListNextResponse = OperationList;
 
 /** Optional parameters. */
 export interface LocationsCheckTrialAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The name of the SKU. */
+  sku?: string;
+}
 
 /** Contains response data for the checkTrialAvailability operation. */
 export type LocationsCheckTrialAvailabilityResponse = Trial;

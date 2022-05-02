@@ -1206,6 +1206,7 @@ export type LocationsCheckQuotaAvailabilityResponse = Quota;
 
 // @public
 export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClient.OperationOptions {
+    sku?: string;
 }
 
 // @public

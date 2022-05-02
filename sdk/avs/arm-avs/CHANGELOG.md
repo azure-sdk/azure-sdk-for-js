@@ -1,15 +1,12 @@
 # Release History
+    
+## 3.1.0 (2022-05-02)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface LocationsCheckTrialAvailabilityOptionalParams has a new optional parameter sku
+    
+    
 ## 3.0.0 (2022-01-10)
 
 The package of @azure/arm-avs is using our next generation design principles since version 3.0.0, which contains breaking changes.
