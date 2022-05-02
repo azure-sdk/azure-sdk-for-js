@@ -34,10 +34,6 @@ import {
   DeploymentsRestartOptionalParams,
   DeploymentsGetLogFileUrlOptionalParams,
   DeploymentsGetLogFileUrlResponse,
-  DiagnosticParameters,
-  DeploymentsGenerateHeapDumpOptionalParams,
-  DeploymentsGenerateThreadDumpOptionalParams,
-  DeploymentsStartJFROptionalParams,
   DeploymentsListNextResponse,
   DeploymentsListForClusterNextResponse
 } from "../models";
@@ -304,13 +300,11 @@ export class DeploymentsImpl implements Deployments {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -402,13 +396,11 @@ export class DeploymentsImpl implements Deployments {
       { resourceGroupName, serviceName, appName, deploymentName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -511,13 +503,11 @@ export class DeploymentsImpl implements Deployments {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -647,13 +637,11 @@ export class DeploymentsImpl implements Deployments {
       { resourceGroupName, serviceName, appName, deploymentName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -742,13 +730,11 @@ export class DeploymentsImpl implements Deployments {
       { resourceGroupName, serviceName, appName, deploymentName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -837,13 +823,11 @@ export class DeploymentsImpl implements Deployments {
       { resourceGroupName, serviceName, appName, deploymentName, options },
       restartOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -892,327 +876,6 @@ export class DeploymentsImpl implements Deployments {
       { resourceGroupName, serviceName, appName, deploymentName, options },
       getLogFileUrlOperationSpec
     );
-  }
-
-  /**
-   * Generate Heap Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginGenerateHeapDump(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        serviceName,
-        appName,
-        deploymentName,
-        diagnosticParameters,
-        options
-      },
-      generateHeapDumpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Generate Heap Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginGenerateHeapDumpAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginGenerateHeapDump(
-      resourceGroupName,
-      serviceName,
-      appName,
-      deploymentName,
-      diagnosticParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Generate Thread Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginGenerateThreadDump(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        serviceName,
-        appName,
-        deploymentName,
-        diagnosticParameters,
-        options
-      },
-      generateThreadDumpOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Generate Thread Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginGenerateThreadDumpAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginGenerateThreadDump(
-      resourceGroupName,
-      serviceName,
-      appName,
-      deploymentName,
-      diagnosticParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Start JFR
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginStartJFR(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        serviceName,
-        appName,
-        deploymentName,
-        diagnosticParameters,
-        options
-      },
-      startJFROperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Start JFR
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  async beginStartJFRAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
-  ): Promise<void> {
-    const poller = await this.beginStartJFR(
-      resourceGroupName,
-      serviceName,
-      appName,
-      deploymentName,
-      diagnosticParameters,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -1522,87 +1185,6 @@ const getLogFileUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.deploymentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const generateHeapDumpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateHeapDump",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.diagnosticParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName,
-    Parameters.deploymentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const generateThreadDumpOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/generateThreadDump",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.diagnosticParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName,
-    Parameters.deploymentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const startJFROperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}/startJFR",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.diagnosticParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.appName,
-    Parameters.deploymentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

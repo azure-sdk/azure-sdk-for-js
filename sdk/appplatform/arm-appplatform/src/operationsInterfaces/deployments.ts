@@ -23,11 +23,7 @@ import {
   DeploymentsStopOptionalParams,
   DeploymentsRestartOptionalParams,
   DeploymentsGetLogFileUrlOptionalParams,
-  DeploymentsGetLogFileUrlResponse,
-  DiagnosticParameters,
-  DeploymentsGenerateHeapDumpOptionalParams,
-  DeploymentsGenerateThreadDumpOptionalParams,
-  DeploymentsStartJFROptionalParams
+  DeploymentsGetLogFileUrlResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -301,112 +297,4 @@ export interface Deployments {
     deploymentName: string,
     options?: DeploymentsGetLogFileUrlOptionalParams
   ): Promise<DeploymentsGetLogFileUrlResponse>;
-  /**
-   * Generate Heap Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginGenerateHeapDump(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Generate Heap Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginGenerateHeapDumpAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateHeapDumpOptionalParams
-  ): Promise<void>;
-  /**
-   * Generate Thread Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginGenerateThreadDump(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Generate Thread Dump
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginGenerateThreadDumpAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsGenerateThreadDumpOptionalParams
-  ): Promise<void>;
-  /**
-   * Start JFR
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginStartJFR(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Start JFR
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param appName The name of the App resource.
-   * @param deploymentName The name of the Deployment resource.
-   * @param diagnosticParameters Parameters for the diagnostic operation
-   * @param options The options parameters.
-   */
-  beginStartJFRAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    appName: string,
-    deploymentName: string,
-    diagnosticParameters: DiagnosticParameters,
-    options?: DeploymentsStartJFROptionalParams
-  ): Promise<void>;
 }
