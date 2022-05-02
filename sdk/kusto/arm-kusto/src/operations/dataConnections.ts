@@ -197,13 +197,11 @@ export class DataConnectionsImpl implements DataConnections {
       { resourceGroupName, clusterName, databaseName, parameters, options },
       dataConnectionValidationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -358,12 +356,10 @@ export class DataConnectionsImpl implements DataConnections {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -467,12 +463,10 @@ export class DataConnectionsImpl implements DataConnections {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -568,12 +562,10 @@ export class DataConnectionsImpl implements DataConnections {
       },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

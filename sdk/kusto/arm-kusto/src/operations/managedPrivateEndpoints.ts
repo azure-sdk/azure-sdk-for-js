@@ -216,12 +216,10 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -319,12 +317,10 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -409,12 +405,10 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       { resourceGroupName, clusterName, managedPrivateEndpointName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

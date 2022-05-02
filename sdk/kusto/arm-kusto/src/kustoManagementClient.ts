@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
@@ -21,8 +20,7 @@ import {
   PrivateLinkResourcesImpl,
   DataConnectionsImpl,
   OperationsImpl,
-  OperationsResultsImpl,
-  OperationsResultsLocationImpl
+  OperationsResultsImpl
 } from "./operations";
 import {
   Clusters,
@@ -36,8 +34,7 @@ import {
   PrivateLinkResources,
   DataConnections,
   Operations,
-  OperationsResults,
-  OperationsResultsLocation
+  OperationsResults
 } from "./operationsInterfaces";
 import { KustoManagementClientOptionalParams } from "./models";
 
@@ -74,7 +71,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.1.1`;
+    const packageDetails = `azsdk-js-arm-kusto/8.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -89,39 +86,15 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-01";
+    this.apiVersion = options.apiVersion || "2021-08-27";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
@@ -140,7 +113,6 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     this.dataConnections = new DataConnectionsImpl(this);
     this.operations = new OperationsImpl(this);
     this.operationsResults = new OperationsResultsImpl(this);
-    this.operationsResultsLocation = new OperationsResultsLocationImpl(this);
   }
 
   clusters: Clusters;
@@ -155,5 +127,4 @@ export class KustoManagementClient extends coreClient.ServiceClient {
   dataConnections: DataConnections;
   operations: Operations;
   operationsResults: OperationsResults;
-  operationsResultsLocation: OperationsResultsLocation;
 }

@@ -298,12 +298,10 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -395,12 +393,10 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -485,12 +481,10 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

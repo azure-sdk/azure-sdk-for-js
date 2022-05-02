@@ -1,5 +1,51 @@
 # Release History
     
+## 8.0.0 (2022-05-02)
+    
+**Breaking Changes**
+
+  - Removed operation group OperationsResultsLocation
+  - Interface OperationResult no longer has parameter provisioningState
+  - Class KustoManagementClient no longer has parameter operationsResultsLocation
+  - Type Alias Cluster no longer has parameter publicIPType
+  - Type Alias Cluster no longer has parameter virtualClusterGraduationProperties
+  - Type Alias Cluster no longer has parameter privateEndpointConnections
+  - Type Alias ClusterPrincipalAssignment no longer has parameter aadObjectId
+  - Type Alias ClusterUpdate no longer has parameter publicIPType
+  - Type Alias ClusterUpdate no longer has parameter virtualClusterGraduationProperties
+  - Type Alias ClusterUpdate no longer has parameter privateEndpointConnections
+  - Type Alias DatabasePrincipalAssignment no longer has parameter aadObjectId
+  - Type Alias EventGridDataConnection no longer has parameter eventGridResourceId
+  - Type Alias EventGridDataConnection no longer has parameter managedIdentityResourceId
+  - Type Alias EventGridDataConnection no longer has parameter managedIdentityObjectId
+  - Type Alias EventGridDataConnection no longer has parameter databaseRouting
+  - Type Alias EventHubDataConnection no longer has parameter managedIdentityObjectId
+  - Type Alias EventHubDataConnection no longer has parameter databaseRouting
+  - Type Alias IotHubDataConnection no longer has parameter databaseRouting
+  - Type Alias Script no longer has parameter scriptContent
+  - Removed Enum KnownDatabaseRouting
+  - Removed Enum KnownPublicIPType
+  - Enum KnownAzureSkuName no longer has value StandardD16DV5
+  - Enum KnownAzureSkuName no longer has value StandardD32DV4
+  - Enum KnownAzureSkuName no longer has value StandardD32DV5
+  - Enum KnownAzureSkuName no longer has value StandardE16AdsV5
+  - Enum KnownAzureSkuName no longer has value StandardE16AsV53TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE16AsV54TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE16SV43TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE16SV44TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE16SV53TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE16SV54TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE2AdsV5
+  - Enum KnownAzureSkuName no longer has value StandardE4AdsV5
+  - Enum KnownAzureSkuName no longer has value StandardE8AdsV5
+  - Enum KnownAzureSkuName no longer has value StandardE8AsV51TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE8AsV52TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE8SV41TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE8SV42TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE8SV51TBPS
+  - Enum KnownAzureSkuName no longer has value StandardE8SV52TBPS
+    
+    
 ## 7.1.1 (2022-04-24)
 
 **Features**

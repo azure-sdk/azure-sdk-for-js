@@ -516,12 +516,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -608,12 +606,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -693,12 +689,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -775,12 +769,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -857,12 +849,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -958,12 +948,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, followerDatabaseToRemove, options },
       detachFollowerDatabasesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1048,13 +1036,11 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, options },
       diagnoseVirtualNetworkOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1236,12 +1222,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, languageExtensionsToAdd, options },
       addLanguageExtensionsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1323,12 +1307,10 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, clusterName, languageExtensionsToRemove, options },
       removeLanguageExtensionsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
