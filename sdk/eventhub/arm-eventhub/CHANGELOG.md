@@ -1,15 +1,42 @@
 # Release History
+    
+## 6.0.0-beta.1 (2022-05-02)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
+  - Interface ErrorResponse has a new optional parameter code
+  - Interface ErrorResponse has a new optional parameter message
+  - Add parameters of Resource to TypeAlias ArmDisasterRecovery
+  - Add parameters of Resource to TypeAlias AuthorizationRule
+  - Add parameters of Resource to TypeAlias ConsumerGroup
+  - Add parameters of Resource to TypeAlias Eventhub
+  - Add parameters of Resource to TypeAlias NetworkRuleSet
+  - Add parameters of Resource to TypeAlias PrivateEndpointConnection
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group SchemaRegistry
+  - Removed operation Namespaces.listNetworkRuleSet
+  - Interface Destination no longer has parameter dataLakeAccountName
+  - Interface Destination no longer has parameter dataLakeFolderPath
+  - Interface Destination no longer has parameter dataLakeSubscriptionId
+  - Interface ErrorResponse no longer has parameter error
+  - Interface Operation no longer has parameter isDataAction
+  - Interface Operation no longer has parameter origin
+  - Interface Operation no longer has parameter properties
+  - Interface OperationDisplay no longer has parameter description
+  - Class EventHubManagementClient no longer has parameter schemaRegistry
+  - Delete parameters of ProxyResource in TypeAlias ArmDisasterRecovery
+  - Delete parameters of ProxyResource in TypeAlias AuthorizationRule
+  - Delete parameters of ProxyResource in TypeAlias ConsumerGroup
+  - Delete parameters of ProxyResource in TypeAlias Eventhub
+  - Delete parameters of ProxyResource in TypeAlias NetworkRuleSet
+  - Delete parameters of ProxyResource in TypeAlias PrivateEndpointConnection
+  - Type Alias EHNamespace no longer has parameter alternateName
+  - Removed Enum KnownKeyType
+  - Removed Enum KnownSchemaCompatibility
+  - Removed Enum KnownSchemaType
+    
 ## 5.0.1 (2022-04-18)
 
 **features**

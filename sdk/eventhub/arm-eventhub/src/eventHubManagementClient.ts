@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
@@ -18,8 +17,7 @@ import {
   OperationsImpl,
   EventHubsImpl,
   DisasterRecoveryConfigsImpl,
-  ConsumerGroupsImpl,
-  SchemaRegistryImpl
+  ConsumerGroupsImpl
 } from "./operations";
 import {
   Clusters,
@@ -30,8 +28,7 @@ import {
   Operations,
   EventHubs,
   DisasterRecoveryConfigs,
-  ConsumerGroups,
-  SchemaRegistry
+  ConsumerGroups
 } from "./operationsInterfaces";
 import { EventHubManagementClientOptionalParams } from "./models";
 
@@ -68,7 +65,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub/5.0.2`;
+    const packageDetails = `azsdk-js-arm-eventhub/6.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -83,39 +80,15 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-01";
+    this.apiVersion = options.apiVersion || "2021-06-01-preview";
     this.clusters = new ClustersImpl(this);
     this.configuration = new ConfigurationImpl(this);
     this.namespaces = new NamespacesImpl(this);
@@ -125,7 +98,6 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     this.eventHubs = new EventHubsImpl(this);
     this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
     this.consumerGroups = new ConsumerGroupsImpl(this);
-    this.schemaRegistry = new SchemaRegistryImpl(this);
   }
 
   clusters: Clusters;
@@ -137,5 +109,4 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
   eventHubs: EventHubs;
   disasterRecoveryConfigs: DisasterRecoveryConfigs;
   consumerGroups: ConsumerGroups;
-  schemaRegistry: SchemaRegistry;
 }

@@ -649,6 +649,21 @@ packages:
       - encoding
     dev: false
 
+  /@azure/arm-eventhub/5.0.1:
+    resolution: {integrity: sha512-a6TOdc5ShsknIveI1Olk3PXMT5tQ40qi+zlaWGXO+lD/OzVpYZaR4mw49XXryX/1Pv1O/+3awz219Sxv4S3fEQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.5.0
+      '@azure/core-lro': 2.2.4
+      '@azure/core-paging': 1.2.1
+      '@azure/core-rest-pipeline': 1.8.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-msi/2.0.0:
     resolution: {integrity: sha512-yBprEoMQRNLyHtR/RuJh8ehQCcF6rO5049Pfped79uRd/Y8EW+pNpbW0EjqWC5lVllC1VG4B89aC5PwE3XeISA==}
     engines: {node: '>=12.0.0'}
@@ -10863,29 +10878,28 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-0/bLZaWh1M+YMhOqdV7043GLZJYohPa+NnJY//fRmfNe6PRe8MAmhkBP650zKFudSZa6nh/LTZ8mESRtPj6hYA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-4I7Ul8TmuO89gRx9q/5iN4r2ntAgwsSYIlotiePzMKkDM/SDSCzOH6bxt4lXIapBf2xaVo/9Fo6Z6vm4UmHvZg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      '@microsoft/api-extractor': 7.23.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11954,11 +11968,12 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-F4KBzJWHJ5xl98pUJNPft9sAouJTQ7gYwOra8wt/2KcziB3lnR5wgEOFZoxy/BX3L3ggA9hGOxl7mVlsnk6FYg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-PhfToAT2M418IrgFNZsuTGvdS/S+mQrG4pKWKKW50BXlVCE/MGY+mNMdRwySP29vvYXAUZot/Yv0JurSQHFL/g==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/arm-eventhub': 5.0.1
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2

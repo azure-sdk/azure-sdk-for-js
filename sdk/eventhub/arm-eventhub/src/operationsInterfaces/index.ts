@@ -15,4 +15,3 @@ export * from "./operations";
 export * from "./eventHubs";
 export * from "./disasterRecoveryConfigs";
 export * from "./consumerGroups";
-export * from "./schemaRegistry";

@@ -37,8 +37,6 @@ import {
   NamespacesCreateOrUpdateNetworkRuleSetResponse,
   NamespacesGetNetworkRuleSetOptionalParams,
   NamespacesGetNetworkRuleSetResponse,
-  NamespacesListNetworkRuleSetOptionalParams,
-  NamespacesListNetworkRuleSetResponse,
   NamespacesListAuthorizationRulesResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
@@ -325,12 +323,10 @@ export class NamespacesImpl implements Namespaces {
       { resourceGroupName, namespaceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -412,12 +408,10 @@ export class NamespacesImpl implements Namespaces {
       { resourceGroupName, namespaceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -510,23 +504,6 @@ export class NamespacesImpl implements Namespaces {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
       getNetworkRuleSetOperationSpec
-    );
-  }
-
-  /**
-   * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The options parameters.
-   */
-  listNetworkRuleSet(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListNetworkRuleSetOptionalParams
-  ): Promise<NamespacesListNetworkRuleSetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listNetworkRuleSetOperationSpec
     );
   }
 
@@ -902,28 +879,6 @@ const getNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NetworkRuleSet
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNetworkRuleSetOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetworkRuleSetListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

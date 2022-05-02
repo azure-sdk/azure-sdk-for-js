@@ -519,7 +519,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
