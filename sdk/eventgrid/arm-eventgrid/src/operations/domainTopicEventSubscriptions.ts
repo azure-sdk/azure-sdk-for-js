@@ -16,6 +16,7 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   EventSubscription,
+  DomainTopicEventSubscriptionsListNextOptionalParams,
   DomainTopicEventSubscriptionsListOptionalParams,
   DomainTopicEventSubscriptionsGetOptionalParams,
   DomainTopicEventSubscriptionsGetResponse,
@@ -29,7 +30,8 @@ import {
   DomainTopicEventSubscriptionsGetFullUrlResponse,
   DomainTopicEventSubscriptionsListResponse,
   DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse
+  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
+  DomainTopicEventSubscriptionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -96,6 +98,18 @@ export class DomainTopicEventSubscriptionsImpl
       options
     );
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        domainName,
+        topicName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
   private async *listPagingAll(
@@ -216,12 +230,10 @@ export class DomainTopicEventSubscriptionsImpl
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -320,12 +332,10 @@ export class DomainTopicEventSubscriptionsImpl
       },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -427,12 +437,10 @@ export class DomainTopicEventSubscriptionsImpl
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -533,6 +541,27 @@ export class DomainTopicEventSubscriptionsImpl
         options
       },
       getDeliveryAttributesOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    domainName: string,
+    topicName: string,
+    nextLink: string,
+    options?: DomainTopicEventSubscriptionsListNextOptionalParams
+  ): Promise<DomainTopicEventSubscriptionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainName, topicName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -675,7 +704,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -703,6 +732,27 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.domainName,
     Parameters.eventSubscriptionName,
+    Parameters.topicName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.domainName,
     Parameters.topicName
   ],
   headerParameters: [Parameters.accept],
