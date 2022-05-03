@@ -8222,7 +8222,7 @@ export const ResourceNameAvailabilityRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      typeParam: {
+      type: {
         serializedName: "type",
         required: true,
         xmlName: "type",

@@ -187,7 +187,7 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Container App.
@@ -248,16 +248,14 @@ export class ContainerAppsImpl implements ContainerApps {
       { resourceGroupName, name, containerAppEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Container App.
@@ -279,7 +277,7 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param options The options parameters.
@@ -333,16 +331,14 @@ export class ContainerAppsImpl implements ContainerApps {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param options The options parameters.

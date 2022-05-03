@@ -175,7 +175,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all App Service Environments for a subscription.
+   * Get all App Service Environments for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -217,7 +217,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all App Service Environments in a resource group.
+   * Get all App Service Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -270,7 +270,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the used, available, and total worker capacity an App Service Environment.
+   * Get the used, available, and total worker capacity an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -329,7 +329,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Move an App Service Environment to a different VNET.
+   * Move an App Service Environment to a different VNET.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param vnetInfo Details for the new virtual network.
@@ -410,7 +410,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -481,7 +481,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all multi-role pools.
+   * Get all multi-role pools.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -552,8 +552,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a specific instance of a multi-role pool of an App
-   * Service Environment.
+   * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param instance Name of the instance in the multi-role pool.
@@ -633,7 +632,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a multi-role pool of an App Service Environment.
+   * Get metric definitions for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -704,7 +703,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get available SKUs for scaling a multi-role pool.
+   * Get available SKUs for scaling a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -775,7 +774,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get usage metrics for a multi-role pool of an App Service Environment.
+   * Get usage metrics for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -846,8 +845,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the network endpoints of all outbound dependencies of an App Service
-   * Environment.
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -918,7 +916,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Gets the list of private endpoints associated with a hosting environment
+   * Gets the list of private endpoints associated with a hosting environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -989,7 +987,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Resume an App Service Environment.
+   * Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1049,7 +1047,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all App Service plans in an App Service Environment.
+   * Get all App Service plans in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1120,7 +1118,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all apps in an App Service Environment.
+   * Get all apps in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1179,7 +1177,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Suspend an App Service Environment.
+   * Suspend an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1239,7 +1237,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get global usage metrics of an App Service Environment.
+   * Get global usage metrics of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1298,7 +1296,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all worker pools of an App Service Environment.
+   * Get all worker pools of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1361,8 +1359,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a specific instance of a worker pool of an App Service
-   * Environment.
+   * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -1451,7 +1448,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a worker pool of an App Service Environment.
+   * Get metric definitions for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -1531,7 +1528,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get available SKUs for scaling a worker pool.
+   * Get available SKUs for scaling a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -1611,7 +1608,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get usage metrics for a worker pool of an App Service Environment.
+   * Get usage metrics for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -1691,7 +1688,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all App Service Environments for a subscription.
+   * Get all App Service Environments for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -1701,7 +1698,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all App Service Environments in a resource group.
+   * Get all App Service Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -1716,7 +1713,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the properties of an App Service Environment.
+   * Get the properties of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1733,7 +1730,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -1794,16 +1791,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, hostingEnvironmentEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -1825,7 +1820,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Delete an App Service Environment.
+   * Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1879,16 +1874,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Delete an App Service Environment.
+   * Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1903,7 +1896,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -1922,7 +1915,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the used, available, and total worker capacity an App Service Environment.
+   * Get the used, available, and total worker capacity an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1939,7 +1932,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get IP addresses assigned to an App Service Environment.
+   * Get IP addresses assigned to an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -1956,7 +1949,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Move an App Service Environment to a different VNET.
+   * Move an App Service Environment to a different VNET.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param vnetInfo Details for the new virtual network.
@@ -2017,16 +2010,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, vnetInfo, options },
       changeVnetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Get networking configuration of an App Service Environment
+   * Get networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2043,7 +2034,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Update networking configuration of an App Service Environment
+   * Update networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param aseNetworkingConfiguration Full view of networking configuration for an ASE.
@@ -2062,7 +2053,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get diagnostic information for an App Service Environment.
+   * Get diagnostic information for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2079,7 +2070,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get a diagnostics item for an App Service Environment.
+   * Get a diagnostics item for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param diagnosticsName Name of the diagnostics item.
@@ -2098,7 +2089,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2117,7 +2108,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all multi-role pools.
+   * Get all multi-role pools.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2134,7 +2125,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get properties of a multi-role pool.
+   * Get properties of a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2151,7 +2142,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -2214,16 +2205,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, multiRolePoolEnvelope, options },
       createOrUpdateMultiRolePoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -2245,7 +2234,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -2264,8 +2253,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a specific instance of a multi-role pool of an App
-   * Service Environment.
+   * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param instance Name of the instance in the multi-role pool.
@@ -2286,7 +2274,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a multi-role pool of an App Service Environment.
+   * Get metric definitions for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2303,7 +2291,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get available SKUs for scaling a multi-role pool.
+   * Get available SKUs for scaling a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2320,7 +2308,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get usage metrics for a multi-role pool of an App Service Environment.
+   * Get usage metrics for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2337,7 +2325,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for List all currently running operations on the App Service Environment.
+   * List all currently running operations on the App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2354,8 +2342,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get the network endpoints of all outbound dependencies of an App Service
-   * Environment.
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2374,7 +2361,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Gets the list of private endpoints associated with a hosting environment
+   * Gets the list of private endpoints associated with a hosting environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2391,7 +2378,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Gets a private endpoint connection
+   * Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2410,7 +2397,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -2481,16 +2468,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -2517,7 +2502,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -2580,16 +2565,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -2611,7 +2594,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2628,7 +2611,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Reboot all machines in an App Service Environment.
+   * Reboot all machines in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2645,7 +2628,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Resume an App Service Environment.
+   * Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2704,16 +2687,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       resumeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Get all App Service plans in an App Service Environment.
+   * Get all App Service plans in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2730,7 +2711,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all apps in an App Service Environment.
+   * Get all apps in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2747,7 +2728,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Suspend an App Service Environment.
+   * Suspend an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2806,16 +2787,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       suspendOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Get global usage metrics of an App Service Environment.
+   * Get global usage metrics of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2832,7 +2811,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get all worker pools of an App Service Environment.
+   * Get all worker pools of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -2849,7 +2828,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get properties of a worker pool.
+   * Get properties of a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -2868,7 +2847,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -2933,16 +2912,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, workerPoolName, workerPoolEnvelope, options },
       createOrUpdateWorkerPoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -2967,7 +2944,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -2988,8 +2965,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a specific instance of a worker pool of an App Service
-   * Environment.
+   * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -3012,7 +2988,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get metric definitions for a worker pool of an App Service Environment.
+   * Get metric definitions for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -3031,7 +3007,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get available SKUs for scaling a worker pool.
+   * Get available SKUs for scaling a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -3050,7 +3026,7 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
-   * Description for Get usage metrics for a worker pool of an App Service Environment.
+   * Get usage metrics for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.

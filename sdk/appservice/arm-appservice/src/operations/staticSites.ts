@@ -151,7 +151,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Get all Static Sites for a subscription.
+   * Get all Static Sites for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -193,7 +193,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static sites in the specified resource group.
+   * Gets all static sites in the specified resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -255,7 +255,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the list of users of a static site.
+   * Gets the list of users of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param authprovider The auth provider for the users.
@@ -335,7 +335,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static site builds for a particular static site.
+   * Gets all static site builds for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -406,7 +406,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the functions of a particular static site build.
+   * Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -486,8 +486,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function apps registered with a static site
-   * build
+   * Gets the details of the user provided function apps registered with a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -567,7 +566,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static site custom domains for a particular static site.
+   * Gets all static site custom domains for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param options The options parameters.
@@ -638,7 +637,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the functions of a static site.
+   * Gets the functions of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -709,7 +708,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a static site
+   * Gets the list of private endpoint connections associated with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -780,7 +779,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function apps registered with a static site
+   * Gets the details of the user provided function apps registered with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -851,7 +850,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Generates a preview workflow file for the static site
+   * Generates a preview workflow file for the static site
    * @param location Location where you plan to create the static site.
    * @param staticSitesWorkflowPreviewRequest A JSON representation of the
    *                                          StaticSitesWorkflowPreviewRequest properties. See example.
@@ -869,7 +868,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Get all Static Sites for a subscription.
+   * Get all Static Sites for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -879,7 +878,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static sites in the specified resource group.
+   * Gets all static sites in the specified resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -894,7 +893,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of a static site.
+   * Gets the details of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -911,8 +910,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates a new static site in an existing resource group, or updates an existing
-   * static site.
+   * Creates a new static site in an existing resource group, or updates an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to create or update.
    * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
@@ -973,17 +971,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteEnvelope, options },
       createOrUpdateStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Creates a new static site in an existing resource group, or updates an existing
-   * static site.
+   * Creates a new static site in an existing resource group, or updates an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to create or update.
    * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
@@ -1005,7 +1000,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deletes a static site.
+   * Deletes a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to delete.
    * @param options The options parameters.
@@ -1059,16 +1054,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       deleteStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deletes a static site.
+   * Deletes a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to delete.
    * @param options The options parameters.
@@ -1087,8 +1080,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates a new static site in an existing resource group, or updates an existing
-   * static site.
+   * Creates a new static site in an existing resource group, or updates an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to create or update.
    * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
@@ -1107,7 +1099,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the list of users of a static site.
+   * Gets the list of users of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param authprovider The auth provider for the users.
@@ -1126,7 +1118,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deletes the user entry from the static site.
+   * Deletes the user entry from the static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the staticsite.
    * @param authprovider The auth provider for this user.
@@ -1147,7 +1139,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Updates a user entry with the listed roles
+   * Updates a user entry with the listed roles
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param authprovider The auth provider for this user.
@@ -1177,7 +1169,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static site builds for a particular static site.
+   * Gets all static site builds for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -1194,7 +1186,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of a static site build.
+   * Gets the details of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1213,7 +1205,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deletes a static site build.
+   * Deletes a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1269,16 +1261,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, environmentName, options },
       deleteStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deletes a static site build.
+   * Deletes a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1300,7 +1290,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates or updates the app settings of a static site build.
+   * Creates or updates the app settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1321,7 +1311,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates or updates the function app settings of a static site build.
+   * Creates or updates the function app settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1344,7 +1334,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the functions of a particular static site build.
+   * Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1363,7 +1353,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the application settings of a static site build.
+   * Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1382,7 +1372,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the application settings of a static site build.
+   * Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1401,8 +1391,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function apps registered with a static site
-   * build
+   * Gets the details of the user provided function apps registered with a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1421,8 +1410,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function app registered with a static site
-   * build
+   * Gets the details of the user provided function app registered with a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1443,7 +1431,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Register a user provided function app with a static site build
+   * Register a user provided function app with a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1518,16 +1506,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Register a user provided function app with a static site build
+   * Register a user provided function app with a static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1558,7 +1544,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Detach the user provided function app from the static site build
+   * Detach the user provided function app from the static site build
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName The stage site identifier.
@@ -1579,7 +1565,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deploys zipped content to a specific environment of a static site.
+   * Deploys zipped content to a specific environment of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName Name of the environment.
@@ -1644,16 +1630,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       createZipDeploymentForStaticSiteBuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deploys zipped content to a specific environment of a static site.
+   * Deploys zipped content to a specific environment of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param environmentName Name of the environment.
@@ -1679,7 +1663,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates or updates the app settings of a static site.
+   * Creates or updates the app settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param appSettings The dictionary containing the static site app settings to update.
@@ -1698,7 +1682,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates or updates the function app settings of a static site.
+   * Creates or updates the function app settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param appSettings The dictionary containing the static site function app settings to update.
@@ -1717,7 +1701,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates an invitation link for a user with the role
+   * Creates an invitation link for a user with the role
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param staticSiteUserRolesInvitationEnvelope Static sites user roles invitation resource.
@@ -1741,7 +1725,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets all static site custom domains for a particular static site.
+   * Gets all static site custom domains for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param options The options parameters.
@@ -1758,7 +1742,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets an existing custom domain for a particular static site.
+   * Gets an existing custom domain for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site resource to search in.
    * @param domainName The custom domain name.
@@ -1777,8 +1761,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Creates a new static site custom domain in an existing resource group and static
-   * site.
+   * Creates a new static site custom domain in an existing resource group and static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to create.
@@ -1850,17 +1833,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       createOrUpdateStaticSiteCustomDomainOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Creates a new static site custom domain in an existing resource group and static
-   * site.
+   * Creates a new static site custom domain in an existing resource group and static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to create.
@@ -1886,7 +1866,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deletes a custom domain.
+   * Deletes a custom domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to delete.
@@ -1942,16 +1922,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, domainName, options },
       deleteStaticSiteCustomDomainOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deletes a custom domain.
+   * Deletes a custom domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to delete.
@@ -1973,7 +1951,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Validates a particular custom domain can be added to a static site.
+   * Validates a particular custom domain can be added to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to validate.
@@ -2038,16 +2016,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       validateCustomDomainCanBeAddedToStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Validates a particular custom domain can be added to a static site.
+   * Validates a particular custom domain can be added to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to validate.
@@ -2073,7 +2049,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Detaches a static site.
+   * Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to detach.
    * @param options The options parameters.
@@ -2127,16 +2103,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, options },
       detachStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Detaches a static site.
+   * Detaches a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site to detach.
    * @param options The options parameters.
@@ -2155,7 +2129,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the functions of a static site.
+   * Gets the functions of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2172,7 +2146,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the application settings of a static site.
+   * Gets the application settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2189,7 +2163,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Lists the roles configured for the static site.
+   * Lists the roles configured for the static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2206,7 +2180,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the application settings of a static site.
+   * Gets the application settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2223,7 +2197,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Lists the secrets for an existing static site.
+   * Lists the secrets for an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2240,7 +2214,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a static site
+   * Gets the list of private endpoint connections associated with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2257,7 +2231,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets a private endpoint connection
+   * Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2276,7 +2250,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2347,16 +2321,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2381,7 +2353,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2442,16 +2414,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -2473,7 +2443,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param options The options parameters.
@@ -2490,7 +2460,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Resets the api key for an existing static site.
+   * Resets the api key for an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param resetPropertiesEnvelope Static Site Reset Properties ARM resource.
@@ -2509,7 +2479,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function apps registered with a static site
+   * Gets the details of the user provided function apps registered with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param options The options parameters.
@@ -2526,7 +2496,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Gets the details of the user provided function app registered with a static site
+   * Gets the details of the user provided function app registered with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app registered with the static site.
@@ -2545,7 +2515,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Register a user provided function app with a static site
+   * Register a user provided function app with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app to register with the static site.
@@ -2617,16 +2587,14 @@ export class StaticSitesImpl implements StaticSites {
       },
       registerUserProvidedFunctionAppWithStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Register a user provided function app with a static site
+   * Register a user provided function app with a static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app to register with the static site.
@@ -2652,7 +2620,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Detach the user provided function app from the static site
+   * Detach the user provided function app from the static site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param functionAppName Name of the function app registered with the static site.
@@ -2671,7 +2639,7 @@ export class StaticSitesImpl implements StaticSites {
   }
 
   /**
-   * Description for Deploys zipped content to a static site.
+   * Deploys zipped content to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment
@@ -2728,16 +2696,14 @@ export class StaticSitesImpl implements StaticSites {
       { resourceGroupName, name, staticSiteZipDeploymentEnvelope, options },
       createZipDeploymentForStaticSiteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Description for Deploys zipped content to a static site.
+   * Deploys zipped content to a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment

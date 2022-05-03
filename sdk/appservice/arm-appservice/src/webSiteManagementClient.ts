@@ -149,7 +149,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/12.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/12.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -164,8 +164,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -205,7 +204,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets the source controls available for Azure websites.
+   * Gets the source controls available for Azure websites.
    * @param options The options parameters.
    */
   public listSourceControls(
@@ -247,7 +246,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets a list of meters for a given location.
+   * Gets a list of meters for a given location.
    * @param options The options parameters.
    */
   public listBillingMeters(
@@ -334,7 +333,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Get a list of available geographical regions.
+   * Get a list of available geographical regions.
    * @param options The options parameters.
    */
   public listGeoRegions(
@@ -376,7 +375,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all apps that are assigned to a hostname.
+   * List all apps that are assigned to a hostname.
    * @param nameIdentifier Hostname information.
    * @param options The options parameters.
    */
@@ -438,7 +437,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all premier add-on offers.
+   * List all premier add-on offers.
    * @param options The options parameters.
    */
   public listPremierAddOnOffers(
@@ -483,7 +482,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets publishing user
+   * Gets publishing user
    * @param options The options parameters.
    */
   getPublishingUser(
@@ -496,7 +495,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Updates publishing user
+   * Updates publishing user
    * @param userDetails Details of publishing user
    * @param options The options parameters.
    */
@@ -511,7 +510,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets the source controls available for Azure websites.
+   * Gets the source controls available for Azure websites.
    * @param options The options parameters.
    */
   private _listSourceControls(
@@ -524,7 +523,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets source control token
+   * Gets source control token
    * @param sourceControlType Type of source control
    * @param options The options parameters.
    */
@@ -539,7 +538,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Updates source control token
+   * Updates source control token
    * @param sourceControlType Type of source control
    * @param requestMessage Source control token information
    * @param options The options parameters.
@@ -556,7 +555,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets a list of meters for a given location.
+   * Gets a list of meters for a given location.
    * @param options The options parameters.
    */
   private _listBillingMeters(
@@ -569,7 +568,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Check if a resource name is available.
+   * Check if a resource name is available.
    * @param name Resource name to verify.
    * @param typeParam Resource type used for verification.
    * @param options The options parameters.
@@ -599,7 +598,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Gets list of available geo regions plus ministamps
+   * Gets list of available geo regions plus ministamps
    * @param options The options parameters.
    */
   getSubscriptionDeploymentLocations(
@@ -612,7 +611,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Get a list of available geographical regions.
+   * Get a list of available geographical regions.
    * @param options The options parameters.
    */
   private _listGeoRegions(
@@ -622,7 +621,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all apps that are assigned to a hostname.
+   * List all apps that are assigned to a hostname.
    * @param nameIdentifier Hostname information.
    * @param options The options parameters.
    */
@@ -637,7 +636,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all premier add-on offers.
+   * List all premier add-on offers.
    * @param options The options parameters.
    */
   private _listPremierAddOnOffers(
@@ -650,7 +649,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all SKUs.
+   * List all SKUs.
    * @param options The options parameters.
    */
   listSkus(options?: ListSkusOptionalParams): Promise<ListSkusResponse> {
@@ -658,8 +657,8 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the
-   * Network Security Group rules.
+   * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network
+   * Security Group rules.
    * @param parameters VNET information
    * @param options The options parameters.
    */
@@ -674,7 +673,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Move resources between resource groups.
+   * Move resources between resource groups.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param options The options parameters.
@@ -691,7 +690,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Validate if a resource can be created.
+   * Validate if a resource can be created.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param validateRequest Request with the resources to validate.
    * @param options The options parameters.
@@ -708,7 +707,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for Validate whether a resource can be moved.
+   * Validate whether a resource can be moved.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param moveResourceEnvelope Object that represents the resource to move.
    * @param options The options parameters.
