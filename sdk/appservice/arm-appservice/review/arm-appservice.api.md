@@ -195,7 +195,7 @@ export type AppServiceCertificateOrder = Resource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
@@ -227,16 +227,10 @@ export type AppServiceCertificateOrderPatchResource = ProxyOnlyResource & {
     readonly lastCertificateIssuanceTime?: Date;
     readonly expirationTime?: Date;
     readonly isPrivateKeyExternal?: boolean;
-    readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem[];
+    readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
     readonly nextAutoRenewalTimeStamp?: Date;
     readonly contact?: CertificateOrderContact;
 };
-
-// @public
-export type AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-// @public
-export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem = string;
 
 // @public
 export interface AppServiceCertificateOrders {
@@ -431,6 +425,7 @@ export interface AppServiceEnvironment {
     readonly maximumNumberOfMachines?: number;
     readonly multiRoleCount?: number;
     multiSize?: string;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
     readonly provisioningState?: ProvisioningState;
     readonly status?: HostingEnvironmentStatus;
     readonly suspended?: boolean;
@@ -463,6 +458,7 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -483,6 +479,7 @@ export type AppServiceEnvironmentResource = Resource & {
     readonly hasLinuxWorkers?: boolean;
     dedicatedHostCount?: number;
     zoneRedundant?: boolean;
+    networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 // @public
@@ -1388,6 +1385,11 @@ export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
     readonly externalInboundIpAddresses?: string[];
     readonly internalInboundIpAddresses?: string[];
     allowNewPrivateEndpointConnections?: boolean;
+    ftpEnabled?: boolean;
+    remoteDebugEnabled?: boolean;
+    numberOfOutboundIpAddresses?: number;
+    inboundIpAddressOverride?: string;
+    readonly targetNumberOfOutboundIpAddresses?: number;
 };
 
 // @public
@@ -1647,16 +1649,16 @@ export interface CertificateDetails {
 }
 
 // @public
-export type CertificateEmail = ProxyOnlyResource & {
+export interface CertificateEmail {
     emailId?: string;
     timeStamp?: Date;
-};
+}
 
 // @public
-export type CertificateOrderAction = ProxyOnlyResource & {
+export interface CertificateOrderAction {
     readonly actionType?: CertificateOrderActionType;
     readonly createdAt?: Date;
-};
+}
 
 // @public
 export type CertificateOrderActionType = "CertificateIssued" | "CertificateOrderCanceled" | "CertificateOrderCreated" | "CertificateRevoked" | "DomainValidationComplete" | "FraudDetected" | "OrgNameChange" | "OrgValidationComplete" | "SanDrop" | "FraudCleared" | "CertificateExpired" | "CertificateExpirationWarning" | "FraudDocumentationRequired" | "Unknown";
@@ -2931,7 +2933,7 @@ export type Domain = Resource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
@@ -2986,18 +2988,12 @@ export type DomainPatchResource = ProxyOnlyResource & {
     readonly readyForDnsRecordManagement?: boolean;
     readonly managedHostNames?: HostName[];
     consent?: DomainPurchaseConsent;
-    readonly domainNotRenewableReasons?: DomainPatchResourcePropertiesDomainNotRenewableReasonsItem[];
+    readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
     dnsType?: DnsType;
     dnsZoneId?: string;
     targetDnsType?: DnsType;
     authCode?: string;
 };
-
-// @public
-export type DomainPatchResourcePropertiesDomainNotRenewableReasonsItem = string;
-
-// @public
-export type DomainPropertiesDomainNotRenewableReasonsItem = string;
 
 // @public
 export interface DomainPurchaseConsent {
@@ -3215,6 +3211,15 @@ export interface EndpointDetail {
 export type EnterpriseGradeCdnStatus = string;
 
 // @public
+export type Enum12 = string;
+
+// @public
+export type Enum13 = string;
+
+// @public
+export type Enum14 = string;
+
+// @public
 export type Enum15 = string;
 
 // @public
@@ -3222,15 +3227,6 @@ export type Enum16 = string;
 
 // @public
 export type Enum17 = string;
-
-// @public
-export type Enum18 = string;
-
-// @public
-export type Enum19 = string;
-
-// @public
-export type Enum20 = string;
 
 // @public
 export interface EnvironmentVar {
@@ -3773,26 +3769,6 @@ export enum KnownActiveRevisionsMode {
 }
 
 // @public
-export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
 export enum KnownBuildStatus {
     // (undocumented)
     Deleting = "Deleting",
@@ -3855,6 +3831,8 @@ export enum KnownCustomDomainStatus {
     // (undocumented)
     RetrievingValidationToken = "RetrievingValidationToken",
     // (undocumented)
+    Unhealthy = "Unhealthy",
+    // (undocumented)
     Validating = "Validating"
 }
 
@@ -3871,26 +3849,6 @@ export enum KnownDatabaseType {
 }
 
 // @public
-export enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
-export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
-    // (undocumented)
-    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-    // (undocumented)
-    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-    // (undocumented)
-    SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-// @public
 export enum KnownEnterpriseGradeCdnStatus {
     // (undocumented)
     Disabled = "Disabled",
@@ -3903,7 +3861,7 @@ export enum KnownEnterpriseGradeCdnStatus {
 }
 
 // @public
-export enum KnownEnum15 {
+export enum KnownEnum12 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -3914,6 +3872,36 @@ export enum KnownEnum15 {
     Windows = "Windows",
     // (undocumented)
     WindowsFunctions = "WindowsFunctions"
+}
+
+// @public
+export enum KnownEnum13 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum14 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
+}
+
+// @public
+export enum KnownEnum15 {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    Linux = "Linux",
+    // (undocumented)
+    Windows = "Windows"
 }
 
 // @public
@@ -3928,36 +3916,6 @@ export enum KnownEnum16 {
 
 // @public
 export enum KnownEnum17 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum18 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum19 {
-    // (undocumented)
-    All = "All",
-    // (undocumented)
-    Linux = "Linux",
-    // (undocumented)
-    Windows = "Windows"
-}
-
-// @public
-export enum KnownEnum20 {
     // (undocumented)
     All = "All",
     // (undocumented)
@@ -4028,6 +3986,16 @@ export enum KnownPublishingProfileFormat {
     Ftp = "Ftp",
     // (undocumented)
     WebDeploy = "WebDeploy"
+}
+
+// @public
+export enum KnownResourceNotRenewableReason {
+    // (undocumented)
+    ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
+    // (undocumented)
+    RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
+    // (undocumented)
+    SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 // @public
@@ -4317,6 +4285,7 @@ export type ListBillingMetersResponse = BillingMeterCollection;
 
 // @public
 export interface ListCustomHostNameSitesNextOptionalParams extends coreClient.OperationOptions {
+    hostname?: string;
 }
 
 // @public
@@ -4324,6 +4293,7 @@ export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
 
 // @public
 export interface ListCustomHostNameSitesOptionalParams extends coreClient.OperationOptions {
+    hostname?: string;
 }
 
 // @public
@@ -4903,7 +4873,7 @@ export interface Provider {
 // @public
 export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4912,7 +4882,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 // @public
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4921,7 +4891,7 @@ export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackColle
 // @public
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum20;
+    osTypeSelected?: Enum17;
 }
 
 // @public
@@ -4930,7 +4900,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 // @public
 export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
-    osTypeSelected?: Enum15;
+    osTypeSelected?: Enum12;
 }
 
 // @public
@@ -4938,7 +4908,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4946,7 +4916,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 
 // @public
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum17;
+    stackOsType?: Enum14;
 }
 
 // @public
@@ -4954,7 +4924,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 
 // @public
 export interface ProviderGetFunctionAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4962,7 +4932,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 
 // @public
 export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum16;
+    stackOsType?: Enum13;
 }
 
 // @public
@@ -4970,7 +4940,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4978,7 +4948,7 @@ export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollecti
 
 // @public
 export interface ProviderGetWebAppStacksForLocationOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum18;
+    stackOsType?: Enum15;
 }
 
 // @public
@@ -4986,7 +4956,7 @@ export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -4994,7 +4964,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 
 // @public
 export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
-    stackOsType?: Enum19;
+    stackOsType?: Enum16;
 }
 
 // @public
@@ -5517,6 +5487,9 @@ export interface ResourceNameAvailabilityRequest {
 }
 
 // @public
+export type ResourceNotRenewableReason = string;
+
+// @public
 export type ResourceScopeType = string;
 
 // @public
@@ -5652,6 +5625,9 @@ export type Site = Resource & {
     isXenon?: boolean;
     hyperV?: boolean;
     readonly lastModifiedTimeUtc?: Date;
+    vnetRouteAllEnabled?: boolean;
+    vnetImagePullEnabled?: boolean;
+    vnetContentShareEnabled?: boolean;
     siteConfig?: SiteConfig;
     readonly trafficManagerHostNames?: string[];
     scmSiteAlsoStopped?: boolean;
@@ -6270,6 +6246,7 @@ export type StaticSiteARMResource = Resource & {
     readonly contentDistributionEndpoint?: string;
     readonly keyVaultReferenceIdentity?: string;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
     provider?: string;
     enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
@@ -6284,6 +6261,7 @@ export type StaticSiteBuildARMResource = ProxyOnlyResource & {
     readonly lastUpdatedOn?: Date;
     readonly status?: BuildStatus;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
 };
 
 // @public
@@ -6343,6 +6321,28 @@ export interface StaticSiteFunctionOverviewCollection {
 }
 
 // @public
+export interface StaticSiteLinkedBackend {
+    backendResourceId?: string;
+    readonly createdOn?: Date;
+    readonly provisioningState?: string;
+    region?: string;
+}
+
+// @public
+export type StaticSiteLinkedBackendARMResource = ProxyOnlyResource & {
+    backendResourceId?: string;
+    region?: string;
+    readonly createdOn?: Date;
+    readonly provisioningState?: string;
+};
+
+// @public
+export interface StaticSiteLinkedBackendsCollection {
+    readonly nextLink?: string;
+    value: StaticSiteLinkedBackendARMResource[];
+}
+
+// @public
 export type StaticSitePatchResource = ProxyOnlyResource & {
     readonly defaultHostname?: string;
     repositoryUrl?: string;
@@ -6357,6 +6357,7 @@ export type StaticSitePatchResource = ProxyOnlyResource & {
     readonly contentDistributionEndpoint?: string;
     readonly keyVaultReferenceIdentity?: string;
     readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+    readonly linkedBackends?: StaticSiteLinkedBackend[];
     provider?: string;
     enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
 };
@@ -6389,10 +6390,18 @@ export interface StaticSites {
     beginDeleteStaticSiteCustomDomainAndWait(resourceGroupName: string, name: string, domainName: string, options?: StaticSitesDeleteStaticSiteCustomDomainOptionalParams): Promise<void>;
     beginDetachStaticSite(resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDetachStaticSiteAndWait(resourceGroupName: string, name: string, options?: StaticSitesDetachStaticSiteOptionalParams): Promise<void>;
+    beginLinkBackend(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams): Promise<PollerLike<PollOperationState<StaticSitesLinkBackendResponse>, StaticSitesLinkBackendResponse>>;
+    beginLinkBackendAndWait(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendOptionalParams): Promise<StaticSitesLinkBackendResponse>;
+    beginLinkBackendToBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams): Promise<PollerLike<PollOperationState<StaticSitesLinkBackendToBuildResponse>, StaticSitesLinkBackendToBuildResponse>>;
+    beginLinkBackendToBuildAndWait(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesLinkBackendToBuildOptionalParams): Promise<StaticSitesLinkBackendToBuildResponse>;
     beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<PollerLike<PollOperationState<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>, StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>>;
     beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>;
     beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<PollerLike<PollOperationState<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>, StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>>;
     beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource, options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>;
+    beginValidateBackend(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginValidateBackendAndWait(resourceGroupName: string, name: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendOptionalParams): Promise<void>;
+    beginValidateBackendForBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginValidateBackendForBuildAndWait(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource, options?: StaticSitesValidateBackendForBuildOptionalParams): Promise<void>;
     beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginValidateCustomDomainCanBeAddedToStaticSiteAndWait(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: StaticSiteCustomDomainRequestPropertiesARMResource, options?: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams): Promise<void>;
     createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: StringDictionary, options?: StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams): Promise<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
@@ -6403,6 +6412,8 @@ export interface StaticSites {
     deleteStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, options?: StaticSitesDeleteStaticSiteUserOptionalParams): Promise<void>;
     detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalParams): Promise<void>;
     detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildOptionalParams): Promise<void>;
+    getLinkedBackend(resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendOptionalParams): Promise<StaticSitesGetLinkedBackendResponse>;
+    getLinkedBackendForBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesGetLinkedBackendForBuildOptionalParams): Promise<StaticSitesGetLinkedBackendForBuildResponse>;
     getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: StaticSitesGetPrivateEndpointConnectionOptionalParams): Promise<StaticSitesGetPrivateEndpointConnectionResponse>;
     getPrivateLinkResources(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateLinkResourcesOptionalParams): Promise<StaticSitesGetPrivateLinkResourcesResponse>;
     getStaticSite(resourceGroupName: string, name: string, options?: StaticSitesGetStaticSiteOptionalParams): Promise<StaticSitesGetStaticSiteResponse>;
@@ -6411,6 +6422,8 @@ export interface StaticSites {
     getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteOptionalParams): Promise<StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
     getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildOptionalParams): Promise<StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
     list(options?: StaticSitesListOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
+    listLinkedBackends(resourceGroupName: string, name: string, options?: StaticSitesGetLinkedBackendsOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
+    listLinkedBackendsForBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetLinkedBackendsForBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource>;
     listPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
     listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: StaticSitesListStaticSiteAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteAppSettingsResponse>;
     listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesListStaticSiteBuildAppSettingsOptionalParams): Promise<StaticSitesListStaticSiteBuildAppSettingsResponse>;
@@ -6428,6 +6441,8 @@ export interface StaticSites {
     listUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildOptionalParams): PagedAsyncIterableIterator<StaticSiteUserProvidedFunctionAppARMResource>;
     previewWorkflow(location: string, staticSitesWorkflowPreviewRequest: StaticSitesWorkflowPreviewRequest, options?: StaticSitesPreviewWorkflowOptionalParams): Promise<StaticSitesPreviewWorkflowResponse>;
     resetStaticSiteApiKey(resourceGroupName: string, name: string, resetPropertiesEnvelope: StaticSiteResetPropertiesARMResource, options?: StaticSitesResetStaticSiteApiKeyOptionalParams): Promise<void>;
+    unlinkBackend(resourceGroupName: string, name: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendOptionalParams): Promise<void>;
+    unlinkBackendFromBuild(resourceGroupName: string, name: string, environmentName: string, linkedBackendName: string, options?: StaticSitesUnlinkBackendFromBuildOptionalParams): Promise<void>;
     updateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: StaticSitePatchResource, options?: StaticSitesUpdateStaticSiteOptionalParams): Promise<StaticSitesUpdateStaticSiteResponse>;
     updateStaticSiteUser(resourceGroupName: string, name: string, authprovider: string, userid: string, staticSiteUserEnvelope: StaticSiteUserARMResource, options?: StaticSitesUpdateStaticSiteUserOptionalParams): Promise<StaticSitesUpdateStaticSiteUserResponse>;
 }
@@ -6552,6 +6567,48 @@ export interface StaticSitesDetachUserProvidedFunctionAppFromStaticSiteOptionalP
 }
 
 // @public
+export interface StaticSitesGetLinkedBackendForBuildOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendForBuildResponse = StaticSiteLinkedBackendARMResource;
+
+// @public
+export interface StaticSitesGetLinkedBackendOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendResponse = StaticSiteLinkedBackendARMResource;
+
+// @public
+export interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendsForBuildNextResponse = StaticSiteLinkedBackendsCollection;
+
+// @public
+export interface StaticSitesGetLinkedBackendsForBuildOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendsForBuildResponse = StaticSiteLinkedBackendsCollection;
+
+// @public
+export interface StaticSitesGetLinkedBackendsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendsNextResponse = StaticSiteLinkedBackendsCollection;
+
+// @public
+export interface StaticSitesGetLinkedBackendsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticSitesGetLinkedBackendsResponse = StaticSiteLinkedBackendsCollection;
+
+// @public
 export interface StaticSitesGetPrivateEndpointConnectionListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -6669,6 +6726,24 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalPara
 
 // @public
 export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse = StaticSiteUserProvidedFunctionAppsCollection;
+
+// @public
+export interface StaticSitesLinkBackendOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StaticSitesLinkBackendResponse = StaticSiteLinkedBackendARMResource;
+
+// @public
+export interface StaticSitesLinkBackendToBuildOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StaticSitesLinkBackendToBuildResponse = StaticSiteLinkedBackendARMResource;
 
 // @public
 export interface StaticSitesListNextOptionalParams extends coreClient.OperationOptions {
@@ -6814,6 +6889,16 @@ export interface StaticSitesResetStaticSiteApiKeyOptionalParams extends coreClie
 }
 
 // @public
+export interface StaticSitesUnlinkBackendFromBuildOptionalParams extends coreClient.OperationOptions {
+    isCleaningAuthConfig?: boolean;
+}
+
+// @public
+export interface StaticSitesUnlinkBackendOptionalParams extends coreClient.OperationOptions {
+    isCleaningAuthConfig?: boolean;
+}
+
+// @public
 export interface StaticSitesUpdateStaticSiteOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -6826,6 +6911,18 @@ export interface StaticSitesUpdateStaticSiteUserOptionalParams extends coreClien
 
 // @public
 export type StaticSitesUpdateStaticSiteUserResponse = StaticSiteUserARMResource;
+
+// @public
+export interface StaticSitesValidateBackendForBuildOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StaticSitesValidateBackendOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSiteOptionalParams extends coreClient.OperationOptions {
@@ -7472,6 +7569,7 @@ export interface WebApps {
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
+    createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
     createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
     createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
@@ -7548,6 +7646,7 @@ export interface WebApps {
     getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
     getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
     getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
+    getAuthSettingsV2WithoutSecretsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
     getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
@@ -7602,6 +7701,7 @@ export interface WebApps {
     getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams): Promise<WebAppsGetNetworkTracesSlotResponse>;
     getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams): Promise<WebAppsGetNetworkTracesSlotV2Response>;
     getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams): Promise<WebAppsGetNetworkTracesV2Response>;
+    getOneDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams): Promise<WebAppsGetOneDeployStatusResponse>;
     getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams): Promise<WebAppsGetPremierAddOnResponse>;
     getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams): Promise<WebAppsGetPremierAddOnSlotResponse>;
     getPrivateAccess(resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams): Promise<WebAppsGetPrivateAccessResponse>;
@@ -7959,6 +8059,13 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends coreCl
 
 // @public
 export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
+
+// @public
+export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -8444,6 +8551,13 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends co
 export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+// @public
 export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -8836,6 +8950,13 @@ export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.Oper
 
 // @public
 export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
+
+// @public
+export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {
