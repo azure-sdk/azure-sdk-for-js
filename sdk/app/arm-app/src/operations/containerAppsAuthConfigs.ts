@@ -146,7 +146,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
   }
 
   /**
-   * Description for Create or update the AuthConfig for a Container App.
+   * Create or update the AuthConfig for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App AuthConfig.
@@ -173,7 +173,7 @@ export class ContainerAppsAuthConfigsImpl implements ContainerAppsAuthConfigs {
   }
 
   /**
-   * Description for Delete a Container App AuthConfig.
+   * Delete a Container App AuthConfig.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App AuthConfig.
@@ -252,8 +252,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -276,8 +276,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -299,8 +299,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -46,7 +46,7 @@ export interface ContainerAppsSourceControls {
     options?: ContainerAppsSourceControlsGetOptionalParams
   ): Promise<ContainerAppsSourceControlsGetResponse>;
   /**
-   * Description for Create or update the SourceControl for a Container App.
+   * Create or update the SourceControl for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App SourceControl.
@@ -66,7 +66,7 @@ export interface ContainerAppsSourceControls {
     >
   >;
   /**
-   * Description for Create or update the SourceControl for a Container App.
+   * Create or update the SourceControl for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App SourceControl.
@@ -81,7 +81,7 @@ export interface ContainerAppsSourceControls {
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App SourceControl.
+   * Delete a Container App SourceControl.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App SourceControl.
@@ -94,7 +94,7 @@ export interface ContainerAppsSourceControls {
     options?: ContainerAppsSourceControlsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Container App SourceControl.
+   * Delete a Container App SourceControl.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App SourceControl.

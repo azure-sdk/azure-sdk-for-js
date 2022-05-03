@@ -17,9 +17,7 @@ import {
   ContainerAppsCreateOrUpdateOptionalParams,
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
-  ContainerAppPatch,
   ContainerAppsUpdateOptionalParams,
-  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
@@ -57,7 +55,7 @@ export interface ContainerApps {
     options?: ContainerAppsGetOptionalParams
   ): Promise<ContainerAppsGetResponse>;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Properties used to create a container app
@@ -75,7 +73,7 @@ export interface ContainerApps {
     >
   >;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Properties used to create a container app
@@ -88,7 +86,7 @@ export interface ContainerApps {
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
    * @param options The options parameters.
@@ -99,7 +97,7 @@ export interface ContainerApps {
     options?: ContainerAppsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
    * @param options The options parameters.
@@ -110,18 +108,31 @@ export interface ContainerApps {
     options?: ContainerAppsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Patches a Container App. Currently only patching of tags is supported
+   * Patches a Container App using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
-   * @param containerAppEnvelope Properties of a container app that need to be updated
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     name: string,
-    containerAppEnvelope: ContainerAppPatch,
+    containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<ContainerAppsUpdateResponse>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Patches a Container App using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the Container App.
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    containerAppEnvelope: ContainerApp,
+    options?: ContainerAppsUpdateOptionalParams
+  ): Promise<void>;
   /**
    * Analyzes a custom hostname for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

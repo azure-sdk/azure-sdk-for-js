@@ -45,7 +45,7 @@ export interface ContainerAppsAuthConfigs {
     options?: ContainerAppsAuthConfigsGetOptionalParams
   ): Promise<ContainerAppsAuthConfigsGetResponse>;
   /**
-   * Description for Create or update the AuthConfig for a Container App.
+   * Create or update the AuthConfig for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App AuthConfig.
@@ -60,7 +60,7 @@ export interface ContainerAppsAuthConfigs {
     options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsAuthConfigsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App AuthConfig.
+   * Delete a Container App AuthConfig.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param name Name of the Container App AuthConfig.
