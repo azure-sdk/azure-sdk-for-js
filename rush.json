@@ -1690,6 +1690,11 @@
       "packageName": "@azure/arm-scvmm",
       "projectFolder": "sdk/scvmm/arm-scvmm",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "vi",
+      "projectFolder": "sdk/vi/arm-vi",
+      "versionPolicyName": "management"
     }
   ]
 }
