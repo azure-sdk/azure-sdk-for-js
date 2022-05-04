@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RouteFilterRules } from "../operationsInterfaces";
+import { ExpressRoutePortAuthorizations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,25 +15,26 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  RouteFilterRule,
-  RouteFilterRulesListByRouteFilterNextOptionalParams,
-  RouteFilterRulesListByRouteFilterOptionalParams,
-  RouteFilterRulesDeleteOptionalParams,
-  RouteFilterRulesGetOptionalParams,
-  RouteFilterRulesGetResponse,
-  RouteFilterRulesCreateOrUpdateOptionalParams,
-  RouteFilterRulesCreateOrUpdateResponse,
-  RouteFilterRulesListByRouteFilterResponse,
-  RouteFilterRulesListByRouteFilterNextResponse
+  ExpressRoutePortAuthorization,
+  ExpressRoutePortAuthorizationsListNextOptionalParams,
+  ExpressRoutePortAuthorizationsListOptionalParams,
+  ExpressRoutePortAuthorizationsDeleteOptionalParams,
+  ExpressRoutePortAuthorizationsGetOptionalParams,
+  ExpressRoutePortAuthorizationsGetResponse,
+  ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams,
+  ExpressRoutePortAuthorizationsCreateOrUpdateResponse,
+  ExpressRoutePortAuthorizationsListResponse,
+  ExpressRoutePortAuthorizationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing RouteFilterRules operations. */
-export class RouteFilterRulesImpl implements RouteFilterRules {
+/** Class containing ExpressRoutePortAuthorizations operations. */
+export class ExpressRoutePortAuthorizationsImpl
+  implements ExpressRoutePortAuthorizations {
   private readonly client: NetworkManagementClient;
 
   /**
-   * Initialize a new instance of the class RouteFilterRules class.
+   * Initialize a new instance of the class ExpressRoutePortAuthorizations class.
    * @param client Reference to the service client
    */
   constructor(client: NetworkManagementClient) {
@@ -41,19 +42,19 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   }
 
   /**
-   * Gets all RouteFilterRules in a route filter.
+   * Gets all authorizations in an express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
+   * @param expressRoutePortName The name of the express route port.
    * @param options The options parameters.
    */
-  public listByRouteFilter(
+  public list(
     resourceGroupName: string,
-    routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
-  ): PagedAsyncIterableIterator<RouteFilterRule> {
-    const iter = this.listByRouteFilterPagingAll(
+    expressRoutePortName: string,
+    options?: ExpressRoutePortAuthorizationsListOptionalParams
+  ): PagedAsyncIterableIterator<ExpressRoutePortAuthorization> {
+    const iter = this.listPagingAll(
       resourceGroupName,
-      routeFilterName,
+      expressRoutePortName,
       options
     );
     return {
@@ -64,31 +65,31 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
         return this;
       },
       byPage: () => {
-        return this.listByRouteFilterPagingPage(
+        return this.listPagingPage(
           resourceGroupName,
-          routeFilterName,
+          expressRoutePortName,
           options
         );
       }
     };
   }
 
-  private async *listByRouteFilterPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
-    routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
-  ): AsyncIterableIterator<RouteFilterRule[]> {
-    let result = await this._listByRouteFilter(
+    expressRoutePortName: string,
+    options?: ExpressRoutePortAuthorizationsListOptionalParams
+  ): AsyncIterableIterator<ExpressRoutePortAuthorization[]> {
+    let result = await this._list(
       resourceGroupName,
-      routeFilterName,
+      expressRoutePortName,
       options
     );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByRouteFilterNext(
+      result = await this._listNext(
         resourceGroupName,
-        routeFilterName,
+        expressRoutePortName,
         continuationToken,
         options
       );
@@ -97,14 +98,14 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     }
   }
 
-  private async *listByRouteFilterPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
-    routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
-  ): AsyncIterableIterator<RouteFilterRule> {
-    for await (const page of this.listByRouteFilterPagingPage(
+    expressRoutePortName: string,
+    options?: ExpressRoutePortAuthorizationsListOptionalParams
+  ): AsyncIterableIterator<ExpressRoutePortAuthorization> {
+    for await (const page of this.listPagingPage(
       resourceGroupName,
-      routeFilterName,
+      expressRoutePortName,
       options
     )) {
       yield* page;
@@ -112,17 +113,17 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   }
 
   /**
-   * Deletes the specified rule from a route filter.
+   * Deletes the specified authorization from the specified express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the rule.
+   * @param expressRoutePortName The name of the express route port.
+   * @param authorizationName The name of the authorization.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    routeFilterName: string,
-    ruleName: string,
-    options?: RouteFilterRulesDeleteOptionalParams
+    expressRoutePortName: string,
+    authorizationName: string,
+    options?: ExpressRoutePortAuthorizationsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -165,7 +166,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, routeFilterName, ruleName, options },
+      { resourceGroupName, expressRoutePortName, authorizationName, options },
       deleteOperationSpec
     );
     return new LroEngine(lro, {
@@ -176,71 +177,71 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   }
 
   /**
-   * Deletes the specified rule from a route filter.
+   * Deletes the specified authorization from the specified express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the rule.
+   * @param expressRoutePortName The name of the express route port.
+   * @param authorizationName The name of the authorization.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    routeFilterName: string,
-    ruleName: string,
-    options?: RouteFilterRulesDeleteOptionalParams
+    expressRoutePortName: string,
+    authorizationName: string,
+    options?: ExpressRoutePortAuthorizationsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      routeFilterName,
-      ruleName,
+      expressRoutePortName,
+      authorizationName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets the specified rule from a route filter.
+   * Gets the specified authorization from the specified express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the rule.
+   * @param expressRoutePortName The name of the express route port.
+   * @param authorizationName The name of the authorization.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    routeFilterName: string,
-    ruleName: string,
-    options?: RouteFilterRulesGetOptionalParams
-  ): Promise<RouteFilterRulesGetResponse> {
+    expressRoutePortName: string,
+    authorizationName: string,
+    options?: ExpressRoutePortAuthorizationsGetOptionalParams
+  ): Promise<ExpressRoutePortAuthorizationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, routeFilterName, ruleName, options },
+      { resourceGroupName, expressRoutePortName, authorizationName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a route in the specified route filter.
+   * Creates or updates an authorization in the specified express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the route filter rule.
-   * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule
-   *                                  operation.
+   * @param expressRoutePortName The name of the express route port.
+   * @param authorizationName The name of the authorization.
+   * @param authorizationParameters Parameters supplied to the create or update express route port
+   *                                authorization operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    routeFilterName: string,
-    ruleName: string,
-    routeFilterRuleParameters: RouteFilterRule,
-    options?: RouteFilterRulesCreateOrUpdateOptionalParams
+    expressRoutePortName: string,
+    authorizationName: string,
+    authorizationParameters: ExpressRoutePortAuthorization,
+    options?: ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<RouteFilterRulesCreateOrUpdateResponse>,
-      RouteFilterRulesCreateOrUpdateResponse
+      PollOperationState<ExpressRoutePortAuthorizationsCreateOrUpdateResponse>,
+      ExpressRoutePortAuthorizationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<RouteFilterRulesCreateOrUpdateResponse> => {
+    ): Promise<ExpressRoutePortAuthorizationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -280,9 +281,9 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       sendOperation,
       {
         resourceGroupName,
-        routeFilterName,
-        ruleName,
-        routeFilterRuleParameters,
+        expressRoutePortName,
+        authorizationName,
+        authorizationParameters,
         options
       },
       createOrUpdateOperationSpec
@@ -295,64 +296,64 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   }
 
   /**
-   * Creates or updates a route in the specified route filter.
+   * Creates or updates an authorization in the specified express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param ruleName The name of the route filter rule.
-   * @param routeFilterRuleParameters Parameters supplied to the create or update route filter rule
-   *                                  operation.
+   * @param expressRoutePortName The name of the express route port.
+   * @param authorizationName The name of the authorization.
+   * @param authorizationParameters Parameters supplied to the create or update express route port
+   *                                authorization operation.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    routeFilterName: string,
-    ruleName: string,
-    routeFilterRuleParameters: RouteFilterRule,
-    options?: RouteFilterRulesCreateOrUpdateOptionalParams
-  ): Promise<RouteFilterRulesCreateOrUpdateResponse> {
+    expressRoutePortName: string,
+    authorizationName: string,
+    authorizationParameters: ExpressRoutePortAuthorization,
+    options?: ExpressRoutePortAuthorizationsCreateOrUpdateOptionalParams
+  ): Promise<ExpressRoutePortAuthorizationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      routeFilterName,
-      ruleName,
-      routeFilterRuleParameters,
+      expressRoutePortName,
+      authorizationName,
+      authorizationParameters,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets all RouteFilterRules in a route filter.
+   * Gets all authorizations in an express route port.
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
+   * @param expressRoutePortName The name of the express route port.
    * @param options The options parameters.
    */
-  private _listByRouteFilter(
+  private _list(
     resourceGroupName: string,
-    routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
-  ): Promise<RouteFilterRulesListByRouteFilterResponse> {
+    expressRoutePortName: string,
+    options?: ExpressRoutePortAuthorizationsListOptionalParams
+  ): Promise<ExpressRoutePortAuthorizationsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, routeFilterName, options },
-      listByRouteFilterOperationSpec
+      { resourceGroupName, expressRoutePortName, options },
+      listOperationSpec
     );
   }
 
   /**
-   * ListByRouteFilterNext
+   * ListNext
    * @param resourceGroupName The name of the resource group.
-   * @param routeFilterName The name of the route filter.
-   * @param nextLink The nextLink from the previous successful call to the ListByRouteFilter method.
+   * @param expressRoutePortName The name of the express route port.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByRouteFilterNext(
+  private _listNext(
     resourceGroupName: string,
-    routeFilterName: string,
+    expressRoutePortName: string,
     nextLink: string,
-    options?: RouteFilterRulesListByRouteFilterNextOptionalParams
-  ): Promise<RouteFilterRulesListByRouteFilterNextResponse> {
+    options?: ExpressRoutePortAuthorizationsListNextOptionalParams
+  ): Promise<ExpressRoutePortAuthorizationsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, routeFilterName, nextLink, options },
-      listByRouteFilterNextOperationSpec
+      { resourceGroupName, expressRoutePortName, nextLink, options },
+      listNextOperationSpec
     );
   }
 }
@@ -361,7 +362,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -377,19 +378,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.authorizationName,
+    Parameters.expressRoutePortName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterRule
+      bodyMapper: Mappers.ExpressRoutePortAuthorization
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -400,53 +401,53 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.authorizationName,
+    Parameters.expressRoutePortName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules/{ruleName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations/{authorizationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterRule
+      bodyMapper: Mappers.ExpressRoutePortAuthorization
     },
     201: {
-      bodyMapper: Mappers.RouteFilterRule
+      bodyMapper: Mappers.ExpressRoutePortAuthorization
     },
     202: {
-      bodyMapper: Mappers.RouteFilterRule
+      bodyMapper: Mappers.ExpressRoutePortAuthorization
     },
     204: {
-      bodyMapper: Mappers.RouteFilterRule
+      bodyMapper: Mappers.ExpressRoutePortAuthorization
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.routeFilterRuleParameters,
+  requestBody: Parameters.authorizationParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName,
-    Parameters.ruleName
+    Parameters.authorizationName,
+    Parameters.expressRoutePortName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listByRouteFilterOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterRuleListResult
+      bodyMapper: Mappers.ExpressRoutePortAuthorizationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -457,17 +458,17 @@ const listByRouteFilterOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName
+    Parameters.expressRoutePortName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByRouteFilterNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterRuleListResult
+      bodyMapper: Mappers.ExpressRoutePortAuthorizationListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -479,7 +480,7 @@ const listByRouteFilterNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.routeFilterName
+    Parameters.expressRoutePortName
   ],
   headerParameters: [Parameters.accept],
   serializer

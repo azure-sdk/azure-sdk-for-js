@@ -227,13 +227,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, vpnGatewayParameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -320,13 +318,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, vpnGatewayParameters, options },
       updateTagsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -406,13 +402,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -494,13 +488,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, options },
       resetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -582,13 +574,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, options },
       startPacketCaptureOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -670,13 +660,11 @@ export class VpnGatewaysImpl implements VpnGateways {
       { resourceGroupName, gatewayName, options },
       stopPacketCaptureOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

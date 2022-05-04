@@ -169,13 +169,11 @@ export class HubRouteTablesImpl implements HubRouteTables {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -279,13 +277,11 @@ export class HubRouteTablesImpl implements HubRouteTables {
       { resourceGroupName, virtualHubName, routeTableName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
