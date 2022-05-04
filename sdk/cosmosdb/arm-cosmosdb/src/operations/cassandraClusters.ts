@@ -293,12 +293,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -383,12 +381,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, body, options },
       createUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -476,12 +472,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, body, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -568,12 +562,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, body, options },
       invokeCommandOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -691,12 +683,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, options },
       deallocateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -777,12 +767,10 @@ export class CassandraClustersImpl implements CassandraClusters {
       { resourceGroupName, clusterName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
