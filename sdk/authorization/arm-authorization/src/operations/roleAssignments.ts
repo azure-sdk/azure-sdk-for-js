@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClientContext } from "../authorizationManagementClientContext";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleAssignment,
   RoleAssignmentsListForSubscriptionNextOptionalParams,
@@ -53,13 +52,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
-  private readonly client: AuthorizationManagementClientContext;
+  private readonly client: AuthorizationManagementClient;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: AuthorizationManagementClientContext) {
+  constructor(client: AuthorizationManagementClient) {
     this.client = client;
   }
 
@@ -630,8 +629,8 @@ const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -651,8 +650,8 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [
@@ -676,8 +675,8 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [
@@ -686,7 +685,7 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.resourceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -703,7 +702,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion5, Parameters.tenantId],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -728,7 +727,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -751,7 +750,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion5, Parameters.tenantId],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -773,7 +772,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
@@ -795,9 +794,10 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
-    Parameters.tenantId
+    Parameters.apiVersion5,
+    Parameters.tenantId,
+    Parameters.skipToken
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
@@ -814,7 +814,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion5, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
   serializer
@@ -834,7 +834,7 @@ const createByIdOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -852,7 +852,7 @@ const deleteByIdOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  queryParameters: [Parameters.apiVersion5, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
   serializer
@@ -869,7 +869,7 @@ const validateByIdOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -887,14 +887,14 @@ const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -911,15 +911,15 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -936,18 +936,18 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
+    Parameters.apiVersion5,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.nextLink,
+    Parameters.resourceName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -964,9 +964,10 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter1,
-    Parameters.tenantId
+    Parameters.apiVersion5,
+    Parameters.tenantId,
+    Parameters.skipToken
   ],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
