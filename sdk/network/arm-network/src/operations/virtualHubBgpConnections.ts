@@ -177,13 +177,11 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       { resourceGroupName, hubName, connectionName, options },
       listLearnedRoutesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -270,13 +268,11 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       { resourceGroupName, hubName, connectionName, options },
       listAdvertisedRoutesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
