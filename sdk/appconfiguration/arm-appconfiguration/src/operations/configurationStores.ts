@@ -23,9 +23,6 @@ import {
   ApiKey,
   ConfigurationStoresListKeysNextOptionalParams,
   ConfigurationStoresListKeysOptionalParams,
-  DeletedConfigurationStore,
-  ConfigurationStoresListDeletedNextOptionalParams,
-  ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresListResponse,
   ConfigurationStoresListByResourceGroupResponse,
   ConfigurationStoresGetOptionalParams,
@@ -40,14 +37,12 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
-  ConfigurationStoresListDeletedResponse,
-  ConfigurationStoresGetDeletedOptionalParams,
-  ConfigurationStoresGetDeletedResponse,
-  ConfigurationStoresPurgeDeletedOptionalParams,
+  ListKeyValueParameters,
+  ConfigurationStoresListKeyValueOptionalParams,
+  ConfigurationStoresListKeyValueResponse,
   ConfigurationStoresListNextResponse,
   ConfigurationStoresListByResourceGroupNextResponse,
-  ConfigurationStoresListKeysNextResponse,
-  ConfigurationStoresListDeletedNextResponse
+  ConfigurationStoresListKeysNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -230,48 +225,6 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
-   * Gets information about the deleted configuration stores in a subscription.
-   * @param options The options parameters.
-   */
-  public listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): PagedAsyncIterableIterator<DeletedConfigurationStore> {
-    const iter = this.listDeletedPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listDeletedPagingPage(options);
-      }
-    };
-  }
-
-  private async *listDeletedPagingPage(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): AsyncIterableIterator<DeletedConfigurationStore[]> {
-    let result = await this._listDeleted(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listDeletedNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listDeletedPagingAll(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): AsyncIterableIterator<DeletedConfigurationStore> {
-    for await (const page of this.listDeletedPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the configuration stores for a given subscription.
    * @param options The options parameters.
    */
@@ -380,12 +333,10 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -465,12 +416,10 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       { resourceGroupName, configStoreName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -559,12 +508,10 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -626,115 +573,22 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
-   * Gets information about the deleted configuration stores in a subscription.
+   * Lists a configuration store key-value.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param configStoreName The name of the configuration store.
+   * @param listKeyValueParameters The parameters for retrieving a key-value.
    * @param options The options parameters.
    */
-  private _listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): Promise<ConfigurationStoresListDeletedResponse> {
+  listKeyValue(
+    resourceGroupName: string,
+    configStoreName: string,
+    listKeyValueParameters: ListKeyValueParameters,
+    options?: ConfigurationStoresListKeyValueOptionalParams
+  ): Promise<ConfigurationStoresListKeyValueResponse> {
     return this.client.sendOperationRequest(
-      { options },
-      listDeletedOperationSpec
+      { resourceGroupName, configStoreName, listKeyValueParameters, options },
+      listKeyValueOperationSpec
     );
-  }
-
-  /**
-   * Gets a deleted Azure app configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  getDeleted(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresGetDeletedOptionalParams
-  ): Promise<ConfigurationStoresGetDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { location, configStoreName, options },
-      getDeletedOperationSpec
-    );
-  }
-
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeleted(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { location, configStoreName, options },
-      purgeDeletedOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  async beginPurgeDeletedAndWait(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginPurgeDeleted(
-      location,
-      configStoreName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -787,21 +641,6 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       listKeysNextOperationSpec
     );
   }
-
-  /**
-   * ListDeletedNext
-   * @param nextLink The nextLink from the previous successful call to the ListDeleted method.
-   * @param options The options parameters.
-   */
-  private _listDeletedNext(
-    nextLink: string,
-    options?: ConfigurationStoresListDeletedNextOptionalParams
-  ): Promise<ConfigurationStoresListDeletedNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listDeletedNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -815,7 +654,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -832,7 +671,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -853,7 +692,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -884,7 +723,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   requestBody: Parameters.configStoreCreationParameters,
@@ -909,7 +748,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -940,7 +779,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStore
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   requestBody: Parameters.configStoreUpdateParameters,
@@ -957,14 +796,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/ListKeys",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.ApiKeyListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -979,14 +818,14 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
 };
 const regenerateKeyOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/regenerateKey",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/RegenerateKey",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.ApiKey
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   requestBody: Parameters.regenerateKeyParameters,
@@ -1001,66 +840,28 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listDeletedOperationSpec: coreClient.OperationSpec = {
+const listKeyValueOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/deletedConfigurationStores",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStoreListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStore
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.configStoreName,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const purgeDeletedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}/purge",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeyValue",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.KeyValue
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
+  requestBody: Parameters.listKeyValueParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.configStoreName,
-    Parameters.location
+    Parameters.resourceGroupName,
+    Parameters.configStoreName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -1071,7 +872,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -1091,7 +892,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationStoreListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -1112,7 +913,7 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiKeyListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorModel
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
@@ -1121,26 +922,6 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDeletedNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeletedConfigurationStoreListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

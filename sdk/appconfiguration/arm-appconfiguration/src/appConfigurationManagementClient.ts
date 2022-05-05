@@ -7,22 +7,9 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  ConfigurationStoresImpl,
-  OperationsImpl,
-  PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
-  KeyValuesImpl
-} from "./operations";
-import {
-  ConfigurationStores,
-  Operations,
-  PrivateEndpointConnections,
-  PrivateLinkResources,
-  KeyValues
-} from "./operationsInterfaces";
+import { ConfigurationStoresImpl, OperationsImpl } from "./operations";
+import { ConfigurationStores, Operations } from "./operationsInterfaces";
 import { AppConfigurationManagementClientOptionalParams } from "./models";
 
 export class AppConfigurationManagementClient extends coreClient.ServiceClient {
@@ -57,7 +44,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/3.0.0-beta.5`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -72,49 +59,19 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01-preview";
+    this.apiVersion = options.apiVersion || "2020-05-05.012";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
-    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.keyValues = new KeyValuesImpl(this);
   }
 
   configurationStores: ConfigurationStores;
   operations: Operations;
-  privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
-  keyValues: KeyValues;
 }

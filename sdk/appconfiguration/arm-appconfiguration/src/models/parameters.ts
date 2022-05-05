@@ -15,9 +15,8 @@ import {
   ConfigurationStore as ConfigurationStoreMapper,
   ConfigurationStoreUpdateParameters as ConfigurationStoreUpdateParametersMapper,
   RegenerateKeyParameters as RegenerateKeyParametersMapper,
-  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  KeyValue as KeyValueMapper
+  ListKeyValueParameters as ListKeyValueParametersMapper,
+  CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -58,7 +57,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01-preview",
+    defaultValue: "2020-05-05.012",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -131,15 +130,9 @@ export const regenerateKeyParameters: OperationParameter = {
   mapper: RegenerateKeyParametersMapper
 };
 
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const listKeyValueParameters: OperationParameter = {
+  parameterPath: "listKeyValueParameters",
+  mapper: ListKeyValueParametersMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -157,47 +150,4 @@ export const nextLink: OperationURLParameter = {
 export const checkNameAvailabilityParameters: OperationParameter = {
   parameterPath: "checkNameAvailabilityParameters",
   mapper: CheckNameAvailabilityParametersMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const privateEndpointConnection: OperationParameter = {
-  parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const groupName: OperationURLParameter = {
-  parameterPath: "groupName",
-  mapper: {
-    serializedName: "groupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const keyValueName: OperationURLParameter = {
-  parameterPath: "keyValueName",
-  mapper: {
-    serializedName: "keyValueName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const keyValueParameters: OperationParameter = {
-  parameterPath: ["options", "keyValueParameters"],
-  mapper: KeyValueMapper
 };

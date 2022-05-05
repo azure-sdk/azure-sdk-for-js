@@ -14,8 +14,6 @@ import {
   ConfigurationStoresListByResourceGroupOptionalParams,
   ApiKey,
   ConfigurationStoresListKeysOptionalParams,
-  DeletedConfigurationStore,
-  ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresGetOptionalParams,
   ConfigurationStoresGetResponse,
   ConfigurationStoresCreateOptionalParams,
@@ -27,9 +25,9 @@ import {
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
-  ConfigurationStoresGetDeletedOptionalParams,
-  ConfigurationStoresGetDeletedResponse,
-  ConfigurationStoresPurgeDeletedOptionalParams
+  ListKeyValueParameters,
+  ConfigurationStoresListKeyValueOptionalParams,
+  ConfigurationStoresListKeyValueResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,13 +60,6 @@ export interface ConfigurationStores {
     configStoreName: string,
     options?: ConfigurationStoresListKeysOptionalParams
   ): PagedAsyncIterableIterator<ApiKey>;
-  /**
-   * Gets information about the deleted configuration stores in a subscription.
-   * @param options The options parameters.
-   */
-  listDeleted(
-    options?: ConfigurationStoresListDeletedOptionalParams
-  ): PagedAsyncIterableIterator<DeletedConfigurationStore>;
   /**
    * Gets the properties of the specified configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -178,36 +169,16 @@ export interface ConfigurationStores {
     options?: ConfigurationStoresRegenerateKeyOptionalParams
   ): Promise<ConfigurationStoresRegenerateKeyResponse>;
   /**
-   * Gets a deleted Azure app configuration store.
-   * @param location The location in which uniqueness will be verified.
+   * Lists a configuration store key-value.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
+   * @param listKeyValueParameters The parameters for retrieving a key-value.
    * @param options The options parameters.
    */
-  getDeleted(
-    location: string,
+  listKeyValue(
+    resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresGetDeletedOptionalParams
-  ): Promise<ConfigurationStoresGetDeletedResponse>;
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  beginPurgeDeleted(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Permanently deletes the specified configuration store.
-   * @param location The location in which uniqueness will be verified.
-   * @param configStoreName The name of the configuration store.
-   * @param options The options parameters.
-   */
-  beginPurgeDeletedAndWait(
-    location: string,
-    configStoreName: string,
-    options?: ConfigurationStoresPurgeDeletedOptionalParams
-  ): Promise<void>;
+    listKeyValueParameters: ListKeyValueParameters,
+    options?: ConfigurationStoresListKeyValueOptionalParams
+  ): Promise<ConfigurationStoresListKeyValueResponse>;
 }
