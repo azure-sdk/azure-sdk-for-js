@@ -44,7 +44,7 @@ export interface LoadTests {
   /**
    * Get a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   get(
@@ -55,11 +55,29 @@ export interface LoadTests {
   /**
    * Create or update LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param loadTestResource LoadTest resource data
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsCreateOrUpdateResponse>,
+      LoadTestsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update LoadTest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test resource name.
+   * @param loadTestResource LoadTest resource data
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResource: LoadTestResource,
@@ -68,11 +86,29 @@ export interface LoadTests {
   /**
    * Update a loadtest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param loadTestResourcePatchRequestBody LoadTest resource update data
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    options?: LoadTestsUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsUpdateResponse>,
+      LoadTestsUpdateResponse
+    >
+  >;
+  /**
+   * Update a loadtest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test resource name.
+   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
@@ -81,7 +117,7 @@ export interface LoadTests {
   /**
    * Delete a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   beginDelete(
@@ -92,7 +128,7 @@ export interface LoadTests {
   /**
    * Delete a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
