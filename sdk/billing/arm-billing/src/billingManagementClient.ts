@@ -23,13 +23,13 @@ import {
   TransactionsImpl,
   PoliciesImpl,
   BillingPropertyOperationsImpl,
-  OperationsImpl,
   BillingRoleDefinitionsImpl,
   BillingRoleAssignmentsImpl,
   AgreementsImpl,
   ReservationsImpl,
   EnrollmentAccountsImpl,
-  BillingPeriodsImpl
+  BillingPeriodsImpl,
+  OperationsImpl
 } from "./operations";
 import {
   BillingAccounts,
@@ -46,13 +46,13 @@ import {
   Transactions,
   Policies,
   BillingPropertyOperations,
-  Operations,
   BillingRoleDefinitions,
   BillingRoleAssignments,
   Agreements,
   Reservations,
   EnrollmentAccounts,
-  BillingPeriods
+  BillingPeriods,
+  Operations
 } from "./operationsInterfaces";
 import { BillingManagementClientOptionalParams } from "./models";
 
@@ -87,7 +87,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-billing/4.0.2`;
+    const packageDetails = `azsdk-js-arm-billing/5.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -102,8 +102,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -125,13 +124,13 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     this.transactions = new TransactionsImpl(this);
     this.policies = new PoliciesImpl(this);
     this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
-    this.operations = new OperationsImpl(this);
     this.billingRoleDefinitions = new BillingRoleDefinitionsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
     this.agreements = new AgreementsImpl(this);
     this.reservations = new ReservationsImpl(this);
     this.enrollmentAccounts = new EnrollmentAccountsImpl(this);
     this.billingPeriods = new BillingPeriodsImpl(this);
+    this.operations = new OperationsImpl(this);
   }
 
   billingAccounts: BillingAccounts;
@@ -148,11 +147,11 @@ export class BillingManagementClient extends coreClient.ServiceClient {
   transactions: Transactions;
   policies: Policies;
   billingPropertyOperations: BillingPropertyOperations;
-  operations: Operations;
   billingRoleDefinitions: BillingRoleDefinitions;
   billingRoleAssignments: BillingRoleAssignments;
   agreements: Agreements;
   reservations: Reservations;
   enrollmentAccounts: EnrollmentAccounts;
   billingPeriods: BillingPeriods;
+  operations: Operations;
 }
