@@ -7,31 +7,36 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
-  ConfigurationImpl,
   NamespacesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  OperationsImpl,
-  EventHubsImpl,
+  NetworkSecurityPerimeterConfigurationOperationsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
+  ConfigurationImpl,
   DisasterRecoveryConfigsImpl,
+  EventHubsImpl,
   ConsumerGroupsImpl,
-  SchemaRegistryImpl
+  OperationsImpl,
+  SchemaRegistryImpl,
+  ApplicationGroupOperationsImpl
 } from "./operations";
 import {
   Clusters,
-  Configuration,
   Namespaces,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  Operations,
-  EventHubs,
+  NetworkSecurityPerimeterConfigurationOperations,
+  NetworkSecurityPerimeterConfigurations,
+  Configuration,
   DisasterRecoveryConfigs,
+  EventHubs,
   ConsumerGroups,
-  SchemaRegistry
+  Operations,
+  SchemaRegistry,
+  ApplicationGroupOperations
 } from "./operationsInterfaces";
 import { EventHubManagementClientOptionalParams } from "./models";
 
@@ -68,7 +73,7 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub/5.0.2`;
+    const packageDetails = `azsdk-js-arm-eventhub/5.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -83,59 +88,45 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-01";
+    this.apiVersion = options.apiVersion || "2022-01-01-preview";
     this.clusters = new ClustersImpl(this);
-    this.configuration = new ConfigurationImpl(this);
     this.namespaces = new NamespacesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.eventHubs = new EventHubsImpl(this);
+    this.networkSecurityPerimeterConfigurationOperations = new NetworkSecurityPerimeterConfigurationOperationsImpl(
+      this
+    );
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this
+    );
+    this.configuration = new ConfigurationImpl(this);
     this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
+    this.eventHubs = new EventHubsImpl(this);
     this.consumerGroups = new ConsumerGroupsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.schemaRegistry = new SchemaRegistryImpl(this);
+    this.applicationGroupOperations = new ApplicationGroupOperationsImpl(this);
   }
 
   clusters: Clusters;
-  configuration: Configuration;
   namespaces: Namespaces;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
-  operations: Operations;
-  eventHubs: EventHubs;
+  networkSecurityPerimeterConfigurationOperations: NetworkSecurityPerimeterConfigurationOperations;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
+  configuration: Configuration;
   disasterRecoveryConfigs: DisasterRecoveryConfigs;
+  eventHubs: EventHubs;
   consumerGroups: ConsumerGroups;
+  operations: Operations;
   schemaRegistry: SchemaRegistry;
+  applicationGroupOperations: ApplicationGroupOperations;
 }
