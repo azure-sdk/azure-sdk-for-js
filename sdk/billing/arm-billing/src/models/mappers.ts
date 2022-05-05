@@ -680,8 +680,8 @@ export const ValidateAddressResponse: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      suggestedAddresses: {
-        serializedName: "suggestedAddresses",
+      suggestedAddressList: {
+        serializedName: "suggestedAddressList",
         type: {
           name: "Sequence",
           element: {
@@ -1034,13 +1034,6 @@ export const InvoiceListResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      totalCount: {
-        serializedName: "totalCount",
-        readOnly: true,
-        type: {
-          name: "Number"
         }
       }
     }

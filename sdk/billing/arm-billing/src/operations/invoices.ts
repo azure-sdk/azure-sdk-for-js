@@ -456,13 +456,11 @@ export class InvoicesImpl implements Invoices {
       { billingAccountName, invoiceName, downloadToken, options },
       downloadInvoiceOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -552,13 +550,11 @@ export class InvoicesImpl implements Invoices {
       { billingAccountName, downloadUrls, options },
       downloadMultipleBillingProfileInvoicesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -674,13 +670,11 @@ export class InvoicesImpl implements Invoices {
       { invoiceName, downloadToken, options },
       downloadBillingSubscriptionInvoiceOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -763,13 +757,11 @@ export class InvoicesImpl implements Invoices {
       { downloadUrls, options },
       downloadMultipleBillingSubscriptionInvoicesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

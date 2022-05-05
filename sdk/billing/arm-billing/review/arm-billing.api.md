@@ -1186,7 +1186,6 @@ export type InvoiceDocumentType = string;
 // @public
 export interface InvoiceListResult {
     readonly nextLink?: string;
-    readonly totalCount?: number;
     readonly value?: Invoice[];
 }
 
@@ -2320,7 +2319,7 @@ export interface TransferProductRequestProperties {
 // @public
 export interface ValidateAddressResponse {
     status?: AddressValidationStatus;
-    suggestedAddresses?: AddressDetails[];
+    suggestedAddressList?: AddressDetails[];
     validationMessage?: string;
 }
 

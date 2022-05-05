@@ -1,15 +1,16 @@
 # Release History
+    
+## 5.0.0-beta.1 (2022-05-05)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
+  - Interface ValidateAddressResponse has a new optional parameter suggestedAddressList
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface InvoiceListResult no longer has parameter totalCount
+  - Interface ValidateAddressResponse no longer has parameter suggestedAddresses
+    
 ## 4.0.1 (2022-04-11)
 
   - Bug fix
