@@ -8856,6 +8856,27 @@ export const UserArtifactManage: coreClient.CompositeMapper = {
   }
 };
 
+export const UserArtifactSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserArtifactSettings",
+    modelProperties: {
+      packageFileName: {
+        serializedName: "packageFileName",
+        type: {
+          name: "String"
+        }
+      },
+      configFileName: {
+        serializedName: "configFileName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GalleryList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9131,6 +9152,56 @@ export const SharedGalleryImageVersionList: coreClient.CompositeMapper = {
   }
 };
 
+export const SharedGalleryImageVersionStorageProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryImageVersionStorageProfile",
+    modelProperties: {
+      osDiskImage: {
+        serializedName: "osDiskImage",
+        type: {
+          name: "Composite",
+          className: "SharedGalleryOSDiskImage"
+        }
+      },
+      dataDiskImages: {
+        serializedName: "dataDiskImages",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SharedGalleryDataDiskImage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SharedGalleryDiskImage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryDiskImage",
+    modelProperties: {
+      diskSizeGB: {
+        serializedName: "diskSizeGB",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      hostCaching: {
+        serializedName: "hostCaching",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9159,6 +9230,62 @@ export const PirCommunityGalleryResource: coreClient.CompositeMapper = {
       },
       uniqueId: {
         serializedName: "identifier.uniqueId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryImageList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryImageList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunityGalleryImage"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryImageVersionList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryImageVersionList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunityGalleryImageVersion"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -15223,6 +15350,20 @@ export const GalleryApplicationVersionPublishingProfile: coreClient.CompositeMap
           className: "UserArtifactManage"
         }
       },
+      settings: {
+        serializedName: "settings",
+        type: {
+          name: "Composite",
+          className: "UserArtifactSettings"
+        }
+      },
+      advancedSettings: {
+        serializedName: "advancedSettings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       enableHealthCheck: {
         serializedName: "enableHealthCheck",
         type: {
@@ -15310,6 +15451,33 @@ export const PirSharedGalleryResource: coreClient.CompositeMapper = {
   }
 };
 
+export const SharedGalleryOSDiskImage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryOSDiskImage",
+    modelProperties: {
+      ...SharedGalleryDiskImage.type.modelProperties
+    }
+  }
+};
+
+export const SharedGalleryDataDiskImage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryDataDiskImage",
+    modelProperties: {
+      ...SharedGalleryDiskImage.type.modelProperties,
+      lun: {
+        serializedName: "lun",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const CommunityGallery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15391,6 +15559,24 @@ export const CommunityGalleryImage: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImagePurchasePlan"
         }
+      },
+      architecture: {
+        serializedName: "properties.architecture",
+        type: {
+          name: "String"
+        }
+      },
+      privacyStatementUri: {
+        serializedName: "properties.privacyStatementUri",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "properties.eula",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -15412,6 +15598,19 @@ export const CommunityGalleryImageVersion: coreClient.CompositeMapper = {
         serializedName: "properties.endOfLifeDate",
         type: {
           name: "DateTime"
+        }
+      },
+      excludeFromLatest: {
+        serializedName: "properties.excludeFromLatest",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageProfile: {
+        serializedName: "properties.storageProfile",
+        type: {
+          name: "Composite",
+          className: "SharedGalleryImageVersionStorageProfile"
         }
       }
     }
@@ -15594,6 +15793,12 @@ export const SharedGalleryImage: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ImagePurchasePlan"
         }
+      },
+      architecture: {
+        serializedName: "properties.architecture",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -15615,6 +15820,19 @@ export const SharedGalleryImageVersion: coreClient.CompositeMapper = {
         serializedName: "properties.endOfLifeDate",
         type: {
           name: "DateTime"
+        }
+      },
+      excludeFromLatest: {
+        serializedName: "properties.excludeFromLatest",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageProfile: {
+        serializedName: "properties.storageProfile",
+        type: {
+          name: "Composite",
+          className: "SharedGalleryImageVersionStorageProfile"
         }
       }
     }
