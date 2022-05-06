@@ -677,6 +677,20 @@ export const VaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      backupStorageVersion: {
+        serializedName: "backupStorageVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      redundancySettings: {
+        serializedName: "redundancySettings",
+        type: {
+          name: "Composite",
+          className: "VaultPropertiesRedundancySettings"
+        }
       }
     }
   }
@@ -974,6 +988,29 @@ export const VaultPropertiesMoveDetails: coreClient.CompositeMapper = {
       },
       targetResourceId: {
         serializedName: "targetResourceId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultPropertiesRedundancySettings",
+    modelProperties: {
+      standardTierStorageRedundancy: {
+        serializedName: "standardTierStorageRedundancy",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      crossRegionRestore: {
+        serializedName: "crossRegionRestore",
         readOnly: true,
         type: {
           name: "String"

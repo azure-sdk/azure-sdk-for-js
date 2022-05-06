@@ -14,6 +14,9 @@ import { PollOperationState } from '@azure/core-lro';
 export type AuthType = string;
 
 // @public
+export type BackupStorageVersion = string;
+
+// @public
 export interface CertificateRequest {
     properties?: RawCertificateData;
 }
@@ -93,6 +96,9 @@ export interface CmkKeyVaultProperties {
 export type CreatedByType = string;
 
 // @public
+export type CrossRegionRestore = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -156,6 +162,16 @@ export enum KnownAuthType {
 }
 
 // @public
+export enum KnownBackupStorageVersion {
+    // (undocumented)
+    Unassigned = "Unassigned",
+    // (undocumented)
+    V1 = "V1",
+    // (undocumented)
+    V2 = "V2"
+}
+
+// @public
 export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
@@ -165,6 +181,14 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
+}
+
+// @public
+export enum KnownCrossRegionRestore {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -241,6 +265,16 @@ export enum KnownSkuName {
     RS0 = "RS0",
     // (undocumented)
     Standard = "Standard"
+}
+
+// @public
+export enum KnownStandardTierStorageRedundancy {
+    // (undocumented)
+    GeoRedundant = "GeoRedundant",
+    // (undocumented)
+    LocallyRedundant = "LocallyRedundant",
+    // (undocumented)
+    ZoneRedundant = "ZoneRedundant"
 }
 
 // @public
@@ -578,6 +612,9 @@ export interface Sku {
 export type SkuName = string;
 
 // @public
+export type StandardTierStorageRedundancy = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -708,6 +745,7 @@ export type VaultPrivateEndpointState = string;
 
 // @public
 export interface VaultProperties {
+    readonly backupStorageVersion?: BackupStorageVersion;
     encryption?: VaultPropertiesEncryption;
     moveDetails?: VaultPropertiesMoveDetails;
     readonly moveState?: ResourceMoveState;
@@ -715,6 +753,7 @@ export interface VaultProperties {
     readonly privateEndpointStateForBackup?: VaultPrivateEndpointState;
     readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
     readonly provisioningState?: string;
+    redundancySettings?: VaultPropertiesRedundancySettings;
     upgradeDetails?: UpgradeDetails;
 }
 
@@ -732,6 +771,12 @@ export interface VaultPropertiesMoveDetails {
     readonly sourceResourceId?: string;
     readonly startTimeUtc?: Date;
     readonly targetResourceId?: string;
+}
+
+// @public
+export interface VaultPropertiesRedundancySettings {
+    readonly crossRegionRestore?: CrossRegionRestore;
+    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public

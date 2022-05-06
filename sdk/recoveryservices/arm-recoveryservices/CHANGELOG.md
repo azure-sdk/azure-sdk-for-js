@@ -1,5 +1,19 @@
 # Release History
+    
+## 5.1.0-beta.1 (2022-05-06)
+    
+**Features**
 
+  - Added Interface VaultPropertiesRedundancySettings
+  - Added Type Alias BackupStorageVersion
+  - Added Type Alias CrossRegionRestore
+  - Added Type Alias StandardTierStorageRedundancy
+  - Interface VaultProperties has a new optional parameter backupStorageVersion
+  - Interface VaultProperties has a new optional parameter redundancySettings
+  - Added Enum KnownBackupStorageVersion
+  - Added Enum KnownCrossRegionRestore
+  - Added Enum KnownStandardTierStorageRedundancy
+    
 ## 5.0.1 (2022-04-29)
 
 **Features**
