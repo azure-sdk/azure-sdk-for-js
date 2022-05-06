@@ -591,12 +591,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       copyOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -700,12 +698,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -828,12 +824,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -994,12 +988,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       copyByResourceGroupOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1111,12 +1103,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       updateByResourceGroupOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1251,12 +1241,10 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       deleteByResourceGroupOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1521,7 +1509,7 @@ const copyOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters84,
+  requestBody: Parameters.parameters76,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1554,7 +1542,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1697,7 +1685,7 @@ const copyByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters84,
+  requestBody: Parameters.parameters76,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -1731,7 +1719,7 @@ const updateByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters77,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

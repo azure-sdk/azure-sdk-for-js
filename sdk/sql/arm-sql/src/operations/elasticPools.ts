@@ -413,12 +413,10 @@ export class ElasticPoolsImpl implements ElasticPools {
       { resourceGroupName, serverName, elasticPoolName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -505,12 +503,10 @@ export class ElasticPoolsImpl implements ElasticPools {
       { resourceGroupName, serverName, elasticPoolName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -601,12 +597,10 @@ export class ElasticPoolsImpl implements ElasticPools {
       { resourceGroupName, serverName, elasticPoolName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -693,12 +687,10 @@ export class ElasticPoolsImpl implements ElasticPools {
       { resourceGroupName, serverName, elasticPoolName, options },
       failoverOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

@@ -422,12 +422,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       { resourceGroupName, managedInstanceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -509,12 +507,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       { resourceGroupName, managedInstanceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -600,12 +596,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       { resourceGroupName, managedInstanceName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -705,12 +699,10 @@ export class ManagedInstancesImpl implements ManagedInstances {
       { resourceGroupName, managedInstanceName, options },
       failoverOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -902,7 +894,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters86,
+  requestBody: Parameters.parameters78,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -947,7 +939,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters87,
+  requestBody: Parameters.parameters79,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
