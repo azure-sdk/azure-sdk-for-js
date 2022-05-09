@@ -437,23 +437,25 @@ export type LinkerResource = ProxyResource & {
   scope?: string;
 };
 
-/** Known values of {@link TargetServiceType} that the service accepts. */
-export enum KnownTargetServiceType {
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
   AzureResource = "AzureResource",
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
-  ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+  ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+  KeyVault = "KeyVault"
 }
 
 /**
- * Defines values for TargetServiceType. \
- * {@link KnownTargetServiceType} can be used interchangeably with TargetServiceType,
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AzureResource** \
  * **ConfluentBootstrapServer** \
- * **ConfluentSchemaRegistry**
+ * **ConfluentSchemaRegistry** \
+ * **KeyVault**
  */
-export type TargetServiceType = string;
+export type Type = string;
 
 /** Known values of {@link AuthType} that the service accepts. */
 export enum KnownAuthType {
@@ -594,20 +596,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
-/** Known values of {@link AzureResourceType} that the service accepts. */
-export enum KnownAzureResourceType {
-  KeyVault = "KeyVault"
-}
-
-/**
- * Defines values for AzureResourceType. \
- * {@link KnownAzureResourceType} can be used interchangeably with AzureResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **KeyVault**
- */
-export type AzureResourceType = string;
 
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {

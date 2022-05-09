@@ -46,9 +46,6 @@ export interface AzureResourcePropertiesBase {
 export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties;
 
 // @public
-export type AzureResourceType = string;
-
-// @public
 export type ClientType = string;
 
 // @public
@@ -120,12 +117,6 @@ export enum KnownAuthType {
 }
 
 // @public
-export enum KnownAzureResourceType {
-    // (undocumented)
-    KeyVault = "KeyVault"
-}
-
-// @public
 export enum KnownClientType {
     // (undocumented)
     Django = "django",
@@ -182,13 +173,15 @@ export enum KnownSecretType {
 }
 
 // @public
-export enum KnownTargetServiceType {
+export enum KnownType {
     // (undocumented)
     AzureResource = "AzureResource",
     // (undocumented)
     ConfluentBootstrapServer = "ConfluentBootstrapServer",
     // (undocumented)
-    ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+    ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+    // (undocumented)
+    KeyVault = "KeyVault"
 }
 
 // @public
@@ -463,7 +456,7 @@ export interface TargetServiceBase {
 export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry;
 
 // @public
-export type TargetServiceType = string;
+export type Type = string;
 
 // @public
 export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
