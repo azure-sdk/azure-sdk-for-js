@@ -289,6 +289,8 @@ export interface VaultProperties {
   readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
   /** Customer Managed Key details of the resource. */
   encryption?: VaultPropertiesEncryption;
+  /** Monitoring Settings of the vault */
+  monitoringSettings?: MonitoringSettings;
   /** The details of the latest move operation performed on the Azure Resource */
   moveDetails?: VaultPropertiesMoveDetails;
   /**
@@ -296,6 +298,11 @@ export interface VaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly moveState?: ResourceMoveState;
+  /**
+   * Backup storage version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupStorageVersion?: BackupStorageVersion;
 }
 
 /** Details for upgrading vault. */
@@ -445,6 +452,24 @@ export interface CmkKekIdentity {
   useSystemAssignedIdentity?: boolean;
   /** The user assigned identity to be used to grant permissions in case the type of identity used is UserAssigned */
   userAssignedIdentity?: string;
+}
+
+/** Monitoring Settings of the vault */
+export interface MonitoringSettings {
+  /** Settings for Azure Monitor based alerts */
+  azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+  /** Settings for classic alerts */
+  classicAlertSettings?: ClassicAlertSettings;
+}
+
+/** Settings for Azure Monitor based alerts */
+export interface AzureMonitorAlertSettings {
+  alertsForAllJobFailures?: AlertsState;
+}
+
+/** Settings for classic alerts */
+export interface ClassicAlertSettings {
+  alertsForCriticalOperations?: AlertsState;
 }
 
 /** The details of the latest move operation performed on the Azure Resource */
@@ -860,6 +885,22 @@ export enum KnownInfrastructureEncryptionState {
  */
 export type InfrastructureEncryptionState = string;
 
+/** Known values of {@link AlertsState} that the service accepts. */
+export enum KnownAlertsState {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AlertsState. \
+ * {@link KnownAlertsState} can be used interchangeably with AlertsState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AlertsState = string;
+
 /** Known values of {@link ResourceMoveState} that the service accepts. */
 export enum KnownResourceMoveState {
   Unknown = "Unknown",
@@ -891,6 +932,24 @@ export enum KnownResourceMoveState {
  * **PartialSuccess**
  */
 export type ResourceMoveState = string;
+
+/** Known values of {@link BackupStorageVersion} that the service accepts. */
+export enum KnownBackupStorageVersion {
+  V1 = "V1",
+  V2 = "V2",
+  Unassigned = "Unassigned"
+}
+
+/**
+ * Defines values for BackupStorageVersion. \
+ * {@link KnownBackupStorageVersion} can be used interchangeably with BackupStorageVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2** \
+ * **Unassigned**
+ */
+export type BackupStorageVersion = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {

@@ -1,5 +1,19 @@
 # Release History
+    
+## 5.1.0 (2022-05-09)
+    
+**Features**
 
+  - Added Interface AzureMonitorAlertSettings
+  - Added Interface ClassicAlertSettings
+  - Added Interface MonitoringSettings
+  - Added Type Alias AlertsState
+  - Added Type Alias BackupStorageVersion
+  - Interface VaultProperties has a new optional parameter backupStorageVersion
+  - Interface VaultProperties has a new optional parameter monitoringSettings
+  - Added Enum KnownAlertsState
+  - Added Enum KnownBackupStorageVersion
+    
 ## 5.0.1 (2022-04-29)
 
 **Features**

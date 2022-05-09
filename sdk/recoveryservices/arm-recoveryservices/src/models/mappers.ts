@@ -664,6 +664,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
           className: "VaultPropertiesEncryption"
         }
       },
+      monitoringSettings: {
+        serializedName: "monitoringSettings",
+        type: {
+          name: "Composite",
+          className: "MonitoringSettings"
+        }
+      },
       moveDetails: {
         serializedName: "moveDetails",
         type: {
@@ -673,6 +680,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
       },
       moveState: {
         serializedName: "moveState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      backupStorageVersion: {
+        serializedName: "backupStorageVersion",
         readOnly: true,
         type: {
           name: "String"
@@ -931,6 +945,59 @@ export const CmkKekIdentity: coreClient.CompositeMapper = {
       },
       userAssignedIdentity: {
         serializedName: "userAssignedIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MonitoringSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoringSettings",
+    modelProperties: {
+      azureMonitorAlertSettings: {
+        serializedName: "azureMonitorAlertSettings",
+        type: {
+          name: "Composite",
+          className: "AzureMonitorAlertSettings"
+        }
+      },
+      classicAlertSettings: {
+        serializedName: "classicAlertSettings",
+        type: {
+          name: "Composite",
+          className: "ClassicAlertSettings"
+        }
+      }
+    }
+  }
+};
+
+export const AzureMonitorAlertSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureMonitorAlertSettings",
+    modelProperties: {
+      alertsForAllJobFailures: {
+        serializedName: "alertsForAllJobFailures",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClassicAlertSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassicAlertSettings",
+    modelProperties: {
+      alertsForCriticalOperations: {
+        serializedName: "alertsForCriticalOperations",
         type: {
           name: "String"
         }

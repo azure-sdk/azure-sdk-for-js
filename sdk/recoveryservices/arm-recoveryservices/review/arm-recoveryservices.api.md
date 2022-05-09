@@ -11,7 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AlertsState = string;
+
+// @public
 export type AuthType = string;
+
+// @public
+export interface AzureMonitorAlertSettings {
+    // (undocumented)
+    alertsForAllJobFailures?: AlertsState;
+}
+
+// @public
+export type BackupStorageVersion = string;
 
 // @public
 export interface CertificateRequest {
@@ -32,6 +44,12 @@ export interface CheckNameAvailabilityResult {
     nameAvailable?: boolean;
     // (undocumented)
     reason?: string;
+}
+
+// @public
+export interface ClassicAlertSettings {
+    // (undocumented)
+    alertsForCriticalOperations?: AlertsState;
 }
 
 // @public
@@ -142,6 +160,14 @@ export interface JobsSummary {
 }
 
 // @public
+export enum KnownAlertsState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAuthType {
     // (undocumented)
     AAD = "AAD",
@@ -153,6 +179,16 @@ export enum KnownAuthType {
     AzureActiveDirectory = "AzureActiveDirectory",
     // (undocumented)
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownBackupStorageVersion {
+    // (undocumented)
+    Unassigned = "Unassigned",
+    // (undocumented)
+    V1 = "V1",
+    // (undocumented)
+    V2 = "V2"
 }
 
 // @public
@@ -285,6 +321,12 @@ export enum KnownVaultUpgradeState {
     Unknown = "Unknown",
     // (undocumented)
     Upgraded = "Upgraded"
+}
+
+// @public
+export interface MonitoringSettings {
+    azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+    classicAlertSettings?: ClassicAlertSettings;
 }
 
 // @public
@@ -708,7 +750,9 @@ export type VaultPrivateEndpointState = string;
 
 // @public
 export interface VaultProperties {
+    readonly backupStorageVersion?: BackupStorageVersion;
     encryption?: VaultPropertiesEncryption;
+    monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
     readonly moveState?: ResourceMoveState;
     readonly privateEndpointConnections?: PrivateEndpointConnectionVaultProperties[];
