@@ -252,12 +252,10 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, parameters, options },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -533,13 +531,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, options },
       failoverOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -629,13 +625,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, requestType, options },
       hierarchicalNamespaceMigrationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -724,13 +718,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, options },
       abortHierarchicalNamespaceMigrationOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -820,13 +812,11 @@ export class StorageAccountsImpl implements StorageAccounts {
       { resourceGroupName, accountName, parameters, options },
       restoreBlobRangesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
