@@ -87,13 +87,11 @@ export class VpnSitesConfigurationImpl implements VpnSitesConfiguration {
       { resourceGroupName, virtualWANName, request, options },
       downloadOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

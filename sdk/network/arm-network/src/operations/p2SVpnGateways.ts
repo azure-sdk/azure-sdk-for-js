@@ -234,13 +234,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, p2SVpnGatewayParameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -328,13 +326,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, p2SVpnGatewayParameters, options },
       updateTagsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -414,13 +410,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -527,13 +521,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, options },
       resetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -617,13 +609,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, parameters, options },
       generateVpnProfileOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -709,13 +699,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, options },
       getP2SVpnConnectionHealthOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -803,13 +791,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, gatewayName, request, options },
       getP2SVpnConnectionHealthDetailedOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -892,13 +878,11 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       { resourceGroupName, p2SVpnGatewayName, request, options },
       disconnectP2SVpnConnectionsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
