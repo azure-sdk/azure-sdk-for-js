@@ -1848,6 +1848,7 @@ export type DataFlowsGetResponse = DataFlowResource;
 // @public
 export type DataFlowSink = Transformation & {
     schemaLinkedService?: LinkedServiceReference;
+    rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 // @public
@@ -2666,6 +2667,7 @@ export type Factory = Resource & {
     readonly provisioningState?: string;
     readonly createTime?: Date;
     readonly version?: string;
+    purviewConfiguration?: PurviewConfiguration;
     repoConfiguration?: FactoryRepoConfigurationUnion;
     globalParameters?: {
         [propertyName: string]: GlobalParameterSpecification;
@@ -6331,6 +6333,11 @@ export type PrestoSource = TabularSource & {
 };
 
 // @public
+export interface PrivateEndpoint {
+    id?: string;
+}
+
+// @public
 export interface PrivateEndpointConnection {
     createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
@@ -6389,6 +6396,7 @@ export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointCon
 
 // @public
 export interface PrivateLinkConnectionApprovalRequest {
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
@@ -6436,6 +6444,11 @@ export interface PrivateLinkResourcesWrapper {
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export interface PurviewConfiguration {
+    purviewResourceId?: string;
+}
 
 // @public
 export interface QueryDataFlowDebugSessionsResponse {

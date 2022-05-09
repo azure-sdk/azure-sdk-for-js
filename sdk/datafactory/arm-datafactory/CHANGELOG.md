@@ -1,5 +1,16 @@
 # Release History
     
+## 10.5.0 (2022-05-09)
+    
+**Features**
+
+  - Added Interface PrivateEndpoint
+  - Added Interface PurviewConfiguration
+  - Interface PrivateLinkConnectionApprovalRequest has a new optional parameter privateEndpoint
+  - Type Alias DataFlowSink has a new parameter rejectedDataLinkedService
+  - Type Alias Factory has a new parameter purviewConfiguration
+    
+    
 ## 10.4.0 (2022-04-20)
     
 **Features**
