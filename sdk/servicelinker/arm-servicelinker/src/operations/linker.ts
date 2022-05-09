@@ -191,13 +191,11 @@ export class LinkerImpl implements Linker {
       { resourceUri, linkerName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -279,13 +277,11 @@ export class LinkerImpl implements Linker {
       { resourceUri, linkerName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -364,13 +360,11 @@ export class LinkerImpl implements Linker {
       { resourceUri, linkerName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -457,13 +451,11 @@ export class LinkerImpl implements Linker {
       { resourceUri, linkerName, options },
       validateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -646,16 +638,16 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     201: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     202: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     204: {
-      bodyMapper: Mappers.ValidateResult
+      bodyMapper: Mappers.ValidateOperationResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
