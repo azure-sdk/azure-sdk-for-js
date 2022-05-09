@@ -31,7 +31,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -1147,7 +1147,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;

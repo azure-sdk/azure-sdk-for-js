@@ -493,6 +493,7 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       },
       currentOrchestratorVersion: {
         serializedName: "currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -3616,6 +3617,7 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       currentOrchestratorVersion: {
         serializedName: "properties.currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
