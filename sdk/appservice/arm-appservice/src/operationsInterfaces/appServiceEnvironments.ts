@@ -63,6 +63,9 @@ import {
   AppServiceEnvironmentsListDiagnosticsResponse,
   AppServiceEnvironmentsGetDiagnosticsItemOptionalParams,
   AppServiceEnvironmentsGetDiagnosticsItemResponse,
+  AseMigrationOptions,
+  AppServiceEnvironmentsMigrateOptionalParams,
+  AppServiceEnvironmentsMigrateResponse,
   AppServiceEnvironmentsGetMultiRolePoolOptionalParams,
   AppServiceEnvironmentsGetMultiRolePoolResponse,
   AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams,
@@ -481,6 +484,23 @@ export interface AppServiceEnvironments {
     diagnosticsName: string,
     options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams
   ): Promise<AppServiceEnvironmentsGetDiagnosticsItemResponse>;
+  /**
+   * Migrate an App Service Environment between ASE versions.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param phase Specify <code>Validation</code> to validate, <code>PreMigration</code> to generate new
+   *              IP addresses and <code>FullMigration</code> to migrate the ASE.
+   * @param migrationOptionsEnvelope Additional options and configurations that will be applied to the
+   *                                 App Service Environment during migration.
+   * @param options The options parameters.
+   */
+  migrate(
+    resourceGroupName: string,
+    name: string,
+    phase: string,
+    migrationOptionsEnvelope: AseMigrationOptions,
+    options?: AppServiceEnvironmentsMigrateOptionalParams
+  ): Promise<AppServiceEnvironmentsMigrateResponse>;
   /**
    * Description for Get properties of a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

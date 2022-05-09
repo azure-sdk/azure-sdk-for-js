@@ -96,6 +96,9 @@ import {
   AppServiceEnvironmentsGetDiagnosticsItemOptionalParams,
   AppServiceEnvironmentsGetDiagnosticsItemResponse,
   AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsResponse,
+  AseMigrationOptions,
+  AppServiceEnvironmentsMigrateOptionalParams,
+  AppServiceEnvironmentsMigrateResponse,
   AppServiceEnvironmentsListMultiRolePoolsResponse,
   AppServiceEnvironmentsGetMultiRolePoolOptionalParams,
   AppServiceEnvironmentsGetMultiRolePoolResponse,
@@ -1794,12 +1797,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, hostingEnvironmentEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1879,12 +1880,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2017,12 +2016,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, vnetInfo, options },
       changeVnetOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2113,6 +2110,29 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getInboundNetworkDependenciesEndpointsOperationSpec
+    );
+  }
+
+  /**
+   * Migrate an App Service Environment between ASE versions.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param phase Specify <code>Validation</code> to validate, <code>PreMigration</code> to generate new
+   *              IP addresses and <code>FullMigration</code> to migrate the ASE.
+   * @param migrationOptionsEnvelope Additional options and configurations that will be applied to the
+   *                                 App Service Environment during migration.
+   * @param options The options parameters.
+   */
+  migrate(
+    resourceGroupName: string,
+    name: string,
+    phase: string,
+    migrationOptionsEnvelope: AseMigrationOptions,
+    options?: AppServiceEnvironmentsMigrateOptionalParams
+  ): Promise<AppServiceEnvironmentsMigrateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, phase, migrationOptionsEnvelope, options },
+      migrateOperationSpec
     );
   }
 
@@ -2214,12 +2234,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, multiRolePoolEnvelope, options },
       createOrUpdateMultiRolePoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2481,12 +2499,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       },
       approveOrRejectPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2580,12 +2596,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, privateEndpointConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2704,12 +2718,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       resumeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2806,12 +2818,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, options },
       suspendOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -2933,12 +2943,10 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
       { resourceGroupName, name, workerPoolName, workerPoolEnvelope, options },
       createOrUpdateWorkerPoolOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -3858,6 +3866,37 @@ const getInboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationS
     Parameters.name
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const migrateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/migrate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    202: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.migrationOptionsEnvelope,
+  queryParameters: [Parameters.apiVersion, Parameters.phase],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listMultiRolePoolsOperationSpec: coreClient.OperationSpec = {
