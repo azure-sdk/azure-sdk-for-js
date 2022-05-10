@@ -11985,28 +11985,27 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-F4KBzJWHJ5xl98pUJNPft9sAouJTQ7gYwOra8wt/2KcziB3lnR5wgEOFZoxy/BX3L3ggA9hGOxl7mVlsnk6FYg==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-Pc0v7RFeSZEkESjZXX6VVWHU8L1DrN+xItbC9YyFCp1MoS8wMUP2+gkBCaGyCzN/AEZv7R0aY7JJyLK9DjtLFw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      '@microsoft/api-extractor': 7.23.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.72.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
