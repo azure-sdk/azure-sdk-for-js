@@ -4930,6 +4930,25 @@ export const Pricing: coreClient.CompositeMapper = {
         type: {
           name: "TimeSpan"
         }
+      },
+      deprecated: {
+        serializedName: "properties.deprecated",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      replacedBy: {
+        serializedName: "properties.replacedBy",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }

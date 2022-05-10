@@ -3562,6 +3562,8 @@ export type Pricing = Resource & {
     pricingTier?: PricingTier;
     subPlan?: string;
     readonly freeTrialRemainingTime?: string;
+    readonly deprecated?: boolean;
+    readonly replacedBy?: string[];
 };
 
 // @public
