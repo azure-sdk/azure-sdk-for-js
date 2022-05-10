@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -17,8 +16,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ResolvePrivateLinkServiceIdImpl,
-  SnapshotsImpl,
-  ManagedClusterSnapshotsImpl
+  SnapshotsImpl
 } from "./operations";
 import {
   Operations,
@@ -28,8 +26,7 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ResolvePrivateLinkServiceId,
-  Snapshots,
-  ManagedClusterSnapshots
+  Snapshots
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -65,7 +62,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/16.1.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/16.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -80,39 +77,15 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-02-preview";
+    this.apiVersion = options.apiVersion || "2022-04-01";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -123,7 +96,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       this
     );
     this.snapshots = new SnapshotsImpl(this);
-    this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
   }
 
   operations: Operations;
@@ -134,5 +106,4 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
   snapshots: Snapshots;
-  managedClusterSnapshots: ManagedClusterSnapshots;
 }
