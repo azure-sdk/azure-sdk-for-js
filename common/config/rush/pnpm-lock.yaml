@@ -12712,28 +12712,27 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-a1DTJE7Yj8+KnLOWV3gGGzBVoRo9L09N50EnLvjSlS4B/lrO8ibZbhSv5bPHGsqsiv9jxIWtAZRg5NE8uD21qA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-DxQl5zbJq7Gn8mCQolbtr2OOhZBckX0cBA5O+gcA/ovSsvP0/1yjAG4T/gF38sWeBWrLAJ/NHKV5EUZoP+NR1A==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      '@microsoft/api-extractor': 7.23.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.72.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
