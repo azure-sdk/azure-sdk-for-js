@@ -23,6 +23,7 @@ specifiers:
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:./projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:./projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:./projects/arm-batch.tgz
@@ -299,6 +300,7 @@ dependencies:
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
+  '@rush-temp/arm-azurearcdata': file:projects/arm-azurearcdata.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
   '@rush-temp/arm-azurestackhci': file:projects/arm-azurestackhci.tgz
   '@rush-temp/arm-batch': file:projects/arm-batch.tgz
@@ -9686,6 +9688,32 @@ packages:
       - '@types/node'
       - debug
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-azurearcdata.tgz:
+    resolution: {integrity: sha512-PHcLlcdUFhRdQJLTIGUeC1nCxn07anJ95t6b+LvJ0/lC8Ry7VOrwTsk4fARfbk+vRM6FP+w8m9xhRseKmm5OKw==, tarball: file:projects/arm-azurearcdata.tgz}
+    name: '@rush-temp/arm-azurearcdata'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
       - supports-color
     dev: false
 
