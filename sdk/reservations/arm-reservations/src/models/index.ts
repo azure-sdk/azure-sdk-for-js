@@ -2095,11 +2095,9 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 export interface QuotaRequestStatusListOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */
@@ -2115,11 +2113,9 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 export interface QuotaRequestStatusListNextOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */
