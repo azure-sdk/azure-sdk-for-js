@@ -13245,13 +13245,13 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-9uRGegk2PugMoa2TF31FkZMpzlh2u4pRzGCDfVyIefc27kr58nfoH0LYEBJj89oGBYjVNOc6uUZu8dagKX0/nQ==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-ar2TBw2ATcUFG2+pr1wiygiwJq5h7/Q5OLsapP8Hm7XjAVHbxbQrarKTSUWnD5xypzCVsqoOHCXdsYt/aePhAQ==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.23.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
       '@rollup/plugin-json': 4.1.0_rollup@2.72.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
@@ -13268,7 +13268,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -15864,7 +15863,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-4oFLfXF58h4vd0ye9yIrJqV8ICk41YWvs7BAp3qJK08zbvY4hS3bdm5DmsuW313e61nlxd+eTEebgd1lWzIOpA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-KR3Qu673FyXbtGvsdldXeuWMlXPYtnDYHo9nuPbVSOxPBZATFR+JF6pM+2hH5Vrk5gW50qb72p8Ns7QMkScRwA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
