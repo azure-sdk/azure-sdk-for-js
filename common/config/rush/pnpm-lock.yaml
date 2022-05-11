@@ -159,6 +159,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagepool': file:./projects/arm-storagepool.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -435,6 +436,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagepool': file:projects/arm-storagepool.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -13495,6 +13497,32 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storagepool.tgz:
+    resolution: {integrity: sha512-/SGWjjP+z1V/ZiboBvVzHk17k0e219pmNWlGyBcX40HdL9GGAXSpiyRyBLgzuWt8rXBbLHIH/scH6Pvm34sFYg==, tarball: file:projects/arm-storagepool.tgz}
+    name: '@rush-temp/arm-storagepool'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-storagesync.tgz:
     resolution: {integrity: sha512-KBRVQ/GuekNR6Vd19pFXlqelJqLFaS+2s6+M5WQBvrPFzPBKXOok6oGG6c10l+LufU0ZlA9M7GanKvKs6go6Nw==, tarball: file:projects/arm-storagesync.tgz}
     name: '@rush-temp/arm-storagesync'
@@ -15864,7 +15892,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-4oFLfXF58h4vd0ye9yIrJqV8ICk41YWvs7BAp3qJK08zbvY4hS3bdm5DmsuW313e61nlxd+eTEebgd1lWzIOpA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-KR3Qu673FyXbtGvsdldXeuWMlXPYtnDYHo9nuPbVSOxPBZATFR+JF6pM+2hH5Vrk5gW50qb72p8Ns7QMkScRwA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
