@@ -76,6 +76,7 @@ specifiers:
   '@rush-temp/arm-healthbot': file:./projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:./projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:./projects/arm-hybridcompute.tgz
+  '@rush-temp/arm-hybridconnectivity': file:./projects/arm-hybridconnectivity.tgz
   '@rush-temp/arm-hybridkubernetes': file:./projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:./projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:./projects/arm-iotcentral.tgz
@@ -352,6 +353,7 @@ dependencies:
   '@rush-temp/arm-healthbot': file:projects/arm-healthbot.tgz
   '@rush-temp/arm-healthcareapis': file:projects/arm-healthcareapis.tgz
   '@rush-temp/arm-hybridcompute': file:projects/arm-hybridcompute.tgz
+  '@rush-temp/arm-hybridconnectivity': file:projects/arm-hybridconnectivity.tgz
   '@rush-temp/arm-hybridkubernetes': file:projects/arm-hybridkubernetes.tgz
   '@rush-temp/arm-imagebuilder': file:projects/arm-imagebuilder.tgz
   '@rush-temp/arm-iotcentral': file:projects/arm-iotcentral.tgz
@@ -11172,6 +11174,32 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-hybridconnectivity.tgz:
+    resolution: {integrity: sha512-zi2y2zC8Yjb+kRllGjRePL28QN6dV3Z4/V367sHlLjJjtRy9zNsSB6DjoelfC47GmXxYtW37NKOYyQnP41CO7A==, tarball: file:projects/arm-hybridconnectivity.tgz}
+    name: '@rush-temp/arm-hybridconnectivity'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-hybridkubernetes.tgz:
     resolution: {integrity: sha512-1DZ23vPtqVl86r+rUbr5IdK+0kDn6C+H6VUPmq6Ottu/8gsszj7uOaQ5W4TlbED6MSW2kSYHfbRgSF2XepgTFA==, tarball: file:projects/arm-hybridkubernetes.tgz}
     name: '@rush-temp/arm-hybridkubernetes'
@@ -15864,7 +15892,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-4oFLfXF58h4vd0ye9yIrJqV8ICk41YWvs7BAp3qJK08zbvY4hS3bdm5DmsuW313e61nlxd+eTEebgd1lWzIOpA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-KR3Qu673FyXbtGvsdldXeuWMlXPYtnDYHo9nuPbVSOxPBZATFR+JF6pM+2hH5Vrk5gW50qb72p8Ns7QMkScRwA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
