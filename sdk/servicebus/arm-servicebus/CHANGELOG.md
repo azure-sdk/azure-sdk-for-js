@@ -1,15 +1,25 @@
 # Release History
+    
+## 6.1.0-beta.1 (2022-05-11)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias KeySource
+  - Added Type Alias TlsVersion
+  - Type Alias SBNamespace has a new parameter minimumTlsVersion
+  - Added Enum KnownAccessRights
+  - Added Enum KnownFilterType
+  - Added Enum KnownKeySource
+  - Added Enum KnownKeyType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownProvisioningStateDR
+  - Added Enum KnownRoleDisasterRecovery
+  - Added Enum KnownSkuName
+  - Added Enum KnownSkuTier
+  - Added Enum KnownTlsVersion
+  - Added Enum KnownUnavailableReason
+    
+    
 ## 6.0.0 (2022-05-01)
     
 **Features**

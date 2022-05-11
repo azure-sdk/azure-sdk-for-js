@@ -79,7 +79,7 @@ export interface Encryption {
   /** Properties of KeyVault */
   keyVaultProperties?: KeyVaultProperties[];
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: "Microsoft.KeyVault";
+  keySource?: KeySource;
   /** Enable Infrastructure Encryption (Double Encryption) */
   requireInfrastructureEncryption?: boolean;
 }
@@ -881,6 +881,8 @@ export type SBNamespace = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
   /**
    * Provisioning state of the namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -969,6 +971,62 @@ export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
   alternateName?: string;
 };
 
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  Basic = "Basic",
+  Standard = "Standard",
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Premium**
+ */
+export type SkuName = string;
+
+/** Known values of {@link SkuTier} that the service accepts. */
+export enum KnownSkuTier {
+  Basic = "Basic",
+  Standard = "Standard",
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for SkuTier. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Premium**
+ */
+export type SkuTier = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  None = "None"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned** \
+ * **None**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   User = "User",
@@ -988,6 +1046,38 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  One0 = "1.0",
+  One1 = "1.1",
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
+
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  MicrosoftKeyVault = "Microsoft.KeyVault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.KeyVault**
+ */
+export type KeySource = string;
 
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
@@ -1032,6 +1122,42 @@ export enum KnownEndPointProvisioningState {
  * **Failed**
  */
 export type EndPointProvisioningState = string;
+
+/** Known values of {@link ProvisioningStateDR} that the service accepts. */
+export enum KnownProvisioningStateDR {
+  Accepted = "Accepted",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ProvisioningStateDR. \
+ * {@link KnownProvisioningStateDR} can be used interchangeably with ProvisioningStateDR,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type ProvisioningStateDR = string;
+
+/** Known values of {@link RoleDisasterRecovery} that the service accepts. */
+export enum KnownRoleDisasterRecovery {
+  Primary = "Primary",
+  PrimaryNotReplicating = "PrimaryNotReplicating",
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for RoleDisasterRecovery. \
+ * {@link KnownRoleDisasterRecovery} can be used interchangeably with RoleDisasterRecovery,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **PrimaryNotReplicating** \
+ * **Secondary**
+ */
+export type RoleDisasterRecovery = string;
 
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {
@@ -1092,27 +1218,80 @@ export enum KnownPublicNetworkAccessFlag {
  * **Disabled**
  */
 export type PublicNetworkAccessFlag = string;
-/** Defines values for SkuName. */
-export type SkuName = "Basic" | "Standard" | "Premium";
-/** Defines values for SkuTier. */
-export type SkuTier = "Basic" | "Standard" | "Premium";
-/** Defines values for ManagedServiceIdentityType. */
-export type ManagedServiceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
-/** Defines values for ProvisioningStateDR. */
-export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
-/** Defines values for RoleDisasterRecovery. */
-export type RoleDisasterRecovery =
-  | "Primary"
-  | "PrimaryNotReplicating"
-  | "Secondary";
-/** Defines values for AccessRights. */
-export type AccessRights = "Manage" | "Send" | "Listen";
-/** Defines values for KeyType. */
-export type KeyType = "PrimaryKey" | "SecondaryKey";
+
+/** Known values of {@link AccessRights} that the service accepts. */
+export enum KnownAccessRights {
+  Manage = "Manage",
+  Send = "Send",
+  Listen = "Listen"
+}
+
+/**
+ * Defines values for AccessRights. \
+ * {@link KnownAccessRights} can be used interchangeably with AccessRights,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manage** \
+ * **Send** \
+ * **Listen**
+ */
+export type AccessRights = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  PrimaryKey = "PrimaryKey",
+  SecondaryKey = "SecondaryKey"
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrimaryKey** \
+ * **SecondaryKey**
+ */
+export type KeyType = string;
+
+/** Known values of {@link FilterType} that the service accepts. */
+export enum KnownFilterType {
+  SqlFilter = "SqlFilter",
+  CorrelationFilter = "CorrelationFilter"
+}
+
+/**
+ * Defines values for FilterType. \
+ * {@link KnownFilterType} can be used interchangeably with FilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlFilter** \
+ * **CorrelationFilter**
+ */
+export type FilterType = string;
+
+/** Known values of {@link UnavailableReason} that the service accepts. */
+export enum KnownUnavailableReason {
+  None = "None",
+  InvalidName = "InvalidName",
+  SubscriptionIsDisabled = "SubscriptionIsDisabled",
+  NameInUse = "NameInUse",
+  NameInLockdown = "NameInLockdown",
+  TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription"
+}
+
+/**
+ * Defines values for UnavailableReason. \
+ * {@link KnownUnavailableReason} can be used interchangeably with UnavailableReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **InvalidName** \
+ * **SubscriptionIsDisabled** \
+ * **NameInUse** \
+ * **NameInLockdown** \
+ * **TooManyNamespaceInCurrentSubscription**
+ */
+export type UnavailableReason = string;
 /** Defines values for EntityStatus. */
 export type EntityStatus =
   | "Active"
@@ -1124,16 +1303,6 @@ export type EntityStatus =
   | "Deleting"
   | "Renaming"
   | "Unknown";
-/** Defines values for FilterType. */
-export type FilterType = "SqlFilter" | "CorrelationFilter";
-/** Defines values for UnavailableReason. */
-export type UnavailableReason =
-  | "None"
-  | "InvalidName"
-  | "SubscriptionIsDisabled"
-  | "NameInUse"
-  | "NameInLockdown"
-  | "TooManyNamespaceInCurrentSubscription";
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams

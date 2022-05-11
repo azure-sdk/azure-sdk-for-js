@@ -22,7 +22,7 @@ export interface AccessKeys {
 }
 
 // @public
-export type AccessRights = "Manage" | "Send" | "Listen";
+export type AccessRights = string;
 
 // @public
 export interface Action {
@@ -179,7 +179,7 @@ export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
 
 // @public
 export interface Encryption {
-    keySource?: "Microsoft.KeyVault";
+    keySource?: KeySource;
     keyVaultProperties?: KeyVaultProperties[];
     requireInfrastructureEncryption?: boolean;
 }
@@ -216,7 +216,7 @@ export interface FailoverProperties {
 }
 
 // @public
-export type FilterType = "SqlFilter" | "CorrelationFilter";
+export type FilterType = string;
 
 // @public
 export interface Identity {
@@ -229,7 +229,10 @@ export interface Identity {
 }
 
 // @public
-type KeyType_2 = "PrimaryKey" | "SecondaryKey";
+export type KeySource = string;
+
+// @public
+type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
 // @public
@@ -239,6 +242,16 @@ export interface KeyVaultProperties {
     keyName?: string;
     keyVaultUri?: string;
     keyVersion?: string;
+}
+
+// @public
+export enum KnownAccessRights {
+    // (undocumented)
+    Listen = "Listen",
+    // (undocumented)
+    Manage = "Manage",
+    // (undocumented)
+    Send = "Send"
 }
 
 // @public
@@ -278,6 +291,40 @@ export enum KnownEndPointProvisioningState {
 }
 
 // @public
+export enum KnownFilterType {
+    // (undocumented)
+    CorrelationFilter = "CorrelationFilter",
+    // (undocumented)
+    SqlFilter = "SqlFilter"
+}
+
+// @public
+export enum KnownKeySource {
+    // (undocumented)
+    MicrosoftKeyVault = "Microsoft.KeyVault"
+}
+
+// @public
+export enum KnownKeyType {
+    // (undocumented)
+    PrimaryKey = "PrimaryKey",
+    // (undocumented)
+    SecondaryKey = "SecondaryKey"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownMigrationConfigurationName {
     // (undocumented)
     Default = "$default"
@@ -302,6 +349,16 @@ export enum KnownPrivateLinkConnectionStatus {
 }
 
 // @public
+export enum KnownProvisioningStateDR {
+    // (undocumented)
+    Accepted = "Accepted",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownPublicNetworkAccessFlag {
     // (undocumented)
     Disabled = "Disabled",
@@ -310,7 +367,63 @@ export enum KnownPublicNetworkAccessFlag {
 }
 
 // @public
-export type ManagedServiceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+export enum KnownRoleDisasterRecovery {
+    // (undocumented)
+    Primary = "Primary",
+    // (undocumented)
+    PrimaryNotReplicating = "PrimaryNotReplicating",
+    // (undocumented)
+    Secondary = "Secondary"
+}
+
+// @public
+export enum KnownSkuName {
+    // (undocumented)
+    Basic = "Basic",
+    // (undocumented)
+    Premium = "Premium",
+    // (undocumented)
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownSkuTier {
+    // (undocumented)
+    Basic = "Basic",
+    // (undocumented)
+    Premium = "Premium",
+    // (undocumented)
+    Standard = "Standard"
+}
+
+// @public
+export enum KnownTlsVersion {
+    // (undocumented)
+    One0 = "1.0",
+    // (undocumented)
+    One1 = "1.1",
+    // (undocumented)
+    One2 = "1.2"
+}
+
+// @public
+export enum KnownUnavailableReason {
+    // (undocumented)
+    InvalidName = "InvalidName",
+    // (undocumented)
+    NameInLockdown = "NameInLockdown",
+    // (undocumented)
+    NameInUse = "NameInUse",
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SubscriptionIsDisabled = "SubscriptionIsDisabled",
+    // (undocumented)
+    TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription"
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MessageCountDetails {
@@ -721,7 +834,7 @@ export interface PrivateLinkResourcesListResult {
 }
 
 // @public
-export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
+export type ProvisioningStateDR = string;
 
 // @public
 export interface ProxyResource {
@@ -852,7 +965,7 @@ export type ResourceNamespacePatch = Resource & {
 };
 
 // @public
-export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
+export type RoleDisasterRecovery = string;
 
 // @public
 export type Rule = ProxyResource & {
@@ -937,6 +1050,7 @@ export type SBNamespace = TrackedResource & {
     sku?: SBSku;
     identity?: Identity;
     readonly systemData?: SystemData;
+    minimumTlsVersion?: TlsVersion;
     readonly provisioningState?: string;
     readonly status?: string;
     readonly createdAt?: Date;
@@ -1109,10 +1223,10 @@ export interface ServiceBusManagementClientOptionalParams extends coreClient.Ser
 }
 
 // @public
-export type SkuName = "Basic" | "Standard" | "Premium";
+export type SkuName = string;
 
 // @public
-export type SkuTier = "Basic" | "Standard" | "Premium";
+export type SkuTier = string;
 
 // @public
 export interface SqlFilter {
@@ -1182,6 +1296,9 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type TlsVersion = string;
 
 // @public
 export interface Topics {
@@ -1288,7 +1405,7 @@ export type TrackedResource = Resource & {
 };
 
 // @public
-export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";
+export type UnavailableReason = string;
 
 // @public
 export interface UserAssignedIdentity {
