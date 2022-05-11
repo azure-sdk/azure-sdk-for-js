@@ -334,55 +334,67 @@ export const LinkerPatch: coreClient.CompositeMapper = {
   }
 };
 
-export const ValidateResult: coreClient.CompositeMapper = {
+export const ValidateOperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ValidateResult",
+    className: "ValidateOperationResult",
     modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
       linkerName: {
-        serializedName: "linkerName",
+        serializedName: "properties.linkerName",
         type: {
           name: "String"
         }
       },
       isConnectionAvailable: {
-        serializedName: "isConnectionAvailable",
+        serializedName: "properties.isConnectionAvailable",
         type: {
           name: "Boolean"
         }
       },
       reportStartTimeUtc: {
-        serializedName: "reportStartTimeUtc",
+        serializedName: "properties.reportStartTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       reportEndTimeUtc: {
-        serializedName: "reportEndTimeUtc",
+        serializedName: "properties.reportEndTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       sourceId: {
-        serializedName: "sourceId",
+        serializedName: "properties.sourceId",
         type: {
           name: "String"
         }
       },
       targetId: {
-        serializedName: "targetId",
+        serializedName: "properties.targetId",
         type: {
           name: "String"
         }
       },
       authType: {
-        serializedName: "authType",
+        serializedName: "properties.authType",
         type: {
           name: "String"
         }
       },
       validationDetail: {
-        serializedName: "validationDetail",
+        serializedName: "properties.validationDetail",
         type: {
           name: "Sequence",
           element: {
