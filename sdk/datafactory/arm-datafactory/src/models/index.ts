@@ -670,6 +670,12 @@ export interface FactoryIdentity {
   userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
 }
 
+/** Purview configuration. */
+export interface PurviewConfiguration {
+  /** Purview resource id. */
+  purviewResourceId?: string;
+}
+
 /** Factory's git repo information. */
 export interface FactoryRepoConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2261,6 +2267,14 @@ export interface PrivateLinkConnectionState {
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  /** The resource of private endpoint. */
+  privateEndpoint?: PrivateEndpoint;
+}
+
+/** Private endpoint which a connection belongs to. */
+export interface PrivateEndpoint {
+  /** The resource Id for private endpoint */
+  id?: string;
 }
 
 /** Wrapper for a collection of private link resources */
@@ -3510,6 +3524,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 }
 
 /** Compute properties for data flow activity. */
@@ -3672,6 +3688,8 @@ export type Factory = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
+  /** Purview information of the factory. */
+  purviewConfiguration?: PurviewConfiguration;
   /** Git repo information of the factory. */
   repoConfiguration?: FactoryRepoConfigurationUnion;
   /** List of parameters for factory. */
@@ -7231,6 +7249,8 @@ export type ExecuteWranglingDataflowActivity = Activity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
   /** (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName. */
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
@@ -7418,6 +7438,8 @@ export type DataFlowSource = Transformation & {
 export type DataFlowSink = Transformation & {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
+  /** Rejected data linked service reference. */
+  rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 /** The location of azure blob dataset. */
@@ -9789,6 +9811,8 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 };
 
 /** Script activity type. */

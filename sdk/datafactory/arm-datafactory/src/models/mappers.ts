@@ -400,6 +400,21 @@ export const FactoryIdentity: coreClient.CompositeMapper = {
   }
 };
 
+export const PurviewConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PurviewConfiguration",
+    modelProperties: {
+      purviewResourceId: {
+        serializedName: "purviewResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FactoryRepoConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3641,6 +3656,28 @@ export const PrivateLinkConnectionApprovalRequest: coreClient.CompositeMapper = 
           name: "Composite",
           className: "PrivateLinkConnectionState"
         }
+      },
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6666,6 +6703,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -7137,6 +7181,13 @@ export const Factory: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      purviewConfiguration: {
+        serializedName: "properties.purviewConfiguration",
+        type: {
+          name: "Composite",
+          className: "PurviewConfiguration"
         }
       },
       repoConfiguration: {
@@ -17871,6 +17922,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           value: { type: { name: "any" } }
         }
       },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
       sinks: {
         serializedName: "typeProperties.sinks",
         type: {
@@ -18468,6 +18526,13 @@ export const DataFlowSink: coreClient.CompositeMapper = {
       ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      rejectedDataLinkedService: {
+        serializedName: "rejectedDataLinkedService",
         type: {
           name: "Composite",
           className: "LinkedServiceReference"
@@ -25528,6 +25593,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
       },
       runConcurrently: {
         serializedName: "typeProperties.runConcurrently",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
