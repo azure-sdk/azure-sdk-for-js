@@ -2338,6 +2338,20 @@ export const ReservationSummary: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      warningCount: {
+        serializedName: "warningCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      noBenefitCount: {
+        serializedName: "noBenefitCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
       }
     }
   }

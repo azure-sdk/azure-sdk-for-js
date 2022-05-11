@@ -783,6 +783,16 @@ export interface ReservationSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processingCount?: number;
+  /**
+   * The number of reservation in Warning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly warningCount?: number;
+  /**
+   * The number of reservation in NoBenefit state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly noBenefitCount?: number;
 }
 
 /** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
@@ -1489,7 +1499,11 @@ export enum KnownReservationStatusCode {
   Split = "Split",
   Merged = "Merged",
   Expired = "Expired",
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
+  Warning = "Warning",
+  NoBenefit = "NoBenefit",
+  NoBenefitDueToSubscriptionTransfer = "NoBenefitDueToSubscriptionTransfer",
+  NoBenefitDueToSubscriptionDeletion = "NoBenefitDueToSubscriptionDeletion"
 }
 
 /**
@@ -1506,7 +1520,11 @@ export enum KnownReservationStatusCode {
  * **Split** \
  * **Merged** \
  * **Expired** \
- * **Succeeded**
+ * **Succeeded** \
+ * **Warning** \
+ * **NoBenefit** \
+ * **NoBenefitDueToSubscriptionTransfer** \
+ * **NoBenefitDueToSubscriptionDeletion**
  */
 export type ReservationStatusCode = string;
 
@@ -1742,7 +1760,9 @@ export enum KnownDisplayProvisioningState {
   Pending = "Pending",
   Processing = "Processing",
   Cancelled = "Cancelled",
-  Failed = "Failed"
+  Failed = "Failed",
+  Warning = "Warning",
+  NoBenefit = "NoBenefit"
 }
 
 /**
@@ -1756,7 +1776,9 @@ export enum KnownDisplayProvisioningState {
  * **Pending** \
  * **Processing** \
  * **Cancelled** \
- * **Failed**
+ * **Failed** \
+ * **Warning** \
+ * **NoBenefit**
  */
 export type DisplayProvisioningState = string;
 
@@ -2095,11 +2117,9 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 export interface QuotaRequestStatusListOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */
@@ -2115,11 +2135,9 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 export interface QuotaRequestStatusListNextOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */

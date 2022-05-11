@@ -427,11 +427,15 @@ export enum KnownDisplayProvisioningState {
     // (undocumented)
     Failed = "Failed",
     // (undocumented)
+    NoBenefit = "NoBenefit",
+    // (undocumented)
     Pending = "Pending",
     // (undocumented)
     Processing = "Processing",
     // (undocumented)
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Warning = "Warning"
 }
 
 // @public
@@ -709,6 +713,12 @@ export enum KnownReservationStatusCode {
     // (undocumented)
     Merged = "Merged",
     // (undocumented)
+    NoBenefit = "NoBenefit",
+    // (undocumented)
+    NoBenefitDueToSubscriptionDeletion = "NoBenefitDueToSubscriptionDeletion",
+    // (undocumented)
+    NoBenefitDueToSubscriptionTransfer = "NoBenefitDueToSubscriptionTransfer",
+    // (undocumented)
     None = "None",
     // (undocumented)
     PaymentInstrumentError = "PaymentInstrumentError",
@@ -721,7 +731,9 @@ export enum KnownReservationStatusCode {
     // (undocumented)
     Split = "Split",
     // (undocumented)
-    Succeeded = "Succeeded"
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Warning = "Warning"
 }
 
 // @public
@@ -1455,9 +1467,11 @@ export interface ReservationSummary {
     readonly expiredCount?: number;
     readonly expiringCount?: number;
     readonly failedCount?: number;
+    readonly noBenefitCount?: number;
     readonly pendingCount?: number;
     readonly processingCount?: number;
     readonly succeededCount?: number;
+    readonly warningCount?: number;
 }
 
 // @public

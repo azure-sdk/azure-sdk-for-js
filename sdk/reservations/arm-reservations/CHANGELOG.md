@@ -1,5 +1,19 @@
 # Release History
     
+## 7.2.0 (2022-05-11)
+    
+**Features**
+
+  - Interface ReservationSummary has a new optional parameter noBenefitCount
+  - Interface ReservationSummary has a new optional parameter warningCount
+  - Enum KnownDisplayProvisioningState has a new value NoBenefit
+  - Enum KnownDisplayProvisioningState has a new value Warning
+  - Enum KnownReservationStatusCode has a new value NoBenefit
+  - Enum KnownReservationStatusCode has a new value NoBenefitDueToSubscriptionDeletion
+  - Enum KnownReservationStatusCode has a new value NoBenefitDueToSubscriptionTransfer
+  - Enum KnownReservationStatusCode has a new value Warning
+    
+    
 ## 7.1.0 (2022-04-20)
     
 **Features**
