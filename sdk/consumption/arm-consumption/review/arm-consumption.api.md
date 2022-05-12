@@ -506,6 +506,8 @@ export enum KnownDatagrain {
 // @public
 export enum KnownEventType {
     // (undocumented)
+    CreditExpired = "CreditExpired",
+    // (undocumented)
     NewCredit = "NewCredit",
     // (undocumented)
     PendingAdjustments = "PendingAdjustments",

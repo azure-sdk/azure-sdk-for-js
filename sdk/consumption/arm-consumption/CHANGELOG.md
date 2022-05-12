@@ -1,15 +1,11 @@
 # Release History
+    
+## 9.1.0 (2022-05-12)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownEventType has a new value CreditExpired
+    
 ## 9.0.1 (2022-04-11)
 
 **features**

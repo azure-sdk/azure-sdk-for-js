@@ -3045,7 +3045,8 @@ export enum KnownEventType {
   PendingNewCredit = "PendingNewCredit",
   PendingExpiredCredit = "PendingExpiredCredit",
   UnKnown = "UnKnown",
-  NewCredit = "NewCredit"
+  NewCredit = "NewCredit",
+  CreditExpired = "CreditExpired"
 }
 
 /**
@@ -3059,7 +3060,8 @@ export enum KnownEventType {
  * **PendingNewCredit** \
  * **PendingExpiredCredit** \
  * **UnKnown** \
- * **NewCredit**
+ * **NewCredit** \
+ * **CreditExpired**
  */
 export type EventType = string;
 
