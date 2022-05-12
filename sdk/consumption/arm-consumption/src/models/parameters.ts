@@ -240,6 +240,18 @@ export const reservationId: OperationURLParameter = {
   }
 };
 
+export const resourceScope: OperationURLParameter = {
+  parameterPath: "resourceScope",
+  mapper: {
+    serializedName: "resourceScope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const reservationId1: OperationQueryParameter = {
   parameterPath: ["options", "reservationId"],
   mapper: {
@@ -264,6 +276,17 @@ export const filter1: OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
     serializedName: "$filter",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
     required: true,
     type: {
       name: "String"
@@ -363,6 +386,17 @@ export const endDate1: OperationQueryParameter = {
   parameterPath: "endDate",
   mapper: {
     serializedName: "endDate",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
     required: true,
     type: {
       name: "String"

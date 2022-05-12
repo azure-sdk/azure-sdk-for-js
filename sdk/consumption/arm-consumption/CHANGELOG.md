@@ -1,15 +1,23 @@
 # Release History
+    
+## 10.0.0 (2022-05-12)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
+  - Added operation LotsOperations.listByCustomer
+  - Added Interface LotsListByCustomerNextOptionalParams
+  - Added Interface LotsListByCustomerOptionalParams
+  - Added Type Alias LotsListByCustomerNextResponse
+  - Added Type Alias LotsListByCustomerResponse
+  - Type Alias LegacyUsageDetail has a new parameter benefitId
+  - Type Alias LegacyUsageDetail has a new parameter benefitName
+  - Enum KnownEventType has a new value CreditExpired
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ReservationRecommendationDetails.get has a new signature
+  - Interface BudgetFilter no longer has parameter not
+    
 ## 9.0.1 (2022-04-11)
 
 **features**
