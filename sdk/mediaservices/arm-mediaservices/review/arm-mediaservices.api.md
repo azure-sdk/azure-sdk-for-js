@@ -364,7 +364,7 @@ export type AttributeFilter = string;
 
 // @public
 type Audio_2 = Codec & {
-    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
+    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio";
     channels?: number;
     samplingRate?: number;
     bitrate?: number;
@@ -407,7 +407,36 @@ export type AudioTrackDescriptor = TrackDescriptor & {
 export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
 
 // @public (undocumented)
-export type AudioUnion = Audio_2 | AacAudio;
+export type AudioUnion = Audio_2 | AacAudio | DDAudio;
+
+// @public
+export type AV1Complexity = string;
+
+// @public
+export type AV1Layer = AV1VideoLayer & {
+    bufferWindow?: string;
+    crf?: number;
+    level?: string;
+    profile?: AV1VideoProfile;
+};
+
+// @public
+export type AV1Video = Video & {
+    odataType: "#Microsoft.Media.AV1Video";
+    complexity?: AV1Complexity;
+    layers?: AV1Layer[];
+    sceneChangeDetection?: boolean;
+};
+
+// @public
+export type AV1VideoLayer = Layer & {
+    bitrate: number;
+    frameRate?: string;
+    maxBitrate?: number;
+};
+
+// @public
+export type AV1VideoProfile = string;
 
 // @public (undocumented)
 export class AzureMediaServices extends coreClient.ServiceClient {
@@ -505,7 +534,7 @@ export type ClipTimeUnion = ClipTime | AbsoluteClipTime | UtcClipTime;
 // @public
 export interface Codec {
     label?: string;
-    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
+    odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.AV1Video" | "#Microsoft.Media.DDAudio" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
 }
 
 // @public (undocumented)
@@ -825,6 +854,11 @@ export interface CrossSiteAccessPolicies {
     clientAccessPolicy?: string;
     crossDomainPolicy?: string;
 }
+
+// @public
+export type DDAudio = Audio_2 & {
+    odataType: "#Microsoft.Media.DDAudio";
+};
 
 // @public
 export type DefaultAction = string;
@@ -1365,6 +1399,19 @@ export enum KnownAudioAnalysisMode {
 }
 
 // @public
+export enum KnownAV1Complexity {
+    Balanced = "Balanced",
+    Quality = "Quality",
+    Speed = "Speed"
+}
+
+// @public
+export enum KnownAV1VideoProfile {
+    Auto = "Auto",
+    Main = "Main"
+}
+
+// @public
 export enum KnownBlurType {
     Black = "Black",
     Box = "Box",
@@ -1466,9 +1513,15 @@ export enum KnownDeinterlaceParity {
 export enum KnownEncoderNamedPreset {
     AACGoodQualityAudio = "AACGoodQualityAudio",
     AdaptiveStreaming = "AdaptiveStreaming",
+    AV1AdaptiveStreaming = "AV1AdaptiveStreaming",
+    AV1ContentAwareEncoding = "AV1ContentAwareEncoding",
+    AV1SingleBitrate1080P = "AV1SingleBitrate1080p",
+    AV1SingleBitrate4K = "AV1SingleBitrate4K",
+    AV1SingleBitrate720P = "AV1SingleBitrate720p",
     ContentAwareEncoding = "ContentAwareEncoding",
     ContentAwareEncodingExperimental = "ContentAwareEncodingExperimental",
     CopyAllBitrateNonInterleaved = "CopyAllBitrateNonInterleaved",
+    DDGoodQualityAudio = "DDGoodQualityAudio",
     H264MultipleBitrate1080P = "H264MultipleBitrate1080p",
     H264MultipleBitrate720P = "H264MultipleBitrate720p",
     H264MultipleBitrateSD = "H264MultipleBitrateSD",
@@ -1572,6 +1625,7 @@ export enum KnownInterleaveOutput {
 
 // @public
 export enum KnownJobErrorCategory {
+    Account = "Account",
     Configuration = "Configuration",
     Content = "Content",
     Download = "Download",
@@ -1586,6 +1640,7 @@ export enum KnownJobErrorCode {
     ContentUnsupported = "ContentUnsupported",
     DownloadNotAccessible = "DownloadNotAccessible",
     DownloadTransientError = "DownloadTransientError",
+    IdentityUnsupported = "IdentityUnsupported",
     ServiceError = "ServiceError",
     ServiceTransientError = "ServiceTransientError",
     UploadNotAccessible = "UploadNotAccessible",
@@ -3207,7 +3262,7 @@ export type UtcClipTime = ClipTime & {
 
 // @public
 export type Video = Codec & {
-    odataType: "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.Image" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
+    odataType: "#Microsoft.Media.Video" | "#Microsoft.Media.AV1Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.Image" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
     keyFrameInterval?: string;
     stretchMode?: StretchMode;
     syncMode?: VideoSyncMode;
@@ -3254,7 +3309,7 @@ export type VideoTrackDescriptor = TrackDescriptor & {
 export type VideoTrackDescriptorUnion = VideoTrackDescriptor | SelectVideoTrackByAttribute | SelectVideoTrackById;
 
 // @public (undocumented)
-export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
+export type VideoUnion = Video | AV1Video | H265Video | ImageUnion | H264Video;
 
 // @public
 export type Visibility = string;
