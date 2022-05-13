@@ -1,19 +1,10 @@
 # Release History
     
-## 8.2.0 (2022-05-11)
+## 9.0.0 (2022-05-13)
     
-**Features**
+**Breaking Changes**
 
-  - Added Interface TieringPolicy
-  - Added Type Alias TieringMode
-  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
-  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
-  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
-  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
-  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
-  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
-  - Interface SubProtectionPolicy has a new optional parameter tieringPolicy
-  - Added Enum KnownTieringMode
+  - Operation ResourceGuardProxy.put has a new signature
     
 ## 8.1.1 (2022-04-29)
 
