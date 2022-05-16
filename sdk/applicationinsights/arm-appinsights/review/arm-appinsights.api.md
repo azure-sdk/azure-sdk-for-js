@@ -968,17 +968,21 @@ export enum KnownRequestSource {
 }
 
 // @public
-export enum KnownSharedTypeKind {
-    // (undocumented)
-    Shared = "shared",
-    // (undocumented)
-    User = "user"
-}
-
-// @public
 export enum KnownStorageType {
     // (undocumented)
     ServiceProfiler = "ServiceProfiler"
+}
+
+// @public
+export enum KnownWorkbookSharedTypeKind {
+    // (undocumented)
+    Shared = "shared"
+}
+
+// @public
+export enum KnownWorkbookUpdateSharedTypeKind {
+    // (undocumented)
+    Shared = "shared"
 }
 
 // @public
@@ -1239,9 +1243,6 @@ export interface Resource {
 }
 
 // @public
-export type SharedTypeKind = string;
-
-// @public
 export type StorageType = string;
 
 // @public
@@ -1447,7 +1448,7 @@ export interface WorkbookInnerErrorTrace {
 // @public
 export type WorkbookResource = TrackedResource & {
     identity?: WorkbookResourceIdentity;
-    kind?: Kind;
+    kind?: WorkbookSharedTypeKind;
     etag?: string;
 };
 
@@ -1485,6 +1486,9 @@ export interface WorkbooksGetOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type WorkbooksGetResponse = Workbook;
+
+// @public
+export type WorkbookSharedTypeKind = string;
 
 // @public
 export interface WorkbooksListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
@@ -1683,7 +1687,7 @@ export interface WorkbookUpdateParameters {
     category?: string;
     description?: string;
     displayName?: string;
-    kind?: SharedTypeKind;
+    kind?: WorkbookUpdateSharedTypeKind;
     revision?: string;
     serializedData?: string;
     tags?: {
@@ -1691,6 +1695,9 @@ export interface WorkbookUpdateParameters {
     };
     tagsPropertiesTags?: string[];
 }
+
+// @public
+export type WorkbookUpdateSharedTypeKind = string;
 
 // @public
 export interface WorkItemConfiguration {
