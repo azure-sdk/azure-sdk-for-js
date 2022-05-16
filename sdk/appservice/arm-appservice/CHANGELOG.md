@@ -1,15 +1,110 @@
 # Release History
+    
+## 13.0.0 (2022-05-16)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Added operation AppServiceEnvironments.deleteAseCustomDnsSuffixConfiguration
+  - Added operation AppServiceEnvironments.getAseCustomDnsSuffixConfiguration
+  - Added operation AppServiceEnvironments.updateAseCustomDnsSuffixConfiguration
+  - Added operation StaticSites.beginLinkBackend
+  - Added operation StaticSites.beginLinkBackendAndWait
+  - Added operation StaticSites.beginLinkBackendToBuild
+  - Added operation StaticSites.beginLinkBackendToBuildAndWait
+  - Added operation StaticSites.beginValidateBackend
+  - Added operation StaticSites.beginValidateBackendAndWait
+  - Added operation StaticSites.beginValidateBackendForBuild
+  - Added operation StaticSites.beginValidateBackendForBuildAndWait
+  - Added operation StaticSites.getLinkedBackend
+  - Added operation StaticSites.getLinkedBackendForBuild
+  - Added operation StaticSites.listLinkedBackends
+  - Added operation StaticSites.listLinkedBackendsForBuild
+  - Added operation StaticSites.unlinkBackend
+  - Added operation StaticSites.unlinkBackendFromBuild
+  - Added operation WebApps.createOneDeployOperation
+  - Added operation WebApps.getAuthSettingsV2WithoutSecretsSlot
+  - Added operation WebApps.getOneDeployStatus
+  - Added Interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface CertificateEmail
+  - Added Interface CertificateOrderAction
+  - Added Interface StaticSiteLinkedBackend
+  - Added Interface StaticSiteLinkedBackendsCollection
+  - Added Interface StaticSitesGetLinkedBackendForBuildOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsForBuildOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsNextOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsOptionalParams
+  - Added Interface StaticSitesLinkBackendOptionalParams
+  - Added Interface StaticSitesLinkBackendToBuildOptionalParams
+  - Added Interface StaticSitesUnlinkBackendFromBuildOptionalParams
+  - Added Interface StaticSitesUnlinkBackendOptionalParams
+  - Added Interface StaticSitesValidateBackendForBuildOptionalParams
+  - Added Interface StaticSitesValidateBackendOptionalParams
+  - Added Interface WebAppsCreateOneDeployOperationOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  - Added Interface WebAppsGetOneDeployStatusOptionalParams
+  - Added Type Alias AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias CustomDnsSuffixConfiguration
+  - Added Type Alias CustomDnsSuffixProvisioningState
+  - Added Type Alias Enum12
+  - Added Type Alias Enum13
+  - Added Type Alias Enum14
+  - Added Type Alias ResourceNotRenewableReason
+  - Added Type Alias StaticSiteLinkedBackendARMResource
+  - Added Type Alias StaticSitesGetLinkedBackendForBuildResponse
+  - Added Type Alias StaticSitesGetLinkedBackendResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsForBuildNextResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsForBuildResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsNextResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsResponse
+  - Added Type Alias StaticSitesLinkBackendResponse
+  - Added Type Alias StaticSitesLinkBackendToBuildResponse
+  - Added Type Alias WebAppsCreateOneDeployOperationResponse
+  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse
+  - Added Type Alias WebAppsGetOneDeployStatusResponse
+  - Interface AppServiceEnvironment has a new optional parameter customDnsSuffixConfiguration
+  - Interface AppServiceEnvironment has a new optional parameter networkingConfiguration
+  - Interface ListCustomHostNameSitesNextOptionalParams has a new optional parameter hostname
+  - Interface ListCustomHostNameSitesOptionalParams has a new optional parameter hostname
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter customDnsSuffixConfiguration
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter networkingConfiguration
+  - Type Alias AppServiceEnvironmentResource has a new parameter customDnsSuffixConfiguration
+  - Type Alias AppServiceEnvironmentResource has a new parameter networkingConfiguration
+  - Type Alias AseV3NetworkingConfiguration has a new parameter ftpEnabled
+  - Type Alias AseV3NetworkingConfiguration has a new parameter remoteDebugEnabled
+  - Type Alias AseV3NetworkingConfiguration has a new parameter inboundIpAddressOverride
+  - Type Alias Site has a new parameter vnetRouteAllEnabled
+  - Type Alias Site has a new parameter vnetImagePullEnabled
+  - Type Alias Site has a new parameter vnetContentShareEnabled
+  - Type Alias StaticSiteARMResource has a new parameter linkedBackends
+  - Type Alias StaticSiteBuildARMResource has a new parameter linkedBackends
+  - Type Alias StaticSitePatchResource has a new parameter linkedBackends
+  - Added Enum KnownEnum12
+  - Added Enum KnownEnum13
+  - Added Enum KnownEnum14
+  - Added Enum KnownResourceNotRenewableReason
+  - Enum KnownCustomDomainStatus has a new value Unhealthy
+  - Enum KnownEnum17 has a new value LinuxFunctions
+  - Enum KnownEnum17 has a new value WindowsFunctions
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownDomainPropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+  - Removed Enum KnownEnum20
+  - Enum KnownEnum15 no longer has value LinuxFunctions
+  - Enum KnownEnum15 no longer has value WindowsFunctions
+    
+    
 ## 12.0.0 (2022-04-07)
     
 **Features**
