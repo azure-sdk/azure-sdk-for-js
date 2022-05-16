@@ -188,8 +188,7 @@ export const channelName: OperationURLParameter = {
         "DirectLineChannel",
         "SmsChannel",
         "LineChannel",
-        "DirectLineSpeechChannel",
-        "OutlookChannel"
+        "DirectLineSpeechChannel"
       ]
     }
   }

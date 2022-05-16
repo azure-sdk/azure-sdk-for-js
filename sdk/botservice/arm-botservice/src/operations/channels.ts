@@ -367,7 +367,7 @@ const listWithKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ListChannelWithKeysResponse
+      bodyMapper: Mappers.BotChannel
     },
     default: {
       bodyMapper: Mappers.ErrorModel
