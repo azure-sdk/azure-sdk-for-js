@@ -866,7 +866,7 @@ export type CustomDomain = ProxyResource & {
     readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
     customHttpsParameters?: CustomDomainHttpsParametersUnion;
     validationData?: string;
-    readonly provisioningState?: string;
+    readonly provisioningState?: CustomHttpsProvisioningState;
 };
 
 // @public
@@ -1278,7 +1278,7 @@ export type Endpoint = TrackedResource & {
     originGroups?: DeepCreatedOriginGroup[];
     readonly customDomains?: CustomDomain[];
     readonly resourceState?: EndpointResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: EndpointProvisioningState;
 };
 
 // @public
@@ -1294,7 +1294,7 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
     originGroups?: DeepCreatedOriginGroup[];
     readonly customDomains?: CustomDomain[];
     readonly resourceState?: EndpointResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: EndpointProvisioningState;
 };
 
 // @public
@@ -1325,6 +1325,9 @@ export interface EndpointPropertiesUpdateParametersDeliveryPolicy {
 export interface EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink {
     id?: string;
 }
+
+// @public
+export type EndpointProvisioningState = string;
 
 // @public
 export type EndpointResourceState = string;
@@ -1900,6 +1903,20 @@ export enum KnownEnabledState {
 }
 
 // @public
+export enum KnownEndpointProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownEndpointResourceState {
     // (undocumented)
     Creating = "Creating",
@@ -2200,6 +2217,20 @@ export enum KnownOptimizationType {
 }
 
 // @public
+export enum KnownOriginGroupProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownOriginGroupResourceState {
     // (undocumented)
     Active = "Active",
@@ -2207,6 +2238,20 @@ export enum KnownOriginGroupResourceState {
     Creating = "Creating",
     // (undocumented)
     Deleting = "Deleting"
+}
+
+// @public
+export enum KnownOriginProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -2311,6 +2356,20 @@ export enum KnownPrivateEndpointStatus {
     Rejected = "Rejected",
     // (undocumented)
     Timeout = "Timeout"
+}
+
+// @public
+export enum KnownProfileProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -2511,6 +2570,12 @@ export enum KnownResourceType {
     MicrosoftCdnProfilesAfdEndpoints = "Microsoft.Cdn/Profiles/AfdEndpoints",
     // (undocumented)
     MicrosoftCdnProfilesEndpoints = "Microsoft.Cdn/Profiles/Endpoints"
+}
+
+// @public
+export enum KnownResourceUsageUnit {
+    // (undocumented)
+    Count = "count"
 }
 
 // @public
@@ -3194,7 +3259,7 @@ export type Origin = ProxyResource & {
     privateLinkLocation?: string;
     privateLinkApprovalMessage?: string;
     readonly resourceState?: OriginResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: OriginProvisioningState;
     readonly privateEndpointStatus?: PrivateEndpointStatus;
 };
 
@@ -3205,7 +3270,7 @@ export type OriginGroup = ProxyResource & {
     trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
     responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
     readonly resourceState?: OriginGroupResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: OriginGroupProvisioningState;
 };
 
 // @public
@@ -3236,8 +3301,11 @@ export interface OriginGroupOverrideActionParameters {
 // @public
 export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
     readonly resourceState?: OriginGroupResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: OriginGroupProvisioningState;
 };
+
+// @public
+export type OriginGroupProvisioningState = string;
 
 // @public
 export type OriginGroupResourceState = string;
@@ -3324,9 +3392,12 @@ export interface OriginListResult {
 // @public
 export type OriginProperties = OriginUpdatePropertiesParameters & {
     readonly resourceState?: OriginResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: OriginProvisioningState;
     readonly privateEndpointStatus?: PrivateEndpointStatus;
 };
+
+// @public
+export type OriginProvisioningState = string;
 
 // @public
 export type OriginResourceState = string;
@@ -3521,7 +3592,7 @@ export type Profile = TrackedResource & {
     sku: Sku;
     readonly kind?: string;
     readonly resourceState?: ProfileResourceState;
-    readonly provisioningState?: string;
+    readonly provisioningState?: ProfileProvisioningState;
     readonly frontDoorId?: string;
     originResponseTimeoutSeconds?: number;
 };
@@ -3531,6 +3602,9 @@ export interface ProfileListResult {
     nextLink?: string;
     readonly value?: Profile[];
 }
+
+// @public
+export type ProfileProvisioningState = string;
 
 // @public
 export type ProfileResourceState = string;
@@ -3876,7 +3950,7 @@ export interface ResourceUsage {
     readonly currentValue?: number;
     readonly limit?: number;
     readonly resourceType?: string;
-    readonly unit?: string;
+    readonly unit?: ResourceUsageUnit;
 }
 
 // @public
@@ -3903,6 +3977,9 @@ export interface ResourceUsageListResult {
 export interface ResourceUsageOperations {
     list(options?: ResourceUsageListOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
 }
+
+// @public
+export type ResourceUsageUnit = string;
 
 // @public
 export type ResponseBasedDetectedErrorTypes = "None" | "TcpErrorsOnly" | "TcpAndHttpErrors";

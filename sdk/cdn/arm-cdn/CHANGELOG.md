@@ -1,5 +1,20 @@
 # Release History
+    
+## 7.1.0 (2022-05-16)
+    
+**Features**
 
+  - Added Type Alias EndpointProvisioningState
+  - Added Type Alias OriginGroupProvisioningState
+  - Added Type Alias OriginProvisioningState
+  - Added Type Alias ProfileProvisioningState
+  - Added Type Alias ResourceUsageUnit
+  - Added Enum KnownEndpointProvisioningState
+  - Added Enum KnownOriginGroupProvisioningState
+  - Added Enum KnownOriginProvisioningState
+  - Added Enum KnownProfileProvisioningState
+  - Added Enum KnownResourceUsageUnit
+    
 ## 7.0.1 (2022-04-21)
 
 **Features**
