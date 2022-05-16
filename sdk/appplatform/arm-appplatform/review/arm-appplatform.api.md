@@ -273,6 +273,7 @@ export interface AppResourceProperties {
     public?: boolean;
     temporaryDisk?: TemporaryDisk;
     readonly url?: string;
+    vnetAddons?: AppVNetAddons;
 }
 
 // @public
@@ -362,6 +363,12 @@ export interface AppsValidateDomainOptionalParams extends coreClient.OperationOp
 
 // @public
 export type AppsValidateDomainResponse = CustomDomainValidateResult;
+
+// @public
+export interface AppVNetAddons {
+    publicEndpoint?: boolean;
+    readonly publicEndpointUrl?: string;
+}
 
 // @public
 export interface AvailableOperations {
@@ -594,11 +601,18 @@ export interface BuildProperties {
     };
     readonly provisioningState?: BuildProvisioningState;
     relativePath?: string;
+    resourceRequests?: BuildResourceRequests;
     readonly triggeredBuildResult?: TriggeredBuildResult;
 }
 
 // @public
 export type BuildProvisioningState = string;
+
+// @public
+export interface BuildResourceRequests {
+    cpu?: string;
+    memory?: string;
+}
 
 // @public
 export type BuildResult = ProxyResource & {
@@ -910,6 +924,7 @@ export interface CertificateProperties {
     readonly expirationDate?: string;
     readonly issuedDate?: string;
     readonly issuer?: string;
+    readonly provisioningState?: CertificateResourceProvisioningState;
     readonly subjectName?: string;
     readonly thumbprint?: string;
     type: "KeyVaultCertificate" | "ContentCertificate";
@@ -928,6 +943,9 @@ export interface CertificateResourceCollection {
     nextLink?: string;
     value?: CertificateResource[];
 }
+
+// @public
+export type CertificateResourceProvisioningState = string;
 
 // @public
 export interface Certificates {
@@ -991,11 +1009,13 @@ export interface CloudErrorBody {
 // @public
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
+    marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
     readonly powerState?: PowerState;
     readonly provisioningState?: ProvisioningState;
     readonly serviceId?: string;
     readonly version?: number;
+    vnetAddons?: ServiceVNetAddons;
     // (undocumented)
     zoneRedundant?: boolean;
 }
@@ -1254,6 +1274,7 @@ export type CustomContainerUserSourceInfo = UserSourceInfo & {
 export interface CustomDomainProperties {
     readonly appName?: string;
     certName?: string;
+    readonly provisioningState?: CustomDomainResourceProvisioningState;
     thumbprint?: string;
 }
 
@@ -1267,6 +1288,9 @@ export interface CustomDomainResourceCollection {
     nextLink?: string;
     value?: CustomDomainResource[];
 }
+
+// @public
+export type CustomDomainResourceProvisioningState = string;
 
 // @public
 export interface CustomDomains {
@@ -1443,7 +1467,11 @@ export interface DeploymentSettings {
     environmentVariables?: {
         [propertyName: string]: string;
     };
+    livenessProbe?: Probe;
+    readinessProbe?: Probe;
     resourceRequests?: ResourceRequests;
+    startupProbe?: Probe;
+    terminationGracePeriodSeconds?: number;
 }
 
 // @public
@@ -1549,6 +1577,12 @@ export interface ErrorModel {
     code?: string;
     message?: string;
 }
+
+// @public
+export type ExecAction = ProbeAction & {
+    type: "ExecAction";
+    command?: string[];
+};
 
 // @public
 export interface GatewayApiMetadataProperties {
@@ -1699,8 +1733,14 @@ export interface GatewayResourceRequests {
 }
 
 // @public
+export interface GatewayRouteConfigOpenApiProperties {
+    uri?: string;
+}
+
+// @public
 export interface GatewayRouteConfigProperties {
     appResourceId?: string;
+    openApi?: GatewayRouteConfigOpenApiProperties;
     readonly provisioningState?: GatewayProvisioningState;
     routes?: GatewayApiRoute[];
 }
@@ -1832,9 +1872,24 @@ export interface GitPatternRepository {
 }
 
 // @public
+export type HttpGetAction = ProbeAction & {
+    type: "HTTPGetAction";
+    path?: string;
+    scheme?: HttpSchemeType;
+};
+
+// @public
+export type HttpSchemeType = string;
+
+// @public
 export interface ImageRegistryCredential {
     password?: string;
     username?: string;
+}
+
+// @public
+export interface IngressConfig {
+    readTimeoutInSeconds?: number;
 }
 
 // @public
@@ -1974,6 +2029,20 @@ export enum KnownBuildServiceProvisioningState {
 }
 
 // @public
+export enum KnownCertificateResourceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownConfigServerState {
     // (undocumented)
     Deleted = "Deleted",
@@ -2014,6 +2083,20 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCustomDomainResourceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownDeploymentResourceProvisioningState {
     // (undocumented)
     Creating = "Creating",
@@ -2045,6 +2128,14 @@ export enum KnownGatewayProvisioningState {
     Succeeded = "Succeeded",
     // (undocumented)
     Updating = "Updating"
+}
+
+// @public
+export enum KnownHttpSchemeType {
+    // (undocumented)
+    Http = "HTTP",
+    // (undocumented)
+    Https = "HTTPS"
 }
 
 // @public
@@ -2101,6 +2192,16 @@ export enum KnownPowerState {
     Running = "Running",
     // (undocumented)
     Stopped = "Stopped"
+}
+
+// @public
+export enum KnownProbeActionType {
+    // (undocumented)
+    ExecAction = "ExecAction",
+    // (undocumented)
+    HttpGetAction = "HTTPGetAction",
+    // (undocumented)
+    TCPSocketAction = "TCPSocketAction"
 }
 
 // @public
@@ -2170,6 +2271,12 @@ export enum KnownSkuScaleType {
 }
 
 // @public
+export enum KnownStorageType {
+    // (undocumented)
+    StorageAccount = "StorageAccount"
+}
+
+// @public
 export enum KnownSupportedRuntimePlatform {
     // (undocumented)
     Java = "Java",
@@ -2203,6 +2310,12 @@ export enum KnownTrafficDirection {
     Inbound = "Inbound",
     // (undocumented)
     Outbound = "Outbound"
+}
+
+// @public
+export enum KnownType {
+    // (undocumented)
+    AzureFileVolume = "AzureFileVolume"
 }
 
 // @public
@@ -2241,6 +2354,13 @@ export interface ManagedIdentityProperties {
 
 // @public
 export type ManagedIdentityType = string;
+
+// @public
+export interface MarketplaceResource {
+    plan?: string;
+    product?: string;
+    publisher?: string;
+}
 
 // @public
 export interface MetricDimension {
@@ -2340,6 +2460,7 @@ export type NetCoreZipUploadedUserSourceInfo = UploadedUserSourceInfo & {
 export interface NetworkProfile {
     appNetworkResourceGroup?: string;
     appSubnetId?: string;
+    ingressConfig?: IngressConfig;
     readonly outboundIPs?: NetworkProfileOutboundIPs;
     readonly requiredTraffics?: RequiredTraffic[];
     serviceCidr?: string;
@@ -2403,6 +2524,28 @@ export interface PersistentDisk {
 
 // @public
 export type PowerState = string;
+
+// @public
+export interface Probe {
+    disableProbe: boolean;
+    failureThreshold?: number;
+    initialDelaySeconds?: number;
+    periodSeconds?: number;
+    probeAction?: ProbeActionUnion;
+    successThreshold?: number;
+    timeoutSeconds?: number;
+}
+
+// @public
+export interface ProbeAction {
+    type: "HTTPGetAction" | "ExecAction" | "TCPSocketAction";
+}
+
+// @public
+export type ProbeActionType = string;
+
+// @public (undocumented)
+export type ProbeActionUnion = ProbeAction | HttpGetAction | ExecAction | TCPSocketAction;
 
 // @public
 export type ProvisioningState = string;
@@ -2736,6 +2879,11 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 export type ServicesUpdateResponse = ServiceResource;
 
 // @public
+export interface ServiceVNetAddons {
+    logStreamPublicEndpoint?: boolean;
+}
+
+// @public
 export interface Sku {
     capacity?: number;
     name?: string;
@@ -2866,6 +3014,9 @@ export interface StoragesListOptionalParams extends coreClient.OperationOptions 
 export type StoragesListResponse = StorageResourceCollection;
 
 // @public
+export type StorageType = string;
+
+// @public
 export type SupportedBuildpackResource = ProxyResource & {
     properties?: SupportedBuildpackResourceProperties;
 };
@@ -2922,6 +3073,11 @@ export interface SystemData {
 }
 
 // @public
+export type TCPSocketAction = ProbeAction & {
+    type: "TCPSocketAction";
+};
+
+// @public
 export interface TemporaryDisk {
     mountPath?: string;
     sizeInGB?: number;
@@ -2954,6 +3110,9 @@ export type TrafficDirection = string;
 export interface TriggeredBuildResult {
     id?: string;
 }
+
+// @public
+export type Type = string;
 
 // @public
 export type UploadedUserSourceInfo = UserSourceInfo & {

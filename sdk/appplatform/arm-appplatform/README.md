@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure AppPlatformManagement client.
 
-REST API for Azure Spring Cloud
+REST API for Azure Spring Apps
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appplatform/arm-appplatform) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-appplatform) |
