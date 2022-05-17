@@ -74,6 +74,7 @@ export type ArchitectureTypes = string;
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
+    useRollingUpgradePolicy?: boolean;
 }
 
 // @public
@@ -936,11 +937,21 @@ export type CommunityGalleryImage = PirCommunityGalleryResource & {
     hyperVGeneration?: HyperVGeneration;
     features?: GalleryImageFeature[];
     purchasePlan?: ImagePurchasePlan;
+    architecture?: Architecture;
+    privacyStatementUri?: string;
+    eula?: string;
 };
+
+// @public
+export interface CommunityGalleryImageList {
+    nextLink?: string;
+    value: CommunityGalleryImage[];
+}
 
 // @public
 export interface CommunityGalleryImages {
     get(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImagesGetResponse>;
+    list(location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
 }
 
 // @public
@@ -951,14 +962,37 @@ export interface CommunityGalleryImagesGetOptionalParams extends coreClient.Oper
 export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
 
 // @public
+export interface CommunityGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
+
+// @public
+export interface CommunityGalleryImagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
+
+// @public
 export type CommunityGalleryImageVersion = PirCommunityGalleryResource & {
     publishedDate?: Date;
     endOfLifeDate?: Date;
+    excludeFromLatest?: boolean;
+    storageProfile?: SharedGalleryImageVersionStorageProfile;
 };
+
+// @public
+export interface CommunityGalleryImageVersionList {
+    nextLink?: string;
+    value: CommunityGalleryImageVersion[];
+}
 
 // @public
 export interface CommunityGalleryImageVersions {
     get(location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersionsGetResponse>;
+    list(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
 }
 
 // @public
@@ -967,6 +1001,20 @@ export interface CommunityGalleryImageVersionsGetOptionalParams extends coreClie
 
 // @public
 export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
+
+// @public
+export interface CommunityGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
+
+// @public
+export interface CommunityGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
 
 // @public
 export interface CommunityGalleryInfo {
@@ -1189,6 +1237,7 @@ export type DedicatedHostGroup = Resource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public (undocumented)
@@ -1200,6 +1249,11 @@ export interface DedicatedHostGroupInstanceView {
 export interface DedicatedHostGroupListResult {
     nextLink?: string;
     value: DedicatedHostGroup[];
+}
+
+// @public
+export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
+    ultraSSDEnabled?: boolean;
 }
 
 // @public
@@ -1273,6 +1327,7 @@ export type DedicatedHostGroupUpdate = UpdateResource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public
@@ -1787,7 +1842,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 // @public
 export interface DiskRestorePointInstanceView {
     id?: string;
-    replicationStatus?: Record<string, unknown>;
+    replicationStatus?: DiskRestorePointReplicationStatus;
 }
 
 // @public
@@ -1822,7 +1877,8 @@ export interface DiskRestorePointOperations {
 
 // @public
 export interface DiskRestorePointReplicationStatus {
-    status?: Record<string, unknown>;
+    completionPercent?: number;
+    status?: InstanceViewStatus;
 }
 
 // @public
@@ -2110,7 +2166,7 @@ export type GalleriesUpdateResponse = Gallery;
 export type Gallery = Resource & {
     description?: string;
     identifier?: GalleryIdentifier;
-    readonly provisioningState?: GalleryPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     sharingProfile?: SharingProfile;
     softDeletePolicy?: SoftDeletePolicy;
     readonly sharingStatus?: SharingStatus;
@@ -2202,7 +2258,7 @@ export type GalleryApplicationUpdate = UpdateResourceDefinition & {
 // @public
 export type GalleryApplicationVersion = Resource & {
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
-    readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     readonly replicationStatus?: ReplicationStatus;
 };
 
@@ -2213,12 +2269,13 @@ export interface GalleryApplicationVersionList {
 }
 
 // @public
-export type GalleryApplicationVersionPropertiesProvisioningState = string;
-
-// @public
 export type GalleryApplicationVersionPublishingProfile = GalleryArtifactPublishingProfileBase & {
     source: UserArtifactSource;
     manageActions?: UserArtifactManage;
+    settings?: UserArtifactSettings;
+    advancedSettings?: {
+        [propertyName: string]: string;
+    };
     enableHealthCheck?: boolean;
 };
 
@@ -2283,7 +2340,7 @@ export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion
 // @public
 export type GalleryApplicationVersionUpdate = UpdateResourceDefinition & {
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
-    readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     readonly replicationStatus?: ReplicationStatus;
 };
 
@@ -2354,7 +2411,7 @@ export type GalleryImage = Resource & {
     recommended?: RecommendedMachineConfiguration;
     disallowed?: Disallowed;
     purchasePlan?: ImagePurchasePlan;
-    readonly provisioningState?: GalleryImagePropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     features?: GalleryImageFeature[];
     architecture?: Architecture;
 };
@@ -2377,9 +2434,6 @@ export interface GalleryImageList {
     nextLink?: string;
     value: GalleryImage[];
 }
-
-// @public
-export type GalleryImagePropertiesProvisioningState = string;
 
 // @public
 export interface GalleryImages {
@@ -2452,7 +2506,7 @@ export type GalleryImageUpdate = UpdateResourceDefinition & {
     recommended?: RecommendedMachineConfiguration;
     disallowed?: Disallowed;
     purchasePlan?: ImagePurchasePlan;
-    readonly provisioningState?: GalleryImagePropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     features?: GalleryImageFeature[];
     architecture?: Architecture;
 };
@@ -2460,7 +2514,7 @@ export type GalleryImageUpdate = UpdateResourceDefinition & {
 // @public
 export type GalleryImageVersion = Resource & {
     publishingProfile?: GalleryImageVersionPublishingProfile;
-    readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     storageProfile?: GalleryImageVersionStorageProfile;
     readonly replicationStatus?: ReplicationStatus;
 };
@@ -2470,9 +2524,6 @@ export interface GalleryImageVersionList {
     nextLink?: string;
     value: GalleryImageVersion[];
 }
-
-// @public
-export type GalleryImageVersionPropertiesProvisioningState = string;
 
 // @public
 export type GalleryImageVersionPublishingProfile = GalleryArtifactPublishingProfileBase & {};
@@ -2545,7 +2596,7 @@ export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 // @public
 export type GalleryImageVersionUpdate = UpdateResourceDefinition & {
     publishingProfile?: GalleryImageVersionPublishingProfile;
-    readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     storageProfile?: GalleryImageVersionStorageProfile;
     readonly replicationStatus?: ReplicationStatus;
 };
@@ -2560,7 +2611,7 @@ export interface GalleryList {
 export type GalleryOSDiskImage = GalleryDiskImage & {};
 
 // @public
-export type GalleryPropertiesProvisioningState = string;
+export type GalleryProvisioningState = string;
 
 // @public
 export type GallerySharingPermissionTypes = string;
@@ -2593,7 +2644,7 @@ export interface GalleryTargetExtendedLocation {
 export type GalleryUpdate = UpdateResourceDefinition & {
     description?: string;
     identifier?: GalleryIdentifier;
-    readonly provisioningState?: GalleryPropertiesProvisioningState;
+    readonly provisioningState?: GalleryProvisioningState;
     sharingProfile?: SharingProfile;
     softDeletePolicy?: SoftDeletePolicy;
     readonly sharingStatus?: SharingStatus;
@@ -3094,22 +3145,6 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
-export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
-    Deleting = "Deleting",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Migrating = "Migrating",
-    // (undocumented)
-    Succeeded = "Succeeded",
-    // (undocumented)
-    Updating = "Updating"
-}
-
-// @public
 export enum KnownGalleryExpandParams {
     // (undocumented)
     SharingProfileGroups = "SharingProfile/Groups"
@@ -3124,39 +3159,7 @@ export enum KnownGalleryExtendedLocationType {
 }
 
 // @public
-export enum KnownGalleryImagePropertiesProvisioningState {
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
-    Deleting = "Deleting",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Migrating = "Migrating",
-    // (undocumented)
-    Succeeded = "Succeeded",
-    // (undocumented)
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownGalleryImageVersionPropertiesProvisioningState {
-    // (undocumented)
-    Creating = "Creating",
-    // (undocumented)
-    Deleting = "Deleting",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    Migrating = "Migrating",
-    // (undocumented)
-    Succeeded = "Succeeded",
-    // (undocumented)
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownGalleryPropertiesProvisioningState {
+export enum KnownGalleryProvisioningState {
     // (undocumented)
     Creating = "Creating",
     // (undocumented)
@@ -3173,6 +3176,8 @@ export enum KnownGalleryPropertiesProvisioningState {
 
 // @public
 export enum KnownGallerySharingPermissionTypes {
+    // (undocumented)
+    Community = "Community",
     // (undocumented)
     Groups = "Groups",
     // (undocumented)
@@ -3225,6 +3230,18 @@ export enum KnownLinuxPatchAssessmentMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     // (undocumented)
     ImageDefault = "ImageDefault"
+}
+
+// @public
+export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
+    // (undocumented)
+    Always = "Always",
+    // (undocumented)
+    IfRequired = "IfRequired",
+    // (undocumented)
+    Never = "Never",
+    // (undocumented)
+    Unknown = "Unknown"
 }
 
 // @public
@@ -3459,6 +3476,16 @@ export enum KnownSelectPermissions {
 }
 
 // @public
+export enum KnownSharedGalleryHostCaching {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    ReadOnly = "ReadOnly",
+    // (undocumented)
+    ReadWrite = "ReadWrite"
+}
+
+// @public
 export enum KnownSharedToValues {
     // (undocumented)
     Tenant = "tenant"
@@ -3468,8 +3495,6 @@ export enum KnownSharedToValues {
 export enum KnownSharingProfileGroupTypes {
     // (undocumented)
     AADTenants = "AADTenants",
-    // (undocumented)
-    Community = "Community",
     // (undocumented)
     Subscriptions = "Subscriptions"
 }
@@ -3519,6 +3544,8 @@ export enum KnownStorageAccountType {
 export enum KnownStorageAccountTypes {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
+    // (undocumented)
+    PremiumV2LRS = "PremiumV2_LRS",
     // (undocumented)
     PremiumZRS = "Premium_ZRS",
     // (undocumented)
@@ -3980,6 +4007,18 @@ export enum KnownWindowsPatchAssessmentMode {
 }
 
 // @public
+export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
+    // (undocumented)
+    Always = "Always",
+    // (undocumented)
+    IfRequired = "IfRequired",
+    // (undocumented)
+    Never = "Never",
+    // (undocumented)
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownWindowsVMGuestPatchMode {
     // (undocumented)
     AutomaticByOS = "AutomaticByOS",
@@ -4026,7 +4065,16 @@ export type LinuxPatchAssessmentMode = string;
 // @public
 export interface LinuxPatchSettings {
     assessmentMode?: LinuxPatchAssessmentMode;
+    automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
     patchMode?: LinuxVMGuestPatchMode;
+}
+
+// @public
+export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
+    rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 // @public
@@ -4327,6 +4375,7 @@ export type PatchOperationStatus = string;
 // @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
+    automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
 }
@@ -4417,17 +4466,24 @@ export type ProtocolTypes = "Http" | "Https";
 
 // @public
 export type ProximityPlacementGroup = Resource & {
+    zones?: string[];
     proximityPlacementGroupType?: ProximityPlacementGroupType;
     readonly virtualMachines?: SubResourceWithColocationStatus[];
     readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
+    intent?: ProximityPlacementGroupPropertiesIntent;
 };
 
 // @public
 export interface ProximityPlacementGroupListResult {
     nextLink?: string;
     value: ProximityPlacementGroup[];
+}
+
+// @public
+export interface ProximityPlacementGroupPropertiesIntent {
+    vmSizes?: string[];
 }
 
 // @public
@@ -4738,11 +4794,22 @@ export interface ResourceUriList {
 }
 
 // @public
+export interface ResourceWithOptionalLocation {
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
 export type RestorePoint = ProxyResource & {
     excludeDisks?: ApiEntityReference[];
     readonly sourceMetadata?: RestorePointSourceMetadata;
     readonly provisioningState?: string;
-    readonly consistencyMode?: ConsistencyModeTypes;
+    consistencyMode?: ConsistencyModeTypes;
     timeCreated?: Date;
     sourceRestorePoint?: ApiEntityReference;
     readonly instanceView?: RestorePointInstanceView;
@@ -5136,6 +5203,20 @@ export type SharedGalleriesListResponse = SharedGalleryList;
 export type SharedGallery = PirSharedGalleryResource & {};
 
 // @public
+export type SharedGalleryDataDiskImage = SharedGalleryDiskImage & {
+    lun: number;
+};
+
+// @public
+export interface SharedGalleryDiskImage {
+    readonly diskSizeGB?: number;
+    hostCaching?: SharedGalleryHostCaching;
+}
+
+// @public
+export type SharedGalleryHostCaching = string;
+
+// @public
 export type SharedGalleryImage = PirSharedGalleryResource & {
     osType?: OperatingSystemTypes;
     osState?: OperatingSystemStateTypes;
@@ -5146,6 +5227,7 @@ export type SharedGalleryImage = PirSharedGalleryResource & {
     hyperVGeneration?: HyperVGeneration;
     features?: GalleryImageFeature[];
     purchasePlan?: ImagePurchasePlan;
+    architecture?: Architecture;
 };
 
 // @public
@@ -5187,6 +5269,8 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 export type SharedGalleryImageVersion = PirSharedGalleryResource & {
     publishedDate?: Date;
     endOfLifeDate?: Date;
+    excludeFromLatest?: boolean;
+    storageProfile?: SharedGalleryImageVersionStorageProfile;
 };
 
 // @public
@@ -5225,10 +5309,19 @@ export interface SharedGalleryImageVersionsListOptionalParams extends coreClient
 export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList;
 
 // @public
+export interface SharedGalleryImageVersionStorageProfile {
+    dataDiskImages?: SharedGalleryDataDiskImage[];
+    osDiskImage?: SharedGalleryOSDiskImage;
+}
+
+// @public
 export interface SharedGalleryList {
     nextLink?: string;
     value: SharedGallery[];
 }
+
+// @public
+export type SharedGalleryOSDiskImage = SharedGalleryDiskImage & {};
 
 // @public
 export type SharedToValues = string;
@@ -5730,6 +5823,12 @@ export interface UserArtifactManage {
 }
 
 // @public
+export interface UserArtifactSettings {
+    configFileName?: string;
+    packageFileName?: string;
+}
+
+// @public
 export interface UserArtifactSource {
     defaultConfigurationLink?: string;
     mediaLink: string;
@@ -5831,7 +5930,7 @@ export type VirtualMachineCaptureResult = SubResource & {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 // @public
-export type VirtualMachineExtension = Resource & {
+export type VirtualMachineExtension = ResourceWithOptionalLocation & {
     forceUpdateTag?: string;
     publisher?: string;
     typePropertiesType?: string;
@@ -6457,6 +6556,7 @@ export type VirtualMachineScaleSet = Resource & {
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
@@ -6685,6 +6785,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
 export interface VirtualMachineScaleSetOSDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
@@ -7085,6 +7186,7 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 // @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
@@ -7137,6 +7239,7 @@ export type VirtualMachineScaleSetVM = Resource & {
     plan?: Plan;
     readonly resources?: VirtualMachineExtension[];
     readonly zones?: string[];
+    identity?: VirtualMachineIdentity;
     readonly latestModelApplied?: boolean;
     readonly vmId?: string;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
@@ -7821,9 +7924,11 @@ export type VmDiskTypes = string;
 // @public
 export interface VMGalleryApplication {
     configurationReference?: string;
+    enableAutomaticUpgrade?: boolean;
     order?: number;
     packageReferenceId: string;
     tags?: string;
+    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public
@@ -7873,6 +7978,14 @@ export interface WindowsParameters {
 
 // @public
 export type WindowsPatchAssessmentMode = string;
+
+// @public
+export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
+    rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
+}
 
 // @public
 export type WindowsVMGuestPatchMode = string;
