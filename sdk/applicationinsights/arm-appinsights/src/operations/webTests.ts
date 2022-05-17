@@ -428,6 +428,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.WebTest
+    },
+    201: {
+      bodyMapper: Mappers.WebTest
     }
   },
   requestBody: Parameters.webTestDefinition,
