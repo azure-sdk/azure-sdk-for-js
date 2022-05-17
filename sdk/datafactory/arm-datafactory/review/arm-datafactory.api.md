@@ -23,7 +23,7 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow";
     userProperties?: UserProperty[];
 }
 
@@ -299,24 +299,9 @@ export type AppendVariableActivity = ControlActivity & {
 };
 
 // @public
-export type AppFiguresLinkedService = LinkedService & {
-    type: "AppFigures";
-    userName: Record<string, unknown>;
-    password: SecretBaseUnion;
-    clientKey: SecretBaseUnion;
-};
-
-// @public
 export interface ArmIdWrapper {
     readonly id?: string;
 }
-
-// @public
-export type AsanaLinkedService = LinkedService & {
-    type: "Asana";
-    apiToken: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-};
 
 // @public
 export type AvroCompressionCodec = string;
@@ -1495,11 +1480,8 @@ export { Credential_2 as Credential }
 export interface CredentialReference {
     [property: string]: any;
     referenceName: string;
-    type: CredentialReferenceType;
+    type: "CredentialReference";
 }
-
-// @public
-export type CredentialReferenceType = string;
 
 // @public
 export type CredentialResource = SubResource & {
@@ -1806,11 +1788,8 @@ export interface DataFlowReference {
         [propertyName: string]: Record<string, unknown>;
     };
     referenceName: string;
-    type: DataFlowReferenceType;
+    type: "DataFlowReference";
 }
-
-// @public
-export type DataFlowReferenceType = string;
 
 // @public
 export type DataFlowResource = SubResource & {
@@ -1848,7 +1827,6 @@ export type DataFlowsGetResponse = DataFlowResource;
 // @public
 export type DataFlowSink = Transformation & {
     schemaLinkedService?: LinkedServiceReference;
-    rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 // @public
@@ -2034,13 +2012,6 @@ export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | Json
 
 // @public (undocumented)
 export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
-
-// @public
-export type DataworldLinkedService = LinkedService & {
-    type: "Dataworld";
-    apiToken: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-};
 
 // @public
 export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -2404,6 +2375,7 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
     traceLevel?: Record<string, unknown>;
     continueOnError?: Record<string, unknown>;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
 };
 
 // @public
@@ -2413,6 +2385,7 @@ export interface ExecuteDataFlowActivityTypeProperties {
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
     staging?: DataFlowStagingInfo;
     traceLevel?: Record<string, unknown>;
 }
@@ -2426,19 +2399,12 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
 // @public
 export type ExecutePipelineActivity = ControlActivity & {
     type: "ExecutePipeline";
-    policy?: ExecutePipelineActivityPolicy;
     pipeline: PipelineReference;
     parameters?: {
         [propertyName: string]: Record<string, unknown>;
     };
     waitOnCompletion?: boolean;
 };
-
-// @public
-export interface ExecutePipelineActivityPolicy {
-    [property: string]: any;
-    secureInput?: boolean;
-}
 
 // @public
 export type ExecutePowerQueryActivityTypeProperties = ExecuteDataFlowActivityTypeProperties & {
@@ -2490,6 +2456,7 @@ export type ExecuteWranglingDataflowActivity = Activity & {
     traceLevel?: Record<string, unknown>;
     continueOnError?: Record<string, unknown>;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
     sinks?: {
         [propertyName: string]: PowerQuerySink;
     };
@@ -2498,13 +2465,13 @@ export type ExecuteWranglingDataflowActivity = Activity & {
 
 // @public
 export type ExecutionActivity = Activity & {
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script";
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow";
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
 };
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity;
+export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity;
 
 // @public
 export interface ExportSettings {
@@ -4084,12 +4051,6 @@ export enum KnownCosmosDbServicePrincipalCredentialType {
 }
 
 // @public
-export enum KnownCredentialReferenceType {
-    // (undocumented)
-    CredentialReference = "CredentialReference"
-}
-
-// @public
 export enum KnownDataFlowComputeType {
     // (undocumented)
     ComputeOptimized = "ComputeOptimized",
@@ -4107,12 +4068,6 @@ export enum KnownDataFlowDebugCommandType {
     ExecutePreviewQuery = "executePreviewQuery",
     // (undocumented)
     ExecuteStatisticsQuery = "executeStatisticsQuery"
-}
-
-// @public
-export enum KnownDataFlowReferenceType {
-    // (undocumented)
-    DataFlowReference = "DataFlowReference"
 }
 
 // @public
@@ -4446,12 +4401,6 @@ export enum KnownManagedIntegrationRuntimeNodeStatus {
 }
 
 // @public
-export enum KnownManagedVirtualNetworkReferenceType {
-    // (undocumented)
-    ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
-}
-
-// @public
 export enum KnownMongoDbAuthenticationType {
     // (undocumented)
     Anonymous = "Anonymous",
@@ -4724,60 +4673,6 @@ export enum KnownSapTablePartitionOption {
 }
 
 // @public
-export enum KnownScriptActivityLogDestination {
-    // (undocumented)
-    ActivityOutput = "ActivityOutput",
-    // (undocumented)
-    ExternalStore = "ExternalStore"
-}
-
-// @public
-export enum KnownScriptActivityParameterDirection {
-    // (undocumented)
-    Input = "Input",
-    // (undocumented)
-    InputOutput = "InputOutput",
-    // (undocumented)
-    Output = "Output"
-}
-
-// @public
-export enum KnownScriptActivityParameterType {
-    // (undocumented)
-    Boolean = "Boolean",
-    // (undocumented)
-    DateTime = "DateTime",
-    // (undocumented)
-    DateTimeOffset = "DateTimeOffset",
-    // (undocumented)
-    Decimal = "Decimal",
-    // (undocumented)
-    Double = "Double",
-    // (undocumented)
-    Guid = "Guid",
-    // (undocumented)
-    Int16 = "Int16",
-    // (undocumented)
-    Int32 = "Int32",
-    // (undocumented)
-    Int64 = "Int64",
-    // (undocumented)
-    Single = "Single",
-    // (undocumented)
-    String = "String",
-    // (undocumented)
-    Timespan = "Timespan"
-}
-
-// @public
-export enum KnownScriptType {
-    // (undocumented)
-    NonQuery = "NonQuery",
-    // (undocumented)
-    Query = "Query"
-}
-
-// @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
     // (undocumented)
     InitializeFailed = "InitializeFailed",
@@ -4948,14 +4843,6 @@ export enum KnownSybaseAuthenticationType {
 }
 
 // @public
-export enum KnownTeamDeskAuthenticationType {
-    // (undocumented)
-    Basic = "Basic",
-    // (undocumented)
-    Token = "Token"
-}
-
-// @public
 export enum KnownTeradataAuthenticationType {
     // (undocumented)
     Basic = "Basic",
@@ -4971,12 +4858,6 @@ export enum KnownTeradataPartitionOption {
     Hash = "Hash",
     // (undocumented)
     None = "None"
-}
-
-// @public
-export enum KnownTriggerReferenceType {
-    // (undocumented)
-    TriggerReference = "TriggerReference"
 }
 
 // @public
@@ -5048,14 +4929,6 @@ export enum KnownWebHookActivityMethod {
 }
 
 // @public
-export enum KnownZendeskAuthenticationType {
-    // (undocumented)
-    Basic = "Basic",
-    // (undocumented)
-    Token = "Token"
-}
-
-// @public
 export interface LinkedIntegrationRuntime {
     readonly createTime?: Date;
     readonly dataFactoryLocation?: string;
@@ -5099,7 +4972,7 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "RestService" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
 }
 
 // @public
@@ -5170,7 +5043,7 @@ export interface LinkedServicesListByFactoryOptionalParams extends coreClient.Op
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | RestServiceLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
 
 // @public
 export interface LogLocationSettings {
@@ -5361,11 +5234,8 @@ export interface ManagedVirtualNetworkListResponse {
 // @public
 export interface ManagedVirtualNetworkReference {
     referenceName: string;
-    type: ManagedVirtualNetworkReferenceType;
+    type: "ManagedVirtualNetworkReference";
 }
-
-// @public
-export type ManagedVirtualNetworkReferenceType = string;
 
 // @public
 export type ManagedVirtualNetworkResource = SubResource & {
@@ -6332,11 +6202,6 @@ export type PrestoSource = TabularSource & {
 };
 
 // @public
-export interface PrivateEndpoint {
-    id?: string;
-}
-
-// @public
 export interface PrivateEndpointConnection {
     createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
@@ -6395,7 +6260,6 @@ export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointCon
 
 // @public
 export interface PrivateLinkConnectionApprovalRequest {
-    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
@@ -6449,14 +6313,6 @@ export interface QueryDataFlowDebugSessionsResponse {
     nextLink?: string;
     value?: DataFlowDebugSessionInfo[];
 }
-
-// @public
-export type QuickbaseLinkedService = LinkedService & {
-    type: "Quickbase";
-    url: Record<string, unknown>;
-    userToken: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-};
 
 // @public
 export type QuickBooksLinkedService = LinkedService & {
@@ -6996,47 +6852,6 @@ export interface ScriptAction {
 }
 
 // @public
-export type ScriptActivity = ExecutionActivity & {
-    type: "Script";
-    scripts?: ScriptActivityScriptBlock[];
-    logSettings?: ScriptActivityTypePropertiesLogSettings;
-};
-
-// @public
-export type ScriptActivityLogDestination = string;
-
-// @public
-export interface ScriptActivityParameter {
-    direction?: ScriptActivityParameterDirection;
-    name?: Record<string, unknown>;
-    size?: number;
-    type?: ScriptActivityParameterType;
-    value?: Record<string, unknown>;
-}
-
-// @public
-export type ScriptActivityParameterDirection = string;
-
-// @public
-export type ScriptActivityParameterType = string;
-
-// @public
-export interface ScriptActivityScriptBlock {
-    parameters?: ScriptActivityParameter[];
-    text: Record<string, unknown>;
-    type: ScriptType;
-}
-
-// @public
-export interface ScriptActivityTypePropertiesLogSettings {
-    logDestination: ScriptActivityLogDestination;
-    logLocationSettings?: LogLocationSettings;
-}
-
-// @public
-export type ScriptType = string;
-
-// @public
 export interface SecretBase {
     type: "SecureString" | "AzureKeyVaultSecret";
 }
@@ -7261,13 +7076,6 @@ export interface SkipErrorFile {
 }
 
 // @public
-export type SmartsheetLinkedService = LinkedService & {
-    type: "Smartsheet";
-    apiToken: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-};
-
-// @public
 export type SnowflakeDataset = Dataset & {
     type: "SnowflakeTable";
     schemaTypePropertiesSchema?: Record<string, unknown>;
@@ -7486,7 +7294,9 @@ export type SqlServerSource = TabularSource & {
 export type SqlServerStoredProcedureActivity = ExecutionActivity & {
     type: "SqlServerStoredProcedure";
     storedProcedureName: Record<string, unknown>;
-    storedProcedureParameters?: Record<string, unknown>;
+    storedProcedureParameters?: {
+        [propertyName: string]: StoredProcedureParameter;
+    };
 };
 
 // @public
@@ -7845,20 +7655,6 @@ export type TarReadSettings = CompressionReadSettings & {
 };
 
 // @public
-export type TeamDeskAuthenticationType = string;
-
-// @public
-export type TeamDeskLinkedService = LinkedService & {
-    type: "TeamDesk";
-    authenticationType: TeamDeskAuthenticationType;
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
-    password?: SecretBaseUnion;
-    apiToken?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
-};
-
-// @public
 export type TeradataAuthenticationType = string;
 
 // @public
@@ -7967,11 +7763,8 @@ export interface TriggerQueryResponse {
 // @public
 export interface TriggerReference {
     referenceName: string;
-    type: TriggerReferenceType;
+    type: "TriggerReference";
 }
-
-// @public
-export type TriggerReferenceType = string;
 
 // @public
 export type TriggerResource = SubResource & {
@@ -8165,13 +7958,6 @@ export type TumblingWindowTriggerDependencyReference = TriggerDependencyReferenc
 };
 
 // @public
-export type TwilioLinkedService = LinkedService & {
-    type: "Twilio";
-    userName: Record<string, unknown>;
-    password: SecretBaseUnion;
-};
-
-// @public
 export interface TypeConversionSettings {
     allowDataTruncation?: Record<string, unknown>;
     culture?: Record<string, unknown>;
@@ -8270,7 +8056,6 @@ export type WebActivity = ExecutionActivity & {
     headers?: Record<string, unknown>;
     body?: Record<string, unknown>;
     authentication?: WebActivityAuthentication;
-    disableCertValidation?: boolean;
     datasets?: DatasetReference[];
     linkedServices?: LinkedServiceReference[];
     connectVia?: IntegrationRuntimeReference;
@@ -8413,20 +8198,6 @@ export type XmlSource = CopySource & {
     storeSettings?: StoreReadSettingsUnion;
     formatSettings?: XmlReadSettings;
     additionalColumns?: Record<string, unknown>;
-};
-
-// @public
-export type ZendeskAuthenticationType = string;
-
-// @public
-export type ZendeskLinkedService = LinkedService & {
-    type: "Zendesk";
-    authenticationType: ZendeskAuthenticationType;
-    url: Record<string, unknown>;
-    userName?: Record<string, unknown>;
-    password?: SecretBaseUnion;
-    apiToken?: SecretBaseUnion;
-    encryptedCredential?: Record<string, unknown>;
 };
 
 // @public

@@ -1,15 +1,32 @@
 # Release History
+    
+## 11.0.0 (2022-05-17)
+    
+**Features**
 
-## 10.5.1 (Unreleased)
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter sourceStagingConcurrency
+  - Type Alias ExecuteDataFlowActivity has a new parameter sourceStagingConcurrency
+  - Type Alias ExecuteWranglingDataflowActivity has a new parameter sourceStagingConcurrency
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface PrivateLinkConnectionApprovalRequest no longer has parameter privateEndpoint
+  - Type Alias DataFlowSink no longer has parameter rejectedDataLinkedService
+  - Type Alias ExecutePipelineActivity no longer has parameter policy
+  - Type Alias SqlServerStoredProcedureActivity no longer has parameter storedProcedureParameters
+  - Type Alias WebActivity no longer has parameter disableCertValidation
+  - Removed Enum KnownCredentialReferenceType
+  - Removed Enum KnownDataFlowReferenceType
+  - Removed Enum KnownManagedVirtualNetworkReferenceType
+  - Removed Enum KnownScriptActivityLogDestination
+  - Removed Enum KnownScriptActivityParameterDirection
+  - Removed Enum KnownScriptActivityParameterType
+  - Removed Enum KnownScriptType
+  - Removed Enum KnownTeamDeskAuthenticationType
+  - Removed Enum KnownTriggerReferenceType
+  - Removed Enum KnownZendeskAuthenticationType
+    
+    
 ## 10.5.0 (2022-05-09)
     
 **Features**

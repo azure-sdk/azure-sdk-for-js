@@ -79,14 +79,6 @@ export type LinkedServiceUnion =
   | SapOpenHubLinkedService
   | RestServiceLinkedService
   | AmazonS3LinkedService
-  | TeamDeskLinkedService
-  | QuickbaseLinkedService
-  | SmartsheetLinkedService
-  | ZendeskLinkedService
-  | DataworldLinkedService
-  | AppFiguresLinkedService
-  | AsanaLinkedService
-  | TwilioLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -468,8 +460,7 @@ export type ExecutionActivityUnion =
   | DatabricksSparkJarActivity
   | DatabricksSparkPythonActivity
   | AzureFunctionActivity
-  | ExecuteDataFlowActivity
-  | ScriptActivity;
+  | ExecuteDataFlowActivity;
 export type MultiplePipelineTriggerUnion =
   | MultiplePipelineTrigger
   | ScheduleTrigger
@@ -1283,14 +1274,6 @@ export interface LinkedService {
     | "SapOpenHub"
     | "RestService"
     | "AmazonS3"
-    | "TeamDesk"
-    | "Quickbase"
-    | "Smartsheet"
-    | "Zendesk"
-    | "Dataworld"
-    | "AppFigures"
-    | "Asana"
-    | "Twilio"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -1562,8 +1545,7 @@ export interface Activity {
     | "AzureFunctionActivity"
     | "WebHook"
     | "ExecuteDataFlow"
-    | "ExecuteWranglingDataflow"
-    | "Script";
+    | "ExecuteWranglingDataflow";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Activity name. */
@@ -2261,14 +2243,6 @@ export interface PrivateLinkConnectionState {
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-  /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
-}
-
-/** Private endpoint which a connection belongs to. */
-export interface PrivateEndpoint {
-  /** The resource Id for private endpoint */
-  id?: string;
 }
 
 /** Wrapper for a collection of private link resources */
@@ -2358,7 +2332,7 @@ export interface DataFlowReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Data flow reference type. */
-  type: DataFlowReferenceType;
+  type: "DataFlowReference";
   /** Reference data flow name. */
   referenceName: string;
   /** Reference data flow parameters from dataset. */
@@ -2370,7 +2344,7 @@ export interface DataFlowReference {
 /** Managed Virtual Network reference type. */
 export interface ManagedVirtualNetworkReference {
   /** Managed Virtual Network reference type. */
-  type: ManagedVirtualNetworkReferenceType;
+  type: "ManagedVirtualNetworkReference";
   /** Reference ManagedVirtualNetwork name. */
   referenceName: string;
 }
@@ -2380,7 +2354,7 @@ export interface CredentialReference {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Credential reference type. */
-  type: CredentialReferenceType;
+  type: "CredentialReference";
   /** Reference credential name. */
   referenceName: string;
 }
@@ -3460,14 +3434,6 @@ export interface CustomActivityReferenceObject {
   datasets?: DatasetReference[];
 }
 
-/** Execution policy for an execute pipeline activity. */
-export interface ExecutePipelineActivityPolicy {
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** When set to true, Input from activity is considered as secure and will not be logged to monitoring. */
-  secureInput?: boolean;
-}
-
 /** Web activity authentication properties. */
 export interface WebActivityAuthentication {
   /** Web activity authentication (Basic/ClientCertificate/MSI/ServicePrincipal) */
@@ -3518,6 +3484,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 }
 
 /** Compute properties for data flow activity. */
@@ -3534,38 +3502,6 @@ export interface PowerQuerySinkMapping {
   queryName?: string;
   /** List of sinks mapped to Power Query mashup query. */
   dataflowSinks?: PowerQuerySink[];
-}
-
-/** Script block of scripts. */
-export interface ScriptActivityScriptBlock {
-  /** The query text. Type: string (or Expression with resultType string). */
-  text: Record<string, unknown>;
-  /** The type of the query. Type: string. */
-  type: ScriptType;
-  /** Array of script parameters. Type: array. */
-  parameters?: ScriptActivityParameter[];
-}
-
-/** Parameters of a script block. */
-export interface ScriptActivityParameter {
-  /** The name of the parameter. Type: string (or Expression with resultType string). */
-  name?: Record<string, unknown>;
-  /** The type of the parameter. */
-  type?: ScriptActivityParameterType;
-  /** The value of the parameter. */
-  value?: Record<string, unknown>;
-  /** The direction of the parameter. */
-  direction?: ScriptActivityParameterDirection;
-  /** The size of the output direction parameter. */
-  size?: number;
-}
-
-/** Log settings of script activity. */
-export interface ScriptActivityTypePropertiesLogSettings {
-  /** The destination of logs. Type: string. */
-  logDestination: ScriptActivityLogDestination;
-  /** Log location settings customer needs to provide when enabling log. */
-  logLocationSettings?: LogLocationSettings;
 }
 
 /** The workflow trigger recurrence. */
@@ -3632,7 +3568,7 @@ export interface DependencyReference {
 /** Trigger reference type. */
 export interface TriggerReference {
   /** Trigger reference type. */
-  type: TriggerReferenceType;
+  type: "TriggerReference";
   /** Reference trigger name. */
   referenceName: string;
 }
@@ -4941,106 +4877,6 @@ export type AmazonS3LinkedService = LinkedService & {
   sessionToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for TeamDesk. */
-export type TeamDeskLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "TeamDesk";
-  /** The authentication type to use. */
-  authenticationType: TeamDeskAuthenticationType;
-  /** The url to connect TeamDesk source. Type: string (or Expression with resultType string). */
-  url: Record<string, unknown>;
-  /** The username of the TeamDesk source. Type: string (or Expression with resultType string). */
-  userName?: Record<string, unknown>;
-  /** The password of the TeamDesk source. */
-  password?: SecretBaseUnion;
-  /** The api token for the TeamDesk source. */
-  apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for Quickbase. */
-export type QuickbaseLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Quickbase";
-  /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
-  url: Record<string, unknown>;
-  /** The user token for the Quickbase source. */
-  userToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for Smartsheet. */
-export type SmartsheetLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Smartsheet";
-  /** The api token for the Smartsheet source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for Zendesk. */
-export type ZendeskLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Zendesk";
-  /** The authentication type to use. */
-  authenticationType: ZendeskAuthenticationType;
-  /** The url to connect Zendesk source. Type: string (or Expression with resultType string). */
-  url: Record<string, unknown>;
-  /** The username of the Zendesk source. Type: string (or Expression with resultType string). */
-  userName?: Record<string, unknown>;
-  /** The password of the Zendesk source. */
-  password?: SecretBaseUnion;
-  /** The api token for the Zendesk source. */
-  apiToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for Dataworld. */
-export type DataworldLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Dataworld";
-  /** The api token for the Dataworld source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for AppFigures. */
-export type AppFiguresLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AppFigures";
-  /** The username of the Appfigures source. */
-  userName: Record<string, unknown>;
-  /** The password of the AppFigures source. */
-  password: SecretBaseUnion;
-  /** The client key for the AppFigures source. */
-  clientKey: SecretBaseUnion;
-};
-
-/** Linked service for Asana. */
-export type AsanaLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Asana";
-  /** The api token for the Asana source. */
-  apiToken: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: Record<string, unknown>;
-};
-
-/** Linked service for Twilio. */
-export type TwilioLinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Twilio";
-  /** The Account SID of Twilio service. */
-  userName: Record<string, unknown>;
-  /** The auth token of Twilio service. */
-  password: SecretBaseUnion;
 };
 
 /** Linked service for Amazon Redshift. */
@@ -7211,8 +7047,7 @@ export type ExecutionActivity = Activity & {
     | "DatabricksSparkJar"
     | "DatabricksSparkPython"
     | "AzureFunctionActivity"
-    | "ExecuteDataFlow"
-    | "Script";
+    | "ExecuteDataFlow";
   /** Linked service reference. */
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
@@ -7239,6 +7074,8 @@ export type ExecuteWranglingDataflowActivity = Activity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
   /** (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName. */
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
@@ -7426,8 +7263,6 @@ export type DataFlowSource = Transformation & {
 export type DataFlowSink = Transformation & {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
-  /** Rejected data linked service reference. */
-  rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 /** The location of azure blob dataset. */
@@ -9225,8 +9060,6 @@ export type SelfDependencyTumblingWindowTriggerReference = DependencyReference &
 export type ExecutePipelineActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecutePipeline";
-  /** Execute pipeline activity policy. */
-  policy?: ExecutePipelineActivityPolicy;
   /** Pipeline reference. */
   pipeline: PipelineReference;
   /** Pipeline parameters. */
@@ -9584,7 +9417,9 @@ export type SqlServerStoredProcedureActivity = ExecutionActivity & {
   /** Stored procedure name. Type: string (or Expression with resultType string). */
   storedProcedureName: Record<string, unknown>;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: Record<string, unknown>;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
 };
 
 /** Delete activity. */
@@ -9641,8 +9476,6 @@ export type WebActivity = ExecutionActivity & {
   body?: Record<string, unknown>;
   /** Authentication method used for calling the endpoint. */
   authentication?: WebActivityAuthentication;
-  /** When set to true, Certificate validation will be disabled. */
-  disableCertValidation?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -9799,16 +9632,8 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
-};
-
-/** Script activity type. */
-export type ScriptActivity = ExecutionActivity & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Script";
-  /** Array of script blocks. Type: array. */
-  scripts?: ScriptActivityScriptBlock[];
-  /** Log settings of script activity. */
-  logSettings?: ScriptActivityTypePropertiesLogSettings;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 };
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -10921,48 +10746,6 @@ export enum KnownDataFlowDebugCommandType {
  */
 export type DataFlowDebugCommandType = string;
 
-/** Known values of {@link DataFlowReferenceType} that the service accepts. */
-export enum KnownDataFlowReferenceType {
-  DataFlowReference = "DataFlowReference"
-}
-
-/**
- * Defines values for DataFlowReferenceType. \
- * {@link KnownDataFlowReferenceType} can be used interchangeably with DataFlowReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DataFlowReference**
- */
-export type DataFlowReferenceType = string;
-
-/** Known values of {@link ManagedVirtualNetworkReferenceType} that the service accepts. */
-export enum KnownManagedVirtualNetworkReferenceType {
-  ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
-}
-
-/**
- * Defines values for ManagedVirtualNetworkReferenceType. \
- * {@link KnownManagedVirtualNetworkReferenceType} can be used interchangeably with ManagedVirtualNetworkReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ManagedVirtualNetworkReference**
- */
-export type ManagedVirtualNetworkReferenceType = string;
-
-/** Known values of {@link CredentialReferenceType} that the service accepts. */
-export enum KnownCredentialReferenceType {
-  CredentialReference = "CredentialReference"
-}
-
-/**
- * Defines values for CredentialReferenceType. \
- * {@link KnownCredentialReferenceType} can be used interchangeably with CredentialReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CredentialReference**
- */
-export type CredentialReferenceType = string;
-
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
 export enum KnownDataFlowComputeType {
   General = "General",
@@ -11274,38 +11057,6 @@ export enum KnownRestServiceAuthenticationType {
  * **ManagedServiceIdentity**
  */
 export type RestServiceAuthenticationType = string;
-
-/** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
-export enum KnownTeamDeskAuthenticationType {
-  Basic = "Basic",
-  Token = "Token"
-}
-
-/**
- * Defines values for TeamDeskAuthenticationType. \
- * {@link KnownTeamDeskAuthenticationType} can be used interchangeably with TeamDeskAuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic** \
- * **Token**
- */
-export type TeamDeskAuthenticationType = string;
-
-/** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
-export enum KnownZendeskAuthenticationType {
-  Basic = "Basic",
-  Token = "Token"
-}
-
-/**
- * Defines values for ZendeskAuthenticationType. \
- * {@link KnownZendeskAuthenticationType} can be used interchangeably with ZendeskAuthenticationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Basic** \
- * **Token**
- */
-export type ZendeskAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
@@ -11871,92 +11622,6 @@ export enum KnownWebHookActivityMethod {
  */
 export type WebHookActivityMethod = string;
 
-/** Known values of {@link ScriptType} that the service accepts. */
-export enum KnownScriptType {
-  Query = "Query",
-  NonQuery = "NonQuery"
-}
-
-/**
- * Defines values for ScriptType. \
- * {@link KnownScriptType} can be used interchangeably with ScriptType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Query** \
- * **NonQuery**
- */
-export type ScriptType = string;
-
-/** Known values of {@link ScriptActivityParameterType} that the service accepts. */
-export enum KnownScriptActivityParameterType {
-  Boolean = "Boolean",
-  DateTime = "DateTime",
-  DateTimeOffset = "DateTimeOffset",
-  Decimal = "Decimal",
-  Double = "Double",
-  Guid = "Guid",
-  Int16 = "Int16",
-  Int32 = "Int32",
-  Int64 = "Int64",
-  Single = "Single",
-  String = "String",
-  Timespan = "Timespan"
-}
-
-/**
- * Defines values for ScriptActivityParameterType. \
- * {@link KnownScriptActivityParameterType} can be used interchangeably with ScriptActivityParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Boolean** \
- * **DateTime** \
- * **DateTimeOffset** \
- * **Decimal** \
- * **Double** \
- * **Guid** \
- * **Int16** \
- * **Int32** \
- * **Int64** \
- * **Single** \
- * **String** \
- * **Timespan**
- */
-export type ScriptActivityParameterType = string;
-
-/** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
-export enum KnownScriptActivityParameterDirection {
-  Input = "Input",
-  Output = "Output",
-  InputOutput = "InputOutput"
-}
-
-/**
- * Defines values for ScriptActivityParameterDirection. \
- * {@link KnownScriptActivityParameterDirection} can be used interchangeably with ScriptActivityParameterDirection,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Input** \
- * **Output** \
- * **InputOutput**
- */
-export type ScriptActivityParameterDirection = string;
-
-/** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
-export enum KnownScriptActivityLogDestination {
-  ActivityOutput = "ActivityOutput",
-  ExternalStore = "ExternalStore"
-}
-
-/**
- * Defines values for ScriptActivityLogDestination. \
- * {@link KnownScriptActivityLogDestination} can be used interchangeably with ScriptActivityLogDestination,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ActivityOutput** \
- * **ExternalStore**
- */
-export type ScriptActivityLogDestination = string;
-
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
   NotSpecified = "NotSpecified",
@@ -12016,20 +11681,6 @@ export enum KnownTumblingWindowFrequency {
  * **Month**
  */
 export type TumblingWindowFrequency = string;
-
-/** Known values of {@link TriggerReferenceType} that the service accepts. */
-export enum KnownTriggerReferenceType {
-  TriggerReference = "TriggerReference"
-}
-
-/**
- * Defines values for TriggerReferenceType. \
- * {@link KnownTriggerReferenceType} can be used interchangeably with TriggerReferenceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TriggerReference**
- */
-export type TriggerReferenceType = string;
 
 /** Known values of {@link JsonFormatFilePattern} that the service accepts. */
 export enum KnownJsonFormatFilePattern {

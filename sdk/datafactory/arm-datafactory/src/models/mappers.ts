@@ -710,7 +710,7 @@ export const FactoryUpdateParameters: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
-        serializedName: "properties.publicNetworkAccess",
+        serializedName: "publicNetworkAccess",
         type: {
           name: "String"
         }
@@ -3641,28 +3641,6 @@ export const PrivateLinkConnectionApprovalRequest: coreClient.CompositeMapper = 
           name: "Composite",
           className: "PrivateLinkConnectionState"
         }
-      },
-      privateEndpoint: {
-        serializedName: "privateEndpoint",
-        type: {
-          name: "Composite",
-          className: "PrivateEndpoint"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateEndpoint: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PrivateEndpoint",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -3914,8 +3892,9 @@ export const DataFlowReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
+        defaultValue: "DataFlowReference",
+        isConstant: true,
         serializedName: "type",
-        required: true,
         type: {
           name: "String"
         }
@@ -3953,8 +3932,9 @@ export const ManagedVirtualNetworkReference: coreClient.CompositeMapper = {
     className: "ManagedVirtualNetworkReference",
     modelProperties: {
       type: {
+        defaultValue: "ManagedVirtualNetworkReference",
+        isConstant: true,
         serializedName: "type",
-        required: true,
         type: {
           name: "String"
         }
@@ -3977,8 +3957,9 @@ export const CredentialReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
+        defaultValue: "CredentialReference",
+        isConstant: true,
         serializedName: "type",
-        required: true,
         type: {
           name: "String"
         }
@@ -6511,22 +6492,6 @@ export const CustomActivityReferenceObject: coreClient.CompositeMapper = {
   }
 };
 
-export const ExecutePipelineActivityPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExecutePipelineActivityPolicy",
-    additionalProperties: { type: { name: "Object" } },
-    modelProperties: {
-      secureInput: {
-        serializedName: "secureInput",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const WebActivityAuthentication: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6688,6 +6653,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -6737,106 +6709,6 @@ export const PowerQuerySinkMapping: coreClient.CompositeMapper = {
               className: "PowerQuerySink"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ScriptActivityScriptBlock: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScriptActivityScriptBlock",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ScriptActivityParameter"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ScriptActivityParameter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScriptActivityParameter",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      direction: {
-        serializedName: "direction",
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "size",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ScriptActivityTypePropertiesLogSettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScriptActivityTypePropertiesLogSettings",
-    modelProperties: {
-      logDestination: {
-        serializedName: "logDestination",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      logLocationSettings: {
-        serializedName: "logLocationSettings",
-        type: {
-          name: "Composite",
-          className: "LogLocationSettings"
         }
       }
     }
@@ -7049,8 +6921,9 @@ export const TriggerReference: coreClient.CompositeMapper = {
     className: "TriggerReference",
     modelProperties: {
       type: {
+        defaultValue: "TriggerReference",
+        isConstant: true,
         serializedName: "type",
-        required: true,
         type: {
           name: "String"
         }
@@ -11001,305 +10874,6 @@ export const AmazonS3LinkedService: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const TeamDeskLinkedService: coreClient.CompositeMapper = {
-  serializedName: "TeamDesk",
-  type: {
-    name: "Composite",
-    className: "TeamDeskLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      authenticationType: {
-        serializedName: "typeProperties.authenticationType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      url: {
-        serializedName: "typeProperties.url",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      userName: {
-        serializedName: "typeProperties.userName",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      apiToken: {
-        serializedName: "typeProperties.apiToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const QuickbaseLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Quickbase",
-  type: {
-    name: "Composite",
-    className: "QuickbaseLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      url: {
-        serializedName: "typeProperties.url",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      userToken: {
-        serializedName: "typeProperties.userToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const SmartsheetLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Smartsheet",
-  type: {
-    name: "Composite",
-    className: "SmartsheetLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      apiToken: {
-        serializedName: "typeProperties.apiToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const ZendeskLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Zendesk",
-  type: {
-    name: "Composite",
-    className: "ZendeskLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      authenticationType: {
-        serializedName: "typeProperties.authenticationType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      url: {
-        serializedName: "typeProperties.url",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      userName: {
-        serializedName: "typeProperties.userName",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      apiToken: {
-        serializedName: "typeProperties.apiToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const DataworldLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Dataworld",
-  type: {
-    name: "Composite",
-    className: "DataworldLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      apiToken: {
-        serializedName: "typeProperties.apiToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const AppFiguresLinkedService: coreClient.CompositeMapper = {
-  serializedName: "AppFigures",
-  type: {
-    name: "Composite",
-    className: "AppFiguresLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      userName: {
-        serializedName: "typeProperties.userName",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      clientKey: {
-        serializedName: "typeProperties.clientKey",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      }
-    }
-  }
-};
-
-export const AsanaLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Asana",
-  type: {
-    name: "Composite",
-    className: "AsanaLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      apiToken: {
-        serializedName: "typeProperties.apiToken",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
-        }
-      },
-      encryptedCredential: {
-        serializedName: "typeProperties.encryptedCredential",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
-};
-
-export const TwilioLinkedService: coreClient.CompositeMapper = {
-  serializedName: "Twilio",
-  type: {
-    name: "Composite",
-    className: "TwilioLinkedService",
-    uberParent: "LinkedService",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...LinkedService.type.modelProperties,
-      userName: {
-        serializedName: "typeProperties.userName",
-        required: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      },
-      password: {
-        serializedName: "typeProperties.password",
-        type: {
-          name: "Composite",
-          className: "SecretBase"
         }
       }
     }
@@ -17893,6 +17467,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           value: { type: { name: "any" } }
         }
       },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
       sinks: {
         serializedName: "typeProperties.sinks",
         type: {
@@ -18490,13 +18071,6 @@ export const DataFlowSink: coreClient.CompositeMapper = {
       ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      },
-      rejectedDataLinkedService: {
-        serializedName: "rejectedDataLinkedService",
         type: {
           name: "Composite",
           className: "LinkedServiceReference"
@@ -23588,13 +23162,6 @@ export const ExecutePipelineActivity: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
     modelProperties: {
       ...ControlActivity.type.modelProperties,
-      policy: {
-        serializedName: "policy",
-        type: {
-          name: "Composite",
-          className: "ExecutePipelineActivityPolicy"
-        }
-      },
       pipeline: {
         serializedName: "typeProperties.pipeline",
         type: {
@@ -24842,7 +24409,9 @@ export const SqlServerStoredProcedureActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.storedProcedureParameters",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       }
     }
@@ -25015,12 +24584,6 @@ export const WebActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WebActivityAuthentication"
-        }
-      },
-      disableCertValidation: {
-        serializedName: "typeProperties.disableCertValidation",
-        type: {
-          name: "Boolean"
         }
       },
       datasets: {
@@ -25561,38 +25124,12 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
-      }
-    }
-  }
-};
-
-export const ScriptActivity: coreClient.CompositeMapper = {
-  serializedName: "Script",
-  type: {
-    name: "Composite",
-    className: "ScriptActivity",
-    uberParent: "Activity",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ExecutionActivity.type.modelProperties,
-      scripts: {
-        serializedName: "typeProperties.scripts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ScriptActivityScriptBlock"
-            }
-          }
-        }
       },
-      logSettings: {
-        serializedName: "typeProperties.logSettings",
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
         type: {
-          name: "Composite",
-          className: "ScriptActivityTypePropertiesLogSettings"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -27546,14 +27083,6 @@ export let discriminators = {
   "LinkedService.SapOpenHub": SapOpenHubLinkedService,
   "LinkedService.RestService": RestServiceLinkedService,
   "LinkedService.AmazonS3": AmazonS3LinkedService,
-  "LinkedService.TeamDesk": TeamDeskLinkedService,
-  "LinkedService.Quickbase": QuickbaseLinkedService,
-  "LinkedService.Smartsheet": SmartsheetLinkedService,
-  "LinkedService.Zendesk": ZendeskLinkedService,
-  "LinkedService.Dataworld": DataworldLinkedService,
-  "LinkedService.AppFigures": AppFiguresLinkedService,
-  "LinkedService.Asana": AsanaLinkedService,
-  "LinkedService.Twilio": TwilioLinkedService,
   "LinkedService.AmazonRedshift": AmazonRedshiftLinkedService,
   "LinkedService.CustomDataSource": CustomDataSourceLinkedService,
   "LinkedService.AzureSearch": AzureSearchLinkedService,
@@ -27890,7 +27419,6 @@ export let discriminators = {
   "Activity.DatabricksSparkPython": DatabricksSparkPythonActivity,
   "Activity.AzureFunctionActivity": AzureFunctionActivity,
   "Activity.ExecuteDataFlow": ExecuteDataFlowActivity,
-  "Activity.Script": ScriptActivity,
   "Trigger.ScheduleTrigger": ScheduleTrigger,
   "Trigger.BlobTrigger": BlobTrigger,
   "Trigger.BlobEventsTrigger": BlobEventsTrigger,
