@@ -31,13 +31,14 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
     powerState?: PowerState;
     availabilityZones?: string[];
     enableNodePublicIP?: boolean;
+    enableCustomCATrust?: boolean;
     nodePublicIPPrefixID?: string;
     scaleSetPriority?: ScaleSetPriority;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
@@ -238,6 +239,10 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     snapshots: Snapshots;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    trustedAccessRoleBindings: TrustedAccessRoleBindings;
+    // (undocumented)
+    trustedAccessRoles: TrustedAccessRoles;
 }
 
 // @public
@@ -280,6 +285,7 @@ export interface ContainerServiceNetworkProfile {
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
     networkMode?: NetworkMode;
     networkPlugin?: NetworkPlugin;
+    networkPluginMode?: NetworkPluginMode;
     networkPolicy?: NetworkPolicy;
     outboundType?: OutboundType;
     podCidr?: string;
@@ -867,6 +873,11 @@ export enum KnownNetworkPlugin {
 }
 
 // @public
+export enum KnownNetworkPluginMode {
+    Overlay = "Overlay"
+}
+
+// @public
 export enum KnownNetworkPolicy {
     Azure = "azure",
     Calico = "calico"
@@ -883,7 +894,11 @@ export enum KnownOssku {
     // (undocumented)
     CBLMariner = "CBLMariner",
     // (undocumented)
-    Ubuntu = "Ubuntu"
+    Ubuntu = "Ubuntu",
+    // (undocumented)
+    Windows2019 = "Windows2019",
+    // (undocumented)
+    Windows2022 = "Windows2022"
 }
 
 // @public
@@ -942,6 +957,18 @@ export enum KnownScaleSetPriority {
 export enum KnownSnapshotType {
     ManagedCluster = "ManagedCluster",
     NodePool = "NodePool"
+}
+
+// @public
+export enum KnownTrustedAccessRoleBindingProvisioningState {
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -1104,6 +1131,7 @@ export type ManagedCluster = TrackedResource & {
     disableLocalAccounts?: boolean;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     securityProfile?: ManagedClusterSecurityProfile;
+    storageProfile?: ManagedClusterStorageProfile;
     ingressProfile?: ManagedClusterIngressProfile;
     publicNetworkAccess?: PublicNetworkAccess;
 };
@@ -1147,8 +1175,9 @@ export interface ManagedClusterAgentPoolProfileProperties {
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
+    enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
@@ -1198,7 +1227,9 @@ export interface ManagedClusterAPIServerAccessProfile {
     disableRunCommand?: boolean;
     enablePrivateCluster?: boolean;
     enablePrivateClusterPublicFqdn?: boolean;
+    enableVnetIntegration?: boolean;
     privateDNSZone?: string;
+    subnetId?: string;
 }
 
 // @public
@@ -1691,9 +1722,15 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 
 // @public
 export interface ManagedClusterStorageProfile {
+    blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
     fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
     snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileBlobCSIDriver {
+    enabled?: boolean;
 }
 
 // @public
@@ -1752,6 +1789,9 @@ export type NetworkMode = string;
 export type NetworkPlugin = string;
 
 // @public
+export type NetworkPluginMode = string;
+
+// @public
 export type NetworkPolicy = string;
 
 // @public
@@ -1759,6 +1799,7 @@ export interface NetworkProfileForSnapshot {
     loadBalancerSku?: LoadBalancerSku;
     networkMode?: NetworkMode;
     networkPlugin?: NetworkPlugin;
+    networkPluginMode?: NetworkPluginMode;
     networkPolicy?: NetworkPolicy;
 }
 
@@ -2141,6 +2182,103 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
+
+// @public
+export interface TrustedAccessRole {
+    readonly name?: string;
+    readonly rules?: TrustedAccessRoleRule[];
+    readonly sourceResourceType?: string;
+}
+
+// @public
+export type TrustedAccessRoleBinding = Resource & {
+    readonly provisioningState?: TrustedAccessRoleBindingProvisioningState;
+    sourceResourceId: string;
+    roles: string[];
+};
+
+// @public
+export interface TrustedAccessRoleBindingListResult {
+    readonly nextLink?: string;
+    value?: TrustedAccessRoleBinding[];
+}
+
+// @public
+export type TrustedAccessRoleBindingProvisioningState = string;
+
+// @public
+export interface TrustedAccessRoleBindings {
+    createOrUpdate(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, trustedAccessRoleBinding: TrustedAccessRoleBinding, options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string, options?: TrustedAccessRoleBindingsGetOptionalParams): Promise<TrustedAccessRoleBindingsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: TrustedAccessRoleBindingsListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRoleBinding>;
+}
+
+// @public
+export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
+
+// @public
+export interface TrustedAccessRoleBindingsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TrustedAccessRoleBindingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
+
+// @public
+export interface TrustedAccessRoleBindingsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+
+// @public
+export interface TrustedAccessRoleBindingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
+
+// @public
+export interface TrustedAccessRoleListResult {
+    readonly nextLink?: string;
+    readonly value?: TrustedAccessRole[];
+}
+
+// @public
+export interface TrustedAccessRoleRule {
+    readonly apiGroups?: string[];
+    readonly nonResourceURLs?: string[];
+    readonly resourceNames?: string[];
+    readonly resources?: string[];
+    readonly verbs?: string[];
+}
+
+// @public
+export interface TrustedAccessRoles {
+    list(location: string, options?: TrustedAccessRolesListOptionalParams): PagedAsyncIterableIterator<TrustedAccessRole>;
+}
+
+// @public
+export interface TrustedAccessRolesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
+
+// @public
+export interface TrustedAccessRolesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
 
 // @public
 export type UpgradeChannel = string;
