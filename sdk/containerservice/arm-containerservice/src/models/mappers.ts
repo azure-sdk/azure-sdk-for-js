@@ -493,6 +493,7 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       },
       currentOrchestratorVersion: {
         serializedName: "currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -2171,6 +2172,19 @@ export const AzureKeyVaultKms: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyVaultNetworkAccess: {
+        defaultValue: "Public",
+        serializedName: "keyVaultNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultResourceId: {
+        serializedName: "keyVaultResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2215,6 +2229,13 @@ export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterStorageProfileSnapshotController"
+        }
+      },
+      blobCSIDriver: {
+        serializedName: "blobCSIDriver",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfileBlobCSIDriver"
         }
       }
     }
@@ -2272,6 +2293,21 @@ export const ManagedClusterStorageProfileSnapshotController: coreClient.Composit
   }
 };
 
+export const ManagedClusterStorageProfileBlobCSIDriver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfileBlobCSIDriver",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2303,6 +2339,44 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
         serializedName: "dnsZoneResourceId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterAutoReconcileProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterAutoReconcileProfile",
+    modelProperties: {
+      disable: {
+        defaultValue: false,
+        serializedName: "disable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      maxRetryCount: {
+        defaultValue: 3,
+        constraints: {
+          InclusiveMaximum: 10,
+          InclusiveMinimum: 1
+        },
+        serializedName: "MaxRetryCount",
+        type: {
+          name: "Number"
+        }
+      },
+      maxRetryTimeout: {
+        defaultValue: 200,
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "MaxRetryTimeout",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3844,6 +3918,7 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       currentOrchestratorVersion: {
         serializedName: "properties.currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -4299,6 +4374,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      autoReconcileProfile: {
+        serializedName: "properties.autoReconcileProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterAutoReconcileProfile"
         }
       }
     }

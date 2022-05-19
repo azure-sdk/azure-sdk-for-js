@@ -31,7 +31,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -191,6 +191,8 @@ export interface AgentPoolUpgradeSettings {
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
+    keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
+    keyVaultResourceId?: string;
 }
 
 // @public
@@ -372,6 +374,9 @@ export type GPUInstanceProfile = string;
 
 // @public
 export type IpFamily = string;
+
+// @public
+export type KeyVaultNetworkAccessTypes = string;
 
 // @public
 export enum KnownAgentPoolMode {
@@ -818,6 +823,14 @@ export enum KnownIpFamily {
 }
 
 // @public
+export enum KnownKeyVaultNetworkAccessTypes {
+    // (undocumented)
+    Private = "Private",
+    // (undocumented)
+    Public = "Public"
+}
+
+// @public
 export enum KnownKubeletDiskType {
     OS = "OS",
     Temporary = "Temporary"
@@ -1134,6 +1147,7 @@ export type ManagedCluster = TrackedResource & {
     storageProfile?: ManagedClusterStorageProfile;
     ingressProfile?: ManagedClusterIngressProfile;
     publicNetworkAccess?: PublicNetworkAccess;
+    autoReconcileProfile?: ManagedClusterAutoReconcileProfile;
 };
 
 // @public
@@ -1175,7 +1189,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
@@ -1230,6 +1244,13 @@ export interface ManagedClusterAPIServerAccessProfile {
     enableVnetIntegration?: boolean;
     privateDNSZone?: string;
     subnetId?: string;
+}
+
+// @public
+export interface ManagedClusterAutoReconcileProfile {
+    disable?: boolean;
+    maxRetryCount?: number;
+    maxRetryTimeout?: number;
 }
 
 // @public
@@ -1722,9 +1743,15 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 
 // @public
 export interface ManagedClusterStorageProfile {
+    blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
     fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
     snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileBlobCSIDriver {
+    enabled?: boolean;
 }
 
 // @public
