@@ -41,7 +41,7 @@ export class StoragesImpl implements Storages {
   }
 
   /**
-   * List all the storages of one Azure Spring Cloud instance.
+   * List all the storages of one Azure Spring Apps resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
@@ -187,8 +187,7 @@ export class StoragesImpl implements Storages {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -280,8 +279,7 @@ export class StoragesImpl implements Storages {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -311,7 +309,7 @@ export class StoragesImpl implements Storages {
   }
 
   /**
-   * List all the storages of one Azure Spring Cloud instance.
+   * List all the storages of one Azure Spring Apps resource.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
