@@ -1,15 +1,12 @@
 # Release History
+    
+## 5.1.0-beta.1 (2022-05-19)
+    
+**Features**
 
-## 5.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownSettingName has a new value WdatpUnifiedSolution
+    
+    
 ## 5.0.0 (2022-03-30)
     
 **Features**

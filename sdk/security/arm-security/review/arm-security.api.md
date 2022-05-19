@@ -2976,7 +2976,9 @@ export enum KnownSettingName {
     // (undocumented)
     Wdatp = "WDATP",
     // (undocumented)
-    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
+    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
+    // (undocumented)
+    WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION"
 }
 
 // @public
