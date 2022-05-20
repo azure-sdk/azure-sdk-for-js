@@ -8,49 +8,46 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ClustersImpl,
-  ConfigurationImpl,
   NamespacesImpl,
+  HybridConnectionsImpl,
+  WCFRelaysImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-  OperationsImpl,
-  EventHubsImpl,
-  DisasterRecoveryConfigsImpl,
-  ConsumerGroupsImpl,
-  SchemaRegistryImpl
+  OperationsImpl
 } from "./operations";
 import {
-  Clusters,
-  Configuration,
   Namespaces,
+  HybridConnections,
+  WCFRelays,
   PrivateEndpointConnections,
   PrivateLinkResources,
-  Operations,
-  EventHubs,
-  DisasterRecoveryConfigs,
-  ConsumerGroups,
-  SchemaRegistry
+  Operations
 } from "./operationsInterfaces";
-import { EventHubManagementClientOptionalParams } from "./models";
+import { RelayAPIOptionalParams } from "./models";
 
-export class EventHubManagementClient extends coreClient.ServiceClient {
+export class RelayAPI extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
-   * Initializes a new instance of the EventHubManagementClient class.
+   * Initializes a new instance of the RelayAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials that uniquely identify a Microsoft Azure
+   * @param subscriptionId Subscription credentials which uniquely identify the Microsoft Azure
    *                       subscription. The subscription ID forms part of the URI for every service call.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: EventHubManagementClientOptionalParams
+    options?: RelayAPIOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -63,12 +60,12 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: EventHubManagementClientOptionalParams = {
+    const defaults: RelayAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventhub/5.0.2`;
+    const packageDetails = `azsdk-js-arm-eventhub/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,26 +113,47 @@ export class EventHubManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2021-11-01";
-    this.clusters = new ClustersImpl(this);
-    this.configuration = new ConfigurationImpl(this);
     this.namespaces = new NamespacesImpl(this);
+    this.hybridConnections = new HybridConnectionsImpl(this);
+    this.wCFRelays = new WCFRelaysImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.operations = new OperationsImpl(this);
-    this.eventHubs = new EventHubsImpl(this);
-    this.disasterRecoveryConfigs = new DisasterRecoveryConfigsImpl(this);
-    this.consumerGroups = new ConsumerGroupsImpl(this);
-    this.schemaRegistry = new SchemaRegistryImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  clusters: Clusters;
-  configuration: Configuration;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   namespaces: Namespaces;
+  hybridConnections: HybridConnections;
+  wCFRelays: WCFRelays;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   operations: Operations;
-  eventHubs: EventHubs;
-  disasterRecoveryConfigs: DisasterRecoveryConfigs;
-  consumerGroups: ConsumerGroups;
-  schemaRegistry: SchemaRegistry;
 }

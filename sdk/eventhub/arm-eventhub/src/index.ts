@@ -8,5 +8,5 @@
 
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
-export { EventHubManagementClient } from "./eventHubManagementClient";
+export { RelayAPI } from "./relayAPI";
 export * from "./operationsInterfaces";

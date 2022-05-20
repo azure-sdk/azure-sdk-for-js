@@ -11,7 +11,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClient } from "../eventHubManagementClient";
+import { RelayAPI } from "../relayAPI";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -23,18 +23,18 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: EventHubManagementClient;
+  private readonly client: RelayAPI;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClient) {
+  constructor(client: RelayAPI) {
     this.client = client;
   }
 
   /**
-   * Lists all of the available Event Hub REST API operations.
+   * Lists all available Relay REST API operations.
    * @param options The options parameters.
    */
   public list(
@@ -76,7 +76,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Event Hub REST API operations.
+   * Lists all available Relay REST API operations.
    * @param options The options parameters.
    */
   private _list(
@@ -104,7 +104,7 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.EventHub/operations",
+  path: "/providers/Microsoft.Relay/operations",
   httpMethod: "GET",
   responses: {
     200: {
