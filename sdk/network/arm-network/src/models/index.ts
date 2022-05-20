@@ -6306,6 +6306,8 @@ export type ApplicationGatewayRoutingRule = SubResource & {
   readonly type?: string;
   /** Rule type. */
   ruleType?: ApplicationGatewayRequestRoutingRuleType;
+  /** Priority of the routing rule. */
+  priority?: number;
   /** Backend address pool resource of the application gateway. */
   backendAddressPool?: SubResource;
   /** Backend settings resource of the application gateway. */
