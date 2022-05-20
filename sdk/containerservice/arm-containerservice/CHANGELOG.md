@@ -1,16 +1,6 @@
 # Release History
-
-## 16.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.1.0-beta.2 (2022-05-18)
+    
+## 16.1.0-beta.3 (2022-05-20)
     
 **Features**
 
@@ -35,6 +25,9 @@
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
   - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface NetworkProfileForSnapshot
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBindingListResult
@@ -47,6 +40,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias KeyVaultNetworkAccessTypes
   - Added Type Alias ManagedClusterSnapshot
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
@@ -77,6 +71,7 @@
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
@@ -92,6 +87,8 @@
   - Type Alias ManagedCluster has a new parameter enableNamespaceResources
   - Type Alias ManagedCluster has a new parameter storageProfile
   - Type Alias ManagedCluster has a new parameter ingressProfile
+  - Type Alias ManagedCluster has a new parameter workloadAutoScalerProfile
+  - Added Enum KnownKeyVaultNetworkAccessTypes
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Enum KnownNetworkPlugin has a new value None

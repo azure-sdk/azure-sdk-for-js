@@ -493,6 +493,7 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       },
       currentOrchestratorVersion: {
         serializedName: "currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -2171,6 +2172,19 @@ export const AzureKeyVaultKms: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyVaultNetworkAccess: {
+        defaultValue: "Public",
+        serializedName: "keyVaultNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultResourceId: {
+        serializedName: "keyVaultResourceId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2215,6 +2229,13 @@ export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterStorageProfileSnapshotController"
+        }
+      },
+      blobCSIDriver: {
+        serializedName: "blobCSIDriver",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfileBlobCSIDriver"
         }
       }
     }
@@ -2272,6 +2293,21 @@ export const ManagedClusterStorageProfileSnapshotController: coreClient.Composit
   }
 };
 
+export const ManagedClusterStorageProfileBlobCSIDriver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfileBlobCSIDriver",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedClusterIngressProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2303,6 +2339,38 @@ export const ManagedClusterIngressProfileWebAppRouting: coreClient.CompositeMapp
         serializedName: "dnsZoneResourceId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWorkloadAutoScalerProfile",
+    modelProperties: {
+      keda: {
+        serializedName: "keda",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterWorkloadAutoScalerProfileKeda"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWorkloadAutoScalerProfileKeda",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3844,6 +3912,7 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       currentOrchestratorVersion: {
         serializedName: "properties.currentOrchestratorVersion",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -4299,6 +4368,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      workloadAutoScalerProfile: {
+        serializedName: "properties.workloadAutoScalerProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterWorkloadAutoScalerProfile"
         }
       }
     }
