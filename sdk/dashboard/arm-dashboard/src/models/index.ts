@@ -166,8 +166,11 @@ export interface ResourceSku {
 
 /** Properties specific to the grafana resource. */
 export interface ManagedGrafanaProperties {
-  /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The Grafana software version.
    * NOTE: This property will not be serialized. It can only be populated by the server.

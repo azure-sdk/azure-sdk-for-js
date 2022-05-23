@@ -335,6 +335,7 @@ export const ManagedGrafanaProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
