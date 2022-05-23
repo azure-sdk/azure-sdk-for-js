@@ -21,9 +21,231 @@ export interface AadAuthenticationParameters {
 export type Access = string;
 
 // @public
+export interface ActiveBaseSecurityAdminRule {
+    commitTime?: Date;
+    configurationDescription?: string;
+    id?: string;
+    kind: "Custom" | "Default";
+    region?: string;
+    ruleCollectionAppliesToGroups?: NetworkManagerSecurityGroupItem[];
+    ruleCollectionDescription?: string;
+    ruleGroups?: ConfigurationGroup[];
+}
+
+// @public (undocumented)
+export type ActiveBaseSecurityAdminRuleUnion = ActiveBaseSecurityAdminRule | ActiveSecurityAdminRule | ActiveDefaultSecurityAdminRule;
+
+// @public
+export interface ActiveConfigurationParameter {
+    regions?: string[];
+    skipToken?: string;
+}
+
+// @public
+export type ActiveConnectivityConfiguration = EffectiveConnectivityConfiguration & {
+    commitTime?: Date;
+    region?: string;
+};
+
+// @public
+export interface ActiveConnectivityConfigurationsListResult {
+    skipToken?: string;
+    value?: ActiveConnectivityConfiguration[];
+}
+
+// @public
+export type ActiveDefaultSecurityAdminRule = ActiveBaseSecurityAdminRule & {
+    kind: "Default";
+    readonly description?: string;
+    flag?: string;
+    readonly protocol?: SecurityConfigurationRuleProtocol;
+    readonly sources?: AddressPrefixItem[];
+    readonly destinations?: AddressPrefixItem[];
+    readonly sourcePortRanges?: string[];
+    readonly destinationPortRanges?: string[];
+    readonly access?: SecurityConfigurationRuleAccess;
+    readonly priority?: number;
+    readonly direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export type ActiveSecurityAdminRule = ActiveBaseSecurityAdminRule & {
+    kind: "Custom";
+    description?: string;
+    protocol?: SecurityConfigurationRuleProtocol;
+    sources?: AddressPrefixItem[];
+    destinations?: AddressPrefixItem[];
+    sourcePortRanges?: string[];
+    destinationPortRanges?: string[];
+    access?: SecurityConfigurationRuleAccess;
+    priority?: number;
+    direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface ActiveSecurityAdminRulesListResult {
+    skipToken?: string;
+    value?: ActiveBaseSecurityAdminRuleUnion[];
+}
+
+// @public
+export interface AddressPrefixItem {
+    addressPrefix?: string;
+    addressPrefixType?: AddressPrefixType;
+}
+
+// @public
+export type AddressPrefixType = string;
+
+// @public
 export interface AddressSpace {
     addressPrefixes?: string[];
 }
+
+// @public
+export type AdminRule = BaseAdminRule & {
+    description?: string;
+    protocol?: SecurityConfigurationRuleProtocol;
+    sources?: AddressPrefixItem[];
+    destinations?: AddressPrefixItem[];
+    sourcePortRanges?: string[];
+    destinationPortRanges?: string[];
+    access?: SecurityConfigurationRuleAccess;
+    priority?: number;
+    direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export type AdminRuleCollection = ChildResource & {
+    readonly systemData?: SystemData;
+    description?: string;
+    appliesToGroups?: NetworkManagerSecurityGroupItem[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface AdminRuleCollectionListResult {
+    nextLink?: string;
+    value?: AdminRuleCollection[];
+}
+
+// @public
+export interface AdminRuleCollections {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: AdminRuleCollectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: AdminRuleCollectionsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleCollection: AdminRuleCollection, options?: AdminRuleCollectionsCreateOrUpdateOptionalParams): Promise<AdminRuleCollectionsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: AdminRuleCollectionsGetOptionalParams): Promise<AdminRuleCollectionsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: AdminRuleCollectionsListOptionalParams): PagedAsyncIterableIterator<AdminRuleCollection>;
+}
+
+// @public
+export interface AdminRuleCollectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdminRuleCollectionsCreateOrUpdateResponse = AdminRuleCollection;
+
+// @public
+export interface AdminRuleCollectionsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface AdminRuleCollectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AdminRuleCollectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdminRuleCollectionsGetResponse = AdminRuleCollection;
+
+// @public
+export interface AdminRuleCollectionsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type AdminRuleCollectionsListNextResponse = AdminRuleCollectionListResult;
+
+// @public
+export interface AdminRuleCollectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type AdminRuleCollectionsListResponse = AdminRuleCollectionListResult;
+
+// @public
+export type AdminRuleKind = string;
+
+// @public
+export interface AdminRuleListResult {
+    nextLink?: string;
+    value?: BaseAdminRuleUnion[];
+}
+
+// @public
+export interface AdminRules {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: AdminRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: AdminRulesDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, adminRule: BaseAdminRuleUnion, options?: AdminRulesCreateOrUpdateOptionalParams): Promise<AdminRulesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, ruleName: string, options?: AdminRulesGetOptionalParams): Promise<AdminRulesGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, configurationName: string, ruleCollectionName: string, options?: AdminRulesListOptionalParams): PagedAsyncIterableIterator<BaseAdminRuleUnion>;
+}
+
+// @public
+export interface AdminRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdminRulesCreateOrUpdateResponse = BaseAdminRuleUnion;
+
+// @public
+export interface AdminRulesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface AdminRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AdminRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdminRulesGetResponse = BaseAdminRuleUnion;
+
+// @public
+export interface AdminRulesListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type AdminRulesListNextResponse = AdminRuleListResult;
+
+// @public
+export interface AdminRulesListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type AdminRulesListResponse = AdminRuleListResult;
 
 // @public
 export type ApplicationGateway = Resource & {
@@ -601,6 +823,7 @@ export type ApplicationGatewayRoutingRule = SubResource & {
     readonly etag?: string;
     readonly type?: string;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
+    priority?: number;
     backendAddressPool?: SubResource;
     backendSettings?: SubResource;
     listener?: SubResource;
@@ -1580,6 +1803,15 @@ export type BackendAddressPool = SubResource & {
 };
 
 // @public
+export type BaseAdminRule = ChildResource & {
+    kind: AdminRuleKind;
+    readonly systemData?: SystemData;
+};
+
+// @public (undocumented)
+export type BaseAdminRuleUnion = BaseAdminRule | AdminRule | DefaultAdminRule;
+
+// @public
 export interface BastionActiveSession {
     readonly protocol?: BastionConnectProtocol;
     readonly resourceType?: string;
@@ -1843,6 +2075,14 @@ export interface CheckPrivateLinkServiceVisibilityRequest {
 }
 
 // @public
+export interface ChildResource {
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
 export type CircuitConnectionStatus = string;
 
 // @public
@@ -1865,6 +2105,13 @@ export type CommissionedState = string;
 export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface ConfigurationGroup {
+    description?: string;
+    id?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1912,6 +2159,9 @@ export interface ConfigurationPolicyGroupsListByVpnServerConfigurationOptionalPa
 
 // @public
 export type ConfigurationPolicyGroupsListByVpnServerConfigurationResponse = ListVpnServerConfigurationPolicyGroupsResult;
+
+// @public
+export type ConfigurationType = string;
 
 // @public
 export interface ConnectionMonitor {
@@ -2215,10 +2465,89 @@ export interface ConnectionStateSnapshot {
 export type ConnectionStatus = string;
 
 // @public
+export type ConnectivityConfiguration = ChildResource & {
+    readonly systemData?: SystemData;
+    description?: string;
+    connectivityTopology?: ConnectivityTopology;
+    hubs?: Hub[];
+    isGlobal?: IsGlobal;
+    appliesToGroups?: ConnectivityGroupItem[];
+    readonly provisioningState?: ProvisioningState;
+    deleteExistingPeering?: DeleteExistingPeering;
+};
+
+// @public
+export interface ConnectivityConfigurationListResult {
+    nextLink?: string;
+    value?: ConnectivityConfiguration[];
+}
+
+// @public
+export interface ConnectivityConfigurations {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: ConnectivityConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: ConnectivityConfigurationsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, connectivityConfiguration: ConnectivityConfiguration, options?: ConnectivityConfigurationsCreateOrUpdateOptionalParams): Promise<ConnectivityConfigurationsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: ConnectivityConfigurationsGetOptionalParams): Promise<ConnectivityConfigurationsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: ConnectivityConfigurationsListOptionalParams): PagedAsyncIterableIterator<ConnectivityConfiguration>;
+}
+
+// @public
+export interface ConnectivityConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectivityConfigurationsCreateOrUpdateResponse = ConnectivityConfiguration;
+
+// @public
+export interface ConnectivityConfigurationsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface ConnectivityConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConnectivityConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConnectivityConfigurationsGetResponse = ConnectivityConfiguration;
+
+// @public
+export interface ConnectivityConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ConnectivityConfigurationsListNextResponse = ConnectivityConfigurationListResult;
+
+// @public
+export interface ConnectivityConfigurationsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ConnectivityConfigurationsListResponse = ConnectivityConfigurationListResult;
+
+// @public
 export interface ConnectivityDestination {
     address?: string;
     port?: number;
     resourceId?: string;
+}
+
+// @public
+export interface ConnectivityGroupItem {
+    groupConnectivity: GroupConnectivity;
+    isGlobal?: IsGlobal;
+    networkGroupId: string;
+    useHubGateway?: UseHubGateway;
 }
 
 // @public
@@ -2271,6 +2600,9 @@ export interface ConnectivitySource {
 }
 
 // @public
+export type ConnectivityTopology = string;
+
+// @public
 export type Container = SubResource & {};
 
 // @public
@@ -2304,6 +2636,16 @@ export interface ContainerNetworkInterfaceIpConfiguration {
 
 // @public
 export type CoverageLevel = string;
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export interface CrossTenantScopes {
+    readonly managementGroups?: string[];
+    readonly subscriptions?: string[];
+    readonly tenantId?: string;
+}
 
 // @public
 export interface CustomDnsConfigPropertiesFormat {
@@ -2559,6 +2901,21 @@ export interface DdosSettings {
 export type DdosSettingsProtectionCoverage = string;
 
 // @public
+export type DefaultAdminRule = BaseAdminRule & {
+    readonly description?: string;
+    flag?: string;
+    readonly protocol?: SecurityConfigurationRuleProtocol;
+    readonly sources?: AddressPrefixItem[];
+    readonly destinations?: AddressPrefixItem[];
+    readonly sourcePortRanges?: string[];
+    readonly destinationPortRanges?: string[];
+    readonly access?: SecurityConfigurationRuleAccess;
+    readonly priority?: number;
+    readonly direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
 export interface DefaultSecurityRules {
     get(resourceGroupName: string, networkSecurityGroupName: string, defaultSecurityRuleName: string, options?: DefaultSecurityRulesGetOptionalParams): Promise<DefaultSecurityRulesGetResponse>;
     list(resourceGroupName: string, networkSecurityGroupName: string, options?: DefaultSecurityRulesListOptionalParams): PagedAsyncIterableIterator<SecurityRule>;
@@ -2602,7 +2959,13 @@ export interface DeleteBastionShareableLinkOptionalParams extends coreClient.Ope
 }
 
 // @public
+export type DeleteExistingPeering = string;
+
+// @public
 export type DeleteOptions = string;
+
+// @public
+export type DeploymentStatus = string;
 
 // @public
 export type DestinationPortBehavior = string;
@@ -2742,6 +3105,51 @@ export interface DscpConfigurationOperations {
 }
 
 // @public
+export type EffectiveAdminRuleKind = string;
+
+// @public
+export interface EffectiveBaseSecurityAdminRule {
+    configurationDescription?: string;
+    id?: string;
+    kind: "Custom" | "Default";
+    ruleCollectionAppliesToGroups?: NetworkManagerSecurityGroupItem[];
+    ruleCollectionDescription?: string;
+    ruleGroups?: ConfigurationGroup[];
+}
+
+// @public (undocumented)
+export type EffectiveBaseSecurityAdminRuleUnion = EffectiveBaseSecurityAdminRule | EffectiveSecurityAdminRule | EffectiveDefaultSecurityAdminRule;
+
+// @public
+export interface EffectiveConnectivityConfiguration {
+    appliesToGroups?: ConnectivityGroupItem[];
+    configurationGroups?: ConfigurationGroup[];
+    connectivityTopology?: ConnectivityTopology;
+    deleteExistingPeering?: DeleteExistingPeering;
+    description?: string;
+    hubs?: Hub[];
+    id?: string;
+    isGlobal?: IsGlobal;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export type EffectiveDefaultSecurityAdminRule = EffectiveBaseSecurityAdminRule & {
+    kind: "Default";
+    readonly description?: string;
+    flag?: string;
+    readonly protocol?: SecurityConfigurationRuleProtocol;
+    readonly sources?: AddressPrefixItem[];
+    readonly destinations?: AddressPrefixItem[];
+    readonly sourcePortRanges?: string[];
+    readonly destinationPortRanges?: string[];
+    readonly access?: SecurityConfigurationRuleAccess;
+    readonly priority?: number;
+    readonly direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
 export interface EffectiveNetworkSecurityGroup {
     association?: EffectiveNetworkSecurityGroupAssociation;
     effectiveSecurityRules?: EffectiveNetworkSecurityRule[];
@@ -2809,6 +3217,21 @@ export interface EffectiveRoutesParameters {
 
 // @public
 export type EffectiveRouteState = string;
+
+// @public
+export type EffectiveSecurityAdminRule = EffectiveBaseSecurityAdminRule & {
+    kind: "Custom";
+    description?: string;
+    protocol?: SecurityConfigurationRuleProtocol;
+    sources?: AddressPrefixItem[];
+    destinations?: AddressPrefixItem[];
+    sourcePortRanges?: string[];
+    destinationPortRanges?: string[];
+    access?: SecurityConfigurationRuleAccess;
+    priority?: number;
+    direction?: SecurityConfigurationRuleDirection;
+    readonly provisioningState?: ProvisioningState;
+};
 
 // @public
 export type EffectiveSecurityRuleProtocol = string;
@@ -2881,6 +3304,7 @@ export interface ExclusionManagedRuleSet {
 // @public
 export interface ExplicitProxySettings {
     enableExplicitProxy?: boolean;
+    enablePacFile?: boolean;
     httpPort?: number;
     httpsPort?: number;
     pacFile?: string;
@@ -3967,6 +4391,45 @@ export interface ExpressRoutePortsUpdateTagsOptionalParams extends coreClient.Op
 export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort;
 
 // @public
+export type ExpressRouteProviderPort = Resource & {
+    readonly etag?: string;
+    readonly portPairDescriptor?: string;
+    readonly primaryAzurePort?: string;
+    readonly secondaryAzurePort?: string;
+    peeringLocation?: string;
+    overprovisionFactor?: number;
+    portBandwidthInMbps?: number;
+    usedBandwidthInMbps?: number;
+    remainingBandwidthInMbps?: number;
+};
+
+// @public
+export interface ExpressRouteProviderPortListResult {
+    readonly nextLink?: string;
+    value?: ExpressRouteProviderPort[];
+}
+
+// @public
+export interface ExpressRouteProviderPortOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpressRouteProviderPortResponse = ExpressRouteProviderPort;
+
+// @public
+export interface ExpressRouteProviderPortsLocation {
+    list(options?: ExpressRouteProviderPortsLocationListOptionalParams): Promise<ExpressRouteProviderPortsLocationListResponse>;
+}
+
+// @public
+export interface ExpressRouteProviderPortsLocationListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
+
+// @public
 export type ExpressRouteServiceProvider = Resource & {
     peeringLocations?: string[];
     bandwidthsOffered?: ExpressRouteServiceProviderBandwidthsOffered[];
@@ -4618,6 +5081,9 @@ export interface GetVpnSitesConfigurationRequest {
 }
 
 // @public
+export type GroupConnectivity = string;
+
+// @public
 export interface HopLink {
     readonly context?: {
         [propertyName: string]: string;
@@ -4649,6 +5115,12 @@ export interface HttpHeader {
 
 // @public
 export type HttpMethod = string;
+
+// @public
+export interface Hub {
+    resourceId?: string;
+    resourceType?: string;
+}
 
 // @public
 export type HubBgpConnectionStatus = string;
@@ -5216,6 +5688,9 @@ export interface Ipv6ExpressRouteCircuitPeeringConfig {
 export type IPVersion = string;
 
 // @public
+export type IsGlobal = string;
+
+// @public
 export type IssueType = string;
 
 // @public
@@ -5224,6 +5699,22 @@ export enum KnownAccess {
     Allow = "Allow",
     // (undocumented)
     Deny = "Deny"
+}
+
+// @public
+export enum KnownAddressPrefixType {
+    // (undocumented)
+    IPPrefix = "IPPrefix",
+    // (undocumented)
+    ServiceTag = "ServiceTag"
+}
+
+// @public
+export enum KnownAdminRuleKind {
+    // (undocumented)
+    Custom = "Custom",
+    // (undocumented)
+    Default = "Default"
 }
 
 // @public
@@ -5583,6 +6074,14 @@ export enum KnownCommissionedState {
 }
 
 // @public
+export enum KnownConfigurationType {
+    // (undocumented)
+    Connectivity = "Connectivity",
+    // (undocumented)
+    SecurityAdmin = "SecurityAdmin"
+}
+
+// @public
 export enum KnownConnectionMonitorEndpointFilterItemType {
     // (undocumented)
     AgentAddress = "AgentAddress"
@@ -5645,6 +6144,14 @@ export enum KnownConnectionStatus {
 }
 
 // @public
+export enum KnownConnectivityTopology {
+    // (undocumented)
+    HubAndSpoke = "HubAndSpoke",
+    // (undocumented)
+    Mesh = "Mesh"
+}
+
+// @public
 export enum KnownCoverageLevel {
     // (undocumented)
     AboveAverage = "AboveAverage",
@@ -5658,6 +6165,18 @@ export enum KnownCoverageLevel {
     Full = "Full",
     // (undocumented)
     Low = "Low"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -5691,11 +6210,31 @@ export enum KnownDdosSettingsProtectionCoverage {
 }
 
 // @public
+export enum KnownDeleteExistingPeering {
+    // (undocumented)
+    False = "False",
+    // (undocumented)
+    True = "True"
+}
+
+// @public
 export enum KnownDeleteOptions {
     // (undocumented)
     Delete = "Delete",
     // (undocumented)
     Detach = "Detach"
+}
+
+// @public
+export enum KnownDeploymentStatus {
+    // (undocumented)
+    Deployed = "Deployed",
+    // (undocumented)
+    Deploying = "Deploying",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    NotStarted = "NotStarted"
 }
 
 // @public
@@ -5732,6 +6271,14 @@ export enum KnownDirection {
     Inbound = "Inbound",
     // (undocumented)
     Outbound = "Outbound"
+}
+
+// @public
+export enum KnownEffectiveAdminRuleKind {
+    // (undocumented)
+    Custom = "Custom",
+    // (undocumented)
+    Default = "Default"
 }
 
 // @public
@@ -6025,6 +6572,14 @@ export enum KnownGatewayLoadBalancerTunnelProtocol {
 }
 
 // @public
+export enum KnownGroupConnectivity {
+    // (undocumented)
+    DirectlyConnected = "DirectlyConnected",
+    // (undocumented)
+    None = "None"
+}
+
+// @public
 export enum KnownHttpConfigurationMethod {
     // (undocumented)
     Get = "Get",
@@ -6185,6 +6740,14 @@ export enum KnownIPVersion {
 }
 
 // @public
+export enum KnownIsGlobal {
+    // (undocumented)
+    False = "False",
+    // (undocumented)
+    True = "True"
+}
+
+// @public
 export enum KnownIssueType {
     // (undocumented)
     AgentStopped = "AgentStopped",
@@ -6266,6 +6829,14 @@ export enum KnownManagedRuleEnabledState {
 export enum KnownNatGatewaySkuName {
     // (undocumented)
     Standard = "Standard"
+}
+
+// @public
+export enum KnownNetworkIntentPolicyBasedService {
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    None = "None"
 }
 
 // @public
@@ -6609,6 +7180,54 @@ export enum KnownRoutingState {
 }
 
 // @public
+export enum KnownScopeConnectionState {
+    // (undocumented)
+    Conflict = "Conflict",
+    // (undocumented)
+    Connected = "Connected",
+    // (undocumented)
+    Pending = "Pending",
+    // (undocumented)
+    Rejected = "Rejected",
+    // (undocumented)
+    Revoked = "Revoked"
+}
+
+// @public
+export enum KnownSecurityConfigurationRuleAccess {
+    // (undocumented)
+    Allow = "Allow",
+    // (undocumented)
+    AlwaysAllow = "AlwaysAllow",
+    // (undocumented)
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownSecurityConfigurationRuleDirection {
+    // (undocumented)
+    Inbound = "Inbound",
+    // (undocumented)
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownSecurityConfigurationRuleProtocol {
+    // (undocumented)
+    Ah = "Ah",
+    // (undocumented)
+    Any = "Any",
+    // (undocumented)
+    Esp = "Esp",
+    // (undocumented)
+    Icmp = "Icmp",
+    // (undocumented)
+    Tcp = "Tcp",
+    // (undocumented)
+    Udp = "Udp"
+}
+
+// @public
 export enum KnownSecurityPartnerProviderConnectionStatus {
     // (undocumented)
     Connected = "Connected",
@@ -6714,6 +7333,14 @@ export enum KnownTunnelConnectionStatus {
 export enum KnownUsageUnit {
     // (undocumented)
     Count = "Count"
+}
+
+// @public
+export enum KnownUseHubGateway {
+    // (undocumented)
+    False = "False",
+    // (undocumented)
+    True = "True"
 }
 
 // @public
@@ -7051,6 +7678,8 @@ export enum KnownWebApplicationFirewallMode {
 // @public
 export enum KnownWebApplicationFirewallOperator {
     // (undocumented)
+    Any = "Any",
+    // (undocumented)
     BeginsWith = "BeginsWith",
     // (undocumented)
     Contains = "Contains",
@@ -7115,6 +7744,20 @@ export enum KnownWebApplicationFirewallTransform {
 }
 
 // @public
+export interface ListActiveConnectivityConfigurationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListActiveConnectivityConfigurationsResponse = ActiveConnectivityConfigurationsListResult;
+
+// @public
+export interface ListActiveSecurityAdminRulesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListActiveSecurityAdminRulesResponse = ActiveSecurityAdminRulesListResult;
+
+// @public
 export interface ListHubRouteTablesResult {
     nextLink?: string;
     value?: HubRouteTable[];
@@ -7125,6 +7768,20 @@ export interface ListHubVirtualNetworkConnectionsResult {
     nextLink?: string;
     value?: HubVirtualNetworkConnection[];
 }
+
+// @public
+export interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListNetworkManagerEffectiveConnectivityConfigurationsResponse = NetworkManagerEffectiveConnectivityConfigurationListResult;
+
+// @public
+export interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ListNetworkManagerEffectiveSecurityAdminRulesResponse = NetworkManagerEffectiveSecurityAdminRulesListResult;
 
 // @public
 export interface ListP2SVpnGatewaysResult {
@@ -7717,6 +8374,50 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
+export interface ManagementGroupNetworkManagerConnections {
+    createOrUpdate(managementGroupId: string, networkManagerConnectionName: string, parameters: NetworkManagerConnection, options?: ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams): Promise<ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse>;
+    delete(managementGroupId: string, networkManagerConnectionName: string, options?: ManagementGroupNetworkManagerConnectionsDeleteOptionalParams): Promise<void>;
+    get(managementGroupId: string, networkManagerConnectionName: string, options?: ManagementGroupNetworkManagerConnectionsGetOptionalParams): Promise<ManagementGroupNetworkManagerConnectionsGetResponse>;
+    list(managementGroupId: string, options?: ManagementGroupNetworkManagerConnectionsListOptionalParams): PagedAsyncIterableIterator<NetworkManagerConnection>;
+}
+
+// @public
+export interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse = NetworkManagerConnection;
+
+// @public
+export interface ManagementGroupNetworkManagerConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ManagementGroupNetworkManagerConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagementGroupNetworkManagerConnectionsGetResponse = NetworkManagerConnection;
+
+// @public
+export interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ManagementGroupNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
+
+// @public
+export interface ManagementGroupNetworkManagerConnectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ManagementGroupNetworkManagerConnectionsListResponse = NetworkManagerConnectionListResult;
+
+// @public
 export interface MatchCondition {
     matchValues: string[];
     matchVariables: MatchVariable[];
@@ -7946,9 +8647,84 @@ export interface NetworkConfigurationDiagnosticResult {
 }
 
 // @public
+export type NetworkGroup = ChildResource & {
+    readonly systemData?: SystemData;
+    description?: string;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface NetworkGroupListResult {
+    nextLink?: string;
+    value?: NetworkGroup[];
+}
+
+// @public
+export interface NetworkGroups {
+    beginDelete(resourceGroupName: string, networkManagerName: string, networkGroupName: string, options?: NetworkGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, networkGroupName: string, options?: NetworkGroupsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, networkGroupName: string, parameters: NetworkGroup, options?: NetworkGroupsCreateOrUpdateOptionalParams): Promise<NetworkGroupsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, networkGroupName: string, options?: NetworkGroupsGetOptionalParams): Promise<NetworkGroupsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: NetworkGroupsListOptionalParams): PagedAsyncIterableIterator<NetworkGroup>;
+}
+
+// @public
+export interface NetworkGroupsCreateOrUpdateHeaders {
+    eTag?: string;
+}
+
+// @public
+export interface NetworkGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+}
+
+// @public
+export type NetworkGroupsCreateOrUpdateResponse = NetworkGroupsCreateOrUpdateHeaders & NetworkGroup;
+
+// @public
+export interface NetworkGroupsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkGroupsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkGroupsGetResponse = NetworkGroup;
+
+// @public
+export interface NetworkGroupsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkGroupsListNextResponse = NetworkGroupListResult;
+
+// @public
+export interface NetworkGroupsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkGroupsListResponse = NetworkGroupListResult;
+
+// @public
 export type NetworkIntentPolicy = Resource & {
     readonly etag?: string;
 };
+
+// @public
+export type NetworkIntentPolicyBasedService = string;
 
 // @public
 export interface NetworkIntentPolicyConfiguration {
@@ -8361,7 +9137,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
+    adminRuleCollections: AdminRuleCollections;
+    // (undocumented)
+    adminRules: AdminRules;
     // (undocumented)
     applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
     // (undocumented)
@@ -8400,6 +9178,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     connectionMonitors: ConnectionMonitors;
     // (undocumented)
+    connectivityConfigurations: ConnectivityConfigurations;
+    // (undocumented)
     customIPPrefixes: CustomIPPrefixes;
     // (undocumented)
     ddosCustomPolicies: DdosCustomPolicies;
@@ -8433,6 +9213,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     expressRoutePorts: ExpressRoutePorts;
     // (undocumented)
     expressRoutePortsLocations: ExpressRoutePortsLocations;
+    expressRouteProviderPort(providerport: string, options?: ExpressRouteProviderPortOptionalParams): Promise<ExpressRouteProviderPortResponse>;
+    // (undocumented)
+    expressRouteProviderPortsLocation: ExpressRouteProviderPortsLocation;
     // (undocumented)
     expressRouteServiceProviders: ExpressRouteServiceProviders;
     // (undocumented)
@@ -8459,8 +9242,12 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     ipAllocations: IpAllocations;
     // (undocumented)
     ipGroups: IpGroups;
+    listActiveConnectivityConfigurations(resourceGroupName: string, networkManagerName: string, parameters: ActiveConfigurationParameter, options?: ListActiveConnectivityConfigurationsOptionalParams): Promise<ListActiveConnectivityConfigurationsResponse>;
+    listActiveSecurityAdminRules(resourceGroupName: string, networkManagerName: string, parameters: ActiveConfigurationParameter, options?: ListActiveSecurityAdminRulesOptionalParams): Promise<ListActiveSecurityAdminRulesResponse>;
     listBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: GetBastionShareableLinkOptionalParams): PagedAsyncIterableIterator<BastionShareableLink>;
     listDisconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: SessionIds, options?: DisconnectActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionSessionState>;
+    listNetworkManagerEffectiveConnectivityConfigurations(resourceGroupName: string, virtualNetworkName: string, parameters: QueryRequestOptions, options?: ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams): Promise<ListNetworkManagerEffectiveConnectivityConfigurationsResponse>;
+    listNetworkManagerEffectiveSecurityAdminRules(resourceGroupName: string, virtualNetworkName: string, parameters: QueryRequestOptions, options?: ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams): Promise<ListNetworkManagerEffectiveSecurityAdminRulesResponse>;
     // (undocumented)
     loadBalancerBackendAddressPools: LoadBalancerBackendAddressPools;
     // (undocumented)
@@ -8478,9 +9265,13 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     localNetworkGateways: LocalNetworkGateways;
     // (undocumented)
+    managementGroupNetworkManagerConnections: ManagementGroupNetworkManagerConnections;
+    // (undocumented)
     natGateways: NatGateways;
     // (undocumented)
     natRules: NatRules;
+    // (undocumented)
+    networkGroups: NetworkGroups;
     // (undocumented)
     networkInterfaceIPConfigurations: NetworkInterfaceIPConfigurations;
     // (undocumented)
@@ -8489,6 +9280,12 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     networkInterfaces: NetworkInterfaces;
     // (undocumented)
     networkInterfaceTapConfigurations: NetworkInterfaceTapConfigurations;
+    // (undocumented)
+    networkManagerCommits: NetworkManagerCommits;
+    // (undocumented)
+    networkManagerDeploymentStatusOperations: NetworkManagerDeploymentStatusOperations;
+    // (undocumented)
+    networkManagers: NetworkManagers;
     // (undocumented)
     networkProfiles: NetworkProfiles;
     // (undocumented)
@@ -8528,6 +9325,10 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     routingIntentOperations: RoutingIntentOperations;
     // (undocumented)
+    scopeConnections: ScopeConnections;
+    // (undocumented)
+    securityAdminConfigurations: SecurityAdminConfigurations;
+    // (undocumented)
     securityPartnerProviders: SecurityPartnerProviders;
     // (undocumented)
     securityRules: SecurityRules;
@@ -8542,9 +9343,13 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     serviceTags: ServiceTags;
     // (undocumented)
+    staticMembers: StaticMembers;
+    // (undocumented)
     subnets: Subnets;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    subscriptionNetworkManagerConnections: SubscriptionNetworkManagerConnections;
     supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: SupportedSecurityProvidersOptionalParams): Promise<SupportedSecurityProvidersResponse>;
     // (undocumented)
     usages: Usages;
@@ -8607,9 +9412,205 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 // @public
 export interface NetworkManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
+
+// @public
+export type NetworkManager = Resource & {
+    readonly etag?: string;
+    readonly systemData?: SystemData;
+    description?: string;
+    networkManagerScopes?: NetworkManagerPropertiesNetworkManagerScopes;
+    networkManagerScopeAccesses?: ConfigurationType[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface NetworkManagerCommit {
+    readonly commitId?: string;
+    commitType: ConfigurationType;
+    configurationIds?: string[];
+    targetLocations: string[];
+}
+
+// @public
+export interface NetworkManagerCommits {
+    beginPost(resourceGroupName: string, networkManagerName: string, parameters: NetworkManagerCommit, options?: NetworkManagerCommitsPostOptionalParams): Promise<PollerLike<PollOperationState<NetworkManagerCommitsPostResponse>, NetworkManagerCommitsPostResponse>>;
+    beginPostAndWait(resourceGroupName: string, networkManagerName: string, parameters: NetworkManagerCommit, options?: NetworkManagerCommitsPostOptionalParams): Promise<NetworkManagerCommitsPostResponse>;
+}
+
+// @public
+export interface NetworkManagerCommitsPostHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkManagerCommitsPostOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkManagerCommitsPostResponse = NetworkManagerCommit;
+
+// @public
+export type NetworkManagerConnection = ChildResource & {
+    readonly systemData?: SystemData;
+    networkManagerId?: string;
+    readonly connectionState?: ScopeConnectionState;
+    description?: string;
+};
+
+// @public
+export interface NetworkManagerConnectionListResult {
+    nextLink?: string;
+    value?: NetworkManagerConnection[];
+}
+
+// @public
+export interface NetworkManagerDeploymentStatus {
+    commitTime?: Date;
+    configurationIds?: string[];
+    deploymentStatus?: DeploymentStatus;
+    deploymentType?: ConfigurationType;
+    errorMessage?: string;
+    region?: string;
+}
+
+// @public
+export interface NetworkManagerDeploymentStatusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagerDeploymentStatusListResponse = NetworkManagerDeploymentStatusListResult;
+
+// @public
+export interface NetworkManagerDeploymentStatusListResult {
+    skipToken?: string;
+    value?: NetworkManagerDeploymentStatus[];
+}
+
+// @public
+export interface NetworkManagerDeploymentStatusOperations {
+    list(resourceGroupName: string, networkManagerName: string, parameters: NetworkManagerDeploymentStatusParameter, options?: NetworkManagerDeploymentStatusListOptionalParams): Promise<NetworkManagerDeploymentStatusListResponse>;
+}
+
+// @public
+export interface NetworkManagerDeploymentStatusParameter {
+    deploymentTypes?: ConfigurationType[];
+    regions?: string[];
+    skipToken?: string;
+}
+
+// @public
+export interface NetworkManagerEffectiveConnectivityConfigurationListResult {
+    skipToken?: string;
+    value?: EffectiveConnectivityConfiguration[];
+}
+
+// @public
+export interface NetworkManagerEffectiveSecurityAdminRulesListResult {
+    skipToken?: string;
+    value?: EffectiveBaseSecurityAdminRuleUnion[];
+}
+
+// @public
+export interface NetworkManagerListResult {
+    nextLink?: string;
+    value?: NetworkManager[];
+}
+
+// @public
+export interface NetworkManagerPropertiesNetworkManagerScopes {
+    readonly crossTenantScopes?: CrossTenantScopes[];
+    managementGroups?: string[];
+    subscriptions?: string[];
+}
+
+// @public
+export interface NetworkManagers {
+    beginDelete(resourceGroupName: string, networkManagerName: string, options?: NetworkManagersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, options?: NetworkManagersDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, parameters: NetworkManager, options?: NetworkManagersCreateOrUpdateOptionalParams): Promise<NetworkManagersCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, options?: NetworkManagersGetOptionalParams): Promise<NetworkManagersGetResponse>;
+    list(resourceGroupName: string, options?: NetworkManagersListOptionalParams): PagedAsyncIterableIterator<NetworkManager>;
+    listBySubscription(options?: NetworkManagersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NetworkManager>;
+    patch(resourceGroupName: string, networkManagerName: string, parameters: PatchObject, options?: NetworkManagersPatchOptionalParams): Promise<NetworkManagersPatchResponse>;
+}
+
+// @public
+export interface NetworkManagersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagersCreateOrUpdateResponse = NetworkManager;
+
+// @public
+export interface NetworkManagersDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface NetworkManagersDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface NetworkManagerSecurityGroupItem {
+    networkGroupId: string;
+}
+
+// @public
+export interface NetworkManagersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagersGetResponse = NetworkManager;
+
+// @public
+export interface NetworkManagersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkManagersListBySubscriptionNextResponse = NetworkManagerListResult;
+
+// @public
+export interface NetworkManagersListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkManagersListBySubscriptionResponse = NetworkManagerListResult;
+
+// @public
+export interface NetworkManagersListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkManagersListNextResponse = NetworkManagerListResult;
+
+// @public
+export interface NetworkManagersListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type NetworkManagersListResponse = NetworkManagerListResult;
+
+// @public
+export interface NetworkManagersPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkManagersPatchResponse = NetworkManager;
 
 // @public
 export type NetworkOperationStatus = string;
@@ -9548,6 +10549,13 @@ export interface PacketCaptureStorageLocation {
 }
 
 // @public
+export interface PatchObject {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type PatchRouteFilter = SubResource & {
     readonly name?: string;
     readonly etag?: string;
@@ -10462,6 +11470,11 @@ export interface QueryInboundNatRulePortMappingRequest {
 }
 
 // @public
+export interface QueryRequestOptions {
+    skipToken?: string;
+}
+
+// @public
 export interface QueryResults {
     matchingRecordsCount?: number;
     signatures?: SingleQueryResult[];
@@ -10922,6 +11935,144 @@ export interface RoutingPolicy {
 
 // @public
 export type RoutingState = string;
+
+// @public
+export type ScopeConnection = ChildResource & {
+    readonly systemData?: SystemData;
+    tenantId?: string;
+    resourceId?: string;
+    readonly connectionState?: ScopeConnectionState;
+    description?: string;
+};
+
+// @public
+export interface ScopeConnectionListResult {
+    nextLink?: string;
+    value?: ScopeConnection[];
+}
+
+// @public
+export interface ScopeConnections {
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, scopeConnectionName: string, parameters: ScopeConnection, options?: ScopeConnectionsCreateOrUpdateOptionalParams): Promise<ScopeConnectionsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkManagerName: string, scopeConnectionName: string, options?: ScopeConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkManagerName: string, scopeConnectionName: string, options?: ScopeConnectionsGetOptionalParams): Promise<ScopeConnectionsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: ScopeConnectionsListOptionalParams): PagedAsyncIterableIterator<ScopeConnection>;
+}
+
+// @public
+export interface ScopeConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopeConnectionsCreateOrUpdateResponse = ScopeConnection;
+
+// @public
+export interface ScopeConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ScopeConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScopeConnectionsGetResponse = ScopeConnection;
+
+// @public
+export interface ScopeConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ScopeConnectionsListNextResponse = ScopeConnectionListResult;
+
+// @public
+export interface ScopeConnectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ScopeConnectionsListResponse = ScopeConnectionListResult;
+
+// @public
+export type ScopeConnectionState = string;
+
+// @public
+export type SecurityAdminConfiguration = ChildResource & {
+    readonly systemData?: SystemData;
+    description?: string;
+    applyOnNetworkIntentPolicyBasedServices?: NetworkIntentPolicyBasedService[];
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface SecurityAdminConfigurationListResult {
+    nextLink?: string;
+    value?: SecurityAdminConfiguration[];
+}
+
+// @public
+export interface SecurityAdminConfigurations {
+    beginDelete(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityAdminConfigurationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityAdminConfigurationsDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, configurationName: string, securityAdminConfiguration: SecurityAdminConfiguration, options?: SecurityAdminConfigurationsCreateOrUpdateOptionalParams): Promise<SecurityAdminConfigurationsCreateOrUpdateResponse>;
+    get(resourceGroupName: string, networkManagerName: string, configurationName: string, options?: SecurityAdminConfigurationsGetOptionalParams): Promise<SecurityAdminConfigurationsGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, options?: SecurityAdminConfigurationsListOptionalParams): PagedAsyncIterableIterator<SecurityAdminConfiguration>;
+}
+
+// @public
+export interface SecurityAdminConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityAdminConfigurationsCreateOrUpdateResponse = SecurityAdminConfiguration;
+
+// @public
+export interface SecurityAdminConfigurationsDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface SecurityAdminConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+    force?: boolean;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SecurityAdminConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityAdminConfigurationsGetResponse = SecurityAdminConfiguration;
+
+// @public
+export interface SecurityAdminConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SecurityAdminConfigurationsListNextResponse = SecurityAdminConfigurationListResult;
+
+// @public
+export interface SecurityAdminConfigurationsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SecurityAdminConfigurationsListResponse = SecurityAdminConfigurationListResult;
+
+// @public
+export type SecurityConfigurationRuleAccess = string;
+
+// @public
+export type SecurityConfigurationRuleDirection = string;
+
+// @public
+export type SecurityConfigurationRuleProtocol = string;
 
 // @public
 export interface SecurityGroupNetworkInterface {
@@ -11440,6 +12591,64 @@ export interface Sku {
 }
 
 // @public
+export type StaticMember = ChildResource & {
+    readonly systemData?: SystemData;
+    resourceId?: string;
+    readonly region?: string;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface StaticMemberListResult {
+    nextLink?: string;
+    value?: StaticMember[];
+}
+
+// @public
+export interface StaticMembers {
+    createOrUpdate(resourceGroupName: string, networkManagerName: string, networkGroupName: string, staticMemberName: string, parameters: StaticMember, options?: StaticMembersCreateOrUpdateOptionalParams): Promise<StaticMembersCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, networkManagerName: string, networkGroupName: string, staticMemberName: string, options?: StaticMembersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, networkManagerName: string, networkGroupName: string, staticMemberName: string, options?: StaticMembersGetOptionalParams): Promise<StaticMembersGetResponse>;
+    list(resourceGroupName: string, networkManagerName: string, networkGroupName: string, options?: StaticMembersListOptionalParams): PagedAsyncIterableIterator<StaticMember>;
+}
+
+// @public
+export interface StaticMembersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticMembersCreateOrUpdateResponse = StaticMember;
+
+// @public
+export interface StaticMembersDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface StaticMembersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StaticMembersGetResponse = StaticMember;
+
+// @public
+export interface StaticMembersListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type StaticMembersListNextResponse = StaticMemberListResult;
+
+// @public
+export interface StaticMembersListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type StaticMembersListResponse = StaticMemberListResult;
+
+// @public
 export interface StaticRoute {
     addressPrefixes?: string[];
     name?: string;
@@ -11553,6 +12762,50 @@ export interface SubResource {
 }
 
 // @public
+export interface SubscriptionNetworkManagerConnections {
+    createOrUpdate(networkManagerConnectionName: string, parameters: NetworkManagerConnection, options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams): Promise<SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse>;
+    delete(networkManagerConnectionName: string, options?: SubscriptionNetworkManagerConnectionsDeleteOptionalParams): Promise<void>;
+    get(networkManagerConnectionName: string, options?: SubscriptionNetworkManagerConnectionsGetOptionalParams): Promise<SubscriptionNetworkManagerConnectionsGetResponse>;
+    list(options?: SubscriptionNetworkManagerConnectionsListOptionalParams): PagedAsyncIterableIterator<NetworkManagerConnection>;
+}
+
+// @public
+export interface SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse = NetworkManagerConnection;
+
+// @public
+export interface SubscriptionNetworkManagerConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SubscriptionNetworkManagerConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SubscriptionNetworkManagerConnectionsGetResponse = NetworkManagerConnection;
+
+// @public
+export interface SubscriptionNetworkManagerConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SubscriptionNetworkManagerConnectionsListNextResponse = NetworkManagerConnectionListResult;
+
+// @public
+export interface SubscriptionNetworkManagerConnectionsListOptionalParams extends coreClient.OperationOptions {
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type SubscriptionNetworkManagerConnectionsListResponse = NetworkManagerConnectionListResult;
+
+// @public
 export interface SupportedSecurityProvidersOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -11561,6 +12814,16 @@ export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
 
 // @public
 export type SyncRemoteAddressSpace = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export interface TagsObject {
@@ -11715,6 +12978,9 @@ export interface UsagesListResult {
 export type UsageUnit = string;
 
 // @public
+export type UseHubGateway = string;
+
+// @public
 export type VerbosityLevel = string;
 
 // @public
@@ -11856,6 +13122,7 @@ export type VirtualHub = Resource & {
     allowBranchToBranchTraffic?: boolean;
     preferredRoutingGateway?: PreferredRoutingGateway;
     hubRoutingPreference?: HubRoutingPreference;
+    virtualRouterAutoScaleConfiguration?: VirtualRouterAutoScaleConfiguration;
 };
 
 // @public
@@ -13076,6 +14343,11 @@ export type VirtualRouter = Resource & {
     readonly peerings?: SubResource[];
     readonly provisioningState?: ProvisioningState;
 };
+
+// @public
+export interface VirtualRouterAutoScaleConfiguration {
+    minCapacity?: number;
+}
 
 // @public
 export interface VirtualRouterListResult {
