@@ -1,15 +1,27 @@
 # Release History
+    
+## 3.0.0 (2022-05-24)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
+  - Added Type Alias ChildType
+  - Added Type Alias EntitySearchType
+  - Added Type Alias EntityViewParameterType
+  - Added Type Alias ManagementGroupExpandType
+  - Added Type Alias PermissionsType
+  - Added Enum KnownEntitySearchType
+  - Added Enum KnownEntityViewParameterType
+  - Added Enum KnownManagementGroupExpandType
+  - Added Enum KnownPermissionsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum0
+  - Removed Enum KnownEnum2
+  - Removed Enum KnownEnum3
+  - Removed Enum KnownManagementGroupChildType
+  - Removed Enum KnownPermissions
+    
 ## 2.0.1 (2022-04-24)
 
 **Features**

@@ -311,7 +311,11 @@ export const ManagementGroupChildInfo: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Microsoft.Management/managementGroups",
+            "/subscriptions"
+          ]
         }
       },
       id: {
@@ -487,7 +491,11 @@ export const CreateManagementGroupChildInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Microsoft.Management/managementGroups",
+            "/subscriptions"
+          ]
         }
       },
       id: {
