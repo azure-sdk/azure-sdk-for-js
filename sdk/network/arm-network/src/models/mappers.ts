@@ -2430,6 +2430,21 @@ export const AzureFirewallListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const IPPrefixesList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPPrefixesList",
+    modelProperties: {
+      ipPrefixes: {
+        serializedName: "ipPrefixes",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureFirewallFqdnTagListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4299,6 +4314,12 @@ export const FirewallPolicySnat: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      autoLearnPrivateRanges: {
+        serializedName: "autoLearnPrivateRanges",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -17267,6 +17288,16 @@ export const ApplicationGatewayRoutingRule: coreClient.CompositeMapper = {
         serializedName: "properties.ruleType",
         type: {
           name: "String"
+        }
+      },
+      priority: {
+        constraints: {
+          InclusiveMaximum: 20000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
         }
       },
       backendAddressPool: {

@@ -1,15 +1,18 @@
 # Release History
+    
+## 28.1.0 (2022-05-24)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation AzureFirewalls.beginListLearnedPrefixes
+  - Added operation AzureFirewalls.beginListLearnedPrefixesAndWait
+  - Added Interface AzureFirewallsListLearnedPrefixesOptionalParams
+  - Added Interface IPPrefixesList
+  - Added Type Alias AzureFirewallsListLearnedPrefixesResponse
+  - Interface FirewallPolicySnat has a new optional parameter autoLearnPrivateRanges
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**

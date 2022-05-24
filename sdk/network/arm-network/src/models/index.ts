@@ -845,6 +845,12 @@ export interface AzureFirewallListResult {
   nextLink?: string;
 }
 
+/** List of SNAT IP Prefixes learnt by firewall to not SNAT */
+export interface IPPrefixesList {
+  /** IP Prefix value. */
+  ipPrefixes?: string;
+}
+
 /** Response for ListAzureFirewallFqdnTags API service call. */
 export interface AzureFirewallFqdnTagListResult {
   /** List of Azure Firewall FQDN Tags in a resource group. */
@@ -1550,6 +1556,8 @@ export interface FirewallPolicyLogAnalyticsWorkspace {
 export interface FirewallPolicySnat {
   /** List of private IP addresses/IP address ranges to not be SNAT. */
   privateRanges?: string[];
+  /** The operation mode for automatically learning private ranges to not be SNAT */
+  autoLearnPrivateRanges?: boolean;
 }
 
 /** SQL Settings in Firewall Policy. */
@@ -6306,6 +6314,8 @@ export type ApplicationGatewayRoutingRule = SubResource & {
   readonly type?: string;
   /** Rule type. */
   ruleType?: ApplicationGatewayRequestRoutingRuleType;
+  /** Priority of the routing rule. */
+  priority?: number;
   /** Backend address pool resource of the application gateway. */
   backendAddressPool?: SubResource;
   /** Backend settings resource of the application gateway. */
@@ -13729,6 +13739,18 @@ export interface AzureFirewallsListAllOptionalParams
 
 /** Contains response data for the listAll operation. */
 export type AzureFirewallsListAllResponse = AzureFirewallListResult;
+
+/** Optional parameters. */
+export interface AzureFirewallsListLearnedPrefixesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listLearnedPrefixes operation. */
+export type AzureFirewallsListLearnedPrefixesResponse = IPPrefixesList;
 
 /** Optional parameters. */
 export interface AzureFirewallsListNextOptionalParams

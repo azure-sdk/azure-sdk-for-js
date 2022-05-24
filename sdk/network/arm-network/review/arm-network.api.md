@@ -601,6 +601,7 @@ export type ApplicationGatewayRoutingRule = SubResource & {
     readonly etag?: string;
     readonly type?: string;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
+    priority?: number;
     backendAddressPool?: SubResource;
     backendSettings?: SubResource;
     listener?: SubResource;
@@ -1425,6 +1426,8 @@ export interface AzureFirewalls {
     beginCreateOrUpdateAndWait(resourceGroupName: string, azureFirewallName: string, parameters: AzureFirewall, options?: AzureFirewallsCreateOrUpdateOptionalParams): Promise<AzureFirewallsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsDeleteOptionalParams): Promise<void>;
+    beginListLearnedPrefixes(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<PollerLike<PollOperationState<AzureFirewallsListLearnedPrefixesResponse>, AzureFirewallsListLearnedPrefixesResponse>>;
+    beginListLearnedPrefixesAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<AzureFirewallsListLearnedPrefixesResponse>;
     beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<PollerLike<PollOperationState<AzureFirewallsUpdateTagsResponse>, AzureFirewallsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<AzureFirewallsUpdateTagsResponse>;
     get(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsGetOptionalParams): Promise<AzureFirewallsGetResponse>;
@@ -1479,6 +1482,15 @@ export interface AzureFirewallsListAllOptionalParams extends coreClient.Operatio
 
 // @public
 export type AzureFirewallsListAllResponse = AzureFirewallListResult;
+
+// @public
+export interface AzureFirewallsListLearnedPrefixesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AzureFirewallsListLearnedPrefixesResponse = IPPrefixesList;
 
 // @public
 export interface AzureFirewallsListNextOptionalParams extends coreClient.OperationOptions {
@@ -4390,6 +4402,7 @@ export type FirewallPolicySkuTier = string;
 
 // @public
 export interface FirewallPolicySnat {
+    autoLearnPrivateRanges?: boolean;
     privateRanges?: string[];
 }
 
@@ -5172,6 +5185,11 @@ export interface IpGroupsUpdateGroupsOptionalParams extends coreClient.Operation
 
 // @public
 export type IpGroupsUpdateGroupsResponse = IpGroup;
+
+// @public
+export interface IPPrefixesList {
+    ipPrefixes?: string;
+}
 
 // @public
 export type IpsecEncryption = string;
