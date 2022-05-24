@@ -1,15 +1,29 @@
 # Release History
+    
+## 10.6.0 (2022-05-24)
+    
+**Features**
 
-## 10.5.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GlobalParameters
+  - Added Interface GlobalParameterListResponse
+  - Added Interface GlobalParametersCreateOrUpdateOptionalParams
+  - Added Interface GlobalParametersDeleteOptionalParams
+  - Added Interface GlobalParametersGetOptionalParams
+  - Added Interface GlobalParametersListByFactoryNextOptionalParams
+  - Added Interface GlobalParametersListByFactoryOptionalParams
+  - Added Interface PurviewConfiguration
+  - Added Type Alias GlobalParameterResource
+  - Added Type Alias GlobalParametersCreateOrUpdateResponse
+  - Added Type Alias GlobalParametersGetResponse
+  - Added Type Alias GlobalParametersListByFactoryNextResponse
+  - Added Type Alias GlobalParametersListByFactoryResponse
+  - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter sourceStagingConcurrency
+  - Class DataFactoryManagementClient has a new parameter globalParameters
+  - Type Alias ExecuteDataFlowActivity has a new parameter sourceStagingConcurrency
+  - Type Alias ExecuteWranglingDataflowActivity has a new parameter sourceStagingConcurrency
+  - Type Alias Factory has a new parameter purviewConfiguration
+    
+    
 ## 10.5.0 (2022-05-09)
     
 **Features**
