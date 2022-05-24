@@ -241,6 +241,10 @@ export interface DomainSecuritySettings {
   kerberosRc4Encryption?: KerberosRc4Encryption;
   /** A flag to determine whether or not KerberosArmoring is enabled or disabled. */
   kerberosArmoring?: KerberosArmoring;
+  /** A flag to determine whether or not LdapSigning is enabled or disabled. */
+  ldapSigning?: LdapSigning;
+  /** A flag to determine whether or not ChannelBinding is enabled or disabled. */
+  channelBinding?: ChannelBinding;
 }
 
 /** Settings for notification */
@@ -613,6 +617,38 @@ export enum KnownKerberosArmoring {
  * **Disabled**
  */
 export type KerberosArmoring = string;
+
+/** Known values of {@link LdapSigning} that the service accepts. */
+export enum KnownLdapSigning {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for LdapSigning. \
+ * {@link KnownLdapSigning} can be used interchangeably with LdapSigning,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type LdapSigning = string;
+
+/** Known values of {@link ChannelBinding} that the service accepts. */
+export enum KnownChannelBinding {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ChannelBinding. \
+ * {@link KnownChannelBinding} can be used interchangeably with ChannelBinding,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ChannelBinding = string;
 
 /** Known values of {@link FilteredSync} that the service accepts. */
 export enum KnownFilteredSync {
