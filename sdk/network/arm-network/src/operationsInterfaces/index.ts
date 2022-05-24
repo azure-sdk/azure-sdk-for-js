@@ -120,3 +120,4 @@ export * from "./virtualHubIpConfiguration";
 export * from "./hubRouteTables";
 export * from "./routingIntentOperations";
 export * from "./webApplicationFirewallPolicies";
+export * from "./expressRouteProviderPortsLocation";
