@@ -1576,6 +1576,8 @@ export interface ExplicitProxySettings {
   httpPort?: number;
   /** Port number for explicit proxy https protocol, cannot be greater than 64000. */
   httpsPort?: number;
+  /** When set to true, pac file port and url needs to be provided. */
+  enablePacFile?: boolean;
   /** Port number for firewall to serve PAC file. */
   pacFilePort?: number;
   /** SAS URL for PAC file. */
@@ -2374,8 +2376,12 @@ export interface SubnetAssociation {
 
 /** Parameters that define the create packet capture operation. */
 export interface PacketCapture {
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -2390,8 +2396,12 @@ export interface PacketCapture {
 
 /** Parameters that define the create packet capture operation. */
 export interface PacketCaptureParameters {
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -2402,6 +2412,14 @@ export interface PacketCaptureParameters {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+}
+
+/** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+export interface PacketCaptureMachineScope {
+  /** List of AzureVMSS instances to run packet capture on. */
+  include?: string[];
+  /** List of AzureVMSS instances which has to be excluded from the AzureVMSS from running packet capture. */
+  exclude?: string[];
 }
 
 /** The storage location for a packet capture session. */
@@ -2445,8 +2463,12 @@ export interface PacketCaptureResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target?: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -4630,6 +4652,12 @@ export interface VirtualHubRouteV2 {
   nextHops?: string[];
 }
 
+/** The VirtualHub Router autoscale configuration. */
+export interface VirtualRouterAutoScaleConfiguration {
+  /** The minimum number of scale units for VirtualHub Router. */
+  minCapacity?: number;
+}
+
 /** Result of the request to list VirtualHubs. It contains a list of VirtualHubs and a URL nextLink to get the next set of results. */
 export interface ListVirtualHubsResult {
   /** List of VirtualHubs. */
@@ -5056,6 +5084,17 @@ export interface ManagedRuleOverride {
   ruleId: string;
   /** The state of the managed rule. Defaults to Disabled if not specified. */
   state?: ManagedRuleEnabledState;
+}
+
+/** Response for ListExpressRouteProviderPort API service call. */
+export interface ExpressRouteProviderPortListResult {
+  /** A list of ExpressRouteProviderPort resources. */
+  value?: ExpressRouteProviderPort[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -6306,6 +6345,8 @@ export type ApplicationGatewayRoutingRule = SubResource & {
   readonly type?: string;
   /** Rule type. */
   ruleType?: ApplicationGatewayRequestRoutingRuleType;
+  /** Priority of the routing rule. */
+  priority?: number;
   /** Backend address pool resource of the application gateway. */
   backendAddressPool?: SubResource;
   /** Backend settings resource of the application gateway. */
@@ -9831,6 +9872,8 @@ export type VirtualHub = Resource & {
   preferredRoutingGateway?: PreferredRoutingGateway;
   /** The hubRoutingPreference of this VirtualHub. */
   hubRoutingPreference?: HubRoutingPreference;
+  /** The VirtualHub Router autoscale configuration. */
+  virtualRouterAutoScaleConfiguration?: VirtualRouterAutoScaleConfiguration;
 };
 
 /** VpnGateway Resource. */
@@ -9924,6 +9967,40 @@ export type WebApplicationFirewallPolicy = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pathBasedRules?: SubResource[];
+};
+
+/** ExpressRouteProviderPort resource. */
+export type ExpressRouteProviderPort = Resource & {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The name of the port pair.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portPairDescriptor?: string;
+  /**
+   * The name of the primary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryAzurePort?: string;
+  /**
+   * The name of the secondary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryAzurePort?: string;
+  /** The peering location of the port pair. */
+  peeringLocation?: string;
+  /** Overprovisioning factor for the port pair. */
+  overprovisionFactor?: number;
+  /** Bandwidth of the port in Mbps */
+  portBandwidthInMbps?: number;
+  /** Used Bandwidth of the port in Mbps */
+  usedBandwidthInMbps?: number;
+  /** Remaining Bandwidth of the port in Mbps */
+  remainingBandwidthInMbps?: number;
 };
 
 /** The visibility list of the private link service. */
@@ -10101,7 +10178,8 @@ export type ApplicationGatewayTier = string;
 export enum KnownApplicationGatewaySslProtocol {
   TLSv10 = "TLSv1_0",
   TLSv11 = "TLSv1_1",
-  TLSv12 = "TLSv1_2"
+  TLSv12 = "TLSv1_2",
+  TLSv13 = "TLSv1_3"
 }
 
 /**
@@ -10111,14 +10189,16 @@ export enum KnownApplicationGatewaySslProtocol {
  * ### Known values supported by the service
  * **TLSv1_0** \
  * **TLSv1_1** \
- * **TLSv1_2**
+ * **TLSv1_2** \
+ * **TLSv1_3**
  */
 export type ApplicationGatewaySslProtocol = string;
 
 /** Known values of {@link ApplicationGatewaySslPolicyType} that the service accepts. */
 export enum KnownApplicationGatewaySslPolicyType {
   Predefined = "Predefined",
-  Custom = "Custom"
+  Custom = "Custom",
+  CustomV2 = "CustomV2"
 }
 
 /**
@@ -10127,7 +10207,8 @@ export enum KnownApplicationGatewaySslPolicyType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Predefined** \
- * **Custom**
+ * **Custom** \
+ * **CustomV2**
  */
 export type ApplicationGatewaySslPolicyType = string;
 
@@ -10135,7 +10216,9 @@ export type ApplicationGatewaySslPolicyType = string;
 export enum KnownApplicationGatewaySslPolicyName {
   AppGwSslPolicy20150501 = "AppGwSslPolicy20150501",
   AppGwSslPolicy20170401 = "AppGwSslPolicy20170401",
-  AppGwSslPolicy20170401S = "AppGwSslPolicy20170401S"
+  AppGwSslPolicy20170401S = "AppGwSslPolicy20170401S",
+  AppGwSslPolicy20220101 = "AppGwSslPolicy20220101",
+  AppGwSslPolicy20220101S = "AppGwSslPolicy20220101S"
 }
 
 /**
@@ -10145,7 +10228,9 @@ export enum KnownApplicationGatewaySslPolicyName {
  * ### Known values supported by the service
  * **AppGwSslPolicy20150501** \
  * **AppGwSslPolicy20170401** \
- * **AppGwSslPolicy20170401S**
+ * **AppGwSslPolicy20170401S** \
+ * **AppGwSslPolicy20220101** \
+ * **AppGwSslPolicy20220101S**
  */
 export type ApplicationGatewaySslPolicyName = string;
 
@@ -13019,7 +13104,8 @@ export enum KnownWebApplicationFirewallOperator {
   BeginsWith = "BeginsWith",
   EndsWith = "EndsWith",
   Regex = "Regex",
-  GeoMatch = "GeoMatch"
+  GeoMatch = "GeoMatch",
+  Any = "Any"
 }
 
 /**
@@ -13037,7 +13123,8 @@ export enum KnownWebApplicationFirewallOperator {
  * **BeginsWith** \
  * **EndsWith** \
  * **Regex** \
- * **GeoMatch**
+ * **GeoMatch** \
+ * **Any**
  */
 export type WebApplicationFirewallOperator = string;
 
@@ -13326,6 +13413,8 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
 export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+/** Defines values for PacketCaptureTargetType. */
+export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
 /** Optional parameters. */
 export interface ApplicationGatewaysDeleteOptionalParams
@@ -13922,6 +14011,13 @@ export interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParam
 
 /** Contains response data for the generatevirtualwanvpnserverconfigurationvpnprofile operation. */
 export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
+
+/** Optional parameters. */
+export interface ExpressRouteProviderPortOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the expressRouteProviderPort operation. */
+export type ExpressRouteProviderPortResponse = ExpressRouteProviderPort;
 
 /** Optional parameters. */
 export interface PutBastionShareableLinkNextOptionalParams
@@ -19315,12 +19411,20 @@ export interface WebApplicationFirewallPoliciesListAllNextOptionalParams
 export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
+export interface ExpressRouteProviderPortsLocationListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=location eq '{state}'. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
+
+/** Optional parameters. */
 export interface NetworkManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

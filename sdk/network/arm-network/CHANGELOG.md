@@ -1,15 +1,41 @@
 # Release History
+    
+## 29.0.0 (2022-05-24)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
+  - Added operation group ExpressRouteProviderPortsLocation
+  - Added Interface ExpressRouteProviderPortListResult
+  - Added Interface ExpressRouteProviderPortOptionalParams
+  - Added Interface ExpressRouteProviderPortsLocationListOptionalParams
+  - Added Interface PacketCaptureMachineScope
+  - Added Interface VirtualRouterAutoScaleConfiguration
+  - Added Type Alias ExpressRouteProviderPort
+  - Added Type Alias ExpressRouteProviderPortResponse
+  - Added Type Alias ExpressRouteProviderPortsLocationListResponse
+  - Added Type Alias PacketCaptureTargetType
+  - Interface ExplicitProxySettings has a new optional parameter enablePacFile
+  - Interface PacketCapture has a new optional parameter scope
+  - Interface PacketCapture has a new optional parameter targetType
+  - Interface PacketCaptureParameters has a new optional parameter scope
+  - Interface PacketCaptureParameters has a new optional parameter targetType
+  - Interface PacketCaptureResult has a new optional parameter scope
+  - Interface PacketCaptureResult has a new optional parameter targetType
+  - Class NetworkManagementClient has a new parameter expressRouteProviderPortsLocation
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+  - Type Alias VirtualHub has a new parameter virtualRouterAutoScaleConfiguration
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101S
+  - Enum KnownApplicationGatewaySslPolicyType has a new value CustomV2
+  - Enum KnownApplicationGatewaySslProtocol has a new value TLSv13
+  - Enum KnownWebApplicationFirewallOperator has a new value Any
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NetworkManagementClientOptionalParams no longer has parameter apiVersion
+  - Class NetworkManagementClient no longer has parameter apiVersion
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**
