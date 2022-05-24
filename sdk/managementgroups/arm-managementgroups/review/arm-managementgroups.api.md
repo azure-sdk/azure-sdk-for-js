@@ -41,12 +41,15 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
+export type ChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
+
+// @public
 export interface CreateManagementGroupChildInfo {
     readonly children?: CreateManagementGroupChildInfo[];
     readonly displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    readonly type?: ManagementGroupChildType;
+    readonly type?: ChildType;
 }
 
 // @public
@@ -111,12 +114,12 @@ export interface EntitiesListNextOptionalParams extends coreClient.OperationOpti
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
@@ -127,12 +130,12 @@ export interface EntitiesListOptionalParams extends coreClient.OperationOptions 
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
@@ -144,7 +147,7 @@ export interface EntityHierarchyItem {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    permissions?: Permissions_2;
+    permissions?: PermissionsType;
     readonly type?: string;
 }
 
@@ -152,7 +155,7 @@ export interface EntityHierarchyItem {
 export interface EntityInfo {
     displayName?: string;
     readonly id?: string;
-    inheritedPermissions?: Permissions_2;
+    inheritedPermissions?: PermissionsType;
     readonly name?: string;
     numberOfChildGroups?: number;
     numberOfChildren?: number;
@@ -160,7 +163,7 @@ export interface EntityInfo {
     parent?: EntityParentGroupInfo;
     parentDisplayNameChain?: string[];
     parentNameChain?: string[];
-    permissions?: Permissions_2;
+    permissions?: PermissionsType;
     tenantId?: string;
     readonly type?: string;
 }
@@ -178,13 +181,10 @@ export interface EntityParentGroupInfo {
 }
 
 // @public
-export type Enum0 = string;
+export type EntitySearchType = string;
 
 // @public
-export type Enum2 = string;
-
-// @public
-export type Enum3 = string;
+export type EntityViewParameterType = string;
 
 // @public
 export interface ErrorDetails {
@@ -266,17 +266,7 @@ export interface HierarchySettingsUpdateOptionalParams extends coreClient.Operat
 export type HierarchySettingsUpdateResponse = HierarchySettings;
 
 // @public
-export enum KnownEnum0 {
-    // (undocumented)
-    Ancestors = "ancestors",
-    // (undocumented)
-    Children = "children",
-    // (undocumented)
-    Path = "path"
-}
-
-// @public
-export enum KnownEnum2 {
+export enum KnownEntitySearchType {
     // (undocumented)
     AllowedChildren = "AllowedChildren",
     // (undocumented)
@@ -290,7 +280,7 @@ export enum KnownEnum2 {
 }
 
 // @public
-export enum KnownEnum3 {
+export enum KnownEntityViewParameterType {
     // (undocumented)
     Audit = "Audit",
     // (undocumented)
@@ -302,15 +292,17 @@ export enum KnownEnum3 {
 }
 
 // @public
-export enum KnownManagementGroupChildType {
+export enum KnownManagementGroupExpandType {
     // (undocumented)
-    MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
+    Ancestors = "ancestors",
     // (undocumented)
-    Subscriptions = "/subscriptions"
+    Children = "children",
+    // (undocumented)
+    Path = "path"
 }
 
 // @public
-export enum KnownPermissions {
+export enum KnownPermissionsType {
     // (undocumented)
     Delete = "delete",
     // (undocumented)
@@ -344,11 +336,8 @@ export interface ManagementGroupChildInfo {
     displayName?: string;
     id?: string;
     name?: string;
-    type?: ManagementGroupChildType;
+    type?: ChildType;
 }
-
-// @public
-export type ManagementGroupChildType = string;
 
 // @public
 export interface ManagementGroupDetails {
@@ -360,6 +349,9 @@ export interface ManagementGroupDetails {
     updatedTime?: Date;
     version?: number;
 }
+
+// @public
+export type ManagementGroupExpandType = string;
 
 // @public
 export interface ManagementGroupInfo {
@@ -476,7 +468,7 @@ export type ManagementGroupsGetDescendantsResponse = DescendantListResult;
 // @public
 export interface ManagementGroupsGetOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    expand?: Enum0;
+    expand?: ManagementGroupExpandType;
     filter?: string;
     recurse?: boolean;
 }
@@ -617,8 +609,7 @@ export interface PatchManagementGroupRequest {
 }
 
 // @public
-type Permissions_2 = string;
-export { Permissions_2 as Permissions }
+export type PermissionsType = string;
 
 // @public
 export type Reason = "Invalid" | "AlreadyExists";
