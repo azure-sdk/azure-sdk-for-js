@@ -2908,6 +2908,229 @@ export const AuthorizationServerSecretsContract: coreClient.CompositeMapper = {
   }
 };
 
+export const AuthorizationProviderCollection: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProviderCollection",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "AuthorizationProviderContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthorizationProviderContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationProviderOAuth2Settings: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProviderOAuth2Settings",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderOAuth2Settings",
+    modelProperties: {
+      redirectUrl: {
+        serializedName: "redirectUrl",
+        xmlName: "redirectUrl",
+        type: {
+          name: "String"
+        }
+      },
+      grantTypes: {
+        serializedName: "grantTypes",
+        xmlName: "grantTypes",
+        type: {
+          name: "Composite",
+          className: "AuthorizationProviderOAuth2GrantTypes"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationProviderOAuth2GrantTypes: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProviderOAuth2GrantTypes",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderOAuth2GrantTypes",
+    modelProperties: {
+      authorizationCode: {
+        serializedName: "authorizationCode",
+        xmlName: "authorizationCode",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      clientCredentials: {
+        serializedName: "clientCredentials",
+        xmlName: "clientCredentials",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationCollection: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationCollection",
+  type: {
+    name: "Composite",
+    className: "AuthorizationCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "AuthorizationContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthorizationContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationError: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationError",
+  type: {
+    name: "Composite",
+    className: "AuthorizationError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        xmlName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        xmlName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationLoginRequestContract: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationLoginRequestContract",
+  type: {
+    name: "Composite",
+    className: "AuthorizationLoginRequestContract",
+    modelProperties: {
+      postLoginRedirectUrl: {
+        serializedName: "postLoginRedirectUrl",
+        xmlName: "postLoginRedirectUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationLoginResponseContract: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationLoginResponseContract",
+  type: {
+    name: "Composite",
+    className: "AuthorizationLoginResponseContract",
+    modelProperties: {
+      loginLink: {
+        serializedName: "loginLink",
+        xmlName: "loginLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationAccessPolicyCollection: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationAccessPolicyCollection",
+  type: {
+    name: "Composite",
+    className: "AuthorizationAccessPolicyCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "AuthorizationAccessPolicyContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AuthorizationAccessPolicyContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackendCollection: coreClient.CompositeMapper = {
   serializedName: "BackendCollection",
   type: {
@@ -6192,6 +6415,16 @@ export const IdentityProviderBaseParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      clientLibrary: {
+        constraints: {
+          MaxLength: 16
+        },
+        serializedName: "clientLibrary",
+        xmlName: "clientLibrary",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -6276,6 +6509,16 @@ export const IdentityProviderUpdateParameters: coreClient.CompositeMapper = {
         },
         serializedName: "properties.passwordResetPolicyName",
         xmlName: "properties.passwordResetPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      clientLibrary: {
+        constraints: {
+          MaxLength: 16
+        },
+        serializedName: "properties.clientLibrary",
+        xmlName: "properties.clientLibrary",
         type: {
           name: "String"
         }
@@ -7065,6 +7308,282 @@ export const PolicyDescriptionCollection: coreClient.CompositeMapper = {
         xmlName: "count",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyFragmentCollection: coreClient.CompositeMapper = {
+  serializedName: "PolicyFragmentCollection",
+  type: {
+    name: "Composite",
+    className: "PolicyFragmentCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "PolicyFragmentContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyFragmentContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCollection: coreClient.CompositeMapper = {
+  serializedName: "ResourceCollection",
+  type: {
+    name: "Composite",
+    className: "ResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "ResourceCollectionValueItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceCollectionValueItem"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigCollection: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigCollection",
+  type: {
+    name: "Composite",
+    className: "PortalConfigCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        xmlElementName: "PortalConfigContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PortalConfigContract"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigPropertiesSignin: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigPropertiesSignin",
+  type: {
+    name: "Composite",
+    className: "PortalConfigPropertiesSignin",
+    modelProperties: {
+      require: {
+        defaultValue: false,
+        serializedName: "require",
+        xmlName: "require",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigPropertiesSignup: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigPropertiesSignup",
+  type: {
+    name: "Composite",
+    className: "PortalConfigPropertiesSignup",
+    modelProperties: {
+      termsOfService: {
+        serializedName: "termsOfService",
+        xmlName: "termsOfService",
+        type: {
+          name: "Composite",
+          className: "PortalConfigTermsOfServiceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigTermsOfServiceProperties: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigTermsOfServiceProperties",
+  type: {
+    name: "Composite",
+    className: "PortalConfigTermsOfServiceProperties",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        xmlName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      requireConsent: {
+        defaultValue: false,
+        serializedName: "requireConsent",
+        xmlName: "requireConsent",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigDelegationProperties: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigDelegationProperties",
+  type: {
+    name: "Composite",
+    className: "PortalConfigDelegationProperties",
+    modelProperties: {
+      delegateRegistration: {
+        defaultValue: false,
+        serializedName: "delegateRegistration",
+        xmlName: "delegateRegistration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      delegateSubscription: {
+        defaultValue: false,
+        serializedName: "delegateSubscription",
+        xmlName: "delegateSubscription",
+        type: {
+          name: "Boolean"
+        }
+      },
+      delegationUrl: {
+        serializedName: "delegationUrl",
+        xmlName: "delegationUrl",
+        type: {
+          name: "String"
+        }
+      },
+      validationKey: {
+        serializedName: "validationKey",
+        xmlName: "validationKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigCorsProperties: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigCorsProperties",
+  type: {
+    name: "Composite",
+    className: "PortalConfigCorsProperties",
+    modelProperties: {
+      allowedOrigins: {
+        serializedName: "allowedOrigins",
+        xmlName: "allowedOrigins",
+        xmlElementName: "PortalConfigCorsPropertiesAllowedOriginsItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigCspProperties: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigCspProperties",
+  type: {
+    name: "Composite",
+    className: "PortalConfigCspProperties",
+    modelProperties: {
+      mode: {
+        defaultValue: "disabled",
+        serializedName: "mode",
+        xmlName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      reportUri: {
+        serializedName: "reportUri",
+        xmlName: "reportUri",
+        xmlElementName: "PortalConfigCspPropertiesReportUriItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowedSources: {
+        serializedName: "allowedSources",
+        xmlName: "allowedSources",
+        xmlElementName: "PortalConfigCspPropertiesAllowedSourcesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -8038,6 +8557,46 @@ export const RequestReportRecordContract: coreClient.CompositeMapper = {
         xmlName: "requestSize",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaCollection: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchemaCollection",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        xmlName: "value",
+        xmlElementName: "GlobalSchemaContract",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GlobalSchemaContract"
+            }
+          }
+        }
+      },
+      count: {
+        serializedName: "count",
+        xmlName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -10634,6 +11193,116 @@ export const AuthorizationServerUpdateContract: coreClient.CompositeMapper = {
   }
 };
 
+export const AuthorizationProviderContract: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProviderContract",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      displayName: {
+        constraints: {
+          MaxLength: 300,
+          MinLength: 1
+        },
+        serializedName: "properties.displayName",
+        xmlName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      identityProvider: {
+        serializedName: "properties.identityProvider",
+        xmlName: "properties.identityProvider",
+        type: {
+          name: "String"
+        }
+      },
+      oauth2: {
+        serializedName: "properties.oauth2",
+        xmlName: "properties.oauth2",
+        type: {
+          name: "Composite",
+          className: "AuthorizationProviderOAuth2Settings"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationContract: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationContract",
+  type: {
+    name: "Composite",
+    className: "AuthorizationContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      authorizationType: {
+        serializedName: "properties.authorizationType",
+        xmlName: "properties.authorizationType",
+        type: {
+          name: "String"
+        }
+      },
+      oAuth2GrantType: {
+        serializedName: "properties.oauth2grantType",
+        xmlName: "properties.oauth2grantType",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "properties.parameters",
+        xmlName: "properties.parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      error: {
+        serializedName: "properties.error",
+        xmlName: "properties.error",
+        type: {
+          name: "Composite",
+          className: "AuthorizationError"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        xmlName: "properties.status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationAccessPolicyContract: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationAccessPolicyContract",
+  type: {
+    name: "Composite",
+    className: "AuthorizationAccessPolicyContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tenantId: {
+        serializedName: "properties.tenantId",
+        xmlName: "properties.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "properties.objectId",
+        xmlName: "properties.objectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackendContract: coreClient.CompositeMapper = {
   serializedName: "BackendContract",
   type: {
@@ -11352,6 +12021,16 @@ export const IdentityProviderContract: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      clientLibrary: {
+        constraints: {
+          MaxLength: 16
+        },
+        serializedName: "properties.clientLibrary",
+        xmlName: "properties.clientLibrary",
+        type: {
+          name: "String"
+        }
+      },
       clientId: {
         constraints: {
           MinLength: 1
@@ -11456,6 +12135,16 @@ export const IdentityProviderCreateContract: coreClient.CompositeMapper = {
         },
         serializedName: "properties.passwordResetPolicyName",
         xmlName: "properties.passwordResetPolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      clientLibrary: {
+        constraints: {
+          MaxLength: 16
+        },
+        serializedName: "properties.clientLibrary",
+        xmlName: "properties.clientLibrary",
         type: {
           name: "String"
         }
@@ -11805,6 +12494,111 @@ export const PolicyDescriptionContract: coreClient.CompositeMapper = {
         xmlName: "properties.scope",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyFragmentContract: coreClient.CompositeMapper = {
+  serializedName: "PolicyFragmentContract",
+  type: {
+    name: "Composite",
+    className: "PolicyFragmentContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      value: {
+        serializedName: "properties.value",
+        xmlName: "properties.value",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        constraints: {
+          MaxLength: 1000
+        },
+        serializedName: "properties.description",
+        xmlName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      format: {
+        serializedName: "properties.format",
+        xmlName: "properties.format",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCollectionValueItem: coreClient.CompositeMapper = {
+  serializedName: "ResourceCollectionValueItem",
+  type: {
+    name: "Composite",
+    className: "ResourceCollectionValueItem",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const PortalConfigContract: coreClient.CompositeMapper = {
+  serializedName: "PortalConfigContract",
+  type: {
+    name: "Composite",
+    className: "PortalConfigContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      enableBasicAuth: {
+        defaultValue: true,
+        serializedName: "properties.enableBasicAuth",
+        xmlName: "properties.enableBasicAuth",
+        type: {
+          name: "Boolean"
+        }
+      },
+      signin: {
+        serializedName: "properties.signin",
+        xmlName: "properties.signin",
+        type: {
+          name: "Composite",
+          className: "PortalConfigPropertiesSignin"
+        }
+      },
+      signup: {
+        serializedName: "properties.signup",
+        xmlName: "properties.signup",
+        type: {
+          name: "Composite",
+          className: "PortalConfigPropertiesSignup"
+        }
+      },
+      delegation: {
+        serializedName: "properties.delegation",
+        xmlName: "properties.delegation",
+        type: {
+          name: "Composite",
+          className: "PortalConfigDelegationProperties"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        xmlName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "PortalConfigCorsProperties"
+        }
+      },
+      csp: {
+        serializedName: "properties.csp",
+        xmlName: "properties.csp",
+        type: {
+          name: "Composite",
+          className: "PortalConfigCspProperties"
         }
       }
     }
@@ -12212,6 +13006,46 @@ export const SubscriptionContract: coreClient.CompositeMapper = {
         xmlName: "properties.allowTracing",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaContract: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchemaContract",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      schemaType: {
+        serializedName: "properties.schemaType",
+        xmlName: "properties.schemaType",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        xmlName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "properties.value",
+        xmlName: "properties.value",
+        type: {
+          name: "any"
+        }
+      },
+      document: {
+        serializedName: "properties.document",
+        xmlName: "properties.document",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -15061,6 +15895,125 @@ export const AuthorizationServerListSecretsHeaders: coreClient.CompositeMapper =
   }
 };
 
+export const AuthorizationProviderGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProvider_getHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationProviderCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationProvider_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationProviderCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "Authorization_getHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "Authorization_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationLoginLinksPostHeaders: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationLoginLinks_postHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationLoginLinksPostHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationAccessPolicyGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationAccessPolicy_getHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationAccessPolicyGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AuthorizationAccessPolicyCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "AuthorizationAccessPolicy_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "AuthorizationAccessPolicyCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackendGetEntityTagHeaders: coreClient.CompositeMapper = {
   serializedName: "Backend_getEntityTagHeaders",
   type: {
@@ -16149,6 +17102,91 @@ export const PolicyCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const PolicyFragmentGetEntityTagHeaders: coreClient.CompositeMapper = {
+  serializedName: "PolicyFragment_getEntityTagHeaders",
+  type: {
+    name: "Composite",
+    className: "PolicyFragmentGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyFragmentGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "PolicyFragment_getHeaders",
+  type: {
+    name: "Composite",
+    className: "PolicyFragmentGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicyFragmentCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "PolicyFragment_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "PolicyFragmentCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigGetEntityTagHeaders: coreClient.CompositeMapper = {
+  serializedName: "PortalConfig_getEntityTagHeaders",
+  type: {
+    name: "Composite",
+    className: "PortalConfigGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortalConfigGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "PortalConfig_getHeaders",
+  type: {
+    name: "Composite",
+    className: "PortalConfigGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PortalRevisionGetEntityTagHeaders: coreClient.CompositeMapper = {
   serializedName: "PortalRevision_getEntityTagHeaders",
   type: {
@@ -16426,6 +17464,57 @@ export const ProductPolicyCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProductPolicyCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaGetEntityTagHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_getEntityTagHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaGetHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_getHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalSchemaCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  serializedName: "GlobalSchema_createOrUpdateHeaders",
+  type: {
+    name: "Composite",
+    className: "GlobalSchemaCreateOrUpdateHeaders",
     modelProperties: {
       eTag: {
         serializedName: "etag",
