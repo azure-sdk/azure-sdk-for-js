@@ -1,15 +1,577 @@
 # Release History
+    
+## 6.0.0 (2022-05-25)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
+  - Added operation group BatchDeployments
+  - Added operation group BatchEndpoints
+  - Added operation group CodeContainers
+  - Added operation group CodeVersions
+  - Added operation group ComponentContainers
+  - Added operation group ComponentVersions
+  - Added operation group DataContainers
+  - Added operation group Datastores
+  - Added operation group DataVersions
+  - Added operation group EnvironmentContainers
+  - Added operation group EnvironmentVersions
+  - Added operation group Jobs
+  - Added operation group ModelContainers
+  - Added operation group ModelVersions
+  - Added operation group OnlineDeployments
+  - Added operation group OnlineEndpoints
+  - Added operation Workspaces.beginUpdate
+  - Added operation Workspaces.beginUpdateAndWait
+  - Added Interface AKSSchema
+  - Added Interface AKSSchemaProperties
+  - Added Interface AmlComputeSchema
+  - Added Interface AmlOperation
+  - Added Interface AmlOperationDisplay
+  - Added Interface AmlOperationListResult
+  - Added Interface AssetJobInput
+  - Added Interface AssetJobOutput
+  - Added Interface AssetReferenceBase
+  - Added Interface BatchDeploymentsCreateOrUpdateHeaders
+  - Added Interface BatchDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface BatchDeploymentsDeleteHeaders
+  - Added Interface BatchDeploymentsDeleteOptionalParams
+  - Added Interface BatchDeploymentsGetOptionalParams
+  - Added Interface BatchDeploymentsListNextOptionalParams
+  - Added Interface BatchDeploymentsListOptionalParams
+  - Added Interface BatchDeploymentsUpdateHeaders
+  - Added Interface BatchDeploymentsUpdateOptionalParams
+  - Added Interface BatchDeploymentTrackedResourceArmPaginatedResult
+  - Added Interface BatchEndpointDefaults
+  - Added Interface BatchEndpointsCreateOrUpdateHeaders
+  - Added Interface BatchEndpointsCreateOrUpdateOptionalParams
+  - Added Interface BatchEndpointsDeleteHeaders
+  - Added Interface BatchEndpointsDeleteOptionalParams
+  - Added Interface BatchEndpointsGetOptionalParams
+  - Added Interface BatchEndpointsListKeysOptionalParams
+  - Added Interface BatchEndpointsListNextOptionalParams
+  - Added Interface BatchEndpointsListOptionalParams
+  - Added Interface BatchEndpointsUpdateHeaders
+  - Added Interface BatchEndpointsUpdateOptionalParams
+  - Added Interface BatchEndpointTrackedResourceArmPaginatedResult
+  - Added Interface BatchRetrySettings
+  - Added Interface BuildContext
+  - Added Interface CodeConfiguration
+  - Added Interface CodeContainerResourceArmPaginatedResult
+  - Added Interface CodeContainersCreateOrUpdateOptionalParams
+  - Added Interface CodeContainersDeleteOptionalParams
+  - Added Interface CodeContainersGetOptionalParams
+  - Added Interface CodeContainersListNextOptionalParams
+  - Added Interface CodeContainersListOptionalParams
+  - Added Interface CodeVersionResourceArmPaginatedResult
+  - Added Interface CodeVersionsCreateOrUpdateOptionalParams
+  - Added Interface CodeVersionsDeleteOptionalParams
+  - Added Interface CodeVersionsGetOptionalParams
+  - Added Interface CodeVersionsListNextOptionalParams
+  - Added Interface CodeVersionsListOptionalParams
+  - Added Interface ComponentContainerResourceArmPaginatedResult
+  - Added Interface ComponentContainersCreateOrUpdateOptionalParams
+  - Added Interface ComponentContainersDeleteOptionalParams
+  - Added Interface ComponentContainersGetOptionalParams
+  - Added Interface ComponentContainersListNextOptionalParams
+  - Added Interface ComponentContainersListOptionalParams
+  - Added Interface ComponentVersionResourceArmPaginatedResult
+  - Added Interface ComponentVersionsCreateOrUpdateOptionalParams
+  - Added Interface ComponentVersionsDeleteOptionalParams
+  - Added Interface ComponentVersionsGetOptionalParams
+  - Added Interface ComponentVersionsListNextOptionalParams
+  - Added Interface ComponentVersionsListOptionalParams
+  - Added Interface ComputeInstanceContainer
+  - Added Interface ComputeInstanceDataDisk
+  - Added Interface ComputeInstanceDataMount
+  - Added Interface ComputeInstanceEnvironmentInfo
+  - Added Interface ComputeInstanceSchema
+  - Added Interface ComputeInstanceVersion
+  - Added Interface ComputeResourceSchema
+  - Added Interface ComputeSchedules
+  - Added Interface ComputeStartStopSchedule
+  - Added Interface ContainerResourceSettings
+  - Added Interface DatabricksSchema
+  - Added Interface DataContainerResourceArmPaginatedResult
+  - Added Interface DataContainersCreateOrUpdateOptionalParams
+  - Added Interface DataContainersDeleteOptionalParams
+  - Added Interface DataContainersGetOptionalParams
+  - Added Interface DataContainersListNextOptionalParams
+  - Added Interface DataContainersListOptionalParams
+  - Added Interface DataLakeAnalyticsSchema
+  - Added Interface DataLakeAnalyticsSchemaProperties
+  - Added Interface DatastoreCredentials
+  - Added Interface DatastoreResourceArmPaginatedResult
+  - Added Interface DatastoresCreateOrUpdateOptionalParams
+  - Added Interface DatastoresDeleteOptionalParams
+  - Added Interface DatastoreSecrets
+  - Added Interface DatastoresGetOptionalParams
+  - Added Interface DatastoresListNextOptionalParams
+  - Added Interface DatastoresListOptionalParams
+  - Added Interface DatastoresListSecretsOptionalParams
+  - Added Interface DataVersionBaseResourceArmPaginatedResult
+  - Added Interface DataVersionsCreateOrUpdateOptionalParams
+  - Added Interface DataVersionsDeleteOptionalParams
+  - Added Interface DataVersionsGetOptionalParams
+  - Added Interface DataVersionsListNextOptionalParams
+  - Added Interface DataVersionsListOptionalParams
+  - Added Interface DeploymentLogs
+  - Added Interface DeploymentLogsRequest
+  - Added Interface DistributionConfiguration
+  - Added Interface EarlyTerminationPolicy
+  - Added Interface EncryptionKeyVaultProperties
+  - Added Interface EndpointAuthKeys
+  - Added Interface EndpointAuthToken
+  - Added Interface EndpointDeploymentPropertiesBase
+  - Added Interface EndpointPropertiesBase
+  - Added Interface EnvironmentContainerResourceArmPaginatedResult
+  - Added Interface EnvironmentContainersCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentContainersDeleteOptionalParams
+  - Added Interface EnvironmentContainersGetOptionalParams
+  - Added Interface EnvironmentContainersListNextOptionalParams
+  - Added Interface EnvironmentContainersListOptionalParams
+  - Added Interface EnvironmentVersionResourceArmPaginatedResult
+  - Added Interface EnvironmentVersionsCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentVersionsDeleteOptionalParams
+  - Added Interface EnvironmentVersionsGetOptionalParams
+  - Added Interface EnvironmentVersionsListNextOptionalParams
+  - Added Interface EnvironmentVersionsListOptionalParams
+  - Added Interface FlavorData
+  - Added Interface HDInsightSchema
+  - Added Interface IdentityConfiguration
+  - Added Interface InferenceContainerProperties
+  - Added Interface JobBaseResourceArmPaginatedResult
+  - Added Interface JobInput
+  - Added Interface JobLimits
+  - Added Interface JobOutput
+  - Added Interface JobsCancelHeaders
+  - Added Interface JobsCancelOptionalParams
+  - Added Interface JobsCreateOrUpdateOptionalParams
+  - Added Interface JobsDeleteHeaders
+  - Added Interface JobsDeleteOptionalParams
+  - Added Interface JobService
+  - Added Interface JobsGetOptionalParams
+  - Added Interface JobsListNextOptionalParams
+  - Added Interface JobsListOptionalParams
+  - Added Interface ManagedServiceIdentity
+  - Added Interface ModelContainerResourceArmPaginatedResult
+  - Added Interface ModelContainersCreateOrUpdateOptionalParams
+  - Added Interface ModelContainersDeleteOptionalParams
+  - Added Interface ModelContainersGetOptionalParams
+  - Added Interface ModelContainersListNextOptionalParams
+  - Added Interface ModelContainersListOptionalParams
+  - Added Interface ModelVersionResourceArmPaginatedResult
+  - Added Interface ModelVersionsCreateOrUpdateOptionalParams
+  - Added Interface ModelVersionsDeleteOptionalParams
+  - Added Interface ModelVersionsGetOptionalParams
+  - Added Interface ModelVersionsListNextOptionalParams
+  - Added Interface ModelVersionsListOptionalParams
+  - Added Interface Objective
+  - Added Interface OnlineDeploymentsCreateOrUpdateHeaders
+  - Added Interface OnlineDeploymentsCreateOrUpdateOptionalParams
+  - Added Interface OnlineDeploymentsDeleteHeaders
+  - Added Interface OnlineDeploymentsDeleteOptionalParams
+  - Added Interface OnlineDeploymentsGetLogsOptionalParams
+  - Added Interface OnlineDeploymentsGetOptionalParams
+  - Added Interface OnlineDeploymentsListNextOptionalParams
+  - Added Interface OnlineDeploymentsListOptionalParams
+  - Added Interface OnlineDeploymentsListSkusNextOptionalParams
+  - Added Interface OnlineDeploymentsListSkusOptionalParams
+  - Added Interface OnlineDeploymentsUpdateHeaders
+  - Added Interface OnlineDeploymentsUpdateOptionalParams
+  - Added Interface OnlineDeploymentTrackedResourceArmPaginatedResult
+  - Added Interface OnlineEndpointsCreateOrUpdateHeaders
+  - Added Interface OnlineEndpointsCreateOrUpdateOptionalParams
+  - Added Interface OnlineEndpointsDeleteHeaders
+  - Added Interface OnlineEndpointsDeleteOptionalParams
+  - Added Interface OnlineEndpointsGetOptionalParams
+  - Added Interface OnlineEndpointsGetTokenOptionalParams
+  - Added Interface OnlineEndpointsListKeysOptionalParams
+  - Added Interface OnlineEndpointsListNextOptionalParams
+  - Added Interface OnlineEndpointsListOptionalParams
+  - Added Interface OnlineEndpointsRegenerateKeysHeaders
+  - Added Interface OnlineEndpointsRegenerateKeysOptionalParams
+  - Added Interface OnlineEndpointsUpdateHeaders
+  - Added Interface OnlineEndpointsUpdateOptionalParams
+  - Added Interface OnlineEndpointTrackedResourceArmPaginatedResult
+  - Added Interface OnlineRequestSettings
+  - Added Interface OnlineScaleSettings
+  - Added Interface PartialBatchDeployment
+  - Added Interface PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties
+  - Added Interface PartialManagedServiceIdentity
+  - Added Interface PartialMinimalTrackedResource
+  - Added Interface PartialSku
+  - Added Interface ProbeSettings
+  - Added Interface RegenerateEndpointKeysRequest
+  - Added Interface ResourceBase
+  - Added Interface ResourceConfiguration
+  - Added Interface Route
+  - Added Interface SamplingAlgorithm
+  - Added Interface ScheduleBase
+  - Added Interface SkuCapacity
+  - Added Interface SkuResource
+  - Added Interface SkuResourceArmPaginatedResult
+  - Added Interface SkuSetting
+  - Added Interface TrialComponent
+  - Added Interface VirtualMachineSchema
+  - Added Interface VirtualMachineSchemaProperties
+  - Added Interface VirtualMachineSecretsSchema
+  - Added Interface WorkspaceConnectionManagedIdentity
+  - Added Interface WorkspaceConnectionPersonalAccessToken
+  - Added Interface WorkspaceConnectionPropertiesV2
+  - Added Interface WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+  - Added Interface WorkspaceConnectionSharedAccessSignature
+  - Added Interface WorkspaceConnectionsListNextOptionalParams
+  - Added Interface WorkspaceConnectionUsernamePassword
+  - Added Type Alias AccountKeyDatastoreCredentials
+  - Added Type Alias AccountKeyDatastoreSecrets
+  - Added Type Alias AmlToken
+  - Added Type Alias AssetBase
+  - Added Type Alias AssetContainer
+  - Added Type Alias AssetReferenceBaseUnion
+  - Added Type Alias Autosave
+  - Added Type Alias AzureBlobDatastore
+  - Added Type Alias AzureDataLakeGen1Datastore
+  - Added Type Alias AzureDataLakeGen2Datastore
+  - Added Type Alias AzureFileDatastore
+  - Added Type Alias BanditPolicy
+  - Added Type Alias BatchDeployment
+  - Added Type Alias BatchDeploymentProperties
+  - Added Type Alias BatchDeploymentsCreateOrUpdateResponse
+  - Added Type Alias BatchDeploymentsGetResponse
+  - Added Type Alias BatchDeploymentsListNextResponse
+  - Added Type Alias BatchDeploymentsListResponse
+  - Added Type Alias BatchDeploymentsUpdateResponse
+  - Added Type Alias BatchEndpoint
+  - Added Type Alias BatchEndpointProperties
+  - Added Type Alias BatchEndpointsCreateOrUpdateResponse
+  - Added Type Alias BatchEndpointsGetResponse
+  - Added Type Alias BatchEndpointsListKeysResponse
+  - Added Type Alias BatchEndpointsListNextResponse
+  - Added Type Alias BatchEndpointsListResponse
+  - Added Type Alias BatchEndpointsUpdateResponse
+  - Added Type Alias BatchLoggingLevel
+  - Added Type Alias BatchOutputAction
+  - Added Type Alias BayesianSamplingAlgorithm
+  - Added Type Alias Caching
+  - Added Type Alias CertificateDatastoreCredentials
+  - Added Type Alias CertificateDatastoreSecrets
+  - Added Type Alias CodeContainer
+  - Added Type Alias CodeContainerProperties
+  - Added Type Alias CodeContainersCreateOrUpdateResponse
+  - Added Type Alias CodeContainersGetResponse
+  - Added Type Alias CodeContainersListNextResponse
+  - Added Type Alias CodeContainersListResponse
+  - Added Type Alias CodeVersion
+  - Added Type Alias CodeVersionProperties
+  - Added Type Alias CodeVersionsCreateOrUpdateResponse
+  - Added Type Alias CodeVersionsGetResponse
+  - Added Type Alias CodeVersionsListNextResponse
+  - Added Type Alias CodeVersionsListResponse
+  - Added Type Alias CommandJob
+  - Added Type Alias CommandJobLimits
+  - Added Type Alias ComponentContainer
+  - Added Type Alias ComponentContainerProperties
+  - Added Type Alias ComponentContainersCreateOrUpdateResponse
+  - Added Type Alias ComponentContainersGetResponse
+  - Added Type Alias ComponentContainersListNextResponse
+  - Added Type Alias ComponentContainersListResponse
+  - Added Type Alias ComponentVersion
+  - Added Type Alias ComponentVersionProperties
+  - Added Type Alias ComponentVersionsCreateOrUpdateResponse
+  - Added Type Alias ComponentVersionsGetResponse
+  - Added Type Alias ComponentVersionsListNextResponse
+  - Added Type Alias ComponentVersionsListResponse
+  - Added Type Alias ComputePowerAction
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias ContainerType
+  - Added Type Alias CredentialsType
+  - Added Type Alias CustomModelJobInput
+  - Added Type Alias CustomModelJobOutput
+  - Added Type Alias DataContainer
+  - Added Type Alias DataContainerProperties
+  - Added Type Alias DataContainersCreateOrUpdateResponse
+  - Added Type Alias DataContainersGetResponse
+  - Added Type Alias DataContainersListNextResponse
+  - Added Type Alias DataContainersListResponse
+  - Added Type Alias DataPathAssetReference
+  - Added Type Alias Datastore
+  - Added Type Alias DatastoreCredentialsUnion
+  - Added Type Alias DatastoreProperties
+  - Added Type Alias DatastorePropertiesUnion
+  - Added Type Alias DatastoresCreateOrUpdateResponse
+  - Added Type Alias DatastoreSecretsUnion
+  - Added Type Alias DatastoresGetResponse
+  - Added Type Alias DatastoresListNextResponse
+  - Added Type Alias DatastoresListResponse
+  - Added Type Alias DatastoresListSecretsResponse
+  - Added Type Alias DatastoreType
+  - Added Type Alias DataType
+  - Added Type Alias DataVersionBase
+  - Added Type Alias DataVersionBaseProperties
+  - Added Type Alias DataVersionBasePropertiesUnion
+  - Added Type Alias DataVersionsCreateOrUpdateResponse
+  - Added Type Alias DataVersionsGetResponse
+  - Added Type Alias DataVersionsListNextResponse
+  - Added Type Alias DataVersionsListResponse
+  - Added Type Alias DefaultScaleSettings
+  - Added Type Alias DeploymentProvisioningState
+  - Added Type Alias DistributionConfigurationUnion
+  - Added Type Alias DistributionType
+  - Added Type Alias EarlyTerminationPolicyType
+  - Added Type Alias EarlyTerminationPolicyUnion
+  - Added Type Alias EndpointAuthMode
+  - Added Type Alias EndpointComputeType
+  - Added Type Alias EndpointProvisioningState
+  - Added Type Alias EnvironmentContainer
+  - Added Type Alias EnvironmentContainerProperties
+  - Added Type Alias EnvironmentContainersCreateOrUpdateResponse
+  - Added Type Alias EnvironmentContainersGetResponse
+  - Added Type Alias EnvironmentContainersListNextResponse
+  - Added Type Alias EnvironmentContainersListResponse
+  - Added Type Alias EnvironmentType
+  - Added Type Alias EnvironmentVersion
+  - Added Type Alias EnvironmentVersionProperties
+  - Added Type Alias EnvironmentVersionsCreateOrUpdateResponse
+  - Added Type Alias EnvironmentVersionsGetResponse
+  - Added Type Alias EnvironmentVersionsListNextResponse
+  - Added Type Alias EnvironmentVersionsListResponse
+  - Added Type Alias Goal
+  - Added Type Alias GridSamplingAlgorithm
+  - Added Type Alias IdAssetReference
+  - Added Type Alias IdentityConfigurationType
+  - Added Type Alias IdentityConfigurationUnion
+  - Added Type Alias InputDeliveryMode
+  - Added Type Alias JobBase
+  - Added Type Alias JobBaseProperties
+  - Added Type Alias JobBasePropertiesUnion
+  - Added Type Alias JobInputType
+  - Added Type Alias JobInputUnion
+  - Added Type Alias JobLimitsType
+  - Added Type Alias JobLimitsUnion
+  - Added Type Alias JobOutputType
+  - Added Type Alias JobOutputUnion
+  - Added Type Alias JobsCreateOrUpdateResponse
+  - Added Type Alias JobsGetResponse
+  - Added Type Alias JobsListNextResponse
+  - Added Type Alias JobsListResponse
+  - Added Type Alias JobStatus
+  - Added Type Alias JobType
+  - Added Type Alias KeyType_2
+  - Added Type Alias KubernetesOnlineDeployment
+  - Added Type Alias ListViewType
+  - Added Type Alias LiteralJobInput
+  - Added Type Alias ManagedIdentity
+  - Added Type Alias ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias ManagedOnlineDeployment
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MedianStoppingPolicy
+  - Added Type Alias MLFlowModelJobInput
+  - Added Type Alias MLFlowModelJobOutput
+  - Added Type Alias MLTableData
+  - Added Type Alias MLTableJobInput
+  - Added Type Alias MLTableJobOutput
+  - Added Type Alias ModelContainer
+  - Added Type Alias ModelContainerProperties
+  - Added Type Alias ModelContainersCreateOrUpdateResponse
+  - Added Type Alias ModelContainersGetResponse
+  - Added Type Alias ModelContainersListNextResponse
+  - Added Type Alias ModelContainersListResponse
+  - Added Type Alias ModelVersion
+  - Added Type Alias ModelVersionProperties
+  - Added Type Alias ModelVersionsCreateOrUpdateResponse
+  - Added Type Alias ModelVersionsGetResponse
+  - Added Type Alias ModelVersionsListNextResponse
+  - Added Type Alias ModelVersionsListResponse
+  - Added Type Alias MountAction
+  - Added Type Alias MountState
+  - Added Type Alias Mpi
+  - Added Type Alias Network
+  - Added Type Alias NoneAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias NoneDatastoreCredentials
+  - Added Type Alias OnlineDeployment
+  - Added Type Alias OnlineDeploymentProperties
+  - Added Type Alias OnlineDeploymentPropertiesUnion
+  - Added Type Alias OnlineDeploymentsCreateOrUpdateResponse
+  - Added Type Alias OnlineDeploymentsGetLogsResponse
+  - Added Type Alias OnlineDeploymentsGetResponse
+  - Added Type Alias OnlineDeploymentsListNextResponse
+  - Added Type Alias OnlineDeploymentsListResponse
+  - Added Type Alias OnlineDeploymentsListSkusNextResponse
+  - Added Type Alias OnlineDeploymentsListSkusResponse
+  - Added Type Alias OnlineDeploymentsUpdateResponse
+  - Added Type Alias OnlineEndpoint
+  - Added Type Alias OnlineEndpointProperties
+  - Added Type Alias OnlineEndpointsCreateOrUpdateResponse
+  - Added Type Alias OnlineEndpointsGetResponse
+  - Added Type Alias OnlineEndpointsGetTokenResponse
+  - Added Type Alias OnlineEndpointsListKeysResponse
+  - Added Type Alias OnlineEndpointsListNextResponse
+  - Added Type Alias OnlineEndpointsListResponse
+  - Added Type Alias OnlineEndpointsUpdateResponse
+  - Added Type Alias OnlineScaleSettingsUnion
+  - Added Type Alias OperatingSystemType
+  - Added Type Alias OperationTrigger
+  - Added Type Alias OrderString
+  - Added Type Alias OutputDeliveryMode
+  - Added Type Alias OutputPathAssetReference
+  - Added Type Alias PartialMinimalTrackedResourceWithIdentity
+  - Added Type Alias PartialMinimalTrackedResourceWithSku
+  - Added Type Alias PATAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias PipelineJob
+  - Added Type Alias ProvisioningStatus
+  - Added Type Alias PyTorch
+  - Added Type Alias RandomSamplingAlgorithm
+  - Added Type Alias RandomSamplingAlgorithmRule
+  - Added Type Alias ReferenceType
+  - Added Type Alias SamplingAlgorithmType
+  - Added Type Alias SamplingAlgorithmUnion
+  - Added Type Alias SASAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias SasDatastoreCredentials
+  - Added Type Alias SasDatastoreSecrets
+  - Added Type Alias ScaleType
+  - Added Type Alias ScheduleProvisioningState
+  - Added Type Alias ScheduleStatus
+  - Added Type Alias SecretsType
+  - Added Type Alias ServiceDataAccessAuthIdentity
+  - Added Type Alias ServicePrincipalDatastoreCredentials
+  - Added Type Alias ServicePrincipalDatastoreSecrets
+  - Added Type Alias SkuScaleType
+  - Added Type Alias SkuTier
+  - Added Type Alias SourceType
+  - Added Type Alias SslConfigStatus
+  - Added Type Alias StorageAccountType
+  - Added Type Alias SweepJob
+  - Added Type Alias SweepJobLimits
+  - Added Type Alias TargetUtilizationScaleSettings
+  - Added Type Alias TensorFlow
+  - Added Type Alias TrackedResource
+  - Added Type Alias TritonModelJobInput
+  - Added Type Alias TritonModelJobOutput
+  - Added Type Alias TruncationSelectionPolicy
+  - Added Type Alias UriFileDataVersion
+  - Added Type Alias UriFileJobInput
+  - Added Type Alias UriFileJobOutput
+  - Added Type Alias UriFolderDataVersion
+  - Added Type Alias UriFolderJobInput
+  - Added Type Alias UriFolderJobOutput
+  - Added Type Alias UserIdentity
+  - Added Type Alias UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias WorkspaceConnectionPropertiesV2BasicResource
+  - Added Type Alias WorkspaceConnectionPropertiesV2Union
+  - Added Type Alias WorkspaceConnectionsListNextResponse
+  - Interface AmlComputeProperties has a new optional parameter propertyBag
+  - Interface ComputeInstanceLastOperation has a new optional parameter operationTrigger
+  - Interface ComputeInstanceProperties has a new optional parameter containers
+  - Interface ComputeInstanceProperties has a new optional parameter dataDisks
+  - Interface ComputeInstanceProperties has a new optional parameter dataMounts
+  - Interface ComputeInstanceProperties has a new optional parameter enableNodePublicIp
+  - Interface ComputeInstanceProperties has a new optional parameter schedules
+  - Interface ComputeInstanceProperties has a new optional parameter versions
+  - Interface ContainerResourceRequirements has a new optional parameter containerResourceLimits
+  - Interface ContainerResourceRequirements has a new optional parameter containerResourceRequests
+  - Interface Resource has a new optional parameter systemData
+  - Interface Sku has a new optional parameter capacity
+  - Interface Sku has a new optional parameter family
+  - Interface Sku has a new optional parameter size
+  - Interface WorkspacesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface WorkspacesUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface WorkspaceUpdateParameters has a new optional parameter applicationInsights
+  - Interface WorkspaceUpdateParameters has a new optional parameter containerRegistry
+  - Class AzureMachineLearningWorkspaces has a new parameter batchDeployments
+  - Class AzureMachineLearningWorkspaces has a new parameter batchEndpoints
+  - Class AzureMachineLearningWorkspaces has a new parameter codeContainers
+  - Class AzureMachineLearningWorkspaces has a new parameter codeVersions
+  - Class AzureMachineLearningWorkspaces has a new parameter componentContainers
+  - Class AzureMachineLearningWorkspaces has a new parameter componentVersions
+  - Class AzureMachineLearningWorkspaces has a new parameter dataContainers
+  - Class AzureMachineLearningWorkspaces has a new parameter datastores
+  - Class AzureMachineLearningWorkspaces has a new parameter dataVersions
+  - Class AzureMachineLearningWorkspaces has a new parameter environmentContainers
+  - Class AzureMachineLearningWorkspaces has a new parameter environmentVersions
+  - Class AzureMachineLearningWorkspaces has a new parameter jobs
+  - Class AzureMachineLearningWorkspaces has a new parameter modelContainers
+  - Class AzureMachineLearningWorkspaces has a new parameter modelVersions
+  - Class AzureMachineLearningWorkspaces has a new parameter onlineDeployments
+  - Class AzureMachineLearningWorkspaces has a new parameter onlineEndpoints
+  - Add parameters of AKSSchema to TypeAlias Aks
+  - Add parameters of AmlComputeSchema to TypeAlias AmlCompute
+  - Add parameters of ComputeInstanceSchema to TypeAlias ComputeInstance
+  - Add parameters of ComputeResourceSchema to TypeAlias ComputeResource
+  - Add parameters of DatabricksSchema to TypeAlias Databricks
+  - Add parameters of DataLakeAnalyticsSchema to TypeAlias DataLakeAnalytics
+  - Add parameters of HDInsightSchema to TypeAlias HDInsight
+  - Add parameters of VirtualMachineSchema to TypeAlias VirtualMachine
+  - Add parameters of VirtualMachineSecretsSchema to TypeAlias VirtualMachineSecrets
+  - Type Alias Workspace has a new parameter v1LegacyMode
+  - Added Enum KnownAutosave
+  - Added Enum KnownBatchLoggingLevel
+  - Added Enum KnownBatchOutputAction
+  - Added Enum KnownCaching
+  - Added Enum KnownComputePowerAction
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownContainerType
+  - Added Enum KnownCredentialsType
+  - Added Enum KnownDatastoreType
+  - Added Enum KnownDataType
+  - Added Enum KnownDeploymentProvisioningState
+  - Added Enum KnownDistributionType
+  - Added Enum KnownEarlyTerminationPolicyType
+  - Added Enum KnownEndpointAuthMode
+  - Added Enum KnownEndpointComputeType
+  - Added Enum KnownEndpointProvisioningState
+  - Added Enum KnownEnvironmentType
+  - Added Enum KnownGoal
+  - Added Enum KnownIdentityConfigurationType
+  - Added Enum KnownInputDeliveryMode
+  - Added Enum KnownJobInputType
+  - Added Enum KnownJobLimitsType
+  - Added Enum KnownJobOutputType
+  - Added Enum KnownJobStatus
+  - Added Enum KnownJobType
+  - Added Enum KnownKeyType
+  - Added Enum KnownListViewType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMountAction
+  - Added Enum KnownMountState
+  - Added Enum KnownNetwork
+  - Added Enum KnownOperatingSystemType
+  - Added Enum KnownOperationTrigger
+  - Added Enum KnownOrderString
+  - Added Enum KnownOutputDeliveryMode
+  - Added Enum KnownProvisioningStatus
+  - Added Enum KnownRandomSamplingAlgorithmRule
+  - Added Enum KnownReferenceType
+  - Added Enum KnownSamplingAlgorithmType
+  - Added Enum KnownScaleType
+  - Added Enum KnownScheduleProvisioningState
+  - Added Enum KnownScheduleStatus
+  - Added Enum KnownSecretsType
+  - Added Enum KnownServiceDataAccessAuthIdentity
+  - Added Enum KnownSkuScaleType
+  - Added Enum KnownSourceType
+  - Added Enum KnownSslConfigStatus
+  - Added Enum KnownStorageAccountType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group WorkspaceSkus
+  - Removed operation Workspaces.update
+  - Operation WorkspaceConnections.create has a new signature
+  - Interface ContainerResourceRequirements no longer has parameter cpu
+  - Interface ContainerResourceRequirements no longer has parameter cpuLimit
+  - Interface ContainerResourceRequirements no longer has parameter fpga
+  - Interface ContainerResourceRequirements no longer has parameter gpu
+  - Interface ContainerResourceRequirements no longer has parameter memoryInGB
+  - Interface ContainerResourceRequirements no longer has parameter memoryInGBLimit
+  - Interface UserAssignedIdentity no longer has parameter tenantId
+  - Parameter name of interface Sku is now required
+  - Class AzureMachineLearningWorkspaces no longer has parameter workspaceSkus
+  - Delete parameters of Components1D3SwueSchemasComputeresourceAllof1 in TypeAlias ComputeResource
+  - Removed Enum KnownReasonCode
+  - Removed Enum KnownSslConfigurationStatus
+    
 ## 5.0.1 (2022-04-24)
 
 **Features**

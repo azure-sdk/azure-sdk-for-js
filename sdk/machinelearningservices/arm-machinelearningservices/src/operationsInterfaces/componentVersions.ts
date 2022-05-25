@@ -8,64 +8,76 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkspaceConnectionPropertiesV2BasicResource,
-  WorkspaceConnectionsListOptionalParams,
-  WorkspaceConnectionsCreateOptionalParams,
-  WorkspaceConnectionsCreateResponse,
-  WorkspaceConnectionsGetOptionalParams,
-  WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams
+  ComponentVersion,
+  ComponentVersionsListOptionalParams,
+  ComponentVersionsDeleteOptionalParams,
+  ComponentVersionsGetOptionalParams,
+  ComponentVersionsGetResponse,
+  ComponentVersionsCreateOrUpdateOptionalParams,
+  ComponentVersionsCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a WorkspaceConnections. */
-export interface WorkspaceConnections {
+/** Interface representing a ComponentVersions. */
+export interface ComponentVersions {
   /**
+   * List component versions.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Component name.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
+    name: string,
+    options?: ComponentVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<ComponentVersion>;
   /**
+   * Delete version.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param parameters The object for creating or updating a new workspace connection
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    workspaceName: string,
-    connectionName: string,
-    parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
-  ): Promise<WorkspaceConnectionsCreateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
-  ): Promise<WorkspaceConnectionsGetResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
+   * @param name Container name.
+   * @param version Version identifier.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
+    name: string,
+    version: string,
+    options?: ComponentVersionsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Get version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    options?: ComponentVersionsGetOptionalParams
+  ): Promise<ComponentVersionsGetResponse>;
+  /**
+   * Create or update version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Version entity to create or update.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: ComponentVersion,
+    options?: ComponentVersionsCreateOrUpdateOptionalParams
+  ): Promise<ComponentVersionsCreateOrUpdateResponse>;
 }

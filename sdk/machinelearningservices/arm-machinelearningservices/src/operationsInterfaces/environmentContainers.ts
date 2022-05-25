@@ -8,19 +8,20 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  WorkspaceConnectionPropertiesV2BasicResource,
-  WorkspaceConnectionsListOptionalParams,
-  WorkspaceConnectionsCreateOptionalParams,
-  WorkspaceConnectionsCreateResponse,
-  WorkspaceConnectionsGetOptionalParams,
-  WorkspaceConnectionsGetResponse,
-  WorkspaceConnectionsDeleteOptionalParams
+  EnvironmentContainer,
+  EnvironmentContainersListOptionalParams,
+  EnvironmentContainersDeleteOptionalParams,
+  EnvironmentContainersGetOptionalParams,
+  EnvironmentContainersGetResponse,
+  EnvironmentContainersCreateOrUpdateOptionalParams,
+  EnvironmentContainersCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a WorkspaceConnections. */
-export interface WorkspaceConnections {
+/** Interface representing a EnvironmentContainers. */
+export interface EnvironmentContainers {
   /**
+   * List environment containers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -28,44 +29,47 @@ export interface WorkspaceConnections {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspaceConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<WorkspaceConnectionPropertiesV2BasicResource>;
+    options?: EnvironmentContainersListOptionalParams
+  ): PagedAsyncIterableIterator<EnvironmentContainer>;
   /**
+   * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param parameters The object for creating or updating a new workspace connection
-   * @param options The options parameters.
-   */
-  create(
-    resourceGroupName: string,
-    workspaceName: string,
-    connectionName: string,
-    parameters: WorkspaceConnectionPropertiesV2BasicResource,
-    options?: WorkspaceConnectionsCreateOptionalParams
-  ): Promise<WorkspaceConnectionsCreateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    workspaceName: string,
-    connectionName: string,
-    options?: WorkspaceConnectionsGetOptionalParams
-  ): Promise<WorkspaceConnectionsGetResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param connectionName Friendly name of the workspace connection
+   * @param name Container name. This is case-sensitive.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     workspaceName: string,
-    connectionName: string,
-    options?: WorkspaceConnectionsDeleteOptionalParams
+    name: string,
+    options?: EnvironmentContainersDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Get container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    options?: EnvironmentContainersGetOptionalParams
+  ): Promise<EnvironmentContainersGetResponse>;
+  /**
+   * Create or update container.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name. This is case-sensitive.
+   * @param body Container entity to create or update.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    body: EnvironmentContainer,
+    options?: EnvironmentContainersCreateOrUpdateOptionalParams
+  ): Promise<EnvironmentContainersCreateOrUpdateResponse>;
 }
