@@ -400,6 +400,21 @@ export const FactoryIdentity: coreClient.CompositeMapper = {
   }
 };
 
+export const PurviewConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PurviewConfiguration",
+    modelProperties: {
+      purviewResourceId: {
+        serializedName: "purviewResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FactoryRepoConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3730,6 +3745,34 @@ export const PrivateLinkResourceProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const GlobalParameterListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GlobalParameterListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GlobalParameterResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Expression: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6688,6 +6731,13 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
       }
     }
   }
@@ -7161,6 +7211,13 @@ export const Factory: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      purviewConfiguration: {
+        serializedName: "properties.purviewConfiguration",
+        type: {
+          name: "Composite",
+          className: "PurviewConfiguration"
+        }
+      },
       repoConfiguration: {
         serializedName: "properties.repoConfiguration",
         type: {
@@ -7522,6 +7579,29 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateLinkResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalParameterResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GlobalParameterResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "GlobalParameterSpecification"
+            }
+          }
         }
       }
     }
@@ -17893,6 +17973,13 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
           value: { type: { name: "any" } }
         }
       },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
       sinks: {
         serializedName: "typeProperties.sinks",
         type: {
@@ -25557,6 +25644,13 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
       },
       runConcurrently: {
         serializedName: "typeProperties.runConcurrently",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      sourceStagingConcurrency: {
+        serializedName: "typeProperties.sourceStagingConcurrency",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }

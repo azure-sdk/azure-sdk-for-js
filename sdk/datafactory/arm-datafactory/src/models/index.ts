@@ -670,6 +670,12 @@ export interface FactoryIdentity {
   userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
 }
 
+/** Purview configuration. */
+export interface PurviewConfiguration {
+  /** Purview resource id. */
+  purviewResourceId?: string;
+}
+
 /** Factory's git repo information. */
 export interface FactoryRepoConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2295,6 +2301,14 @@ export interface PrivateLinkResourceProperties {
   readonly requiredZoneNames?: string[];
 }
 
+/** A list of Global parameters. */
+export interface GlobalParameterListResponse {
+  /** List of global parameters. */
+  value: GlobalParameterResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
 /** Azure Data Factory expression definition. */
 export interface Expression {
   /** Expression type. */
@@ -3518,6 +3532,8 @@ export interface ExecuteDataFlowActivityTypeProperties {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 }
 
 /** Compute properties for data flow activity. */
@@ -3680,6 +3696,8 @@ export type Factory = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
+  /** Purview information of the factory. */
+  purviewConfiguration?: PurviewConfiguration;
   /** Git repo information of the factory. */
   repoConfiguration?: FactoryRepoConfigurationUnion;
   /** List of parameters for factory. */
@@ -3799,6 +3817,12 @@ export type PrivateLinkConnectionApprovalRequestResource = SubResource & {
 export type PrivateLinkResource = SubResource & {
   /** Core resource properties */
   properties?: PrivateLinkResourceProperties;
+};
+
+/** Global parameters resource type. */
+export type GlobalParameterResource = SubResource & {
+  /** Properties of the global parameter. */
+  properties: { [propertyName: string]: GlobalParameterSpecification };
 };
 
 /** Credential resource type. */
@@ -7239,6 +7263,8 @@ export type ExecuteWranglingDataflowActivity = Activity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
   /** (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName. */
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
@@ -9799,6 +9825,8 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
   continueOnError?: Record<string, unknown>;
   /** Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean) */
   runConcurrently?: Record<string, unknown>;
+  /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
+  sourceStagingConcurrency?: Record<string, unknown>;
 };
 
 /** Script activity type. */
@@ -13182,6 +13210,38 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper;
+
+/** Optional parameters. */
+export interface GlobalParametersListByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactory operation. */
+export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
+
+/** Optional parameters. */
+export interface GlobalParametersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GlobalParametersGetResponse = GlobalParameterResource;
+
+/** Optional parameters. */
+export interface GlobalParametersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
+
+/** Optional parameters. */
+export interface GlobalParametersDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GlobalParametersListByFactoryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactoryNext operation. */
+export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
 
 /** Optional parameters. */
 export interface DataFactoryManagementClientOptionalParams
