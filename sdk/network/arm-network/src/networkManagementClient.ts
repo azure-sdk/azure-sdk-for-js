@@ -126,7 +126,8 @@ import {
   VirtualHubIpConfigurationImpl,
   HubRouteTablesImpl,
   RoutingIntentOperationsImpl,
-  WebApplicationFirewallPoliciesImpl
+  WebApplicationFirewallPoliciesImpl,
+  ExpressRouteProviderPortsLocationImpl
 } from "./operations";
 import {
   ApplicationGateways,
@@ -242,7 +243,8 @@ import {
   VirtualHubIpConfiguration,
   HubRouteTables,
   RoutingIntentOperations,
-  WebApplicationFirewallPolicies
+  WebApplicationFirewallPolicies,
+  ExpressRouteProviderPortsLocation
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -273,6 +275,8 @@ import {
   VirtualWanVpnProfileParameters,
   GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParams,
   GeneratevirtualwanvpnserverconfigurationvpnprofileResponse,
+  ExpressRouteProviderPortOptionalParams,
+  ExpressRouteProviderPortResponse,
   PutBastionShareableLinkNextResponse,
   GetBastionShareableLinkNextResponse,
   GetActiveSessionsNextResponse,
@@ -282,7 +286,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 export class NetworkManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
 
   /**
@@ -313,7 +316,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/28.0.1`;
+    const packageDetails = `azsdk-js-arm-network/29.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -360,7 +363,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-01";
     this.applicationGateways = new ApplicationGatewaysImpl(this);
     this.applicationGatewayPrivateLinkResources = new ApplicationGatewayPrivateLinkResourcesImpl(
       this
@@ -537,6 +539,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.hubRouteTables = new HubRouteTablesImpl(this);
     this.routingIntentOperations = new RoutingIntentOperationsImpl(this);
     this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesImpl(
+      this
+    );
+    this.expressRouteProviderPortsLocation = new ExpressRouteProviderPortsLocationImpl(
       this
     );
   }
@@ -1255,6 +1260,21 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Retrieves detail of a provider port.
+   * @param providerport The name of the provider port.
+   * @param options The options parameters.
+   */
+  expressRouteProviderPort(
+    providerport: string,
+    options?: ExpressRouteProviderPortOptionalParams
+  ): Promise<ExpressRouteProviderPortResponse> {
+    return this.sendOperationRequest(
+      { providerport, options },
+      expressRouteProviderPortOperationSpec
+    );
+  }
+
+  /**
    * PutBastionShareableLinkNext
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
@@ -1453,6 +1473,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   hubRouteTables: HubRouteTables;
   routingIntentOperations: RoutingIntentOperations;
   webApplicationFirewallPolicies: WebApplicationFirewallPolicies;
+  expressRouteProviderPortsLocation: ExpressRouteProviderPortsLocation;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1668,6 +1689,27 @@ const generatevirtualwanvpnserverconfigurationvpnprofileOperationSpec: coreClien
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const expressRouteProviderPortOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExpressRouteProviderPort
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.providerport
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const putBastionShareableLinkNextOperationSpec: coreClient.OperationSpec = {

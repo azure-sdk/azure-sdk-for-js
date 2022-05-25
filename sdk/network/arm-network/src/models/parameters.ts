@@ -183,7 +183,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01",
+    defaultValue: "2022-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -401,6 +401,17 @@ export const vpnClientParams: OperationParameter = {
   mapper: VirtualWanVpnProfileParametersMapper
 };
 
+export const providerport: OperationURLParameter = {
+  parameterPath: "providerport",
+  mapper: {
+    serializedName: "providerport",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const cloudServiceName: OperationURLParameter = {
   parameterPath: "cloudServiceName",
   mapper: {
@@ -455,6 +466,18 @@ export const virtualmachineIndex: OperationURLParameter = {
   mapper: {
     serializedName: "virtualmachineIndex",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2018-10-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -1998,4 +2021,14 @@ export const policyName: OperationURLParameter = {
 export const parameters77: OperationParameter = {
   parameterPath: "parameters",
   mapper: WebApplicationFirewallPolicyMapper
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
 };

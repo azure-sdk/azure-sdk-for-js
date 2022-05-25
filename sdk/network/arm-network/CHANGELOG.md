@@ -1,15 +1,35 @@
 # Release History
+    
+## 29.0.0 (2022-05-25)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
+  - Added operation group ExpressRouteProviderPortsLocation
+  - Added Interface ExpressRouteProviderPortListResult
+  - Added Interface ExpressRouteProviderPortOptionalParams
+  - Added Interface ExpressRouteProviderPortsLocationListOptionalParams
+  - Added Interface VirtualRouterAutoScaleConfiguration
+  - Added Type Alias ExpressRouteProviderPort
+  - Added Type Alias ExpressRouteProviderPortResponse
+  - Added Type Alias ExpressRouteProviderPortsLocationListResponse
+  - Interface ExplicitProxySettings has a new optional parameter enablePacFile
+  - Class NetworkManagementClient has a new parameter expressRouteProviderPortsLocation
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+  - Type Alias VirtualHub has a new parameter virtualRouterAutoScaleConfiguration
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101S
+  - Enum KnownApplicationGatewaySslPolicyType has a new value CustomV2
+  - Enum KnownApplicationGatewaySslProtocol has a new value TLSv13
+  - Enum KnownEndpointType has a new value AzureArcVM
+  - Enum KnownEndpointType has a new value AzureVmss
+  - Enum KnownWebApplicationFirewallOperator has a new value Any
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NetworkManagementClientOptionalParams no longer has parameter apiVersion
+  - Class NetworkManagementClient no longer has parameter apiVersion
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**

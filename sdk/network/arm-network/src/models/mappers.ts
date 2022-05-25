@@ -4385,6 +4385,13 @@ export const ExplicitProxySettings: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      enablePacFile: {
+        serializedName: "enablePacFile",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
       pacFilePort: {
         constraints: {
           InclusiveMaximum: 64000,
@@ -12938,6 +12945,24 @@ export const VirtualHubRouteV2: coreClient.CompositeMapper = {
   }
 };
 
+export const VirtualRouterAutoScaleConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualRouterAutoScaleConfiguration",
+    modelProperties: {
+      minCapacity: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "minCapacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ListVirtualHubsResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -14221,6 +14246,34 @@ export const ManagedRuleOverride: coreClient.CompositeMapper = {
       },
       state: {
         serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteProviderPortListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteProviderPortListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteProviderPort"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -17267,6 +17320,16 @@ export const ApplicationGatewayRoutingRule: coreClient.CompositeMapper = {
         serializedName: "properties.ruleType",
         type: {
           name: "String"
+        }
+      },
+      priority: {
+        constraints: {
+          InclusiveMaximum: 20000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
         }
       },
       backendAddressPool: {
@@ -26036,6 +26099,13 @@ export const VirtualHub: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      virtualRouterAutoScaleConfiguration: {
+        serializedName: "properties.virtualRouterAutoScaleConfiguration",
+        type: {
+          name: "Composite",
+          className: "VirtualRouterAutoScaleConfiguration"
+        }
       }
     }
   }
@@ -26274,6 +26344,74 @@ export const WebApplicationFirewallPolicy: coreClient.CompositeMapper = {
               className: "SubResource"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteProviderPort: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteProviderPort",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      portPairDescriptor: {
+        serializedName: "properties.portPairDescriptor",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primaryAzurePort: {
+        serializedName: "properties.primaryAzurePort",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      secondaryAzurePort: {
+        serializedName: "properties.secondaryAzurePort",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      peeringLocation: {
+        serializedName: "properties.peeringLocation",
+        type: {
+          name: "String"
+        }
+      },
+      overprovisionFactor: {
+        serializedName: "properties.overprovisionFactor",
+        type: {
+          name: "Number"
+        }
+      },
+      portBandwidthInMbps: {
+        serializedName: "properties.portBandwidthInMbps",
+        type: {
+          name: "Number"
+        }
+      },
+      usedBandwidthInMbps: {
+        serializedName: "properties.usedBandwidthInMbps",
+        type: {
+          name: "Number"
+        }
+      },
+      remainingBandwidthInMbps: {
+        serializedName: "properties.remainingBandwidthInMbps",
+        type: {
+          name: "Number"
         }
       }
     }

@@ -601,6 +601,7 @@ export type ApplicationGatewayRoutingRule = SubResource & {
     readonly etag?: string;
     readonly type?: string;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
+    priority?: number;
     backendAddressPool?: SubResource;
     backendSettings?: SubResource;
     listener?: SubResource;
@@ -2881,6 +2882,7 @@ export interface ExclusionManagedRuleSet {
 // @public
 export interface ExplicitProxySettings {
     enableExplicitProxy?: boolean;
+    enablePacFile?: boolean;
     httpPort?: number;
     httpsPort?: number;
     pacFile?: string;
@@ -3965,6 +3967,45 @@ export interface ExpressRoutePortsUpdateTagsOptionalParams extends coreClient.Op
 
 // @public
 export type ExpressRoutePortsUpdateTagsResponse = ExpressRoutePort;
+
+// @public
+export type ExpressRouteProviderPort = Resource & {
+    readonly etag?: string;
+    readonly portPairDescriptor?: string;
+    readonly primaryAzurePort?: string;
+    readonly secondaryAzurePort?: string;
+    peeringLocation?: string;
+    overprovisionFactor?: number;
+    portBandwidthInMbps?: number;
+    usedBandwidthInMbps?: number;
+    remainingBandwidthInMbps?: number;
+};
+
+// @public
+export interface ExpressRouteProviderPortListResult {
+    readonly nextLink?: string;
+    value?: ExpressRouteProviderPort[];
+}
+
+// @public
+export interface ExpressRouteProviderPortOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExpressRouteProviderPortResponse = ExpressRouteProviderPort;
+
+// @public
+export interface ExpressRouteProviderPortsLocation {
+    list(options?: ExpressRouteProviderPortsLocationListOptionalParams): Promise<ExpressRouteProviderPortsLocationListResponse>;
+}
+
+// @public
+export interface ExpressRouteProviderPortsLocationListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
 
 // @public
 export type ExpressRouteServiceProvider = Resource & {
@@ -5403,13 +5444,19 @@ export enum KnownApplicationGatewaySslPolicyName {
     // (undocumented)
     AppGwSslPolicy20170401 = "AppGwSslPolicy20170401",
     // (undocumented)
-    AppGwSslPolicy20170401S = "AppGwSslPolicy20170401S"
+    AppGwSslPolicy20170401S = "AppGwSslPolicy20170401S",
+    // (undocumented)
+    AppGwSslPolicy20220101 = "AppGwSslPolicy20220101",
+    // (undocumented)
+    AppGwSslPolicy20220101S = "AppGwSslPolicy20220101S"
 }
 
 // @public
 export enum KnownApplicationGatewaySslPolicyType {
     // (undocumented)
     Custom = "Custom",
+    // (undocumented)
+    CustomV2 = "CustomV2",
     // (undocumented)
     Predefined = "Predefined"
 }
@@ -5421,7 +5468,9 @@ export enum KnownApplicationGatewaySslProtocol {
     // (undocumented)
     TLSv11 = "TLSv1_1",
     // (undocumented)
-    TLSv12 = "TLSv1_2"
+    TLSv12 = "TLSv1_2",
+    // (undocumented)
+    TLSv13 = "TLSv1_3"
 }
 
 // @public
@@ -5767,9 +5816,13 @@ export enum KnownEffectiveSecurityRuleProtocol {
 // @public
 export enum KnownEndpointType {
     // (undocumented)
+    AzureArcVM = "AzureArcVM",
+    // (undocumented)
     AzureSubnet = "AzureSubnet",
     // (undocumented)
     AzureVM = "AzureVM",
+    // (undocumented)
+    AzureVmss = "AzureVMSS",
     // (undocumented)
     AzureVNet = "AzureVNet",
     // (undocumented)
@@ -7050,6 +7103,8 @@ export enum KnownWebApplicationFirewallMode {
 
 // @public
 export enum KnownWebApplicationFirewallOperator {
+    // (undocumented)
+    Any = "Any",
     // (undocumented)
     BeginsWith = "BeginsWith",
     // (undocumented)
@@ -8361,8 +8416,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NetworkManagementClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     applicationGatewayPrivateEndpointConnections: ApplicationGatewayPrivateEndpointConnections;
     // (undocumented)
     applicationGatewayPrivateLinkResources: ApplicationGatewayPrivateLinkResources;
@@ -8433,6 +8486,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     expressRoutePorts: ExpressRoutePorts;
     // (undocumented)
     expressRoutePortsLocations: ExpressRoutePortsLocations;
+    expressRouteProviderPort(providerport: string, options?: ExpressRouteProviderPortOptionalParams): Promise<ExpressRouteProviderPortResponse>;
+    // (undocumented)
+    expressRouteProviderPortsLocation: ExpressRouteProviderPortsLocation;
     // (undocumented)
     expressRouteServiceProviders: ExpressRouteServiceProviders;
     // (undocumented)
@@ -8607,7 +8663,6 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
 // @public
 export interface NetworkManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -11856,6 +11911,7 @@ export type VirtualHub = Resource & {
     allowBranchToBranchTraffic?: boolean;
     preferredRoutingGateway?: PreferredRoutingGateway;
     hubRoutingPreference?: HubRoutingPreference;
+    virtualRouterAutoScaleConfiguration?: VirtualRouterAutoScaleConfiguration;
 };
 
 // @public
@@ -13076,6 +13132,11 @@ export type VirtualRouter = Resource & {
     readonly peerings?: SubResource[];
     readonly provisioningState?: ProvisioningState;
 };
+
+// @public
+export interface VirtualRouterAutoScaleConfiguration {
+    minCapacity?: number;
+}
 
 // @public
 export interface VirtualRouterListResult {
