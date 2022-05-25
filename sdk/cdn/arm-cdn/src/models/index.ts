@@ -1012,10 +1012,10 @@ export interface ResourceUsage {
    */
   readonly resourceType?: string;
   /**
-   * Unit of the usage. e.g. Count.
+   * Unit of the usage. e.g. count.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly unit?: string;
+  readonly unit?: ResourceUsageUnit;
   /**
    * Actual value of usage on the specified resource type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2580,7 +2580,7 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: EndpointProvisioningState;
 };
 
 /** The JSON object that contains the properties of the origin. */
@@ -2594,7 +2594,7 @@ export type OriginProperties = OriginUpdatePropertiesParameters & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2613,7 +2613,7 @@ export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginGroupProvisioningState;
 };
 
 /** Defines a rate limiting rule that can be included in a waf policy */
@@ -2870,7 +2870,7 @@ export type CustomDomain = ProxyResource & {
    */
   readonly resourceState?: CustomDomainResourceState;
   /**
-   * Provisioning status of Custom Https of the custom domain.
+   * Provisioning status of the custom domain.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
@@ -2884,10 +2884,10 @@ export type CustomDomain = ProxyResource & {
   /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
   validationData?: string;
   /**
-   * Provisioning status of the custom domain.
+   * Provisioning status of Custom Https of the custom domain.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: CustomHttpsProvisioningState;
 };
 
 /** CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
@@ -2923,7 +2923,7 @@ export type Origin = ProxyResource & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2950,7 +2950,7 @@ export type OriginGroup = ProxyResource & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginGroupProvisioningState;
 };
 
 /** Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users. */
@@ -3002,7 +3002,7 @@ export type Profile = TrackedResource & {
    * Provisioning status of the profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProfileProvisioningState;
   /**
    * The Id of the frontdoor.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3065,7 +3065,7 @@ export type Endpoint = TrackedResource & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: EndpointProvisioningState;
 };
 
 /** Defines web application firewall policy for Azure CDN. */
@@ -3849,6 +3849,28 @@ export enum KnownProfileResourceState {
  */
 export type ProfileResourceState = string;
 
+/** Known values of {@link ProfileProvisioningState} that the service accepts. */
+export enum KnownProfileProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for ProfileProvisioningState. \
+ * {@link KnownProfileProvisioningState} can be used interchangeably with ProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type ProfileProvisioningState = string;
+
 /** Known values of {@link OptimizationType} that the service accepts. */
 export enum KnownOptimizationType {
   GeneralWebDelivery = "GeneralWebDelivery",
@@ -3870,6 +3892,20 @@ export enum KnownOptimizationType {
  * **DynamicSiteAcceleration**
  */
 export type OptimizationType = string;
+
+/** Known values of {@link ResourceUsageUnit} that the service accepts. */
+export enum KnownResourceUsageUnit {
+  Count = "count"
+}
+
+/**
+ * Defines values for ResourceUsageUnit. \
+ * {@link KnownResourceUsageUnit} can be used interchangeably with ResourceUsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **count**
+ */
+export type ResourceUsageUnit = string;
 
 /** Known values of {@link PrivateEndpointStatus} that the service accepts. */
 export enum KnownPrivateEndpointStatus {
@@ -4021,6 +4057,28 @@ export enum KnownEndpointResourceState {
  */
 export type EndpointResourceState = string;
 
+/** Known values of {@link EndpointProvisioningState} that the service accepts. */
+export enum KnownEndpointProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for EndpointProvisioningState. \
+ * {@link KnownEndpointProvisioningState} can be used interchangeably with EndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type EndpointProvisioningState = string;
+
 /** Known values of {@link OriginResourceState} that the service accepts. */
 export enum KnownOriginResourceState {
   Creating = "Creating",
@@ -4039,6 +4097,28 @@ export enum KnownOriginResourceState {
  */
 export type OriginResourceState = string;
 
+/** Known values of {@link OriginProvisioningState} that the service accepts. */
+export enum KnownOriginProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginProvisioningState. \
+ * {@link KnownOriginProvisioningState} can be used interchangeably with OriginProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginProvisioningState = string;
+
 /** Known values of {@link OriginGroupResourceState} that the service accepts. */
 export enum KnownOriginGroupResourceState {
   Creating = "Creating",
@@ -4056,6 +4136,28 @@ export enum KnownOriginGroupResourceState {
  * **Deleting**
  */
 export type OriginGroupResourceState = string;
+
+/** Known values of {@link OriginGroupProvisioningState} that the service accepts. */
+export enum KnownOriginGroupProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginGroupProvisioningState. \
+ * {@link KnownOriginGroupProvisioningState} can be used interchangeably with OriginGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginGroupProvisioningState = string;
 
 /** Known values of {@link PolicyEnabledState} that the service accepts. */
 export enum KnownPolicyEnabledState {
@@ -6132,7 +6234,12 @@ export interface CustomDomainsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface CustomDomainsDisableCustomHttpsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the disableCustomHttps operation. */
 export type CustomDomainsDisableCustomHttpsResponse = CustomDomain;
@@ -6142,6 +6249,10 @@ export interface CustomDomainsEnableCustomHttpsOptionalParams
   extends coreClient.OperationOptions {
   /** The configuration specifying how to enable HTTPS for the custom domain - using CDN managed certificate or user's own certificate. If not specified, enabling ssl uses CDN managed certificate by default. */
   customDomainHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the enableCustomHttps operation. */
