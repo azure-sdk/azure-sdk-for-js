@@ -40,6 +40,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     directLine: DirectLine;
     // (undocumented)
+    email: Email;
+    // (undocumented)
     hostSettings: HostSettings;
     // (undocumented)
     operationResults: OperationResults;
@@ -263,7 +265,7 @@ export type BotsUpdateResponse = Bot;
 
 // @public
 export interface Channel {
-    channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel";
+    channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "OutlookChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel";
     etag?: string;
     location?: string;
     readonly provisioningState?: string;
@@ -356,7 +358,7 @@ export interface ChannelsUpdateOptionalParams extends coreClient.OperationOption
 export type ChannelsUpdateResponse = BotChannel;
 
 // @public (undocumented)
-export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel;
+export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | OutlookChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel;
 
 // @public
 export interface CheckNameAvailabilityRequestBody {
@@ -404,6 +406,18 @@ export interface ConnectionSettingProperties {
 export interface ConnectionSettingResponseList {
     nextLink?: string;
     readonly value?: ConnectionSetting[];
+}
+
+// @public
+export interface CreateEmailSignInUrlResponse {
+    readonly id?: string;
+    location?: string;
+    properties?: CreateEmailSignInUrlResponseProperties;
+}
+
+// @public
+export interface CreateEmailSignInUrlResponseProperties {
+    url?: string;
 }
 
 // @public
@@ -461,17 +475,34 @@ export interface DirectLineSpeechChannelProperties {
 }
 
 // @public
+export interface Email {
+    createSignInUrl(resourceGroupName: string, resourceName: string, options?: EmailCreateSignInUrlOptionalParams): Promise<EmailCreateSignInUrlResponse>;
+}
+
+// @public
 export type EmailChannel = Channel & {
     channelName: "EmailChannel";
     properties?: EmailChannelProperties;
 };
 
 // @public
+export type EmailChannelAuthMethod = 0 | 1;
+
+// @public
 export interface EmailChannelProperties {
+    authMethod?: EmailChannelAuthMethod;
     emailAddress: string;
     isEnabled: boolean;
+    magicCode?: string;
     password?: string;
 }
+
+// @public
+export interface EmailCreateSignInUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
 
 // @public
 export interface ErrorBody {
@@ -750,6 +781,11 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationEntityListResult;
 
 // @public
+export type OutlookChannel = Channel & {
+    channelName: "OutlookChannel";
+};
+
+// @public
 export interface PrivateEndpoint {
     readonly id?: string;
 }
@@ -965,7 +1001,7 @@ export interface SlackChannelProperties {
     landingPageUrl?: string;
     readonly lastSubmissionId?: string;
     readonly redirectAction?: string;
-    readonly registerBeforeOAuthFlow?: boolean;
+    registerBeforeOAuthFlow?: boolean;
     scopes?: string;
     signingSecret?: string;
     verificationToken?: string;

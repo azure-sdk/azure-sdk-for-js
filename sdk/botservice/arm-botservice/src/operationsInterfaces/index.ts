@@ -9,6 +9,7 @@
 export * from "./bots";
 export * from "./channels";
 export * from "./directLine";
+export * from "./email";
 export * from "./operations";
 export * from "./botConnection";
 export * from "./hostSettings";

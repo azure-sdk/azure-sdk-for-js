@@ -791,6 +791,50 @@ export const SiteInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const CreateEmailSignInUrlResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateEmailSignInUrlResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CreateEmailSignInUrlResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CreateEmailSignInUrlResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateEmailSignInUrlResponseProperties",
+    modelProperties: {
+      url: {
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CheckNameAvailabilityRequestBody: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1505,8 +1549,21 @@ export const EmailChannelProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      authMethod: {
+        serializedName: "authMethod",
+        type: {
+          name: "Enum",
+          allowedValues: [0, 1]
+        }
+      },
       password: {
         serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      magicCode: {
+        serializedName: "magicCode",
         type: {
           name: "String"
         }
@@ -1849,7 +1906,6 @@ export const SlackChannelProperties: coreClient.CompositeMapper = {
       },
       registerBeforeOAuthFlow: {
         serializedName: "registerBeforeOAuthFlow",
-        readOnly: true,
         type: {
           name: "Boolean"
         }
@@ -2187,6 +2243,19 @@ export const EmailChannel: coreClient.CompositeMapper = {
   }
 };
 
+export const OutlookChannel: coreClient.CompositeMapper = {
+  serializedName: "OutlookChannel",
+  type: {
+    name: "Composite",
+    className: "OutlookChannel",
+    uberParent: "Channel",
+    polymorphicDiscriminator: Channel.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Channel.type.modelProperties
+    }
+  }
+};
+
 export const MsTeamsChannel: coreClient.CompositeMapper = {
   serializedName: "MsTeamsChannel",
   type: {
@@ -2457,6 +2526,7 @@ export let discriminators = {
   "Channel.AlexaChannel": AlexaChannel,
   "Channel.FacebookChannel": FacebookChannel,
   "Channel.EmailChannel": EmailChannel,
+  "Channel.OutlookChannel": OutlookChannel,
   "Channel.MsTeamsChannel": MsTeamsChannel,
   "Channel.SkypeChannel": SkypeChannel,
   "Channel.KikChannel": KikChannel,

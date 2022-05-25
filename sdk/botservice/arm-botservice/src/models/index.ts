@@ -13,6 +13,7 @@ export type ChannelUnion =
   | AlexaChannel
   | FacebookChannel
   | EmailChannel
+  | OutlookChannel
   | MsTeamsChannel
   | SkypeChannel
   | KikChannel
@@ -235,6 +236,7 @@ export interface Channel {
     | "AlexaChannel"
     | "FacebookChannel"
     | "EmailChannel"
+    | "OutlookChannel"
     | "MsTeamsChannel"
     | "SkypeChannel"
     | "KikChannel"
@@ -353,6 +355,25 @@ export interface SiteInfo {
   siteName: string;
   /** Determines which key is to be regenerated */
   key: Key;
+}
+
+/** The ARM create email sign in url operation response. */
+export interface CreateEmailSignInUrlResponse {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** The set of properties specific to sign in url */
+  properties?: CreateEmailSignInUrlResponseProperties;
+}
+
+/** The set of properties specific to sign in url */
+export interface CreateEmailSignInUrlResponseProperties {
+  /** Sign in url. */
+  url?: string;
 }
 
 /** The request body for a request to Bot Service Management to check availability of a bot name. */
@@ -656,8 +677,12 @@ export interface FacebookPage {
 export interface EmailChannelProperties {
   /** The email address */
   emailAddress: string;
+  /** Email channel auth method. 0 Password (Default); 1 Graph. */
+  authMethod?: EmailChannelAuthMethod;
   /** The password for the email address. Value only returned through POST to the action Channel List API, otherwise empty. */
   password?: string;
+  /** The magic code for setting up the modern authentication. */
+  magicCode?: string;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -779,11 +804,8 @@ export interface SlackChannelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSubmissionId?: string;
-  /**
-   * Whether to register the settings before OAuth validation is performed. Recommended to True.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registerBeforeOAuthFlow?: boolean;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean;
   /**
    * Whether this channel is validated for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -918,6 +940,12 @@ export type EmailChannel = Channel & {
   channelName: "EmailChannel";
   /** The set of properties specific to email channel resource */
   properties?: EmailChannelProperties;
+};
+
+/** Outlook channel definition */
+export type OutlookChannel = Channel & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "OutlookChannel";
 };
 
 /** Microsoft Teams channel definition */
@@ -1190,6 +1218,8 @@ export type ChannelName =
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 /** Defines values for Key. */
 export type Key = "key1" | "key2";
+/** Defines values for EmailChannelAuthMethod. */
+export type EmailChannelAuthMethod = 0 | 1;
 
 /** Optional parameters. */
 export interface BotsCreateOptionalParams extends coreClient.OperationOptions {}
@@ -1324,6 +1354,13 @@ export interface DirectLineRegenerateKeysOptionalParams
 
 /** Contains response data for the regenerateKeys operation. */
 export type DirectLineRegenerateKeysResponse = BotChannel;
+
+/** Optional parameters. */
+export interface EmailCreateSignInUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createSignInUrl operation. */
+export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
