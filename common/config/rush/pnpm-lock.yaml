@@ -14,6 +14,7 @@ specifiers:
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:./projects/arm-app.tgz
   '@rush-temp/arm-appconfiguration': file:./projects/arm-appconfiguration.tgz
+  '@rush-temp/arm-appcontainers': file:./projects/arm-appcontainers.tgz
   '@rush-temp/arm-appinsights': file:./projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:./projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:./projects/arm-appservice.tgz
@@ -293,6 +294,7 @@ dependencies:
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:projects/arm-app.tgz
   '@rush-temp/arm-appconfiguration': file:projects/arm-appconfiguration.tgz
+  '@rush-temp/arm-appcontainers': file:projects/arm-appcontainers.tgz
   '@rush-temp/arm-appinsights': file:projects/arm-appinsights.tgz
   '@rush-temp/arm-appplatform': file:projects/arm-appplatform.tgz
   '@rush-temp/arm-appservice': file:projects/arm-appservice.tgz
@@ -2926,7 +2928,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.4:
@@ -3166,7 +3168,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3307,7 +3309,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -9464,6 +9466,33 @@ packages:
       - '@types/node'
       - debug
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-appcontainers.tgz:
+    resolution: {integrity: sha512-ty/UbHIATJvPfvYFbjcES1pE4Tapb/Ks9Oj5f022XGSafuDqLdVuWddNgeMfFqK61sqRmNKl7cxD1Q6siUmL0A==, tarball: file:projects/arm-appcontainers.tgz}
+    name: '@rush-temp/arm-appcontainers'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
       - supports-color
     dev: false
 
