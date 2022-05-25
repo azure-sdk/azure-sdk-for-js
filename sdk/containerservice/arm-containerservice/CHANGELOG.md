@@ -1,16 +1,6 @@
 # Release History
-
-## 16.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.1.0-beta.2 (2022-05-18)
+    
+## 17.0.0-beta.1 (2022-05-25)
     
 **Features**
 
@@ -24,6 +14,8 @@
   - Added Interface ManagedClusterIngressProfileWebAppRouting
   - Added Interface ManagedClusterOidcIssuerProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClusterSecurityProfileDefender
+  - Added Interface ManagedClusterSecurityProfileDefenderSecurityMonitoring
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
@@ -35,6 +27,9 @@
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
   - Added Interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  - Added Interface ManagedClusterStorageProfileBlobCSIDriver
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface NetworkProfileForSnapshot
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBindingListResult
@@ -47,6 +42,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias KeyVaultNetworkAccessTypes
   - Added Type Alias ManagedClusterSnapshot
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
@@ -76,7 +72,9 @@
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter azureKeyVaultKms
+  - Interface ManagedClusterSecurityProfile has a new optional parameter defender
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
+  - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
@@ -92,12 +90,18 @@
   - Type Alias ManagedCluster has a new parameter enableNamespaceResources
   - Type Alias ManagedCluster has a new parameter storageProfile
   - Type Alias ManagedCluster has a new parameter ingressProfile
+  - Type Alias ManagedCluster has a new parameter workloadAutoScalerProfile
+  - Added Enum KnownKeyVaultNetworkAccessTypes
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Enum KnownNetworkPlugin has a new value None
   - Enum KnownOssku has a new value Windows2019
   - Enum KnownOssku has a new value Windows2022
   - Enum KnownSnapshotType has a new value ManagedCluster
+
+**Breaking Changes**
+
+  - Interface ManagedClusterSecurityProfile no longer has parameter azureDefender
     
     
 ## 16.0.0 (2022-04-20)
