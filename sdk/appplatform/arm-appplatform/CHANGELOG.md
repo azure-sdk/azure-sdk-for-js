@@ -1,15 +1,171 @@
 # Release History
+    
+## 2.1.0-beta.1 (2022-05-25)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group ApiPortalCustomDomains
+  - Added operation group ApiPortals
+  - Added operation group GatewayCustomDomains
+  - Added operation group GatewayRouteConfigs
+  - Added operation group Gateways
+  - Added operation group Storages
+  - Added operation Services.beginStart
+  - Added operation Services.beginStartAndWait
+  - Added operation Services.beginStop
+  - Added operation Services.beginStopAndWait
+  - Added Interface ApiPortalCustomDomainProperties
+  - Added Interface ApiPortalCustomDomainResourceCollection
+  - Added Interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+  - Added Interface ApiPortalCustomDomainsDeleteOptionalParams
+  - Added Interface ApiPortalCustomDomainsGetOptionalParams
+  - Added Interface ApiPortalCustomDomainsListNextOptionalParams
+  - Added Interface ApiPortalCustomDomainsListOptionalParams
+  - Added Interface ApiPortalInstance
+  - Added Interface ApiPortalProperties
+  - Added Interface ApiPortalResourceCollection
+  - Added Interface ApiPortalResourceRequests
+  - Added Interface ApiPortalsCreateOrUpdateOptionalParams
+  - Added Interface ApiPortalsDeleteOptionalParams
+  - Added Interface ApiPortalsGetOptionalParams
+  - Added Interface ApiPortalsListNextOptionalParams
+  - Added Interface ApiPortalsListOptionalParams
+  - Added Interface ApiPortalsValidateDomainOptionalParams
+  - Added Interface AppVNetAddons
+  - Added Interface BuildResourceRequests
+  - Added Interface ContainerProbeSettings
+  - Added Interface CustomContainer
+  - Added Interface CustomPersistentDiskProperties
+  - Added Interface CustomPersistentDiskResource
+  - Added Interface GatewayApiMetadataProperties
+  - Added Interface GatewayApiRoute
+  - Added Interface GatewayCorsProperties
+  - Added Interface GatewayCustomDomainProperties
+  - Added Interface GatewayCustomDomainResourceCollection
+  - Added Interface GatewayCustomDomainsCreateOrUpdateOptionalParams
+  - Added Interface GatewayCustomDomainsDeleteOptionalParams
+  - Added Interface GatewayCustomDomainsGetOptionalParams
+  - Added Interface GatewayCustomDomainsListNextOptionalParams
+  - Added Interface GatewayCustomDomainsListOptionalParams
+  - Added Interface GatewayInstance
+  - Added Interface GatewayOperatorProperties
+  - Added Interface GatewayOperatorResourceRequests
+  - Added Interface GatewayProperties
+  - Added Interface GatewayResourceCollection
+  - Added Interface GatewayResourceRequests
+  - Added Interface GatewayRouteConfigOpenApiProperties
+  - Added Interface GatewayRouteConfigProperties
+  - Added Interface GatewayRouteConfigResourceCollection
+  - Added Interface GatewayRouteConfigsCreateOrUpdateOptionalParams
+  - Added Interface GatewayRouteConfigsDeleteOptionalParams
+  - Added Interface GatewayRouteConfigsGetOptionalParams
+  - Added Interface GatewayRouteConfigsListNextOptionalParams
+  - Added Interface GatewayRouteConfigsListOptionalParams
+  - Added Interface GatewaysCreateOrUpdateOptionalParams
+  - Added Interface GatewaysDeleteOptionalParams
+  - Added Interface GatewaysGetOptionalParams
+  - Added Interface GatewaysListNextOptionalParams
+  - Added Interface GatewaysListOptionalParams
+  - Added Interface GatewaysValidateDomainOptionalParams
+  - Added Interface ImageRegistryCredential
+  - Added Interface IngressConfig
+  - Added Interface MarketplaceResource
+  - Added Interface Probe
+  - Added Interface ProbeAction
+  - Added Interface ServicesStartOptionalParams
+  - Added Interface ServicesStopOptionalParams
+  - Added Interface ServiceVNetAddons
+  - Added Interface SsoProperties
+  - Added Interface StorageProperties
+  - Added Interface StorageResourceCollection
+  - Added Interface StoragesCreateOrUpdateOptionalParams
+  - Added Interface StoragesDeleteOptionalParams
+  - Added Interface StoragesGetOptionalParams
+  - Added Interface StoragesListNextOptionalParams
+  - Added Interface StoragesListOptionalParams
+  - Added Interface UserAssignedManagedIdentity
+  - Added Type Alias ApiPortalCustomDomainResource
+  - Added Type Alias ApiPortalCustomDomainsCreateOrUpdateResponse
+  - Added Type Alias ApiPortalCustomDomainsGetResponse
+  - Added Type Alias ApiPortalCustomDomainsListNextResponse
+  - Added Type Alias ApiPortalCustomDomainsListResponse
+  - Added Type Alias ApiPortalProvisioningState
+  - Added Type Alias ApiPortalResource
+  - Added Type Alias ApiPortalsCreateOrUpdateResponse
+  - Added Type Alias ApiPortalsGetResponse
+  - Added Type Alias ApiPortalsListNextResponse
+  - Added Type Alias ApiPortalsListResponse
+  - Added Type Alias ApiPortalsValidateDomainResponse
+  - Added Type Alias AzureFileVolume
+  - Added Type Alias CertificateResourceProvisioningState
+  - Added Type Alias CustomContainerUserSourceInfo
+  - Added Type Alias CustomDomainResourceProvisioningState
+  - Added Type Alias CustomPersistentDiskPropertiesUnion
+  - Added Type Alias ExecAction
+  - Added Type Alias GatewayCustomDomainResource
+  - Added Type Alias GatewayCustomDomainsCreateOrUpdateResponse
+  - Added Type Alias GatewayCustomDomainsGetResponse
+  - Added Type Alias GatewayCustomDomainsListNextResponse
+  - Added Type Alias GatewayCustomDomainsListResponse
+  - Added Type Alias GatewayProvisioningState
+  - Added Type Alias GatewayResource
+  - Added Type Alias GatewayRouteConfigResource
+  - Added Type Alias GatewayRouteConfigsCreateOrUpdateResponse
+  - Added Type Alias GatewayRouteConfigsGetResponse
+  - Added Type Alias GatewayRouteConfigsListNextResponse
+  - Added Type Alias GatewayRouteConfigsListResponse
+  - Added Type Alias GatewaysCreateOrUpdateResponse
+  - Added Type Alias GatewaysGetResponse
+  - Added Type Alias GatewaysListNextResponse
+  - Added Type Alias GatewaysListResponse
+  - Added Type Alias GatewaysValidateDomainResponse
+  - Added Type Alias HttpGetAction
+  - Added Type Alias HttpSchemeType
+  - Added Type Alias PowerState
+  - Added Type Alias ProbeActionType
+  - Added Type Alias ProbeActionUnion
+  - Added Type Alias StorageAccount
+  - Added Type Alias StoragePropertiesUnion
+  - Added Type Alias StorageResource
+  - Added Type Alias StoragesCreateOrUpdateResponse
+  - Added Type Alias StoragesGetResponse
+  - Added Type Alias StoragesListNextResponse
+  - Added Type Alias StoragesListResponse
+  - Added Type Alias StorageType
+  - Added Type Alias TCPSocketAction
+  - Added Type Alias Type
+  - Interface AppResourceProperties has a new optional parameter customPersistentDisks
+  - Interface AppResourceProperties has a new optional parameter vnetAddons
+  - Interface BuildProperties has a new optional parameter resourceRequests
+  - Interface CertificateProperties has a new optional parameter provisioningState
+  - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
+  - Interface ClusterResourceProperties has a new optional parameter powerState
+  - Interface ClusterResourceProperties has a new optional parameter vnetAddons
+  - Interface CustomDomainProperties has a new optional parameter provisioningState
+  - Interface DeploymentSettings has a new optional parameter containerProbeSettings
+  - Interface DeploymentSettings has a new optional parameter livenessProbe
+  - Interface DeploymentSettings has a new optional parameter readinessProbe
+  - Interface DeploymentSettings has a new optional parameter startupProbe
+  - Interface DeploymentSettings has a new optional parameter terminationGracePeriodSeconds
+  - Interface ManagedIdentityProperties has a new optional parameter userAssignedIdentities
+  - Interface NetworkProfile has a new optional parameter ingressConfig
+  - Class AppPlatformManagementClient has a new parameter apiPortalCustomDomains
+  - Class AppPlatformManagementClient has a new parameter apiPortals
+  - Class AppPlatformManagementClient has a new parameter gatewayCustomDomains
+  - Class AppPlatformManagementClient has a new parameter gatewayRouteConfigs
+  - Class AppPlatformManagementClient has a new parameter gateways
+  - Class AppPlatformManagementClient has a new parameter storages
+  - Added Enum KnownApiPortalProvisioningState
+  - Added Enum KnownCertificateResourceProvisioningState
+  - Added Enum KnownCustomDomainResourceProvisioningState
+  - Added Enum KnownGatewayProvisioningState
+  - Added Enum KnownHttpSchemeType
+  - Added Enum KnownPowerState
+  - Added Enum KnownProbeActionType
+  - Added Enum KnownStorageType
+  - Added Enum KnownType
+    
+    
 ## 2.0.0 (2022-05-19)
 
 The package of @azure/arm-appplatform is using our next generation design principles since version 2.0.0, which contains breaking changes.
