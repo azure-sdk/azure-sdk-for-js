@@ -3862,7 +3862,7 @@ export type ResourceGuardProxiesGetResponse = ResourceGuardProxyBaseResourceList
 export interface ResourceGuardProxy {
     delete(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyDeleteOptionalParams): Promise<void>;
     get(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyGetOptionalParams): Promise<ResourceGuardProxyGetResponse>;
-    put(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, options?: ResourceGuardProxyPutOptionalParams): Promise<ResourceGuardProxyPutResponse>;
+    put(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, parameters: ResourceGuardProxyBaseResource, options?: ResourceGuardProxyPutOptionalParams): Promise<ResourceGuardProxyPutResponse>;
     unlockDelete(vaultName: string, resourceGroupName: string, resourceGuardProxyName: string, parameters: UnlockDeleteRequest, options?: ResourceGuardProxyUnlockDeleteOptionalParams): Promise<ResourceGuardProxyUnlockDeleteResponse>;
 }
 

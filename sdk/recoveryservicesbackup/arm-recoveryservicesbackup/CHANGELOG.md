@@ -1,15 +1,12 @@
 # Release History
+    
+## 10.0.0 (2022-05-27)
+    
+**Breaking Changes**
 
-## 9.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ResourceGuardProxy.put has a new signature
+    
+    
 ## 9.0.0 (2022-05-16)
     
 **Breaking Changes**
