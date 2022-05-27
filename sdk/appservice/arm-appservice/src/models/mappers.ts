@@ -13687,6 +13687,14 @@ export const AppServicePlan: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      numberOfWorkers: {
+        serializedName: "properties.numberOfWorkers",
+        readOnly: true,
+        xmlName: "properties.numberOfWorkers",
+        type: {
+          name: "Number"
+        }
+      },
       geoRegion: {
         serializedName: "properties.geoRegion",
         readOnly: true,
@@ -15804,6 +15812,14 @@ export const AppServicePlanPatchResource: coreClient.CompositeMapper = {
         serializedName: "properties.maximumNumberOfWorkers",
         readOnly: true,
         xmlName: "properties.maximumNumberOfWorkers",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfWorkers: {
+        serializedName: "properties.numberOfWorkers",
+        readOnly: true,
+        xmlName: "properties.numberOfWorkers",
         type: {
           name: "Number"
         }
