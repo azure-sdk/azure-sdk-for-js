@@ -1610,6 +1610,8 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     factories: Factories;
     // (undocumented)
+    globalParameters: GlobalParameters;
+    // (undocumented)
     integrationRuntimeNodes: IntegrationRuntimeNodes;
     // (undocumented)
     integrationRuntimeObjectMetadata: IntegrationRuntimeObjectMetadata;
@@ -2404,6 +2406,7 @@ export type ExecuteDataFlowActivity = ExecutionActivity & {
     traceLevel?: Record<string, unknown>;
     continueOnError?: Record<string, unknown>;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
 };
 
 // @public
@@ -2413,6 +2416,7 @@ export interface ExecuteDataFlowActivityTypeProperties {
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
     staging?: DataFlowStagingInfo;
     traceLevel?: Record<string, unknown>;
 }
@@ -2490,6 +2494,7 @@ export type ExecuteWranglingDataflowActivity = Activity & {
     traceLevel?: Record<string, unknown>;
     continueOnError?: Record<string, unknown>;
     runConcurrently?: Record<string, unknown>;
+    sourceStagingConcurrency?: Record<string, unknown>;
     sinks?: {
         [propertyName: string]: PowerQuerySink;
     };
@@ -2667,6 +2672,7 @@ export type Factory = Resource & {
     readonly provisioningState?: string;
     readonly createTime?: Date;
     readonly version?: string;
+    purviewConfiguration?: PurviewConfiguration;
     repoConfiguration?: FactoryRepoConfigurationUnion;
     globalParameters?: {
         [propertyName: string]: GlobalParameterSpecification;
@@ -2920,6 +2926,59 @@ export interface GitHubClientSecret {
     byoaSecretAkvUrl?: string;
     byoaSecretName?: string;
 }
+
+// @public
+export interface GlobalParameterListResponse {
+    nextLink?: string;
+    value: GlobalParameterResource[];
+}
+
+// @public
+export type GlobalParameterResource = SubResource & {
+    properties: {
+        [propertyName: string]: GlobalParameterSpecification;
+    };
+};
+
+// @public
+export interface GlobalParameters {
+    createOrUpdate(resourceGroupName: string, factoryName: string, globalParameterName: string, defaultParam: GlobalParameterResource, options?: GlobalParametersCreateOrUpdateOptionalParams): Promise<GlobalParametersCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, factoryName: string, globalParameterName: string, options?: GlobalParametersGetOptionalParams): Promise<GlobalParametersGetResponse>;
+    listByFactory(resourceGroupName: string, factoryName: string, options?: GlobalParametersListByFactoryOptionalParams): PagedAsyncIterableIterator<GlobalParameterResource>;
+}
+
+// @public
+export interface GlobalParametersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersCreateOrUpdateResponse = GlobalParameterResource;
+
+// @public
+export interface GlobalParametersDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GlobalParametersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersGetResponse = GlobalParameterResource;
+
+// @public
+export interface GlobalParametersListByFactoryNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersListByFactoryNextResponse = GlobalParameterListResponse;
+
+// @public
+export interface GlobalParametersListByFactoryOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GlobalParametersListByFactoryResponse = GlobalParameterListResponse;
 
 // @public
 export interface GlobalParameterSpecification {
@@ -4592,7 +4651,9 @@ export enum KnownRestServiceAuthenticationType {
     // (undocumented)
     Basic = "Basic",
     // (undocumented)
-    ManagedServiceIdentity = "ManagedServiceIdentity"
+    ManagedServiceIdentity = "ManagedServiceIdentity",
+    // (undocumented)
+    OAuth2ClientCredential = "OAuth2ClientCredential"
 }
 
 // @public
@@ -6445,6 +6506,11 @@ export interface PrivateLinkResourcesWrapper {
 export type PublicNetworkAccess = string;
 
 // @public
+export interface PurviewConfiguration {
+    purviewResourceId?: string;
+}
+
+// @public
 export interface QueryDataFlowDebugSessionsResponse {
     nextLink?: string;
     value?: DataFlowDebugSessionInfo[];
@@ -6611,6 +6677,11 @@ export type RestServiceLinkedService = LinkedService & {
     aadResourceId?: Record<string, unknown>;
     encryptedCredential?: Record<string, unknown>;
     credential?: CredentialReference;
+    clientId?: Record<string, unknown>;
+    clientSecret?: SecretBaseUnion;
+    tokenEndpoint?: Record<string, unknown>;
+    resource?: Record<string, unknown>;
+    scope?: Record<string, unknown>;
 };
 
 // @public
