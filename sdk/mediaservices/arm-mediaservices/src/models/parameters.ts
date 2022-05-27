@@ -407,6 +407,20 @@ export const parameters17: OperationParameter = {
   mapper: LiveEventActionInputMapper
 };
 
+export const operationId1: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const liveOutputName: OperationURLParameter = {
   parameterPath: "liveOutputName",
   mapper: {

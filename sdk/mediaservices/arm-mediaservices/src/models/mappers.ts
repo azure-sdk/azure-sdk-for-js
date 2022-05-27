@@ -2948,6 +2948,61 @@ export const LiveEventActionInput: coreClient.CompositeMapper = {
   }
 };
 
+export const AsyncOperationResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AsyncOperationResult",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "AsyncOperationErrorDetail"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AsyncOperationErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AsyncOperationErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const LiveOutputListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

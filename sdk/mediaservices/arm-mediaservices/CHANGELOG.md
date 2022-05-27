@@ -1,15 +1,33 @@
 # Release History
+    
+## 11.1.0 (2022-05-27)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation LiveEvents.asyncOperation
+  - Added operation LiveEvents.operationLocation
+  - Added operation LiveOutputs.asyncOperation
+  - Added operation LiveOutputs.operationLocation
+  - Added operation StreamingEndpoints.asyncOperation
+  - Added operation StreamingEndpoints.operationLocation
+  - Added Interface AsyncOperationErrorDetail
+  - Added Interface AsyncOperationResult
+  - Added Interface LiveEventsAsyncOperationOptionalParams
+  - Added Interface LiveEventsOperationLocationOptionalParams
+  - Added Interface LiveOutputsAsyncOperationOptionalParams
+  - Added Interface LiveOutputsOperationLocationOptionalParams
+  - Added Interface StreamingEndpointsAsyncOperationOptionalParams
+  - Added Interface StreamingEndpointsOperationLocationOptionalParams
+  - Added Type Alias AsyncOperationStatus
+  - Added Type Alias LiveEventsAsyncOperationResponse
+  - Added Type Alias LiveEventsOperationLocationResponse
+  - Added Type Alias LiveOutputsAsyncOperationResponse
+  - Added Type Alias LiveOutputsOperationLocationResponse
+  - Added Type Alias StreamingEndpointsAsyncOperationResponse
+  - Added Type Alias StreamingEndpointsOperationLocationResponse
+  - Added Enum KnownAsyncOperationStatus
+    
+    
 ## 11.0.0 (2022-04-14)
     
 **Features**

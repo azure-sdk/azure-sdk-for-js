@@ -1222,6 +1222,26 @@ export interface LiveEventActionInput {
   removeOutputsOnStop?: boolean;
 }
 
+/** The status of an async operation. */
+export interface AsyncOperationResult {
+  /** The error object */
+  error?: AsyncOperationErrorDetail;
+  /** Operation Id of the async operation. */
+  name?: string;
+  /** Operation status of the async operation. */
+  status?: AsyncOperationStatus;
+}
+
+/** The error detail of an async operation result. */
+export interface AsyncOperationErrorDetail {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** Id of the entity on which the operation is performed. */
+  target?: string;
+}
+
 /** The LiveOutput list result. */
 export interface LiveOutputListResult {
   /** The result of the List LiveOutput operation. */
@@ -3369,6 +3389,24 @@ export enum KnownStreamOptionsFlag {
  */
 export type StreamOptionsFlag = string;
 
+/** Known values of {@link AsyncOperationStatus} that the service accepts. */
+export enum KnownAsyncOperationStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for AsyncOperationStatus. \
+ * {@link KnownAsyncOperationStatus} can be used interchangeably with AsyncOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
+ */
+export type AsyncOperationStatus = string;
+
 /** Known values of {@link LiveOutputResourceState} that the service accepts. */
 export enum KnownLiveOutputResourceState {
   /** Live output is being created. No content is archived in the asset until the live output is in running state. */
@@ -4772,6 +4810,20 @@ export interface LiveEventsResetOptionalParams
 }
 
 /** Optional parameters. */
+export interface LiveEventsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveEventsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveEventsOperationLocationResponse = LiveEvent;
+
+/** Optional parameters. */
 export interface LiveEventsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4812,6 +4864,20 @@ export interface LiveOutputsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LiveOutputsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveOutputsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveOutputsOperationLocationResponse = LiveOutput;
 
 /** Optional parameters. */
 export interface LiveOutputsListNextOptionalParams
@@ -4902,6 +4968,20 @@ export interface StreamingEndpointsScaleOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface StreamingEndpointsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface StreamingEndpointsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
 
 /** Optional parameters. */
 export interface StreamingEndpointsListNextOptionalParams
