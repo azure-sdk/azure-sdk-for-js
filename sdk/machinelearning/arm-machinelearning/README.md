@@ -6,7 +6,7 @@ These APIs allow end users to operate on Azure Machine Learning Workspace resour
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-machinelearning) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
