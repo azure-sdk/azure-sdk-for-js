@@ -12,11 +12,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
+  DataMaskingPolicyName,
+  DataMaskingPoliciesGetOptionalParams,
+  DataMaskingPoliciesGetResponse,
   DataMaskingPolicy,
   DataMaskingPoliciesCreateOrUpdateOptionalParams,
-  DataMaskingPoliciesCreateOrUpdateResponse,
-  DataMaskingPoliciesGetOptionalParams,
-  DataMaskingPoliciesGetResponse
+  DataMaskingPoliciesCreateOrUpdateResponse
 } from "../models";
 
 /** Class containing DataMaskingPolicies operations. */
@@ -32,11 +33,40 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
   }
 
   /**
-   * Creates or updates a database data masking policy
+   * Gets the database data masking policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
+    options?: DataMaskingPoliciesGetOptionalParams
+  ): Promise<DataMaskingPoliciesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        dataMaskingPolicyName,
+        options
+      },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Creates or updates a database data masking policy.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
    * @param parameters Parameters for creating or updating a data masking policy.
    * @param options The options parameters.
    */
@@ -44,38 +74,48 @@ export class DataMaskingPoliciesImpl implements DataMaskingPolicies {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     parameters: DataMaskingPolicy,
     options?: DataMaskingPoliciesCreateOrUpdateOptionalParams
   ): Promise<DataMaskingPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, parameters, options },
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        dataMaskingPolicyName,
+        parameters,
+        options
+      },
       createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Gets a database data masking policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: DataMaskingPoliciesGetOptionalParams
-  ): Promise<DataMaskingPoliciesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      getOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataMaskingPolicy
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion6],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.dataMaskingPolicyName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
@@ -83,10 +123,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DataMaskingPolicy
-    }
+    },
+    201: {
+      bodyMapper: Mappers.DataMaskingPolicy
+    },
+    default: {}
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters91,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -97,26 +141,5 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataMaskingPolicy
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.dataMaskingPolicyName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };

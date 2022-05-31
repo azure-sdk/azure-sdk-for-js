@@ -14,8 +14,10 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   ServerUsage,
+  ServerUsagesListByServerNextOptionalParams,
   ServerUsagesListByServerOptionalParams,
-  ServerUsagesListByServerResponse
+  ServerUsagesListByServerResponse,
+  ServerUsagesListByServerNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +34,7 @@ export class ServerUsagesImpl implements ServerUsages {
   }
 
   /**
-   * Returns server usages.
+   * Gets server usages.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -76,6 +78,17 @@ export class ServerUsagesImpl implements ServerUsages {
       options
     );
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listByServerNext(
+        resourceGroupName,
+        serverName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
   private async *listByServerPagingAll(
@@ -93,7 +106,7 @@ export class ServerUsagesImpl implements ServerUsages {
   }
 
   /**
-   * Returns server usages.
+   * Gets server usages.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -109,6 +122,26 @@ export class ServerUsagesImpl implements ServerUsages {
       listByServerOperationSpec
     );
   }
+
+  /**
+   * ListByServerNext
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param nextLink The nextLink from the previous successful call to the ListByServer method.
+   * @param options The options parameters.
+   */
+  private _listByServerNext(
+    resourceGroupName: string,
+    serverName: string,
+    nextLink: string,
+    options?: ServerUsagesListByServerNextOptionalParams
+  ): Promise<ServerUsagesListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, nextLink, options },
+      listByServerNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -120,14 +153,35 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ServerUsageListResult
-    }
+    },
+    default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listByServerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServerUsageListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion6],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

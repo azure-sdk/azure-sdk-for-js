@@ -14,10 +14,13 @@ import * as Parameters from "../models/parameters";
 import { SqlManagementClient } from "../sqlManagementClient";
 import {
   DataMaskingRule,
+  DataMaskingPolicyName,
+  DataMaskingRulesListByDatabaseNextOptionalParams,
   DataMaskingRulesListByDatabaseOptionalParams,
+  DataMaskingRulesListByDatabaseResponse,
   DataMaskingRulesCreateOrUpdateOptionalParams,
   DataMaskingRulesCreateOrUpdateResponse,
-  DataMaskingRulesListByDatabaseResponse
+  DataMaskingRulesListByDatabaseNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,18 +42,21 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking rule applies.
    * @param options The options parameters.
    */
   public listByDatabase(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     options?: DataMaskingRulesListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<DataMaskingRule> {
     const iter = this.listByDatabasePagingAll(
       resourceGroupName,
       serverName,
       databaseName,
+      dataMaskingPolicyName,
       options
     );
     return {
@@ -65,6 +71,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
           resourceGroupName,
           serverName,
           databaseName,
+          dataMaskingPolicyName,
           options
         );
       }
@@ -75,31 +82,76 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     options?: DataMaskingRulesListByDatabaseOptionalParams
   ): AsyncIterableIterator<DataMaskingRule[]> {
     let result = await this._listByDatabase(
       resourceGroupName,
       serverName,
       databaseName,
+      dataMaskingPolicyName,
       options
     );
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listByDatabaseNext(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        dataMaskingPolicyName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
   private async *listByDatabasePagingAll(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     options?: DataMaskingRulesListByDatabaseOptionalParams
   ): AsyncIterableIterator<DataMaskingRule> {
     for await (const page of this.listByDatabasePagingPage(
       resourceGroupName,
       serverName,
       databaseName,
+      dataMaskingPolicyName,
       options
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Gets a list of database data masking rules.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking rule applies.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
+    options?: DataMaskingRulesListByDatabaseOptionalParams
+  ): Promise<DataMaskingRulesListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        dataMaskingPolicyName,
+        options
+      },
+      listByDatabaseOperationSpec
+    );
   }
 
   /**
@@ -108,6 +160,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking policy applies.
    * @param dataMaskingRuleName The name of the data masking rule.
    * @param parameters The required parameters for creating or updating a data masking rule.
    * @param options The options parameters.
@@ -116,6 +169,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
+    dataMaskingPolicyName: DataMaskingPolicyName,
     dataMaskingRuleName: string,
     parameters: DataMaskingRule,
     options?: DataMaskingRulesCreateOrUpdateOptionalParams
@@ -125,6 +179,7 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
         resourceGroupName,
         serverName,
         databaseName,
+        dataMaskingPolicyName,
         dataMaskingRuleName,
         parameters,
         options
@@ -134,28 +189,61 @@ export class DataMaskingRulesImpl implements DataMaskingRules {
   }
 
   /**
-   * Gets a list of database data masking rules.
+   * ListByDatabaseNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
    * @param databaseName The name of the database.
+   * @param dataMaskingPolicyName The name of the database for which the data masking rule applies.
+   * @param nextLink The nextLink from the previous successful call to the ListByDatabase method.
    * @param options The options parameters.
    */
-  private _listByDatabase(
+  private _listByDatabaseNext(
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataMaskingRulesListByDatabaseOptionalParams
-  ): Promise<DataMaskingRulesListByDatabaseResponse> {
+    dataMaskingPolicyName: DataMaskingPolicyName,
+    nextLink: string,
+    options?: DataMaskingRulesListByDatabaseNextOptionalParams
+  ): Promise<DataMaskingRulesListByDatabaseNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
+      {
+        resourceGroupName,
+        serverName,
+        databaseName,
+        dataMaskingPolicyName,
+        nextLink,
+        options
+      },
+      listByDatabaseNextOperationSpec
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByDatabaseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataMaskingRuleListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion6],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.dataMaskingPolicyName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules/{dataMaskingRuleName}",
@@ -166,10 +254,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.DataMaskingRule
-    }
+    },
+    default: {}
   },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
+  requestBody: Parameters.parameters92,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -183,22 +272,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByDatabaseOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/dataMaskingPolicies/{dataMaskingPolicyName}/rules",
+const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DataMaskingRuleListResult
-    }
+    },
+    default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName,
     Parameters.databaseName,
+    Parameters.nextLink,
     Parameters.dataMaskingPolicyName
   ],
   headerParameters: [Parameters.accept],
