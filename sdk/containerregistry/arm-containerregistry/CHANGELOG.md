@@ -1,16 +1,6 @@
 # Release History
-
-## 10.1.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 10.1.0-beta.3 (2022-05-18)
+    
+## 10.1.0-beta.4 (2022-05-31)
     
 **Features**
 
