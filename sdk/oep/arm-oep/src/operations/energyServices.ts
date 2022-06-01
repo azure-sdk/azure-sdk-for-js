@@ -29,6 +29,12 @@ import {
   EnergyServicesUpdateOptionalParams,
   EnergyServicesUpdateResponse,
   EnergyServicesDeleteOptionalParams,
+  EnergyServicesAddPartitionOptionalParams,
+  EnergyServicesAddPartitionResponse,
+  EnergyServicesRemovePartitionOptionalParams,
+  EnergyServicesRemovePartitionResponse,
+  EnergyServicesListPartitionsOptionalParams,
+  EnergyServicesListPartitionsResponse,
   EnergyServicesListByResourceGroupNextResponse,
   EnergyServicesListBySubscriptionNextResponse
 } from "../models";
@@ -373,6 +379,197 @@ export class EnergyServicesImpl implements EnergyServices {
   }
 
   /**
+   * Method that gets called if new partition is to be added in a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  async beginAddPartition(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesAddPartitionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<EnergyServicesAddPartitionResponse>,
+      EnergyServicesAddPartitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<EnergyServicesAddPartitionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, options },
+      addPartitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Method that gets called if new partition is to be added in a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  async beginAddPartitionAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesAddPartitionOptionalParams
+  ): Promise<EnergyServicesAddPartitionResponse> {
+    const poller = await this.beginAddPartition(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Method that gets called if new partition is to be removed from a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  async beginRemovePartition(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesRemovePartitionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<EnergyServicesRemovePartitionResponse>,
+      EnergyServicesRemovePartitionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<EnergyServicesRemovePartitionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, options },
+      removePartitionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Method that gets called if new partition is to be removed from a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  async beginRemovePartitionAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesRemovePartitionOptionalParams
+  ): Promise<EnergyServicesRemovePartitionResponse> {
+    const poller = await this.beginRemovePartition(
+      resourceGroupName,
+      resourceName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Method that gets called when list of partitions is requested.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The resource name.
+   * @param options The options parameters.
+   */
+  listPartitions(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: EnergyServicesListPartitionsOptionalParams
+  ): Promise<EnergyServicesListPartitionsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      listPartitionsOperationSpec
+    );
+  }
+
+  /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
@@ -415,7 +612,9 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyServiceList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -434,7 +633,9 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyServiceList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -449,7 +650,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyService
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -501,7 +704,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyService
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -519,7 +724,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OpenEnergyPlatform/energyServices/{resourceName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -527,6 +740,95 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const addPartitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OpenEnergyPlatform/energyServices/{resourceName}/addPartition",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    201: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    202: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    204: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const removePartitionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OpenEnergyPlatform/energyServices/{resourceName}/removePartition",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    201: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    202: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    204: {
+      bodyMapper: Mappers.DataPartitionAddOrRemoveRequest
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const listPartitionsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OpenEnergyPlatform/energyServices/{resourceName}/listPartitions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataPartitionsListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
@@ -536,7 +838,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyServiceList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -555,7 +859,9 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.EnergyServiceList
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
