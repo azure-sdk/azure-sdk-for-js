@@ -945,7 +945,7 @@ export interface ManagedEnvironmentsCollection {
 
 /** Configuration properties for apps environment to join a Virtual Network */
 export interface VnetConfiguration {
-  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, must provide ControlPlaneSubnetResourceId and AppSubnetResourceId if enabling this property */
+  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property */
   internal?: boolean;
   /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
   infrastructureSubnetId?: string;
