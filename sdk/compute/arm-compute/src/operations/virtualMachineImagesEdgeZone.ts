@@ -163,11 +163,11 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
+    Parameters.version,
     Parameters.offer,
     Parameters.skus,
-    Parameters.version,
     Parameters.edgeZone
   ],
   headerParameters: [Parameters.accept],
@@ -197,14 +197,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand1,
+    Parameters.expand,
     Parameters.top,
     Parameters.orderby
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus,
@@ -239,7 +239,7 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.edgeZone
   ],
@@ -272,7 +272,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.edgeZone
   ],
   headerParameters: [Parameters.accept],
@@ -304,7 +304,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.edgeZone

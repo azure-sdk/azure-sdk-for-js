@@ -11,28 +11,28 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
-  UsageOperationsImpl,
-  VirtualMachineSizesImpl,
-  VirtualMachineScaleSetsImpl,
-  VirtualMachineScaleSetExtensionsImpl,
-  VirtualMachineScaleSetRollingUpgradesImpl,
-  VirtualMachineScaleSetVMExtensionsImpl,
-  VirtualMachineScaleSetVMsImpl,
-  VirtualMachineExtensionsImpl,
-  VirtualMachinesImpl,
-  VirtualMachineImagesImpl,
-  VirtualMachineImagesEdgeZoneImpl,
-  VirtualMachineExtensionImagesImpl,
   AvailabilitySetsImpl,
   ProximityPlacementGroupsImpl,
   DedicatedHostGroupsImpl,
   DedicatedHostsImpl,
   SshPublicKeysImpl,
+  VirtualMachineExtensionImagesImpl,
+  VirtualMachineExtensionsImpl,
+  VirtualMachineImagesImpl,
+  VirtualMachineImagesEdgeZoneImpl,
+  UsageOperationsImpl,
+  VirtualMachinesImpl,
+  VirtualMachineScaleSetsImpl,
+  VirtualMachineSizesImpl,
   ImagesImpl,
   RestorePointCollectionsImpl,
   RestorePointsImpl,
   CapacityReservationGroupsImpl,
   CapacityReservationsImpl,
+  VirtualMachineScaleSetExtensionsImpl,
+  VirtualMachineScaleSetRollingUpgradesImpl,
+  VirtualMachineScaleSetVMExtensionsImpl,
+  VirtualMachineScaleSetVMsImpl,
   LogAnalyticsImpl,
   VirtualMachineRunCommandsImpl,
   VirtualMachineScaleSetVMRunCommandsImpl,
@@ -62,28 +62,28 @@ import {
 } from "./operations";
 import {
   Operations,
-  UsageOperations,
-  VirtualMachineSizes,
-  VirtualMachineScaleSets,
-  VirtualMachineScaleSetExtensions,
-  VirtualMachineScaleSetRollingUpgrades,
-  VirtualMachineScaleSetVMExtensions,
-  VirtualMachineScaleSetVMs,
-  VirtualMachineExtensions,
-  VirtualMachines,
-  VirtualMachineImages,
-  VirtualMachineImagesEdgeZone,
-  VirtualMachineExtensionImages,
   AvailabilitySets,
   ProximityPlacementGroups,
   DedicatedHostGroups,
   DedicatedHosts,
   SshPublicKeys,
+  VirtualMachineExtensionImages,
+  VirtualMachineExtensions,
+  VirtualMachineImages,
+  VirtualMachineImagesEdgeZone,
+  UsageOperations,
+  VirtualMachines,
+  VirtualMachineScaleSets,
+  VirtualMachineSizes,
   Images,
   RestorePointCollections,
   RestorePoints,
   CapacityReservationGroups,
   CapacityReservations,
+  VirtualMachineScaleSetExtensions,
+  VirtualMachineScaleSetRollingUpgrades,
+  VirtualMachineScaleSetVMExtensions,
+  VirtualMachineScaleSetVMs,
   LogAnalytics,
   VirtualMachineRunCommands,
   VirtualMachineScaleSetVMRunCommands,
@@ -145,7 +145,7 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-compute/18.0.1`;
+    const packageDetails = `azsdk-js-arm-compute/19.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -193,9 +193,28 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.operations = new OperationsImpl(this);
+    this.availabilitySets = new AvailabilitySetsImpl(this);
+    this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
+    this.dedicatedHostGroups = new DedicatedHostGroupsImpl(this);
+    this.dedicatedHosts = new DedicatedHostsImpl(this);
+    this.sshPublicKeys = new SshPublicKeysImpl(this);
+    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
+      this
+    );
+    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
+    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
+    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
+      this
+    );
     this.usageOperations = new UsageOperationsImpl(this);
-    this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
+    this.virtualMachines = new VirtualMachinesImpl(this);
     this.virtualMachineScaleSets = new VirtualMachineScaleSetsImpl(this);
+    this.virtualMachineSizes = new VirtualMachineSizesImpl(this);
+    this.images = new ImagesImpl(this);
+    this.restorePointCollections = new RestorePointCollectionsImpl(this);
+    this.restorePoints = new RestorePointsImpl(this);
+    this.capacityReservationGroups = new CapacityReservationGroupsImpl(this);
+    this.capacityReservations = new CapacityReservationsImpl(this);
     this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsImpl(
       this
     );
@@ -206,25 +225,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       this
     );
     this.virtualMachineScaleSetVMs = new VirtualMachineScaleSetVMsImpl(this);
-    this.virtualMachineExtensions = new VirtualMachineExtensionsImpl(this);
-    this.virtualMachines = new VirtualMachinesImpl(this);
-    this.virtualMachineImages = new VirtualMachineImagesImpl(this);
-    this.virtualMachineImagesEdgeZone = new VirtualMachineImagesEdgeZoneImpl(
-      this
-    );
-    this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesImpl(
-      this
-    );
-    this.availabilitySets = new AvailabilitySetsImpl(this);
-    this.proximityPlacementGroups = new ProximityPlacementGroupsImpl(this);
-    this.dedicatedHostGroups = new DedicatedHostGroupsImpl(this);
-    this.dedicatedHosts = new DedicatedHostsImpl(this);
-    this.sshPublicKeys = new SshPublicKeysImpl(this);
-    this.images = new ImagesImpl(this);
-    this.restorePointCollections = new RestorePointCollectionsImpl(this);
-    this.restorePoints = new RestorePointsImpl(this);
-    this.capacityReservationGroups = new CapacityReservationGroupsImpl(this);
-    this.capacityReservations = new CapacityReservationsImpl(this);
     this.logAnalytics = new LogAnalyticsImpl(this);
     this.virtualMachineRunCommands = new VirtualMachineRunCommandsImpl(this);
     this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsImpl(
@@ -260,28 +260,28 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  usageOperations: UsageOperations;
-  virtualMachineSizes: VirtualMachineSizes;
-  virtualMachineScaleSets: VirtualMachineScaleSets;
-  virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
-  virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
-  virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
-  virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
-  virtualMachineExtensions: VirtualMachineExtensions;
-  virtualMachines: VirtualMachines;
-  virtualMachineImages: VirtualMachineImages;
-  virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
-  virtualMachineExtensionImages: VirtualMachineExtensionImages;
   availabilitySets: AvailabilitySets;
   proximityPlacementGroups: ProximityPlacementGroups;
   dedicatedHostGroups: DedicatedHostGroups;
   dedicatedHosts: DedicatedHosts;
   sshPublicKeys: SshPublicKeys;
+  virtualMachineExtensionImages: VirtualMachineExtensionImages;
+  virtualMachineExtensions: VirtualMachineExtensions;
+  virtualMachineImages: VirtualMachineImages;
+  virtualMachineImagesEdgeZone: VirtualMachineImagesEdgeZone;
+  usageOperations: UsageOperations;
+  virtualMachines: VirtualMachines;
+  virtualMachineScaleSets: VirtualMachineScaleSets;
+  virtualMachineSizes: VirtualMachineSizes;
   images: Images;
   restorePointCollections: RestorePointCollections;
   restorePoints: RestorePoints;
   capacityReservationGroups: CapacityReservationGroups;
   capacityReservations: CapacityReservations;
+  virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
+  virtualMachineScaleSetRollingUpgrades: VirtualMachineScaleSetRollingUpgrades;
+  virtualMachineScaleSetVMExtensions: VirtualMachineScaleSetVMExtensions;
+  virtualMachineScaleSetVMs: VirtualMachineScaleSetVMs;
   logAnalytics: LogAnalytics;
   virtualMachineRunCommands: VirtualMachineRunCommands;
   virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;

@@ -74,7 +74,6 @@ export type ArchitectureTypes = string;
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
-    useRollingUpgradePolicy?: boolean;
 }
 
 // @public
@@ -443,6 +442,7 @@ export interface CloudService {
     location: string;
     readonly name?: string;
     properties?: CloudServiceProperties;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -458,13 +458,12 @@ export interface CloudServiceExtensionProfile {
 export interface CloudServiceExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: string;
-    // (undocumented)
+    protectedSettings?: Record<string, unknown>;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: string[];
-    settings?: string;
+    settings?: Record<string, unknown>;
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -477,11 +476,9 @@ export interface CloudServiceInstanceView {
     readonly statuses?: ResourceInstanceViewStatus[];
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: CloudService[];
 }
 
@@ -567,7 +564,6 @@ export interface CloudServiceRole {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
-    // (undocumented)
     properties?: CloudServiceRoleProperties;
     sku?: CloudServiceRoleSku;
     readonly type?: string;
@@ -654,11 +650,9 @@ export interface CloudServiceRoleInstancesRestartOptionalParams extends coreClie
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: CloudServiceRole[];
 }
 
@@ -673,7 +667,7 @@ export interface CloudServiceRoleProfileProperties {
     sku?: CloudServiceRoleSku;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudServiceRoleProperties {
     readonly uniqueId?: string;
 }
@@ -892,11 +886,9 @@ export interface CloudServiceUpdate {
 // @public
 export type CloudServiceUpgradeMode = string;
 
-// @public (undocumented)
+// @public
 export interface CloudServiceVaultAndSecretReference {
-    // (undocumented)
     secretUrl?: string;
-    // (undocumented)
     sourceVault?: SubResource;
 }
 
@@ -1190,7 +1182,6 @@ export type DedicatedHostGroup = Resource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
-    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public (undocumented)
@@ -1202,11 +1193,6 @@ export interface DedicatedHostGroupInstanceView {
 export interface DedicatedHostGroupListResult {
     nextLink?: string;
     value: DedicatedHostGroup[];
-}
-
-// @public
-export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
-    ultraSSDEnabled?: boolean;
 }
 
 // @public
@@ -1280,7 +1266,6 @@ export type DedicatedHostGroupUpdate = UpdateResource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
-    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public
@@ -1795,7 +1780,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 // @public
 export interface DiskRestorePointInstanceView {
     id?: string;
-    replicationStatus?: DiskRestorePointReplicationStatus;
+    replicationStatus?: Record<string, unknown>;
 }
 
 // @public
@@ -1830,8 +1815,7 @@ export interface DiskRestorePointOperations {
 
 // @public
 export interface DiskRestorePointReplicationStatus {
-    completionPercent?: number;
-    status?: InstanceViewStatus;
+    status?: Record<string, unknown>;
 }
 
 // @public
@@ -2790,7 +2774,7 @@ export interface InnerError {
     exceptiontype?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstanceSku {
     readonly name?: string;
     readonly tier?: string;
@@ -3237,18 +3221,6 @@ export enum KnownLinuxPatchAssessmentMode {
 }
 
 // @public
-export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
-    // (undocumented)
-    Always = "Always",
-    // (undocumented)
-    IfRequired = "IfRequired",
-    // (undocumented)
-    Never = "Never",
-    // (undocumented)
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownLinuxVMGuestPatchMode {
     // (undocumented)
     AutomaticByPlatform = "AutomaticByPlatform",
@@ -3540,8 +3512,6 @@ export enum KnownStorageAccountType {
 export enum KnownStorageAccountTypes {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
-    // (undocumented)
-    PremiumV2LRS = "PremiumV2_LRS",
     // (undocumented)
     PremiumZRS = "Premium_ZRS",
     // (undocumented)
@@ -4003,18 +3973,6 @@ export enum KnownWindowsPatchAssessmentMode {
 }
 
 // @public
-export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
-    // (undocumented)
-    Always = "Always",
-    // (undocumented)
-    IfRequired = "IfRequired",
-    // (undocumented)
-    Never = "Never",
-    // (undocumented)
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownWindowsVMGuestPatchMode {
     // (undocumented)
     AutomaticByOS = "AutomaticByOS",
@@ -4061,16 +4019,7 @@ export type LinuxPatchAssessmentMode = string;
 // @public
 export interface LinuxPatchSettings {
     assessmentMode?: LinuxPatchAssessmentMode;
-    automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
     patchMode?: LinuxVMGuestPatchMode;
-}
-
-// @public
-export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-// @public
-export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
-    rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 // @public
@@ -4089,12 +4038,12 @@ export interface LoadBalancerConfiguration {
     properties: LoadBalancerConfigurationProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerConfigurationProperties {
     frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
 }
 
-// @public (undocumented)
+// @public
 export interface LoadBalancerFrontendIPConfiguration {
     name: string;
     properties: LoadBalancerFrontendIPConfigurationProperties;
@@ -4286,11 +4235,9 @@ export interface OSFamily {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSFamilyListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: OSFamily[];
 }
 
@@ -4323,11 +4270,9 @@ export interface OSVersion {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSVersionListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: OSVersion[];
 }
 
@@ -4371,7 +4316,6 @@ export type PatchOperationStatus = string;
 // @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
-    automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
 }
@@ -4462,24 +4406,17 @@ export type ProtocolTypes = "Http" | "Https";
 
 // @public
 export type ProximityPlacementGroup = Resource & {
-    zones?: string[];
     proximityPlacementGroupType?: ProximityPlacementGroupType;
     readonly virtualMachines?: SubResourceWithColocationStatus[];
     readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
-    intent?: ProximityPlacementGroupPropertiesIntent;
 };
 
 // @public
 export interface ProximityPlacementGroupListResult {
     nextLink?: string;
     value: ProximityPlacementGroup[];
-}
-
-// @public
-export interface ProximityPlacementGroupPropertiesIntent {
-    vmSizes?: string[];
 }
 
 // @public
@@ -4790,22 +4727,11 @@ export interface ResourceUriList {
 }
 
 // @public
-export interface ResourceWithOptionalLocation {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
 export type RestorePoint = ProxyResource & {
     excludeDisks?: ApiEntityReference[];
     readonly sourceMetadata?: RestorePointSourceMetadata;
     readonly provisioningState?: string;
-    consistencyMode?: ConsistencyModeTypes;
+    readonly consistencyMode?: ConsistencyModeTypes;
     timeCreated?: Date;
     sourceRestorePoint?: ApiEntityReference;
     readonly instanceView?: RestorePointInstanceView;
@@ -4995,14 +4921,12 @@ export interface RetrieveBootDiagnosticsDataResult {
     readonly serialConsoleLogBlobUri?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstance {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
-    // (undocumented)
     properties?: RoleInstanceProperties;
-    // (undocumented)
     sku?: InstanceSku;
     readonly tags?: {
         [propertyName: string]: string;
@@ -5010,11 +4934,9 @@ export interface RoleInstance {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: RoleInstance[];
 }
 
@@ -5023,7 +4945,7 @@ export interface RoleInstanceNetworkProfile {
     readonly networkInterfaces?: SubResource[];
 }
 
-// @public (undocumented)
+// @public
 export interface RoleInstanceProperties {
     instanceView?: RoleInstanceView;
     networkProfile?: RoleInstanceNetworkProfile;
@@ -5615,7 +5537,7 @@ export type SshPublicKeyUpdateResource = UpdateResource & {
     publicKey?: string;
 };
 
-// @public (undocumented)
+// @public
 export interface StatusCodeCount {
     readonly code?: string;
     readonly count?: number;
@@ -5659,6 +5581,12 @@ export interface SupportedCapabilities {
 }
 
 // @public
+export interface SystemData {
+    readonly createdAt?: Date;
+    readonly lastModifiedAt?: Date;
+}
+
+// @public
 export interface TargetRegion {
     encryption?: EncryptionImages;
     name: string;
@@ -5687,11 +5615,9 @@ export interface UpdateDomain {
     readonly name?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateDomainListResult {
-    // (undocumented)
     nextLink?: string;
-    // (undocumented)
     value: UpdateDomain[];
 }
 
@@ -5894,7 +5820,7 @@ export type VirtualMachineCaptureResult = SubResource & {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 // @public
-export type VirtualMachineExtension = ResourceWithOptionalLocation & {
+export type VirtualMachineExtension = Resource & {
     forceUpdateTag?: string;
     publisher?: string;
     typePropertiesType?: string;
@@ -6520,7 +6446,6 @@ export type VirtualMachineScaleSet = Resource & {
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
@@ -6749,7 +6674,6 @@ export interface VirtualMachineScaleSetNetworkProfile {
 export interface VirtualMachineScaleSetOSDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
@@ -7150,7 +7074,6 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 // @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
@@ -7203,7 +7126,6 @@ export type VirtualMachineScaleSetVM = Resource & {
     plan?: Plan;
     readonly resources?: VirtualMachineExtension[];
     readonly zones?: string[];
-    identity?: VirtualMachineIdentity;
     readonly latestModelApplied?: boolean;
     readonly vmId?: string;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
@@ -7888,11 +7810,9 @@ export type VmDiskTypes = string;
 // @public
 export interface VMGalleryApplication {
     configurationReference?: string;
-    enableAutomaticUpgrade?: boolean;
     order?: number;
     packageReferenceId: string;
     tags?: string;
-    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public
@@ -7942,14 +7862,6 @@ export interface WindowsParameters {
 
 // @public
 export type WindowsPatchAssessmentMode = string;
-
-// @public
-export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-// @public
-export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
-    rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
-}
 
 // @public
 export type WindowsVMGuestPatchMode = string;

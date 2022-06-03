@@ -270,7 +270,7 @@ const getOSVersionOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.osVersionName
   ],
   headerParameters: [Parameters.accept],
@@ -292,7 +292,7 @@ const listOSVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -313,7 +313,7 @@ const getOSFamilyOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.osFamilyName
   ],
   headerParameters: [Parameters.accept],
@@ -335,7 +335,7 @@ const listOSFamiliesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -356,7 +356,7 @@ const listOSVersionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -377,7 +377,7 @@ const listOSFamiliesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -77,7 +77,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryImageName,
     Parameters.galleryImageVersionName,
     Parameters.publicGalleryName

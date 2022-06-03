@@ -1,15 +1,35 @@
 # Release History
+    
+## 19.0.0 (2022-06-03)
+    
+**Features**
 
-## 18.0.1 (Unreleased)
+  - Added Interface SystemData
+  - Interface CloudService has a new optional parameter systemData
+  - Add parameters of Resource to TypeAlias VirtualMachineExtension
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AutomaticOSUpgradePolicy no longer has parameter useRollingUpgradePolicy
+  - Interface DiskRestorePointReplicationStatus no longer has parameter completionPercent
+  - Interface LinuxPatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface PatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface VirtualMachineScaleSetDataDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetOSDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetUpdateOSDisk no longer has parameter deleteOption
+  - Interface VMGalleryApplication no longer has parameter enableAutomaticUpgrade
+  - Interface VMGalleryApplication no longer has parameter treatFailureAsDeploymentFailure
+  - Delete parameters of ResourceWithOptionalLocation in TypeAlias VirtualMachineExtension
+  - Type Alias DedicatedHostGroup no longer has parameter additionalCapabilities
+  - Type Alias DedicatedHostGroupUpdate no longer has parameter additionalCapabilities
+  - Type Alias ProximityPlacementGroup no longer has parameter zones
+  - Type Alias ProximityPlacementGroup no longer has parameter intent
+  - Type Alias VirtualMachineScaleSetVM no longer has parameter identity
+  - Removed Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Removed Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Enum KnownStorageAccountTypes no longer has value PremiumV2LRS
+    
+    
 ## 18.0.0 (2022-05-23)
     
 **Features**
