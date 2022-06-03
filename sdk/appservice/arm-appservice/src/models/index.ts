@@ -218,6 +218,28 @@ export interface SiteSeal {
   html: string;
 }
 
+/** Certificate order action. */
+export interface CertificateOrderAction {
+  /**
+   * Action type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: CertificateOrderActionType;
+  /**
+   * Time at which the certificate action was performed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+}
+
+/** SSL certificate email. */
+export interface CertificateEmail {
+  /** Email id. */
+  emailId?: string;
+  /** Time stamp. */
+  timeStamp?: Date;
+}
+
 /** Collection of detector responses */
 export interface DetectorResponseCollection {
   /** Collection of resources. */
@@ -715,6 +737,10 @@ export interface AppServiceEnvironment {
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
 }
 
 /** Specification for using a Virtual Network. */
@@ -3055,6 +3081,24 @@ export interface StaticSiteTemplateOptions {
   isPrivate?: boolean;
 }
 
+/** Static Site Linked Backend ARM resource. */
+export interface StaticSiteLinkedBackend {
+  /** The resource id of the backend linked to the static site */
+  backendResourceId?: string;
+  /** The region of the backend linked to the static site */
+  region?: string;
+  /**
+   * The date and time on which the backend was linked to the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The provisioning state of the linking process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** Collection of static site custom users. */
 export interface StaticSiteUserCollection {
   /** Collection of resources. */
@@ -3103,6 +3147,17 @@ export interface StaticSiteUserProvidedFunctionAppsCollection {
 export interface StaticSiteCustomDomainOverviewCollection {
   /** Collection of resources. */
   value: StaticSiteCustomDomainOverviewARMResource[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Collection of static site linked backends. */
+export interface StaticSiteLinkedBackendsCollection {
+  /** Collection of resources. */
+  value: StaticSiteLinkedBackendARMResource[];
   /**
    * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3742,6 +3797,17 @@ export interface ContinuousWebJobCollection {
   readonly nextLink?: string;
 }
 
+/** Deployment status collection ARM resource. */
+export interface CsmDeploymentStatusCollection {
+  /** Collection of resources. */
+  value: CsmDeploymentStatus[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Collection of app deployments. */
 export interface DeploymentCollection {
   /** Collection of resources. */
@@ -4262,7 +4328,7 @@ export type AppServiceCertificateOrder = Resource & {
    * Reasons why App Service Certificate is not renewable at the current moment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem[];
+  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
   /**
    * Time stamp when the certificate would be auto renewed next
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4349,7 +4415,7 @@ export type Domain = Resource & {
    * Reasons why domain is not renewable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsItem[];
+  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
   /** Current DNS type */
   dnsType?: DnsType;
   /** Azure DNS Zone to use */
@@ -4412,6 +4478,10 @@ export type AppServiceEnvironmentResource = Resource & {
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 /** A web app, a mobile app backend, or an API app. */
@@ -4468,6 +4538,12 @@ export type Site = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
+  /** Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. */
+  vnetRouteAllEnabled?: boolean;
+  /** To enable pulling image over Virtual Network */
+  vnetImagePullEnabled?: boolean;
+  /** To enable accessing content over virtual network */
+  vnetContentShareEnabled?: boolean;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
   /**
@@ -4907,6 +4983,11 @@ export type StaticSiteARMResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
   /** The provider that submitted the last deployment to the primary environment of the static site. */
   provider?: string;
   /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
@@ -4997,7 +5078,7 @@ export type AppServiceCertificateOrderPatchResource = ProxyOnlyResource & {
    * Reasons why App Service Certificate is not renewable at the current moment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem[];
+  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
   /**
    * Time stamp when the certificate would be auto renewed next
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5043,28 +5124,6 @@ export type RenewCertificateOrderRequest = ProxyOnlyResource & {
   csr?: string;
   /** Should we change the ASC type (from managed private key to external private key and vice versa). */
   isPrivateKeyExternal?: boolean;
-};
-
-/** Certificate order action. */
-export type CertificateOrderAction = ProxyOnlyResource & {
-  /**
-   * Action type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: CertificateOrderActionType;
-  /**
-   * Time at which the certificate action was performed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-};
-
-/** SSL certificate email. */
-export type CertificateEmail = ProxyOnlyResource & {
-  /** Email id. */
-  emailId?: string;
-  /** Time stamp. */
-  timeStamp?: Date;
 };
 
 /** Class representing Response from Detector */
@@ -5142,7 +5201,7 @@ export type DomainPatchResource = ProxyOnlyResource & {
    * Reasons why domain is not renewable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly domainNotRenewableReasons?: DomainPatchResourcePropertiesDomainNotRenewableReasonsItem[];
+  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
   /** Current DNS type */
   dnsType?: DnsType;
   /** Azure DNS Zone to use */
@@ -5162,6 +5221,40 @@ export type DomainOwnershipIdentifier = ProxyOnlyResource & {
 export type TopLevelDomain = ProxyOnlyResource & {
   /** If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>. */
   privacy?: boolean;
+};
+
+/** Full view of the custom domain suffix configuration for ASEv3. */
+export type CustomDnsSuffixConfiguration = ProxyOnlyResource & {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: CustomDnsSuffixProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningDetails?: string;
+  /** The default custom domain suffix to use for all sites deployed on the ASE. */
+  dnsSuffix?: string;
+  /** The URL referencing the Azure Key Vault certificate secret that should be used as the default SSL/TLS certificate for sites with the custom domain suffix. */
+  certificateUrl?: string;
+  /** The user-assigned identity to use for resolving the key vault certificate reference. If not specified, the system-assigned ASE identity will be used if available. */
+  keyVaultReferenceIdentity?: string;
+};
+
+/** Full view of networking configuration for an ASE. */
+export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly windowsOutboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly linuxOutboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly externalInboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly internalInboundIpAddresses?: string[];
+  /** Property to enable and disable new private endpoint connection creation on ASE */
+  allowNewPrivateEndpointConnections?: boolean;
+  /** Property to enable and disable FTP on ASEV3 */
+  ftpEnabled?: boolean;
+  /** Property to enable and disable Remote Debug on ASEV3 */
+  remoteDebugEnabled?: boolean;
+  /** Customer provided Inbound IP Address. Only able to be set on Ase create. */
+  inboundIpAddressOverride?: string;
 };
 
 /** ARM resource for a app service environment. */
@@ -5217,6 +5310,10 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
 };
 
 /** Describes main public IP address and any extra virtual IPs. */
@@ -5246,20 +5343,6 @@ export type PushSettings = ProxyOnlyResource & {
   tagsRequiringAuth?: string;
   /** Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint. */
   dynamicTagsJson?: string;
-};
-
-/** Full view of networking configuration for an ASE. */
-export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly windowsOutboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly linuxOutboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly externalInboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly internalInboundIpAddresses?: string[];
-  /** Property to enable and disable new private endpoint connection creation on ASE */
-  allowNewPrivateEndpointConnections?: boolean;
 };
 
 /** Worker pool of an App Service Environment ARM resource. */
@@ -6212,6 +6295,11 @@ export type StaticSitePatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
   /** The provider that submitted the last deployment to the primary environment of the static site. */
   provider?: string;
   /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
@@ -6281,6 +6369,11 @@ export type StaticSiteBuildARMResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side build
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
 };
 
 /** String dictionary resource. */
@@ -6402,6 +6495,24 @@ export type StaticSiteResetPropertiesARMResource = ProxyOnlyResource & {
   repositoryToken?: string;
   /** Determines whether the repository should be updated with the new properties. */
   shouldUpdateRepository?: boolean;
+};
+
+/** Static Site Linked Backend ARM resource. */
+export type StaticSiteLinkedBackendARMResource = ProxyOnlyResource & {
+  /** The resource id of the backend linked to the static site */
+  backendResourceId?: string;
+  /** The region of the backend linked to the static site */
+  region?: string;
+  /**
+   * The date and time on which the backend was linked to the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The provisioning state of the linking process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
 };
 
 /** ARM resource for a site. */
@@ -7179,6 +7290,24 @@ export type ContinuousWebJob = ProxyOnlyResource & {
   settings?: { [propertyName: string]: Record<string, unknown> };
 };
 
+/** Deployment status response payload. */
+export type CsmDeploymentStatus = ProxyOnlyResource & {
+  /** Deployment operation id. */
+  deploymentId?: string;
+  /** Deployment build status. */
+  status?: DeploymentBuildStatus;
+  /** Number of site instances currently being provisioned. */
+  numberOfInstancesInProgress?: number;
+  /** Number of site instances provisioned successfully. */
+  numberOfInstancesSuccessful?: number;
+  /** Number of site instances failed to provision. */
+  numberOfInstancesFailed?: number;
+  /** List of URLs pointing to logs for instances which failed to provision. */
+  failedInstancesLogs?: string[];
+  /** List of errors. */
+  errors?: ErrorEntity[];
+};
+
 /** User credentials used for publishing activity. */
 export type Deployment = ProxyOnlyResource & {
   /** Deployment status. */
@@ -7796,77 +7925,23 @@ export type WebJob = ProxyOnlyResource & {
   settings?: { [propertyName: string]: Record<string, unknown> };
 };
 
-/** Known values of {@link AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem} that the service accepts. */
-export enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem {
+/** Known values of {@link ResourceNotRenewableReason} that the service accepts. */
+export enum KnownResourceNotRenewableReason {
   RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
   ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
   SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 /**
- * Defines values for AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem. \
- * {@link KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem} can be used interchangeably with AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem,
+ * Defines values for ResourceNotRenewableReason. \
+ * {@link KnownResourceNotRenewableReason} can be used interchangeably with ResourceNotRenewableReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **RegistrationStatusNotSupportedForRenewal** \
  * **ExpirationNotInRenewalTimeRange** \
  * **SubscriptionNotActive**
  */
-export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-/** Known values of {@link AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem} that the service accepts. */
-export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem. \
- * {@link KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem} can be used interchangeably with AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-/** Known values of {@link DomainPropertiesDomainNotRenewableReasonsItem} that the service accepts. */
-export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for DomainPropertiesDomainNotRenewableReasonsItem. \
- * {@link KnownDomainPropertiesDomainNotRenewableReasonsItem} can be used interchangeably with DomainPropertiesDomainNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type DomainPropertiesDomainNotRenewableReasonsItem = string;
-
-/** Known values of {@link DomainPatchResourcePropertiesDomainNotRenewableReasonsItem} that the service accepts. */
-export enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for DomainPatchResourcePropertiesDomainNotRenewableReasonsItem. \
- * {@link KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem} can be used interchangeably with DomainPatchResourcePropertiesDomainNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type DomainPatchResourcePropertiesDomainNotRenewableReasonsItem = string;
+export type ResourceNotRenewableReason = string;
 
 /** Known values of {@link LoadBalancingMode} that the service accepts. */
 export enum KnownLoadBalancingMode {
@@ -8094,12 +8169,68 @@ export enum KnownRevisionProvisioningState {
  */
 export type RevisionProvisioningState = string;
 
-/** Known values of {@link Enum15} that the service accepts. */
-export enum KnownEnum15 {
+/** Known values of {@link Enum12} that the service accepts. */
+export enum KnownEnum12 {
   Windows = "Windows",
   Linux = "Linux",
   WindowsFunctions = "WindowsFunctions",
   LinuxFunctions = "LinuxFunctions",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum12. \
+ * {@link KnownEnum12} can be used interchangeably with Enum12,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **WindowsFunctions** \
+ * **LinuxFunctions** \
+ * **All**
+ */
+export type Enum12 = string;
+
+/** Known values of {@link Enum13} that the service accepts. */
+export enum KnownEnum13 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum13. \
+ * {@link KnownEnum13} can be used interchangeably with Enum13,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum13 = string;
+
+/** Known values of {@link Enum14} that the service accepts. */
+export enum KnownEnum14 {
+  Windows = "Windows",
+  Linux = "Linux",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum14. \
+ * {@link KnownEnum14} can be used interchangeably with Enum14,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **All**
+ */
+export type Enum14 = string;
+
+/** Known values of {@link Enum15} that the service accepts. */
+export enum KnownEnum15 {
+  Windows = "Windows",
+  Linux = "Linux",
   All = "All"
 }
 
@@ -8110,8 +8241,6 @@ export enum KnownEnum15 {
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
- * **WindowsFunctions** \
- * **LinuxFunctions** \
  * **All**
  */
 export type Enum15 = string;
@@ -8138,6 +8267,8 @@ export type Enum16 = string;
 export enum KnownEnum17 {
   Windows = "Windows",
   Linux = "Linux",
+  WindowsFunctions = "WindowsFunctions",
+  LinuxFunctions = "LinuxFunctions",
   All = "All"
 }
 
@@ -8148,67 +8279,11 @@ export enum KnownEnum17 {
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
- * **All**
- */
-export type Enum17 = string;
-
-/** Known values of {@link Enum18} that the service accepts. */
-export enum KnownEnum18 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
-}
-
-/**
- * Defines values for Enum18. \
- * {@link KnownEnum18} can be used interchangeably with Enum18,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum18 = string;
-
-/** Known values of {@link Enum19} that the service accepts. */
-export enum KnownEnum19 {
-  Windows = "Windows",
-  Linux = "Linux",
-  All = "All"
-}
-
-/**
- * Defines values for Enum19. \
- * {@link KnownEnum19} can be used interchangeably with Enum19,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
- * **All**
- */
-export type Enum19 = string;
-
-/** Known values of {@link Enum20} that the service accepts. */
-export enum KnownEnum20 {
-  Windows = "Windows",
-  Linux = "Linux",
-  WindowsFunctions = "WindowsFunctions",
-  LinuxFunctions = "LinuxFunctions",
-  All = "All"
-}
-
-/**
- * Defines values for Enum20. \
- * {@link KnownEnum20} can be used interchangeably with Enum20,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
  * **WindowsFunctions** \
  * **LinuxFunctions** \
  * **All**
  */
-export type Enum20 = string;
+export type Enum17 = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
@@ -8397,7 +8472,8 @@ export enum KnownCustomDomainStatus {
   Adding = "Adding",
   Ready = "Ready",
   Failed = "Failed",
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  Unhealthy = "Unhealthy"
 }
 
 /**
@@ -8410,7 +8486,8 @@ export enum KnownCustomDomainStatus {
  * **Adding** \
  * **Ready** \
  * **Failed** \
- * **Deleting**
+ * **Deleting** \
+ * **Unhealthy**
  */
 export type CustomDomainStatus = string;
 
@@ -8433,6 +8510,44 @@ export enum KnownDatabaseType {
  * **PostgreSql**
  */
 export type DatabaseType = string;
+
+/** Known values of {@link DeploymentBuildStatus} that the service accepts. */
+export enum KnownDeploymentBuildStatus {
+  TimedOut = "TimedOut",
+  RuntimeFailed = "RuntimeFailed",
+  BuildAborted = "BuildAborted",
+  BuildFailed = "BuildFailed",
+  BuildRequestReceived = "BuildRequestReceived",
+  BuildPending = "BuildPending",
+  BuildInProgress = "BuildInProgress",
+  BuildSuccessful = "BuildSuccessful",
+  PostBuildRestartRequired = "PostBuildRestartRequired",
+  StartPolling = "StartPolling",
+  StartPollingWithRestart = "StartPollingWithRestart",
+  RuntimeStarting = "RuntimeStarting",
+  RuntimeSuccessful = "RuntimeSuccessful"
+}
+
+/**
+ * Defines values for DeploymentBuildStatus. \
+ * {@link KnownDeploymentBuildStatus} can be used interchangeably with DeploymentBuildStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TimedOut** \
+ * **RuntimeFailed** \
+ * **BuildAborted** \
+ * **BuildFailed** \
+ * **BuildRequestReceived** \
+ * **BuildPending** \
+ * **BuildInProgress** \
+ * **BuildSuccessful** \
+ * **PostBuildRestartRequired** \
+ * **StartPolling** \
+ * **StartPollingWithRestart** \
+ * **RuntimeStarting** \
+ * **RuntimeSuccessful**
+ */
+export type DeploymentBuildStatus = string;
 
 /** Known values of {@link PublishingProfileFormat} that the service accepts. */
 export enum KnownPublishingProfileFormat {
@@ -8578,6 +8693,12 @@ export type HostingEnvironmentStatus =
   | "Ready"
   | "Scaling"
   | "Deleting";
+/** Defines values for CustomDnsSuffixProvisioningState. */
+export type CustomDnsSuffixProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Degraded"
+  | "InProgress";
 /** Defines values for ComputeModeOptions. */
 export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 /** Defines values for WorkerSizeOptions. */
@@ -9267,6 +9388,30 @@ export interface AppServiceEnvironmentsChangeVnetOptionalParams
 
 /** Contains response data for the changeVnet operation. */
 export type AppServiceEnvironmentsChangeVnetResponse = WebAppCollection;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = Record<
+  string,
+  unknown
+>;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams
@@ -10498,7 +10643,7 @@ export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCol
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum12;
 }
 
 /** Contains response data for the getAvailableStacks operation. */
@@ -10508,7 +10653,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum16;
+  stackOsType?: Enum13;
 }
 
 /** Contains response data for the getFunctionAppStacks operation. */
@@ -10518,7 +10663,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum17;
+  stackOsType?: Enum14;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
@@ -10528,7 +10673,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 export interface ProviderGetWebAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum18;
+  stackOsType?: Enum15;
 }
 
 /** Contains response data for the getWebAppStacksForLocation operation. */
@@ -10545,7 +10690,7 @@ export type ProviderListOperationsResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum19;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getWebAppStacks operation. */
@@ -10554,7 +10699,7 @@ export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum20;
+  osTypeSelected?: Enum17;
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
@@ -10563,7 +10708,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum12;
 }
 
 /** Contains response data for the getAvailableStacksNext operation. */
@@ -10573,7 +10718,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum16;
+  stackOsType?: Enum13;
 }
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
@@ -10583,7 +10728,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum17;
+  stackOsType?: Enum14;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
@@ -10593,7 +10738,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum18;
+  stackOsType?: Enum15;
 }
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
@@ -10610,7 +10755,7 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum19;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getWebAppStacksNext operation. */
@@ -10619,7 +10764,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum20;
+  osTypeSelected?: Enum17;
 }
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
@@ -10930,7 +11075,10 @@ export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 /** Optional parameters. */
 export interface ListCustomHostNameSitesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Specific hostname */
+  hostname?: string;
+}
 
 /** Contains response data for the listCustomHostNameSites operation. */
 export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
@@ -11019,7 +11167,10 @@ export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
 export interface ListCustomHostNameSitesNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Specific hostname */
+  hostname?: string;
+}
 
 /** Contains response data for the listCustomHostNameSitesNext operation. */
 export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
@@ -11430,6 +11581,90 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
 }
 
 /** Optional parameters. */
+export interface StaticSitesValidateBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StaticSitesValidateBackendForBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackends operation. */
+export type StaticSitesGetLinkedBackendsResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsForBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsForBuild operation. */
+export type StaticSitesGetLinkedBackendsForBuildResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackend operation. */
+export type StaticSitesGetLinkedBackendResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesLinkBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the linkBackend operation. */
+export type StaticSitesLinkBackendResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesUnlinkBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Decides if Easy Auth configuration will be removed from backend configuration */
+  isCleaningAuthConfig?: boolean;
+}
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendForBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendForBuild operation. */
+export type StaticSitesGetLinkedBackendForBuildResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesLinkBackendToBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the linkBackendToBuild operation. */
+export type StaticSitesLinkBackendToBuildResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesUnlinkBackendFromBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Decides if auth will be removed from backend configuration */
+  isCleaningAuthConfig?: boolean;
+}
+
+/** Optional parameters. */
 export interface StaticSitesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -11498,6 +11733,20 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptional
 
 /** Contains response data for the getUserProvidedFunctionAppsForStaticSiteNext operation. */
 export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse = StaticSiteUserProvidedFunctionAppsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsNext operation. */
+export type StaticSitesGetLinkedBackendsNextResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsForBuildNext operation. */
+export type StaticSitesGetLinkedBackendsForBuildNextResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
 export interface WebAppsListOptionalParams
@@ -11948,6 +12197,25 @@ export interface WebAppsStopContinuousWebJobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProductionSiteDeploymentStatuses operation. */
+export type WebAppsListProductionSiteDeploymentStatusesResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getProductionSiteDeploymentStatus operation. */
+export type WebAppsGetProductionSiteDeploymentStatusResponse = CsmDeploymentStatus;
+
+/** Optional parameters. */
 export interface WebAppsListDeploymentsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12043,6 +12311,20 @@ export interface WebAppsGetMSDeployLogOptionalParams
 
 /** Contains response data for the getMSDeployLog operation. */
 export type WebAppsGetMSDeployLogResponse = MSDeployLog;
+
+/** Optional parameters. */
+export interface WebAppsGetOneDeployStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOneDeployStatus operation. */
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface WebAppsCreateOneDeployOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOneDeployOperation operation. */
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsListFunctionsOptionalParams
@@ -12937,6 +13219,13 @@ export interface WebAppsGetAuthSettingsSlotOptionalParams
 export type WebAppsGetAuthSettingsSlotResponse = SiteAuthSettings;
 
 /** Optional parameters. */
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthSettingsV2WithoutSecretsSlot operation. */
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+/** Optional parameters. */
 export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -13186,6 +13475,25 @@ export interface WebAppsStartContinuousWebJobSlotOptionalParams
 /** Optional parameters. */
 export interface WebAppsStopContinuousWebJobSlotOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotSiteDeploymentStatusesSlot operation. */
+export type WebAppsListSlotSiteDeploymentStatusesSlotResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getSlotSiteDeploymentStatusSlot operation. */
+export type WebAppsGetSlotSiteDeploymentStatusSlotResponse = CsmDeploymentStatus;
 
 /** Optional parameters. */
 export interface WebAppsListDeploymentsSlotOptionalParams
@@ -14478,6 +14786,13 @@ export interface WebAppsListContinuousWebJobsNextOptionalParams
 export type WebAppsListContinuousWebJobsNextResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
+export interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProductionSiteDeploymentStatusesNext operation. */
+export type WebAppsListProductionSiteDeploymentStatusesNextResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
 export interface WebAppsListDeploymentsNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14647,6 +14962,13 @@ export interface WebAppsListContinuousWebJobsSlotNextOptionalParams
 
 /** Contains response data for the listContinuousWebJobsSlotNext operation. */
 export type WebAppsListContinuousWebJobsSlotNextResponse = ContinuousWebJobCollection;
+
+/** Optional parameters. */
+export interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotSiteDeploymentStatusesSlotNext operation. */
+export type WebAppsListSlotSiteDeploymentStatusesSlotNextResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsListDeploymentsSlotNextOptionalParams
