@@ -1,5 +1,28 @@
 # Release History
     
+## 3.0.0-beta.1 (2022-06-04)
+    
+**Features**
+
+  - Added Interface MicrosoftServiceLinkerOptionalParams
+  - Added Interface ValidateResult
+  - Added Class MicrosoftServiceLinker
+  - Added Type Alias Type
+  - Added Type Alias ValidationItemResult
+  - Type Alias SecretAuthInfo has a new parameter secret
+  - Added Enum KnownType
+  - Added Enum KnownValidationItemResult
+
+**Breaking Changes**
+
+  - Deleted Class ServiceLinkerManagementClient
+  - Type Alias SecretAuthInfo no longer has parameter secretInfo
+  - Removed Enum KnownAzureResourceType
+  - Removed Enum KnownSecretType
+  - Removed Enum KnownTargetServiceType
+  - Removed Enum KnownValidationResultStatus
+    
+    
 ## 2.0.0 (2022-05-16)
     
 **Features**
