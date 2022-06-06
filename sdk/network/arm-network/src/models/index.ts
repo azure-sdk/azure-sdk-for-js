@@ -2374,8 +2374,12 @@ export interface SubnetAssociation {
 
 /** Parameters that define the create packet capture operation. */
 export interface PacketCapture {
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -2390,8 +2394,12 @@ export interface PacketCapture {
 
 /** Parameters that define the create packet capture operation. */
 export interface PacketCaptureParameters {
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -2402,6 +2410,14 @@ export interface PacketCaptureParameters {
   storageLocation: PacketCaptureStorageLocation;
   /** A list of packet capture filters. */
   filters?: PacketCaptureFilter[];
+}
+
+/** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+export interface PacketCaptureMachineScope {
+  /** List of AzureVMSS instances to run packet capture on. */
+  include?: string[];
+  /** List of AzureVMSS instances which has to be excluded from the AzureVMSS from running packet capture. */
+  exclude?: string[];
 }
 
 /** The storage location for a packet capture session. */
@@ -2445,8 +2461,12 @@ export interface PacketCaptureResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /** The ID of the targeted resource, only VM is currently supported. */
+  /** The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported. */
   target?: string;
+  /** A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS. */
+  scope?: PacketCaptureMachineScope;
+  /** Target type of the resource provided. */
+  targetType?: PacketCaptureTargetType;
   /** Number of bytes captured per packet, the remaining bytes are truncated. */
   bytesToCapturePerPacket?: number;
   /** Maximum size of the capture output. */
@@ -6306,6 +6326,8 @@ export type ApplicationGatewayRoutingRule = SubResource & {
   readonly type?: string;
   /** Rule type. */
   ruleType?: ApplicationGatewayRequestRoutingRuleType;
+  /** Priority of the routing rule. */
+  priority?: number;
   /** Backend address pool resource of the application gateway. */
   backendAddressPool?: SubResource;
   /** Backend settings resource of the application gateway. */
@@ -11862,7 +11884,9 @@ export enum KnownEndpointType {
   AzureSubnet = "AzureSubnet",
   ExternalAddress = "ExternalAddress",
   MMAWorkspaceMachine = "MMAWorkspaceMachine",
-  MMAWorkspaceNetwork = "MMAWorkspaceNetwork"
+  MMAWorkspaceNetwork = "MMAWorkspaceNetwork",
+  AzureArcVM = "AzureArcVM",
+  AzureVmss = "AzureVMSS"
 }
 
 /**
@@ -11875,7 +11899,9 @@ export enum KnownEndpointType {
  * **AzureSubnet** \
  * **ExternalAddress** \
  * **MMAWorkspaceMachine** \
- * **MMAWorkspaceNetwork**
+ * **MMAWorkspaceNetwork** \
+ * **AzureArcVM** \
+ * **AzureVMSS**
  */
 export type EndpointType = string;
 
@@ -13326,6 +13352,8 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
 export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+/** Defines values for PacketCaptureTargetType. */
+export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
 /** Optional parameters. */
 export interface ApplicationGatewaysDeleteOptionalParams

@@ -6707,6 +6707,20 @@ export const PacketCapture: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureMachineScope"
+        }
+      },
+      targetType: {
+        serializedName: "properties.targetType",
+        type: {
+          name: "Enum",
+          allowedValues: ["AzureVM", "AzureVMSS"]
+        }
+      },
       bytesToCapturePerPacket: {
         defaultValue: 0,
         constraints: {
@@ -6775,6 +6789,20 @@ export const PacketCaptureParameters: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      scope: {
+        serializedName: "scope",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureMachineScope"
+        }
+      },
+      targetType: {
+        serializedName: "targetType",
+        type: {
+          name: "Enum",
+          allowedValues: ["AzureVM", "AzureVMSS"]
+        }
+      },
       bytesToCapturePerPacket: {
         defaultValue: 0,
         constraints: {
@@ -6823,6 +6851,37 @@ export const PacketCaptureParameters: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PacketCaptureFilter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PacketCaptureMachineScope: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PacketCaptureMachineScope",
+    modelProperties: {
+      include: {
+        serializedName: "include",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      exclude: {
+        serializedName: "exclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }
@@ -6928,6 +6987,20 @@ export const PacketCaptureResult: coreClient.CompositeMapper = {
         serializedName: "properties.target",
         type: {
           name: "String"
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "Composite",
+          className: "PacketCaptureMachineScope"
+        }
+      },
+      targetType: {
+        serializedName: "properties.targetType",
+        type: {
+          name: "Enum",
+          allowedValues: ["AzureVM", "AzureVMSS"]
         }
       },
       bytesToCapturePerPacket: {
@@ -17267,6 +17340,16 @@ export const ApplicationGatewayRoutingRule: coreClient.CompositeMapper = {
         serializedName: "properties.ruleType",
         type: {
           name: "String"
+        }
+      },
+      priority: {
+        constraints: {
+          InclusiveMaximum: 20000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
         }
       },
       backendAddressPool: {

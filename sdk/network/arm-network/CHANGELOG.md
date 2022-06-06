@@ -1,15 +1,22 @@
 # Release History
+    
+## 28.1.0 (2022-06-06)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface PacketCaptureMachineScope
+  - Added Type Alias PacketCaptureTargetType
+  - Interface PacketCapture has a new optional parameter scope
+  - Interface PacketCapture has a new optional parameter targetType
+  - Interface PacketCaptureParameters has a new optional parameter scope
+  - Interface PacketCaptureParameters has a new optional parameter targetType
+  - Interface PacketCaptureResult has a new optional parameter scope
+  - Interface PacketCaptureResult has a new optional parameter targetType
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+  - Enum KnownEndpointType has a new value AzureArcVM
+  - Enum KnownEndpointType has a new value AzureVmss
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**

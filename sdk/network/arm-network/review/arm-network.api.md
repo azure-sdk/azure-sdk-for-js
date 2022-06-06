@@ -601,6 +601,7 @@ export type ApplicationGatewayRoutingRule = SubResource & {
     readonly etag?: string;
     readonly type?: string;
     ruleType?: ApplicationGatewayRequestRoutingRuleType;
+    priority?: number;
     backendAddressPool?: SubResource;
     backendSettings?: SubResource;
     listener?: SubResource;
@@ -5767,9 +5768,13 @@ export enum KnownEffectiveSecurityRuleProtocol {
 // @public
 export enum KnownEndpointType {
     // (undocumented)
+    AzureArcVM = "AzureArcVM",
+    // (undocumented)
     AzureSubnet = "AzureSubnet",
     // (undocumented)
     AzureVM = "AzureVM",
+    // (undocumented)
+    AzureVmss = "AzureVMSS",
     // (undocumented)
     AzureVNet = "AzureVNet",
     // (undocumented)
@@ -9423,8 +9428,10 @@ export interface P2SVpnProfileParameters {
 export interface PacketCapture {
     bytesToCapturePerPacket?: number;
     filters?: PacketCaptureFilter[];
+    scope?: PacketCaptureMachineScope;
     storageLocation: PacketCaptureStorageLocation;
     target: string;
+    targetType?: PacketCaptureTargetType;
     timeLimitInSeconds?: number;
     totalBytesPerSession?: number;
 }
@@ -9444,11 +9451,19 @@ export interface PacketCaptureListResult {
 }
 
 // @public
+export interface PacketCaptureMachineScope {
+    exclude?: string[];
+    include?: string[];
+}
+
+// @public
 export interface PacketCaptureParameters {
     bytesToCapturePerPacket?: number;
     filters?: PacketCaptureFilter[];
+    scope?: PacketCaptureMachineScope;
     storageLocation: PacketCaptureStorageLocation;
     target: string;
+    targetType?: PacketCaptureTargetType;
     timeLimitInSeconds?: number;
     totalBytesPerSession?: number;
 }
@@ -9471,8 +9486,10 @@ export interface PacketCaptureResult {
     readonly id?: string;
     readonly name?: string;
     readonly provisioningState?: ProvisioningState;
+    scope?: PacketCaptureMachineScope;
     storageLocation?: PacketCaptureStorageLocation;
     target?: string;
+    targetType?: PacketCaptureTargetType;
     timeLimitInSeconds?: number;
     totalBytesPerSession?: number;
 }
@@ -9546,6 +9563,9 @@ export interface PacketCaptureStorageLocation {
     storageId?: string;
     storagePath?: string;
 }
+
+// @public
+export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
 // @public
 export type PatchRouteFilter = SubResource & {
