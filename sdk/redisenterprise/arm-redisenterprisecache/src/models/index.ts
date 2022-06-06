@@ -362,6 +362,48 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
+/** List of Region SKU Detail */
+export interface RegionSkuDetails {
+  /** List of SkuDetails */
+  value?: RegionSkuDetail[];
+}
+
+/** Details about the location requested and the available skus in the location */
+export interface RegionSkuDetail {
+  /** Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise */
+  resourceType?: string;
+  /** Details about location and its capabilities */
+  locationInfo?: LocationInfo;
+  /** Details about available skus */
+  skuDetails?: SkuDetail;
+}
+
+/** Information about location (for example: features that it supports) */
+export interface LocationInfo {
+  /** Location name */
+  location?: string;
+  /** List of capabilities */
+  capabilities?: Capability[];
+}
+
+/** Information about what features the location supports */
+export interface Capability {
+  /** Feature name */
+  name?: string;
+  /** Indicates whether feature is supported or not */
+  value?: boolean;
+}
+
+/** Information about Sku */
+export interface SkuDetail {
+  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
+  name?: Name;
+  /** The memory limit */
+  defaultMaxMemory?: number;
+  /** The memory limit in flash tier caches */
+  defaultMaxFlash?: number;
+}
+
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnection = Resource & {
   /** The resource of private end point. */
@@ -754,6 +796,32 @@ export enum KnownLinkState {
  * **UnlinkFailed**
  */
 export type LinkState = string;
+
+/** Known values of {@link Name} that the service accepts. */
+export enum KnownName {
+  EnterpriseE10 = "Enterprise_E10",
+  EnterpriseE20 = "Enterprise_E20",
+  EnterpriseE50 = "Enterprise_E50",
+  EnterpriseE100 = "Enterprise_E100",
+  EnterpriseFlashF300 = "EnterpriseFlash_F300",
+  EnterpriseFlashF700 = "EnterpriseFlash_F700",
+  EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
+}
+
+/**
+ * Defines values for Name. \
+ * {@link KnownName} can be used interchangeably with Name,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enterprise_E10** \
+ * **Enterprise_E20** \
+ * **Enterprise_E50** \
+ * **Enterprise_E100** \
+ * **EnterpriseFlash_F300** \
+ * **EnterpriseFlash_F700** \
+ * **EnterpriseFlash_F1500**
+ */
+export type Name = string;
 /** Defines values for AccessKeyType. */
 export type AccessKeyType = "Primary" | "Secondary";
 
@@ -982,6 +1050,12 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
 
 /** Contains response data for the listByCluster operation. */
 export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface SkusListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SkusListResponse = RegionSkuDetails;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams
