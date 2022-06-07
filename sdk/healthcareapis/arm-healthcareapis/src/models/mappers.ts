@@ -84,6 +84,13 @@ export const ServicesProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ServiceAcrConfigurationInfo"
         }
+      },
+      importConfiguration: {
+        serializedName: "importConfiguration",
+        type: {
+          name: "Composite",
+          className: "ServiceImportConfigurationInfo"
+        }
       }
     }
   }
@@ -117,7 +124,7 @@ export const ServiceCosmosDbConfigurationInfo: coreClient.CompositeMapper = {
     modelProperties: {
       offerThroughput: {
         constraints: {
-          InclusiveMaximum: 10000,
+          InclusiveMaximum: 100000000000000,
           InclusiveMinimum: 400
         },
         serializedName: "offerThroughput",
@@ -366,6 +373,33 @@ export const ServiceOciArtifactEntry: coreClient.CompositeMapper = {
         serializedName: "digest",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceImportConfigurationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceImportConfigurationInfo",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -892,6 +926,69 @@ export const DicomServiceAuthenticationConfiguration: coreClient.CompositeMapper
   }
 };
 
+export const CorsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsConfiguration",
+    modelProperties: {
+      origins: {
+        serializedName: "origins",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(?:(?:(?:[hH][tT][tT][pP](?:[sS]|))\\:\\/\\/(?:[a-zA-Z0-9-]+[.]?)+(?:\\:[0-9]{1,5})?|[*]))$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      methods: {
+        serializedName: "methods",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      maxAge: {
+        constraints: {
+          InclusiveMaximum: 99999,
+          InclusiveMinimum: 0
+        },
+        serializedName: "maxAge",
+        type: {
+          name: "Number"
+        }
+      },
+      allowCredentials: {
+        serializedName: "allowCredentials",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1284,6 +1381,33 @@ export const ResourceVersionPolicyConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const FhirServiceImportConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FhirServiceImportConfiguration",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1865,6 +1989,13 @@ export const DicomService: coreClient.CompositeMapper = {
           className: "DicomServiceAuthenticationConfiguration"
         }
       },
+      corsConfiguration: {
+        serializedName: "properties.corsConfiguration",
+        type: {
+          name: "Composite",
+          className: "CorsConfiguration"
+        }
+      },
       serviceUrl: {
         serializedName: "properties.serviceUrl",
         readOnly: true,
@@ -2032,6 +2163,13 @@ export const FhirService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceVersionPolicyConfiguration"
+        }
+      },
+      importConfiguration: {
+        serializedName: "properties.importConfiguration",
+        type: {
+          name: "Composite",
+          className: "FhirServiceImportConfiguration"
         }
       }
     }
