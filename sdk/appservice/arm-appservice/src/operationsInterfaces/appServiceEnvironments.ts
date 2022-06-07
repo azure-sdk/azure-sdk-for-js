@@ -54,6 +54,13 @@ import {
   AppServiceEnvironmentsUpdateResponse,
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsGetVipInfoResponse,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse,
+  CustomDnsSuffixConfiguration,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse,
   AseV3NetworkingConfiguration,
@@ -433,6 +440,45 @@ export interface AppServiceEnvironments {
     name: string,
     options?: AppServiceEnvironmentsGetVipInfoOptionalParams
   ): Promise<AppServiceEnvironmentsGetVipInfoResponse>;
+  /**
+   * Get Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  getAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse>;
+  /**
+   * Update Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param customDnsSuffixConfiguration Full view of the custom domain suffix configuration for ASEv3.
+   * @param options The options parameters.
+   */
+  updateAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    customDnsSuffixConfiguration: CustomDnsSuffixConfiguration,
+    options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  >;
+  /**
+   * Delete Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  deleteAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
+  >;
   /**
    * Description for Get networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
