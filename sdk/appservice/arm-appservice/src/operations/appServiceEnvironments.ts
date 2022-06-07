@@ -86,6 +86,13 @@ import {
   AppServiceEnvironmentsGetVipInfoOptionalParams,
   AppServiceEnvironmentsGetVipInfoResponse,
   AppServiceEnvironmentsChangeVnetResponse,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse,
+  CustomDnsSuffixConfiguration,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams,
+  AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams,
   AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse,
   AseV3NetworkingConfiguration,
@@ -113,7 +120,6 @@ import {
   AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse,
   AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsGetPrivateEndpointConnectionResponse,
-  PrivateLinkConnectionApprovalRequestResource,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams,
   AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse,
   AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams,
@@ -2026,6 +2032,63 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
   }
 
   /**
+   * Get Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  getAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
+   * Update Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param customDnsSuffixConfiguration Full view of the custom domain suffix configuration for ASEv3.
+   * @param options The options parameters.
+   */
+  updateAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    customDnsSuffixConfiguration: CustomDnsSuffixConfiguration,
+    options?: AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, customDnsSuffixConfiguration, options },
+      updateAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
+   * Delete Custom Dns Suffix configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The options parameters.
+   */
+  deleteAseCustomDnsSuffixConfiguration(
+    resourceGroupName: string,
+    name: string,
+    options?: AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  ): Promise<
+    AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
+  > {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      deleteAseCustomDnsSuffixConfigurationOperationSpec
+    );
+  }
+
+  /**
    * Description for Get networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
@@ -2414,14 +2477,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnection(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     PollerLike<
@@ -2494,14 +2557,14 @@ export class AppServiceEnvironmentsImpl implements AppServiceEnvironments {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
-   * @param privateEndpointWrapper Private Endpoint Connection Approval ARM resource.
+   * @param privateEndpointWrapper Remote Private Endpoint Connection ARM resource.
    * @param options The options parameters.
    */
   async beginApproveOrRejectPrivateEndpointConnectionAndWait(
     resourceGroupName: string,
     name: string,
     privateEndpointConnectionName: string,
-    privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource,
+    privateEndpointWrapper: RemotePrivateEndpointConnectionARMResource,
     options?: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionOptionalParams
   ): Promise<
     AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
@@ -3735,6 +3798,81 @@ const changeVnetOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomDnsSuffixConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomDnsSuffixConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.customDnsSuffixConfiguration,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteAseCustomDnsSuffixConfigurationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/customdnssuffix",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    204: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAseV3NetworkingConfigurationOperationSpec: coreClient.OperationSpec = {
