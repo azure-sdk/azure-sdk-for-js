@@ -1,6 +1,6 @@
 # Release History
     
-## 10.6.0 (2022-06-07)
+## 10.6.0 (2022-06-08)
     
 **Features**
 
@@ -17,6 +17,9 @@
   - Added Type Alias GlobalParametersGetResponse
   - Added Type Alias GlobalParametersListByFactoryNextResponse
   - Added Type Alias GlobalParametersListByFactoryResponse
+  - Added Type Alias SapODPLinkedService
+  - Added Type Alias SapODPResourceDataset
+  - Added Type Alias SapODPSource
   - Interface ExecuteDataFlowActivityTypeProperties has a new optional parameter sourceStagingConcurrency
   - Class DataFactoryManagementClient has a new parameter globalParameters
   - Type Alias ExecuteDataFlowActivity has a new parameter sourceStagingConcurrency

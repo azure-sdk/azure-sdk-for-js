@@ -77,6 +77,7 @@ export type LinkedServiceUnion =
   | SapCloudForCustomerLinkedService
   | SapEccLinkedService
   | SapOpenHubLinkedService
+  | SapODPLinkedService
   | RestServiceLinkedService
   | AmazonS3LinkedService
   | TeamDeskLinkedService
@@ -194,6 +195,7 @@ export type DatasetUnion =
   | AmazonRdsForSqlServerTableDataset
   | RestResourceDataset
   | SapTableResourceDataset
+  | SapODPResourceDataset
   | WebTableDataset
   | AzureSearchIndexDataset
   | HttpDataset
@@ -491,6 +493,7 @@ export type TabularSourceUnion =
   | SapEccSource
   | SapHanaSource
   | SapOpenHubSource
+  | SapODPSource
   | SapTableSource
   | SqlSource
   | SqlServerSource
@@ -1287,6 +1290,7 @@ export interface LinkedService {
     | "SapCloudForCustomer"
     | "SapEcc"
     | "SapOpenHub"
+    | "SapODP"
     | "RestService"
     | "AmazonS3"
     | "TeamDesk"
@@ -1444,6 +1448,7 @@ export interface Dataset {
     | "AmazonRdsForSqlServerTable"
     | "RestResource"
     | "SapTableResource"
+    | "SapODPResource"
     | "WebTable"
     | "AzureSearchIndex"
     | "HttpFile"
@@ -2972,6 +2977,7 @@ export interface CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapODPSource"
     | "SapTableSource"
     | "RestSource"
     | "SqlSource"
@@ -4915,6 +4921,48 @@ export type SapOpenHubLinkedService = LinkedService & {
   encryptedCredential?: any;
 };
 
+/** SAP ODP Linked Service. */
+export type SapODPLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapODP";
+  /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** System number of the SAP system where the table is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
+  systemNumber?: any;
+  /** Client ID of the client on the SAP system where the table is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** Language of the SAP system where the table is located. The default value is EN. Type: string (or Expression with resultType string). */
+  language?: any;
+  /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
+  systemId?: any;
+  /** Username to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** Password to access the SAP server where the table is located. */
+  password?: SecretBaseUnion;
+  /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
+  messageServer?: any;
+  /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
+  messageServerService?: any;
+  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
+  sncMode?: any;
+  /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncMyName?: any;
+  /** Communication partner's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncPartnerName?: any;
+  /** External security product's library to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncLibraryPath?: any;
+  /** SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression with resultType string). */
+  sncQop?: any;
+  /** SNC X509 certificate file path. Type: string (or Expression with resultType string). */
+  x509CertificatePath?: any;
+  /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
+  logonGroup?: any;
+  /** The subscriber name. Type: string (or Expression with resultType string). */
+  subscriberName?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
 /** Rest Service linked service. */
 export type RestServiceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -6805,6 +6853,16 @@ export type SapTableResourceDataset = Dataset & {
   tableName: any;
 };
 
+/** SAP ODP Resource properties. */
+export type SapODPResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapODPResource";
+  /** The context of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  context: any;
+  /** The name of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  objectName: any;
+};
+
 /** The dataset points to a HTML table in the web page. */
 export type WebTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -8306,6 +8364,7 @@ export type TabularSource = CopySource & {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapODPSource"
     | "SapTableSource"
     | "SqlSource"
     | "SqlServerSource"
@@ -10031,6 +10090,18 @@ export type SapOpenHubSource = TabularSource & {
   customRfcReadTableFunctionModule?: any;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
   sapDataColumnDelimiter?: any;
+};
+
+/** A copy activity source for SAP ODP source. */
+export type SapODPSource = TabularSource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapODPSource";
+  /** The subscriber process to manage the delta process. The default value is true. Type: string (or Expression with resultType boolean). */
+  subscriberProcess?: any;
+  /** Specifies the selection conditions from source data. Type: array of objects(selection) (or Expression with resultType array of objects). */
+  selection?: any;
+  /** Specifies the columns to be selected from source data. Type: array of objects(projection) (or Expression with resultType array of objects). */
+  projection?: any;
 };
 
 /** A copy activity source for SAP Table source. */

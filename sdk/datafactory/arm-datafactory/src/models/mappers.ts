@@ -10547,6 +10547,129 @@ export const SapOpenHubLinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const SapODPLinkedService: coreClient.CompositeMapper = {
+  serializedName: "SapODP",
+  type: {
+    name: "Composite",
+    className: "SapODPLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      server: {
+        serializedName: "typeProperties.server",
+        type: {
+          name: "any"
+        }
+      },
+      systemNumber: {
+        serializedName: "typeProperties.systemNumber",
+        type: {
+          name: "any"
+        }
+      },
+      clientId: {
+        serializedName: "typeProperties.clientId",
+        type: {
+          name: "any"
+        }
+      },
+      language: {
+        serializedName: "typeProperties.language",
+        type: {
+          name: "any"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
+        type: {
+          name: "any"
+        }
+      },
+      userName: {
+        serializedName: "typeProperties.userName",
+        type: {
+          name: "any"
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "any"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "any"
+        }
+      },
+      sncMode: {
+        serializedName: "typeProperties.sncMode",
+        type: {
+          name: "any"
+        }
+      },
+      sncMyName: {
+        serializedName: "typeProperties.sncMyName",
+        type: {
+          name: "any"
+        }
+      },
+      sncPartnerName: {
+        serializedName: "typeProperties.sncPartnerName",
+        type: {
+          name: "any"
+        }
+      },
+      sncLibraryPath: {
+        serializedName: "typeProperties.sncLibraryPath",
+        type: {
+          name: "any"
+        }
+      },
+      sncQop: {
+        serializedName: "typeProperties.sncQop",
+        type: {
+          name: "any"
+        }
+      },
+      x509CertificatePath: {
+        serializedName: "typeProperties.x509CertificatePath",
+        type: {
+          name: "any"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "any"
+        }
+      },
+      subscriberName: {
+        serializedName: "typeProperties.subscriberName",
+        type: {
+          name: "any"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const RestServiceLinkedService: coreClient.CompositeMapper = {
   serializedName: "RestService",
   type: {
@@ -15964,6 +16087,34 @@ export const SapTableResourceDataset: coreClient.CompositeMapper = {
       ...Dataset.type.modelProperties,
       tableName: {
         serializedName: "typeProperties.tableName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const SapODPResourceDataset: coreClient.CompositeMapper = {
+  serializedName: "SapODPResource",
+  type: {
+    name: "Composite",
+    className: "SapODPResourceDataset",
+    uberParent: "Dataset",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Dataset.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Dataset.type.modelProperties,
+      context: {
+        serializedName: "typeProperties.context",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      objectName: {
+        serializedName: "typeProperties.objectName",
         required: true,
         type: {
           name: "any"
@@ -24846,6 +24997,38 @@ export const SapOpenHubSource: coreClient.CompositeMapper = {
   }
 };
 
+export const SapODPSource: coreClient.CompositeMapper = {
+  serializedName: "SapODPSource",
+  type: {
+    name: "Composite",
+    className: "SapODPSource",
+    uberParent: "CopySource",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: CopySource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TabularSource.type.modelProperties,
+      subscriberProcess: {
+        serializedName: "subscriberProcess",
+        type: {
+          name: "any"
+        }
+      },
+      selection: {
+        serializedName: "selection",
+        type: {
+          name: "any"
+        }
+      },
+      projection: {
+        serializedName: "projection",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
 export const SapTableSource: coreClient.CompositeMapper = {
   serializedName: "SapTableSource",
   type: {
@@ -26191,6 +26374,7 @@ export let discriminators = {
   "LinkedService.SapCloudForCustomer": SapCloudForCustomerLinkedService,
   "LinkedService.SapEcc": SapEccLinkedService,
   "LinkedService.SapOpenHub": SapOpenHubLinkedService,
+  "LinkedService.SapODP": SapODPLinkedService,
   "LinkedService.RestService": RestServiceLinkedService,
   "LinkedService.AmazonS3": AmazonS3LinkedService,
   "LinkedService.TeamDesk": TeamDeskLinkedService,
@@ -26306,6 +26490,7 @@ export let discriminators = {
   "Dataset.AmazonRdsForSqlServerTable": AmazonRdsForSqlServerTableDataset,
   "Dataset.RestResource": RestResourceDataset,
   "Dataset.SapTableResource": SapTableResourceDataset,
+  "Dataset.SapODPResource": SapODPResourceDataset,
   "Dataset.WebTable": WebTableDataset,
   "Dataset.AzureSearchIndex": AzureSearchIndexDataset,
   "Dataset.HttpFile": HttpDataset,
@@ -26555,6 +26740,7 @@ export let discriminators = {
   "CopySource.SapEccSource": SapEccSource,
   "CopySource.SapHanaSource": SapHanaSource,
   "CopySource.SapOpenHubSource": SapOpenHubSource,
+  "CopySource.SapODPSource": SapODPSource,
   "CopySource.SapTableSource": SapTableSource,
   "CopySource.SqlSource": SqlSource,
   "CopySource.SqlServerSource": SqlServerSource,
