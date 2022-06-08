@@ -7477,6 +7477,95 @@ export const ContainerRegistryVulnerabilityProperties: coreClient.CompositeMappe
   }
 };
 
+export const AmazonElasticContainerRegistryVulnerabilityProperties: coreClient.CompositeMapper = {
+  serializedName: "AmazonElasticContainerRegistryVulnerability",
+  type: {
+    name: "Composite",
+    className: "AmazonElasticContainerRegistryVulnerabilityProperties",
+    uberParent: "AdditionalData",
+    polymorphicDiscriminator: AdditionalData.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AdditionalData.type.modelProperties,
+      cve: {
+        serializedName: "cve",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Cve"
+            }
+          }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      },
+      metadata: {
+        serializedName: "Metadata",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      packageName: {
+        serializedName: "PackageName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      installedVersion: {
+        serializedName: "InstalledVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      registryHost: {
+        serializedName: "RegistryHost",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      repositoryName: {
+        serializedName: "repositoryName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageDigest: {
+        serializedName: "imageDigest",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      scanner: {
+        serializedName: "Scanner",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
 export const ServerVulnerabilityProperties: coreClient.CompositeMapper = {
   serializedName: "ServerVulnerabilityAssessment",
   type: {
@@ -8737,6 +8826,7 @@ export let discriminators = {
   "ResourceDetails.OnPremise": OnPremiseResourceDetails,
   "AdditionalData.SqlServerVulnerability": SqlServerVulnerabilityProperties,
   "AdditionalData.ContainerRegistryVulnerability": ContainerRegistryVulnerabilityProperties,
+  "AdditionalData.AmazonElasticContainerRegistryVulnerability": AmazonElasticContainerRegistryVulnerabilityProperties,
   "AdditionalData.ServerVulnerabilityAssessment": ServerVulnerabilityProperties,
   "AutomationAction.LogicApp": AutomationActionLogicApp,
   "AutomationAction.EventHub": AutomationActionEventHub,

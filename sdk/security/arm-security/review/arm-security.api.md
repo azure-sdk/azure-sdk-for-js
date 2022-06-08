@@ -152,11 +152,11 @@ export type AdaptiveNetworkHardeningsListByExtendedResourceResponse = AdaptiveNe
 
 // @public
 export interface AdditionalData {
-    assessedResourceType: "SqlServerVulnerability" | "ContainerRegistryVulnerability" | "ServerVulnerabilityAssessment";
+    assessedResourceType: "SqlServerVulnerability" | "ContainerRegistryVulnerability" | "AmazonElasticContainerRegistryVulnerability" | "ServerVulnerabilityAssessment";
 }
 
 // @public (undocumented)
-export type AdditionalDataUnion = AdditionalData | SqlServerVulnerabilityProperties | ContainerRegistryVulnerabilityProperties | ServerVulnerabilityProperties;
+export type AdditionalDataUnion = AdditionalData | SqlServerVulnerabilityProperties | ContainerRegistryVulnerabilityProperties | AmazonElasticContainerRegistryVulnerabilityProperties | ServerVulnerabilityProperties;
 
 // @public
 export type AdditionalWorkspaceDataType = string;
@@ -513,6 +513,20 @@ export type AllowlistCustomAlertRule = ListCustomAlertRule & {
 
 // @public (undocumented)
 export type AllowlistCustomAlertRuleUnion = AllowlistCustomAlertRule | ConnectionToIpNotAllowed | ConnectionFromIpNotAllowed | LocalUserNotAllowed | ProcessNotAllowed;
+
+// @public
+export type AmazonElasticContainerRegistryVulnerabilityProperties = AdditionalData & {
+    assessedResourceType: "AmazonElasticContainerRegistryVulnerability";
+    readonly cve?: Cve[];
+    readonly tags?: any[];
+    readonly metadata?: Record<string, unknown>;
+    readonly packageName?: string;
+    readonly installedVersion?: string;
+    readonly registryHost?: string;
+    readonly repositoryName?: string;
+    readonly imageDigest?: string;
+    readonly scanner?: Record<string, unknown>;
+};
 
 // @public
 export type AmqpC2DMessagesNotInAllowedRange = TimeWindowCustomAlertRule & {
