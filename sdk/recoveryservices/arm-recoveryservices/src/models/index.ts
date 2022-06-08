@@ -296,6 +296,15 @@ export interface VaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly moveState?: ResourceMoveState;
+  /**
+   * Backup storage version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupStorageVersion?: BackupStorageVersion;
+  /** Monitoring Settings of the vault */
+  monitoringSettings?: MonitoringSettings;
+  /** The redundancy Settings of a Vault */
+  redundancySettings?: VaultPropertiesRedundancySettings;
 }
 
 /** Details for upgrading vault. */
@@ -476,6 +485,38 @@ export interface VaultPropertiesMoveDetails {
   readonly targetResourceId?: string;
 }
 
+/** Monitoring Settings of the vault */
+export interface MonitoringSettings {
+  /** Settings for Azure Monitor based alerts */
+  azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+  /** Settings for classic alerts */
+  classicAlertSettings?: ClassicAlertSettings;
+}
+
+/** Settings for Azure Monitor based alerts */
+export interface AzureMonitorAlertSettings {
+  alertsForAllJobFailures?: AlertsState;
+}
+
+/** Settings for classic alerts */
+export interface ClassicAlertSettings {
+  alertsForCriticalOperations?: AlertsState;
+}
+
+/** The redundancy Settings of a Vault */
+export interface VaultPropertiesRedundancySettings {
+  /**
+   * The storage redundancy setting of a vault
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
+  /**
+   * Flag to show if Cross Region Restore is enabled on the Vault or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly crossRegionRestore?: CrossRegionRestore;
+}
+
 /** Identifies the unique system identifier for each Azure resource. */
 export interface Sku {
   /** The Sku name. */
@@ -643,6 +684,8 @@ export type ResourceCertificateAndAadDetails = ResourceCertificateDetails & {
   azureManagementEndpointAudience: string;
   /** Service Resource Id. */
   serviceResourceId?: string;
+  /** AAD audience for the resource */
+  aadAudience?: string;
 };
 
 /** Certificate details representing the Vault credentials for ACS. */
@@ -891,6 +934,74 @@ export enum KnownResourceMoveState {
  * **PartialSuccess**
  */
 export type ResourceMoveState = string;
+
+/** Known values of {@link BackupStorageVersion} that the service accepts. */
+export enum KnownBackupStorageVersion {
+  V1 = "V1",
+  V2 = "V2",
+  Unassigned = "Unassigned"
+}
+
+/**
+ * Defines values for BackupStorageVersion. \
+ * {@link KnownBackupStorageVersion} can be used interchangeably with BackupStorageVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2** \
+ * **Unassigned**
+ */
+export type BackupStorageVersion = string;
+
+/** Known values of {@link AlertsState} that the service accepts. */
+export enum KnownAlertsState {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AlertsState. \
+ * {@link KnownAlertsState} can be used interchangeably with AlertsState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AlertsState = string;
+
+/** Known values of {@link StandardTierStorageRedundancy} that the service accepts. */
+export enum KnownStandardTierStorageRedundancy {
+  LocallyRedundant = "LocallyRedundant",
+  GeoRedundant = "GeoRedundant",
+  ZoneRedundant = "ZoneRedundant"
+}
+
+/**
+ * Defines values for StandardTierStorageRedundancy. \
+ * {@link KnownStandardTierStorageRedundancy} can be used interchangeably with StandardTierStorageRedundancy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LocallyRedundant** \
+ * **GeoRedundant** \
+ * **ZoneRedundant**
+ */
+export type StandardTierStorageRedundancy = string;
+
+/** Known values of {@link CrossRegionRestore} that the service accepts. */
+export enum KnownCrossRegionRestore {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for CrossRegionRestore. \
+ * {@link KnownCrossRegionRestore} can be used interchangeably with CrossRegionRestore,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type CrossRegionRestore = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
