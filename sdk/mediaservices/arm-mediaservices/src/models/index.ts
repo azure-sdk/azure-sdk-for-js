@@ -64,8 +64,8 @@ export type AudioAnalyzerPresetUnion =
   | AudioAnalyzerPreset
   | VideoAnalyzerPreset;
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
-export type AudioUnion = Audio | AacAudio;
-export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
+export type AudioUnion = Audio | AacAudio | DDAudio;
+export type VideoUnion = Video | AV1Video | H265Video | ImageUnion | H264Video;
 export type AudioTrackDescriptorUnion =
   | AudioTrackDescriptor
   | SelectAudioTrackByAttribute
@@ -1434,6 +1434,8 @@ export interface Codec {
     | "#Microsoft.Media.Audio"
     | "#Microsoft.Media.AacAudio"
     | "#Microsoft.Media.Video"
+    | "#Microsoft.Media.AV1Video"
+    | "#Microsoft.Media.DDAudio"
     | "#Microsoft.Media.H265Video"
     | "#Microsoft.Media.CopyVideo"
     | "#Microsoft.Media.Image"
@@ -1506,7 +1508,7 @@ export interface Format {
     | "#Microsoft.Media.MultiBitrateFormat"
     | "#Microsoft.Media.Mp4Format"
     | "#Microsoft.Media.TransportStreamFormat";
-  /** The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename. */
+  /** The file naming pattern used for the creation of output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {AudioStream} - string "Audio" plus audio stream number(start from 1). {Bitrate} - The audio/video bitrate in kbps. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename. */
   filenamePattern: string;
 }
 
@@ -1863,7 +1865,10 @@ export type ContentKeyPolicyX509CertificateTokenKey = ContentKeyPolicyRestrictio
 /** Defines the common properties for all audio codecs. */
 export type Audio = Codec & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
+  odataType:
+    | "#Microsoft.Media.Audio"
+    | "#Microsoft.Media.AacAudio"
+    | "#Microsoft.Media.DDAudio";
   /** The number of channels in the audio. */
   channels?: number;
   /** The sampling rate to use for encoding in hertz. */
@@ -1877,6 +1882,7 @@ export type Video = Codec & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType:
     | "#Microsoft.Media.Video"
+    | "#Microsoft.Media.AV1Video"
     | "#Microsoft.Media.H265Video"
     | "#Microsoft.Media.Image"
     | "#Microsoft.Media.H264Video"
@@ -1900,6 +1906,16 @@ export type CopyVideo = Codec & {
 export type CopyAudio = Codec & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.CopyAudio";
+};
+
+/** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
+export type AV1VideoLayer = Layer & {
+  /** The average bitrate in bits per second at which to encode the input video when generating this layer. For example: a target bitrate of 3000Kbps or 3Mbps means this value should be 3000000 This is a required field. */
+  bitrate: number;
+  /** The frame rate (in frames per second) at which to encode this layer. The value can be in the form of M/N where M and N are integers (For example, 30000/1001), or in the form of a number (For example, 30, or 29.97). The encoder enforces constraints on allowed frame rates based on the profile and level. If it is not specified, the encoder will use the same frame rate as the input video. */
+  frameRate?: string;
+  /** The maximum bitrate (in bits per second), at which the VBV buffer should be assumed to refill. If not specified, defaults to the same value as bitrate. */
+  maxBitrate?: number;
 };
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer. */
@@ -2472,6 +2488,24 @@ export type AacAudio = Audio & {
   profile?: AacAudioProfile;
 };
 
+/** Describes Dolby Digital Audio Codec (AC3) audio encoding settings. The current implementation for Dolby Digital Audio support are: Audio channel numbers at 1((mono), 2(stereo), 6(5.1side); Audio sampling frequency rates at: 32K/44.1K/48K Hz; Audio bitrate values as AC3 specification supports: 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000, 384000, 448000, 512000, 576000, 640000 bps. */
+export type DDAudio = Audio & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.DDAudio";
+};
+
+/** Describes all the properties for encoding a video with the AV1 codec. */
+export type AV1Video = Video & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.AV1Video";
+  /** Tells the encoder how to choose its encoding settings.  Quality will provide for a higher compression ratio but at a higher cost and longer compute time.  Speed will produce a relatively larger file but is faster and more economical. The default value is Balanced. */
+  complexity?: AV1Complexity;
+  /** The collection of output AV1 layers to be produced by the encoder. */
+  layers?: AV1Layer[];
+  /** Specifies whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
+  sceneChangeDetection?: boolean;
+};
+
 /** Describes all the properties for encoding a video with the H.265 codec. */
 export type H265Video = Video & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2511,6 +2545,18 @@ export type H264Video = Video & {
   rateControlMode?: H264RateControlMode;
   /** Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video. */
   sceneChangeDetection?: boolean;
+};
+
+/** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the AV1 video codec. */
+export type AV1Layer = AV1VideoLayer & {
+  /** The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S). */
+  bufferWindow?: string;
+  /** The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 63, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 32. */
+  crf?: number;
+  /** We currently support Level up to 6.3. The value can be Auto, or a number that matches the AV1 profile. If not specified, the default is Auto, which lets the encoder choose the Level that is appropriate for this layer. */
+  level?: string;
+  /** We currently support Main. Default is Auto. */
+  profile?: AV1VideoProfile;
 };
 
 /** Describes the settings to be used when encoding the input video into a desired output bitrate layer with the H.265 video codec. */
@@ -3079,7 +3125,9 @@ export enum KnownJobErrorCode {
   /** There was a problem with the input content (for example: zero byte files, or corrupt/non-decodable files), check the input files. */
   ContentMalformed = "ContentMalformed",
   /** There was a problem with the format of the input (not valid media file, or an unsupported file/codec), check the validity of the input files. */
-  ContentUnsupported = "ContentUnsupported"
+  ContentUnsupported = "ContentUnsupported",
+  /** There was an error verifying to the account identity. Check and fix the identity configurations and retry. If unsuccessful, please contact support. */
+  IdentityUnsupported = "IdentityUnsupported"
 }
 
 /**
@@ -3095,7 +3143,8 @@ export enum KnownJobErrorCode {
  * **UploadTransientError**: While trying to upload the output files, there was an issue during transfer (storage service, network errors), see details and check your destination. \
  * **ConfigurationUnsupported**: There was a problem with the combination of input files and the configuration settings applied, fix the configuration settings and retry with the same input, or change input to match the configuration. \
  * **ContentMalformed**: There was a problem with the input content (for example: zero byte files, or corrupt\/non-decodable files), check the input files. \
- * **ContentUnsupported**: There was a problem with the format of the input (not valid media file, or an unsupported file\/codec), check the validity of the input files.
+ * **ContentUnsupported**: There was a problem with the format of the input (not valid media file, or an unsupported file\/codec), check the validity of the input files. \
+ * **IdentityUnsupported**: There was an error verifying to the account identity. Check and fix the identity configurations and retry. If unsuccessful, please contact support.
  */
 export type JobErrorCode = string;
 
@@ -3110,7 +3159,9 @@ export enum KnownJobErrorCategory {
   /** The error is configuration related. */
   Configuration = "Configuration",
   /** The error is related to data in the input files. */
-  Content = "Content"
+  Content = "Content",
+  /** The error is related to account information. */
+  Account = "Account"
 }
 
 /**
@@ -3122,7 +3173,8 @@ export enum KnownJobErrorCategory {
  * **Download**: The error is download related. \
  * **Upload**: The error is upload related. \
  * **Configuration**: The error is configuration related. \
- * **Content**: The error is related to data in the input files.
+ * **Content**: The error is related to data in the input files. \
+ * **Account**: The error is related to account information.
  */
 export type JobErrorCategory = string;
 
@@ -3296,7 +3348,7 @@ export type LiveEventEncodingType = string;
 
 /** Known values of {@link StretchMode} that the service accepts. */
 export enum KnownStretchMode {
-  /** Strictly respect the output resolution without considering the pixel aspect ratio or display aspect ratio of the input video. */
+  /** Strictly respects the output resolution specified in the encoding preset without considering the pixel aspect ratio or display aspect ratio of the input video. */
   None = "None",
   /** Override the output resolution, and change it to match the display aspect ratio of the input, without padding. For example, if the input is 1920x1080 and the encoding preset asks for 1280x1280, then the value in the preset is overridden, and the output will be at 1280x720, which maintains the input aspect ratio of 16:9. */
   AutoSize = "AutoSize",
@@ -3309,7 +3361,7 @@ export enum KnownStretchMode {
  * {@link KnownStretchMode} can be used interchangeably with StretchMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: Strictly respect the output resolution without considering the pixel aspect ratio or display aspect ratio of the input video. \
+ * **None**: Strictly respects the output resolution specified in the encoding preset without considering the pixel aspect ratio or display aspect ratio of the input video. \
  * **AutoSize**: Override the output resolution, and change it to match the display aspect ratio of the input, without padding. For example, if the input is 1920x1080 and the encoding preset asks for 1280x1280, then the value in the preset is overridden, and the output will be at 1280x720, which maintains the input aspect ratio of 16:9. \
  * **AutoFit**: Pad the output (with either letterbox or pillar box) to honor the output resolution, while ensuring that the active video region in the output has the same aspect ratio as the input. For example, if the input is 1920x1080 and the encoding preset asks for 1280x1280, then the output will be at 1280x1280, which contains an inner rectangle of 1280x720 at aspect ratio of 16:9, and pillar box regions 280 pixels wide at the left and right.
  */
@@ -3576,26 +3628,44 @@ export enum KnownAacAudioProfile {
  */
 export type AacAudioProfile = string;
 
-/** Known values of {@link H265VideoProfile} that the service accepts. */
-export enum KnownH265VideoProfile {
-  /** Tells the encoder to automatically determine the appropriate H.265 profile. */
+/** Known values of {@link AV1VideoProfile} that the service accepts. */
+export enum KnownAV1VideoProfile {
+  /** Tells the encoder to automatically determine the appropriate AV1 profile. */
   Auto = "Auto",
-  /** Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier) */
-  Main = "Main",
-  /** Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10) */
-  Main10 = "Main10"
+  /** Main profile */
+  Main = "Main"
 }
 
 /**
- * Defines values for H265VideoProfile. \
- * {@link KnownH265VideoProfile} can be used interchangeably with H265VideoProfile,
+ * Defines values for AV1VideoProfile. \
+ * {@link KnownAV1VideoProfile} can be used interchangeably with AV1VideoProfile,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Auto**: Tells the encoder to automatically determine the appropriate H.265 profile. \
- * **Main**: Main profile (https:\/\/x265.readthedocs.io\/en\/default\/cli.html?highlight=profile#profile-level-tier) \
- * **Main10**: Main 10 profile (https:\/\/en.wikipedia.org\/wiki\/High_Efficiency_Video_Coding#Main_10)
+ * **Auto**: Tells the encoder to automatically determine the appropriate AV1 profile. \
+ * **Main**: Main profile
  */
-export type H265VideoProfile = string;
+export type AV1VideoProfile = string;
+
+/** Known values of {@link AV1Complexity} that the service accepts. */
+export enum KnownAV1Complexity {
+  /** Tells the encoder to use settings that are optimized for faster encoding. Quality is sacrificed to decrease encoding time. */
+  Speed = "Speed",
+  /** Tells the encoder to use settings that achieve a balance between speed and quality. */
+  Balanced = "Balanced",
+  /** Tells the encoder to use settings that are optimized to produce higher quality output at the expense of slower overall encode time. */
+  Quality = "Quality"
+}
+
+/**
+ * Defines values for AV1Complexity. \
+ * {@link KnownAV1Complexity} can be used interchangeably with AV1Complexity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Speed**: Tells the encoder to use settings that are optimized for faster encoding. Quality is sacrificed to decrease encoding time. \
+ * **Balanced**: Tells the encoder to use settings that achieve a balance between speed and quality. \
+ * **Quality**: Tells the encoder to use settings that are optimized to produce higher quality output at the expense of slower overall encode time.
+ */
+export type AV1Complexity = string;
 
 /** Known values of {@link VideoSyncMode} that the service accepts. */
 export enum KnownVideoSyncMode {
@@ -3620,6 +3690,27 @@ export enum KnownVideoSyncMode {
  * **Vfr**: Similar to the Passthrough mode, but if the input has frames that have duplicate timestamps, then only one frame is passed through to the output, and others are dropped. Recommended when the number of output frames is expected to be equal to the number of input frames. For example, the output is used to calculate a quality metric like PSNR against the input
  */
 export type VideoSyncMode = string;
+
+/** Known values of {@link H265VideoProfile} that the service accepts. */
+export enum KnownH265VideoProfile {
+  /** Tells the encoder to automatically determine the appropriate H.265 profile. */
+  Auto = "Auto",
+  /** Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier) */
+  Main = "Main",
+  /** Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10) */
+  Main10 = "Main10"
+}
+
+/**
+ * Defines values for H265VideoProfile. \
+ * {@link KnownH265VideoProfile} can be used interchangeably with H265VideoProfile,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto**: Tells the encoder to automatically determine the appropriate H.265 profile. \
+ * **Main**: Main profile (https:\/\/x265.readthedocs.io\/en\/default\/cli.html?highlight=profile#profile-level-tier) \
+ * **Main10**: Main 10 profile (https:\/\/en.wikipedia.org\/wiki\/High_Efficiency_Video_Coding#Main_10)
+ */
+export type H265VideoProfile = string;
 
 /** Known values of {@link H265Complexity} that the service accepts. */
 export enum KnownH265Complexity {
@@ -4010,8 +4101,10 @@ export enum KnownEncoderNamedPreset {
   H264SingleBitrate1080P = "H264SingleBitrate1080p",
   /** Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. */
   AdaptiveStreaming = "AdaptiveStreaming",
-  /** Produces a single MP4 file containing only stereo audio encoded at 192 kbps. */
+  /** Produces a single MP4 file containing only AAC stereo audio encoded at 192 kbps. */
   AACGoodQualityAudio = "AACGoodQualityAudio",
+  /** Produces a single MP4 file containing only DD(Digital Dolby) stereo audio encoded at 192 kbps. */
+  DDGoodQualityAudio = "DDGoodQualityAudio",
   /** Exposes an experimental preset for content-aware encoding. Given any input content, the service attempts to automatically determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. The underlying algorithms will continue to evolve over time. The output will contain MP4 files with video and audio interleaved. */
   ContentAwareEncodingExperimental = "ContentAwareEncodingExperimental",
   /** Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. */
@@ -4033,7 +4126,17 @@ export enum KnownEncoderNamedPreset {
   /** Produces an MP4 file where the video is encoded with H.265 codec at 3500 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. */
   H265SingleBitrate1080P = "H265SingleBitrate1080p",
   /** Produces an MP4 file where the video is encoded with H.265 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. */
-  H265SingleBitrate4K = "H265SingleBitrate4K"
+  H265SingleBitrate4K = "H265SingleBitrate4K",
+  /** Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. */
+  AV1ContentAwareEncoding = "AV1ContentAwareEncoding",
+  /** Produces a set of GOP aligned MP4 files with AV1 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. */
+  AV1AdaptiveStreaming = "AV1AdaptiveStreaming",
+  /** Produces an MP4 file where the video is encoded with AV1 codec at 1800 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. */
+  AV1SingleBitrate720P = "AV1SingleBitrate720p",
+  /** Produces an MP4 file where the video is encoded with AV1 codec at 3500 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. */
+  AV1SingleBitrate1080P = "AV1SingleBitrate1080p",
+  /** Produces an MP4 file where the video is encoded with AV1 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. */
+  AV1SingleBitrate4K = "AV1SingleBitrate4K"
 }
 
 /**
@@ -4045,7 +4148,8 @@ export enum KnownEncoderNamedPreset {
  * **H264SingleBitrate720p**: Produces an MP4 file where the video is encoded with H.264 codec at 4500 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
  * **H264SingleBitrate1080p**: Produces an MP4 file where the video is encoded with H.264 codec at 6750 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
  * **AdaptiveStreaming**: Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. \
- * **AACGoodQualityAudio**: Produces a single MP4 file containing only stereo audio encoded at 192 kbps. \
+ * **AACGoodQualityAudio**: Produces a single MP4 file containing only AAC stereo audio encoded at 192 kbps. \
+ * **DDGoodQualityAudio**: Produces a single MP4 file containing only DD(Digital Dolby) stereo audio encoded at 192 kbps. \
  * **ContentAwareEncodingExperimental**: Exposes an experimental preset for content-aware encoding. Given any input content, the service attempts to automatically determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. The underlying algorithms will continue to evolve over time. The output will contain MP4 files with video and audio interleaved. \
  * **ContentAwareEncoding**: Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. \
  * **CopyAllBitrateNonInterleaved**: Copy all video and audio streams from the input asset as non-interleaved video and audio output files. This preset can be used to clip an existing asset or convert a group of key frame (GOP) aligned MP4 files as an asset that can be streamed. \
@@ -4056,7 +4160,12 @@ export enum KnownEncoderNamedPreset {
  * **H265AdaptiveStreaming**: Produces a set of GOP aligned MP4 files with H.265 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. \
  * **H265SingleBitrate720p**: Produces an MP4 file where the video is encoded with H.265 codec at 1800 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
  * **H265SingleBitrate1080p**: Produces an MP4 file where the video is encoded with H.265 codec at 3500 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
- * **H265SingleBitrate4K**: Produces an MP4 file where the video is encoded with H.265 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps.
+ * **H265SingleBitrate4K**: Produces an MP4 file where the video is encoded with H.265 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
+ * **AV1ContentAwareEncoding**: Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. \
+ * **AV1AdaptiveStreaming**: Produces a set of GOP aligned MP4 files with AV1 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. \
+ * **AV1SingleBitrate720p**: Produces an MP4 file where the video is encoded with AV1 codec at 1800 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
+ * **AV1SingleBitrate1080p**: Produces an MP4 file where the video is encoded with AV1 codec at 3500 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
+ * **AV1SingleBitrate4K**: Produces an MP4 file where the video is encoded with AV1 codec at 9500 kbps and a picture height of 2160 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps.
  */
 export type EncoderNamedPreset = string;
 

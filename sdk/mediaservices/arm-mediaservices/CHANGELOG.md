@@ -1,15 +1,27 @@
 # Release History
+    
+## 11.1.0 (2022-06-08)
+    
+**Features**
 
-## 11.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias AV1Complexity
+  - Added Type Alias AV1Layer
+  - Added Type Alias AV1Video
+  - Added Type Alias AV1VideoLayer
+  - Added Type Alias AV1VideoProfile
+  - Added Type Alias DDAudio
+  - Added Enum KnownAV1Complexity
+  - Added Enum KnownAV1VideoProfile
+  - Enum KnownEncoderNamedPreset has a new value AV1AdaptiveStreaming
+  - Enum KnownEncoderNamedPreset has a new value AV1ContentAwareEncoding
+  - Enum KnownEncoderNamedPreset has a new value AV1SingleBitrate1080P
+  - Enum KnownEncoderNamedPreset has a new value AV1SingleBitrate4K
+  - Enum KnownEncoderNamedPreset has a new value AV1SingleBitrate720P
+  - Enum KnownEncoderNamedPreset has a new value DDGoodQualityAudio
+  - Enum KnownJobErrorCategory has a new value Account
+  - Enum KnownJobErrorCode has a new value IdentityUnsupported
+    
+    
 ## 11.0.0 (2022-04-14)
     
 **Features**

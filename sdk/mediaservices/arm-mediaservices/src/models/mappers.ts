@@ -4826,6 +4826,35 @@ export const CopyAudio: coreClient.CompositeMapper = {
   }
 };
 
+export const AV1VideoLayer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AV1VideoLayer",
+    modelProperties: {
+      ...Layer.type.modelProperties,
+      bitrate: {
+        serializedName: "bitrate",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      frameRate: {
+        serializedName: "frameRate",
+        type: {
+          name: "String"
+        }
+      },
+      maxBitrate: {
+        serializedName: "maxBitrate",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const H265VideoLayer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6159,6 +6188,56 @@ export const AacAudio: coreClient.CompositeMapper = {
   }
 };
 
+export const DDAudio: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.DDAudio",
+  type: {
+    name: "Composite",
+    className: "DDAudio",
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Audio.type.modelProperties
+    }
+  }
+};
+
+export const AV1Video: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Media.AV1Video",
+  type: {
+    name: "Composite",
+    className: "AV1Video",
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...Video.type.modelProperties,
+      complexity: {
+        serializedName: "complexity",
+        type: {
+          name: "String"
+        }
+      },
+      layers: {
+        serializedName: "layers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AV1Layer"
+            }
+          }
+        }
+      },
+      sceneChangeDetection: {
+        serializedName: "sceneChangeDetection",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const H265Video: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Media.H265Video",
   type: {
@@ -6268,6 +6347,40 @@ export const H264Video: coreClient.CompositeMapper = {
         serializedName: "sceneChangeDetection",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AV1Layer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AV1Layer",
+    modelProperties: {
+      ...AV1VideoLayer.type.modelProperties,
+      bufferWindow: {
+        serializedName: "bufferWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      crf: {
+        serializedName: "crf",
+        type: {
+          name: "Number"
+        }
+      },
+      level: {
+        serializedName: "level",
+        type: {
+          name: "String"
+        }
+      },
+      profile: {
+        serializedName: "profile",
+        type: {
+          name: "String"
         }
       }
     }
@@ -6767,6 +6880,8 @@ export let discriminators = {
   "JobInput.#Microsoft.Media.JobInputAsset": JobInputAsset,
   "JobInput.#Microsoft.Media.JobInputHttp": JobInputHttp,
   "Codec.#Microsoft.Media.AacAudio": AacAudio,
+  "Codec.#Microsoft.Media.DDAudio": DDAudio,
+  "Codec.#Microsoft.Media.AV1Video": AV1Video,
   "Codec.#Microsoft.Media.H265Video": H265Video,
   "Codec.#Microsoft.Media.Image": Image,
   "Codec.#Microsoft.Media.H264Video": H264Video,
