@@ -1,15 +1,45 @@
 # Release History
+    
+## 10.0.0-beta.1 (2022-06-08)
+    
+**Features**
 
-## 9.0.1 (Unreleased)
+  - Added Interface TieringPolicy
+  - Added Type Alias AzureVmWorkloadSAPHanaDBInstance
+  - Added Type Alias AzureVmWorkloadSAPHanaDBInstanceProtectedItem
+  - Added Type Alias AzureVmWorkloadSAPHanaHSR
+  - Added Type Alias ProtectableContainerType
+  - Added Type Alias TieringMode
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
+  - Interface SubProtectionPolicy has a new optional parameter tieringPolicy
+  - Added Enum KnownTieringMode
+  - Enum KnownBackupItemType has a new value SAPHanaDBInstance
+  - Enum KnownBackupType has a new value SnapshotCopyOnlyFull
+  - Enum KnownBackupType has a new value SnapshotFull
+  - Enum KnownContainerType has a new value HanaHSRContainer
+  - Enum KnownDataSourceType has a new value SAPHanaDBInstance
+  - Enum KnownPolicyType has a new value SnapshotCopyOnlyFull
+  - Enum KnownPolicyType has a new value SnapshotFull
+  - Enum KnownRestorePointQueryType has a new value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointQueryType has a new value SnapshotFull
+  - Enum KnownRestorePointType has a new value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointType has a new value SnapshotFull
+  - Enum KnownWorkloadItemType has a new value SAPHanaDBInstance
+  - Enum KnownWorkloadType has a new value SAPHanaDBInstance
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ResourceGuardProxy.put has a new signature
+  - Enum KnownContainerType no longer has value AzureWorkloadContainer
+  - Enum KnownContainerType no longer has value MicrosoftClassicComputeVirtualMachines
+  - Enum KnownContainerType no longer has value MicrosoftComputeVirtualMachines
+    
+    
 ## 9.0.0 (2022-05-16)
     
 **Breaking Changes**
