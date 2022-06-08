@@ -504,6 +504,72 @@ export const SiteSeal: coreClient.CompositeMapper = {
   }
 };
 
+export const CertificateOrderAction: coreClient.CompositeMapper = {
+  serializedName: "CertificateOrderAction",
+  type: {
+    name: "Composite",
+    className: "CertificateOrderAction",
+    modelProperties: {
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        xmlName: "actionType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "CertificateIssued",
+            "CertificateOrderCanceled",
+            "CertificateOrderCreated",
+            "CertificateRevoked",
+            "DomainValidationComplete",
+            "FraudDetected",
+            "OrgNameChange",
+            "OrgValidationComplete",
+            "SanDrop",
+            "FraudCleared",
+            "CertificateExpired",
+            "CertificateExpirationWarning",
+            "FraudDocumentationRequired",
+            "Unknown"
+          ]
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        readOnly: true,
+        xmlName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CertificateEmail: coreClient.CompositeMapper = {
+  serializedName: "CertificateEmail",
+  type: {
+    name: "Composite",
+    className: "CertificateEmail",
+    modelProperties: {
+      emailId: {
+        serializedName: "emailId",
+        xmlName: "emailId",
+        type: {
+          name: "String"
+        }
+      },
+      timeStamp: {
+        serializedName: "timeStamp",
+        xmlName: "timeStamp",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const DetectorResponseCollection: coreClient.CompositeMapper = {
   serializedName: "DetectorResponseCollection",
   type: {
@@ -2147,6 +2213,14 @@ export const AppServiceEnvironment: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      upgradePreference: {
+        defaultValue: "None",
+        serializedName: "upgradePreference",
+        xmlName: "upgradePreference",
+        type: {
+          name: "String"
+        }
+      },
       dedicatedHostCount: {
         serializedName: "dedicatedHostCount",
         xmlName: "dedicatedHostCount",
@@ -2159,6 +2233,30 @@ export const AppServiceEnvironment: coreClient.CompositeMapper = {
         xmlName: "zoneRedundant",
         type: {
           name: "Boolean"
+        }
+      },
+      customDnsSuffixConfiguration: {
+        serializedName: "customDnsSuffixConfiguration",
+        xmlName: "customDnsSuffixConfiguration",
+        type: {
+          name: "Composite",
+          className: "CustomDnsSuffixConfiguration"
+        }
+      },
+      networkingConfiguration: {
+        serializedName: "networkingConfiguration",
+        xmlName: "networkingConfiguration",
+        type: {
+          name: "Composite",
+          className: "AseV3NetworkingConfiguration"
+        }
+      },
+      upgradeAvailability: {
+        serializedName: "upgradeAvailability",
+        readOnly: true,
+        xmlName: "upgradeAvailability",
+        type: {
+          name: "String"
         }
       }
     }
@@ -9100,6 +9198,46 @@ export const StaticSiteTemplateOptions: coreClient.CompositeMapper = {
   }
 };
 
+export const StaticSiteLinkedBackend: coreClient.CompositeMapper = {
+  serializedName: "StaticSiteLinkedBackend",
+  type: {
+    name: "Composite",
+    className: "StaticSiteLinkedBackend",
+    modelProperties: {
+      backendResourceId: {
+        serializedName: "backendResourceId",
+        xmlName: "backendResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "region",
+        xmlName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdOn",
+        readOnly: true,
+        xmlName: "createdOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        xmlName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StaticSiteUserCollection: coreClient.CompositeMapper = {
   serializedName: "StaticSiteUserCollection",
   type: {
@@ -9249,6 +9387,39 @@ export const StaticSiteCustomDomainOverviewCollection: coreClient.CompositeMappe
             type: {
               name: "Composite",
               className: "StaticSiteCustomDomainOverviewARMResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StaticSiteLinkedBackendsCollection: coreClient.CompositeMapper = {
+  serializedName: "StaticSiteLinkedBackendsCollection",
+  type: {
+    name: "Composite",
+    className: "StaticSiteLinkedBackendsCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        xmlName: "value",
+        xmlElementName: "StaticSiteLinkedBackendARMResource",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StaticSiteLinkedBackendARMResource"
             }
           }
         }
@@ -11135,6 +11306,39 @@ export const ContinuousWebJobCollection: coreClient.CompositeMapper = {
   }
 };
 
+export const CsmDeploymentStatusCollection: coreClient.CompositeMapper = {
+  serializedName: "CsmDeploymentStatusCollection",
+  type: {
+    name: "Composite",
+    className: "CsmDeploymentStatusCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        xmlName: "value",
+        xmlElementName: "CsmDeploymentStatus",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CsmDeploymentStatus"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        xmlName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentCollection: coreClient.CompositeMapper = {
   serializedName: "DeploymentCollection",
   type: {
@@ -12805,8 +13009,7 @@ export const AppServiceCertificateOrder: coreClient.CompositeMapper = {
         serializedName: "properties.appServiceCertificateNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.appServiceCertificateNotRenewableReasons",
-        xmlElementName:
-          "AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -13055,7 +13258,7 @@ export const Domain: coreClient.CompositeMapper = {
         serializedName: "properties.domainNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.domainNotRenewableReasons",
-        xmlElementName: "DomainPropertiesDomainNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -13232,6 +13435,14 @@ export const AppServiceEnvironmentResource: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      upgradePreference: {
+        defaultValue: "None",
+        serializedName: "properties.upgradePreference",
+        xmlName: "properties.upgradePreference",
+        type: {
+          name: "String"
+        }
+      },
       dedicatedHostCount: {
         serializedName: "properties.dedicatedHostCount",
         xmlName: "properties.dedicatedHostCount",
@@ -13244,6 +13455,30 @@ export const AppServiceEnvironmentResource: coreClient.CompositeMapper = {
         xmlName: "properties.zoneRedundant",
         type: {
           name: "Boolean"
+        }
+      },
+      customDnsSuffixConfiguration: {
+        serializedName: "properties.customDnsSuffixConfiguration",
+        xmlName: "properties.customDnsSuffixConfiguration",
+        type: {
+          name: "Composite",
+          className: "CustomDnsSuffixConfiguration"
+        }
+      },
+      networkingConfiguration: {
+        serializedName: "properties.networkingConfiguration",
+        xmlName: "properties.networkingConfiguration",
+        type: {
+          name: "Composite",
+          className: "AseV3NetworkingConfiguration"
+        }
+      },
+      upgradeAvailability: {
+        serializedName: "properties.upgradeAvailability",
+        readOnly: true,
+        xmlName: "properties.upgradeAvailability",
+        type: {
+          name: "String"
         }
       }
     }
@@ -13393,6 +13628,27 @@ export const Site: coreClient.CompositeMapper = {
         xmlName: "properties.lastModifiedTimeUtc",
         type: {
           name: "DateTime"
+        }
+      },
+      vnetRouteAllEnabled: {
+        serializedName: "properties.vnetRouteAllEnabled",
+        xmlName: "properties.vnetRouteAllEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      vnetImagePullEnabled: {
+        serializedName: "properties.vnetImagePullEnabled",
+        xmlName: "properties.vnetImagePullEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      vnetContentShareEnabled: {
+        serializedName: "properties.vnetContentShareEnabled",
+        xmlName: "properties.vnetContentShareEnabled",
+        type: {
+          name: "Boolean"
         }
       },
       siteConfig: {
@@ -13597,6 +13853,13 @@ export const Site: coreClient.CompositeMapper = {
         xmlName: "properties.inProgressOperationId",
         type: {
           name: "Uuid"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        xmlName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       },
       storageAccountRequired: {
@@ -14410,6 +14673,21 @@ export const StaticSiteARMResource: coreClient.CompositeMapper = {
           }
         }
       },
+      linkedBackends: {
+        serializedName: "properties.linkedBackends",
+        readOnly: true,
+        xmlName: "properties.linkedBackends",
+        xmlElementName: "StaticSiteLinkedBackend",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StaticSiteLinkedBackend"
+            }
+          }
+        }
+      },
       provider: {
         serializedName: "properties.provider",
         xmlName: "properties.provider",
@@ -14420,6 +14698,13 @@ export const StaticSiteARMResource: coreClient.CompositeMapper = {
       enterpriseGradeCdnStatus: {
         serializedName: "properties.enterpriseGradeCdnStatus",
         xmlName: "properties.enterpriseGradeCdnStatus",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        xmlName: "properties.publicNetworkAccess",
         type: {
           name: "String"
         }
@@ -14643,8 +14928,7 @@ export const AppServiceCertificateOrderPatchResource: coreClient.CompositeMapper
         serializedName: "properties.appServiceCertificateNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.appServiceCertificateNotRenewableReasons",
-        xmlElementName:
-          "AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -14785,74 +15069,6 @@ export const RenewCertificateOrderRequest: coreClient.CompositeMapper = {
         xmlName: "properties.isPrivateKeyExternal",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateOrderAction: coreClient.CompositeMapper = {
-  serializedName: "CertificateOrderAction",
-  type: {
-    name: "Composite",
-    className: "CertificateOrderAction",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      actionType: {
-        serializedName: "properties.actionType",
-        readOnly: true,
-        xmlName: "properties.actionType",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "CertificateIssued",
-            "CertificateOrderCanceled",
-            "CertificateOrderCreated",
-            "CertificateRevoked",
-            "DomainValidationComplete",
-            "FraudDetected",
-            "OrgNameChange",
-            "OrgValidationComplete",
-            "SanDrop",
-            "FraudCleared",
-            "CertificateExpired",
-            "CertificateExpirationWarning",
-            "FraudDocumentationRequired",
-            "Unknown"
-          ]
-        }
-      },
-      createdAt: {
-        serializedName: "properties.createdAt",
-        readOnly: true,
-        xmlName: "properties.createdAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const CertificateEmail: coreClient.CompositeMapper = {
-  serializedName: "CertificateEmail",
-  type: {
-    name: "Composite",
-    className: "CertificateEmail",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      emailId: {
-        serializedName: "properties.emailId",
-        xmlName: "properties.emailId",
-        type: {
-          name: "String"
-        }
-      },
-      timeStamp: {
-        serializedName: "properties.timeStamp",
-        xmlName: "properties.timeStamp",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -15095,8 +15311,7 @@ export const DomainPatchResource: coreClient.CompositeMapper = {
         serializedName: "properties.domainNotRenewableReasons",
         readOnly: true,
         xmlName: "properties.domainNotRenewableReasons",
-        xmlElementName:
-          "DomainPatchResourcePropertiesDomainNotRenewableReasonsItem",
+        xmlElementName: "ResourceNotRenewableReason",
         type: {
           name: "Sequence",
           element: {
@@ -15170,6 +15385,154 @@ export const TopLevelDomain: coreClient.CompositeMapper = {
         xmlName: "properties.privacy",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CustomDnsSuffixConfiguration: coreClient.CompositeMapper = {
+  serializedName: "CustomDnsSuffixConfiguration",
+  type: {
+    name: "Composite",
+    className: "CustomDnsSuffixConfiguration",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        xmlName: "properties.provisioningState",
+        type: {
+          name: "Enum",
+          allowedValues: ["Succeeded", "Failed", "Degraded", "InProgress"]
+        }
+      },
+      provisioningDetails: {
+        serializedName: "properties.provisioningDetails",
+        readOnly: true,
+        xmlName: "properties.provisioningDetails",
+        type: {
+          name: "String"
+        }
+      },
+      dnsSuffix: {
+        serializedName: "properties.dnsSuffix",
+        xmlName: "properties.dnsSuffix",
+        type: {
+          name: "String"
+        }
+      },
+      certificateUrl: {
+        serializedName: "properties.certificateUrl",
+        xmlName: "properties.certificateUrl",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultReferenceIdentity: {
+        serializedName: "properties.keyVaultReferenceIdentity",
+        xmlName: "properties.keyVaultReferenceIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AseV3NetworkingConfiguration: coreClient.CompositeMapper = {
+  serializedName: "AseV3NetworkingConfiguration",
+  type: {
+    name: "Composite",
+    className: "AseV3NetworkingConfiguration",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      windowsOutboundIpAddresses: {
+        serializedName: "properties.windowsOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.windowsOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesWindowsOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      linuxOutboundIpAddresses: {
+        serializedName: "properties.linuxOutboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.linuxOutboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesLinuxOutboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalInboundIpAddresses: {
+        serializedName: "properties.externalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.externalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesExternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      internalInboundIpAddresses: {
+        serializedName: "properties.internalInboundIpAddresses",
+        readOnly: true,
+        xmlName: "properties.internalInboundIpAddresses",
+        xmlElementName:
+          "AseV3NetworkingConfigurationPropertiesInternalInboundIpAddressesItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      allowNewPrivateEndpointConnections: {
+        serializedName: "properties.allowNewPrivateEndpointConnections",
+        xmlName: "properties.allowNewPrivateEndpointConnections",
+        type: {
+          name: "Boolean"
+        }
+      },
+      ftpEnabled: {
+        serializedName: "properties.ftpEnabled",
+        xmlName: "properties.ftpEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      remoteDebugEnabled: {
+        serializedName: "properties.remoteDebugEnabled",
+        xmlName: "properties.remoteDebugEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      inboundIpAddressOverride: {
+        serializedName: "properties.inboundIpAddressOverride",
+        xmlName: "properties.inboundIpAddressOverride",
+        type: {
+          name: "String"
         }
       }
     }
@@ -15309,6 +15672,14 @@ export const AppServiceEnvironmentPatchResource: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      upgradePreference: {
+        defaultValue: "None",
+        serializedName: "properties.upgradePreference",
+        xmlName: "properties.upgradePreference",
+        type: {
+          name: "String"
+        }
+      },
       dedicatedHostCount: {
         serializedName: "properties.dedicatedHostCount",
         xmlName: "properties.dedicatedHostCount",
@@ -15321,6 +15692,30 @@ export const AppServiceEnvironmentPatchResource: coreClient.CompositeMapper = {
         xmlName: "properties.zoneRedundant",
         type: {
           name: "Boolean"
+        }
+      },
+      customDnsSuffixConfiguration: {
+        serializedName: "properties.customDnsSuffixConfiguration",
+        xmlName: "properties.customDnsSuffixConfiguration",
+        type: {
+          name: "Composite",
+          className: "CustomDnsSuffixConfiguration"
+        }
+      },
+      networkingConfiguration: {
+        serializedName: "properties.networkingConfiguration",
+        xmlName: "properties.networkingConfiguration",
+        type: {
+          name: "Composite",
+          className: "AseV3NetworkingConfiguration"
+        }
+      },
+      upgradeAvailability: {
+        serializedName: "properties.upgradeAvailability",
+        readOnly: true,
+        xmlName: "properties.upgradeAvailability",
+        type: {
+          name: "String"
         }
       }
     }
@@ -15412,84 +15807,6 @@ export const PushSettings: coreClient.CompositeMapper = {
         xmlName: "properties.dynamicTagsJson",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AseV3NetworkingConfiguration: coreClient.CompositeMapper = {
-  serializedName: "AseV3NetworkingConfiguration",
-  type: {
-    name: "Composite",
-    className: "AseV3NetworkingConfiguration",
-    modelProperties: {
-      ...ProxyOnlyResource.type.modelProperties,
-      windowsOutboundIpAddresses: {
-        serializedName: "properties.windowsOutboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.windowsOutboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesWindowsOutboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      linuxOutboundIpAddresses: {
-        serializedName: "properties.linuxOutboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.linuxOutboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesLinuxOutboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalInboundIpAddresses: {
-        serializedName: "properties.externalInboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.externalInboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesExternalInboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      internalInboundIpAddresses: {
-        serializedName: "properties.internalInboundIpAddresses",
-        readOnly: true,
-        xmlName: "properties.internalInboundIpAddresses",
-        xmlElementName:
-          "AseV3NetworkingConfigurationPropertiesInternalInboundIpAddressesItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      allowNewPrivateEndpointConnections: {
-        serializedName: "properties.allowNewPrivateEndpointConnections",
-        xmlName: "properties.allowNewPrivateEndpointConnections",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -18054,6 +18371,21 @@ export const StaticSitePatchResource: coreClient.CompositeMapper = {
           }
         }
       },
+      linkedBackends: {
+        serializedName: "properties.linkedBackends",
+        readOnly: true,
+        xmlName: "properties.linkedBackends",
+        xmlElementName: "StaticSiteLinkedBackend",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StaticSiteLinkedBackend"
+            }
+          }
+        }
+      },
       provider: {
         serializedName: "properties.provider",
         xmlName: "properties.provider",
@@ -18064,6 +18396,13 @@ export const StaticSitePatchResource: coreClient.CompositeMapper = {
       enterpriseGradeCdnStatus: {
         serializedName: "properties.enterpriseGradeCdnStatus",
         xmlName: "properties.enterpriseGradeCdnStatus",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        xmlName: "properties.publicNetworkAccess",
         type: {
           name: "String"
         }
@@ -18188,6 +18527,21 @@ export const StaticSiteBuildARMResource: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "StaticSiteUserProvidedFunctionApp"
+            }
+          }
+        }
+      },
+      linkedBackends: {
+        serializedName: "properties.linkedBackends",
+        readOnly: true,
+        xmlName: "properties.linkedBackends",
+        xmlElementName: "StaticSiteLinkedBackend",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StaticSiteLinkedBackend"
             }
           }
         }
@@ -18507,6 +18861,47 @@ export const StaticSiteResetPropertiesARMResource: coreClient.CompositeMapper = 
         xmlName: "properties.shouldUpdateRepository",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const StaticSiteLinkedBackendARMResource: coreClient.CompositeMapper = {
+  serializedName: "StaticSiteLinkedBackendARMResource",
+  type: {
+    name: "Composite",
+    className: "StaticSiteLinkedBackendARMResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      backendResourceId: {
+        serializedName: "properties.backendResourceId",
+        xmlName: "properties.backendResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "properties.region",
+        xmlName: "properties.region",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "properties.createdOn",
+        readOnly: true,
+        xmlName: "properties.createdOn",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        xmlName: "properties.provisioningState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -18853,6 +19248,13 @@ export const SitePatchResource: coreClient.CompositeMapper = {
         xmlName: "properties.inProgressOperationId",
         type: {
           name: "Uuid"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        xmlName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
         }
       },
       storageAccountRequired: {
@@ -20606,6 +21008,79 @@ export const ContinuousWebJob: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: {
             type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CsmDeploymentStatus: coreClient.CompositeMapper = {
+  serializedName: "CsmDeploymentStatus",
+  type: {
+    name: "Composite",
+    className: "CsmDeploymentStatus",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      deploymentId: {
+        serializedName: "properties.deploymentId",
+        xmlName: "properties.deploymentId",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        xmlName: "properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfInstancesInProgress: {
+        serializedName: "properties.numberOfInstancesInProgress",
+        xmlName: "properties.numberOfInstancesInProgress",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfInstancesSuccessful: {
+        serializedName: "properties.numberOfInstancesSuccessful",
+        xmlName: "properties.numberOfInstancesSuccessful",
+        type: {
+          name: "Number"
+        }
+      },
+      numberOfInstancesFailed: {
+        serializedName: "properties.numberOfInstancesFailed",
+        xmlName: "properties.numberOfInstancesFailed",
+        type: {
+          name: "Number"
+        }
+      },
+      failedInstancesLogs: {
+        serializedName: "properties.failedInstancesLogs",
+        xmlName: "properties.failedInstancesLogs",
+        xmlElementName: "CsmDeploymentStatusPropertiesFailedInstancesLogsItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      errors: {
+        serializedName: "properties.errors",
+        xmlName: "properties.errors",
+        xmlElementName: "ErrorEntity",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorEntity"
+            }
           }
         }
       }
