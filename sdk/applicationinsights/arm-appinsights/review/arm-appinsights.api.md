@@ -1224,7 +1224,7 @@ export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends co
 export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1453,7 +1453,7 @@ export type WorkbookResource = TrackedResource & {
 };
 
 // @public
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export type WorkbookResourceIdentity = ManagedServiceIdentity & {};
 
 // @public
 export interface Workbooks {
