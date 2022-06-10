@@ -14,6 +14,32 @@ import { PollOperationState } from '@azure/core-lro';
 export type AKSIdentityType = "SystemAssigned" | "UserAssigned";
 
 // @public
+export interface AzureBlobDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
+export interface AzureBlobPatchDefinition {
+    accountKey?: string;
+    containerName?: string;
+    localAuthRef?: string;
+    managedIdentity?: ManagedIdentityPatchDefinition;
+    sasToken?: string;
+    servicePrincipal?: ServicePrincipalPatchDefinition;
+    syncIntervalInSeconds?: number;
+    timeoutInSeconds?: number;
+    url?: string;
+}
+
+// @public
 export interface BucketDefinition {
     accessKey?: string;
     bucketName?: string;
@@ -199,6 +225,7 @@ export type FluxConfiguration = ProxyResource & {
     suspend?: boolean;
     gitRepository?: GitRepositoryDefinition;
     bucket?: BucketDefinition;
+    azureBlob?: AzureBlobDefinition;
     kustomizations?: {
         [propertyName: string]: KustomizationDefinition | null;
     };
@@ -217,6 +244,7 @@ export type FluxConfiguration = ProxyResource & {
 
 // @public
 export interface FluxConfigurationPatch {
+    azureBlob?: AzureBlobPatchDefinition;
     bucket?: BucketPatchDefinition;
     configurationProtectedSettings?: {
         [propertyName: string]: string;
@@ -464,6 +492,8 @@ export enum KnownScopeType {
 // @public
 export enum KnownSourceKindType {
     // (undocumented)
+    AzureBlob = "AzureBlob",
+    // (undocumented)
     Bucket = "Bucket",
     // (undocumented)
     GitRepository = "GitRepository"
@@ -497,6 +527,16 @@ export type KustomizationValidationType = string;
 
 // @public
 export type LevelType = string;
+
+// @public
+export interface ManagedIdentityDefinition {
+    clientId?: string;
+}
+
+// @public
+export interface ManagedIdentityPatchDefinition {
+    clientId?: string;
+}
 
 // @public
 export type MessageLevelType = string;
@@ -673,6 +713,26 @@ export interface ScopeNamespace {
 
 // @public
 export type ScopeType = string;
+
+// @public
+export interface ServicePrincipalDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ServicePrincipalPatchDefinition {
+    clientCertificate?: string;
+    clientCertificatePassword?: string;
+    clientCertificateSendChain?: boolean;
+    clientId?: string;
+    clientSecret?: string;
+    tenantId?: string;
+}
 
 // @public
 export type SourceControlConfiguration = ProxyResource & {
