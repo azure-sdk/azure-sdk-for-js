@@ -31,6 +31,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -131,6 +133,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +362,20 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -487,6 +513,16 @@ export interface ResourceVersionPolicyConfiguration {
   default?: FhirResourceVersionPolicy;
   /** A list of FHIR Resources and their version policy overrides. */
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
+}
+
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Available operations of the service */
@@ -731,6 +767,8 @@ export type DicomService = TaggedResource &
     readonly provisioningState?: ProvisioningState;
     /** Dicom Service authentication configuration. */
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    /** Dicom Service Cors configuration. */
+    corsConfiguration?: CorsConfiguration;
     /**
      * The url of the Dicom Services.
      * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -803,6 +841,8 @@ export type FhirService = TaggedResource &
     readonly eventState?: ServiceEventState;
     /** Determines tracking of history for resources. */
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+    /** Fhir Service import configuration. */
+    importConfiguration?: FhirServiceImportConfiguration;
   };
 
 /** IoT Connector destination properties for an Azure FHIR service. */

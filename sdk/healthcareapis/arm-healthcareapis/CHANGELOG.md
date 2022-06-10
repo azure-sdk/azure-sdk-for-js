@@ -1,15 +1,16 @@
 # Release History
+    
+## 2.2.0 (2022-06-10)
+    
+**Features**
 
-## 2.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CorsConfiguration
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface ServiceImportConfigurationInfo
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+  - Type Alias DicomService has a new parameter corsConfiguration
+  - Type Alias FhirService has a new parameter importConfiguration
+    
 ## 2.1.1 (2022-04-26)
 
 **Features**
