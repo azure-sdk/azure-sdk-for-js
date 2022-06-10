@@ -37,7 +37,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Retrieve the Database Migration resource.
+   * Retrieve the specified database migration for a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -57,7 +57,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -136,7 +136,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Create or Update Database Migration resource.
+   * Create a new database migration to a given SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -162,7 +162,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -236,7 +236,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Stop ongoing migration for the database.
+   * Stop in-progress database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -262,7 +262,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -336,7 +336,7 @@ export class DatabaseMigrationsSqlVmImpl implements DatabaseMigrationsSqlVm {
   }
 
   /**
-   * Cutover online migration operation for the database.
+   * Initiate cutover for in-progress online database migration to SQL VM.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlVirtualMachineName
@@ -408,7 +408,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
