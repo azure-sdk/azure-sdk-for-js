@@ -1,8 +1,8 @@
-# Azure Changes client library for JavaScript
+# Azure Subscription client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Changes client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure Subscription client.
 
-The Resource Changes Client
+All resource groups and resources exist within subscriptions. These operation enable you get information about your subscriptions and tenants. A tenant is a dedicated instance of Azure Active Directory (Azure AD) for your organization.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changes/arm-changes) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-changes) |
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-changes` package
 
-Install the Azure Changes client library for JavaScript with `npm`:
+Install the Azure Subscription client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-changes
 ```
 
-### Create and authenticate a `ChangesClient`
+### Create and authenticate a `SubscriptionClient`
 
-To create a client object to access the Azure Changes API, you will need the `endpoint` of your Azure Changes resource and a `credential`. The Azure Changes client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure Changes resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure Subscription API, you will need the `endpoint` of your Azure Subscription resource and a `credential`. The Azure Subscription client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure Subscription resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,25 +43,25 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure Changes** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure Subscription** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { ChangesClient } = require("@azure/arm-changes");
+const { SubscriptionClient } = require("@azure/arm-changes");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ChangesClient(new DefaultAzureCredential(), subscriptionId);
+const client = new SubscriptionClient(new DefaultAzureCredential(), subscriptionId);
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new ChangesClient(credential, subscriptionId);
+// const client = new SubscriptionClient(credential, subscriptionId);
 ```
 
 
@@ -70,9 +70,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### ChangesClient
+### SubscriptionClient
 
-`ChangesClient` is the primary interface for developers using the Azure Changes client library. Explore the methods on this client object to understand the different features of the Azure Changes service that you can access.
+`SubscriptionClient` is the primary interface for developers using the Azure Subscription client library. Explore the methods on this client object to understand the different features of the Azure Subscription service that you can access.
 
 ## Troubleshooting
 

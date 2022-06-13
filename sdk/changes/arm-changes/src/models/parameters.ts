@@ -11,6 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
+import {
+  CheckZonePeersRequest as CheckZonePeersRequestMapper,
+  ResourceName as ResourceNameMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -47,54 +51,10 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceProviderNamespace: OperationURLParameter = {
-  parameterPath: "resourceProviderNamespace",
-  mapper: {
-    serializedName: "resourceProviderNamespace",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceType: OperationURLParameter = {
-  parameterPath: "resourceType",
-  mapper: {
-    serializedName: "resourceType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -103,40 +63,31 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
   mapper: {
-    defaultValue: 100,
-    constraints: {
-      InclusiveMaximum: 100,
-      InclusiveMinimum: 1
-    },
-    serializedName: "$top",
+    serializedName: "includeExtendedLocations",
     type: {
-      name: "Number"
+      name: "Boolean"
     }
   }
 };
 
-export const skipToken: OperationQueryParameter = {
-  parameterPath: ["options", "skipToken"],
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "$skipToken",
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
   }
 };
 
-export const changeResourceId: OperationURLParameter = {
-  parameterPath: "changeResourceId",
-  mapper: {
-    serializedName: "changeResourceId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckZonePeersRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -149,4 +100,9 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const resourceNameDefinition: OperationParameter = {
+  parameterPath: ["options", "resourceNameDefinition"],
+  mapper: ResourceNameMapper
 };
