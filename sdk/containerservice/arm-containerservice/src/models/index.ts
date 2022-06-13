@@ -1386,7 +1386,7 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 };
 
 /** Information of user assigned identity used by this add-on. */
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {

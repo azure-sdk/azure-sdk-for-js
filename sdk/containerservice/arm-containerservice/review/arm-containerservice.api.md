@@ -1176,7 +1176,7 @@ export interface ManagedClusterAddonProfile {
 }
 
 // @public
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
 // @public
 export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
