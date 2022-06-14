@@ -1,15 +1,12 @@
 # Release History
+    
+## 19.1.0 (2022-06-14)
+    
+**Features**
 
-## 19.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Enum KnownInstanceViewTypes
+    
+    
 ## 19.0.0 (2022-06-06)
     
 **Features**

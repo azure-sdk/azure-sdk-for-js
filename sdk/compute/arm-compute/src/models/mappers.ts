@@ -2583,7 +2583,7 @@ export const InstanceViewStatus: coreClient.CompositeMapper = {
         serializedName: "level",
         type: {
           name: "Enum",
-          allowedValues: ["Info", "Warning", "Error"]
+          allowedValues: ["Info", "Warning", "Error", "Debug"]
         }
       },
       displayStatus: {
@@ -9736,7 +9736,7 @@ export const ResourceInstanceViewStatus: coreClient.CompositeMapper = {
         serializedName: "level",
         type: {
           name: "Enum",
-          allowedValues: ["Info", "Warning", "Error"]
+          allowedValues: ["Info", "Warning", "Error", "Debug"]
         }
       }
     }

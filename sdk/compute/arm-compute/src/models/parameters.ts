@@ -365,8 +365,7 @@ export const expand2: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "Enum",
-      allowedValues: ["instanceView", "userData"]
+      name: "String"
     }
   }
 };
