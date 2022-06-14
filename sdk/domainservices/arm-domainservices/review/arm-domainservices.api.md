@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ChannelBinding = string;
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -55,8 +58,10 @@ export type CreatedByType = string;
 
 // @public
 export interface DomainSecuritySettings {
+    channelBinding?: ChannelBinding;
     kerberosArmoring?: KerberosArmoring;
     kerberosRc4Encryption?: KerberosRc4Encryption;
+    ldapSigning?: LdapSigning;
     ntlmV1?: NtlmV1;
     syncKerberosPasswords?: SyncKerberosPasswords;
     syncNtlmPasswords?: SyncNtlmPasswords;
@@ -247,6 +252,14 @@ export type KerberosArmoring = string;
 export type KerberosRc4Encryption = string;
 
 // @public
+export enum KnownChannelBinding {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
@@ -292,6 +305,14 @@ export enum KnownKerberosRc4Encryption {
 
 // @public
 export enum KnownLdaps {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownLdapSigning {
     // (undocumented)
     Disabled = "Disabled",
     // (undocumented)
@@ -372,6 +393,9 @@ export enum KnownTlsV1 {
 
 // @public
 export type Ldaps = string;
+
+// @public
+export type LdapSigning = string;
 
 // @public
 export interface LdapsSettings {

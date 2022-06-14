@@ -537,6 +537,20 @@ export const DomainSecuritySettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      ldapSigning: {
+        defaultValue: "Disabled",
+        serializedName: "ldapSigning",
+        type: {
+          name: "String"
+        }
+      },
+      channelBinding: {
+        defaultValue: "Disabled",
+        serializedName: "channelBinding",
+        type: {
+          name: "String"
+        }
       }
     }
   }
