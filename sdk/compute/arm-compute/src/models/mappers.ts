@@ -10887,6 +10887,29 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdAt: {
+        serializedName: "createdAt",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const CommunityGalleryInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
