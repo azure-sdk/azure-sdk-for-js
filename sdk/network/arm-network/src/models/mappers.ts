@@ -17269,6 +17269,16 @@ export const ApplicationGatewayRoutingRule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      priority: {
+        constraints: {
+          InclusiveMaximum: 20000,
+          InclusiveMinimum: 1
+        },
+        serializedName: "properties.priority",
+        type: {
+          name: "Number"
+        }
+      },
       backendAddressPool: {
         serializedName: "properties.backendAddressPool",
         type: {

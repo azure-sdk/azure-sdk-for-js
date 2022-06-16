@@ -1,15 +1,12 @@
 # Release History
+    
+## 28.1.0 (2022-06-16)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**
