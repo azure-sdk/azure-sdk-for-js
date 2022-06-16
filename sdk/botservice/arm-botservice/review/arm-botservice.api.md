@@ -150,7 +150,7 @@ export interface BotProperties {
     disableLocalAuth?: boolean;
     displayName: string;
     readonly enabledChannels?: string[];
-    endpoint: string;
+    endpoint: string | null;
     readonly endpointVersion?: string;
     iconUrl?: string;
     isCmekEnabled?: boolean;
@@ -174,6 +174,7 @@ export interface BotProperties {
     publishingCredentials?: string;
     schemaTransformationVersion?: string;
     storageResourceId?: string;
+    tenantId?: string;
 }
 
 // @public
@@ -420,6 +421,8 @@ export type DirectLineChannel = Channel & {
 // @public
 export interface DirectLineChannelProperties {
     directLineEmbedCode?: string;
+    extensionKey1?: string;
+    extensionKey2?: string;
     sites?: DirectLineSite[];
 }
 
@@ -431,18 +434,7 @@ export interface DirectLineRegenerateKeysOptionalParams extends coreClient.Opera
 export type DirectLineRegenerateKeysResponse = BotChannel;
 
 // @public
-export interface DirectLineSite {
-    isBlockUserUploadEnabled?: boolean;
-    isEnabled: boolean;
-    isSecureSiteEnabled?: boolean;
-    isV1Enabled: boolean;
-    isV3Enabled: boolean;
-    readonly key?: string;
-    readonly key2?: string;
-    readonly siteId?: string;
-    siteName: string;
-    trustedOrigins?: string[];
-}
+export type DirectLineSite = Site & {};
 
 // @public
 export type DirectLineSpeechChannel = Channel & {
@@ -452,8 +444,9 @@ export type DirectLineSpeechChannel = Channel & {
 
 // @public
 export interface DirectLineSpeechChannelProperties {
-    cognitiveServiceRegion: string;
-    cognitiveServiceSubscriptionKey: string;
+    cognitiveServiceRegion?: string;
+    cognitiveServiceResourceId?: string;
+    cognitiveServiceSubscriptionKey?: string;
     customSpeechModelId?: string;
     customVoiceDeploymentId?: string;
     isDefaultBotForCogSvcAccount?: boolean;
@@ -468,6 +461,7 @@ export type EmailChannel = Channel & {
 
 // @public
 export interface EmailChannelProperties {
+    authMethod?: string;
     emailAddress: string;
     isEnabled: boolean;
     password?: string;
@@ -675,7 +669,7 @@ export type MsTeamsChannel = Channel & {
 // @public
 export interface MsTeamsChannelProperties {
     acceptedTerms?: boolean;
-    callingWebHook?: string;
+    callingWebhook?: string;
     deploymentEnvironment?: string;
     enableCalling?: boolean;
     incomingCallRoute?: string;
@@ -907,10 +901,25 @@ export interface ServiceProviderResponseList {
 }
 
 // @public
-export type Site = WebChatSite & DirectLineSite & {
-    isTokenEnabled?: boolean;
+export interface Site {
+    appId?: string;
     eTag?: string;
-};
+    isBlockUserUploadEnabled?: boolean;
+    isDetailedLoggingEnabled?: boolean;
+    isEnabled: boolean;
+    isEndpointParametersEnabled?: boolean;
+    isNoStorageEnabled?: boolean;
+    isSecureSiteEnabled?: boolean;
+    isTokenEnabled?: boolean;
+    isV1Enabled?: boolean;
+    isV3Enabled?: boolean;
+    isWebchatPreviewEnabled?: boolean;
+    readonly key?: string;
+    readonly key2?: string;
+    readonly siteId?: string;
+    siteName: string;
+    trustedOrigins?: string[];
+}
 
 // @public
 export interface SiteInfo {
@@ -965,7 +974,7 @@ export interface SlackChannelProperties {
     landingPageUrl?: string;
     readonly lastSubmissionId?: string;
     readonly redirectAction?: string;
-    readonly registerBeforeOAuthFlow?: boolean;
+    registerBeforeOAuthFlow?: boolean;
     scopes?: string;
     signingSecret?: string;
     verificationToken?: string;
@@ -1012,14 +1021,7 @@ export interface WebChatChannelProperties {
 }
 
 // @public
-export interface WebChatSite {
-    isEnabled: boolean;
-    isWebchatPreviewEnabled: boolean;
-    readonly key?: string;
-    readonly key2?: string;
-    readonly siteId?: string;
-    siteName: string;
-}
+export type WebChatSite = Site & {};
 
 // (No @packageDocumentation comment for this package)
 

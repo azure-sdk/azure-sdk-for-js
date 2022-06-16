@@ -35,6 +35,7 @@ export const BotProperties: coreClient.CompositeMapper = {
       endpoint: {
         serializedName: "endpoint",
         required: true,
+        nullable: true,
         type: {
           name: "String"
         }
@@ -165,6 +166,12 @@ export const BotProperties: coreClient.CompositeMapper = {
       cmekEncryptionStatus: {
         serializedName: "cmekEncryptionStatus",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
         type: {
           name: "String"
         }
@@ -606,10 +613,10 @@ export const ChannelSettings: coreClient.CompositeMapper = {
   }
 };
 
-export const WebChatSite: coreClient.CompositeMapper = {
+export const Site: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WebChatSite",
+    className: "Site",
     modelProperties: {
       siteId: {
         serializedName: "siteId",
@@ -646,80 +653,63 @@ export const WebChatSite: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
-      isWebchatPreviewEnabled: {
-        defaultValue: false,
-        serializedName: "isWebchatPreviewEnabled",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DirectLineSite: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DirectLineSite",
-    modelProperties: {
-      siteId: {
-        serializedName: "siteId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      siteName: {
-        serializedName: "siteName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      key: {
-        serializedName: "key",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      key2: {
-        serializedName: "key2",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        serializedName: "isEnabled",
-        required: true,
+      isTokenEnabled: {
+        serializedName: "isTokenEnabled",
         type: {
           name: "Boolean"
         }
       },
-      isV1Enabled: {
-        serializedName: "isV1Enabled",
-        required: true,
+      isEndpointParametersEnabled: {
+        serializedName: "isEndpointParametersEnabled",
         type: {
           name: "Boolean"
         }
       },
-      isV3Enabled: {
-        serializedName: "isV3Enabled",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      isSecureSiteEnabled: {
-        serializedName: "isSecureSiteEnabled",
+      isDetailedLoggingEnabled: {
+        serializedName: "isDetailedLoggingEnabled",
         type: {
           name: "Boolean"
         }
       },
       isBlockUserUploadEnabled: {
         serializedName: "isBlockUserUploadEnabled",
+        nullable: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      isNoStorageEnabled: {
+        serializedName: "isNoStorageEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      eTag: {
+        serializedName: "eTag",
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "appId",
+        type: {
+          name: "String"
+        }
+      },
+      isV1Enabled: {
+        serializedName: "isV1Enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isV3Enabled: {
+        serializedName: "isV3Enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isSecureSiteEnabled: {
+        serializedName: "isSecureSiteEnabled",
         type: {
           name: "Boolean"
         }
@@ -733,6 +723,13 @@ export const DirectLineSite: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      isWebchatPreviewEnabled: {
+        defaultValue: false,
+        serializedName: "isWebchatPreviewEnabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1511,6 +1508,12 @@ export const EmailChannelProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      authMethod: {
+        serializedName: "authMethod",
+        type: {
+          name: "String"
+        }
+      },
       isEnabled: {
         serializedName: "isEnabled",
         required: true,
@@ -1533,8 +1536,8 @@ export const MsTeamsChannelProperties: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
-      callingWebHook: {
-        serializedName: "callingWebHook",
+      callingWebhook: {
+        serializedName: "callingWebhook",
         type: {
           name: "String"
         }
@@ -1718,6 +1721,18 @@ export const DirectLineChannelProperties: coreClient.CompositeMapper = {
           }
         }
       },
+      extensionKey1: {
+        serializedName: "extensionKey1",
+        type: {
+          name: "String"
+        }
+      },
+      extensionKey2: {
+        serializedName: "extensionKey2",
+        type: {
+          name: "String"
+        }
+      },
       directLineEmbedCode: {
         serializedName: "DirectLineEmbedCode",
         type: {
@@ -1849,7 +1864,6 @@ export const SlackChannelProperties: coreClient.CompositeMapper = {
       },
       registerBeforeOAuthFlow: {
         serializedName: "registerBeforeOAuthFlow",
-        readOnly: true,
         type: {
           name: "Boolean"
         }
@@ -1947,16 +1961,20 @@ export const DirectLineSpeechChannelProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DirectLineSpeechChannelProperties",
     modelProperties: {
+      cognitiveServiceResourceId: {
+        serializedName: "cognitiveServiceResourceId",
+        type: {
+          name: "String"
+        }
+      },
       cognitiveServiceRegion: {
         serializedName: "cognitiveServiceRegion",
-        required: true,
         type: {
           name: "String"
         }
       },
       cognitiveServiceSubscriptionKey: {
         serializedName: "cognitiveServiceSubscriptionKey",
-        required: true,
         type: {
           name: "String"
         }
@@ -2387,25 +2405,22 @@ export const DirectLineSpeechChannel: coreClient.CompositeMapper = {
   }
 };
 
-export const Site: coreClient.CompositeMapper = {
+export const WebChatSite: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Site",
+    className: "WebChatSite",
     modelProperties: {
-      ...WebChatSite.type.modelProperties,
-      ...DirectLineSite.type.modelProperties,
-      isTokenEnabled: {
-        serializedName: "isTokenEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      eTag: {
-        serializedName: "eTag",
-        type: {
-          name: "String"
-        }
-      }
+      ...Site.type.modelProperties
+    }
+  }
+};
+
+export const DirectLineSite: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DirectLineSite",
+    modelProperties: {
+      ...Site.type.modelProperties
     }
   }
 };
