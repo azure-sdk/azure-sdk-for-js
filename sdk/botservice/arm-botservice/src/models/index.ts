@@ -13,6 +13,7 @@ export type ChannelUnion =
   | AlexaChannel
   | FacebookChannel
   | EmailChannel
+  | OutlookChannel
   | MsTeamsChannel
   | SkypeChannel
   | KikChannel
@@ -33,7 +34,7 @@ export interface BotProperties {
   /** The Icon Url of the bot */
   iconUrl?: string;
   /** The bot's endpoint */
-  endpoint: string;
+  endpoint: string | null;
   /**
    * The bot's endpoint version
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -82,6 +83,8 @@ export interface BotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cmekEncryptionStatus?: string;
+  /** The Tenant Id for the bot */
+  tenantId?: string;
   /** Whether the bot is in an isolated network */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Whether the bot is streaming supported */
@@ -235,6 +238,7 @@ export interface Channel {
     | "AlexaChannel"
     | "FacebookChannel"
     | "EmailChannel"
+    | "OutlookChannel"
     | "MsTeamsChannel"
     | "SkypeChannel"
     | "KikChannel"
@@ -278,8 +282,8 @@ export interface ChannelSettings {
   disableLocalAuth?: boolean;
 }
 
-/** A site for the Webchat channel */
-export interface WebChatSite {
+/** A site for the channel */
+export interface Site {
   /**
    * Site Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -299,41 +303,30 @@ export interface WebChatSite {
   readonly key2?: string;
   /** Whether this site is enabled for DirectLine channel */
   isEnabled: boolean;
-  /** Whether this site is enabled for preview versions of Webchat */
-  isWebchatPreviewEnabled: boolean;
-}
-
-/** A site for the Direct Line channel */
-export interface DirectLineSite {
-  /**
-   * Site Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly siteId?: string;
-  /** Site name */
-  siteName: string;
-  /**
-   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key?: string;
-  /**
-   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key2?: string;
-  /** Whether this site is enabled for DirectLine channel. */
-  isEnabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV1Enabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV3Enabled: boolean;
-  /** Whether this site is enabled for authentication with Bot Framework. */
-  isSecureSiteEnabled?: boolean;
+  /** Whether this site is token enabled for channel */
+  isTokenEnabled?: boolean;
+  /** Whether this site is EndpointParameters enabled for channel */
+  isEndpointParametersEnabled?: boolean;
+  /** Whether this site is disabled detailed logging for */
+  isDetailedLoggingEnabled?: boolean;
   /** Whether this site is enabled for block user upload. */
   isBlockUserUploadEnabled?: boolean;
+  /** Whether this no-storage site is disabled detailed logging for */
+  isNoStorageEnabled?: boolean;
+  /** Entity Tag */
+  eTag?: string;
+  /** DirectLine application id */
+  appId?: string;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV1Enabled?: boolean;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV3Enabled?: boolean;
+  /** Whether this site is enabled for authentication with Bot Framework. */
+  isSecureSiteEnabled?: boolean;
   /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
   trustedOrigins?: string[];
+  /** Whether this site is enabled for preview versions of Webchat */
+  isWebchatPreviewEnabled?: boolean;
 }
 
 /** The list of bot service channel operation response. */
@@ -353,6 +346,25 @@ export interface SiteInfo {
   siteName: string;
   /** Determines which key is to be regenerated */
   key: Key;
+}
+
+/** The ARM create email sign in url operation response. */
+export interface CreateEmailSignInUrlResponse {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** The set of properties specific to sign in url */
+  properties?: CreateEmailSignInUrlResponseProperties;
+}
+
+/** The set of properties specific to sign in url */
+export interface CreateEmailSignInUrlResponseProperties {
+  /** Sign in url. */
+  url?: string;
 }
 
 /** The request body for a request to Bot Service Management to check availability of a bot name. */
@@ -656,8 +668,12 @@ export interface FacebookPage {
 export interface EmailChannelProperties {
   /** The email address */
   emailAddress: string;
+  /** Email channel auth method. 0 Password (Default); 1 Graph. */
+  authMethod?: EmailChannelAuthMethod;
   /** The password for the email address. Value only returned through POST to the action Channel List API, otherwise empty. */
   password?: string;
+  /** The magic code for setting up the modern authentication. */
+  magicCode?: string;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -667,7 +683,7 @@ export interface MsTeamsChannelProperties {
   /** Enable calling for Microsoft Teams channel */
   enableCalling?: boolean;
   /** Webhook for Microsoft Teams channel calls */
-  callingWebHook?: string;
+  callingWebhook?: string;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
   /** Webhook for Microsoft Teams channel calls */
@@ -729,6 +745,10 @@ export interface WebChatChannelProperties {
 export interface DirectLineChannelProperties {
   /** The list of Direct Line sites */
   sites?: DirectLineSite[];
+  /** The extensionKey1 */
+  extensionKey1?: string;
+  /** The extensionKey2 */
+  extensionKey2?: string;
   /** Direct Line embed code of the resource */
   directLineEmbedCode?: string;
 }
@@ -779,11 +799,8 @@ export interface SlackChannelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSubmissionId?: string;
-  /**
-   * Whether to register the settings before OAuth validation is performed. Recommended to True.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registerBeforeOAuthFlow?: boolean;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean;
   /**
    * Whether this channel is validated for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -826,10 +843,12 @@ export interface LineRegistration {
 
 /** The parameters to provide for the DirectLine Speech channel. */
 export interface DirectLineSpeechChannelProperties {
+  /** The cognitive service id with this channel registration. */
+  cognitiveServiceResourceId?: string;
   /** The cognitive service region with this channel registration. */
-  cognitiveServiceRegion: string;
+  cognitiveServiceRegion?: string;
   /** The cognitive service subscription key to use with this channel registration. */
-  cognitiveServiceSubscriptionKey: string;
+  cognitiveServiceSubscriptionKey?: string;
   /** Whether this channel is enabled or not. */
   isEnabled?: boolean;
   /** Custom speech model id (optional). */
@@ -920,6 +939,12 @@ export type EmailChannel = Channel & {
   properties?: EmailChannelProperties;
 };
 
+/** Outlook channel definition */
+export type OutlookChannel = Channel & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "OutlookChannel";
+};
+
 /** Microsoft Teams channel definition */
 export type MsTeamsChannel = Channel & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1000,14 +1025,11 @@ export type DirectLineSpeechChannel = Channel & {
   properties?: DirectLineSpeechChannelProperties;
 };
 
-/** A site for the channel */
-export type Site = WebChatSite &
-  DirectLineSite & {
-    /** Whether this site is token enabled for channel */
-    isTokenEnabled?: boolean;
-    /** Entity Tag */
-    eTag?: string;
-  };
+/** A site for the Webchat channel */
+export type WebChatSite = Site & {};
+
+/** A site for the Direct Line channel */
+export type DirectLineSite = Site & {};
 
 /** The ARM channel of list channel with keys operation response. */
 export type ListChannelWithKeysResponse = BotChannel & {
@@ -1185,11 +1207,15 @@ export type ChannelName =
   | "SmsChannel"
   | "LineChannel"
   | "DirectLineSpeechChannel"
-  | "OutlookChannel";
+  | "OutlookChannel"
+  | "Omnichannel"
+  | "TelephonyChannel";
 /** Defines values for RegenerateKeysChannelName. */
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 /** Defines values for Key. */
 export type Key = "key1" | "key2";
+/** Defines values for EmailChannelAuthMethod. */
+export type EmailChannelAuthMethod = 0 | 1;
 
 /** Optional parameters. */
 export interface BotsCreateOptionalParams extends coreClient.OperationOptions {}
@@ -1244,13 +1270,6 @@ export interface BotsGetCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the getCheckNameAvailability operation. */
 export type BotsGetCheckNameAvailabilityResponse = CheckNameAvailabilityResponseBody;
-
-/** Optional parameters. */
-export interface BotsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type BotsListByResourceGroupNextResponse = BotResponseList;
 
 /** Optional parameters. */
 export interface BotsListNextOptionalParams
@@ -1324,6 +1343,13 @@ export interface DirectLineRegenerateKeysOptionalParams
 
 /** Contains response data for the regenerateKeys operation. */
 export type DirectLineRegenerateKeysResponse = BotChannel;
+
+/** Optional parameters. */
+export interface EmailCreateSignInUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createSignInUrl operation. */
+export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -9,7 +9,6 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Bot,
-  BotsListByResourceGroupOptionalParams,
   BotsListOptionalParams,
   BotsCreateOptionalParams,
   BotsCreateResponse,
@@ -18,6 +17,8 @@ import {
   BotsDeleteOptionalParams,
   BotsGetOptionalParams,
   BotsGetResponse,
+  BotsListByResourceGroupOptionalParams,
+  BotsListByResourceGroupResponse,
   CheckNameAvailabilityRequestBody,
   BotsGetCheckNameAvailabilityOptionalParams,
   BotsGetCheckNameAvailabilityResponse
@@ -26,15 +27,6 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Bots. */
 export interface Bots {
-  /**
-   * Returns all the resources of a particular type belonging to a resource group
-   * @param resourceGroupName The name of the Bot resource group in the user subscription.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Bot>;
   /**
    * Returns all the resources of a particular type belonging to a subscription.
    * @param options The options parameters.
@@ -86,6 +78,15 @@ export interface Bots {
     resourceName: string,
     options?: BotsGetOptionalParams
   ): Promise<BotsGetResponse>;
+  /**
+   * Returns all the resources of a particular type belonging to a resource group
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: BotsListByResourceGroupOptionalParams
+  ): Promise<BotsListByResourceGroupResponse>;
   /**
    * Check whether a bot name is available.
    * @param parameters The request body parameters to provide for the check name availability request

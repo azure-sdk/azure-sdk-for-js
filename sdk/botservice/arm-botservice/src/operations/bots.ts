@@ -14,8 +14,6 @@ import * as Parameters from "../models/parameters";
 import { AzureBotService } from "../azureBotService";
 import {
   Bot,
-  BotsListByResourceGroupNextOptionalParams,
-  BotsListByResourceGroupOptionalParams,
   BotsListNextOptionalParams,
   BotsListOptionalParams,
   BotsCreateOptionalParams,
@@ -25,12 +23,12 @@ import {
   BotsDeleteOptionalParams,
   BotsGetOptionalParams,
   BotsGetResponse,
+  BotsListByResourceGroupOptionalParams,
   BotsListByResourceGroupResponse,
   BotsListResponse,
   CheckNameAvailabilityRequestBody,
   BotsGetCheckNameAvailabilityOptionalParams,
   BotsGetCheckNameAvailabilityResponse,
-  BotsListByResourceGroupNextResponse,
   BotsListNextResponse
 } from "../models";
 
@@ -45,59 +43,6 @@ export class BotsImpl implements Bots {
    */
   constructor(client: AzureBotService) {
     this.client = client;
-  }
-
-  /**
-   * Returns all the resources of a particular type belonging to a resource group
-   * @param resourceGroupName The name of the Bot resource group in the user subscription.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Bot> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Bot[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: BotsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<Bot> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -217,7 +162,7 @@ export class BotsImpl implements Bots {
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  listByResourceGroup(
     resourceGroupName: string,
     options?: BotsListByResourceGroupOptionalParams
   ): Promise<BotsListByResourceGroupResponse> {
@@ -247,23 +192,6 @@ export class BotsImpl implements Bots {
     return this.client.sendOperationRequest(
       { parameters, options },
       getCheckNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the Bot resource group in the user subscription.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: BotsListByResourceGroupNextOptionalParams
-  ): Promise<BotsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
     );
   }
 
@@ -446,27 +374,6 @@ const getCheckNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
-};
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BotResponseList
-    },
-    default: {
-      bodyMapper: Mappers.ErrorModel
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

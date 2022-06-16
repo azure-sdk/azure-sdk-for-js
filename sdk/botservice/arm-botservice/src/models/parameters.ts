@@ -96,7 +96,7 @@ export const resourceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01-preview",
+    defaultValue: "2022-06-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -189,7 +189,9 @@ export const channelName: OperationURLParameter = {
         "SmsChannel",
         "LineChannel",
         "DirectLineSpeechChannel",
-        "OutlookChannel"
+        "OutlookChannel",
+        "Omnichannel",
+        "TelephonyChannel"
       ]
     }
   }
