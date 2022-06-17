@@ -177,6 +177,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -186,6 +187,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.filter,
     Parameters.skiptoken,
     Parameters.top,
+    Parameters.startDate,
+    Parameters.endDate,
     Parameters.apiVersion,
     Parameters.metric
   ],
@@ -200,6 +203,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -209,6 +213,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.filter,
     Parameters.skiptoken,
     Parameters.top,
+    Parameters.startDate,
+    Parameters.endDate,
     Parameters.apiVersion,
     Parameters.metric
   ],

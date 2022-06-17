@@ -136,8 +136,6 @@ export interface BudgetTimePeriod {
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
   and?: BudgetFilterProperties[];
-  /** The logical "NOT" expression. */
-  not?: BudgetFilterProperties;
   /** Has comparison expression for a dimension */
   dimensions?: BudgetComparisonExpression;
   /** Has comparison expression for a tag */
@@ -2122,6 +2120,16 @@ export type LegacyUsageDetail = UsageDetail & {
    */
   readonly payGPrice?: number;
   /**
+   * Unique identifier for the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitId?: string;
+  /**
+   * Name of the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitName?: string;
+  /**
    * Identifier that indicates how the meter is priced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -2998,6 +3006,22 @@ export enum KnownReservationRecommendationKind {
  */
 export type ReservationRecommendationKind = string;
 
+/** Known values of {@link Scope} that the service accepts. */
+export enum KnownScope {
+  Single = "Single",
+  Shared = "Shared"
+}
+
+/**
+ * Defines values for Scope. \
+ * {@link KnownScope} can be used interchangeably with Scope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Single** \
+ * **Shared**
+ */
+export type Scope = string;
+
 /** Known values of {@link Term} that the service accepts. */
 export enum KnownTerm {
   /** 1 year reservation term */
@@ -3045,7 +3069,8 @@ export enum KnownEventType {
   PendingNewCredit = "PendingNewCredit",
   PendingExpiredCredit = "PendingExpiredCredit",
   UnKnown = "UnKnown",
-  NewCredit = "NewCredit"
+  NewCredit = "NewCredit",
+  CreditExpired = "CreditExpired"
 }
 
 /**
@@ -3059,7 +3084,8 @@ export enum KnownEventType {
  * **PendingNewCredit** \
  * **PendingExpiredCredit** \
  * **UnKnown** \
- * **NewCredit**
+ * **NewCredit** \
+ * **CreditExpired**
  */
 export type EventType = string;
 
@@ -3123,22 +3149,6 @@ export enum KnownPricingModelType {
  */
 export type PricingModelType = string;
 
-/** Known values of {@link Scope} that the service accepts. */
-export enum KnownScope {
-  Single = "Single",
-  Shared = "Shared"
-}
-
-/**
- * Defines values for Scope. \
- * {@link KnownScope} can be used interchangeably with Scope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Single** \
- * **Shared**
- */
-export type Scope = string;
-
 /** Optional parameters. */
 export interface UsageDetailsListOptionalParams
   extends coreClient.OperationOptions {
@@ -3150,6 +3160,10 @@ export interface UsageDetailsListOptionalParams
   skiptoken?: string;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
+  /** Start date */
+  startDate?: string;
+  /** End date */
+  endDate?: string;
   /** Allows to select different type of cost/usage records. */
   metric?: Metrictype;
 }
@@ -3168,6 +3182,10 @@ export interface UsageDetailsListNextOptionalParams
   skiptoken?: string;
   /** May be used to limit the number of results to the most recent N usageDetails. */
   top?: number;
+  /** Start date */
+  startDate?: string;
+  /** End date */
+  endDate?: string;
   /** Allows to select different type of cost/usage records. */
   metric?: Metrictype;
 }
@@ -3587,6 +3605,16 @@ export interface LotsListByBillingAccountOptionalParams
 export type LotsListByBillingAccountResponse = Lots;
 
 /** Optional parameters. */
+export interface LotsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type LotsListByCustomerResponse = Lots;
+
+/** Optional parameters. */
 export interface LotsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3602,6 +3630,16 @@ export interface LotsListByBillingAccountNextOptionalParams
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;
+
+/** Optional parameters. */
+export interface LotsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type LotsListByCustomerNextResponse = Lots;
 
 /** Optional parameters. */
 export interface CreditsGetOptionalParams extends coreClient.OperationOptions {}

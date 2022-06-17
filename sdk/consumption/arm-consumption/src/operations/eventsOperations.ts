@@ -283,8 +283,8 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.startDate1,
-    Parameters.endDate1
+    Parameters.startDate2,
+    Parameters.endDate2
   ],
   urlParameters: [
     Parameters.$host,
@@ -324,8 +324,8 @@ const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.startDate1,
-    Parameters.endDate1
+    Parameters.startDate2,
+    Parameters.endDate2
   ],
   urlParameters: [
     Parameters.$host,

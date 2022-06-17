@@ -72,8 +72,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
+    Parameters.startDate1,
+    Parameters.endDate1,
     Parameters.apply
   ],
   urlParameters: [Parameters.$host, Parameters.scope],

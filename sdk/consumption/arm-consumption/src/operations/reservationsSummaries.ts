@@ -195,20 +195,20 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
 
   /**
    * Lists the reservations summaries for the defined scope daily or monthly grain.
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param options The options parameters.
    */
   public list(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams
   ): PagedAsyncIterableIterator<ReservationSummary> {
-    const iter = this.listPagingAll(scope, grain, options);
+    const iter = this.listPagingAll(resourceScope, grain, options);
     return {
       next() {
         return iter.next();
@@ -217,32 +217,41 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(scope, grain, options);
+        return this.listPagingPage(resourceScope, grain, options);
       }
     };
   }
 
   private async *listPagingPage(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams
   ): AsyncIterableIterator<ReservationSummary[]> {
-    let result = await this._list(scope, grain, options);
+    let result = await this._list(resourceScope, grain, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listNext(scope, grain, continuationToken, options);
+      result = await this._listNext(
+        resourceScope,
+        grain,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listPagingAll(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams
   ): AsyncIterableIterator<ReservationSummary> {
-    for await (const page of this.listPagingPage(scope, grain, options)) {
+    for await (const page of this.listPagingPage(
+      resourceScope,
+      grain,
+      options
+    )) {
       yield* page;
     }
   }
@@ -287,21 +296,21 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
 
   /**
    * Lists the reservations summaries for the defined scope daily or monthly grain.
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param options The options parameters.
    */
   private _list(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams
   ): Promise<ReservationsSummariesListResponse> {
     return this.client.sendOperationRequest(
-      { scope, grain, options },
+      { resourceScope, grain, options },
       listOperationSpec
     );
   }
@@ -351,23 +360,23 @@ export class ReservationsSummariesImpl implements ReservationsSummaries {
 
   /**
    * ListNext
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     nextLink: string,
     options?: ReservationsSummariesListNextOptionalParams
   ): Promise<ReservationsSummariesListNextResponse> {
     return this.client.sendOperationRequest(
-      { scope, grain, nextLink, options },
+      { resourceScope, grain, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -414,7 +423,7 @@ const listByReservationOrderAndReservationOperationSpec: coreClient.OperationSpe
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Consumption/reservationSummaries",
+  path: "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
   httpMethod: "GET",
   responses: {
     200: {
@@ -427,13 +436,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
+    Parameters.startDate1,
+    Parameters.endDate1,
     Parameters.grain,
     Parameters.reservationId1,
     Parameters.reservationOrderId1
   ],
-  urlParameters: [Parameters.$host, Parameters.scope],
+  urlParameters: [Parameters.$host, Parameters.resourceScope],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -492,13 +501,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.filter,
     Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
+    Parameters.startDate1,
+    Parameters.endDate1,
     Parameters.grain,
     Parameters.reservationId1,
     Parameters.reservationOrderId1
   ],
-  urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.resourceScope
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

@@ -93,6 +93,26 @@ export const top: OperationQueryParameter = {
   }
 };
 
+export const startDate: OperationQueryParameter = {
+  parameterPath: ["options", "startDate"],
+  mapper: {
+    serializedName: "$startDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const endDate: OperationQueryParameter = {
+  parameterPath: ["options", "endDate"],
+  mapper: {
+    serializedName: "$endDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -155,7 +175,7 @@ export const parameters: OperationParameter = {
   mapper: BudgetMapper
 };
 
-export const startDate: OperationQueryParameter = {
+export const startDate1: OperationQueryParameter = {
   parameterPath: ["options", "startDate"],
   mapper: {
     serializedName: "startDate",
@@ -165,7 +185,7 @@ export const startDate: OperationQueryParameter = {
   }
 };
 
-export const endDate: OperationQueryParameter = {
+export const endDate1: OperationQueryParameter = {
   parameterPath: ["options", "endDate"],
   mapper: {
     serializedName: "endDate",
@@ -240,6 +260,18 @@ export const reservationId: OperationURLParameter = {
   }
 };
 
+export const resourceScope: OperationURLParameter = {
+  parameterPath: "resourceScope",
+  mapper: {
+    serializedName: "resourceScope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const reservationId1: OperationQueryParameter = {
   parameterPath: ["options", "reservationId"],
   mapper: {
@@ -264,6 +296,17 @@ export const filter1: OperationQueryParameter = {
   parameterPath: "filter",
   mapper: {
     serializedName: "$filter",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const scope1: OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
     required: true,
     type: {
       name: "String"
@@ -348,7 +391,7 @@ export const managementGroupId: OperationURLParameter = {
   }
 };
 
-export const startDate1: OperationQueryParameter = {
+export const startDate2: OperationQueryParameter = {
   parameterPath: "startDate",
   mapper: {
     serializedName: "startDate",
@@ -359,10 +402,21 @@ export const startDate1: OperationQueryParameter = {
   }
 };
 
-export const endDate1: OperationQueryParameter = {
+export const endDate2: OperationQueryParameter = {
   parameterPath: "endDate",
   mapper: {
     serializedName: "endDate",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
     required: true,
     type: {
       name: "String"
