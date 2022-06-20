@@ -449,7 +449,7 @@ export interface ImageRegistryCredential {
     identityUrl?: string;
     password?: string;
     server: string;
-    username: string;
+    username?: string;
 }
 
 // @public

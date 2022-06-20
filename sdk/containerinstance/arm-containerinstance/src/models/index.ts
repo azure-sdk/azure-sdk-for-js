@@ -276,7 +276,7 @@ export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
   server: string;
   /** The username for the private registry. */
-  username: string;
+  username?: string;
   /** The password for the private registry. */
   password?: string;
   /** The identity for the private registry. */
