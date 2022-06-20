@@ -350,6 +350,20 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -731,6 +745,8 @@ export type DicomService = TaggedResource &
     readonly provisioningState?: ProvisioningState;
     /** Dicom Service authentication configuration. */
     authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    /** Dicom Service Cors configuration. */
+    corsConfiguration?: CorsConfiguration;
     /**
      * The url of the Dicom Services.
      * NOTE: This property will not be serialized. It can only be populated by the server.

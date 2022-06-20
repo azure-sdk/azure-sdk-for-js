@@ -1,15 +1,12 @@
 # Release History
+    
+## 2.2.0 (2022-06-20)
+    
+**Features**
 
-## 2.1.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CorsConfiguration
+  - Type Alias DicomService has a new parameter corsConfiguration
+    
 ## 2.1.1 (2022-04-26)
 
 **Features**
