@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for DataFactoryManagementClient.",
-  "version": "10.6.1",
+  "version": "10.7.0",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -43,8 +43,6 @@
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",
-    "@types/chai": "^4.2.8",
-    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@azure/dev-tool": "^1.0.0"
   },
@@ -110,13 +108,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-datafactory?view=azure-node-preview"
-  }
+  "autoPublish": true
 }
