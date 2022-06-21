@@ -77,8 +77,8 @@ export type LinkedServiceUnion =
   | SapCloudForCustomerLinkedService
   | SapEccLinkedService
   | SapOpenHubLinkedService
+  | SapOdpLinkedService
   | RestServiceLinkedService
-  | AmazonS3LinkedService
   | TeamDeskLinkedService
   | QuickbaseLinkedService
   | SmartsheetLinkedService
@@ -87,6 +87,7 @@ export type LinkedServiceUnion =
   | AppFiguresLinkedService
   | AsanaLinkedService
   | TwilioLinkedService
+  | AmazonS3LinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -194,6 +195,7 @@ export type DatasetUnion =
   | AmazonRdsForSqlServerTableDataset
   | RestResourceDataset
   | SapTableResourceDataset
+  | SapOdpResourceDataset
   | WebTableDataset
   | AzureSearchIndexDataset
   | HttpDataset
@@ -491,6 +493,7 @@ export type TabularSourceUnion =
   | SapEccSource
   | SapHanaSource
   | SapOpenHubSource
+  | SapOdpSource
   | SapTableSource
   | SqlSource
   | SqlServerSource
@@ -1234,7 +1237,7 @@ export interface LinkedServiceListResponse {
   nextLink?: string;
 }
 
-/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
+/** The nested object which contains the information and credential which can be used to connect with related store or compute resource. */
 export interface LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
@@ -1287,8 +1290,8 @@ export interface LinkedService {
     | "SapCloudForCustomer"
     | "SapEcc"
     | "SapOpenHub"
+    | "SapOdp"
     | "RestService"
-    | "AmazonS3"
     | "TeamDesk"
     | "Quickbase"
     | "Smartsheet"
@@ -1297,6 +1300,7 @@ export interface LinkedService {
     | "AppFigures"
     | "Asana"
     | "Twilio"
+    | "AmazonS3"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -1444,6 +1448,7 @@ export interface Dataset {
     | "AmazonRdsForSqlServerTable"
     | "RestResource"
     | "SapTableResource"
+    | "SapOdpResource"
     | "WebTable"
     | "AzureSearchIndex"
     | "HttpFile"
@@ -1506,7 +1511,7 @@ export interface Dataset {
 /** Linked service reference type. */
 export interface LinkedServiceReference {
   /** Linked service reference type. */
-  type: "LinkedServiceReference";
+  type: Type;
   /** Reference LinkedService name. */
   referenceName: string;
   /** Arguments for LinkedService. */
@@ -2816,7 +2821,7 @@ export interface SqlAlwaysEncryptedProperties {
 export interface WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
-  /** The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string). */
+  /** The URL of the web service endpoint, e.g. https://www.microsoft.com . Type: string (or Expression with resultType string). */
   url: any;
 }
 
@@ -2972,6 +2977,7 @@ export interface CopySource {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapOdpSource"
     | "SapTableSource"
     | "RestSource"
     | "SqlSource"
@@ -4915,6 +4921,48 @@ export type SapOpenHubLinkedService = LinkedService & {
   encryptedCredential?: any;
 };
 
+/** SAP ODP Linked Service. */
+export type SapOdpLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdp";
+  /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
+  server?: any;
+  /** System number of the SAP system where the table is located. (Usually a two-digit decimal number represented as a string.) Type: string (or Expression with resultType string). */
+  systemNumber?: any;
+  /** Client ID of the client on the SAP system where the table is located. (Usually a three-digit decimal number represented as a string) Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** Language of the SAP system where the table is located. The default value is EN. Type: string (or Expression with resultType string). */
+  language?: any;
+  /** SystemID of the SAP system where the table is located. Type: string (or Expression with resultType string). */
+  systemId?: any;
+  /** Username to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  userName?: any;
+  /** Password to access the SAP server where the table is located. */
+  password?: SecretBaseUnion;
+  /** The hostname of the SAP Message Server. Type: string (or Expression with resultType string). */
+  messageServer?: any;
+  /** The service name or port number of the Message Server. Type: string (or Expression with resultType string). */
+  messageServerService?: any;
+  /** SNC activation indicator to access the SAP server where the table is located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string). */
+  sncMode?: any;
+  /** Initiator's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncMyName?: any;
+  /** Communication partner's SNC name to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncPartnerName?: any;
+  /** External security product's library to access the SAP server where the table is located. Type: string (or Expression with resultType string). */
+  sncLibraryPath?: any;
+  /** SNC Quality of Protection. Allowed value include: 1, 2, 3, 8, 9. Type: string (or Expression with resultType string). */
+  sncQop?: any;
+  /** SNC X509 certificate file path. Type: string (or Expression with resultType string). */
+  x509CertificatePath?: any;
+  /** The Logon Group for the SAP System. Type: string (or Expression with resultType string). */
+  logonGroup?: any;
+  /** The subscriber name. Type: string (or Expression with resultType string). */
+  subscriberName?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
 /** Rest Service linked service. */
 export type RestServiceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -4955,24 +5003,6 @@ export type RestServiceLinkedService = LinkedService & {
   resource?: any;
   /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
   scope?: any;
-};
-
-/** Linked service for Amazon S3. */
-export type AmazonS3LinkedService = LinkedService & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AmazonS3";
-  /** The authentication type of S3. Allowed value: AccessKey (default) or TemporarySecurityCredentials. Type: string (or Expression with resultType string). */
-  authenticationType?: any;
-  /** The access key identifier of the Amazon S3 Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
-  accessKeyId?: any;
-  /** The secret access key of the Amazon S3 Identity and Access Management (IAM) user. */
-  secretAccessKey?: SecretBaseUnion;
-  /** This value specifies the endpoint to access with the S3 Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
-  serviceUrl?: any;
-  /** The session token for the S3 temporary security credential. */
-  sessionToken?: SecretBaseUnion;
-  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
-  encryptedCredential?: any;
 };
 
 /** Linked service for TeamDesk. */
@@ -5075,6 +5105,24 @@ export type TwilioLinkedService = LinkedService & {
   password: SecretBaseUnion;
 };
 
+/** Linked service for Amazon S3. */
+export type AmazonS3LinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AmazonS3";
+  /** The authentication type of S3. Allowed value: AccessKey (default) or TemporarySecurityCredentials. Type: string (or Expression with resultType string). */
+  authenticationType?: any;
+  /** The access key identifier of the Amazon S3 Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
+  accessKeyId?: any;
+  /** The secret access key of the Amazon S3 Identity and Access Management (IAM) user. */
+  secretAccessKey?: SecretBaseUnion;
+  /** This value specifies the endpoint to access with the S3 Connector. This is an optional property; change it only if you want to try a different service endpoint or want to switch between https and http. Type: string (or Expression with resultType string). */
+  serviceUrl?: any;
+  /** The session token for the S3 temporary security credential. */
+  sessionToken?: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: any;
+};
+
 /** Linked service for Amazon Redshift. */
 export type AmazonRedshiftLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -5117,7 +5165,7 @@ export type AzureSearchLinkedService = LinkedService & {
 export type HttpLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServer";
-  /** The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression with resultType string). */
+  /** The base URL of the HTTP endpoint, e.g. https://www.microsoft.com. Type: string (or Expression with resultType string). */
   url: any;
   /** The authentication type to be used to connect to the HTTP server. */
   authenticationType?: HttpAuthenticationType;
@@ -6805,6 +6853,16 @@ export type SapTableResourceDataset = Dataset & {
   tableName: any;
 };
 
+/** SAP ODP Resource properties. */
+export type SapOdpResourceDataset = Dataset & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdpResource";
+  /** The context of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  context: any;
+  /** The name of the SAP ODP Object. Type: string (or Expression with resultType string). */
+  objectName: any;
+};
+
 /** The dataset points to a HTML table in the web page. */
 export type WebTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -8306,6 +8364,7 @@ export type TabularSource = CopySource & {
     | "SapEccSource"
     | "SapHanaSource"
     | "SapOpenHubSource"
+    | "SapOdpSource"
     | "SapTableSource"
     | "SqlSource"
     | "SqlServerSource"
@@ -10033,6 +10092,20 @@ export type SapOpenHubSource = TabularSource & {
   sapDataColumnDelimiter?: any;
 };
 
+/** A copy activity source for SAP ODP source. */
+export type SapOdpSource = TabularSource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SapOdpSource";
+  /** The extraction mode. Allowed value include: Full, Delta and Recovery. The default value is Full. Type: string (or Expression with resultType string). */
+  extractionMode?: any;
+  /** The subscriber process to manage the delta process. Type: string (or Expression with resultType string). */
+  subscriberProcess?: any;
+  /** Specifies the selection conditions from source data. Type: array of objects(selection) (or Expression with resultType array of objects). */
+  selection?: any;
+  /** Specifies the columns to be selected from source data. Type: array of objects(projection) (or Expression with resultType array of objects). */
+  projection?: any;
+};
+
 /** A copy activity source for SAP Table source. */
 export type SapTableSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10740,6 +10813,20 @@ export enum KnownParameterType {
  * **SecureString**
  */
 export type ParameterType = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  LinkedServiceReference = "LinkedServiceReference"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LinkedServiceReference**
+ */
+export type Type = string;
 
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {

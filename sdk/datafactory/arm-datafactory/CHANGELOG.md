@@ -1,15 +1,16 @@
 # Release History
+    
+## 10.7.0 (2022-06-21)
+    
+**Features**
 
-## 10.6.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias SapOdpLinkedService
+  - Added Type Alias SapOdpResourceDataset
+  - Added Type Alias SapOdpSource
+  - Added Type Alias Type
+  - Added Enum KnownType
+    
+    
 ## 10.6.0 (2022-06-07)
     
 **Features**
