@@ -924,7 +924,7 @@ export interface CommunityGalleriesGetOptionalParams extends coreClient.Operatio
 export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
-export type CommunityGallery = PirCommunityGalleryResource;
+export type CommunityGallery = PirCommunityGalleryResource & {};
 
 // @public
 export type CommunityGalleryImage = PirCommunityGalleryResource & {
@@ -1685,7 +1685,7 @@ export interface DiskEncryptionSetList {
 }
 
 // @public
-export type DiskEncryptionSetParameters = SubResource;
+export type DiskEncryptionSetParameters = SubResource & {};
 
 // @public
 export interface DiskEncryptionSets {
@@ -2541,7 +2541,7 @@ export interface GalleryImageVersionList {
 }
 
 // @public
-export type GalleryImageVersionPublishingProfile = GalleryArtifactPublishingProfileBase;
+export type GalleryImageVersionPublishingProfile = GalleryArtifactPublishingProfileBase & {};
 
 // @public
 export interface GalleryImageVersions {
@@ -2623,7 +2623,7 @@ export interface GalleryList {
 }
 
 // @public
-export type GalleryOSDiskImage = GalleryDiskImage;
+export type GalleryOSDiskImage = GalleryDiskImage & {};
 
 // @public
 export type GalleryProvisioningState = string;
@@ -4581,7 +4581,7 @@ export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup;
 export type ProximityPlacementGroupType = string;
 
 // @public
-export type ProximityPlacementGroupUpdate = UpdateResource;
+export type ProximityPlacementGroupUpdate = UpdateResource & {};
 
 // @public
 export interface ProxyOnlyResource {
@@ -5227,7 +5227,7 @@ export interface SharedGalleriesListOptionalParams extends coreClient.OperationO
 export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
-export type SharedGallery = PirSharedGalleryResource;
+export type SharedGallery = PirSharedGalleryResource & {};
 
 // @public
 export type SharedGalleryDataDiskImage = SharedGalleryDiskImage & {
@@ -5348,7 +5348,7 @@ export interface SharedGalleryList {
 }
 
 // @public
-export type SharedGalleryOSDiskImage = SharedGalleryDiskImage;
+export type SharedGalleryOSDiskImage = SharedGalleryDiskImage & {};
 
 // @public
 export type SharedToValues = string;
@@ -5731,7 +5731,7 @@ export interface TerminateNotificationProfile {
 }
 
 // @public
-export type ThrottledRequestsInput = LogAnalyticsInputBase;
+export type ThrottledRequestsInput = LogAnalyticsInputBase & {};
 
 // @public
 export interface UefiSettings {
@@ -7449,7 +7449,7 @@ export interface VirtualMachineScaleSetVMProtectionPolicy {
 }
 
 // @public
-export type VirtualMachineScaleSetVMReimageParameters = VirtualMachineReimageParameters;
+export type VirtualMachineScaleSetVMReimageParameters = VirtualMachineReimageParameters & {};
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommands {
