@@ -19,8 +19,8 @@ import {
 /** Interface representing a AvailableGroundStations. */
 export interface AvailableGroundStations {
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   listByCapability(
@@ -28,8 +28,8 @@ export interface AvailableGroundStations {
     options?: AvailableGroundStationsListByCapabilityOptionalParams
   ): PagedAsyncIterableIterator<AvailableGroundStation>;
   /**
-   * Gets the specified  available ground station
-   * @param groundStationName Ground Station name
+   * Gets the specified available ground station.
+   * @param groundStationName Ground Station name.
    * @param options The options parameters.
    */
   get(

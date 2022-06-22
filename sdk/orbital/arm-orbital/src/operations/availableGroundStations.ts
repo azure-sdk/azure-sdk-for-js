@@ -37,8 +37,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   public listByCapability(
@@ -90,8 +90,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Returns list of available ground stations
-   * @param capability Ground Station Capability
+   * Returns list of available ground stations.
+   * @param capability Ground Station Capability.
    * @param options The options parameters.
    */
   private _listByCapability(
@@ -105,8 +105,8 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
   }
 
   /**
-   * Gets the specified  available ground station
-   * @param groundStationName Ground Station name
+   * Gets the specified available ground station.
+   * @param groundStationName Ground Station name.
    * @param options The options parameters.
    */
   get(
@@ -121,7 +121,7 @@ export class AvailableGroundStationsImpl implements AvailableGroundStations {
 
   /**
    * ListByCapabilityNext
-   * @param capability Ground Station Capability
+   * @param capability Ground Station Capability.
    * @param nextLink The nextLink from the previous successful call to the ListByCapability method.
    * @param options The options parameters.
    */

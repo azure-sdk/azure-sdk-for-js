@@ -29,14 +29,14 @@ import {
 /** Interface representing a Spacecrafts. */
 export interface Spacecrafts {
   /**
-   * Return list of spacecrafts
+   * Returns list of spacecrafts by subscription.
    * @param options The options parameters.
    */
   listBySubscription(
     options?: SpacecraftsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
-   * Return list of spacecrafts
+   * Returns list of spacecrafts by resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -45,13 +45,14 @@ export interface Spacecrafts {
     options?: SpacecraftsListOptionalParams
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
-   * Return list of available contacts
+   * Returns list of available contacts. A contact is available if the spacecraft is visible from the
+   * ground station for more than the minimum viable contact duration provided in the contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param contactProfile The reference to the contact profile resource.
    * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact.
-   * @param endTime End time of a contact.
+   * @param startTime Start time of a contact (ISO 8601 UTC standard).
+   * @param endTime End time of a contact (ISO 8601 UTC standard).
    * @param options The options parameters.
    */
   beginListAvailableContactsAndWait(
@@ -64,9 +65,9 @@ export interface Spacecrafts {
     options?: SpacecraftsListAvailableContactsOptionalParams
   ): PagedAsyncIterableIterator<AvailableContacts>;
   /**
-   * Gets the specified spacecraft in a specified resource group
+   * Gets the specified spacecraft in a specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   get(
@@ -75,9 +76,9 @@ export interface Spacecrafts {
     options?: SpacecraftsGetOptionalParams
   ): Promise<SpacecraftsGetResponse>;
   /**
-   * Creates or updates a spacecraft resource
+   * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param location The geo-location where the resource lives
    * @param options The options parameters.
    */
@@ -93,9 +94,9 @@ export interface Spacecrafts {
     >
   >;
   /**
-   * Creates or updates a spacecraft resource
+   * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param location The geo-location where the resource lives
    * @param options The options parameters.
    */
@@ -108,7 +109,7 @@ export interface Spacecrafts {
   /**
    * Deletes a specified spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   beginDelete(
@@ -119,7 +120,7 @@ export interface Spacecrafts {
   /**
    * Deletes a specified spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
@@ -130,7 +131,7 @@ export interface Spacecrafts {
   /**
    * Updates the specified spacecraft tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param parameters Parameters supplied to update spacecraft tags.
    * @param options The options parameters.
    */
@@ -148,7 +149,7 @@ export interface Spacecrafts {
   /**
    * Updates the specified spacecraft tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID
+   * @param spacecraftName Spacecraft ID.
    * @param parameters Parameters supplied to update spacecraft tags.
    * @param options The options parameters.
    */
