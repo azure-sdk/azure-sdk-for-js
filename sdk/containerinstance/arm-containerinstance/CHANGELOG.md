@@ -1,15 +1,14 @@
 # Release History
+    
+## 8.2.0 (2022-06-23)
+    
+**Features**
 
-## 8.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group SubnetServiceAssociationLink
+  - Added Interface SubnetServiceAssociationLinkDeleteOptionalParams
+  - Class ContainerInstanceManagementClient has a new parameter subnetServiceAssociationLink
+    
+    
 ## 8.1.0 (2022-04-06)
     
 **Features**

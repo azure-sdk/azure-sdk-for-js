@@ -309,6 +309,8 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    subnetServiceAssociationLink: SubnetServiceAssociationLink;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -449,7 +451,7 @@ export interface ImageRegistryCredential {
     identityUrl?: string;
     password?: string;
     server: string;
-    username: string;
+    username?: string;
 }
 
 // @public
@@ -727,6 +729,18 @@ export interface ResourceRequirements {
 
 // @public
 export type Scheme = string;
+
+// @public
+export interface SubnetServiceAssociationLink {
+    beginDelete(resourceGroup: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroup: string, virtualNetworkName: string, subnetName: string, options?: SubnetServiceAssociationLinkDeleteOptionalParams): Promise<void>;
+}
+
+// @public
+export interface SubnetServiceAssociationLinkDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface Usage {

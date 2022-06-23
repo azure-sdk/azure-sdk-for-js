@@ -276,7 +276,7 @@ export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
   server: string;
   /** The username for the private registry. */
-  username: string;
+  username?: string;
   /** The password for the private registry. */
   password?: string;
   /** The identity for the private registry. */
@@ -1100,6 +1100,15 @@ export interface ContainersAttachOptionalParams
 
 /** Contains response data for the attach operation. */
 export type ContainersAttachResponse = ContainerAttachResponse;
+
+/** Optional parameters. */
+export interface SubnetServiceAssociationLinkDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ContainerInstanceManagementClientOptionalParams
