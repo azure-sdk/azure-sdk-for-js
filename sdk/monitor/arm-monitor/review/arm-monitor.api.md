@@ -660,7 +660,7 @@ export interface BaselinesListOptionalParams extends coreClient.OperationOptions
 export type BaselinesListResponse = MetricBaselinesResponse;
 
 // @public
-export type CategoryType = "Metrics" | "Logs";
+export type CategoryType = string;
 
 // @public
 export interface ColumnDefinition {
@@ -711,13 +711,13 @@ export interface DataCollectionEndpoint {
 }
 
 // @public
-export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec;
+export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec & {};
 
 // @public
-export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec;
+export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec & {};
 
 // @public
-export type DataCollectionEndpointNetworkAcls = NetworkRuleSet;
+export type DataCollectionEndpointNetworkAcls = NetworkRuleSet & {};
 
 // @public
 export interface DataCollectionEndpointResource {
@@ -746,10 +746,10 @@ export interface DataCollectionEndpointResourceListResult {
 }
 
 // @public
-export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint;
+export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint & {};
 
 // @public
-export type DataCollectionEndpointResourceSystemData = SystemData;
+export type DataCollectionEndpointResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionEndpoints {
@@ -841,7 +841,7 @@ export interface DataCollectionRuleAssociation {
 }
 
 // @public
-export type DataCollectionRuleAssociationMetadata = Metadata;
+export type DataCollectionRuleAssociationMetadata = Metadata & {};
 
 // @public
 export interface DataCollectionRuleAssociationProxyOnlyResource {
@@ -864,10 +864,10 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation;
+export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation & {};
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData;
+export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionRuleAssociations {
@@ -941,13 +941,13 @@ export interface DataCollectionRuleAssociationsListByRuleOptionalParams extends 
 export type DataCollectionRuleAssociationsListByRuleResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 // @public
-export type DataCollectionRuleDataSources = DataSourcesSpec;
+export type DataCollectionRuleDataSources = DataSourcesSpec & {};
 
 // @public
-export type DataCollectionRuleDestinations = DestinationsSpec;
+export type DataCollectionRuleDestinations = DestinationsSpec & {};
 
 // @public
-export type DataCollectionRuleMetadata = Metadata;
+export type DataCollectionRuleMetadata = Metadata & {};
 
 // @public
 export interface DataCollectionRuleResource {
@@ -981,10 +981,10 @@ export interface DataCollectionRuleResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleResourceProperties = DataCollectionRule;
+export type DataCollectionRuleResourceProperties = DataCollectionRule & {};
 
 // @public
-export type DataCollectionRuleResourceSystemData = SystemData;
+export type DataCollectionRuleResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionRules {
@@ -1084,20 +1084,20 @@ export interface DestinationsSpec {
 }
 
 // @public
-export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination;
+export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination & {};
 
 // @public
 export interface DiagnosticSettings {
     createOrUpdate(resourceUri: string, name: string, parameters: DiagnosticSettingsResource, options?: DiagnosticSettingsCreateOrUpdateOptionalParams): Promise<DiagnosticSettingsCreateOrUpdateResponse>;
     delete(resourceUri: string, name: string, options?: DiagnosticSettingsDeleteOptionalParams): Promise<void>;
     get(resourceUri: string, name: string, options?: DiagnosticSettingsGetOptionalParams): Promise<DiagnosticSettingsGetResponse>;
-    list(resourceUri: string, options?: DiagnosticSettingsListOptionalParams): Promise<DiagnosticSettingsListResponse>;
+    list(resourceUri: string, options?: DiagnosticSettingsListOptionalParams): PagedAsyncIterableIterator<DiagnosticSettingsResource>;
 }
 
 // @public
 export interface DiagnosticSettingsCategory {
     get(resourceUri: string, name: string, options?: DiagnosticSettingsCategoryGetOptionalParams): Promise<DiagnosticSettingsCategoryGetResponse>;
-    list(resourceUri: string, options?: DiagnosticSettingsCategoryListOptionalParams): Promise<DiagnosticSettingsCategoryListResponse>;
+    list(resourceUri: string, options?: DiagnosticSettingsCategoryListOptionalParams): PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource>;
 }
 
 // @public
@@ -1115,8 +1115,10 @@ export interface DiagnosticSettingsCategoryListOptionalParams extends coreClient
 export type DiagnosticSettingsCategoryListResponse = DiagnosticSettingsCategoryResourceCollection;
 
 // @public
-export type DiagnosticSettingsCategoryResource = ProxyOnlyResource & {
+export type DiagnosticSettingsCategoryResource = ResourceAutoGenerated & {
+    readonly systemData?: SystemData;
     categoryType?: CategoryType;
+    categoryGroups?: string[];
 };
 
 // @public
@@ -1150,7 +1152,8 @@ export interface DiagnosticSettingsListOptionalParams extends coreClient.Operati
 export type DiagnosticSettingsListResponse = DiagnosticSettingsResourceCollection;
 
 // @public
-export type DiagnosticSettingsResource = ProxyOnlyResource & {
+export type DiagnosticSettingsResource = ResourceAutoGenerated & {
+    readonly systemData?: SystemData;
     storageAccountId?: string;
     serviceBusRuleId?: string;
     eventHubAuthorizationRuleId?: string;
@@ -1158,6 +1161,7 @@ export type DiagnosticSettingsResource = ProxyOnlyResource & {
     metrics?: MetricSettings[];
     logs?: LogSettings[];
     workspaceId?: string;
+    marketplacePartnerId?: string;
     logAnalyticsDestinationType?: string;
 };
 
@@ -1417,6 +1421,14 @@ export enum KnownBaselineSensitivity {
     Low = "Low",
     // (undocumented)
     Medium = "Medium"
+}
+
+// @public
+export enum KnownCategoryType {
+    // (undocumented)
+    Logs = "Logs",
+    // (undocumented)
+    Metrics = "Metrics"
 }
 
 // @public
@@ -1921,7 +1933,7 @@ export interface LogFilesDataSource {
 }
 
 // @public
-export type LogFilesDataSourceSettings = LogFileSettings;
+export type LogFilesDataSourceSettings = LogFileSettings & {};
 
 // @public
 export interface LogFileSettings {
@@ -1929,7 +1941,7 @@ export interface LogFileSettings {
 }
 
 // @public
-export type LogFileSettingsText = LogFileTextSettings;
+export type LogFileSettingsText = LogFileTextSettings & {};
 
 // @public
 export interface LogFileTextSettings {
@@ -2020,7 +2032,7 @@ export interface LogProfilesUpdateOptionalParams extends coreClient.OperationOpt
 export type LogProfilesUpdateResponse = LogProfileResource;
 
 // @public
-export type LogSearchRuleResource = ResourceAutoGenerated & {
+export type LogSearchRuleResource = ResourceAutoGenerated2 & {
     readonly createdWithApiVersion?: string;
     readonly isLegacyLogAnalyticsRule?: boolean;
     description?: string;
@@ -2050,6 +2062,7 @@ export interface LogSearchRuleResourcePatch {
 // @public
 export interface LogSettings {
     category?: string;
+    categoryGroup?: string;
     enabled: boolean;
     retentionPolicy?: RetentionPolicy;
 }
@@ -2845,13 +2858,6 @@ export interface PrivateLinkServiceConnectionStateProperty {
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyOnlyResource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
-}
-
-// @public
 export interface ProxyResource {
     readonly id?: string;
     readonly name?: string;
@@ -2894,6 +2900,13 @@ export interface Resource {
 
 // @public
 export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAutoGenerated2 {
     readonly etag?: string;
     readonly id?: string;
     readonly kind?: string;
