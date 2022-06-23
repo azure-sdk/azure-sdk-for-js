@@ -1,15 +1,315 @@
 # Release History
+    
+## 13.0.0 (2022-06-23)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Added operation group WorkflowRunActionRepetitions
+  - Added operation group WorkflowRunActionRepetitionsRequestHistories
+  - Added operation group WorkflowRunActions
+  - Added operation group WorkflowRunActionScopeRepetitions
+  - Added operation group WorkflowRuns
+  - Added operation group Workflows
+  - Added operation group WorkflowTriggerHistories
+  - Added operation group WorkflowTriggers
+  - Added operation group WorkflowVersions
+  - Added operation AppServiceEnvironments.beginUpgrade
+  - Added operation AppServiceEnvironments.beginUpgradeAndWait
+  - Added operation AppServiceEnvironments.deleteAseCustomDnsSuffixConfiguration
+  - Added operation AppServiceEnvironments.getAseCustomDnsSuffixConfiguration
+  - Added operation AppServiceEnvironments.testUpgradeAvailableNotification
+  - Added operation AppServiceEnvironments.updateAseCustomDnsSuffixConfiguration
+  - Added operation StaticSites.beginLinkBackend
+  - Added operation StaticSites.beginLinkBackendAndWait
+  - Added operation StaticSites.beginLinkBackendToBuild
+  - Added operation StaticSites.beginLinkBackendToBuildAndWait
+  - Added operation StaticSites.beginValidateBackend
+  - Added operation StaticSites.beginValidateBackendAndWait
+  - Added operation StaticSites.beginValidateBackendForBuild
+  - Added operation StaticSites.beginValidateBackendForBuildAndWait
+  - Added operation StaticSites.getLinkedBackend
+  - Added operation StaticSites.getLinkedBackendForBuild
+  - Added operation StaticSites.listLinkedBackends
+  - Added operation StaticSites.listLinkedBackendsForBuild
+  - Added operation StaticSites.unlinkBackend
+  - Added operation StaticSites.unlinkBackendFromBuild
+  - Added operation WebApps.createOneDeployOperation
+  - Added operation WebApps.getAuthSettingsV2WithoutSecretsSlot
+  - Added operation WebApps.getOneDeployStatus
+  - Added operation WebApps.getProductionSiteDeploymentStatus
+  - Added operation WebApps.getSlotSiteDeploymentStatusSlot
+  - Added operation WebApps.listProductionSiteDeploymentStatuses
+  - Added operation WebApps.listSlotSiteDeploymentStatusesSlot
+  - Added Interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  - Added Interface AppServiceEnvironmentsUpgradeOptionalParams
+  - Added Interface CertificateEmail
+  - Added Interface CertificateOrderAction
+  - Added Interface ContentHash
+  - Added Interface ContentLink
+  - Added Interface Correlation
+  - Added Interface CsmDeploymentStatusCollection
+  - Added Interface ErrorInfo
+  - Added Interface ErrorProperties
+  - Added Interface ErrorResponse
+  - Added Interface Expression
+  - Added Interface ExpressionTraces
+  - Added Interface FlowAccessControlConfiguration
+  - Added Interface FlowAccessControlConfigurationPolicy
+  - Added Interface FlowEndpoints
+  - Added Interface FlowEndpointsConfiguration
+  - Added Interface IpAddress
+  - Added Interface IpAddressRange
+  - Added Interface JsonSchema
+  - Added Interface OpenAuthenticationAccessPolicies
+  - Added Interface OpenAuthenticationAccessPolicy
+  - Added Interface OpenAuthenticationPolicyClaim
+  - Added Interface OperationResultProperties
+  - Added Interface RecurrenceSchedule
+  - Added Interface RecurrenceScheduleOccurrence
+  - Added Interface RegenerateActionParameter
+  - Added Interface RepetitionIndex
+  - Added Interface Request_2
+  - Added Interface RequestHistoryListResult
+  - Added Interface RequestHistoryProperties
+  - Added Interface ResourceReference
+  - Added Interface Response_2
+  - Added Interface RetryHistory
+  - Added Interface RunCorrelation
+  - Added Interface StaticSiteLinkedBackend
+  - Added Interface StaticSiteLinkedBackendsCollection
+  - Added Interface StaticSitesGetLinkedBackendForBuildOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsForBuildOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsNextOptionalParams
+  - Added Interface StaticSitesGetLinkedBackendsOptionalParams
+  - Added Interface StaticSitesLinkBackendOptionalParams
+  - Added Interface StaticSitesLinkBackendToBuildOptionalParams
+  - Added Interface StaticSitesUnlinkBackendFromBuildOptionalParams
+  - Added Interface StaticSitesUnlinkBackendOptionalParams
+  - Added Interface StaticSitesValidateBackendForBuildOptionalParams
+  - Added Interface StaticSitesValidateBackendOptionalParams
+  - Added Interface SubResource
+  - Added Interface WebAppsCreateOneDeployOperationOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  - Added Interface WebAppsGetOneDeployStatusOptionalParams
+  - Added Interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  - Added Interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  - Added Interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
+  - Added Interface WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  - Added Interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
+  - Added Interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  - Added Interface WorkflowFilter
+  - Added Interface WorkflowListResult
+  - Added Interface WorkflowParameter
+  - Added Interface WorkflowResource
+  - Added Interface WorkflowRunActionFilter
+  - Added Interface WorkflowRunActionListResult
+  - Added Interface WorkflowRunActionRepetitionDefinitionCollection
+  - Added Interface WorkflowRunActionRepetitionsGetOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsListExpressionTracesNextOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsListNextOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsListOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
+  - Added Interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+  - Added Interface WorkflowRunActionScopeRepetitionsGetOptionalParams
+  - Added Interface WorkflowRunActionScopeRepetitionsListNextOptionalParams
+  - Added Interface WorkflowRunActionScopeRepetitionsListOptionalParams
+  - Added Interface WorkflowRunActionsGetOptionalParams
+  - Added Interface WorkflowRunActionsListExpressionTracesNextOptionalParams
+  - Added Interface WorkflowRunActionsListExpressionTracesOptionalParams
+  - Added Interface WorkflowRunActionsListNextOptionalParams
+  - Added Interface WorkflowRunActionsListOptionalParams
+  - Added Interface WorkflowRunFilter
+  - Added Interface WorkflowRunListResult
+  - Added Interface WorkflowRunsCancelOptionalParams
+  - Added Interface WorkflowRunsGetOptionalParams
+  - Added Interface WorkflowRunsListNextOptionalParams
+  - Added Interface WorkflowRunsListOptionalParams
+  - Added Interface WorkflowRunTrigger
+  - Added Interface WorkflowSku
+  - Added Interface WorkflowsRegenerateAccessKeyOptionalParams
+  - Added Interface WorkflowsValidateOptionalParams
+  - Added Interface WorkflowTriggerCallbackUrl
+  - Added Interface WorkflowTriggerFilter
+  - Added Interface WorkflowTriggerHistoriesGetOptionalParams
+  - Added Interface WorkflowTriggerHistoriesListNextOptionalParams
+  - Added Interface WorkflowTriggerHistoriesListOptionalParams
+  - Added Interface WorkflowTriggerHistoriesResubmitOptionalParams
+  - Added Interface WorkflowTriggerHistoryFilter
+  - Added Interface WorkflowTriggerHistoryListResult
+  - Added Interface WorkflowTriggerListCallbackUrlQueries
+  - Added Interface WorkflowTriggerListResult
+  - Added Interface WorkflowTriggerRecurrence
+  - Added Interface WorkflowTriggersGetOptionalParams
+  - Added Interface WorkflowTriggersGetSchemaJsonOptionalParams
+  - Added Interface WorkflowTriggersListCallbackUrlOptionalParams
+  - Added Interface WorkflowTriggersListNextOptionalParams
+  - Added Interface WorkflowTriggersListOptionalParams
+  - Added Interface WorkflowTriggersRunOptionalParams
+  - Added Interface WorkflowVersionListResult
+  - Added Interface WorkflowVersionsGetOptionalParams
+  - Added Interface WorkflowVersionsListNextOptionalParams
+  - Added Interface WorkflowVersionsListOptionalParams
+  - Added Type Alias AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse
+  - Added Type Alias AzureResourceErrorInfo
+  - Added Type Alias CsmDeploymentStatus
+  - Added Type Alias CustomDnsSuffixConfiguration
+  - Added Type Alias CustomDnsSuffixProvisioningState
+  - Added Type Alias DayOfWeek
+  - Added Type Alias DaysOfWeek
+  - Added Type Alias DeploymentBuildStatus
+  - Added Type Alias Enum14
+  - Added Type Alias ExpressionRoot
+  - Added Type Alias KeyType_2
+  - Added Type Alias Kind
+  - Added Type Alias OpenAuthenticationProviderType
+  - Added Type Alias OperationResult
+  - Added Type Alias ParameterType
+  - Added Type Alias RecurrenceFrequency
+  - Added Type Alias RequestHistory
+  - Added Type Alias ResourceNotRenewableReason
+  - Added Type Alias RunActionCorrelation
+  - Added Type Alias StaticSiteLinkedBackendARMResource
+  - Added Type Alias StaticSitesGetLinkedBackendForBuildResponse
+  - Added Type Alias StaticSitesGetLinkedBackendResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsForBuildNextResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsForBuildResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsNextResponse
+  - Added Type Alias StaticSitesGetLinkedBackendsResponse
+  - Added Type Alias StaticSitesLinkBackendResponse
+  - Added Type Alias StaticSitesLinkBackendToBuildResponse
+  - Added Type Alias UpgradeAvailability
+  - Added Type Alias UpgradePreference
+  - Added Type Alias WebAppsCreateOneDeployOperationResponse
+  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse
+  - Added Type Alias WebAppsGetOneDeployStatusResponse
+  - Added Type Alias WebAppsGetProductionSiteDeploymentStatusResponse
+  - Added Type Alias WebAppsGetSlotSiteDeploymentStatusSlotResponse
+  - Added Type Alias WebAppsListProductionSiteDeploymentStatusesNextResponse
+  - Added Type Alias WebAppsListProductionSiteDeploymentStatusesResponse
+  - Added Type Alias WebAppsListSlotSiteDeploymentStatusesSlotNextResponse
+  - Added Type Alias WebAppsListSlotSiteDeploymentStatusesSlotResponse
+  - Added Type Alias Workflow
+  - Added Type Alias WorkflowOutputParameter
+  - Added Type Alias WorkflowProvisioningState
+  - Added Type Alias WorkflowRun
+  - Added Type Alias WorkflowRunAction
+  - Added Type Alias WorkflowRunActionRepetitionDefinition
+  - Added Type Alias WorkflowRunActionRepetitionProperties
+  - Added Type Alias WorkflowRunActionRepetitionsGetResponse
+  - Added Type Alias WorkflowRunActionRepetitionsListExpressionTracesNextResponse
+  - Added Type Alias WorkflowRunActionRepetitionsListExpressionTracesResponse
+  - Added Type Alias WorkflowRunActionRepetitionsListNextResponse
+  - Added Type Alias WorkflowRunActionRepetitionsListResponse
+  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesGetResponse
+  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesListNextResponse
+  - Added Type Alias WorkflowRunActionRepetitionsRequestHistoriesListResponse
+  - Added Type Alias WorkflowRunActionScopeRepetitionsGetResponse
+  - Added Type Alias WorkflowRunActionScopeRepetitionsListNextResponse
+  - Added Type Alias WorkflowRunActionScopeRepetitionsListResponse
+  - Added Type Alias WorkflowRunActionsGetResponse
+  - Added Type Alias WorkflowRunActionsListExpressionTracesNextResponse
+  - Added Type Alias WorkflowRunActionsListExpressionTracesResponse
+  - Added Type Alias WorkflowRunActionsListNextResponse
+  - Added Type Alias WorkflowRunActionsListResponse
+  - Added Type Alias WorkflowRunsGetResponse
+  - Added Type Alias WorkflowRunsListNextResponse
+  - Added Type Alias WorkflowRunsListResponse
+  - Added Type Alias WorkflowSkuName
+  - Added Type Alias WorkflowState
+  - Added Type Alias WorkflowStatus
+  - Added Type Alias WorkflowTrigger
+  - Added Type Alias WorkflowTriggerHistoriesGetResponse
+  - Added Type Alias WorkflowTriggerHistoriesListNextResponse
+  - Added Type Alias WorkflowTriggerHistoriesListResponse
+  - Added Type Alias WorkflowTriggerHistory
+  - Added Type Alias WorkflowTriggerProvisioningState
+  - Added Type Alias WorkflowTriggersGetResponse
+  - Added Type Alias WorkflowTriggersGetSchemaJsonResponse
+  - Added Type Alias WorkflowTriggersListCallbackUrlResponse
+  - Added Type Alias WorkflowTriggersListNextResponse
+  - Added Type Alias WorkflowTriggersListResponse
+  - Added Type Alias WorkflowVersion
+  - Added Type Alias WorkflowVersionsGetResponse
+  - Added Type Alias WorkflowVersionsListNextResponse
+  - Added Type Alias WorkflowVersionsListResponse
+  - Interface AppServiceEnvironment has a new optional parameter customDnsSuffixConfiguration
+  - Interface AppServiceEnvironment has a new optional parameter networkingConfiguration
+  - Interface AppServiceEnvironment has a new optional parameter upgradeAvailability
+  - Interface AppServiceEnvironment has a new optional parameter upgradePreference
+  - Interface ListCustomHostNameSitesNextOptionalParams has a new optional parameter hostname
+  - Interface ListCustomHostNameSitesOptionalParams has a new optional parameter hostname
+  - Class WebSiteManagementClient has a new parameter workflowRunActionRepetitions
+  - Class WebSiteManagementClient has a new parameter workflowRunActionRepetitionsRequestHistories
+  - Class WebSiteManagementClient has a new parameter workflowRunActions
+  - Class WebSiteManagementClient has a new parameter workflowRunActionScopeRepetitions
+  - Class WebSiteManagementClient has a new parameter workflowRuns
+  - Class WebSiteManagementClient has a new parameter workflows
+  - Class WebSiteManagementClient has a new parameter workflowTriggerHistories
+  - Class WebSiteManagementClient has a new parameter workflowTriggers
+  - Class WebSiteManagementClient has a new parameter workflowVersions
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter upgradePreference
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter customDnsSuffixConfiguration
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter networkingConfiguration
+  - Type Alias AppServiceEnvironmentPatchResource has a new parameter upgradeAvailability
+  - Type Alias AppServiceEnvironmentResource has a new parameter upgradePreference
+  - Type Alias AppServiceEnvironmentResource has a new parameter customDnsSuffixConfiguration
+  - Type Alias AppServiceEnvironmentResource has a new parameter networkingConfiguration
+  - Type Alias AppServiceEnvironmentResource has a new parameter upgradeAvailability
+  - Type Alias AppServicePlan has a new parameter numberOfWorkers
+  - Type Alias AppServicePlanPatchResource has a new parameter numberOfWorkers
+  - Type Alias AseV3NetworkingConfiguration has a new parameter ftpEnabled
+  - Type Alias AseV3NetworkingConfiguration has a new parameter remoteDebugEnabled
+  - Type Alias AseV3NetworkingConfiguration has a new parameter inboundIpAddressOverride
+  - Type Alias Site has a new parameter vnetRouteAllEnabled
+  - Type Alias Site has a new parameter vnetImagePullEnabled
+  - Type Alias Site has a new parameter vnetContentShareEnabled
+  - Type Alias Site has a new parameter publicNetworkAccess
+  - Type Alias StaticSiteARMResource has a new parameter linkedBackends
+  - Type Alias StaticSiteARMResource has a new parameter publicNetworkAccess
+  - Type Alias StaticSiteBuildARMResource has a new parameter linkedBackends
+  - Type Alias StaticSitePatchResource has a new parameter linkedBackends
+  - Type Alias StaticSitePatchResource has a new parameter publicNetworkAccess
+  - Type Alias TriggeredWebJob has a new parameter publicNetworkAccess
+  - Type Alias TriggeredWebJob has a new parameter storageAccountRequired
+  - Added Enum KnownDeploymentBuildStatus
+  - Added Enum KnownEnum14
+  - Added Enum KnownKeyType
+  - Added Enum KnownKind
+  - Added Enum KnownOpenAuthenticationProviderType
+  - Added Enum KnownParameterType
+  - Added Enum KnownRecurrenceFrequency
+  - Added Enum KnownResourceNotRenewableReason
+  - Added Enum KnownUpgradeAvailability
+  - Added Enum KnownUpgradePreference
+  - Added Enum KnownWorkflowProvisioningState
+  - Added Enum KnownWorkflowSkuName
+  - Added Enum KnownWorkflowState
+  - Added Enum KnownWorkflowStatus
+  - Added Enum KnownWorkflowTriggerProvisioningState
+  - Enum KnownCustomDomainStatus has a new value Unhealthy
+  - Enum KnownEnum19 has a new value LinuxFunctions
+  - Enum KnownEnum19 has a new value WindowsFunctions
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem
+  - Removed Enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownDomainPropertiesDomainNotRenewableReasonsItem
+  - Removed Enum KnownEnum20
+  - Enum KnownEnum15 no longer has value LinuxFunctions
+  - Enum KnownEnum15 no longer has value WindowsFunctions
+    
+    
 ## 12.0.0 (2022-04-07)
     
 **Features**

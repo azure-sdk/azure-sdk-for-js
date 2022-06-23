@@ -40,6 +40,9 @@ import {
   ContinuousWebJob,
   WebAppsListContinuousWebJobsNextOptionalParams,
   WebAppsListContinuousWebJobsOptionalParams,
+  CsmDeploymentStatus,
+  WebAppsListProductionSiteDeploymentStatusesNextOptionalParams,
+  WebAppsListProductionSiteDeploymentStatusesOptionalParams,
   Deployment,
   WebAppsListDeploymentsNextOptionalParams,
   WebAppsListDeploymentsOptionalParams,
@@ -100,6 +103,8 @@ import {
   WebAppsListConfigurationSnapshotInfoSlotOptionalParams,
   WebAppsListContinuousWebJobsSlotNextOptionalParams,
   WebAppsListContinuousWebJobsSlotOptionalParams,
+  WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams,
+  WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams,
   WebAppsListDeploymentsSlotNextOptionalParams,
   WebAppsListDeploymentsSlotOptionalParams,
   WebAppsListDomainOwnershipIdentifiersSlotNextOptionalParams,
@@ -280,6 +285,9 @@ import {
   WebAppsDeleteContinuousWebJobOptionalParams,
   WebAppsStartContinuousWebJobOptionalParams,
   WebAppsStopContinuousWebJobOptionalParams,
+  WebAppsListProductionSiteDeploymentStatusesResponse,
+  WebAppsGetProductionSiteDeploymentStatusOptionalParams,
+  WebAppsGetProductionSiteDeploymentStatusResponse,
   WebAppsListDeploymentsResponse,
   WebAppsGetDeploymentOptionalParams,
   WebAppsGetDeploymentResponse,
@@ -305,6 +313,10 @@ import {
   WebAppsCreateMSDeployOperationResponse,
   WebAppsGetMSDeployLogOptionalParams,
   WebAppsGetMSDeployLogResponse,
+  WebAppsGetOneDeployStatusOptionalParams,
+  WebAppsGetOneDeployStatusResponse,
+  WebAppsCreateOneDeployOperationOptionalParams,
+  WebAppsCreateOneDeployOperationResponse,
   WebAppsListFunctionsResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
@@ -509,6 +521,8 @@ import {
   WebAppsUpdateAuthSettingsSlotResponse,
   WebAppsGetAuthSettingsSlotOptionalParams,
   WebAppsGetAuthSettingsSlotResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotResponse,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
@@ -566,6 +580,9 @@ import {
   WebAppsDeleteContinuousWebJobSlotOptionalParams,
   WebAppsStartContinuousWebJobSlotOptionalParams,
   WebAppsStopContinuousWebJobSlotOptionalParams,
+  WebAppsListSlotSiteDeploymentStatusesSlotResponse,
+  WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams,
+  WebAppsGetSlotSiteDeploymentStatusSlotResponse,
   WebAppsListDeploymentsSlotResponse,
   WebAppsGetDeploymentSlotOptionalParams,
   WebAppsGetDeploymentSlotResponse,
@@ -841,6 +858,7 @@ import {
   WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse,
   WebAppsListConfigurationSnapshotInfoNextResponse,
   WebAppsListContinuousWebJobsNextResponse,
+  WebAppsListProductionSiteDeploymentStatusesNextResponse,
   WebAppsListDeploymentsNextResponse,
   WebAppsListDomainOwnershipIdentifiersNextResponse,
   WebAppsListFunctionsNextResponse,
@@ -865,6 +883,7 @@ import {
   WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse,
   WebAppsListConfigurationSnapshotInfoSlotNextResponse,
   WebAppsListContinuousWebJobsSlotNextResponse,
+  WebAppsListSlotSiteDeploymentStatusesSlotNextResponse,
   WebAppsListDeploymentsSlotNextResponse,
   WebAppsListDomainOwnershipIdentifiersSlotNextResponse,
   WebAppsListInstanceFunctionsSlotNextResponse,
@@ -1484,6 +1503,77 @@ export class WebAppsImpl implements WebApps {
     options?: WebAppsListContinuousWebJobsOptionalParams
   ): AsyncIterableIterator<ContinuousWebJob> {
     for await (const page of this.listContinuousWebJobsPagingPage(
+      resourceGroupName,
+      name,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  public listProductionSiteDeploymentStatuses(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  ): PagedAsyncIterableIterator<CsmDeploymentStatus> {
+    const iter = this.listProductionSiteDeploymentStatusesPagingAll(
+      resourceGroupName,
+      name,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listProductionSiteDeploymentStatusesPagingPage(
+          resourceGroupName,
+          name,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listProductionSiteDeploymentStatusesPagingPage(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  ): AsyncIterableIterator<CsmDeploymentStatus[]> {
+    let result = await this._listProductionSiteDeploymentStatuses(
+      resourceGroupName,
+      name,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listProductionSiteDeploymentStatusesNext(
+        resourceGroupName,
+        name,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listProductionSiteDeploymentStatusesPagingAll(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  ): AsyncIterableIterator<CsmDeploymentStatus> {
+    for await (const page of this.listProductionSiteDeploymentStatusesPagingPage(
       resourceGroupName,
       name,
       options
@@ -3276,6 +3366,87 @@ export class WebAppsImpl implements WebApps {
     options?: WebAppsListContinuousWebJobsSlotOptionalParams
   ): AsyncIterableIterator<ContinuousWebJob> {
     for await (const page of this.listContinuousWebJobsSlotPagingPage(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param options The options parameters.
+   */
+  public listSlotSiteDeploymentStatusesSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  ): PagedAsyncIterableIterator<CsmDeploymentStatus> {
+    const iter = this.listSlotSiteDeploymentStatusesSlotPagingAll(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listSlotSiteDeploymentStatusesSlotPagingPage(
+          resourceGroupName,
+          name,
+          slot,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listSlotSiteDeploymentStatusesSlotPagingPage(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  ): AsyncIterableIterator<CsmDeploymentStatus[]> {
+    let result = await this._listSlotSiteDeploymentStatusesSlot(
+      resourceGroupName,
+      name,
+      slot,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listSlotSiteDeploymentStatusesSlotNext(
+        resourceGroupName,
+        name,
+        slot,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listSlotSiteDeploymentStatusesSlotPagingAll(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  ): AsyncIterableIterator<CsmDeploymentStatus> {
+    for await (const page of this.listSlotSiteDeploymentStatusesSlotPagingPage(
       resourceGroupName,
       name,
       slot,
@@ -7017,6 +7188,42 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  private _listProductionSiteDeploymentStatuses(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  ): Promise<WebAppsListProductionSiteDeploymentStatusesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      listProductionSiteDeploymentStatusesOperationSpec
+    );
+  }
+
+  /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  getProductionSiteDeploymentStatus(
+    resourceGroupName: string,
+    name: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  ): Promise<WebAppsGetProductionSiteDeploymentStatusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, deploymentStatusId, options },
+      getProductionSiteDeploymentStatusOperationSpec
+    );
+  }
+
+  /**
    * Description for List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -7367,6 +7574,41 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       getMSDeployLogOperationSpec
+    );
+  }
+
+  /**
+   * Description for Invoke onedeploy status API /api/deployments and gets the deployment status for the
+   * site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  getOneDeployStatus(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetOneDeployStatusOptionalParams
+  ): Promise<WebAppsGetOneDeployStatusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getOneDeployStatusOperationSpec
+    );
+  }
+
+  /**
+   * Description for Invoke the OneDeploy publish web app extension.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  createOneDeployOperation(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsCreateOneDeployOperationOptionalParams
+  ): Promise<WebAppsCreateOneDeployOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      createOneDeployOperationOperationSpec
     );
   }
 
@@ -10670,6 +10912,26 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
+   *             for the production slot.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecretsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      getAuthSettingsV2WithoutSecretsSlotOperationSpec
+    );
+  }
+
+  /**
    * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -11428,6 +11690,48 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, webJobName, slot, options },
       stopContinuousWebJobSlotOperationSpec
+    );
+  }
+
+  /**
+   * List deployment statuses for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param options The options parameters.
+   */
+  private _listSlotSiteDeploymentStatusesSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  ): Promise<WebAppsListSlotSiteDeploymentStatusesSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      listSlotSiteDeploymentStatusesSlotOperationSpec
+    );
+  }
+
+  /**
+   * Gets the deployment status for an app (or deployment slot, if specified).
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param deploymentStatusId GUID of the deployment operation.
+   * @param options The options parameters.
+   */
+  getSlotSiteDeploymentStatusSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    deploymentStatusId: string,
+    options?: WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  ): Promise<WebAppsGetSlotSiteDeploymentStatusSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, deploymentStatusId, options },
+      getSlotSiteDeploymentStatusSlotOperationSpec
     );
   }
 
@@ -16482,6 +16786,26 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
+   * ListProductionSiteDeploymentStatusesNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListProductionSiteDeploymentStatuses method.
+   * @param options The options parameters.
+   */
+  private _listProductionSiteDeploymentStatusesNext(
+    resourceGroupName: string,
+    name: string,
+    nextLink: string,
+    options?: WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
+  ): Promise<WebAppsListProductionSiteDeploymentStatusesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, nextLink, options },
+      listProductionSiteDeploymentStatusesNextOperationSpec
+    );
+  }
+
+  /**
    * ListDeploymentsNext
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -16979,6 +17303,29 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, slot, nextLink, options },
       listContinuousWebJobsSlotNextOperationSpec
+    );
+  }
+
+  /**
+   * ListSlotSiteDeploymentStatusesSlotNext
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the deployment
+   *             status for the production slot.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListSlotSiteDeploymentStatusesSlot method.
+   * @param options The options parameters.
+   */
+  private _listSlotSiteDeploymentStatusesSlotNext(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    nextLink: string,
+    options?: WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
+  ): Promise<WebAppsListSlotSiteDeploymentStatusesSlotNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, nextLink, options },
+      listSlotSiteDeploymentStatusesSlotNextOperationSpec
     );
   }
 
@@ -19070,6 +19417,54 @@ const stopContinuousWebJobOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listProductionSiteDeploymentStatusesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getProductionSiteDeploymentStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus/{deploymentStatusId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatus
+    },
+    202: {
+      bodyMapper: Mappers.CsmDeploymentStatus
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.deploymentStatusId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listDeploymentsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments",
@@ -19394,6 +19789,54 @@ const getMSDeployLogOperationSpec: coreClient.OperationSpec = {
     },
     404: {
       isError: true
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOneDeployStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -22379,6 +22822,29 @@ const getAuthSettingsSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getAuthSettingsV2WithoutSecretsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const updateAuthSettingsV2SlotOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
@@ -23167,6 +23633,56 @@ const stopContinuousWebJobSlotOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.slot,
     Parameters.webJobName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSlotSiteDeploymentStatusesSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getSlotSiteDeploymentStatusSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus/{deploymentStatusId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatus
+    },
+    202: {
+      bodyMapper: Mappers.CsmDeploymentStatus
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.deploymentStatusId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -27741,6 +28257,28 @@ const listContinuousWebJobsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listProductionSiteDeploymentStatusesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listDeploymentsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -28290,6 +28828,29 @@ const listContinuousWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ContinuousWebJobCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSlotSiteDeploymentStatusesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
