@@ -1,15 +1,279 @@
 # Release History
+    
+## 29.0.0 (2022-06-23)
+    
+**Features**
 
-## 28.0.1 (Unreleased)
+  - Added operation group AdminRuleCollections
+  - Added operation group AdminRules
+  - Added operation group ConnectivityConfigurations
+  - Added operation group ExpressRouteProviderPortsLocation
+  - Added operation group ManagementGroupNetworkManagerConnections
+  - Added operation group NetworkGroups
+  - Added operation group NetworkManagerCommits
+  - Added operation group NetworkManagerDeploymentStatusOperations
+  - Added operation group NetworkManagers
+  - Added operation group ScopeConnections
+  - Added operation group SecurityAdminConfigurations
+  - Added operation group StaticMembers
+  - Added operation group SubscriptionNetworkManagerConnections
+  - Added operation AzureFirewalls.beginListLearnedPrefixes
+  - Added operation AzureFirewalls.beginListLearnedPrefixesAndWait
+  - Added Interface ActiveBaseSecurityAdminRule
+  - Added Interface ActiveConfigurationParameter
+  - Added Interface ActiveConnectivityConfigurationsListResult
+  - Added Interface ActiveSecurityAdminRulesListResult
+  - Added Interface AddressPrefixItem
+  - Added Interface AdminRuleCollectionListResult
+  - Added Interface AdminRuleCollectionsCreateOrUpdateOptionalParams
+  - Added Interface AdminRuleCollectionsDeleteHeaders
+  - Added Interface AdminRuleCollectionsDeleteOptionalParams
+  - Added Interface AdminRuleCollectionsGetOptionalParams
+  - Added Interface AdminRuleCollectionsListNextOptionalParams
+  - Added Interface AdminRuleCollectionsListOptionalParams
+  - Added Interface AdminRuleListResult
+  - Added Interface AdminRulesCreateOrUpdateOptionalParams
+  - Added Interface AdminRulesDeleteHeaders
+  - Added Interface AdminRulesDeleteOptionalParams
+  - Added Interface AdminRulesGetOptionalParams
+  - Added Interface AdminRulesListNextOptionalParams
+  - Added Interface AdminRulesListOptionalParams
+  - Added Interface AzureFirewallsListLearnedPrefixesOptionalParams
+  - Added Interface ChildResource
+  - Added Interface ConfigurationGroup
+  - Added Interface ConnectivityConfigurationListResult
+  - Added Interface ConnectivityConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface ConnectivityConfigurationsDeleteHeaders
+  - Added Interface ConnectivityConfigurationsDeleteOptionalParams
+  - Added Interface ConnectivityConfigurationsGetOptionalParams
+  - Added Interface ConnectivityConfigurationsListNextOptionalParams
+  - Added Interface ConnectivityConfigurationsListOptionalParams
+  - Added Interface ConnectivityGroupItem
+  - Added Interface CrossTenantScopes
+  - Added Interface EffectiveBaseSecurityAdminRule
+  - Added Interface EffectiveConnectivityConfiguration
+  - Added Interface ExplicitProxy
+  - Added Interface ExpressRouteProviderPortListResult
+  - Added Interface ExpressRouteProviderPortOptionalParams
+  - Added Interface ExpressRouteProviderPortsLocationListOptionalParams
+  - Added Interface Hub
+  - Added Interface IPPrefixesList
+  - Added Interface ListActiveConnectivityConfigurationsOptionalParams
+  - Added Interface ListActiveSecurityAdminRulesOptionalParams
+  - Added Interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams
+  - Added Interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams
+  - Added Interface ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ManagementGroupNetworkManagerConnectionsDeleteOptionalParams
+  - Added Interface ManagementGroupNetworkManagerConnectionsGetOptionalParams
+  - Added Interface ManagementGroupNetworkManagerConnectionsListNextOptionalParams
+  - Added Interface ManagementGroupNetworkManagerConnectionsListOptionalParams
+  - Added Interface NetworkGroupListResult
+  - Added Interface NetworkGroupsCreateOrUpdateHeaders
+  - Added Interface NetworkGroupsCreateOrUpdateOptionalParams
+  - Added Interface NetworkGroupsDeleteHeaders
+  - Added Interface NetworkGroupsDeleteOptionalParams
+  - Added Interface NetworkGroupsGetOptionalParams
+  - Added Interface NetworkGroupsListNextOptionalParams
+  - Added Interface NetworkGroupsListOptionalParams
+  - Added Interface NetworkManagerCommit
+  - Added Interface NetworkManagerCommitsPostHeaders
+  - Added Interface NetworkManagerCommitsPostOptionalParams
+  - Added Interface NetworkManagerConnectionListResult
+  - Added Interface NetworkManagerDeploymentStatus
+  - Added Interface NetworkManagerDeploymentStatusListOptionalParams
+  - Added Interface NetworkManagerDeploymentStatusListResult
+  - Added Interface NetworkManagerDeploymentStatusParameter
+  - Added Interface NetworkManagerEffectiveConnectivityConfigurationListResult
+  - Added Interface NetworkManagerEffectiveSecurityAdminRulesListResult
+  - Added Interface NetworkManagerListResult
+  - Added Interface NetworkManagerPropertiesNetworkManagerScopes
+  - Added Interface NetworkManagersCreateOrUpdateOptionalParams
+  - Added Interface NetworkManagersDeleteHeaders
+  - Added Interface NetworkManagersDeleteOptionalParams
+  - Added Interface NetworkManagerSecurityGroupItem
+  - Added Interface NetworkManagersGetOptionalParams
+  - Added Interface NetworkManagersListBySubscriptionNextOptionalParams
+  - Added Interface NetworkManagersListBySubscriptionOptionalParams
+  - Added Interface NetworkManagersListNextOptionalParams
+  - Added Interface NetworkManagersListOptionalParams
+  - Added Interface NetworkManagersPatchOptionalParams
+  - Added Interface PacketCaptureMachineScope
+  - Added Interface PatchObject
+  - Added Interface QueryRequestOptions
+  - Added Interface ScopeConnectionListResult
+  - Added Interface ScopeConnectionsCreateOrUpdateOptionalParams
+  - Added Interface ScopeConnectionsDeleteOptionalParams
+  - Added Interface ScopeConnectionsGetOptionalParams
+  - Added Interface ScopeConnectionsListNextOptionalParams
+  - Added Interface ScopeConnectionsListOptionalParams
+  - Added Interface SecurityAdminConfigurationListResult
+  - Added Interface SecurityAdminConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface SecurityAdminConfigurationsDeleteHeaders
+  - Added Interface SecurityAdminConfigurationsDeleteOptionalParams
+  - Added Interface SecurityAdminConfigurationsGetOptionalParams
+  - Added Interface SecurityAdminConfigurationsListNextOptionalParams
+  - Added Interface SecurityAdminConfigurationsListOptionalParams
+  - Added Interface StaticMemberListResult
+  - Added Interface StaticMembersCreateOrUpdateOptionalParams
+  - Added Interface StaticMembersDeleteOptionalParams
+  - Added Interface StaticMembersGetOptionalParams
+  - Added Interface StaticMembersListNextOptionalParams
+  - Added Interface StaticMembersListOptionalParams
+  - Added Interface SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams
+  - Added Interface SubscriptionNetworkManagerConnectionsDeleteOptionalParams
+  - Added Interface SubscriptionNetworkManagerConnectionsGetOptionalParams
+  - Added Interface SubscriptionNetworkManagerConnectionsListNextOptionalParams
+  - Added Interface SubscriptionNetworkManagerConnectionsListOptionalParams
+  - Added Interface SystemData
+  - Added Interface VirtualRouterAutoScaleConfiguration
+  - Added Type Alias ActiveBaseSecurityAdminRuleUnion
+  - Added Type Alias ActiveConnectivityConfiguration
+  - Added Type Alias ActiveDefaultSecurityAdminRule
+  - Added Type Alias ActiveSecurityAdminRule
+  - Added Type Alias AddressPrefixType
+  - Added Type Alias AdminRule
+  - Added Type Alias AdminRuleCollection
+  - Added Type Alias AdminRuleCollectionsCreateOrUpdateResponse
+  - Added Type Alias AdminRuleCollectionsGetResponse
+  - Added Type Alias AdminRuleCollectionsListNextResponse
+  - Added Type Alias AdminRuleCollectionsListResponse
+  - Added Type Alias AdminRuleKind
+  - Added Type Alias AdminRulesCreateOrUpdateResponse
+  - Added Type Alias AdminRulesGetResponse
+  - Added Type Alias AdminRulesListNextResponse
+  - Added Type Alias AdminRulesListResponse
+  - Added Type Alias AutoLearnPrivateRangesMode
+  - Added Type Alias AzureFirewallsListLearnedPrefixesResponse
+  - Added Type Alias BaseAdminRule
+  - Added Type Alias BaseAdminRuleUnion
+  - Added Type Alias ConfigurationType
+  - Added Type Alias ConnectivityConfiguration
+  - Added Type Alias ConnectivityConfigurationsCreateOrUpdateResponse
+  - Added Type Alias ConnectivityConfigurationsGetResponse
+  - Added Type Alias ConnectivityConfigurationsListNextResponse
+  - Added Type Alias ConnectivityConfigurationsListResponse
+  - Added Type Alias ConnectivityTopology
+  - Added Type Alias CreatedByType
+  - Added Type Alias DefaultAdminRule
+  - Added Type Alias DeleteExistingPeering
+  - Added Type Alias DeploymentStatus
+  - Added Type Alias EffectiveAdminRuleKind
+  - Added Type Alias EffectiveBaseSecurityAdminRuleUnion
+  - Added Type Alias EffectiveDefaultSecurityAdminRule
+  - Added Type Alias EffectiveSecurityAdminRule
+  - Added Type Alias ExpressRouteProviderPort
+  - Added Type Alias ExpressRouteProviderPortResponse
+  - Added Type Alias ExpressRouteProviderPortsLocationListResponse
+  - Added Type Alias GroupConnectivity
+  - Added Type Alias IsGlobal
+  - Added Type Alias ListActiveConnectivityConfigurationsResponse
+  - Added Type Alias ListActiveSecurityAdminRulesResponse
+  - Added Type Alias ListNetworkManagerEffectiveConnectivityConfigurationsResponse
+  - Added Type Alias ListNetworkManagerEffectiveSecurityAdminRulesResponse
+  - Added Type Alias ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse
+  - Added Type Alias ManagementGroupNetworkManagerConnectionsGetResponse
+  - Added Type Alias ManagementGroupNetworkManagerConnectionsListNextResponse
+  - Added Type Alias ManagementGroupNetworkManagerConnectionsListResponse
+  - Added Type Alias NetworkGroup
+  - Added Type Alias NetworkGroupsCreateOrUpdateResponse
+  - Added Type Alias NetworkGroupsGetResponse
+  - Added Type Alias NetworkGroupsListNextResponse
+  - Added Type Alias NetworkGroupsListResponse
+  - Added Type Alias NetworkIntentPolicyBasedService
+  - Added Type Alias NetworkManager
+  - Added Type Alias NetworkManagerCommitsPostResponse
+  - Added Type Alias NetworkManagerConnection
+  - Added Type Alias NetworkManagerDeploymentStatusListResponse
+  - Added Type Alias NetworkManagersCreateOrUpdateResponse
+  - Added Type Alias NetworkManagersGetResponse
+  - Added Type Alias NetworkManagersListBySubscriptionNextResponse
+  - Added Type Alias NetworkManagersListBySubscriptionResponse
+  - Added Type Alias NetworkManagersListNextResponse
+  - Added Type Alias NetworkManagersListResponse
+  - Added Type Alias NetworkManagersPatchResponse
+  - Added Type Alias PacketCaptureTargetType
+  - Added Type Alias ScopeConnection
+  - Added Type Alias ScopeConnectionsCreateOrUpdateResponse
+  - Added Type Alias ScopeConnectionsGetResponse
+  - Added Type Alias ScopeConnectionsListNextResponse
+  - Added Type Alias ScopeConnectionsListResponse
+  - Added Type Alias ScopeConnectionState
+  - Added Type Alias SecurityAdminConfiguration
+  - Added Type Alias SecurityAdminConfigurationsCreateOrUpdateResponse
+  - Added Type Alias SecurityAdminConfigurationsGetResponse
+  - Added Type Alias SecurityAdminConfigurationsListNextResponse
+  - Added Type Alias SecurityAdminConfigurationsListResponse
+  - Added Type Alias SecurityConfigurationRuleAccess
+  - Added Type Alias SecurityConfigurationRuleDirection
+  - Added Type Alias SecurityConfigurationRuleProtocol
+  - Added Type Alias StaticMember
+  - Added Type Alias StaticMembersCreateOrUpdateResponse
+  - Added Type Alias StaticMembersGetResponse
+  - Added Type Alias StaticMembersListNextResponse
+  - Added Type Alias StaticMembersListResponse
+  - Added Type Alias SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse
+  - Added Type Alias SubscriptionNetworkManagerConnectionsGetResponse
+  - Added Type Alias SubscriptionNetworkManagerConnectionsListNextResponse
+  - Added Type Alias SubscriptionNetworkManagerConnectionsListResponse
+  - Added Type Alias UseHubGateway
+  - Interface FirewallPolicySnat has a new optional parameter autoLearnPrivateRanges
+  - Interface PacketCapture has a new optional parameter scope
+  - Interface PacketCapture has a new optional parameter targetType
+  - Interface PacketCaptureParameters has a new optional parameter scope
+  - Interface PacketCaptureParameters has a new optional parameter targetType
+  - Interface PacketCaptureResult has a new optional parameter scope
+  - Interface PacketCaptureResult has a new optional parameter targetType
+  - Class NetworkManagementClient has a new parameter adminRuleCollections
+  - Class NetworkManagementClient has a new parameter adminRules
+  - Class NetworkManagementClient has a new parameter connectivityConfigurations
+  - Class NetworkManagementClient has a new parameter expressRouteProviderPortsLocation
+  - Class NetworkManagementClient has a new parameter managementGroupNetworkManagerConnections
+  - Class NetworkManagementClient has a new parameter networkGroups
+  - Class NetworkManagementClient has a new parameter networkManagerCommits
+  - Class NetworkManagementClient has a new parameter networkManagerDeploymentStatusOperations
+  - Class NetworkManagementClient has a new parameter networkManagers
+  - Class NetworkManagementClient has a new parameter scopeConnections
+  - Class NetworkManagementClient has a new parameter securityAdminConfigurations
+  - Class NetworkManagementClient has a new parameter staticMembers
+  - Class NetworkManagementClient has a new parameter subscriptionNetworkManagerConnections
+  - Type Alias ApplicationGatewayRoutingRule has a new parameter priority
+  - Type Alias CustomIpPrefix has a new parameter noInternetAdvertise
+  - Type Alias FirewallPolicy has a new parameter explicitProxy
+  - Type Alias NetworkSecurityGroup has a new parameter flushConnection
+  - Type Alias VirtualHub has a new parameter virtualRouterAutoScaleConfiguration
+  - Added Enum KnownAddressPrefixType
+  - Added Enum KnownAdminRuleKind
+  - Added Enum KnownAutoLearnPrivateRangesMode
+  - Added Enum KnownConfigurationType
+  - Added Enum KnownConnectivityTopology
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDeleteExistingPeering
+  - Added Enum KnownDeploymentStatus
+  - Added Enum KnownEffectiveAdminRuleKind
+  - Added Enum KnownGroupConnectivity
+  - Added Enum KnownIsGlobal
+  - Added Enum KnownNetworkIntentPolicyBasedService
+  - Added Enum KnownScopeConnectionState
+  - Added Enum KnownSecurityConfigurationRuleAccess
+  - Added Enum KnownSecurityConfigurationRuleDirection
+  - Added Enum KnownSecurityConfigurationRuleProtocol
+  - Added Enum KnownUseHubGateway
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101
+  - Enum KnownApplicationGatewaySslPolicyName has a new value AppGwSslPolicy20220101S
+  - Enum KnownApplicationGatewaySslPolicyType has a new value CustomV2
+  - Enum KnownApplicationGatewaySslProtocol has a new value TLSv13
+  - Enum KnownCommissionedState has a new value CommissionedNoInternetAdvertise
+  - Enum KnownEndpointType has a new value AzureArcVM
+  - Enum KnownEndpointType has a new value AzureVmss
+  - Enum KnownWebApplicationFirewallOperator has a new value Any
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NetworkManagementClientOptionalParams no longer has parameter apiVersion
+  - Class NetworkManagementClient no longer has parameter apiVersion
+  - Type Alias FirewallPolicy no longer has parameter explicitProxySettings
+    
+    
 ## 28.0.0 (2022-05-18)
     
 **Features**
