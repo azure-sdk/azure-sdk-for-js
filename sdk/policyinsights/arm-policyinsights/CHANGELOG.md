@@ -1,52 +1,30 @@
 # Release History
-
-## 6.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 6.0.0-beta.1 (2022-03-31)
+    
+## 6.0.0 (2022-06-23)
     
 **Features**
 
-  - Added operation PolicyRestrictions.checkAtManagementGroupScope
-  - Added Interface CheckManagementGroupRestrictionsRequest
-  - Added Interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
-  - Added Type Alias PolicyEventsResourceType
-  - Added Type Alias PolicyRestrictionsCheckAtManagementGroupScopeResponse
-  - Added Type Alias PolicyStatesSummaryResourceType
-  - Added Type Alias PolicyTrackedResourcesResourceType
-  - Added Enum KnownPolicyEventsResourceType
-  - Added Enum KnownPolicyStatesSummaryResourceType
-  - Added Enum KnownPolicyTrackedResourcesResourceType
+  - Interface PolicyInsightsClientOptionalParams has a new optional parameter apiVersion
+  - Class PolicyInsightsClient has a new parameter apiVersion
 
 **Breaking Changes**
 
-  - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForPolicySetDefinition has a new signature
-  - Operation PolicyEvents.listQueryResultsForResource has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyEvents.listQueryResultsForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscription has a new signature
-  - Operation PolicyEvents.listQueryResultsForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForManagementGroup has a new signature
-  - Operation PolicyStates.summarizeForPolicyDefinition has a new signature
-  - Operation PolicyStates.summarizeForPolicySetDefinition has a new signature
-  - Operation PolicyStates.summarizeForResource has a new signature
-  - Operation PolicyStates.summarizeForResourceGroup has a new signature
-  - Operation PolicyStates.summarizeForResourceGroupLevelPolicyAssignment has a new signature
-  - Operation PolicyStates.summarizeForSubscription has a new signature
-  - Operation PolicyStates.summarizeForSubscriptionLevelPolicyAssignment has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForManagementGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResource has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForResourceGroup has a new signature
-  - Operation PolicyTrackedResources.listQueryResultsForSubscription has a new signature
+  - Removed operation group Attestations
+  - Removed operation group PolicyMetadataOperations
+  - Removed operation group PolicyRestrictions
+  - Removed operation group PolicyTrackedResources
+  - Removed operation group Remediations
+  - Class PolicyInsightsClient has a new signature
+  - Class PolicyInsightsClient no longer has parameter attestations
+  - Class PolicyInsightsClient no longer has parameter policyMetadataOperations
+  - Class PolicyInsightsClient no longer has parameter policyRestrictions
+  - Class PolicyInsightsClient no longer has parameter policyTrackedResources
+  - Class PolicyInsightsClient no longer has parameter remediations
+  - Class PolicyInsightsClient no longer has parameter subscriptionId
+  - Removed Enum KnownComplianceState
+  - Removed Enum KnownCreatedByType
+  - Removed Enum KnownFieldRestrictionResult
+  - Removed Enum KnownResourceDiscoveryMode
     
     
 ## 5.0.0 (2022-01-24)

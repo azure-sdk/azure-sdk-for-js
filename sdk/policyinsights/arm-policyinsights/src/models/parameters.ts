@@ -11,12 +11,6 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import {
-  Remediation as RemediationMapper,
-  CheckRestrictionsRequest as CheckRestrictionsRequestMapper,
-  CheckManagementGroupRestrictionsRequest as CheckManagementGroupRestrictionsRequestMapper,
-  Attestation as AttestationMapper
-} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -42,6 +36,18 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const policyEventsResource: OperationURLParameter = {
+  parameterPath: "policyEventsResource",
+  mapper: {
+    defaultValue: "default",
+    isConstant: true,
+    serializedName: "policyEventsResource",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const managementGroupsNamespace: OperationURLParameter = {
   parameterPath: "managementGroupsNamespace",
   mapper: {
@@ -65,11 +71,12 @@ export const managementGroupName: OperationURLParameter = {
   }
 };
 
-export const policyTrackedResourcesResource: OperationURLParameter = {
-  parameterPath: "policyTrackedResourcesResource",
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    serializedName: "policyTrackedResourcesResource",
-    required: true,
+    defaultValue: "2022-06-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -85,148 +92,6 @@ export const top: OperationQueryParameter = {
     serializedName: "$top",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "queryOptions", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2018-07-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceId: OperationURLParameter = {
-  parameterPath: "resourceId",
-  mapper: {
-    serializedName: "resourceId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const managementGroupId: OperationURLParameter = {
-  parameterPath: "managementGroupId",
-  mapper: {
-    serializedName: "managementGroupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const remediationName: OperationURLParameter = {
-  parameterPath: "remediationName",
-  mapper: {
-    serializedName: "remediationName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: RemediationMapper
-};
-
-export const policyEventsResource: OperationURLParameter = {
-  parameterPath: "policyEventsResource",
-  mapper: {
-    serializedName: "policyEventsResource",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2019-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
     }
   }
 };
@@ -271,6 +136,16 @@ export const to: OperationQueryParameter = {
   }
 };
 
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "queryOptions", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const apply: OperationQueryParameter = {
   parameterPath: ["options", "queryOptions", "apply"],
   mapper: {
@@ -291,7 +166,7 @@ export const skipToken: OperationQueryParameter = {
   }
 };
 
-export const subscriptionId1: OperationURLParameter = {
+export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     serializedName: "subscriptionId",
@@ -300,6 +175,29 @@ export const subscriptionId1: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const resourceId: OperationURLParameter = {
+  parameterPath: "resourceId",
+  mapper: {
+    serializedName: "resourceId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const expand: OperationQueryParameter = {
@@ -357,6 +255,18 @@ export const policyAssignmentName: OperationURLParameter = {
   }
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const policyStatesResource: OperationURLParameter = {
   parameterPath: "policyStatesResource",
   mapper: {
@@ -371,85 +281,9 @@ export const policyStatesResource: OperationURLParameter = {
 export const policyStatesSummaryResource: OperationURLParameter = {
   parameterPath: "policyStatesSummaryResource",
   mapper: {
+    defaultValue: "latest",
+    isConstant: true,
     serializedName: "policyStatesSummaryResource",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckRestrictionsRequestMapper
-};
-
-export const apiVersion3: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-03-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName1: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      MaxLength: 90,
-      MinLength: 1
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckManagementGroupRestrictionsRequestMapper
-};
-
-export const apiVersion4: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-01-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: AttestationMapper
-};
-
-export const attestationName: OperationURLParameter = {
-  parameterPath: "attestationName",
-  mapper: {
-    serializedName: "attestationName",
-    required: true,
     type: {
       name: "String"
     }
