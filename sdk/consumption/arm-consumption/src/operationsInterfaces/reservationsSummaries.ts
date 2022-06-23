@@ -44,16 +44,16 @@ export interface ReservationsSummaries {
   ): PagedAsyncIterableIterator<ReservationSummary>;
   /**
    * Lists the reservations summaries for the defined scope daily or monthly grain.
-   * @param scope The scope associated with reservations summaries operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations summaries operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param grain Can be daily or monthly
    * @param options The options parameters.
    */
   list(
-    scope: string,
+    resourceScope: string,
     grain: Datagrain,
     options?: ReservationsSummariesListOptionalParams
   ): PagedAsyncIterableIterator<ReservationSummary>;

@@ -45,15 +45,15 @@ export interface ReservationsDetails {
   ): PagedAsyncIterableIterator<ReservationDetail>;
   /**
    * Lists the reservations details for the defined scope and provided date range.
-   * @param scope The scope associated with reservations details operations. This includes
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
-   *              and
-   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
-   *              for BillingProfile scope (modern).
+   * @param resourceScope The scope associated with reservations details operations. This includes
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for BillingAccount scope (legacy),
+   *                      and
+   *                      '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+   *                      for BillingProfile scope (modern).
    * @param options The options parameters.
    */
   list(
-    scope: string,
+    resourceScope: string,
     options?: ReservationsDetailsListOptionalParams
   ): PagedAsyncIterableIterator<ReservationDetail>;
 }
