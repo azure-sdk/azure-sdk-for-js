@@ -1339,6 +1339,99 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
+/** The FleetHubProfile configures the fleet hub. */
+export interface FleetHubProfile {
+  /** DNS prefix used to create the FQDN for the Fleet hub. */
+  dnsPrefix?: string;
+  /**
+   * The FQDN of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The Kubernetes version of the Fleet hub.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Properties of a Fleet that can be patched. */
+export interface FleetPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response from the List Fleets operation. */
+export interface FleetListResult {
+  /** The list of Fleets. */
+  value?: Fleet[];
+  /**
+   * The URL to get the next page of Fleets.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The response from the List FleetMembers operation. */
+export interface FleetMembersListResult {
+  /** The list of members in a given Fleet. */
+  value?: FleetMember[];
+  /**
+   * The URL to get the next page of Fleet members.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Profile for the container service master. */
 export interface ContainerServiceMasterProfile {
   /** Number of masters (VMs) in the container service cluster. Allowed values are 1, 3, and 5. The default value is 1. */
@@ -1386,7 +1479,7 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 };
 
 /** Information of user assigned identity used by this add-on. */
-export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity;
+export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1407,6 +1500,15 @@ export type TrustedAccessRoleBinding = Resource & {
   sourceResourceId: string;
   /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
   roles: string[];
+};
+
+/** The resource model definition for an Azure Resource Manager resource with an etag. */
+export type AzureEntityResource = Resource & {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
 };
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
@@ -1683,6 +1785,33 @@ export type ManagedClusterSnapshot = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+};
+
+/** The Fleet resource which contains multiple Kubernetes clusters as its members. */
+export type Fleet = TrackedResource & {
+  /**
+   * Resource Etag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /** The FleetHubProfile configures the Fleet's hub. */
+  hubProfile?: FleetHubProfile;
+  /**
+   * The provisioning state of the last accepted operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetProvisioningState;
+};
+
+/** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
+export type FleetMember = AzureEntityResource & {
+  /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
+  clusterResourceId?: string;
+  /**
+   * The provisioning state of the last accepted operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetMemberProvisioningState;
 };
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
@@ -2351,6 +2480,54 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
  * **Deleting**
  */
 export type TrustedAccessRoleBindingProvisioningState = string;
+
+/** Known values of {@link FleetProvisioningState} that the service accepts. */
+export enum KnownFleetProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetProvisioningState. \
+ * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Deleting** \
+ * **Updating**
+ */
+export type FleetProvisioningState = string;
+
+/** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
+export enum KnownFleetMemberProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  Joining = "Joining",
+  Leaving = "Leaving",
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for FleetMemberProvisioningState. \
+ * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Joining** \
+ * **Leaving** \
+ * **Updating**
+ */
+export type FleetMemberProvisioningState = string;
 
 /** Known values of {@link ContainerServiceVMSizeTypes} that the service accepts. */
 export enum KnownContainerServiceVMSizeTypes {
@@ -3246,6 +3423,126 @@ export interface TrustedAccessRoleBindingsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface FleetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetsCreateOrUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** The properties of a Fleet to update. */
+  parameters?: FleetPatch;
+}
+
+/** Contains response data for the update operation. */
+export type FleetsUpdateResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetsGetResponse = Fleet;
+
+/** Optional parameters. */
+export interface FleetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type FleetsListByResourceGroupResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type FleetsListResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type FleetsListByResourceGroupNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type FleetsListNextResponse = FleetListResult;
+
+/** Optional parameters. */
+export interface FleetMembersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow a new resource to be created and prevent updating an existing resource. Other values will result in a 412 Pre-condition Failed response. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetMembersCreateOrUpdateResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetMembersGetResponse = FleetMember;
+
+/** Optional parameters. */
+export interface FleetMembersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type FleetMembersListByFleetResponse = FleetMembersListResult;
+
+/** Optional parameters. */
+export interface FleetMembersListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type FleetMembersListByFleetNextResponse = FleetMembersListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams
