@@ -14,7 +14,6 @@ import {
 import {
   Remediation as RemediationMapper,
   CheckRestrictionsRequest as CheckRestrictionsRequestMapper,
-  CheckManagementGroupRestrictionsRequest as CheckManagementGroupRestrictionsRequestMapper,
   Attestation as AttestationMapper
 } from "../models/mappers";
 
@@ -211,8 +210,9 @@ export const parameters: OperationParameter = {
 export const policyEventsResource: OperationURLParameter = {
   parameterPath: "policyEventsResource",
   mapper: {
+    defaultValue: "default",
+    isConstant: true,
     serializedName: "policyEventsResource",
-    required: true,
     type: {
       name: "String"
     }
@@ -222,7 +222,7 @@ export const policyEventsResource: OperationURLParameter = {
 export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-10-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -371,8 +371,9 @@ export const policyStatesResource: OperationURLParameter = {
 export const policyStatesSummaryResource: OperationURLParameter = {
   parameterPath: "policyStatesSummaryResource",
   mapper: {
+    defaultValue: "latest",
+    isConstant: true,
     serializedName: "policyStatesSummaryResource",
-    required: true,
     type: {
       name: "String"
     }
@@ -391,15 +392,27 @@ export const resourceName: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2019-10-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckRestrictionsRequestMapper
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2020-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -423,12 +436,7 @@ export const resourceGroupName1: OperationURLParameter = {
   }
 };
 
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckManagementGroupRestrictionsRequestMapper
-};
-
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-01-01",
@@ -440,7 +448,7 @@ export const apiVersion4: OperationQueryParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: AttestationMapper
 };
