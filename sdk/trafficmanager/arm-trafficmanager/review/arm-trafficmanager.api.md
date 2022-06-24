@@ -12,6 +12,9 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 export type AllowedEndpointRecordType = string;
 
 // @public
+export type AlwaysServe = string;
+
+// @public
 export interface CheckTrafficManagerRelativeDnsNameAvailabilityParameters {
     name?: string;
     type?: string;
@@ -31,6 +34,9 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DeleteOperationResult {
     readonly operationResult?: boolean;
 }
@@ -44,6 +50,7 @@ export interface DnsConfig {
 
 // @public
 export type Endpoint = ProxyResource & {
+    readonly systemData?: SystemData;
     targetResourceId?: string;
     target?: string;
     endpointStatus?: EndpointStatus;
@@ -57,6 +64,7 @@ export type Endpoint = ProxyResource & {
     geoMapping?: string[];
     subnets?: EndpointPropertiesSubnetsItem[];
     customHeaders?: EndpointPropertiesCustomHeadersItem[];
+    alwaysServe?: AlwaysServe;
 };
 
 // @public
@@ -151,6 +159,7 @@ export type HeatMapGetResponse = HeatMapModel;
 
 // @public
 export type HeatMapModel = ProxyResource & {
+    readonly systemData?: SystemData;
     startTime?: Date;
     endTime?: Date;
     endpoints?: HeatMapEndpoint[];
@@ -167,6 +176,26 @@ export enum KnownAllowedEndpointRecordType {
     IPv4Address = "IPv4Address",
     // (undocumented)
     IPv6Address = "IPv6Address"
+}
+
+// @public
+export enum KnownAlwaysServe {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -279,6 +308,7 @@ export type MonitorProtocol = string;
 
 // @public
 export type Profile = TrackedResource & {
+    readonly systemData?: SystemData;
     profileStatus?: ProfileStatus;
     trafficRoutingMethod?: TrafficRoutingMethod;
     dnsConfig?: DnsConfig;
@@ -385,6 +415,16 @@ export interface Resource {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export type TrackedResource = Resource & {
     tags?: {
         [propertyName: string]: string;
@@ -402,6 +442,7 @@ export interface TrafficFlow {
 
 // @public
 export type TrafficManagerGeographicHierarchy = ProxyResource & {
+    readonly systemData?: SystemData;
     geographicHierarchy?: Region;
 };
 
@@ -478,6 +519,7 @@ export type TrafficViewEnrollmentStatus = string;
 
 // @public
 export type UserMetricsModel = ProxyResource & {
+    readonly systemData?: SystemData;
     key?: string;
 };
 

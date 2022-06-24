@@ -8,6 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Subnet first address, scope, and/or last address. */
 export interface EndpointPropertiesSubnetsItem {
   /** First address in the subnet. */
@@ -195,6 +211,11 @@ export type TrackedResource = Resource & {
 
 /** Class representing a Traffic Manager endpoint. */
 export type Endpoint = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'. */
   targetResourceId?: string;
   /** The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint. */
@@ -221,16 +242,28 @@ export type Endpoint = ProxyResource & {
   subnets?: EndpointPropertiesSubnetsItem[];
   /** List of custom headers. */
   customHeaders?: EndpointPropertiesCustomHeadersItem[];
+  /** If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method. */
+  alwaysServe?: AlwaysServe;
 };
 
 /** Class representing the Geographic hierarchy used with the Geographic traffic routing method. */
 export type TrafficManagerGeographicHierarchy = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The region at the root of the hierarchy from all the regions in the hierarchy can be retrieved. */
   geographicHierarchy?: Region;
 };
 
 /** Class representing a Traffic Manager HeatMap. */
 export type HeatMapModel = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The beginning of the time window for this HeatMap, inclusive. */
   startTime?: Date;
   /** The ending of the time window for this HeatMap, exclusive. */
@@ -243,12 +276,22 @@ export type HeatMapModel = ProxyResource & {
 
 /** Class representing Traffic Manager User Metrics. */
 export type UserMetricsModel = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The key returned by the User Metrics operation. */
   key?: string;
 };
 
 /** Class representing a Traffic Manager profile. */
 export type Profile = TrackedResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The status of the Traffic Manager profile. */
   profileStatus?: ProfileStatus;
   /** The traffic routing method of the Traffic Manager profile. */
@@ -266,6 +309,26 @@ export type Profile = TrackedResource & {
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
 };
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link EndpointStatus} that the service accepts. */
 export enum KnownEndpointStatus {
@@ -306,6 +369,22 @@ export enum KnownEndpointMonitorStatus {
  * **Stopped**
  */
 export type EndpointMonitorStatus = string;
+
+/** Known values of {@link AlwaysServe} that the service accepts. */
+export enum KnownAlwaysServe {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AlwaysServe. \
+ * {@link KnownAlwaysServe} can be used interchangeably with AlwaysServe,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AlwaysServe = string;
 
 /** Known values of {@link ProfileStatus} that the service accepts. */
 export enum KnownProfileStatus {

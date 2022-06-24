@@ -8,6 +8,51 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const EndpointPropertiesSubnetsItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -541,6 +586,13 @@ export const Endpoint: coreClient.CompositeMapper = {
     className: "Endpoint",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       targetResourceId: {
         serializedName: "properties.targetResourceId",
         type: {
@@ -635,6 +687,12 @@ export const Endpoint: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      alwaysServe: {
+        serializedName: "properties.alwaysServe",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -646,6 +704,13 @@ export const TrafficManagerGeographicHierarchy: coreClient.CompositeMapper = {
     className: "TrafficManagerGeographicHierarchy",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       geographicHierarchy: {
         serializedName: "properties.geographicHierarchy",
         type: {
@@ -663,6 +728,13 @@ export const HeatMapModel: coreClient.CompositeMapper = {
     className: "HeatMapModel",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       startTime: {
         serializedName: "properties.startTime",
         type: {
@@ -709,6 +781,13 @@ export const UserMetricsModel: coreClient.CompositeMapper = {
     className: "UserMetricsModel",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       key: {
         serializedName: "properties.key",
         type: {
@@ -725,6 +804,13 @@ export const Profile: coreClient.CompositeMapper = {
     className: "Profile",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       profileStatus: {
         serializedName: "properties.profileStatus",
         type: {
