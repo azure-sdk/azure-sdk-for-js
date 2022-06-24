@@ -692,6 +692,7 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SecretsCollection
     },
+    204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
