@@ -222,7 +222,7 @@ export const policyEventsResource: OperationURLParameter = {
 export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2019-10-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -391,12 +391,24 @@ export const resourceName: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2019-10-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckRestrictionsRequestMapper
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-03-01",
@@ -428,7 +440,7 @@ export const parameters2: OperationParameter = {
   mapper: CheckManagementGroupRestrictionsRequestMapper
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-01-01",
