@@ -111,12 +111,12 @@ export interface EntitiesListNextOptionalParams extends coreClient.OperationOpti
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
@@ -127,12 +127,12 @@ export interface EntitiesListOptionalParams extends coreClient.OperationOptions 
     cacheControl?: string;
     filter?: string;
     groupName?: string;
-    search?: Enum2;
+    search?: EntitySearchType;
     select?: string;
     skip?: number;
     skiptoken?: string;
     top?: number;
-    view?: Enum3;
+    view?: EntityViewParameterType;
 }
 
 // @public
@@ -178,13 +178,10 @@ export interface EntityParentGroupInfo {
 }
 
 // @public
-export type Enum0 = string;
+export type EntitySearchType = string;
 
 // @public
-export type Enum2 = string;
-
-// @public
-export type Enum3 = string;
+export type EntityViewParameterType = string;
 
 // @public
 export interface ErrorDetails {
@@ -266,17 +263,7 @@ export interface HierarchySettingsUpdateOptionalParams extends coreClient.Operat
 export type HierarchySettingsUpdateResponse = HierarchySettings;
 
 // @public
-export enum KnownEnum0 {
-    // (undocumented)
-    Ancestors = "ancestors",
-    // (undocumented)
-    Children = "children",
-    // (undocumented)
-    Path = "path"
-}
-
-// @public
-export enum KnownEnum2 {
+export enum KnownEntitySearchType {
     // (undocumented)
     AllowedChildren = "AllowedChildren",
     // (undocumented)
@@ -290,7 +277,7 @@ export enum KnownEnum2 {
 }
 
 // @public
-export enum KnownEnum3 {
+export enum KnownEntityViewParameterType {
     // (undocumented)
     Audit = "Audit",
     // (undocumented)
@@ -302,23 +289,13 @@ export enum KnownEnum3 {
 }
 
 // @public
-export enum KnownManagementGroupChildType {
+export enum KnownManagementGroupExpandType {
     // (undocumented)
-    MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
+    Ancestors = "ancestors",
     // (undocumented)
-    Subscriptions = "/subscriptions"
-}
-
-// @public
-export enum KnownPermissions {
+    Children = "children",
     // (undocumented)
-    Delete = "delete",
-    // (undocumented)
-    Edit = "edit",
-    // (undocumented)
-    Noaccess = "noaccess",
-    // (undocumented)
-    View = "view"
+    Path = "path"
 }
 
 // @public
@@ -348,7 +325,7 @@ export interface ManagementGroupChildInfo {
 }
 
 // @public
-export type ManagementGroupChildType = string;
+export type ManagementGroupChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
 
 // @public
 export interface ManagementGroupDetails {
@@ -360,6 +337,9 @@ export interface ManagementGroupDetails {
     updatedTime?: Date;
     version?: number;
 }
+
+// @public
+export type ManagementGroupExpandType = string;
 
 // @public
 export interface ManagementGroupInfo {
@@ -476,7 +456,7 @@ export type ManagementGroupsGetDescendantsResponse = DescendantListResult;
 // @public
 export interface ManagementGroupsGetOptionalParams extends coreClient.OperationOptions {
     cacheControl?: string;
-    expand?: Enum0;
+    expand?: ManagementGroupExpandType;
     filter?: string;
     recurse?: boolean;
 }
@@ -604,6 +584,13 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface ParentGroupBagInfo {
+    displayName?: string;
+    id?: string;
+    name?: string;
+}
+
+// @public
 export interface ParentGroupInfo {
     displayName?: string;
     id?: string;
@@ -617,7 +604,7 @@ export interface PatchManagementGroupRequest {
 }
 
 // @public
-type Permissions_2 = string;
+type Permissions_2 = "noaccess" | "view" | "edit" | "delete";
 export { Permissions_2 as Permissions }
 
 // @public
@@ -638,7 +625,7 @@ export interface SubscriptionUnderManagementGroup {
     displayName?: string;
     readonly id?: string;
     readonly name?: string;
-    parent?: DescendantParentGroupInfo;
+    parent?: ParentGroupBagInfo;
     state?: string;
     tenant?: string;
     readonly type?: string;

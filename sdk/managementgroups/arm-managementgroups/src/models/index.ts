@@ -328,10 +328,20 @@ export interface SubscriptionUnderManagementGroup {
   tenant?: string;
   /** The friendly name of the subscription. */
   displayName?: string;
-  /** The ID of the parent management group. */
-  parent?: DescendantParentGroupInfo;
+  /** The ID, name and displayName of the parent management group. */
+  parent?: ParentGroupBagInfo;
   /** The state of the subscription. */
   state?: string;
+}
+
+/** The ID, name and displayName of the parent management group. */
+export interface ParentGroupBagInfo {
+  /** The fully qualified ID for the parent management group.  For example, /providers/Microsoft.Management/managementGroups/0000000-0000-0000-0000-000000000000 */
+  id?: string;
+  /** The name of the parent management group. For example, 00000000-0000-0000-0000-000000000000 */
+  name?: string;
+  /** The friendly name of the parent management group. */
+  displayName?: string;
 }
 
 /** The details of all subscriptions under management group. */
@@ -649,42 +659,26 @@ export interface ManagementGroupsDeleteHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link Enum0} that the service accepts. */
-export enum KnownEnum0 {
+/** Known values of {@link ManagementGroupExpandType} that the service accepts. */
+export enum KnownManagementGroupExpandType {
   Children = "children",
   Path = "path",
   Ancestors = "ancestors"
 }
 
 /**
- * Defines values for Enum0. \
- * {@link KnownEnum0} can be used interchangeably with Enum0,
+ * Defines values for ManagementGroupExpandType. \
+ * {@link KnownManagementGroupExpandType} can be used interchangeably with ManagementGroupExpandType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **children** \
  * **path** \
  * **ancestors**
  */
-export type Enum0 = string;
+export type ManagementGroupExpandType = string;
 
-/** Known values of {@link ManagementGroupChildType} that the service accepts. */
-export enum KnownManagementGroupChildType {
-  MicrosoftManagementManagementGroups = "Microsoft.Management/managementGroups",
-  Subscriptions = "/subscriptions"
-}
-
-/**
- * Defines values for ManagementGroupChildType. \
- * {@link KnownManagementGroupChildType} can be used interchangeably with ManagementGroupChildType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Microsoft.Management\/managementGroups** \
- * **\/subscriptions**
- */
-export type ManagementGroupChildType = string;
-
-/** Known values of {@link Enum2} that the service accepts. */
-export enum KnownEnum2 {
+/** Known values of {@link EntitySearchType} that the service accepts. */
+export enum KnownEntitySearchType {
   AllowedParents = "AllowedParents",
   AllowedChildren = "AllowedChildren",
   ParentAndFirstLevelChildren = "ParentAndFirstLevelChildren",
@@ -693,8 +687,8 @@ export enum KnownEnum2 {
 }
 
 /**
- * Defines values for Enum2. \
- * {@link KnownEnum2} can be used interchangeably with Enum2,
+ * Defines values for EntitySearchType. \
+ * {@link KnownEntitySearchType} can be used interchangeably with EntitySearchType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AllowedParents** \
@@ -703,10 +697,10 @@ export enum KnownEnum2 {
  * **ParentOnly** \
  * **ChildrenOnly**
  */
-export type Enum2 = string;
+export type EntitySearchType = string;
 
-/** Known values of {@link Enum3} that the service accepts. */
-export enum KnownEnum3 {
+/** Known values of {@link EntityViewParameterType} that the service accepts. */
+export enum KnownEntityViewParameterType {
   FullHierarchy = "FullHierarchy",
   GroupsOnly = "GroupsOnly",
   SubscriptionsOnly = "SubscriptionsOnly",
@@ -714,8 +708,8 @@ export enum KnownEnum3 {
 }
 
 /**
- * Defines values for Enum3. \
- * {@link KnownEnum3} can be used interchangeably with Enum3,
+ * Defines values for EntityViewParameterType. \
+ * {@link KnownEntityViewParameterType} can be used interchangeably with EntityViewParameterType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **FullHierarchy** \
@@ -723,29 +717,15 @@ export enum KnownEnum3 {
  * **SubscriptionsOnly** \
  * **Audit**
  */
-export type Enum3 = string;
-
-/** Known values of {@link Permissions} that the service accepts. */
-export enum KnownPermissions {
-  Noaccess = "noaccess",
-  View = "view",
-  Edit = "edit",
-  Delete = "delete"
-}
-
-/**
- * Defines values for Permissions. \
- * {@link KnownPermissions} can be used interchangeably with Permissions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **noaccess** \
- * **view** \
- * **edit** \
- * **delete**
- */
-export type Permissions = string;
+export type EntityViewParameterType = string;
+/** Defines values for ManagementGroupChildType. */
+export type ManagementGroupChildType =
+  | "Microsoft.Management/managementGroups"
+  | "/subscriptions";
 /** Defines values for Reason. */
 export type Reason = "Invalid" | "AlreadyExists";
+/** Defines values for Permissions. */
+export type Permissions = "noaccess" | "view" | "edit" | "delete";
 /** Defines values for Status. */
 export type Status =
   | "NotStarted"
@@ -777,7 +757,7 @@ export interface ManagementGroupsGetOptionalParams
   /** Indicates whether the request should utilize any caches. Populate the header with 'no-cache' value to bypass existing caches. */
   cacheControl?: string;
   /** The $expand=children query string parameter allows clients to request inclusion of children in the response payload.  $expand=path includes the path from the root group to the current group.  $expand=ancestors includes the ancestor Ids of the current group. */
-  expand?: Enum0;
+  expand?: ManagementGroupExpandType;
   /** The $recurse=true query string parameter allows clients to request inclusion of entire hierarchy in the response payload. Note that  $expand=children must be passed up if $recurse is set to true. */
   recurse?: boolean;
   /** A filter which allows the exclusion of subscriptions from results (i.e. '$filter=children.childType ne Subscription') */
@@ -1023,9 +1003,9 @@ export interface EntitiesListOptionalParams
    * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
    * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
    */
-  search?: Enum2;
+  search?: EntitySearchType;
   /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
+  view?: EntityViewParameterType;
   /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
   groupName?: string;
 }
@@ -1060,9 +1040,9 @@ export interface EntitiesListNextOptionalParams
    * With $search=ParentOnly the API will return only the group if the user has access to at least one of the descendants of the group.
    * With $search=ChildrenOnly the API will return only the first level of children of the group entity info specified in $filter.  The user must have direct access to the children entities or one of it's descendants for it to show up in the results.
    */
-  search?: Enum2;
+  search?: EntitySearchType;
   /** The view parameter allows clients to filter the type of data that is returned by the getEntities call. */
-  view?: Enum3;
+  view?: EntityViewParameterType;
   /** A filter which allows the get entities call to focus on a particular group (i.e. "$filter=name eq 'groupName'") */
   groupName?: string;
 }
