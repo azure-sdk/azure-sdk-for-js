@@ -477,7 +477,8 @@ export type CreatedByType = string;
 /** Known values of {@link LabStatus} that the service accepts. */
 export enum KnownLabStatus {
   Active = "Active",
-  Deleted = "Deleted"
+  Deleted = "Deleted",
+  Pending = "Pending"
 }
 
 /**
@@ -486,7 +487,8 @@ export enum KnownLabStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active** \
- * **Deleted**
+ * **Deleted** \
+ * **Pending**
  */
 export type LabStatus = string;
 

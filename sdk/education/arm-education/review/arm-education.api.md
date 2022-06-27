@@ -237,7 +237,9 @@ export enum KnownLabStatus {
     // (undocumented)
     Active = "Active",
     // (undocumented)
-    Deleted = "Deleted"
+    Deleted = "Deleted",
+    // (undocumented)
+    Pending = "Pending"
 }
 
 // @public
