@@ -39,6 +39,63 @@ export interface CloudErrorBody {
 }
 
 // @public
+export type FederatedIdentityCredential = ProxyResource & {
+    issuer?: string;
+    subject?: string;
+    audiences?: string[];
+};
+
+// @public
+export interface FederatedIdentityCredentials {
+    createOrUpdate(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, parameters: FederatedIdentityCredential, options?: FederatedIdentityCredentialsCreateOrUpdateOptionalParams): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, federatedIdentityCredentialResourceName: string, options?: FederatedIdentityCredentialsGetOptionalParams): Promise<FederatedIdentityCredentialsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: FederatedIdentityCredentialsListOptionalParams): PagedAsyncIterableIterator<FederatedIdentityCredential>;
+}
+
+// @public
+export interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FederatedIdentityCredentialsCreateOrUpdateResponse = FederatedIdentityCredential;
+
+// @public
+export interface FederatedIdentityCredentialsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface FederatedIdentityCredentialsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredential;
+
+// @public
+export interface FederatedIdentityCredentialsListNextOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+    top?: number;
+}
+
+// @public
+export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
+
+// @public
+export interface FederatedIdentityCredentialsListOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+    top?: number;
+}
+
+// @public
+export type FederatedIdentityCredentialsListResponse = FederatedIdentityCredentialsListResult;
+
+// @public
+export interface FederatedIdentityCredentialsListResult {
+    nextLink?: string;
+    value?: FederatedIdentityCredential[];
+}
+
+// @public
 export type Identity = TrackedResource & {
     readonly tenantId?: string;
     readonly principalId?: string;
@@ -63,6 +120,8 @@ export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedServiceIdentityClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    federatedIdentityCredentials: FederatedIdentityCredentials;
     // (undocumented)
     operations: Operations;
     // (undocumented)
