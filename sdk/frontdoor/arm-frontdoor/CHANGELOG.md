@@ -1,15 +1,16 @@
 # Release History
+    
+## 5.1.0 (2022-06-27)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Policies.beginUpdate
+  - Added operation Policies.beginUpdateAndWait
+  - Added Interface PoliciesUpdateOptionalParams
+  - Added Type Alias PoliciesUpdateResponse
+  - Enum KnownFrontDoorResourceState has a new value Migrated
+  - Enum KnownFrontDoorResourceState has a new value Migrating
+    
 ## 5.0.1 (2022-04-26)
 
 **Features**

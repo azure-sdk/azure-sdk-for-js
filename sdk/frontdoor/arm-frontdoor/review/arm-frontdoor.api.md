@@ -301,6 +301,9 @@ export type FrontDoor = Resource & {
     readonly cname?: string;
     readonly frontdoorId?: string;
     readonly rulesEngines?: RulesEngine[];
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -394,6 +397,9 @@ export type FrontDoorProperties = FrontDoorUpdateParameters & {
     readonly cname?: string;
     readonly frontdoorId?: string;
     readonly rulesEngines?: RulesEngine[];
+    readonly extendedProperties?: {
+        [propertyName: string]: string;
+    };
 };
 
 // @public
@@ -839,7 +845,11 @@ export enum KnownFrontDoorResourceState {
     // (undocumented)
     Enabled = "Enabled",
     // (undocumented)
-    Enabling = "Enabling"
+    Enabling = "Enabling",
+    // (undocumented)
+    Migrated = "Migrated",
+    // (undocumented)
+    Migrating = "Migrating"
 }
 
 // @public
@@ -1477,6 +1487,8 @@ export interface Policies {
     beginCreateOrUpdateAndWait(resourceGroupName: string, policyName: string, parameters: WebApplicationFirewallPolicy, options?: PoliciesCreateOrUpdateOptionalParams): Promise<PoliciesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, policyName: string, options?: PoliciesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PollerLike<PollOperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, policyName: string, parameters: TagsObject, options?: PoliciesUpdateOptionalParams): Promise<PoliciesUpdateResponse>;
     get(resourceGroupName: string, policyName: string, options?: PoliciesGetOptionalParams): Promise<PoliciesGetResponse>;
     list(resourceGroupName: string, options?: PoliciesListOptionalParams): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
 }
@@ -1516,6 +1528,15 @@ export interface PoliciesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type PoliciesListResponse = WebApplicationFirewallPolicyList;
+
+// @public
+export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 // @public
 export type PolicyEnabledState = string;
