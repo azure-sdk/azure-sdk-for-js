@@ -2821,7 +2821,7 @@ export interface SqlAlwaysEncryptedProperties {
 export interface WebLinkedServiceTypeProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous" | "Basic" | "ClientCertificate";
-  /** The URL of the web service endpoint, e.g. http://www.microsoft.com . Type: string (or Expression with resultType string). */
+  /** The URL of the web service endpoint, e.g. https://www.microsoft.com . Type: string (or Expression with resultType string). */
   url: any;
 }
 
@@ -3658,17 +3658,17 @@ export interface TriggerReference {
 }
 
 /** Factory's VSTS repo information. */
-export interface FactoryVstsConfiguration extends FactoryRepoConfiguration {
+export type FactoryVstsConfiguration = FactoryRepoConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FactoryVSTSConfiguration";
   /** VSTS project name. */
   projectName: string;
   /** VSTS tenant id. */
   tenantId?: string;
-}
+};
 
 /** Factory's GitHub repo information. */
-export interface FactoryGitHubConfiguration extends FactoryRepoConfiguration {
+export type FactoryGitHubConfiguration = FactoryRepoConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FactoryGitHubConfiguration";
   /** GitHub Enterprise host name. For example: `https://github.mydomain.com` */
@@ -3677,10 +3677,10 @@ export interface FactoryGitHubConfiguration extends FactoryRepoConfiguration {
   clientId?: string;
   /** GitHub bring your own app client secret information. */
   clientSecret?: GitHubClientSecret;
-}
+};
 
 /** Factory resource type. */
-export interface Factory extends Resource {
+export type Factory = Resource & {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Managed service identity of the factory. */
@@ -3710,10 +3710,10 @@ export interface Factory extends Resource {
   encryption?: EncryptionConfiguration;
   /** Whether or not public network access is allowed for the data factory. */
   publicNetworkAccess?: PublicNetworkAccess;
-}
+};
 
 /** Managed integration runtime, including managed elastic and managed dedicated integration runtimes. */
-export interface ManagedIntegrationRuntime extends IntegrationRuntime {
+export type ManagedIntegrationRuntime = IntegrationRuntime & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Managed";
   /**
@@ -3729,36 +3729,36 @@ export interface ManagedIntegrationRuntime extends IntegrationRuntime {
   ssisProperties?: IntegrationRuntimeSsisProperties;
   /** The name of virtual network to which Azure-SSIS integration runtime will join */
   customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
-}
+};
 
 /** Self-hosted integration runtime. */
-export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
+export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfHosted";
   /** The base definition of a linked integration runtime. */
   linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
-}
+};
 
 /** Integration runtime resource type. */
-export interface IntegrationRuntimeResource extends SubResource {
+export type IntegrationRuntimeResource = SubResource & {
   /** Integration runtime properties. */
   properties: IntegrationRuntimeUnion;
-}
+};
 
 /** Linked service resource type. */
-export interface LinkedServiceResource extends SubResource {
+export type LinkedServiceResource = SubResource & {
   /** Properties of linked service. */
   properties: LinkedServiceUnion;
-}
+};
 
 /** Dataset resource type. */
-export interface DatasetResource extends SubResource {
+export type DatasetResource = SubResource & {
   /** Dataset properties. */
   properties: DatasetUnion;
-}
+};
 
 /** Pipeline resource type. */
-export interface PipelineResource extends SubResource {
+export type PipelineResource = SubResource & {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The description of the pipeline. */
@@ -3779,66 +3779,64 @@ export interface PipelineResource extends SubResource {
   folder?: PipelineFolder;
   /** Pipeline Policy. */
   policy?: PipelinePolicy;
-}
+};
 
 /** Trigger resource type. */
-export interface TriggerResource extends SubResource {
+export type TriggerResource = SubResource & {
   /** Properties of the trigger. */
   properties: TriggerUnion;
-}
+};
 
 /** Data flow resource type. */
-export interface DataFlowResource extends SubResource {
+export type DataFlowResource = SubResource & {
   /** Data flow properties. */
   properties: DataFlowUnion;
-}
+};
 
 /** Managed Virtual Network resource type. */
-export interface ManagedVirtualNetworkResource extends SubResource {
+export type ManagedVirtualNetworkResource = SubResource & {
   /** Managed Virtual Network properties. */
   properties: ManagedVirtualNetwork;
-}
+};
 
 /** Managed private endpoint resource type. */
-export interface ManagedPrivateEndpointResource extends SubResource {
+export type ManagedPrivateEndpointResource = SubResource & {
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
-}
+};
 
 /** Private Endpoint Connection ARM resource. */
-export interface PrivateEndpointConnectionResource extends SubResource {
+export type PrivateEndpointConnectionResource = SubResource & {
   /** Core resource properties */
   properties?: RemotePrivateEndpointConnection;
-}
+};
 
 /** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResource
-  extends SubResource {
+export type PrivateLinkConnectionApprovalRequestResource = SubResource & {
   /** Core resource properties */
   properties?: PrivateLinkConnectionApprovalRequest;
-}
+};
 
 /** A private link resource */
-export interface PrivateLinkResource extends SubResource {
+export type PrivateLinkResource = SubResource & {
   /** Core resource properties */
   properties?: PrivateLinkResourceProperties;
-}
+};
 
 /** Global parameters resource type. */
-export interface GlobalParameterResource extends SubResource {
+export type GlobalParameterResource = SubResource & {
   /** Properties of the global parameter. */
   properties: { [propertyName: string]: GlobalParameterSpecification };
-}
+};
 
 /** Credential resource type. */
-export interface CredentialResource extends SubResource {
+export type CredentialResource = SubResource & {
   /** Properties of credentials. */
   properties: CredentialUnion;
-}
+};
 
 /** Managed integration runtime status. */
-export interface ManagedIntegrationRuntimeStatus
-  extends IntegrationRuntimeStatus {
+export type ManagedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Managed";
   /**
@@ -3861,11 +3859,10 @@ export interface ManagedIntegrationRuntimeStatus
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
-}
+};
 
 /** Self-hosted integration runtime status. */
-export interface SelfHostedIntegrationRuntimeStatus
-  extends IntegrationRuntimeStatus {
+export type SelfHostedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfHosted";
   /**
@@ -3942,16 +3939,16 @@ export interface SelfHostedIntegrationRuntimeStatus
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly autoUpdateETA?: Date;
-}
+};
 
 /** Ssis folder. */
-export interface SsisFolder extends SsisObjectMetadata {
+export type SsisFolder = SsisObjectMetadata & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Folder";
-}
+};
 
 /** Ssis project. */
-export interface SsisProject extends SsisObjectMetadata {
+export type SsisProject = SsisObjectMetadata & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Project";
   /** Folder id which contains project. */
@@ -3962,10 +3959,10 @@ export interface SsisProject extends SsisObjectMetadata {
   environmentRefs?: SsisEnvironmentReference[];
   /** Parameters in project */
   parameters?: SsisParameter[];
-}
+};
 
 /** Ssis Package. */
-export interface SsisPackage extends SsisObjectMetadata {
+export type SsisPackage = SsisObjectMetadata & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Package";
   /** Folder id which contains package. */
@@ -3976,20 +3973,20 @@ export interface SsisPackage extends SsisObjectMetadata {
   projectId?: number;
   /** Parameters in package */
   parameters?: SsisParameter[];
-}
+};
 
 /** Ssis environment. */
-export interface SsisEnvironment extends SsisObjectMetadata {
+export type SsisEnvironment = SsisObjectMetadata & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Environment";
   /** Folder id which contains environment. */
   folderId?: number;
   /** Variable in environment */
   variables?: SsisVariable[];
-}
+};
 
 /** The storage account linked service. */
-export interface AzureStorageLinkedService extends LinkedService {
+export type AzureStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureStorage";
   /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4002,10 +3999,10 @@ export interface AzureStorageLinkedService extends LinkedService {
   sasToken?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: string;
-}
+};
 
 /** The azure blob storage linked service. */
-export interface AzureBlobStorageLinkedService extends LinkedService {
+export type AzureBlobStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorage";
   /** The connection string. It is mutually exclusive with sasUri, serviceEndpoint property. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4032,10 +4029,10 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** The azure table storage linked service. */
-export interface AzureTableStorageLinkedService extends LinkedService {
+export type AzureTableStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableStorage";
   /** The connection string. It is mutually exclusive with sasUri property. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4048,10 +4045,10 @@ export interface AzureTableStorageLinkedService extends LinkedService {
   sasToken?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: string;
-}
+};
 
 /** Azure SQL Data Warehouse linked service. */
-export interface AzureSqlDWLinkedService extends LinkedService {
+export type AzureSqlDWLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDW";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4070,10 +4067,10 @@ export interface AzureSqlDWLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** SQL Server linked service. */
-export interface SqlServerLinkedService extends LinkedService {
+export type SqlServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServer";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4086,10 +4083,10 @@ export interface SqlServerLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-}
+};
 
 /** Amazon RDS for SQL Server linked service. */
-export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
+export type AmazonRdsForSqlServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServer";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4102,10 +4099,10 @@ export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** Sql always encrypted properties. */
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-}
+};
 
 /** Microsoft Azure SQL Database linked service. */
-export interface AzureSqlDatabaseLinkedService extends LinkedService {
+export type AzureSqlDatabaseLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDatabase";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4126,10 +4123,10 @@ export interface AzureSqlDatabaseLinkedService extends LinkedService {
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure SQL Managed Instance linked service. */
-export interface AzureSqlMILinkedService extends LinkedService {
+export type AzureSqlMILinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMI";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4150,10 +4147,10 @@ export interface AzureSqlMILinkedService extends LinkedService {
   alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Batch linked service. */
-export interface AzureBatchLinkedService extends LinkedService {
+export type AzureBatchLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBatch";
   /** The Azure Batch account name. Type: string (or Expression with resultType string). */
@@ -4170,20 +4167,20 @@ export interface AzureBatchLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Key Vault linked service. */
-export interface AzureKeyVaultLinkedService extends LinkedService {
+export type AzureKeyVaultLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureKeyVault";
   /** The base URL of the Azure Key Vault. e.g. https://myakv.vault.azure.net Type: string (or Expression with resultType string). */
   baseUrl: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Microsoft Azure Cosmos Database (CosmosDB) linked service. */
-export interface CosmosDbLinkedService extends LinkedService {
+export type CosmosDbLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDb";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4210,10 +4207,10 @@ export interface CosmosDbLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Dynamics linked service. */
-export interface DynamicsLinkedService extends LinkedService {
+export type DynamicsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Dynamics";
   /** The deployment type of the Dynamics instance. 'Online' for Dynamics Online and 'OnPremisesWithIfd' for Dynamics on-premises with Ifd. Type: string (or Expression with resultType string). */
@@ -4242,10 +4239,10 @@ export interface DynamicsLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Dynamics CRM linked service. */
-export interface DynamicsCrmLinkedService extends LinkedService {
+export type DynamicsCrmLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrm";
   /** The deployment type of the Dynamics CRM instance. 'Online' for Dynamics CRM Online and 'OnPremisesWithIfd' for Dynamics CRM on-premises with Ifd. Type: string (or Expression with resultType string). */
@@ -4272,10 +4269,10 @@ export interface DynamicsCrmLinkedService extends LinkedService {
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Common Data Service for Apps linked service. */
-export interface CommonDataServiceForAppsLinkedService extends LinkedService {
+export type CommonDataServiceForAppsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForApps";
   /** The deployment type of the Common Data Service for Apps instance. 'Online' for Common Data Service for Apps Online and 'OnPremisesWithIfd' for Common Data Service for Apps on-premises with Ifd. Type: string (or Expression with resultType string). */
@@ -4302,10 +4299,10 @@ export interface CommonDataServiceForAppsLinkedService extends LinkedService {
   servicePrincipalCredential?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** HDInsight linked service. */
-export interface HDInsightLinkedService extends LinkedService {
+export type HDInsightLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsight";
   /** HDInsight cluster URI. Type: string (or Expression with resultType string). */
@@ -4324,10 +4321,10 @@ export interface HDInsightLinkedService extends LinkedService {
   isEspEnabled?: any;
   /** Specify the FileSystem if the main storage for the HDInsight is ADLS Gen2. Type: string (or Expression with resultType string). */
   fileSystem?: any;
-}
+};
 
 /** File system linked service. */
-export interface FileServerLinkedService extends LinkedService {
+export type FileServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServer";
   /** Host name of the server. Type: string (or Expression with resultType string). */
@@ -4338,10 +4335,10 @@ export interface FileServerLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure File Storage linked service. */
-export interface AzureFileStorageLinkedService extends LinkedService {
+export type AzureFileStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorage";
   /** Host name of the server. Type: string (or Expression with resultType string). */
@@ -4364,10 +4361,10 @@ export interface AzureFileStorageLinkedService extends LinkedService {
   snapshot?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Amazon S3 Compatible. */
-export interface AmazonS3CompatibleLinkedService extends LinkedService {
+export type AmazonS3CompatibleLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Compatible";
   /** The access key identifier of the Amazon S3 Compatible Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
@@ -4380,10 +4377,10 @@ export interface AmazonS3CompatibleLinkedService extends LinkedService {
   forcePathStyle?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Oracle Cloud Storage. */
-export interface OracleCloudStorageLinkedService extends LinkedService {
+export type OracleCloudStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorage";
   /** The access key identifier of the Oracle Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
@@ -4394,10 +4391,10 @@ export interface OracleCloudStorageLinkedService extends LinkedService {
   serviceUrl?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Google Cloud Storage. */
-export interface GoogleCloudStorageLinkedService extends LinkedService {
+export type GoogleCloudStorageLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorage";
   /** The access key identifier of the Google Cloud Storage Identity and Access Management (IAM) user. Type: string (or Expression with resultType string). */
@@ -4408,10 +4405,10 @@ export interface GoogleCloudStorageLinkedService extends LinkedService {
   serviceUrl?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Oracle database. */
-export interface OracleLinkedService extends LinkedService {
+export type OracleLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Oracle";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4420,10 +4417,10 @@ export interface OracleLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** AmazonRdsForOracle database. */
-export interface AmazonRdsForOracleLinkedService extends LinkedService {
+export type AmazonRdsForOracleLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracle";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4432,10 +4429,10 @@ export interface AmazonRdsForOracleLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure MySQL database linked service. */
-export interface AzureMySqlLinkedService extends LinkedService {
+export type AzureMySqlLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySql";
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4444,10 +4441,10 @@ export interface AzureMySqlLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for MySQL data source. */
-export interface MySqlLinkedService extends LinkedService {
+export type MySqlLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySql";
   /** The connection string. */
@@ -4456,10 +4453,10 @@ export interface MySqlLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for PostgreSQL data source. */
-export interface PostgreSqlLinkedService extends LinkedService {
+export type PostgreSqlLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSql";
   /** The connection string. */
@@ -4468,10 +4465,10 @@ export interface PostgreSqlLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Sybase data source. */
-export interface SybaseLinkedService extends LinkedService {
+export type SybaseLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Sybase";
   /** Server name for connection. Type: string (or Expression with resultType string). */
@@ -4488,10 +4485,10 @@ export interface SybaseLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for DB2 data source. */
-export interface Db2LinkedService extends LinkedService {
+export type Db2LinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2";
   /** The connection string. It is mutually exclusive with server, database, authenticationType, userName, packageCollection and certificateCommonName property. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4512,10 +4509,10 @@ export interface Db2LinkedService extends LinkedService {
   certificateCommonName?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. It is mutually exclusive with connectionString property. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Teradata data source. */
-export interface TeradataLinkedService extends LinkedService {
+export type TeradataLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Teradata";
   /** Teradata ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4530,10 +4527,10 @@ export interface TeradataLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure ML Studio Web Service linked service. */
-export interface AzureMLLinkedService extends LinkedService {
+export type AzureMLLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureML";
   /** The Batch Execution REST URL for an Azure ML Studio Web Service endpoint. Type: string (or Expression with resultType string). */
@@ -4552,10 +4549,10 @@ export interface AzureMLLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** Type of authentication (Required to specify MSI) used to connect to AzureML. Type: string (or Expression with resultType string). */
   authentication?: any;
-}
+};
 
 /** Azure ML Service linked service. */
-export interface AzureMLServiceLinkedService extends LinkedService {
+export type AzureMLServiceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLService";
   /** Azure ML Service workspace subscription ID. Type: string (or Expression with resultType string). */
@@ -4572,10 +4569,10 @@ export interface AzureMLServiceLinkedService extends LinkedService {
   tenant?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Open Database Connectivity (ODBC) linked service. */
-export interface OdbcLinkedService extends LinkedService {
+export type OdbcLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Odbc";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4590,10 +4587,10 @@ export interface OdbcLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Informix linked service. */
-export interface InformixLinkedService extends LinkedService {
+export type InformixLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Informix";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4608,10 +4605,10 @@ export interface InformixLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Microsoft Access linked service. */
-export interface MicrosoftAccessLinkedService extends LinkedService {
+export type MicrosoftAccessLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccess";
   /** The non-access credential portion of the connection string as well as an optional encrypted credential. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -4626,10 +4623,10 @@ export interface MicrosoftAccessLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Hadoop Distributed File System (HDFS) linked service. */
-export interface HdfsLinkedService extends LinkedService {
+export type HdfsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hdfs";
   /** The URL of the HDFS service endpoint, e.g. http://myhostname:50070/webhdfs/v1 . Type: string (or Expression with resultType string). */
@@ -4642,10 +4639,10 @@ export interface HdfsLinkedService extends LinkedService {
   userName?: any;
   /** Password for Windows authentication. */
   password?: SecretBaseUnion;
-}
+};
 
 /** Open Data Protocol (OData) linked service. */
-export interface ODataLinkedService extends LinkedService {
+export type ODataLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OData";
   /** The URL of the OData service endpoint. Type: string (or Expression with resultType string). */
@@ -4676,18 +4673,18 @@ export interface ODataLinkedService extends LinkedService {
   servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Web linked service. */
-export interface WebLinkedService extends LinkedService {
+export type WebLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Web";
   /** Web linked service properties. */
   typeProperties: WebLinkedServiceTypePropertiesUnion;
-}
+};
 
 /** Linked service for Cassandra data source. */
-export interface CassandraLinkedService extends LinkedService {
+export type CassandraLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Cassandra";
   /** Host name for connection. Type: string (or Expression with resultType string). */
@@ -4702,10 +4699,10 @@ export interface CassandraLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for MongoDb data source. */
-export interface MongoDbLinkedService extends LinkedService {
+export type MongoDbLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDb";
   /** The IP address or server name of the MongoDB server. Type: string (or Expression with resultType string). */
@@ -4728,30 +4725,30 @@ export interface MongoDbLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for MongoDB Atlas data source. */
-export interface MongoDbAtlasLinkedService extends LinkedService {
+export type MongoDbAtlasLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlas";
   /** The MongoDB Atlas connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString: any;
   /** The name of the MongoDB Atlas database that you want to access. Type: string (or Expression with resultType string). */
   database: any;
-}
+};
 
 /** Linked service for MongoDB data source. */
-export interface MongoDbV2LinkedService extends LinkedService {
+export type MongoDbV2LinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2";
   /** The MongoDB connection string. Type: string, SecureString or AzureKeyVaultSecretReference. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString: any;
   /** The name of the MongoDB database that you want to access. Type: string (or Expression with resultType string). */
   database: any;
-}
+};
 
 /** Linked service for CosmosDB (MongoDB API) data source. */
-export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
+export type CosmosDbMongoDbApiLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApi";
   /** Whether the CosmosDB (MongoDB API) server version is higher than 3.2. The default value is false. Type: boolean (or Expression with resultType boolean). */
@@ -4760,10 +4757,10 @@ export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
   connectionString: any;
   /** The name of the CosmosDB (MongoDB API) database that you want to access. Type: string (or Expression with resultType string). */
   database: any;
-}
+};
 
 /** Azure Data Lake Store linked service. */
-export interface AzureDataLakeStoreLinkedService extends LinkedService {
+export type AzureDataLakeStoreLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStore";
   /** Data Lake Store service URI. Type: string (or Expression with resultType string). */
@@ -4786,10 +4783,10 @@ export interface AzureDataLakeStoreLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Data Lake Storage Gen2 linked service. */
-export interface AzureBlobFSLinkedService extends LinkedService {
+export type AzureBlobFSLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFS";
   /** Endpoint for the Azure Data Lake Storage Gen2 service. Type: string (or Expression with resultType string). */
@@ -4812,10 +4809,10 @@ export interface AzureBlobFSLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
-}
+};
 
 /** Office365 linked service. */
-export interface Office365LinkedService extends LinkedService {
+export type Office365LinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365";
   /** Azure tenant ID to which the Office 365 account belongs. Type: string (or Expression with resultType string). */
@@ -4828,10 +4825,10 @@ export interface Office365LinkedService extends LinkedService {
   servicePrincipalKey: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Salesforce. */
-export interface SalesforceLinkedService extends LinkedService {
+export type SalesforceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Salesforce";
   /** The URL of Salesforce instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
@@ -4846,10 +4843,10 @@ export interface SalesforceLinkedService extends LinkedService {
   apiVersion?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Salesforce Service Cloud. */
-export interface SalesforceServiceCloudLinkedService extends LinkedService {
+export type SalesforceServiceCloudLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloud";
   /** The URL of Salesforce Service Cloud instance. Default is 'https://login.salesforce.com'. To copy data from sandbox, specify 'https://test.salesforce.com'. To copy data from custom domain, specify, for example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
@@ -4866,10 +4863,10 @@ export interface SalesforceServiceCloudLinkedService extends LinkedService {
   extendedProperties?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for SAP Cloud for Customer. */
-export interface SapCloudForCustomerLinkedService extends LinkedService {
+export type SapCloudForCustomerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomer";
   /** The URL of SAP Cloud for Customer OData API. For example, '[https://[tenantname].crm.ondemand.com/sap/c4c/odata/v1]'. Type: string (or Expression with resultType string). */
@@ -4880,10 +4877,10 @@ export interface SapCloudForCustomerLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for SAP ERP Central Component(SAP ECC). */
-export interface SapEccLinkedService extends LinkedService {
+export type SapEccLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEcc";
   /** The URL of SAP ECC OData API. For example, '[https://hostname:port/sap/opu/odata/sap/servicename/]'. Type: string (or Expression with resultType string). */
@@ -4894,10 +4891,10 @@ export interface SapEccLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Either encryptedCredential or username/password must be provided. Type: string (or Expression with resultType string). */
   encryptedCredential?: string;
-}
+};
 
 /** SAP Business Warehouse Open Hub Destination Linked Service. */
-export interface SapOpenHubLinkedService extends LinkedService {
+export type SapOpenHubLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHub";
   /** Host name of the SAP BW instance where the open hub destination is located. Type: string (or Expression with resultType string). */
@@ -4922,10 +4919,10 @@ export interface SapOpenHubLinkedService extends LinkedService {
   logonGroup?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** SAP ODP Linked Service. */
-export interface SapOdpLinkedService extends LinkedService {
+export type SapOdpLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOdp";
   /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
@@ -4964,10 +4961,10 @@ export interface SapOdpLinkedService extends LinkedService {
   subscriberName?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Rest Service linked service. */
-export interface RestServiceLinkedService extends LinkedService {
+export type RestServiceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestService";
   /** The base URL of the REST service. */
@@ -5006,10 +5003,10 @@ export interface RestServiceLinkedService extends LinkedService {
   resource?: any;
   /** The scope of the access required. It describes what kind of access will be requested. Type: string (or Expression with resultType string). */
   scope?: any;
-}
+};
 
 /** Linked service for TeamDesk. */
-export interface TeamDeskLinkedService extends LinkedService {
+export type TeamDeskLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TeamDesk";
   /** The authentication type to use. */
@@ -5024,10 +5021,10 @@ export interface TeamDeskLinkedService extends LinkedService {
   apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Quickbase. */
-export interface QuickbaseLinkedService extends LinkedService {
+export type QuickbaseLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Quickbase";
   /** The url to connect Quickbase source. Type: string (or Expression with resultType string). */
@@ -5036,20 +5033,20 @@ export interface QuickbaseLinkedService extends LinkedService {
   userToken: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Smartsheet. */
-export interface SmartsheetLinkedService extends LinkedService {
+export type SmartsheetLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Smartsheet";
   /** The api token for the Smartsheet source. */
   apiToken: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Zendesk. */
-export interface ZendeskLinkedService extends LinkedService {
+export type ZendeskLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Zendesk";
   /** The authentication type to use. */
@@ -5064,20 +5061,20 @@ export interface ZendeskLinkedService extends LinkedService {
   apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Dataworld. */
-export interface DataworldLinkedService extends LinkedService {
+export type DataworldLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Dataworld";
   /** The api token for the Dataworld source. */
   apiToken: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for AppFigures. */
-export interface AppFiguresLinkedService extends LinkedService {
+export type AppFiguresLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AppFigures";
   /** The username of the Appfigures source. */
@@ -5086,30 +5083,30 @@ export interface AppFiguresLinkedService extends LinkedService {
   password: SecretBaseUnion;
   /** The client key for the AppFigures source. */
   clientKey: SecretBaseUnion;
-}
+};
 
 /** Linked service for Asana. */
-export interface AsanaLinkedService extends LinkedService {
+export type AsanaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Asana";
   /** The api token for the Asana source. */
   apiToken: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Twilio. */
-export interface TwilioLinkedService extends LinkedService {
+export type TwilioLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Twilio";
   /** The Account SID of Twilio service. */
   userName: any;
   /** The auth token of Twilio service. */
   password: SecretBaseUnion;
-}
+};
 
 /** Linked service for Amazon S3. */
-export interface AmazonS3LinkedService extends LinkedService {
+export type AmazonS3LinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3";
   /** The authentication type of S3. Allowed value: AccessKey (default) or TemporarySecurityCredentials. Type: string (or Expression with resultType string). */
@@ -5124,10 +5121,10 @@ export interface AmazonS3LinkedService extends LinkedService {
   sessionToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for Amazon Redshift. */
-export interface AmazonRedshiftLinkedService extends LinkedService {
+export type AmazonRedshiftLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshift";
   /** The name of the Amazon Redshift server. Type: string (or Expression with resultType string). */
@@ -5142,18 +5139,18 @@ export interface AmazonRedshiftLinkedService extends LinkedService {
   port?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Custom linked service. */
-export interface CustomDataSourceLinkedService extends LinkedService {
+export type CustomDataSourceLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomDataSource";
   /** Custom linked service properties. */
   typeProperties: any;
-}
+};
 
 /** Linked service for Windows Azure Search Service. */
-export interface AzureSearchLinkedService extends LinkedService {
+export type AzureSearchLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSearch";
   /** URL for Azure Search service. Type: string (or Expression with resultType string). */
@@ -5162,13 +5159,13 @@ export interface AzureSearchLinkedService extends LinkedService {
   key?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Linked service for an HTTP source. */
-export interface HttpLinkedService extends LinkedService {
+export type HttpLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServer";
-  /** The base URL of the HTTP endpoint, e.g. http://www.microsoft.com. Type: string (or Expression with resultType string). */
+  /** The base URL of the HTTP endpoint, e.g. https://www.microsoft.com. Type: string (or Expression with resultType string). */
   url: any;
   /** The authentication type to be used to connect to the HTTP server. */
   authenticationType?: HttpAuthenticationType;
@@ -5186,10 +5183,10 @@ export interface HttpLinkedService extends LinkedService {
   encryptedCredential?: any;
   /** If true, validate the HTTPS server SSL certificate. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableServerCertificateValidation?: any;
-}
+};
 
 /** A FTP server Linked Service. */
-export interface FtpServerLinkedService extends LinkedService {
+export type FtpServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FtpServer";
   /** Host name of the FTP server. Type: string (or Expression with resultType string). */
@@ -5208,10 +5205,10 @@ export interface FtpServerLinkedService extends LinkedService {
   enableSsl?: any;
   /** If true, validate the FTP server SSL certificate when connect over SSL/TLS channel. Default value is true. Type: boolean (or Expression with resultType boolean). */
   enableServerCertificateValidation?: any;
-}
+};
 
 /** A linked service for an SSH File Transfer Protocol (SFTP) server. */
-export interface SftpServerLinkedService extends LinkedService {
+export type SftpServerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Sftp";
   /** The SFTP server host name. Type: string (or Expression with resultType string). */
@@ -5236,10 +5233,10 @@ export interface SftpServerLinkedService extends LinkedService {
   skipHostKeyValidation?: any;
   /** The host key finger-print of the SFTP server. When SkipHostKeyValidation is false, HostKeyFingerprint should be specified. Type: string (or Expression with resultType string). */
   hostKeyFingerprint?: any;
-}
+};
 
 /** SAP Business Warehouse Linked Service. */
-export interface SapBWLinkedService extends LinkedService {
+export type SapBWLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapBW";
   /** Host name of the SAP BW instance. Type: string (or Expression with resultType string). */
@@ -5254,10 +5251,10 @@ export interface SapBWLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** SAP HANA Linked Service. */
-export interface SapHanaLinkedService extends LinkedService {
+export type SapHanaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHana";
   /** SAP HANA ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5272,10 +5269,10 @@ export interface SapHanaLinkedService extends LinkedService {
   password?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Amazon Marketplace Web Service linked service. */
-export interface AmazonMWSLinkedService extends LinkedService {
+export type AmazonMWSLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWS";
   /** The endpoint of the Amazon MWS server, (i.e. mws.amazonservices.com) */
@@ -5298,10 +5295,10 @@ export interface AmazonMWSLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure PostgreSQL linked service. */
-export interface AzurePostgreSqlLinkedService extends LinkedService {
+export type AzurePostgreSqlLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSql";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5310,10 +5307,10 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Concur Service linked service. */
-export interface ConcurLinkedService extends LinkedService {
+export type ConcurLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Concur";
   /** Properties used to connect to Concur. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5332,10 +5329,10 @@ export interface ConcurLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Couchbase server linked service. */
-export interface CouchbaseLinkedService extends LinkedService {
+export type CouchbaseLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Couchbase";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5344,10 +5341,10 @@ export interface CouchbaseLinkedService extends LinkedService {
   credString?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Drill server linked service. */
-export interface DrillLinkedService extends LinkedService {
+export type DrillLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Drill";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5356,10 +5353,10 @@ export interface DrillLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Eloqua server linked service. */
-export interface EloquaLinkedService extends LinkedService {
+export type EloquaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Eloqua";
   /** The endpoint of the Eloqua server. (i.e. eloqua.example.com) */
@@ -5376,10 +5373,10 @@ export interface EloquaLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Google BigQuery service linked service. */
-export interface GoogleBigQueryLinkedService extends LinkedService {
+export type GoogleBigQueryLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuery";
   /** The default BigQuery project to query against. */
@@ -5406,10 +5403,10 @@ export interface GoogleBigQueryLinkedService extends LinkedService {
   useSystemTrustStore?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Greenplum Database linked service. */
-export interface GreenplumLinkedService extends LinkedService {
+export type GreenplumLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Greenplum";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5418,10 +5415,10 @@ export interface GreenplumLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** HBase server linked service. */
-export interface HBaseLinkedService extends LinkedService {
+export type HBaseLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBase";
   /** The IP address or host name of the HBase server. (i.e. 192.168.222.160) */
@@ -5446,10 +5443,10 @@ export interface HBaseLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Hive Server linked service. */
-export interface HiveLinkedService extends LinkedService {
+export type HiveLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hive";
   /** IP address or host name of the Hive server, separated by ';' for multiple hosts (only when serviceDiscoveryMode is enable). */
@@ -5486,10 +5483,10 @@ export interface HiveLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Hubspot Service linked service. */
-export interface HubspotLinkedService extends LinkedService {
+export type HubspotLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Hubspot";
   /** The client ID associated with your Hubspot application. */
@@ -5508,10 +5505,10 @@ export interface HubspotLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Impala server linked service. */
-export interface ImpalaLinkedService extends LinkedService {
+export type ImpalaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Impala";
   /** The IP address or host name of the Impala server. (i.e. 192.168.222.160) */
@@ -5536,10 +5533,10 @@ export interface ImpalaLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Jira Service linked service. */
-export interface JiraLinkedService extends LinkedService {
+export type JiraLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Jira";
   /** The IP address or host name of the Jira service. (e.g. jira.example.com) */
@@ -5558,10 +5555,10 @@ export interface JiraLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Magento server linked service. */
-export interface MagentoLinkedService extends LinkedService {
+export type MagentoLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Magento";
   /** The URL of the Magento instance. (i.e. 192.168.222.110/magento3) */
@@ -5576,10 +5573,10 @@ export interface MagentoLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** MariaDB server linked service. */
-export interface MariaDBLinkedService extends LinkedService {
+export type MariaDBLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5588,10 +5585,10 @@ export interface MariaDBLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure Database for MariaDB linked service. */
-export interface AzureMariaDBLinkedService extends LinkedService {
+export type AzureMariaDBLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDB";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5600,10 +5597,10 @@ export interface AzureMariaDBLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Marketo server linked service. */
-export interface MarketoLinkedService extends LinkedService {
+export type MarketoLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Marketo";
   /** The endpoint of the Marketo server. (i.e. 123-ABC-321.mktorest.com) */
@@ -5620,10 +5617,10 @@ export interface MarketoLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Paypal Service linked service. */
-export interface PaypalLinkedService extends LinkedService {
+export type PaypalLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Paypal";
   /** The URL of the PayPal instance. (i.e. api.sandbox.paypal.com) */
@@ -5640,10 +5637,10 @@ export interface PaypalLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Phoenix server linked service. */
-export interface PhoenixLinkedService extends LinkedService {
+export type PhoenixLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Phoenix";
   /** The IP address or host name of the Phoenix server. (i.e. 192.168.222.160) */
@@ -5670,10 +5667,10 @@ export interface PhoenixLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Presto server linked service. */
-export interface PrestoLinkedService extends LinkedService {
+export type PrestoLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Presto";
   /** The IP address or host name of the Presto server. (i.e. 192.168.222.160) */
@@ -5704,10 +5701,10 @@ export interface PrestoLinkedService extends LinkedService {
   timeZoneID?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** QuickBooks server linked service. */
-export interface QuickBooksLinkedService extends LinkedService {
+export type QuickBooksLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooks";
   /** Properties used to connect to QuickBooks. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5728,10 +5725,10 @@ export interface QuickBooksLinkedService extends LinkedService {
   useEncryptedEndpoints?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** ServiceNow server linked service. */
-export interface ServiceNowLinkedService extends LinkedService {
+export type ServiceNowLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNow";
   /** The endpoint of the ServiceNow server. (i.e. <instance>.service-now.com) */
@@ -5754,10 +5751,10 @@ export interface ServiceNowLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Shopify Service linked service. */
-export interface ShopifyLinkedService extends LinkedService {
+export type ShopifyLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shopify";
   /** The endpoint of the Shopify server. (i.e. mystore.myshopify.com) */
@@ -5772,10 +5769,10 @@ export interface ShopifyLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Spark Server linked service. */
-export interface SparkLinkedService extends LinkedService {
+export type SparkLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Spark";
   /** IP address or host name of the Spark server */
@@ -5806,10 +5803,10 @@ export interface SparkLinkedService extends LinkedService {
   allowSelfSignedServerCert?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Square Service linked service. */
-export interface SquareLinkedService extends LinkedService {
+export type SquareLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Square";
   /** Properties used to connect to Square. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5830,10 +5827,10 @@ export interface SquareLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Xero Service linked service. */
-export interface XeroLinkedService extends LinkedService {
+export type XeroLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Xero";
   /** Properties used to connect to Xero. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5855,10 +5852,10 @@ export interface XeroLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Zoho server linked service. */
-export interface ZohoLinkedService extends LinkedService {
+export type ZohoLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Zoho";
   /** Properties used to connect to Zoho. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5875,10 +5872,10 @@ export interface ZohoLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Vertica linked service. */
-export interface VerticaLinkedService extends LinkedService {
+export type VerticaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Vertica";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5887,10 +5884,10 @@ export interface VerticaLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Netezza linked service. */
-export interface NetezzaLinkedService extends LinkedService {
+export type NetezzaLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Netezza";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
@@ -5899,10 +5896,10 @@ export interface NetezzaLinkedService extends LinkedService {
   pwd?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Salesforce Marketing Cloud linked service. */
-export interface SalesforceMarketingCloudLinkedService extends LinkedService {
+export type SalesforceMarketingCloudLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloud";
   /** Properties used to connect to Salesforce Marketing Cloud. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -5919,10 +5916,10 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** HDInsight ondemand linked service. */
-export interface HDInsightOnDemandLinkedService extends LinkedService {
+export type HDInsightOnDemandLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightOnDemand";
   /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string). */
@@ -5993,10 +5990,10 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
   subnetName?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Data Lake Analytics linked service. */
-export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
+export type AzureDataLakeAnalyticsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeAnalytics";
   /** The Azure Data Lake Analytics account name. Type: string (or Expression with resultType string). */
@@ -6015,10 +6012,10 @@ export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
   dataLakeAnalyticsUri?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure Databricks linked service. */
-export interface AzureDatabricksLinkedService extends LinkedService {
+export type AzureDatabricksLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricks";
   /** <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string). */
@@ -6059,10 +6056,10 @@ export interface AzureDatabricksLinkedService extends LinkedService {
   policyId?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Databricks Delta Lake linked service. */
-export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
+export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLake";
   /** <REGION>.azuredatabricks.net, domain name of your Databricks deployment. Type: string (or Expression with resultType string). */
@@ -6077,10 +6074,10 @@ export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
   credential?: CredentialReference;
   /** Workspace resource id for databricks REST API. Type: string (or Expression with resultType string). */
   workspaceResourceId?: any;
-}
+};
 
 /** Responsys linked service. */
-export interface ResponsysLinkedService extends LinkedService {
+export type ResponsysLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Responsys";
   /** The endpoint of the Responsys server. */
@@ -6097,10 +6094,10 @@ export interface ResponsysLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Dynamics AX linked service. */
-export interface DynamicsAXLinkedService extends LinkedService {
+export type DynamicsAXLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAX";
   /** The Dynamics AX (or Dynamics 365 Finance and Operations) instance OData endpoint. */
@@ -6115,10 +6112,10 @@ export interface DynamicsAXLinkedService extends LinkedService {
   aadResourceId: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Oracle Service Cloud linked service. */
-export interface OracleServiceCloudLinkedService extends LinkedService {
+export type OracleServiceCloudLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloud";
   /** The URL of the Oracle Service Cloud instance. */
@@ -6135,10 +6132,10 @@ export interface OracleServiceCloudLinkedService extends LinkedService {
   usePeerVerification?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Google AdWords service linked service. */
-export interface GoogleAdWordsLinkedService extends LinkedService {
+export type GoogleAdWordsLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWords";
   /** Properties used to connect to GoogleAds. It is mutually exclusive with any other properties in the linked service. Type: object. */
@@ -6165,10 +6162,10 @@ export interface GoogleAdWordsLinkedService extends LinkedService {
   useSystemTrustStore?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** SAP Table Linked Service. */
-export interface SapTableLinkedService extends LinkedService {
+export type SapTableLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTable";
   /** Host name of the SAP instance where the table is located. Type: string (or Expression with resultType string). */
@@ -6203,10 +6200,10 @@ export interface SapTableLinkedService extends LinkedService {
   logonGroup?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** Azure Data Explorer (Kusto) linked service. */
-export interface AzureDataExplorerLinkedService extends LinkedService {
+export type AzureDataExplorerLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorer";
   /** The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the format https://<clusterName>.<regionName>.kusto.windows.net. Type: string (or Expression with resultType string) */
@@ -6221,10 +6218,10 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
   tenant?: any;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** Azure Function linked service. */
-export interface AzureFunctionLinkedService extends LinkedService {
+export type AzureFunctionLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunction";
   /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. */
@@ -6239,10 +6236,10 @@ export interface AzureFunctionLinkedService extends LinkedService {
   resourceId?: any;
   /** Type of authentication (Required to specify MSI) used to connect to AzureFunction. Type: string (or Expression with resultType string). */
   authentication?: any;
-}
+};
 
 /** Snowflake linked service. */
-export interface SnowflakeLinkedService extends LinkedService {
+export type SnowflakeLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Snowflake";
   /** The connection string of snowflake. Type: string, SecureString. */
@@ -6251,10 +6248,10 @@ export interface SnowflakeLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** SharePoint Online List linked service. */
-export interface SharePointOnlineListLinkedService extends LinkedService {
+export type SharePointOnlineListLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineList";
   /** The URL of the SharePoint Online site. For example, https://contoso.sharepoint.com/sites/siteName. Type: string (or Expression with resultType string). */
@@ -6267,10 +6264,10 @@ export interface SharePointOnlineListLinkedService extends LinkedService {
   servicePrincipalKey: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: any;
-}
+};
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
-export interface AmazonS3Dataset extends Dataset {
+export type AmazonS3Dataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Object";
   /** The name of the Amazon S3 bucket. Type: string (or Expression with resultType string). */
@@ -6289,10 +6286,10 @@ export interface AmazonS3Dataset extends Dataset {
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the Amazon S3 object. */
   compression?: DatasetCompression;
-}
+};
 
 /** Avro dataset. */
-export interface AvroDataset extends Dataset {
+export type AvroDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Avro";
   /** The location of the avro storage. */
@@ -6300,10 +6297,10 @@ export interface AvroDataset extends Dataset {
   /** The data avroCompressionCodec. Type: string (or Expression with resultType string). */
   avroCompressionCodec?: any;
   avroCompressionLevel?: number;
-}
+};
 
 /** Excel dataset. */
-export interface ExcelDataset extends Dataset {
+export type ExcelDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Excel";
   /** The location of the excel storage. */
@@ -6320,20 +6317,20 @@ export interface ExcelDataset extends Dataset {
   compression?: DatasetCompression;
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
-}
+};
 
 /** Parquet dataset. */
-export interface ParquetDataset extends Dataset {
+export type ParquetDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Parquet";
   /** The location of the parquet storage. */
   location?: DatasetLocationUnion;
   /** The data compressionCodec. Type: string (or Expression with resultType string). */
   compressionCodec?: any;
-}
+};
 
 /** Delimited text dataset. */
-export interface DelimitedTextDataset extends Dataset {
+export type DelimitedTextDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedText";
   /** The location of the delimited text storage. */
@@ -6356,10 +6353,10 @@ export interface DelimitedTextDataset extends Dataset {
   firstRowAsHeader?: any;
   /** The null value string. Type: string (or Expression with resultType string). */
   nullValue?: any;
-}
+};
 
 /** Json dataset. */
-export interface JsonDataset extends Dataset {
+export type JsonDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Json";
   /** The location of the json data storage. */
@@ -6368,10 +6365,10 @@ export interface JsonDataset extends Dataset {
   encodingName?: any;
   /** The data compression method used for the json dataset. */
   compression?: DatasetCompression;
-}
+};
 
 /** Xml dataset. */
-export interface XmlDataset extends Dataset {
+export type XmlDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Xml";
   /** The location of the json data storage. */
@@ -6382,30 +6379,30 @@ export interface XmlDataset extends Dataset {
   nullValue?: any;
   /** The data compression method used for the json dataset. */
   compression?: DatasetCompression;
-}
+};
 
 /** ORC dataset. */
-export interface OrcDataset extends Dataset {
+export type OrcDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Orc";
   /** The location of the ORC data storage. */
   location?: DatasetLocationUnion;
   /** The data orcCompressionCodec. Type: string (or Expression with resultType string). */
   orcCompressionCodec?: any;
-}
+};
 
 /** Binary dataset. */
-export interface BinaryDataset extends Dataset {
+export type BinaryDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Binary";
   /** The location of the Binary storage. */
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
   compression?: DatasetCompression;
-}
+};
 
 /** The Azure Blob storage. */
-export interface AzureBlobDataset extends Dataset {
+export type AzureBlobDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlob";
   /** The path of the Azure Blob storage. Type: string (or Expression with resultType string). */
@@ -6422,18 +6419,18 @@ export interface AzureBlobDataset extends Dataset {
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
   compression?: DatasetCompression;
-}
+};
 
 /** The Azure Table storage dataset. */
-export interface AzureTableDataset extends Dataset {
+export type AzureTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTable";
   /** The table name of the Azure Table storage. Type: string (or Expression with resultType string). */
   tableName: any;
-}
+};
 
 /** The Azure SQL Server database dataset. */
-export interface AzureSqlTableDataset extends Dataset {
+export type AzureSqlTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6442,10 +6439,10 @@ export interface AzureSqlTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the Azure SQL database. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Azure SQL Managed Instance dataset. */
-export interface AzureSqlMITableDataset extends Dataset {
+export type AzureSqlMITableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlMITable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6454,10 +6451,10 @@ export interface AzureSqlMITableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the Azure SQL Managed Instance dataset. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Azure SQL Data Warehouse dataset. */
-export interface AzureSqlDWTableDataset extends Dataset {
+export type AzureSqlDWTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlDWTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6466,68 +6463,68 @@ export interface AzureSqlDWTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the Azure SQL Data Warehouse. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Cassandra database dataset. */
-export interface CassandraTableDataset extends Dataset {
+export type CassandraTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CassandraTable";
   /** The table name of the Cassandra database. Type: string (or Expression with resultType string). */
   tableName?: any;
   /** The keyspace of the Cassandra database. Type: string (or Expression with resultType string). */
   keyspace?: any;
-}
+};
 
 /** The custom dataset. */
-export interface CustomDataset extends Dataset {
+export type CustomDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomDataset";
   /** Custom dataset properties. */
   typeProperties?: any;
-}
+};
 
 /** Microsoft Azure CosmosDB (SQL API) Collection dataset. */
-export interface CosmosDbSqlApiCollectionDataset extends Dataset {
+export type CosmosDbSqlApiCollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiCollection";
   /** CosmosDB (SQL API) collection name. Type: string (or Expression with resultType string). */
   collectionName: any;
-}
+};
 
 /** Microsoft Azure Document Database Collection dataset. */
-export interface DocumentDbCollectionDataset extends Dataset {
+export type DocumentDbCollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollection";
   /** Document Database collection name. Type: string (or Expression with resultType string). */
   collectionName: any;
-}
+};
 
 /** The Dynamics entity dataset. */
-export interface DynamicsEntityDataset extends Dataset {
+export type DynamicsEntityDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
   entityName?: any;
-}
+};
 
 /** The Dynamics CRM entity dataset. */
-export interface DynamicsCrmEntityDataset extends Dataset {
+export type DynamicsCrmEntityDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrmEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
   entityName?: any;
-}
+};
 
 /** The Common Data Service for Apps entity dataset. */
-export interface CommonDataServiceForAppsEntityDataset extends Dataset {
+export type CommonDataServiceForAppsEntityDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForAppsEntity";
   /** The logical name of the entity. Type: string (or Expression with resultType string). */
   entityName?: any;
-}
+};
 
 /** Azure Data Lake Store dataset. */
-export interface AzureDataLakeStoreDataset extends Dataset {
+export type AzureDataLakeStoreDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreFile";
   /** Path to the folder in the Azure Data Lake Store. Type: string (or Expression with resultType string). */
@@ -6538,10 +6535,10 @@ export interface AzureDataLakeStoreDataset extends Dataset {
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the item(s) in the Azure Data Lake Store. */
   compression?: DatasetCompression;
-}
+};
 
 /** The Azure Data Lake Storage Gen2 storage. */
-export interface AzureBlobFSDataset extends Dataset {
+export type AzureBlobFSDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSFile";
   /** The path of the Azure Data Lake Storage Gen2 storage. Type: string (or Expression with resultType string). */
@@ -6552,20 +6549,20 @@ export interface AzureBlobFSDataset extends Dataset {
   format?: DatasetStorageFormatUnion;
   /** The data compression method used for the blob storage. */
   compression?: DatasetCompression;
-}
+};
 
 /** The Office365 account. */
-export interface Office365Dataset extends Dataset {
+export type Office365Dataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365Table";
   /** Name of the dataset to extract from Office 365. Type: string (or Expression with resultType string). */
   tableName: any;
   /** A predicate expression that can be used to filter the specific rows to extract from Office 365. Type: string (or Expression with resultType string). */
   predicate?: any;
-}
+};
 
 /** An on-premises file system dataset. */
-export interface FileShareDataset extends Dataset {
+export type FileShareDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileShare";
   /** The path of the on-premises file system. Type: string (or Expression with resultType string). */
@@ -6582,50 +6579,50 @@ export interface FileShareDataset extends Dataset {
   fileFilter?: any;
   /** The data compression method used for the file system. */
   compression?: DatasetCompression;
-}
+};
 
 /** The MongoDB database dataset. */
-export interface MongoDbCollectionDataset extends Dataset {
+export type MongoDbCollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbCollection";
   /** The table name of the MongoDB database. Type: string (or Expression with resultType string). */
   collectionName: any;
-}
+};
 
 /** The MongoDB Atlas database dataset. */
-export interface MongoDbAtlasCollectionDataset extends Dataset {
+export type MongoDbAtlasCollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasCollection";
   /** The collection name of the MongoDB Atlas database. Type: string (or Expression with resultType string). */
   collection: any;
-}
+};
 
 /** The MongoDB database dataset. */
-export interface MongoDbV2CollectionDataset extends Dataset {
+export type MongoDbV2CollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Collection";
   /** The collection name of the MongoDB database. Type: string (or Expression with resultType string). */
   collection: any;
-}
+};
 
 /** The CosmosDB (MongoDB API) database dataset. */
-export interface CosmosDbMongoDbApiCollectionDataset extends Dataset {
+export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiCollection";
   /** The collection name of the CosmosDB (MongoDB API) database. Type: string (or Expression with resultType string). */
   collection: any;
-}
+};
 
 /** The Open Data Protocol (OData) resource dataset. */
-export interface ODataResourceDataset extends Dataset {
+export type ODataResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ODataResource";
   /** The OData resource path. Type: string (or Expression with resultType string). */
   path?: any;
-}
+};
 
 /** The on-premises Oracle database dataset. */
-export interface OracleTableDataset extends Dataset {
+export type OracleTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6634,40 +6631,40 @@ export interface OracleTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the on-premises Oracle database. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The AmazonRdsForOracle database dataset. */
-export interface AmazonRdsForOracleTableDataset extends Dataset {
+export type AmazonRdsForOracleTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracleTable";
   /** The schema name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
   /** The table name of the AmazonRdsForOracle database. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Teradata database dataset. */
-export interface TeradataTableDataset extends Dataset {
+export type TeradataTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TeradataTable";
   /** The database name of Teradata. Type: string (or Expression with resultType string). */
   database?: any;
   /** The table name of Teradata. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Azure MySQL database dataset. */
-export interface AzureMySqlTableDataset extends Dataset {
+export type AzureMySqlTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlTable";
   /** The Azure MySQL database table name. Type: string (or Expression with resultType string). */
   tableName?: any;
   /** The name of Azure MySQL database table. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Amazon Redshift table dataset. */
-export interface AmazonRedshiftTableDataset extends Dataset {
+export type AmazonRedshiftTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshiftTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6676,10 +6673,10 @@ export interface AmazonRedshiftTableDataset extends Dataset {
   table?: any;
   /** The Amazon Redshift schema name. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** The Db2 table dataset. */
-export interface Db2TableDataset extends Dataset {
+export type Db2TableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2Table";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6688,42 +6685,42 @@ export interface Db2TableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The Db2 table name. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The relational table dataset. */
-export interface RelationalTableDataset extends Dataset {
+export type RelationalTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RelationalTable";
   /** The relational table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The Informix table dataset. */
-export interface InformixTableDataset extends Dataset {
+export type InformixTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixTable";
   /** The Informix table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The ODBC table dataset. */
-export interface OdbcTableDataset extends Dataset {
+export type OdbcTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcTable";
   /** The ODBC table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The MySQL table dataset. */
-export interface MySqlTableDataset extends Dataset {
+export type MySqlTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySqlTable";
   /** The MySQL table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The PostgreSQL table dataset. */
-export interface PostgreSqlTableDataset extends Dataset {
+export type PostgreSqlTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSqlTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6732,74 +6729,74 @@ export interface PostgreSqlTableDataset extends Dataset {
   table?: any;
   /** The PostgreSQL schema name. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** The Microsoft Access table dataset. */
-export interface MicrosoftAccessTableDataset extends Dataset {
+export type MicrosoftAccessTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessTable";
   /** The Microsoft Access table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The Salesforce object dataset. */
-export interface SalesforceObjectDataset extends Dataset {
+export type SalesforceObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceObject";
   /** The Salesforce object API name. Type: string (or Expression with resultType string). */
   objectApiName?: any;
-}
+};
 
 /** The Salesforce Service Cloud object dataset. */
-export interface SalesforceServiceCloudObjectDataset extends Dataset {
+export type SalesforceServiceCloudObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloudObject";
   /** The Salesforce Service Cloud object API name. Type: string (or Expression with resultType string). */
   objectApiName?: any;
-}
+};
 
 /** The Sybase table dataset. */
-export interface SybaseTableDataset extends Dataset {
+export type SybaseTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SybaseTable";
   /** The Sybase table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The SAP BW cube dataset. */
-export interface SapBwCubeDataset extends Dataset {
+export type SapBwCubeDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapBwCube";
-}
+};
 
 /** The path of the SAP Cloud for Customer OData entity. */
-export interface SapCloudForCustomerResourceDataset extends Dataset {
+export type SapCloudForCustomerResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomerResource";
   /** The path of the SAP Cloud for Customer OData entity. Type: string (or Expression with resultType string). */
   path: any;
-}
+};
 
 /** The path of the SAP ECC OData entity. */
-export interface SapEccResourceDataset extends Dataset {
+export type SapEccResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEccResource";
   /** The path of the SAP ECC OData entity. Type: string (or Expression with resultType string). */
   path: any;
-}
+};
 
 /** SAP HANA Table properties. */
-export interface SapHanaTableDataset extends Dataset {
+export type SapHanaTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHanaTable";
   /** The schema name of SAP HANA. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
   /** The table name of SAP HANA. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** Sap Business Warehouse Open Hub Destination Table properties. */
-export interface SapOpenHubTableDataset extends Dataset {
+export type SapOpenHubTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHubTable";
   /** The name of the Open Hub Destination with destination type as Database Table. Type: string (or Expression with resultType string). */
@@ -6808,10 +6805,10 @@ export interface SapOpenHubTableDataset extends Dataset {
   excludeLastRequest?: any;
   /** The ID of request for delta loading. Once it is set, only data with requestId larger than the value of this property will be retrieved. The default value is 0. Type: integer (or Expression with resultType integer ). */
   baseRequestId?: any;
-}
+};
 
 /** The on-premises SQL Server dataset. */
-export interface SqlServerTableDataset extends Dataset {
+export type SqlServerTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6820,20 +6817,20 @@ export interface SqlServerTableDataset extends Dataset {
   schemaTypePropertiesSchema?: any;
   /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The Amazon RDS for SQL Server dataset. */
-export interface AmazonRdsForSqlServerTableDataset extends Dataset {
+export type AmazonRdsForSqlServerTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServerTable";
   /** The schema name of the SQL Server dataset. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
   /** The table name of the SQL Server dataset. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** A Rest service dataset. */
-export interface RestResourceDataset extends Dataset {
+export type RestResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestResource";
   /** The relative URL to the resource that the RESTful API provides. Type: string (or Expression with resultType string). */
@@ -6846,46 +6843,46 @@ export interface RestResourceDataset extends Dataset {
   additionalHeaders?: any;
   /** The pagination rules to compose next page requests. Type: string (or Expression with resultType string). */
   paginationRules?: any;
-}
+};
 
 /** SAP Table Resource properties. */
-export interface SapTableResourceDataset extends Dataset {
+export type SapTableResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTableResource";
   /** The name of the SAP Table. Type: string (or Expression with resultType string). */
   tableName: any;
-}
+};
 
 /** SAP ODP Resource properties. */
-export interface SapOdpResourceDataset extends Dataset {
+export type SapOdpResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOdpResource";
   /** The context of the SAP ODP Object. Type: string (or Expression with resultType string). */
   context: any;
   /** The name of the SAP ODP Object. Type: string (or Expression with resultType string). */
   objectName: any;
-}
+};
 
 /** The dataset points to a HTML table in the web page. */
-export interface WebTableDataset extends Dataset {
+export type WebTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebTable";
   /** The zero-based index of the table in the web page. Type: integer (or Expression with resultType integer), minimum: 0. */
   index: any;
   /** The relative URL to the web page from the linked service URL. Type: string (or Expression with resultType string). */
   path?: any;
-}
+};
 
 /** The Azure Search Index. */
-export interface AzureSearchIndexDataset extends Dataset {
+export type AzureSearchIndexDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSearchIndex";
   /** The name of the Azure Search Index. Type: string (or Expression with resultType string). */
   indexName: any;
-}
+};
 
 /** A file in an HTTP web server. */
-export interface HttpDataset extends Dataset {
+export type HttpDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpFile";
   /** The relative URL based on the URL in the HttpLinkedService refers to an HTTP file Type: string (or Expression with resultType string). */
@@ -6904,18 +6901,18 @@ export interface HttpDataset extends Dataset {
   format?: DatasetStorageFormatUnion;
   /** The data compression method used on files. */
   compression?: DatasetCompression;
-}
+};
 
 /** Amazon Marketplace Web Service dataset. */
-export interface AmazonMWSObjectDataset extends Dataset {
+export type AmazonMWSObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWSObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Azure PostgreSQL dataset. */
-export interface AzurePostgreSqlTableDataset extends Dataset {
+export type AzurePostgreSqlTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlTable";
   /** The table name of the Azure PostgreSQL database which includes both schema and table. Type: string (or Expression with resultType string). */
@@ -6924,26 +6921,26 @@ export interface AzurePostgreSqlTableDataset extends Dataset {
   table?: any;
   /** The schema name of the Azure PostgreSQL database. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Concur Service dataset. */
-export interface ConcurObjectDataset extends Dataset {
+export type ConcurObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConcurObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Couchbase server dataset. */
-export interface CouchbaseTableDataset extends Dataset {
+export type CouchbaseTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CouchbaseTable";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Drill server dataset. */
-export interface DrillTableDataset extends Dataset {
+export type DrillTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DrillTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6952,18 +6949,18 @@ export interface DrillTableDataset extends Dataset {
   table?: any;
   /** The schema name of the Drill. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Eloqua server dataset. */
-export interface EloquaObjectDataset extends Dataset {
+export type EloquaObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EloquaObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Google BigQuery service dataset. */
-export interface GoogleBigQueryObjectDataset extends Dataset {
+export type GoogleBigQueryObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQueryObject";
   /** This property will be retired. Please consider using database + table properties instead. */
@@ -6972,10 +6969,10 @@ export interface GoogleBigQueryObjectDataset extends Dataset {
   table?: any;
   /** The database name of the Google BigQuery. Type: string (or Expression with resultType string). */
   dataset?: any;
-}
+};
 
 /** Greenplum Database dataset. */
-export interface GreenplumTableDataset extends Dataset {
+export type GreenplumTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GreenplumTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -6984,18 +6981,18 @@ export interface GreenplumTableDataset extends Dataset {
   table?: any;
   /** The schema name of Greenplum. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** HBase server dataset. */
-export interface HBaseObjectDataset extends Dataset {
+export type HBaseObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBaseObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Hive Server dataset. */
-export interface HiveObjectDataset extends Dataset {
+export type HiveObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HiveObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7004,18 +7001,18 @@ export interface HiveObjectDataset extends Dataset {
   table?: any;
   /** The schema name of the Hive. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Hubspot Service dataset. */
-export interface HubspotObjectDataset extends Dataset {
+export type HubspotObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HubspotObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Impala server dataset. */
-export interface ImpalaObjectDataset extends Dataset {
+export type ImpalaObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ImpalaObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7024,58 +7021,58 @@ export interface ImpalaObjectDataset extends Dataset {
   table?: any;
   /** The schema name of the Impala. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Jira Service dataset. */
-export interface JiraObjectDataset extends Dataset {
+export type JiraObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JiraObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Magento server dataset. */
-export interface MagentoObjectDataset extends Dataset {
+export type MagentoObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MagentoObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** MariaDB server dataset. */
-export interface MariaDBTableDataset extends Dataset {
+export type MariaDBTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDBTable";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Azure Database for MariaDB dataset. */
-export interface AzureMariaDBTableDataset extends Dataset {
+export type AzureMariaDBTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDBTable";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Marketo server dataset. */
-export interface MarketoObjectDataset extends Dataset {
+export type MarketoObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MarketoObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Paypal Service dataset. */
-export interface PaypalObjectDataset extends Dataset {
+export type PaypalObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PaypalObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Phoenix server dataset. */
-export interface PhoenixObjectDataset extends Dataset {
+export type PhoenixObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PhoenixObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7084,10 +7081,10 @@ export interface PhoenixObjectDataset extends Dataset {
   table?: any;
   /** The schema name of the Phoenix. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Presto server dataset. */
-export interface PrestoObjectDataset extends Dataset {
+export type PrestoObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PrestoObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7096,34 +7093,34 @@ export interface PrestoObjectDataset extends Dataset {
   table?: any;
   /** The schema name of the Presto. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** QuickBooks server dataset. */
-export interface QuickBooksObjectDataset extends Dataset {
+export type QuickBooksObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooksObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** ServiceNow server dataset. */
-export interface ServiceNowObjectDataset extends Dataset {
+export type ServiceNowObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNowObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Shopify Service dataset. */
-export interface ShopifyObjectDataset extends Dataset {
+export type ShopifyObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ShopifyObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Spark Server dataset. */
-export interface SparkObjectDataset extends Dataset {
+export type SparkObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SparkObject";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7132,34 +7129,34 @@ export interface SparkObjectDataset extends Dataset {
   table?: any;
   /** The schema name of the Spark. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Square Service dataset. */
-export interface SquareObjectDataset extends Dataset {
+export type SquareObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SquareObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Xero Service dataset. */
-export interface XeroObjectDataset extends Dataset {
+export type XeroObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XeroObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Zoho server dataset. */
-export interface ZohoObjectDataset extends Dataset {
+export type ZohoObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZohoObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Netezza dataset. */
-export interface NetezzaTableDataset extends Dataset {
+export type NetezzaTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "NetezzaTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7168,10 +7165,10 @@ export interface NetezzaTableDataset extends Dataset {
   table?: any;
   /** The schema name of the Netezza. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Vertica dataset. */
-export interface VerticaTableDataset extends Dataset {
+export type VerticaTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VerticaTable";
   /** This property will be retired. Please consider using schema + table properties instead. */
@@ -7180,86 +7177,86 @@ export interface VerticaTableDataset extends Dataset {
   table?: any;
   /** The schema name of the Vertica. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
-}
+};
 
 /** Salesforce Marketing Cloud dataset. */
-export interface SalesforceMarketingCloudObjectDataset extends Dataset {
+export type SalesforceMarketingCloudObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloudObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** Responsys dataset. */
-export interface ResponsysObjectDataset extends Dataset {
+export type ResponsysObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ResponsysObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The path of the Dynamics AX OData entity. */
-export interface DynamicsAXResourceDataset extends Dataset {
+export type DynamicsAXResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAXResource";
   /** The path of the Dynamics AX OData entity. Type: string (or Expression with resultType string). */
   path: any;
-}
+};
 
 /** Oracle Service Cloud dataset. */
-export interface OracleServiceCloudObjectDataset extends Dataset {
+export type OracleServiceCloudObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloudObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The Azure Data Explorer (Kusto) dataset. */
-export interface AzureDataExplorerTableDataset extends Dataset {
+export type AzureDataExplorerTableDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerTable";
   /** The table name of the Azure Data Explorer database. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** Google AdWords service dataset. */
-export interface GoogleAdWordsObjectDataset extends Dataset {
+export type GoogleAdWordsObjectDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWordsObject";
   /** The table name. Type: string (or Expression with resultType string). */
   tableName?: any;
-}
+};
 
 /** The snowflake dataset. */
-export interface SnowflakeDataset extends Dataset {
+export type SnowflakeDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeTable";
   /** The schema name of the Snowflake database. Type: string (or Expression with resultType string). */
   schemaTypePropertiesSchema?: any;
   /** The table name of the Snowflake database. Type: string (or Expression with resultType string). */
   table?: any;
-}
+};
 
 /** The sharepoint online list resource dataset. */
-export interface SharePointOnlineListResourceDataset extends Dataset {
+export type SharePointOnlineListResourceDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineListResource";
   /** The name of the SharePoint Online list. Type: string (or Expression with resultType string). */
   listName?: any;
-}
+};
 
 /** Azure Databricks Delta Lake dataset. */
-export interface AzureDatabricksDeltaLakeDataset extends Dataset {
+export type AzureDatabricksDeltaLakeDataset = Dataset & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeDataset";
   /** The name of delta table. Type: string (or Expression with resultType string). */
   table?: any;
   /** The database name of delta table. Type: string (or Expression with resultType string). */
   database?: any;
-}
+};
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
-export interface ControlActivity extends Activity {
+export type ControlActivity = Activity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "Container"
@@ -7275,10 +7272,10 @@ export interface ControlActivity extends Activity {
     | "SetVariable"
     | "AppendVariable"
     | "WebHook";
-}
+};
 
 /** Base class for all execution activities. */
-export interface ExecutionActivity extends Activity {
+export type ExecutionActivity = Activity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "Execution"
@@ -7310,10 +7307,10 @@ export interface ExecutionActivity extends Activity {
   linkedServiceName?: LinkedServiceReference;
   /** Activity policy. */
   policy?: ActivityPolicy;
-}
+};
 
 /** Execute power query activity. */
-export interface ExecuteWranglingDataflowActivity extends Activity {
+export type ExecuteWranglingDataflowActivity = Activity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecuteWranglingDataflow";
   /** Activity policy. */
@@ -7338,10 +7335,10 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
   queries?: PowerQuerySinkMapping[];
-}
+};
 
 /** Base class for all triggers that support one to many model for trigger to pipeline. */
-export interface MultiplePipelineTrigger extends Trigger {
+export type MultiplePipelineTrigger = Trigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "MultiplePipelineTrigger"
@@ -7351,10 +7348,10 @@ export interface MultiplePipelineTrigger extends Trigger {
     | "CustomEventsTrigger";
   /** Pipelines that need to be started. */
   pipelines?: TriggerPipelineReference[];
-}
+};
 
 /** Trigger that schedules pipeline runs for all fixed time interval windows from a start time without gaps and also supports backfill scenarios (when start time is in the past). */
-export interface TumblingWindowTrigger extends Trigger {
+export type TumblingWindowTrigger = Trigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TumblingWindowTrigger";
   /** Pipeline for which runs are created when an event is fired for trigger window that is ready. */
@@ -7375,10 +7372,10 @@ export interface TumblingWindowTrigger extends Trigger {
   retryPolicy?: RetryPolicy;
   /** Triggers that this trigger depends on. Only tumbling window triggers are supported. */
   dependsOn?: DependencyReferenceUnion[];
-}
+};
 
 /** Trigger that schedules pipeline reruns for all fixed time interval windows from a requested start time to requested end time. */
-export interface RerunTumblingWindowTrigger extends Trigger {
+export type RerunTumblingWindowTrigger = Trigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RerunTumblingWindowTrigger";
   /** The parent trigger reference. */
@@ -7389,10 +7386,10 @@ export interface RerunTumblingWindowTrigger extends Trigger {
   requestedEndTime: Date;
   /** The max number of parallel time windows (ready for execution) for which a rerun is triggered. */
   rerunConcurrency: number;
-}
+};
 
 /** Trigger that allows the referenced pipeline to depend on other pipeline runs based on runDimension Name/Value pairs. Upstream pipelines should declare the same runDimension Name and their runs should have the values for those runDimensions. The referenced pipeline run would be triggered if the values for the runDimension match for all upstream pipeline runs. */
-export interface ChainingTrigger extends Trigger {
+export type ChainingTrigger = Trigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ChainingTrigger";
   /** Pipeline for which runs are created when all upstream pipelines complete successfully. */
@@ -7401,10 +7398,10 @@ export interface ChainingTrigger extends Trigger {
   dependsOn: PipelineReference[];
   /** Run Dimension property that needs to be emitted by upstream pipelines. */
   runDimension: string;
-}
+};
 
 /** Mapping data flow. */
-export interface MappingDataFlow extends DataFlow {
+export type MappingDataFlow = DataFlow & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MappingDataFlow";
   /** List of sources in data flow. */
@@ -7417,10 +7414,10 @@ export interface MappingDataFlow extends DataFlow {
   script?: string;
   /** Data flow script lines. */
   scriptLines?: string[];
-}
+};
 
 /** Data flow flowlet */
-export interface Flowlet extends DataFlow {
+export type Flowlet = DataFlow & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Flowlet";
   /** List of sources in Flowlet. */
@@ -7433,10 +7430,10 @@ export interface Flowlet extends DataFlow {
   script?: string;
   /** Flowlet script lines. */
   scriptLines?: string[];
-}
+};
 
 /** Power Query data flow. */
-export interface WranglingDataFlow extends DataFlow {
+export type WranglingDataFlow = DataFlow & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WranglingDataFlow";
   /** List of sources in Power Query. */
@@ -7445,43 +7442,42 @@ export interface WranglingDataFlow extends DataFlow {
   script?: string;
   /** Locale of the Power query mashup document. */
   documentLocale?: string;
-}
+};
 
 /** Integration runtime debug resource. */
-export interface IntegrationRuntimeDebugResource
-  extends SubResourceDebugResource {
+export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
   /** Integration runtime properties. */
   properties: IntegrationRuntimeUnion;
-}
+};
 
 /** Data flow debug resource. */
-export interface DataFlowDebugResource extends SubResourceDebugResource {
+export type DataFlowDebugResource = SubResourceDebugResource & {
   /** Data flow properties. */
   properties: DataFlowUnion;
-}
+};
 
 /** Dataset debug resource. */
-export interface DatasetDebugResource extends SubResourceDebugResource {
+export type DatasetDebugResource = SubResourceDebugResource & {
   /** Dataset properties. */
   properties: DatasetUnion;
-}
+};
 
 /** Linked service debug resource. */
-export interface LinkedServiceDebugResource extends SubResourceDebugResource {
+export type LinkedServiceDebugResource = SubResourceDebugResource & {
   /** Properties of linked service. */
   properties: LinkedServiceUnion;
-}
+};
 
 /** Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
-export interface SecureString extends SecretBase {
+export type SecureString = SecretBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SecureString";
   /** Value of secure string. */
   value: string;
-}
+};
 
 /** Azure Key Vault secret reference. */
-export interface AzureKeyVaultSecretReference extends SecretBase {
+export type AzureKeyVaultSecretReference = SecretBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureKeyVaultSecret";
   /** The Azure Key Vault linked service reference. */
@@ -7490,10 +7486,10 @@ export interface AzureKeyVaultSecretReference extends SecretBase {
   secretName: any;
   /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
   secretVersion?: any;
-}
+};
 
 /** Service principal credential. */
-export interface ServicePrincipalCredential extends Credential {
+export type ServicePrincipalCredential = Credential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServicePrincipal";
   /** The app ID of the service principal used to authenticate */
@@ -7502,132 +7498,132 @@ export interface ServicePrincipalCredential extends Credential {
   servicePrincipalKey?: AzureKeyVaultSecretReference;
   /** The ID of the tenant to which the service principal belongs */
   tenant?: any;
-}
+};
 
 /** Managed identity credential. */
-export interface ManagedIdentityCredential extends Credential {
+export type ManagedIdentityCredential = Credential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedIdentity";
   /** The resource id of user assigned managed identity */
   resourceId?: string;
-}
+};
 
 /** Transformation for data flow source. */
-export interface DataFlowSource extends Transformation {
+export type DataFlowSource = Transformation & {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
-}
+};
 
 /** Transformation for data flow sink. */
-export interface DataFlowSink extends Transformation {
+export type DataFlowSink = Transformation & {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
   /** Rejected data linked service reference. */
   rejectedDataLinkedService?: LinkedServiceReference;
-}
+};
 
 /** The location of azure blob dataset. */
-export interface AzureBlobStorageLocation extends DatasetLocation {
+export type AzureBlobStorageLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageLocation";
   /** Specify the container of azure blob. Type: string (or Expression with resultType string). */
   container?: any;
-}
+};
 
 /** The location of azure blobFS dataset. */
-export interface AzureBlobFSLocation extends DatasetLocation {
+export type AzureBlobFSLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSLocation";
   /** Specify the fileSystem of azure blobFS. Type: string (or Expression with resultType string). */
   fileSystem?: any;
-}
+};
 
 /** The location of azure data lake store dataset. */
-export interface AzureDataLakeStoreLocation extends DatasetLocation {
+export type AzureDataLakeStoreLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreLocation";
-}
+};
 
 /** The location of amazon S3 dataset. */
-export interface AmazonS3Location extends DatasetLocation {
+export type AmazonS3Location = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3Location";
   /** Specify the bucketName of amazon S3. Type: string (or Expression with resultType string) */
   bucketName?: any;
   /** Specify the version of amazon S3. Type: string (or Expression with resultType string). */
   version?: any;
-}
+};
 
 /** The location of file server dataset. */
-export interface FileServerLocation extends DatasetLocation {
+export type FileServerLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServerLocation";
-}
+};
 
 /** The location of file server dataset. */
-export interface AzureFileStorageLocation extends DatasetLocation {
+export type AzureFileStorageLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageLocation";
-}
+};
 
 /** The location of Amazon S3 Compatible dataset. */
-export interface AmazonS3CompatibleLocation extends DatasetLocation {
+export type AmazonS3CompatibleLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3CompatibleLocation";
   /** Specify the bucketName of Amazon S3 Compatible. Type: string (or Expression with resultType string) */
   bucketName?: any;
   /** Specify the version of Amazon S3 Compatible. Type: string (or Expression with resultType string). */
   version?: any;
-}
+};
 
 /** The location of Oracle Cloud Storage dataset. */
-export interface OracleCloudStorageLocation extends DatasetLocation {
+export type OracleCloudStorageLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorageLocation";
   /** Specify the bucketName of Oracle Cloud Storage. Type: string (or Expression with resultType string) */
   bucketName?: any;
   /** Specify the version of Oracle Cloud Storage. Type: string (or Expression with resultType string). */
   version?: any;
-}
+};
 
 /** The location of Google Cloud Storage dataset. */
-export interface GoogleCloudStorageLocation extends DatasetLocation {
+export type GoogleCloudStorageLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorageLocation";
   /** Specify the bucketName of Google Cloud Storage. Type: string (or Expression with resultType string) */
   bucketName?: any;
   /** Specify the version of Google Cloud Storage. Type: string (or Expression with resultType string). */
   version?: any;
-}
+};
 
 /** The location of ftp server dataset. */
-export interface FtpServerLocation extends DatasetLocation {
+export type FtpServerLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FtpServerLocation";
-}
+};
 
 /** The location of SFTP dataset. */
-export interface SftpLocation extends DatasetLocation {
+export type SftpLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SftpLocation";
-}
+};
 
 /** The location of http server. */
-export interface HttpServerLocation extends DatasetLocation {
+export type HttpServerLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpServerLocation";
   /** Specify the relativeUrl of http server. Type: string (or Expression with resultType string) */
   relativeUrl?: any;
-}
+};
 
 /** The location of HDFS. */
-export interface HdfsLocation extends DatasetLocation {
+export type HdfsLocation = DatasetLocation & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsLocation";
-}
+};
 
 /** The data stored in text format. */
-export interface TextFormat extends DatasetStorageFormat {
+export type TextFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TextFormat";
   /** The column delimiter. Type: string (or Expression with resultType string). */
@@ -7648,10 +7644,10 @@ export interface TextFormat extends DatasetStorageFormat {
   skipLineCount?: any;
   /** When used as input, treat the first row of data as headers. When used as output,write the headers into the output as the first row of data. The default value is false. Type: boolean (or Expression with resultType boolean). */
   firstRowAsHeader?: any;
-}
+};
 
 /** The data stored in JSON format. */
-export interface JsonFormat extends DatasetStorageFormat {
+export type JsonFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonFormat";
   /** File pattern of JSON. To be more specific, the way of separating a collection of JSON objects. The default value is 'setOfObjects'. It is case-sensitive. */
@@ -7664,28 +7660,28 @@ export interface JsonFormat extends DatasetStorageFormat {
   jsonNodeReference?: any;
   /** The JSONPath definition for each column mapping with a customized column name to extract data from JSON file. For fields under root object, start with "$"; for fields inside the array chosen by jsonNodeReference property, start from the array element. Example: {"Column1": "$.Column1Path", "Column2": "Column2PathInArray"}. Type: object (or Expression with resultType object). */
   jsonPathDefinition?: any;
-}
+};
 
 /** The data stored in Avro format. */
-export interface AvroFormat extends DatasetStorageFormat {
+export type AvroFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AvroFormat";
-}
+};
 
 /** The data stored in Optimized Row Columnar (ORC) format. */
-export interface OrcFormat extends DatasetStorageFormat {
+export type OrcFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OrcFormat";
-}
+};
 
 /** The data stored in Parquet format. */
-export interface ParquetFormat extends DatasetStorageFormat {
+export type ParquetFormat = DatasetStorageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetFormat";
-}
+};
 
 /** The custom setup of running cmdkey commands. */
-export interface CmdkeySetup extends CustomSetupBase {
+export type CmdkeySetup = CustomSetupBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup";
   /** The server name of data source access. */
@@ -7694,86 +7690,82 @@ export interface CmdkeySetup extends CustomSetupBase {
   userName: any;
   /** The password of data source access. */
   password: SecretBaseUnion;
-}
+};
 
 /** The custom setup of setting environment variable. */
-export interface EnvironmentVariableSetup extends CustomSetupBase {
+export type EnvironmentVariableSetup = CustomSetupBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EnvironmentVariableSetup";
   /** The name of the environment variable. */
   variableName: string;
   /** The value of the environment variable. */
   variableValue: string;
-}
+};
 
 /** The custom setup of installing 3rd party components. */
-export interface ComponentSetup extends CustomSetupBase {
+export type ComponentSetup = CustomSetupBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ComponentSetup";
   /** The name of the 3rd party component. */
   componentName: string;
   /** The license key to activate the component. */
   licenseKey?: SecretBaseUnion;
-}
+};
 
 /** The express custom setup of installing Azure PowerShell. */
-export interface AzPowerShellSetup extends CustomSetupBase {
+export type AzPowerShellSetup = CustomSetupBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzPowerShellSetup";
   /** The required version of Azure PowerShell to install. */
   version: string;
-}
+};
 
 /** The key authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeKeyAuthorization
-  extends LinkedIntegrationRuntimeType {
+export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeType & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key";
   /** The key used for authorization. */
   key: SecureString;
-}
+};
 
 /** The role based access control (RBAC) authorization type integration runtime. */
-export interface LinkedIntegrationRuntimeRbacAuthorization
-  extends LinkedIntegrationRuntimeType {
+export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntimeType & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "RBAC";
   /** The resource identifier of the integration runtime to be shared. */
   resourceId: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-}
+};
 
 /** A WebLinkedService that uses anonymous authentication to communicate with an HTTP endpoint. */
-export interface WebAnonymousAuthentication
-  extends WebLinkedServiceTypeProperties {
+export type WebAnonymousAuthentication = WebLinkedServiceTypeProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Anonymous";
-}
+};
 
 /** A WebLinkedService that uses basic authentication to communicate with an HTTP endpoint. */
-export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
+export type WebBasicAuthentication = WebLinkedServiceTypeProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "Basic";
   /** User name for Basic authentication. Type: string (or Expression with resultType string). */
   username: any;
   /** The password for Basic authentication. */
   password: SecretBaseUnion;
-}
+};
 
 /** A WebLinkedService that uses client certificate based authentication to communicate with an HTTP endpoint. This scheme follows mutual authentication; the server must also provide valid credentials to the client. */
-export interface WebClientCertificateAuthentication
-  extends WebLinkedServiceTypeProperties {
+export type WebClientCertificateAuthentication = WebLinkedServiceTypeProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authenticationType: "ClientCertificate";
   /** Base64-encoded contents of a PFX file. */
   pfx: SecretBaseUnion;
   /** Password for the PFX file. */
   password: SecretBaseUnion;
-}
+};
 
 /** Azure blob read settings. */
-export interface AzureBlobStorageReadSettings extends StoreReadSettings {
+export type AzureBlobStorageReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7796,10 +7788,10 @@ export interface AzureBlobStorageReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Azure blobFS read settings. */
-export interface AzureBlobFSReadSettings extends StoreReadSettings {
+export type AzureBlobFSReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7820,10 +7812,10 @@ export interface AzureBlobFSReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Azure data lake store read settings. */
-export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
+export type AzureDataLakeStoreReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7848,10 +7840,10 @@ export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Amazon S3 read settings. */
-export interface AmazonS3ReadSettings extends StoreReadSettings {
+export type AmazonS3ReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3ReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7874,10 +7866,10 @@ export interface AmazonS3ReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** File server read settings. */
-export interface FileServerReadSettings extends StoreReadSettings {
+export type FileServerReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServerReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7900,10 +7892,10 @@ export interface FileServerReadSettings extends StoreReadSettings {
   modifiedDatetimeEnd?: any;
   /** Specify a filter to be used to select a subset of files in the folderPath rather than all files. Type: string (or Expression with resultType string). */
   fileFilter?: any;
-}
+};
 
 /** Azure File Storage read settings. */
-export interface AzureFileStorageReadSettings extends StoreReadSettings {
+export type AzureFileStorageReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7926,10 +7918,10 @@ export interface AzureFileStorageReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Amazon S3 Compatible read settings. */
-export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
+export type AmazonS3CompatibleReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonS3CompatibleReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7952,10 +7944,10 @@ export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Oracle Cloud Storage read settings. */
-export interface OracleCloudStorageReadSettings extends StoreReadSettings {
+export type OracleCloudStorageReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleCloudStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -7978,10 +7970,10 @@ export interface OracleCloudStorageReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Google Cloud Storage read settings. */
-export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
+export type GoogleCloudStorageReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleCloudStorageReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -8004,10 +7996,10 @@ export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
   modifiedDatetimeStart?: any;
   /** The end of file's modified datetime. Type: string (or Expression with resultType string). */
   modifiedDatetimeEnd?: any;
-}
+};
 
 /** Ftp read settings. */
-export interface FtpReadSettings extends StoreReadSettings {
+export type FtpReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FtpReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -8028,10 +8020,10 @@ export interface FtpReadSettings extends StoreReadSettings {
   useBinaryTransfer?: boolean;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
   disableChunking?: any;
-}
+};
 
 /** Sftp read settings. */
-export interface SftpReadSettings extends StoreReadSettings {
+export type SftpReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SftpReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -8054,10 +8046,10 @@ export interface SftpReadSettings extends StoreReadSettings {
   modifiedDatetimeEnd?: any;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
   disableChunking?: any;
-}
+};
 
 /** Sftp read settings. */
-export interface HttpReadSettings extends StoreReadSettings {
+export type HttpReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpReadSettings";
   /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
@@ -8072,10 +8064,10 @@ export interface HttpReadSettings extends StoreReadSettings {
   enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
-}
+};
 
 /** HDFS read settings. */
-export interface HdfsReadSettings extends StoreReadSettings {
+export type HdfsReadSettings = StoreReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsReadSettings";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
@@ -8098,74 +8090,74 @@ export interface HdfsReadSettings extends StoreReadSettings {
   distcpSettings?: DistcpSettings;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
   deleteFilesAfterCompletion?: any;
-}
+};
 
 /** Sftp write settings. */
-export interface SftpWriteSettings extends StoreWriteSettings {
+export type SftpWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SftpWriteSettings";
   /** Specifies the timeout for writing each chunk to SFTP server. Default value: 01:00:00 (one hour). Type: string (or Expression with resultType string). */
   operationTimeout?: any;
   /** Upload to temporary file(s) and rename. Disable this option if your SFTP server doesn't support rename operation. Type: boolean (or Expression with resultType boolean). */
   useTempFileRename?: any;
-}
+};
 
 /** Azure blob write settings. */
-export interface AzureBlobStorageWriteSettings extends StoreWriteSettings {
+export type AzureBlobStorageWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobStorageWriteSettings";
   /** Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer). */
   blockSizeInMB?: any;
-}
+};
 
 /** Azure blobFS write settings. */
-export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
+export type AzureBlobFSWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSWriteSettings";
   /** Indicates the block size(MB) when writing data to blob. Type: integer (or Expression with resultType integer). */
   blockSizeInMB?: any;
-}
+};
 
 /** Azure data lake store write settings. */
-export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
+export type AzureDataLakeStoreWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreWriteSettings";
   /** Specifies the expiry time of the written files. The time is applied to the UTC time zone in the format of "2018-12-01T05:00:00Z". Default value is NULL. Type: integer (or Expression with resultType integer). */
   expiryDateTime?: any;
-}
+};
 
 /** File server write settings. */
-export interface FileServerWriteSettings extends StoreWriteSettings {
+export type FileServerWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileServerWriteSettings";
-}
+};
 
 /** Azure File Storage write settings. */
-export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
+export type AzureFileStorageWriteSettings = StoreWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFileStorageWriteSettings";
-}
+};
 
 /** Delimited text read settings. */
-export interface DelimitedTextReadSettings extends FormatReadSettings {
+export type DelimitedTextReadSettings = FormatReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextReadSettings";
   /** Indicates the number of non-empty rows to skip when reading data from input files. Type: integer (or Expression with resultType integer). */
   skipLineCount?: any;
   /** Compression settings. */
   compressionProperties?: CompressionReadSettingsUnion;
-}
+};
 
 /** Json read settings. */
-export interface JsonReadSettings extends FormatReadSettings {
+export type JsonReadSettings = FormatReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonReadSettings";
   /** Compression settings. */
   compressionProperties?: CompressionReadSettingsUnion;
-}
+};
 
 /** Xml read settings. */
-export interface XmlReadSettings extends FormatReadSettings {
+export type XmlReadSettings = FormatReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XmlReadSettings";
   /** Compression settings. */
@@ -8178,42 +8170,42 @@ export interface XmlReadSettings extends FormatReadSettings {
   namespaces?: any;
   /** Namespace uri to prefix mappings to override the prefixes in column names when namespace is enabled, if no prefix is defined for a namespace uri, the prefix of xml element/attribute name in the xml data file will be used. Example: "{"http://www.example.com/xml":"prefix"}" Type: object (or Expression with resultType object). */
   namespacePrefixes?: any;
-}
+};
 
 /** Binary read settings. */
-export interface BinaryReadSettings extends FormatReadSettings {
+export type BinaryReadSettings = FormatReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BinaryReadSettings";
   /** Compression settings. */
   compressionProperties?: CompressionReadSettingsUnion;
-}
+};
 
 /** The ZipDeflate compression read settings. */
-export interface ZipDeflateReadSettings extends CompressionReadSettings {
+export type ZipDeflateReadSettings = CompressionReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZipDeflateReadSettings";
   /** Preserve the zip file name as folder path. Type: boolean (or Expression with resultType boolean). */
   preserveZipFileNameAsFolder?: any;
-}
+};
 
 /** The Tar compression read settings. */
-export interface TarReadSettings extends CompressionReadSettings {
+export type TarReadSettings = CompressionReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TarReadSettings";
   /** Preserve the compression file name as folder path. Type: boolean (or Expression with resultType boolean). */
   preserveCompressionFileNameAsFolder?: any;
-}
+};
 
 /** The TarGZip compression read settings. */
-export interface TarGZipReadSettings extends CompressionReadSettings {
+export type TarGZipReadSettings = CompressionReadSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TarGZipReadSettings";
   /** Preserve the compression file name as folder path. Type: boolean (or Expression with resultType boolean). */
   preserveCompressionFileNameAsFolder?: any;
-}
+};
 
 /** Avro write settings. */
-export interface AvroWriteSettings extends FormatWriteSettings {
+export type AvroWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AvroWriteSettings";
   /** Top level record name in write result, which is required in AVRO spec. */
@@ -8224,30 +8216,30 @@ export interface AvroWriteSettings extends FormatWriteSettings {
   maxRowsPerFile?: any;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
   fileNamePrefix?: any;
-}
+};
 
 /** Orc write settings. */
-export interface OrcWriteSettings extends FormatWriteSettings {
+export type OrcWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OrcWriteSettings";
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
   maxRowsPerFile?: any;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
   fileNamePrefix?: any;
-}
+};
 
 /** Parquet write settings. */
-export interface ParquetWriteSettings extends FormatWriteSettings {
+export type ParquetWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetWriteSettings";
   /** Limit the written file's row count to be smaller than or equal to the specified count. Type: integer (or Expression with resultType integer). */
   maxRowsPerFile?: any;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
   fileNamePrefix?: any;
-}
+};
 
 /** Delimited text write settings. */
-export interface DelimitedTextWriteSettings extends FormatWriteSettings {
+export type DelimitedTextWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextWriteSettings";
   /** Indicates whether string values should always be enclosed with quotes. Type: boolean (or Expression with resultType boolean). */
@@ -8258,48 +8250,48 @@ export interface DelimitedTextWriteSettings extends FormatWriteSettings {
   maxRowsPerFile?: any;
   /** Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from non-file based store without partitionOptions. Type: string (or Expression with resultType string). */
   fileNamePrefix?: any;
-}
+};
 
 /** Json write settings. */
-export interface JsonWriteSettings extends FormatWriteSettings {
+export type JsonWriteSettings = FormatWriteSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonWriteSettings";
   /** File pattern of JSON. This setting controls the way a collection of JSON objects will be treated. The default value is 'setOfObjects'. It is case-sensitive. */
   filePattern?: any;
-}
+};
 
 /** A copy activity Avro source. */
-export interface AvroSource extends CopySource {
+export type AvroSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AvroSource";
   /** Avro store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity excel source. */
-export interface ExcelSource extends CopySource {
+export type ExcelSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExcelSource";
   /** Excel store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Parquet source. */
-export interface ParquetSource extends CopySource {
+export type ParquetSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetSource";
   /** Parquet store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity DelimitedText source. */
-export interface DelimitedTextSource extends CopySource {
+export type DelimitedTextSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextSource";
   /** DelimitedText store settings. */
@@ -8308,10 +8300,10 @@ export interface DelimitedTextSource extends CopySource {
   formatSettings?: DelimitedTextReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Json source. */
-export interface JsonSource extends CopySource {
+export type JsonSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonSource";
   /** Json store settings. */
@@ -8320,10 +8312,10 @@ export interface JsonSource extends CopySource {
   formatSettings?: JsonReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Xml source. */
-export interface XmlSource extends CopySource {
+export type XmlSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XmlSource";
   /** Xml store settings. */
@@ -8332,30 +8324,30 @@ export interface XmlSource extends CopySource {
   formatSettings?: XmlReadSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity ORC source. */
-export interface OrcSource extends CopySource {
+export type OrcSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OrcSource";
   /** ORC store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Binary source. */
-export interface BinarySource extends CopySource {
+export type BinarySource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BinarySource";
   /** Binary store settings. */
   storeSettings?: StoreReadSettingsUnion;
   /** Binary format settings. */
   formatSettings?: BinaryReadSettings;
-}
+};
 
 /** Copy activity sources of tabular type. */
-export interface TabularSource extends CopySource {
+export type TabularSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "TabularSource"
@@ -8422,10 +8414,10 @@ export interface TabularSource extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Azure Blob source. */
-export interface BlobSource extends CopySource {
+export type BlobSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobSource";
   /** Treat empty as null. Type: boolean (or Expression with resultType boolean). */
@@ -8434,10 +8426,10 @@ export interface BlobSource extends CopySource {
   skipHeaderLineCount?: any;
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
-}
+};
 
 /** A copy activity Document Database Collection source. */
-export interface DocumentDbCollectionSource extends CopySource {
+export type DocumentDbCollectionSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollectionSource";
   /** Documents query. Type: string (or Expression with resultType string). */
@@ -8448,10 +8440,10 @@ export interface DocumentDbCollectionSource extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Azure CosmosDB (SQL API) Collection source. */
-export interface CosmosDbSqlApiSource extends CopySource {
+export type CosmosDbSqlApiSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiSource";
   /** SQL API query. Type: string (or Expression with resultType string). */
@@ -8464,60 +8456,60 @@ export interface CosmosDbSqlApiSource extends CopySource {
   detectDatetime?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Dynamics source. */
-export interface DynamicsSource extends CopySource {
+export type DynamicsSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Dynamics CRM source. */
-export interface DynamicsCrmSource extends CopySource {
+export type DynamicsCrmSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrmSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Dynamics CRM (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Common Data Service for Apps source. */
-export interface CommonDataServiceForAppsSource extends CopySource {
+export type CommonDataServiceForAppsSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForAppsSource";
   /** FetchXML is a proprietary query language that is used in Microsoft Common Data Service for Apps (online & on-premises). Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for various relational databases. */
-export interface RelationalSource extends CopySource {
+export type RelationalSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RelationalSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for Microsoft Access. */
-export interface MicrosoftAccessSource extends CopySource {
+export type MicrosoftAccessSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for OData source. */
-export interface ODataSource extends CopySource {
+export type ODataSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ODataSource";
   /** OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
@@ -8526,10 +8518,10 @@ export interface ODataSource extends CopySource {
   httpRequestTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Salesforce Service Cloud source. */
-export interface SalesforceServiceCloudSource extends CopySource {
+export type SalesforceServiceCloudSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloudSource";
   /** Database query. Type: string (or Expression with resultType string). */
@@ -8538,10 +8530,10 @@ export interface SalesforceServiceCloudSource extends CopySource {
   readBehavior?: SalesforceSourceReadBehavior;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Rest service source. */
-export interface RestSource extends CopySource {
+export type RestSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestSource";
   /** The HTTP method used to call the RESTful API. The default is GET. Type: string (or Expression with resultType string). */
@@ -8558,30 +8550,30 @@ export interface RestSource extends CopySource {
   requestInterval?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity file system source. */
-export interface FileSystemSource extends CopySource {
+export type FileSystemSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileSystemSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity HDFS source. */
-export interface HdfsSource extends CopySource {
+export type HdfsSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HdfsSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
   /** Specifies Distcp-related settings. */
   distcpSettings?: DistcpSettings;
-}
+};
 
 /** A copy activity Azure Data Explorer (Kusto) source. */
-export interface AzureDataExplorerSource extends CopySource {
+export type AzureDataExplorerSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerSource";
   /** Database query. Should be a Kusto Query Language (KQL) query. Type: string (or Expression with resultType string). */
@@ -8592,10 +8584,10 @@ export interface AzureDataExplorerSource extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity Oracle source. */
-export interface OracleSource extends CopySource {
+export type OracleSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleSource";
   /** Oracle reader query. Type: string (or Expression with resultType string). */
@@ -8608,10 +8600,10 @@ export interface OracleSource extends CopySource {
   partitionSettings?: OraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity AmazonRdsForOracle source. */
-export interface AmazonRdsForOracleSource extends CopySource {
+export type AmazonRdsForOracleSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForOracleSource";
   /** AmazonRdsForOracle reader query. Type: string (or Expression with resultType string). */
@@ -8624,28 +8616,28 @@ export interface AmazonRdsForOracleSource extends CopySource {
   partitionSettings?: AmazonRdsForOraclePartitionSettings;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for web page table. */
-export interface WebSource extends CopySource {
+export type WebSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebSource";
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for a MongoDB database. */
-export interface MongoDbSource extends CopySource {
+export type MongoDbSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbSource";
   /** Database query. Should be a SQL-92 query expression. Type: string (or Expression with resultType string). */
   query?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for a MongoDB Atlas database. */
-export interface MongoDbAtlasSource extends CopySource {
+export type MongoDbAtlasSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasSource";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
@@ -8658,10 +8650,10 @@ export interface MongoDbAtlasSource extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for a MongoDB database. */
-export interface MongoDbV2Source extends CopySource {
+export type MongoDbV2Source = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Source";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
@@ -8674,10 +8666,10 @@ export interface MongoDbV2Source extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for a CosmosDB (MongoDB API) database. */
-export interface CosmosDbMongoDbApiSource extends CopySource {
+export type CosmosDbMongoDbApiSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiSource";
   /** Specifies selection filter using query operators. To return all documents in a collection, omit this parameter or pass an empty document ({}). Type: string (or Expression with resultType string). */
@@ -8690,10 +8682,10 @@ export interface CosmosDbMongoDbApiSource extends CopySource {
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
   additionalColumns?: any;
-}
+};
 
 /** A copy activity source for an Office 365 service. */
-export interface Office365Source extends CopySource {
+export type Office365Source = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Office365Source";
   /** The groups containing all the users. Type: array of strings (or Expression with resultType array of strings). */
@@ -8708,18 +8700,18 @@ export interface Office365Source extends CopySource {
   endTime?: any;
   /** The columns to be read out from the Office 365 table. Type: array of objects (or Expression with resultType array of objects). Example: [ { "name": "Id" }, { "name": "CreatedDateTime" } ] */
   outputColumns?: any;
-}
+};
 
 /** A copy activity Azure Data Lake source. */
-export interface AzureDataLakeStoreSource extends CopySource {
+export type AzureDataLakeStoreSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSource";
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
-}
+};
 
 /** A copy activity Azure BlobFS source. */
-export interface AzureBlobFSSource extends CopySource {
+export type AzureBlobFSSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSource";
   /** Treat empty as null. Type: boolean (or Expression with resultType boolean). */
@@ -8728,78 +8720,78 @@ export interface AzureBlobFSSource extends CopySource {
   skipHeaderLineCount?: any;
   /** If true, files under the folder path will be read recursively. Default is true. Type: boolean (or Expression with resultType boolean). */
   recursive?: any;
-}
+};
 
 /** A copy activity source for an HTTP file. */
-export interface HttpSource extends CopySource {
+export type HttpSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpSource";
   /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. The default value is equivalent to System.Net.HttpWebRequest.Timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity snowflake source. */
-export interface SnowflakeSource extends CopySource {
+export type SnowflakeSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSource";
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
   exportSettings?: SnowflakeExportCopyCommand;
-}
+};
 
 /** A copy activity Azure Databricks Delta Lake source. */
-export interface AzureDatabricksDeltaLakeSource extends CopySource {
+export type AzureDatabricksDeltaLakeSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeSource";
   /** Azure Databricks Delta Lake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Azure Databricks Delta Lake export settings. */
   exportSettings?: AzureDatabricksDeltaLakeExportCommand;
-}
+};
 
 /** A copy activity source for sharePoint online list source. */
-export interface SharePointOnlineListSource extends CopySource {
+export type SharePointOnlineListSource = CopySource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharePointOnlineListSource";
   /** The OData query to filter the data in SharePoint Online list. For example, "$top=1". Type: string (or Expression with resultType string). */
   query?: any;
   /** The wait time to get a response from SharePoint Online. Default value is 5 minutes (00:05:00). Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity DelimitedText sink. */
-export interface DelimitedTextSink extends CopySink {
+export type DelimitedTextSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DelimitedTextSink";
   /** DelimitedText store settings. */
   storeSettings?: StoreWriteSettingsUnion;
   /** DelimitedText format settings. */
   formatSettings?: DelimitedTextWriteSettings;
-}
+};
 
 /** A copy activity Json sink. */
-export interface JsonSink extends CopySink {
+export type JsonSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JsonSink";
   /** Json store settings. */
   storeSettings?: StoreWriteSettingsUnion;
   /** Json format settings. */
   formatSettings?: JsonWriteSettings;
-}
+};
 
 /** A copy activity ORC sink. */
-export interface OrcSink extends CopySink {
+export type OrcSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OrcSink";
   /** ORC store settings. */
   storeSettings?: StoreWriteSettingsUnion;
   /** ORC format settings. */
   formatSettings?: OrcWriteSettings;
-}
+};
 
 /** A copy activity Rest service Sink. */
-export interface RestSink extends CopySink {
+export type RestSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "RestSink";
   /** The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression with resultType string). */
@@ -8812,52 +8804,52 @@ export interface RestSink extends CopySink {
   requestInterval?: any;
   /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. */
   httpCompressionType?: any;
-}
+};
 
 /** A copy activity Azure PostgreSQL sink. */
-export interface AzurePostgreSqlSink extends CopySink {
+export type AzurePostgreSqlSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Azure MySql sink. */
-export interface AzureMySqlSink extends CopySink {
+export type AzureMySqlSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Azure Databricks Delta Lake sink. */
-export interface AzureDatabricksDeltaLakeSink extends CopySink {
+export type AzureDatabricksDeltaLakeSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** Azure Databricks Delta Lake import settings. */
   importSettings?: AzureDatabricksDeltaLakeImportCommand;
-}
+};
 
 /** A copy activity SAP Cloud for Customer sink. */
-export interface SapCloudForCustomerSink extends CopySink {
+export type SapCloudForCustomerSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomerSink";
   /** The write behavior for the operation. Default is 'Insert'. */
   writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity Azure Queue sink. */
-export interface AzureQueueSink extends CopySink {
+export type AzureQueueSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureQueueSink";
-}
+};
 
 /** A copy activity Azure Table sink. */
-export interface AzureTableSink extends CopySink {
+export type AzureTableSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableSink";
   /** Azure Table default partition key value. Type: string (or Expression with resultType string). */
@@ -8868,38 +8860,38 @@ export interface AzureTableSink extends CopySink {
   azureTableRowKeyName?: any;
   /** Azure Table insert type. Type: string (or Expression with resultType string). */
   azureTableInsertType?: any;
-}
+};
 
 /** A copy activity Avro sink. */
-export interface AvroSink extends CopySink {
+export type AvroSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AvroSink";
   /** Avro store settings. */
   storeSettings?: StoreWriteSettingsUnion;
   /** Avro format settings. */
   formatSettings?: AvroWriteSettings;
-}
+};
 
 /** A copy activity Parquet sink. */
-export interface ParquetSink extends CopySink {
+export type ParquetSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ParquetSink";
   /** Parquet store settings. */
   storeSettings?: StoreWriteSettingsUnion;
   /** Parquet format settings. */
   formatSettings?: ParquetWriteSettings;
-}
+};
 
 /** A copy activity Binary sink. */
-export interface BinarySink extends CopySink {
+export type BinarySink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BinarySink";
   /** Binary store settings. */
   storeSettings?: StoreWriteSettingsUnion;
-}
+};
 
 /** A copy activity Azure Blob sink. */
-export interface BlobSink extends CopySink {
+export type BlobSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobSink";
   /** Blob writer overwrite files. Type: boolean (or Expression with resultType boolean). */
@@ -8912,36 +8904,36 @@ export interface BlobSink extends CopySink {
   copyBehavior?: any;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
-}
+};
 
 /** A copy activity file system sink. */
-export interface FileSystemSink extends CopySink {
+export type FileSystemSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileSystemSink";
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
-}
+};
 
 /** A copy activity Document Database Collection sink. */
-export interface DocumentDbCollectionSink extends CopySink {
+export type DocumentDbCollectionSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DocumentDbCollectionSink";
   /** Nested properties separator. Default is . (dot). Type: string (or Expression with resultType string). */
   nestingSeparator?: any;
   /** Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType string). Allowed values: insert and upsert. */
   writeBehavior?: any;
-}
+};
 
 /** A copy activity Azure CosmosDB (SQL API) Collection sink. */
-export interface CosmosDbSqlApiSink extends CopySink {
+export type CosmosDbSqlApiSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbSqlApiSink";
   /** Describes how to write data to Azure Cosmos DB. Type: string (or Expression with resultType string). Allowed values: insert and upsert. */
   writeBehavior?: any;
-}
+};
 
 /** A copy activity SQL sink. */
-export interface SqlSink extends CopySink {
+export type SqlSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
@@ -8964,10 +8956,10 @@ export interface SqlSink extends CopySink {
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
-}
+};
 
 /** A copy activity SQL server sink. */
-export interface SqlServerSink extends CopySink {
+export type SqlServerSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
@@ -8990,10 +8982,10 @@ export interface SqlServerSink extends CopySink {
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
-}
+};
 
 /** A copy activity Azure SQL sink. */
-export interface AzureSqlSink extends CopySink {
+export type AzureSqlSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlSink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
@@ -9016,10 +9008,10 @@ export interface AzureSqlSink extends CopySink {
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
-}
+};
 
 /** A copy activity Azure SQL Managed Instance sink. */
-export interface SqlMISink extends CopySink {
+export type SqlMISink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlMISink";
   /** SQL writer stored procedure name. Type: string (or Expression with resultType string). */
@@ -9042,10 +9034,10 @@ export interface SqlMISink extends CopySink {
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
-}
+};
 
 /** A copy activity SQL Data Warehouse sink. */
-export interface SqlDWSink extends CopySink {
+export type SqlDWSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlDWSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
@@ -9066,80 +9058,80 @@ export interface SqlDWSink extends CopySink {
   writeBehavior?: any;
   /** SQL DW upsert settings. */
   upsertSettings?: SqlDWUpsertSettings;
-}
+};
 
 /** A copy activity snowflake sink. */
-export interface SnowflakeSink extends CopySink {
+export type SnowflakeSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** Snowflake import settings. */
   importSettings?: SnowflakeImportCopyCommand;
-}
+};
 
 /** A copy activity Oracle sink. */
-export interface OracleSink extends CopySink {
+export type OracleSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleSink";
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Azure Data Lake Store sink. */
-export interface AzureDataLakeStoreSink extends CopySink {
+export type AzureDataLakeStoreSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataLakeStoreSink";
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
   /** Single File Parallel. */
   enableAdlsSingleFileParallel?: any;
-}
+};
 
 /** A copy activity Azure Data Lake Storage Gen2 sink. */
-export interface AzureBlobFSSink extends CopySink {
+export type AzureBlobFSSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureBlobFSSink";
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
   /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
   metadata?: MetadataItem[];
-}
+};
 
 /** A copy activity Azure Search Index sink. */
-export interface AzureSearchIndexSink extends CopySink {
+export type AzureSearchIndexSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSearchIndexSink";
   /** Specify the write behavior when upserting documents into Azure Search Index. */
   writeBehavior?: AzureSearchIndexWriteBehaviorType;
-}
+};
 
 /** A copy activity ODBC sink. */
-export interface OdbcSink extends CopySink {
+export type OdbcSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Informix sink. */
-export interface InformixSink extends CopySink {
+export type InformixSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Microsoft Access sink. */
-export interface MicrosoftAccessSink extends CopySink {
+export type MicrosoftAccessSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MicrosoftAccessSink";
   /** A query to execute before starting the copy. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
-}
+};
 
 /** A copy activity Dynamics sink. */
-export interface DynamicsSink extends CopySink {
+export type DynamicsSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsSink";
   /** The write behavior for the operation. */
@@ -9148,10 +9140,10 @@ export interface DynamicsSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
-}
+};
 
 /** A copy activity Dynamics CRM sink. */
-export interface DynamicsCrmSink extends CopySink {
+export type DynamicsCrmSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsCrmSink";
   /** The write behavior for the operation. */
@@ -9160,10 +9152,10 @@ export interface DynamicsCrmSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
-}
+};
 
 /** A copy activity Common Data Service for Apps sink. */
-export interface CommonDataServiceForAppsSink extends CopySink {
+export type CommonDataServiceForAppsSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CommonDataServiceForAppsSink";
   /** The write behavior for the operation. */
@@ -9172,10 +9164,10 @@ export interface CommonDataServiceForAppsSink extends CopySink {
   ignoreNullValues?: any;
   /** The logical name of the alternate key which will be used when upserting records. Type: string (or Expression with resultType string). */
   alternateKeyName?: any;
-}
+};
 
 /** A copy activity Azure Data Explorer sink. */
-export interface AzureDataExplorerSink extends CopySink {
+export type AzureDataExplorerSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerSink";
   /** A name of a pre-created csv mapping that was defined on the target Kusto table. Type: string. */
@@ -9184,10 +9176,10 @@ export interface AzureDataExplorerSink extends CopySink {
   ingestionMappingAsJson?: any;
   /** If set to true, any aggregation will be skipped. Default is false. Type: boolean. */
   flushImmediately?: any;
-}
+};
 
 /** A copy activity Salesforce sink. */
-export interface SalesforceSink extends CopySink {
+export type SalesforceSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceSink";
   /** The write behavior for the operation. Default is Insert. */
@@ -9196,10 +9188,10 @@ export interface SalesforceSink extends CopySink {
   externalIdFieldName?: any;
   /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
   ignoreNullValues?: any;
-}
+};
 
 /** A copy activity Salesforce Service Cloud sink. */
-export interface SalesforceServiceCloudSink extends CopySink {
+export type SalesforceServiceCloudSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceServiceCloudSink";
   /** The write behavior for the operation. Default is Insert. */
@@ -9208,74 +9200,74 @@ export interface SalesforceServiceCloudSink extends CopySink {
   externalIdFieldName?: any;
   /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
   ignoreNullValues?: any;
-}
+};
 
 /** A copy activity MongoDB Atlas sink. */
-export interface MongoDbAtlasSink extends CopySink {
+export type MongoDbAtlasSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbAtlasSink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
   writeBehavior?: any;
-}
+};
 
 /** A copy activity MongoDB sink. */
-export interface MongoDbV2Sink extends CopySink {
+export type MongoDbV2Sink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MongoDbV2Sink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
   writeBehavior?: any;
-}
+};
 
 /** A copy activity sink for a CosmosDB (MongoDB API) database. */
-export interface CosmosDbMongoDbApiSink extends CopySink {
+export type CosmosDbMongoDbApiSink = CopySink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CosmosDbMongoDbApiSink";
   /** Specifies whether the document with same key to be overwritten (upsert) rather than throw exception (insert). The default value is "insert". Type: string (or Expression with resultType string). Type: string (or Expression with resultType string). */
   writeBehavior?: any;
-}
+};
 
 /** Snowflake export command settings. */
-export interface SnowflakeExportCopyCommand extends ExportSettings {
+export type SnowflakeExportCopyCommand = ExportSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeExportCopyCommand";
   /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "OVERWRITE": "TRUE", "MAX_FILE_SIZE": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
-}
+};
 
 /** Azure Databricks Delta Lake export command settings. */
-export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
+export type AzureDatabricksDeltaLakeExportCommand = ExportSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeExportCommand";
   /** Specify the date format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
   dateFormat?: any;
   /** Specify the timestamp format for the csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
   timestampFormat?: any;
-}
+};
 
 /** Azure Databricks Delta Lake import command settings. */
-export interface AzureDatabricksDeltaLakeImportCommand extends ImportSettings {
+export type AzureDatabricksDeltaLakeImportCommand = ImportSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDatabricksDeltaLakeImportCommand";
   /** Specify the date format for csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
   dateFormat?: any;
   /** Specify the timestamp format for csv in Azure Databricks Delta Lake Copy. Type: string (or Expression with resultType string). */
   timestampFormat?: any;
-}
+};
 
 /** Snowflake import command settings. */
-export interface SnowflakeImportCopyCommand extends ImportSettings {
+export type SnowflakeImportCopyCommand = ImportSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SnowflakeImportCopyCommand";
   /** Additional copy options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalCopyOptions": { "DATE_FORMAT": "MM/DD/YYYY", "TIME_FORMAT": "'HH24:MI:SS.FF'" } */
   additionalCopyOptions?: { [propertyName: string]: any };
   /** Additional format options directly passed to snowflake Copy Command. Type: key value pairs (value should be string type) (or Expression with resultType object). Example: "additionalFormatOptions": { "FORCE": "TRUE", "LOAD_UNCERTAIN_FILES": "'FALSE'" } */
   additionalFormatOptions?: { [propertyName: string]: any };
-}
+};
 
 /** A copy activity tabular translator. */
-export interface TabularTranslator extends CopyTranslator {
+export type TabularTranslator = CopyTranslator & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TabularTranslator";
   /** Column mappings. Example: "UserId: MyUserId, Group: MyGroup, Name: MyName" Type: string (or Expression with resultType string). This property will be retired. Please use mappings property. */
@@ -9292,40 +9284,38 @@ export interface TabularTranslator extends CopyTranslator {
   typeConversion?: any;
   /** Type conversion settings */
   typeConversionSettings?: TypeConversionSettings;
-}
+};
 
 /** Execute power query data flow activity properties. */
-export interface ExecutePowerQueryActivityTypeProperties
-  extends ExecuteDataFlowActivityTypeProperties {
+export type ExecutePowerQueryActivityTypeProperties = ExecuteDataFlowActivityTypeProperties & {
   /** (Deprecated. Please use Queries). List of Power Query activity sinks mapped to a queryName. */
   sinks?: { [propertyName: string]: PowerQuerySink };
   /** List of mapping for Power Query mashup query to sink dataset(s). */
   queries?: PowerQuerySinkMapping[];
-}
+};
 
 /** Trigger referenced dependency. */
-export interface TriggerDependencyReference extends DependencyReference {
+export type TriggerDependencyReference = DependencyReference & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "TriggerDependencyReference"
     | "TumblingWindowTriggerDependencyReference";
   /** Referenced trigger. */
   referenceTrigger: TriggerReference;
-}
+};
 
 /** Self referenced tumbling window trigger dependency. */
-export interface SelfDependencyTumblingWindowTriggerReference
-  extends DependencyReference {
+export type SelfDependencyTumblingWindowTriggerReference = DependencyReference & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SelfDependencyTumblingWindowTriggerReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
   offset: string;
   /** The size of the window when evaluating the dependency. If undefined the frequency of the tumbling window will be used. */
   size?: string;
-}
+};
 
 /** Execute pipeline activity. */
-export interface ExecutePipelineActivity extends ControlActivity {
+export type ExecutePipelineActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecutePipeline";
   /** Execute pipeline activity policy. */
@@ -9336,10 +9326,10 @@ export interface ExecutePipelineActivity extends ControlActivity {
   parameters?: { [propertyName: string]: any };
   /** Defines whether activity execution will wait for the dependent pipeline execution to finish. Default is false. */
   waitOnCompletion?: boolean;
-}
+};
 
 /** This activity evaluates a boolean expression and executes either the activities under the ifTrueActivities property or the ifFalseActivities property depending on the result of the expression. */
-export interface IfConditionActivity extends ControlActivity {
+export type IfConditionActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "IfCondition";
   /** An expression that would evaluate to Boolean. This is used to determine the block of activities (ifTrueActivities or ifFalseActivities) that will be executed. */
@@ -9348,10 +9338,10 @@ export interface IfConditionActivity extends ControlActivity {
   ifTrueActivities?: ActivityUnion[];
   /** List of activities to execute if expression is evaluated to false. This is an optional property and if not provided, the activity will exit without any action. */
   ifFalseActivities?: ActivityUnion[];
-}
+};
 
 /** This activity evaluates an expression and executes activities under the cases property that correspond to the expression evaluation expected in the equals property. */
-export interface SwitchActivity extends ControlActivity {
+export type SwitchActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Switch";
   /** An expression that would evaluate to a string or integer. This is used to determine the block of activities in cases that will be executed. */
@@ -9360,10 +9350,10 @@ export interface SwitchActivity extends ControlActivity {
   cases?: SwitchCase[];
   /** List of activities to execute if no case condition is satisfied. This is an optional property and if not provided, the activity will exit without any action. */
   defaultActivities?: ActivityUnion[];
-}
+};
 
 /** This activity is used for iterating over a collection and execute given activities. */
-export interface ForEachActivity extends ControlActivity {
+export type ForEachActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ForEach";
   /** Should the loop be executed in sequence or in parallel (max 50) */
@@ -9374,28 +9364,28 @@ export interface ForEachActivity extends ControlActivity {
   items: Expression;
   /** List of activities to execute . */
   activities: ActivityUnion[];
-}
+};
 
 /** This activity suspends pipeline execution for the specified interval. */
-export interface WaitActivity extends ControlActivity {
+export type WaitActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Wait";
   /** Duration in seconds. */
   waitTimeInSeconds: any;
-}
+};
 
 /** This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it. */
-export interface FailActivity extends ControlActivity {
+export type FailActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Fail";
   /** The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
   message: any;
   /** The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string). */
   errorCode: any;
-}
+};
 
 /** This activity executes inner activities until the specified boolean expression results to true or timeout is reached, whichever is earlier. */
-export interface UntilActivity extends ControlActivity {
+export type UntilActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Until";
   /** An expression that would evaluate to Boolean. The loop will continue until this expression evaluates to true */
@@ -9404,10 +9394,10 @@ export interface UntilActivity extends ControlActivity {
   timeout?: any;
   /** List of activities to execute. */
   activities: ActivityUnion[];
-}
+};
 
 /** This activity verifies that an external resource exists. */
-export interface ValidationActivity extends ControlActivity {
+export type ValidationActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Validation";
   /** Specifies the timeout for the activity to run. If there is no value specified, it takes the value of TimeSpan.FromDays(7) which is 1 week as default. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
@@ -9420,40 +9410,40 @@ export interface ValidationActivity extends ControlActivity {
   childItems?: any;
   /** Validation activity dataset reference. */
   dataset: DatasetReference;
-}
+};
 
 /** Filter and return results from input array based on the conditions. */
-export interface FilterActivity extends ControlActivity {
+export type FilterActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Filter";
   /** Input array on which filter should be applied. */
   items: Expression;
   /** Condition to be used for filtering the input. */
   condition: Expression;
-}
+};
 
 /** Set value for a Variable. */
-export interface SetVariableActivity extends ControlActivity {
+export type SetVariableActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SetVariable";
   /** Name of the variable whose value needs to be set. */
   variableName?: string;
   /** Value to be set. Could be a static value or Expression */
   value?: any;
-}
+};
 
 /** Append value for a Variable of type Array. */
-export interface AppendVariableActivity extends ControlActivity {
+export type AppendVariableActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AppendVariable";
   /** Name of the variable whose value needs to be appended to. */
   variableName?: string;
   /** Value to be appended. Could be a static value or Expression */
   value?: any;
-}
+};
 
 /** WebHook activity. */
-export interface WebHookActivity extends ControlActivity {
+export type WebHookActivity = ControlActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebHook";
   /** Rest API method for target endpoint. */
@@ -9470,10 +9460,10 @@ export interface WebHookActivity extends ControlActivity {
   authentication?: WebActivityAuthentication;
   /** When set to true, statusCode, output and error in callback request body will be consumed by activity. The activity can be marked as failed by setting statusCode >= 400 in callback request. Default is false. Type: boolean (or Expression with resultType boolean). */
   reportStatusOnCallBack?: any;
-}
+};
 
 /** Copy activity. */
-export interface CopyActivity extends ExecutionActivity {
+export type CopyActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Copy";
   /** List of inputs for the activity. */
@@ -9510,10 +9500,10 @@ export interface CopyActivity extends ExecutionActivity {
   validateDataConsistency?: any;
   /** Specify the fault tolerance for data consistency. */
   skipErrorFile?: SkipErrorFile;
-}
+};
 
 /** HDInsight Hive activity type. */
-export interface HDInsightHiveActivity extends ExecutionActivity {
+export type HDInsightHiveActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightHive";
   /** Storage linked service references. */
@@ -9532,10 +9522,10 @@ export interface HDInsightHiveActivity extends ExecutionActivity {
   variables?: any[];
   /** Query timeout value (in minutes).  Effective when the HDInsight cluster is with ESP (Enterprise Security Package) */
   queryTimeout?: number;
-}
+};
 
 /** HDInsight Pig activity type. */
-export interface HDInsightPigActivity extends ExecutionActivity {
+export type HDInsightPigActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightPig";
   /** Storage linked service references. */
@@ -9550,10 +9540,10 @@ export interface HDInsightPigActivity extends ExecutionActivity {
   scriptLinkedService?: LinkedServiceReference;
   /** Allows user to specify defines for Pig job request. */
   defines?: { [propertyName: string]: any };
-}
+};
 
 /** HDInsight MapReduce activity type. */
-export interface HDInsightMapReduceActivity extends ExecutionActivity {
+export type HDInsightMapReduceActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightMapReduce";
   /** Storage linked service references. */
@@ -9572,10 +9562,10 @@ export interface HDInsightMapReduceActivity extends ExecutionActivity {
   jarLibs?: any[];
   /** Allows user to specify defines for the MapReduce job request. */
   defines?: { [propertyName: string]: any };
-}
+};
 
 /** HDInsight streaming activity type. */
-export interface HDInsightStreamingActivity extends ExecutionActivity {
+export type HDInsightStreamingActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightStreaming";
   /** Storage linked service references. */
@@ -9602,10 +9592,10 @@ export interface HDInsightStreamingActivity extends ExecutionActivity {
   commandEnvironment?: any[];
   /** Allows user to specify defines for streaming job request. */
   defines?: { [propertyName: string]: any };
-}
+};
 
 /** HDInsight Spark activity. */
-export interface HDInsightSparkActivity extends ExecutionActivity {
+export type HDInsightSparkActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightSpark";
   /** The root path in 'sparkJobLinkedService' for all the job’s files. Type: string (or Expression with resultType string). */
@@ -9624,10 +9614,10 @@ export interface HDInsightSparkActivity extends ExecutionActivity {
   proxyUser?: any;
   /** Spark configuration property. */
   sparkConfig?: { [propertyName: string]: any };
-}
+};
 
 /** Execute SSIS package activity. */
-export interface ExecuteSsisPackageActivity extends ExecutionActivity {
+export type ExecuteSsisPackageActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecuteSSISPackage";
   /** SSIS package location. */
@@ -9658,10 +9648,10 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
   propertyOverrides?: { [propertyName: string]: SsisPropertyOverride };
   /** SSIS package execution log location. */
   logLocation?: SsisLogLocation;
-}
+};
 
 /** Custom activity type. */
-export interface CustomActivity extends ExecutionActivity {
+export type CustomActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Custom";
   /** Command for custom activity Type: string (or Expression with resultType string). */
@@ -9678,20 +9668,20 @@ export interface CustomActivity extends ExecutionActivity {
   retentionTimeInDays?: any;
   /** Elevation level and scope for the user, default is nonadmin task. Type: string (or Expression with resultType double). */
   autoUserSpecification?: any;
-}
+};
 
 /** SQL stored procedure activity type. */
-export interface SqlServerStoredProcedureActivity extends ExecutionActivity {
+export type SqlServerStoredProcedureActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerStoredProcedure";
   /** Stored procedure name. Type: string (or Expression with resultType string). */
   storedProcedureName: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
   storedProcedureParameters?: any;
-}
+};
 
 /** Delete activity. */
-export interface DeleteActivity extends ExecutionActivity {
+export type DeleteActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Delete";
   /** If true, files or sub-folders under current folder path will be deleted recursively. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -9706,20 +9696,20 @@ export interface DeleteActivity extends ExecutionActivity {
   dataset: DatasetReference;
   /** Delete activity store settings. */
   storeSettings?: StoreReadSettingsUnion;
-}
+};
 
 /** Azure Data Explorer command activity. */
-export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
+export type AzureDataExplorerCommandActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureDataExplorerCommand";
   /** A control command, according to the Azure Data Explorer command syntax. Type: string (or Expression with resultType string). */
   command: any;
   /** Control command timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9]))..) */
   commandTimeout?: any;
-}
+};
 
 /** Lookup activity. */
-export interface LookupActivity extends ExecutionActivity {
+export type LookupActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Lookup";
   /** Dataset-specific source properties, same as copy activity source. */
@@ -9728,10 +9718,10 @@ export interface LookupActivity extends ExecutionActivity {
   dataset: DatasetReference;
   /** Whether to return first row or all rows. Default value is true. Type: boolean (or Expression with resultType boolean). */
   firstRowOnly?: any;
-}
+};
 
 /** Web activity. */
-export interface WebActivity extends ExecutionActivity {
+export type WebActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WebActivity";
   /** Rest API method for target endpoint. */
@@ -9752,10 +9742,10 @@ export interface WebActivity extends ExecutionActivity {
   linkedServices?: LinkedServiceReference[];
   /** The integration runtime reference. */
   connectVia?: IntegrationRuntimeReference;
-}
+};
 
 /** Activity to get metadata of dataset */
-export interface GetMetadataActivity extends ExecutionActivity {
+export type GetMetadataActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GetMetadata";
   /** GetMetadata activity dataset reference. */
@@ -9766,10 +9756,10 @@ export interface GetMetadataActivity extends ExecutionActivity {
   storeSettings?: StoreReadSettingsUnion;
   /** GetMetadata activity format settings. */
   formatSettings?: FormatReadSettingsUnion;
-}
+};
 
 /** Azure ML Batch Execution activity. */
-export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
+export type AzureMLBatchExecutionActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLBatchExecution";
   /** Key,Value pairs to be passed to the Azure ML Batch Execution Service endpoint. Keys must match the names of web service parameters defined in the published Azure ML web service. Values will be passed in the GlobalParameters property of the Azure ML batch execution request. */
@@ -9778,10 +9768,10 @@ export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
   webServiceOutputs?: { [propertyName: string]: AzureMLWebServiceFile };
   /** Key,Value pairs, mapping the names of Azure ML endpoint's Web Service Inputs to AzureMLWebServiceFile objects specifying the input Blob locations.. This information will be passed in the WebServiceInputs property of the Azure ML batch execution request. */
   webServiceInputs?: { [propertyName: string]: AzureMLWebServiceFile };
-}
+};
 
 /** Azure ML Update Resource management activity. */
-export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
+export type AzureMLUpdateResourceActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLUpdateResource";
   /** Name of the Trained Model module in the Web Service experiment to be updated. Type: string (or Expression with resultType string). */
@@ -9790,10 +9780,10 @@ export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
   trainedModelLinkedServiceName: LinkedServiceReference;
   /** The relative file path in trainedModelLinkedService to represent the .ilearner file that will be uploaded by the update operation.  Type: string (or Expression with resultType string). */
   trainedModelFilePath: any;
-}
+};
 
 /** Azure ML Execute Pipeline activity. */
-export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
+export type AzureMLExecutePipelineActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMLExecutePipeline";
   /** ID of the published Azure ML pipeline. Type: string (or Expression with resultType string). */
@@ -9812,10 +9802,10 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
   mlParentRunId?: any;
   /** Whether to continue execution of other steps in the PipelineRun if a step fails. This information will be passed in the continueOnStepFailure property of the published pipeline execution request. Type: boolean (or Expression with resultType boolean). */
   continueOnStepFailure?: any;
-}
+};
 
 /** Data Lake Analytics U-SQL activity. */
-export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
+export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DataLakeAnalyticsU-SQL";
   /** Case-sensitive path to folder that contains the U-SQL script. Type: string (or Expression with resultType string). */
@@ -9832,10 +9822,10 @@ export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
   runtimeVersion?: any;
   /** Compilation mode of U-SQL. Must be one of these values : Semantic, Full and SingleBox. Type: string (or Expression with resultType string). */
   compilationMode?: any;
-}
+};
 
 /** DatabricksNotebook activity. */
-export interface DatabricksNotebookActivity extends ExecutionActivity {
+export type DatabricksNotebookActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksNotebook";
   /** The absolute path of the notebook to be run in the Databricks Workspace. This path must begin with a slash. Type: string (or Expression with resultType string). */
@@ -9844,10 +9834,10 @@ export interface DatabricksNotebookActivity extends ExecutionActivity {
   baseParameters?: { [propertyName: string]: any };
   /** A list of libraries to be installed on the cluster that will execute the job. */
   libraries?: { [propertyName: string]: any }[];
-}
+};
 
 /** DatabricksSparkJar activity. */
-export interface DatabricksSparkJarActivity extends ExecutionActivity {
+export type DatabricksSparkJarActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksSparkJar";
   /** The full name of the class containing the main method to be executed. This class must be contained in a JAR provided as a library. Type: string (or Expression with resultType string). */
@@ -9856,10 +9846,10 @@ export interface DatabricksSparkJarActivity extends ExecutionActivity {
   parameters?: any[];
   /** A list of libraries to be installed on the cluster that will execute the job. */
   libraries?: { [propertyName: string]: any }[];
-}
+};
 
 /** DatabricksSparkPython activity. */
-export interface DatabricksSparkPythonActivity extends ExecutionActivity {
+export type DatabricksSparkPythonActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DatabricksSparkPython";
   /** The URI of the Python file to be executed. DBFS paths are supported. Type: string (or Expression with resultType string). */
@@ -9868,10 +9858,10 @@ export interface DatabricksSparkPythonActivity extends ExecutionActivity {
   parameters?: any[];
   /** A list of libraries to be installed on the cluster that will execute the job. */
   libraries?: { [propertyName: string]: any }[];
-}
+};
 
 /** Azure Function activity. */
-export interface AzureFunctionActivity extends ExecutionActivity {
+export type AzureFunctionActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunctionActivity";
   /** Rest API method for target endpoint. */
@@ -9882,10 +9872,10 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   headers?: any;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
-}
+};
 
 /** Execute data flow activity. */
-export interface ExecuteDataFlowActivity extends ExecutionActivity {
+export type ExecuteDataFlowActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ExecuteDataFlow";
   /** Data flow reference. */
@@ -9904,28 +9894,28 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
   runConcurrently?: any;
   /** Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer) */
   sourceStagingConcurrency?: any;
-}
+};
 
 /** Script activity type. */
-export interface ScriptActivity extends ExecutionActivity {
+export type ScriptActivity = ExecutionActivity & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Script";
   /** Array of script blocks. Type: array. */
   scripts?: ScriptActivityScriptBlock[];
   /** Log settings of script activity. */
   logSettings?: ScriptActivityTypePropertiesLogSettings;
-}
+};
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
-export interface ScheduleTrigger extends MultiplePipelineTrigger {
+export type ScheduleTrigger = MultiplePipelineTrigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ScheduleTrigger";
   /** Recurrence schedule configuration. */
   recurrence: ScheduleTriggerRecurrence;
-}
+};
 
 /** Trigger that runs every time the selected Blob container changes. */
-export interface BlobTrigger extends MultiplePipelineTrigger {
+export type BlobTrigger = MultiplePipelineTrigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobTrigger";
   /** The path of the container/folder that will trigger the pipeline. */
@@ -9934,10 +9924,10 @@ export interface BlobTrigger extends MultiplePipelineTrigger {
   maxConcurrency: number;
   /** The Azure Storage linked service reference. */
   linkedService: LinkedServiceReference;
-}
+};
 
 /** Trigger that runs every time a Blob event occurs. */
-export interface BlobEventsTrigger extends MultiplePipelineTrigger {
+export type BlobEventsTrigger = MultiplePipelineTrigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "BlobEventsTrigger";
   /** The blob path must begin with the pattern provided for trigger to fire. For example, '/records/blobs/december/' will only fire the trigger for blobs in the december folder under the records container. At least one of these must be provided: blobPathBeginsWith, blobPathEndsWith. */
@@ -9950,10 +9940,10 @@ export interface BlobEventsTrigger extends MultiplePipelineTrigger {
   events: BlobEventTypes[];
   /** The ARM resource ID of the Storage Account. */
   scope: string;
-}
+};
 
 /** Trigger that runs every time a custom event is received. */
-export interface CustomEventsTrigger extends MultiplePipelineTrigger {
+export type CustomEventsTrigger = MultiplePipelineTrigger & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CustomEventsTrigger";
   /** The event subject must begin with the pattern provided for trigger to fire. At least one of these must be provided: subjectBeginsWith, subjectEndsWith. */
@@ -9964,118 +9954,118 @@ export interface CustomEventsTrigger extends MultiplePipelineTrigger {
   events: any[];
   /** The ARM resource ID of the Azure Event Grid Topic. */
   scope: string;
-}
+};
 
 /** Power query source. */
-export interface PowerQuerySource extends DataFlowSource {
+export type PowerQuerySource = DataFlowSource & {
   /** source script. */
   script?: string;
-}
+};
 
 /** Power query sink. */
-export interface PowerQuerySink extends DataFlowSink {
+export type PowerQuerySink = DataFlowSink & {
   /** sink script. */
   script?: string;
-}
+};
 
 /** A copy activity Azure Table source. */
-export interface AzureTableSource extends TabularSource {
+export type AzureTableSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureTableSource";
   /** Azure Table source query. Type: string (or Expression with resultType string). */
   azureTableSourceQuery?: any;
   /** Azure Table source ignore table not found. Type: boolean (or Expression with resultType boolean). */
   azureTableSourceIgnoreTableNotFound?: any;
-}
+};
 
 /** A copy activity source for Informix. */
-export interface InformixSource extends TabularSource {
+export type InformixSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "InformixSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for Db2 databases. */
-export interface Db2Source extends TabularSource {
+export type Db2Source = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Db2Source";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for ODBC databases. */
-export interface OdbcSource extends TabularSource {
+export type OdbcSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OdbcSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for MySQL databases. */
-export interface MySqlSource extends TabularSource {
+export type MySqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for PostgreSQL databases. */
-export interface PostgreSqlSource extends TabularSource {
+export type PostgreSqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PostgreSqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for Sybase databases. */
-export interface SybaseSource extends TabularSource {
+export type SybaseSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SybaseSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for SapBW server via MDX. */
-export interface SapBwSource extends TabularSource {
+export type SapBwSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapBwSource";
   /** MDX query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Salesforce source. */
-export interface SalesforceSource extends TabularSource {
+export type SalesforceSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
   /** The read behavior for the operation. Default is Query. */
   readBehavior?: SalesforceSourceReadBehavior;
-}
+};
 
 /** A copy activity source for SAP Cloud for Customer source. */
-export interface SapCloudForCustomerSource extends TabularSource {
+export type SapCloudForCustomerSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapCloudForCustomerSource";
   /** SAP Cloud for Customer OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
   query?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity source for SAP ECC source. */
-export interface SapEccSource extends TabularSource {
+export type SapEccSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapEccSource";
   /** SAP ECC OData query. For example, "$top=1". Type: string (or Expression with resultType string). */
   query?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity source for SAP HANA source. */
-export interface SapHanaSource extends TabularSource {
+export type SapHanaSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapHanaSource";
   /** SAP HANA Sql query. Type: string (or Expression with resultType string). */
@@ -10086,10 +10076,10 @@ export interface SapHanaSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for SAP HANA source partitioning. */
   partitionSettings?: SapHanaPartitionSettings;
-}
+};
 
 /** A copy activity source for SAP Business Warehouse Open Hub Destination source. */
-export interface SapOpenHubSource extends TabularSource {
+export type SapOpenHubSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOpenHubSource";
   /** Whether to exclude the records of the last request. The default value is true. Type: boolean (or Expression with resultType boolean). */
@@ -10100,10 +10090,10 @@ export interface SapOpenHubSource extends TabularSource {
   customRfcReadTableFunctionModule?: any;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
   sapDataColumnDelimiter?: any;
-}
+};
 
 /** A copy activity source for SAP ODP source. */
-export interface SapOdpSource extends TabularSource {
+export type SapOdpSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapOdpSource";
   /** The extraction mode. Allowed value include: Full, Delta and Recovery. The default value is Full. Type: string (or Expression with resultType string). */
@@ -10114,10 +10104,10 @@ export interface SapOdpSource extends TabularSource {
   selection?: any;
   /** Specifies the columns to be selected from source data. Type: array of objects(projection) (or Expression with resultType array of objects). */
   projection?: any;
-}
+};
 
 /** A copy activity source for SAP Table source. */
-export interface SapTableSource extends TabularSource {
+export type SapTableSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SapTableSource";
   /** The number of rows to be retrieved. Type: integer(or Expression with resultType integer). */
@@ -10138,10 +10128,10 @@ export interface SapTableSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for SAP table source partitioning. */
   partitionSettings?: SapTablePartitionSettings;
-}
+};
 
 /** A copy activity SQL source. */
-export interface SqlSource extends TabularSource {
+export type SqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
@@ -10158,10 +10148,10 @@ export interface SqlSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity SQL server source. */
-export interface SqlServerSource extends TabularSource {
+export type SqlServerSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlServerSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
@@ -10178,10 +10168,10 @@ export interface SqlServerSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity Amazon RDS for SQL Server source. */
-export interface AmazonRdsForSqlServerSource extends TabularSource {
+export type AmazonRdsForSqlServerSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRdsForSqlServerSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
@@ -10198,10 +10188,10 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity Azure SQL source. */
-export interface AzureSqlSource extends TabularSource {
+export type AzureSqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureSqlSource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
@@ -10218,10 +10208,10 @@ export interface AzureSqlSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity Azure SQL Managed Instance source. */
-export interface SqlMISource extends TabularSource {
+export type SqlMISource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlMISource";
   /** SQL reader query. Type: string (or Expression with resultType string). */
@@ -10238,10 +10228,10 @@ export interface SqlMISource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity SQL Data Warehouse source. */
-export interface SqlDWSource extends TabularSource {
+export type SqlDWSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SqlDWSource";
   /** SQL Data Warehouse reader query. Type: string (or Expression with resultType string). */
@@ -10254,18 +10244,18 @@ export interface SqlDWSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
-}
+};
 
 /** A copy activity Azure MySQL source. */
-export interface AzureMySqlSource extends TabularSource {
+export type AzureMySqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMySqlSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Teradata source. */
-export interface TeradataSource extends TabularSource {
+export type TeradataSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TeradataSource";
   /** Teradata query. Type: string (or Expression with resultType string). */
@@ -10274,236 +10264,236 @@ export interface TeradataSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for teradata source partitioning. */
   partitionSettings?: TeradataPartitionSettings;
-}
+};
 
 /** A copy activity source for a Cassandra database. */
-export interface CassandraSource extends TabularSource {
+export type CassandraSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CassandraSource";
   /** Database query. Should be a SQL-92 query expression or Cassandra Query Language (CQL) command. Type: string (or Expression with resultType string). */
   query?: any;
   /** The consistency level specifies how many Cassandra servers must respond to a read request before returning data to the client application. Cassandra checks the specified number of Cassandra servers for data to satisfy the read request. Must be one of cassandraSourceReadConsistencyLevels. The default value is 'ONE'. It is case-insensitive. */
   consistencyLevel?: CassandraSourceReadConsistencyLevels;
-}
+};
 
 /** A copy activity Amazon Marketplace Web Service source. */
-export interface AmazonMWSSource extends TabularSource {
+export type AmazonMWSSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonMWSSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Azure PostgreSQL source. */
-export interface AzurePostgreSqlSource extends TabularSource {
+export type AzurePostgreSqlSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzurePostgreSqlSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Concur Service source. */
-export interface ConcurSource extends TabularSource {
+export type ConcurSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConcurSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Couchbase server source. */
-export interface CouchbaseSource extends TabularSource {
+export type CouchbaseSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CouchbaseSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Drill server source. */
-export interface DrillSource extends TabularSource {
+export type DrillSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DrillSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Eloqua server source. */
-export interface EloquaSource extends TabularSource {
+export type EloquaSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EloquaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Google BigQuery service source. */
-export interface GoogleBigQuerySource extends TabularSource {
+export type GoogleBigQuerySource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleBigQuerySource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Greenplum Database source. */
-export interface GreenplumSource extends TabularSource {
+export type GreenplumSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GreenplumSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity HBase server source. */
-export interface HBaseSource extends TabularSource {
+export type HBaseSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HBaseSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Hive Server source. */
-export interface HiveSource extends TabularSource {
+export type HiveSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HiveSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Hubspot Service source. */
-export interface HubspotSource extends TabularSource {
+export type HubspotSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HubspotSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Impala server source. */
-export interface ImpalaSource extends TabularSource {
+export type ImpalaSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ImpalaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Jira Service source. */
-export interface JiraSource extends TabularSource {
+export type JiraSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "JiraSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Magento server source. */
-export interface MagentoSource extends TabularSource {
+export type MagentoSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MagentoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity MariaDB server source. */
-export interface MariaDBSource extends TabularSource {
+export type MariaDBSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDBSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Azure MariaDB source. */
-export interface AzureMariaDBSource extends TabularSource {
+export type AzureMariaDBSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureMariaDBSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Marketo server source. */
-export interface MarketoSource extends TabularSource {
+export type MarketoSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MarketoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Paypal Service source. */
-export interface PaypalSource extends TabularSource {
+export type PaypalSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PaypalSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Phoenix server source. */
-export interface PhoenixSource extends TabularSource {
+export type PhoenixSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PhoenixSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Presto server source. */
-export interface PrestoSource extends TabularSource {
+export type PrestoSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PrestoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity QuickBooks server source. */
-export interface QuickBooksSource extends TabularSource {
+export type QuickBooksSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "QuickBooksSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity ServiceNow server source. */
-export interface ServiceNowSource extends TabularSource {
+export type ServiceNowSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ServiceNowSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Shopify Service source. */
-export interface ShopifySource extends TabularSource {
+export type ShopifySource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ShopifySource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Spark Server source. */
-export interface SparkSource extends TabularSource {
+export type SparkSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SparkSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Square Service source. */
-export interface SquareSource extends TabularSource {
+export type SquareSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SquareSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Xero Service source. */
-export interface XeroSource extends TabularSource {
+export type XeroSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "XeroSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Zoho server source. */
-export interface ZohoSource extends TabularSource {
+export type ZohoSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ZohoSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Netezza source. */
-export interface NetezzaSource extends TabularSource {
+export type NetezzaSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "NetezzaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
@@ -10512,78 +10502,77 @@ export interface NetezzaSource extends TabularSource {
   partitionOption?: any;
   /** The settings that will be leveraged for Netezza source partitioning. */
   partitionSettings?: NetezzaPartitionSettings;
-}
+};
 
 /** A copy activity Vertica source. */
-export interface VerticaSource extends TabularSource {
+export type VerticaSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VerticaSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Salesforce Marketing Cloud source. */
-export interface SalesforceMarketingCloudSource extends TabularSource {
+export type SalesforceMarketingCloudSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SalesforceMarketingCloudSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Responsys source. */
-export interface ResponsysSource extends TabularSource {
+export type ResponsysSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ResponsysSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Dynamics AX source. */
-export interface DynamicsAXSource extends TabularSource {
+export type DynamicsAXSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DynamicsAXSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:05:00. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
-}
+};
 
 /** A copy activity Oracle Service Cloud source. */
-export interface OracleServiceCloudSource extends TabularSource {
+export type OracleServiceCloudSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "OracleServiceCloudSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity Google AdWords service source. */
-export interface GoogleAdWordsSource extends TabularSource {
+export type GoogleAdWordsSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "GoogleAdWordsSource";
   /** A query to retrieve data from source. Type: string (or Expression with resultType string). */
   query?: any;
-}
+};
 
 /** A copy activity source for Amazon Redshift Source. */
-export interface AmazonRedshiftSource extends TabularSource {
+export type AmazonRedshiftSource = TabularSource & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AmazonRedshiftSource";
   /** Database query. Type: string (or Expression with resultType string). */
   query?: any;
   /** The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3. */
   redshiftUnloadSettings?: RedshiftUnloadSettings;
-}
+};
 
 /** Referenced tumbling window trigger dependency. */
-export interface TumblingWindowTriggerDependencyReference
-  extends TriggerDependencyReference {
+export type TumblingWindowTriggerDependencyReference = TriggerDependencyReference & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TumblingWindowTriggerDependencyReference";
   /** Timespan applied to the start time of a tumbling window when evaluating dependency. */
   offset?: string;
   /** The size of the window when evaluating the dependency. If undefined the frequency of the tumbling window will be used. */
   size?: string;
-}
+};
 
 /** Defines headers for DataFlowDebugSession_create operation. */
 export interface DataFlowDebugSessionCreateHeaders {
@@ -10599,11 +10588,8 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
 
 /** Known values of {@link FactoryIdentityType} that the service accepts. */
 export enum KnownFactoryIdentityType {
-  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
   UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -10620,17 +10606,11 @@ export type FactoryIdentityType = string;
 
 /** Known values of {@link GlobalParameterType} that the service accepts. */
 export enum KnownGlobalParameterType {
-  /** Object */
   Object = "Object",
-  /** String */
   String = "String",
-  /** Int */
   Int = "Int",
-  /** Float */
   Float = "Float",
-  /** Bool */
   Bool = "Bool",
-  /** Array */
   Array = "Array"
 }
 
@@ -10650,9 +10630,7 @@ export type GlobalParameterType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -10668,9 +10646,7 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link IntegrationRuntimeType} that the service accepts. */
 export enum KnownIntegrationRuntimeType {
-  /** Managed */
   Managed = "Managed",
-  /** SelfHosted */
   SelfHosted = "SelfHosted"
 }
 
@@ -10686,9 +10662,7 @@ export type IntegrationRuntimeType = string;
 
 /** Known values of {@link IntegrationRuntimeAutoUpdate} that the service accepts. */
 export enum KnownIntegrationRuntimeAutoUpdate {
-  /** On */
   On = "On",
-  /** Off */
   Off = "Off"
 }
 
@@ -10704,25 +10678,15 @@ export type IntegrationRuntimeAutoUpdate = string;
 
 /** Known values of {@link IntegrationRuntimeState} that the service accepts. */
 export enum KnownIntegrationRuntimeState {
-  /** Initial */
   Initial = "Initial",
-  /** Stopped */
   Stopped = "Stopped",
-  /** Started */
   Started = "Started",
-  /** Starting */
   Starting = "Starting",
-  /** Stopping */
   Stopping = "Stopping",
-  /** NeedRegistration */
   NeedRegistration = "NeedRegistration",
-  /** Online */
   Online = "Online",
-  /** Limited */
   Limited = "Limited",
-  /** Offline */
   Offline = "Offline",
-  /** AccessDenied */
   AccessDenied = "AccessDenied"
 }
 
@@ -10746,9 +10710,7 @@ export type IntegrationRuntimeState = string;
 
 /** Known values of {@link IntegrationRuntimeAuthKeyName} that the service accepts. */
 export enum KnownIntegrationRuntimeAuthKeyName {
-  /** AuthKey1 */
   AuthKey1 = "authKey1",
-  /** AuthKey2 */
   AuthKey2 = "authKey2"
 }
 
@@ -10764,13 +10726,9 @@ export type IntegrationRuntimeAuthKeyName = string;
 
 /** Known values of {@link SsisObjectMetadataType} that the service accepts. */
 export enum KnownSsisObjectMetadataType {
-  /** Folder */
   Folder = "Folder",
-  /** Project */
   Project = "Project",
-  /** Package */
   Package = "Package",
-  /** Environment */
   Environment = "Environment"
 }
 
@@ -10788,19 +10746,12 @@ export type SsisObjectMetadataType = string;
 
 /** Known values of {@link SelfHostedIntegrationRuntimeNodeStatus} that the service accepts. */
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
-  /** NeedRegistration */
   NeedRegistration = "NeedRegistration",
-  /** Online */
   Online = "Online",
-  /** Limited */
   Limited = "Limited",
-  /** Offline */
   Offline = "Offline",
-  /** Upgrading */
   Upgrading = "Upgrading",
-  /** Initializing */
   Initializing = "Initializing",
-  /** InitializeFailed */
   InitializeFailed = "InitializeFailed"
 }
 
@@ -10821,11 +10772,8 @@ export type SelfHostedIntegrationRuntimeNodeStatus = string;
 
 /** Known values of {@link IntegrationRuntimeUpdateResult} that the service accepts. */
 export enum KnownIntegrationRuntimeUpdateResult {
-  /** None */
   None = "None",
-  /** Succeed */
   Succeed = "Succeed",
-  /** Fail */
   Fail = "Fail"
 }
 
@@ -10842,19 +10790,12 @@ export type IntegrationRuntimeUpdateResult = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
-  /** Object */
   Object = "Object",
-  /** String */
   String = "String",
-  /** Int */
   Int = "Int",
-  /** Float */
   Float = "Float",
-  /** Bool */
   Bool = "Bool",
-  /** Array */
   Array = "Array",
-  /** SecureString */
   SecureString = "SecureString"
 }
 
@@ -10875,7 +10816,6 @@ export type ParameterType = string;
 
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
-  /** LinkedServiceReference */
   LinkedServiceReference = "LinkedServiceReference"
 }
 
@@ -10890,13 +10830,9 @@ export type Type = string;
 
 /** Known values of {@link DependencyCondition} that the service accepts. */
 export enum KnownDependencyCondition {
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Skipped */
   Skipped = "Skipped",
-  /** Completed */
   Completed = "Completed"
 }
 
@@ -10914,11 +10850,8 @@ export type DependencyCondition = string;
 
 /** Known values of {@link VariableType} that the service accepts. */
 export enum KnownVariableType {
-  /** String */
   String = "String",
-  /** Bool */
   Bool = "Bool",
-  /** Array */
   Array = "Array"
 }
 
@@ -10935,29 +10868,17 @@ export type VariableType = string;
 
 /** Known values of {@link RunQueryFilterOperand} that the service accepts. */
 export enum KnownRunQueryFilterOperand {
-  /** PipelineName */
   PipelineName = "PipelineName",
-  /** Status */
   Status = "Status",
-  /** RunStart */
   RunStart = "RunStart",
-  /** RunEnd */
   RunEnd = "RunEnd",
-  /** ActivityName */
   ActivityName = "ActivityName",
-  /** ActivityRunStart */
   ActivityRunStart = "ActivityRunStart",
-  /** ActivityRunEnd */
   ActivityRunEnd = "ActivityRunEnd",
-  /** ActivityType */
   ActivityType = "ActivityType",
-  /** TriggerName */
   TriggerName = "TriggerName",
-  /** TriggerRunTimestamp */
   TriggerRunTimestamp = "TriggerRunTimestamp",
-  /** RunGroupId */
   RunGroupId = "RunGroupId",
-  /** LatestOnly */
   LatestOnly = "LatestOnly"
 }
 
@@ -10983,13 +10904,9 @@ export type RunQueryFilterOperand = string;
 
 /** Known values of {@link RunQueryFilterOperator} that the service accepts. */
 export enum KnownRunQueryFilterOperator {
-  /** Equals */
   Equals = "Equals",
-  /** NotEquals */
   NotEquals = "NotEquals",
-  /** In */
   In = "In",
-  /** NotIn */
   NotIn = "NotIn"
 }
 
@@ -11007,23 +10924,14 @@ export type RunQueryFilterOperator = string;
 
 /** Known values of {@link RunQueryOrderByField} that the service accepts. */
 export enum KnownRunQueryOrderByField {
-  /** RunStart */
   RunStart = "RunStart",
-  /** RunEnd */
   RunEnd = "RunEnd",
-  /** PipelineName */
   PipelineName = "PipelineName",
-  /** Status */
   Status = "Status",
-  /** ActivityName */
   ActivityName = "ActivityName",
-  /** ActivityRunStart */
   ActivityRunStart = "ActivityRunStart",
-  /** ActivityRunEnd */
   ActivityRunEnd = "ActivityRunEnd",
-  /** TriggerName */
   TriggerName = "TriggerName",
-  /** TriggerRunTimestamp */
   TriggerRunTimestamp = "TriggerRunTimestamp"
 }
 
@@ -11046,9 +10954,7 @@ export type RunQueryOrderByField = string;
 
 /** Known values of {@link RunQueryOrder} that the service accepts. */
 export enum KnownRunQueryOrder {
-  /** ASC */
   ASC = "ASC",
-  /** Desc */
   Desc = "DESC"
 }
 
@@ -11064,11 +10970,8 @@ export type RunQueryOrder = string;
 
 /** Known values of {@link TriggerRuntimeState} that the service accepts. */
 export enum KnownTriggerRuntimeState {
-  /** Started */
   Started = "Started",
-  /** Stopped */
   Stopped = "Stopped",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -11085,15 +10988,10 @@ export type TriggerRuntimeState = string;
 
 /** Known values of {@link EventSubscriptionStatus} that the service accepts. */
 export enum KnownEventSubscriptionStatus {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Provisioning */
   Provisioning = "Provisioning",
-  /** Deprovisioning */
   Deprovisioning = "Deprovisioning",
-  /** Disabled */
   Disabled = "Disabled",
-  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -11112,11 +11010,8 @@ export type EventSubscriptionStatus = string;
 
 /** Known values of {@link TriggerRunStatus} that the service accepts. */
 export enum KnownTriggerRunStatus {
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Inprogress */
   Inprogress = "Inprogress"
 }
 
@@ -11133,11 +11028,8 @@ export type TriggerRunStatus = string;
 
 /** Known values of {@link DataFlowDebugCommandType} that the service accepts. */
 export enum KnownDataFlowDebugCommandType {
-  /** ExecutePreviewQuery */
   ExecutePreviewQuery = "executePreviewQuery",
-  /** ExecuteStatisticsQuery */
   ExecuteStatisticsQuery = "executeStatisticsQuery",
-  /** ExecuteExpressionQuery */
   ExecuteExpressionQuery = "executeExpressionQuery"
 }
 
@@ -11154,7 +11046,6 @@ export type DataFlowDebugCommandType = string;
 
 /** Known values of {@link DataFlowReferenceType} that the service accepts. */
 export enum KnownDataFlowReferenceType {
-  /** DataFlowReference */
   DataFlowReference = "DataFlowReference"
 }
 
@@ -11169,7 +11060,6 @@ export type DataFlowReferenceType = string;
 
 /** Known values of {@link ManagedVirtualNetworkReferenceType} that the service accepts. */
 export enum KnownManagedVirtualNetworkReferenceType {
-  /** ManagedVirtualNetworkReference */
   ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
 }
 
@@ -11184,7 +11074,6 @@ export type ManagedVirtualNetworkReferenceType = string;
 
 /** Known values of {@link CredentialReferenceType} that the service accepts. */
 export enum KnownCredentialReferenceType {
-  /** CredentialReference */
   CredentialReference = "CredentialReference"
 }
 
@@ -11199,11 +11088,8 @@ export type CredentialReferenceType = string;
 
 /** Known values of {@link DataFlowComputeType} that the service accepts. */
 export enum KnownDataFlowComputeType {
-  /** General */
   General = "General",
-  /** MemoryOptimized */
   MemoryOptimized = "MemoryOptimized",
-  /** ComputeOptimized */
   ComputeOptimized = "ComputeOptimized"
 }
 
@@ -11220,13 +11106,9 @@ export type DataFlowComputeType = string;
 
 /** Known values of {@link IntegrationRuntimeSsisCatalogPricingTier} that the service accepts. */
 export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
-  /** Basic */
   Basic = "Basic",
-  /** Standard */
   Standard = "Standard",
-  /** Premium */
   Premium = "Premium",
-  /** PremiumRS */
   PremiumRS = "PremiumRS"
 }
 
@@ -11244,9 +11126,7 @@ export type IntegrationRuntimeSsisCatalogPricingTier = string;
 
 /** Known values of {@link IntegrationRuntimeLicenseType} that the service accepts. */
 export enum KnownIntegrationRuntimeLicenseType {
-  /** BasePrice */
   BasePrice = "BasePrice",
-  /** LicenseIncluded */
   LicenseIncluded = "LicenseIncluded"
 }
 
@@ -11262,9 +11142,7 @@ export type IntegrationRuntimeLicenseType = string;
 
 /** Known values of {@link IntegrationRuntimeEntityReferenceType} that the service accepts. */
 export enum KnownIntegrationRuntimeEntityReferenceType {
-  /** IntegrationRuntimeReference */
   IntegrationRuntimeReference = "IntegrationRuntimeReference",
-  /** LinkedServiceReference */
   LinkedServiceReference = "LinkedServiceReference"
 }
 
@@ -11280,9 +11158,7 @@ export type IntegrationRuntimeEntityReferenceType = string;
 
 /** Known values of {@link IntegrationRuntimeEdition} that the service accepts. */
 export enum KnownIntegrationRuntimeEdition {
-  /** Standard */
   Standard = "Standard",
-  /** Enterprise */
   Enterprise = "Enterprise"
 }
 
@@ -11298,13 +11174,9 @@ export type IntegrationRuntimeEdition = string;
 
 /** Known values of {@link ManagedIntegrationRuntimeNodeStatus} that the service accepts. */
 export enum KnownManagedIntegrationRuntimeNodeStatus {
-  /** Starting */
   Starting = "Starting",
-  /** Available */
   Available = "Available",
-  /** Recycling */
   Recycling = "Recycling",
-  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -11322,11 +11194,8 @@ export type ManagedIntegrationRuntimeNodeStatus = string;
 
 /** Known values of {@link IntegrationRuntimeInternalChannelEncryptionMode} that the service accepts. */
 export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
-  /** NotSet */
   NotSet = "NotSet",
-  /** SslEncrypted */
   SslEncrypted = "SslEncrypted",
-  /** NotEncrypted */
   NotEncrypted = "NotEncrypted"
 }
 
@@ -11343,11 +11212,8 @@ export type IntegrationRuntimeInternalChannelEncryptionMode = string;
 
 /** Known values of {@link SqlAlwaysEncryptedAkvAuthType} that the service accepts. */
 export enum KnownSqlAlwaysEncryptedAkvAuthType {
-  /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** UserAssignedManagedIdentity */
   UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
@@ -11364,9 +11230,7 @@ export type SqlAlwaysEncryptedAkvAuthType = string;
 
 /** Known values of {@link CosmosDbServicePrincipalCredentialType} that the service accepts. */
 export enum KnownCosmosDbServicePrincipalCredentialType {
-  /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
-  /** ServicePrincipalCert */
   ServicePrincipalCert = "ServicePrincipalCert"
 }
 
@@ -11382,9 +11246,7 @@ export type CosmosDbServicePrincipalCredentialType = string;
 
 /** Known values of {@link CosmosDbConnectionMode} that the service accepts. */
 export enum KnownCosmosDbConnectionMode {
-  /** Gateway */
   Gateway = "Gateway",
-  /** Direct */
   Direct = "Direct"
 }
 
@@ -11400,9 +11262,7 @@ export type CosmosDbConnectionMode = string;
 
 /** Known values of {@link SybaseAuthenticationType} that the service accepts. */
 export enum KnownSybaseAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -11418,7 +11278,6 @@ export type SybaseAuthenticationType = string;
 
 /** Known values of {@link Db2AuthenticationType} that the service accepts. */
 export enum KnownDb2AuthenticationType {
-  /** Basic */
   Basic = "Basic"
 }
 
@@ -11433,9 +11292,7 @@ export type Db2AuthenticationType = string;
 
 /** Known values of {@link TeradataAuthenticationType} that the service accepts. */
 export enum KnownTeradataAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -11451,15 +11308,10 @@ export type TeradataAuthenticationType = string;
 
 /** Known values of {@link ODataAuthenticationType} that the service accepts. */
 export enum KnownODataAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Windows */
   Windows = "Windows",
-  /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
-  /** ManagedServiceIdentity */
   ManagedServiceIdentity = "ManagedServiceIdentity"
 }
 
@@ -11478,9 +11330,7 @@ export type ODataAuthenticationType = string;
 
 /** Known values of {@link ODataAadServicePrincipalCredentialType} that the service accepts. */
 export enum KnownODataAadServicePrincipalCredentialType {
-  /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
-  /** ServicePrincipalCert */
   ServicePrincipalCert = "ServicePrincipalCert"
 }
 
@@ -11496,11 +11346,8 @@ export type ODataAadServicePrincipalCredentialType = string;
 
 /** Known values of {@link WebAuthenticationType} that the service accepts. */
 export enum KnownWebAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** ClientCertificate */
   ClientCertificate = "ClientCertificate"
 }
 
@@ -11517,9 +11364,7 @@ export type WebAuthenticationType = string;
 
 /** Known values of {@link MongoDbAuthenticationType} that the service accepts. */
 export enum KnownMongoDbAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Anonymous */
   Anonymous = "Anonymous"
 }
 
@@ -11535,15 +11380,10 @@ export type MongoDbAuthenticationType = string;
 
 /** Known values of {@link RestServiceAuthenticationType} that the service accepts. */
 export enum KnownRestServiceAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Basic */
   Basic = "Basic",
-  /** AadServicePrincipal */
   AadServicePrincipal = "AadServicePrincipal",
-  /** ManagedServiceIdentity */
   ManagedServiceIdentity = "ManagedServiceIdentity",
-  /** OAuth2ClientCredential */
   OAuth2ClientCredential = "OAuth2ClientCredential"
 }
 
@@ -11562,9 +11402,7 @@ export type RestServiceAuthenticationType = string;
 
 /** Known values of {@link TeamDeskAuthenticationType} that the service accepts. */
 export enum KnownTeamDeskAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Token */
   Token = "Token"
 }
 
@@ -11580,9 +11418,7 @@ export type TeamDeskAuthenticationType = string;
 
 /** Known values of {@link ZendeskAuthenticationType} that the service accepts. */
 export enum KnownZendeskAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Token */
   Token = "Token"
 }
 
@@ -11598,15 +11434,10 @@ export type ZendeskAuthenticationType = string;
 
 /** Known values of {@link HttpAuthenticationType} that the service accepts. */
 export enum KnownHttpAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Digest */
   Digest = "Digest",
-  /** Windows */
   Windows = "Windows",
-  /** ClientCertificate */
   ClientCertificate = "ClientCertificate"
 }
 
@@ -11625,9 +11456,7 @@ export type HttpAuthenticationType = string;
 
 /** Known values of {@link FtpAuthenticationType} that the service accepts. */
 export enum KnownFtpAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Anonymous */
   Anonymous = "Anonymous"
 }
 
@@ -11643,11 +11472,8 @@ export type FtpAuthenticationType = string;
 
 /** Known values of {@link SftpAuthenticationType} that the service accepts. */
 export enum KnownSftpAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** SshPublicKey */
   SshPublicKey = "SshPublicKey",
-  /** MultiFactor */
   MultiFactor = "MultiFactor"
 }
 
@@ -11664,9 +11490,7 @@ export type SftpAuthenticationType = string;
 
 /** Known values of {@link SapHanaAuthenticationType} that the service accepts. */
 export enum KnownSapHanaAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -11682,9 +11506,7 @@ export type SapHanaAuthenticationType = string;
 
 /** Known values of {@link GoogleBigQueryAuthenticationType} that the service accepts. */
 export enum KnownGoogleBigQueryAuthenticationType {
-  /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
-  /** UserAuthentication */
   UserAuthentication = "UserAuthentication"
 }
 
@@ -11700,9 +11522,7 @@ export type GoogleBigQueryAuthenticationType = string;
 
 /** Known values of {@link HBaseAuthenticationType} that the service accepts. */
 export enum KnownHBaseAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Basic */
   Basic = "Basic"
 }
 
@@ -11718,11 +11538,8 @@ export type HBaseAuthenticationType = string;
 
 /** Known values of {@link HiveServerType} that the service accepts. */
 export enum KnownHiveServerType {
-  /** HiveServer1 */
   HiveServer1 = "HiveServer1",
-  /** HiveServer2 */
   HiveServer2 = "HiveServer2",
-  /** HiveThriftServer */
   HiveThriftServer = "HiveThriftServer"
 }
 
@@ -11739,11 +11556,8 @@ export type HiveServerType = string;
 
 /** Known values of {@link HiveThriftTransportProtocol} that the service accepts. */
 export enum KnownHiveThriftTransportProtocol {
-  /** Binary */
   Binary = "Binary",
-  /** Sasl */
   Sasl = "SASL",
-  /** Http */
   Http = "HTTP "
 }
 
@@ -11760,13 +11574,9 @@ export type HiveThriftTransportProtocol = string;
 
 /** Known values of {@link HiveAuthenticationType} that the service accepts. */
 export enum KnownHiveAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Username */
   Username = "Username",
-  /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
-  /** WindowsAzureHDInsightService */
   WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
@@ -11784,11 +11594,8 @@ export type HiveAuthenticationType = string;
 
 /** Known values of {@link ImpalaAuthenticationType} that the service accepts. */
 export enum KnownImpalaAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** SaslUsername */
   SaslUsername = "SASLUsername",
-  /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword"
 }
 
@@ -11805,11 +11612,8 @@ export type ImpalaAuthenticationType = string;
 
 /** Known values of {@link PhoenixAuthenticationType} that the service accepts. */
 export enum KnownPhoenixAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
-  /** WindowsAzureHDInsightService */
   WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
@@ -11826,9 +11630,7 @@ export type PhoenixAuthenticationType = string;
 
 /** Known values of {@link PrestoAuthenticationType} that the service accepts. */
 export enum KnownPrestoAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Ldap */
   Ldap = "LDAP"
 }
 
@@ -11844,9 +11646,7 @@ export type PrestoAuthenticationType = string;
 
 /** Known values of {@link ServiceNowAuthenticationType} that the service accepts. */
 export enum KnownServiceNowAuthenticationType {
-  /** Basic */
   Basic = "Basic",
-  /** OAuth2 */
   OAuth2 = "OAuth2"
 }
 
@@ -11862,11 +11662,8 @@ export type ServiceNowAuthenticationType = string;
 
 /** Known values of {@link SparkServerType} that the service accepts. */
 export enum KnownSparkServerType {
-  /** SharkServer */
   SharkServer = "SharkServer",
-  /** SharkServer2 */
   SharkServer2 = "SharkServer2",
-  /** SparkThriftServer */
   SparkThriftServer = "SparkThriftServer"
 }
 
@@ -11883,11 +11680,8 @@ export type SparkServerType = string;
 
 /** Known values of {@link SparkThriftTransportProtocol} that the service accepts. */
 export enum KnownSparkThriftTransportProtocol {
-  /** Binary */
   Binary = "Binary",
-  /** Sasl */
   Sasl = "SASL",
-  /** Http */
   Http = "HTTP "
 }
 
@@ -11904,13 +11698,9 @@ export type SparkThriftTransportProtocol = string;
 
 /** Known values of {@link SparkAuthenticationType} that the service accepts. */
 export enum KnownSparkAuthenticationType {
-  /** Anonymous */
   Anonymous = "Anonymous",
-  /** Username */
   Username = "Username",
-  /** UsernameAndPassword */
   UsernameAndPassword = "UsernameAndPassword",
-  /** WindowsAzureHDInsightService */
   WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
@@ -11928,9 +11718,7 @@ export type SparkAuthenticationType = string;
 
 /** Known values of {@link GoogleAdWordsAuthenticationType} that the service accepts. */
 export enum KnownGoogleAdWordsAuthenticationType {
-  /** ServiceAuthentication */
   ServiceAuthentication = "ServiceAuthentication",
-  /** UserAuthentication */
   UserAuthentication = "UserAuthentication"
 }
 
@@ -11946,9 +11734,7 @@ export type GoogleAdWordsAuthenticationType = string;
 
 /** Known values of {@link SalesforceSourceReadBehavior} that the service accepts. */
 export enum KnownSalesforceSourceReadBehavior {
-  /** Query */
   Query = "Query",
-  /** QueryAll */
   QueryAll = "QueryAll"
 }
 
@@ -11964,19 +11750,12 @@ export type SalesforceSourceReadBehavior = string;
 
 /** Known values of {@link StoredProcedureParameterType} that the service accepts. */
 export enum KnownStoredProcedureParameterType {
-  /** String */
   String = "String",
-  /** Int */
   Int = "Int",
-  /** Int64 */
   Int64 = "Int64",
-  /** Decimal */
   Decimal = "Decimal",
-  /** Guid */
   Guid = "Guid",
-  /** Boolean */
   Boolean = "Boolean",
-  /** Date */
   Date = "Date"
 }
 
@@ -11997,25 +11776,15 @@ export type StoredProcedureParameterType = string;
 
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
-  /** ALL */
   ALL = "ALL",
-  /** EachQuorum */
   EachQuorum = "EACH_QUORUM",
-  /** Quorum */
   Quorum = "QUORUM",
-  /** LocalQuorum */
   LocalQuorum = "LOCAL_QUORUM",
-  /** ONE */
   ONE = "ONE",
-  /** TWO */
   TWO = "TWO",
-  /** Three */
   Three = "THREE",
-  /** LocalONE */
   LocalONE = "LOCAL_ONE",
-  /** Serial */
   Serial = "SERIAL",
-  /** LocalSerial */
   LocalSerial = "LOCAL_SERIAL"
 }
 
@@ -12039,9 +11808,7 @@ export type CassandraSourceReadConsistencyLevels = string;
 
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
-  /** Insert */
   Insert = "Insert",
-  /** Update */
   Update = "Update"
 }
 
@@ -12057,9 +11824,7 @@ export type SapCloudForCustomerSinkWriteBehavior = string;
 
 /** Known values of {@link PolybaseSettingsRejectType} that the service accepts. */
 export enum KnownPolybaseSettingsRejectType {
-  /** Value */
   Value = "value",
-  /** Percentage */
   Percentage = "percentage"
 }
 
@@ -12075,9 +11840,7 @@ export type PolybaseSettingsRejectType = string;
 
 /** Known values of {@link AzureSearchIndexWriteBehaviorType} that the service accepts. */
 export enum KnownAzureSearchIndexWriteBehaviorType {
-  /** Merge */
   Merge = "Merge",
-  /** Upload */
   Upload = "Upload"
 }
 
@@ -12093,7 +11856,6 @@ export type AzureSearchIndexWriteBehaviorType = string;
 
 /** Known values of {@link DynamicsSinkWriteBehavior} that the service accepts. */
 export enum KnownDynamicsSinkWriteBehavior {
-  /** Upsert */
   Upsert = "Upsert"
 }
 
@@ -12108,9 +11870,7 @@ export type DynamicsSinkWriteBehavior = string;
 
 /** Known values of {@link SalesforceSinkWriteBehavior} that the service accepts. */
 export enum KnownSalesforceSinkWriteBehavior {
-  /** Insert */
   Insert = "Insert",
-  /** Upsert */
   Upsert = "Upsert"
 }
 
@@ -12126,11 +11886,8 @@ export type SalesforceSinkWriteBehavior = string;
 
 /** Known values of {@link HDInsightActivityDebugInfoOption} that the service accepts. */
 export enum KnownHDInsightActivityDebugInfoOption {
-  /** None */
   None = "None",
-  /** Always */
   Always = "Always",
-  /** Failure */
   Failure = "Failure"
 }
 
@@ -12147,13 +11904,9 @@ export type HDInsightActivityDebugInfoOption = string;
 
 /** Known values of {@link SsisPackageLocationType} that the service accepts. */
 export enum KnownSsisPackageLocationType {
-  /** Ssisdb */
   Ssisdb = "SSISDB",
-  /** File */
   File = "File",
-  /** InlinePackage */
   InlinePackage = "InlinePackage",
-  /** PackageStore */
   PackageStore = "PackageStore"
 }
 
@@ -12171,7 +11924,6 @@ export type SsisPackageLocationType = string;
 
 /** Known values of {@link SsisLogLocationType} that the service accepts. */
 export enum KnownSsisLogLocationType {
-  /** File */
   File = "File"
 }
 
@@ -12186,13 +11938,9 @@ export type SsisLogLocationType = string;
 
 /** Known values of {@link WebActivityMethod} that the service accepts. */
 export enum KnownWebActivityMethod {
-  /** GET */
   GET = "GET",
-  /** Post */
   Post = "POST",
-  /** PUT */
   PUT = "PUT",
-  /** Delete */
   Delete = "DELETE"
 }
 
@@ -12210,19 +11958,12 @@ export type WebActivityMethod = string;
 
 /** Known values of {@link AzureFunctionActivityMethod} that the service accepts. */
 export enum KnownAzureFunctionActivityMethod {
-  /** GET */
   GET = "GET",
-  /** Post */
   Post = "POST",
-  /** PUT */
   PUT = "PUT",
-  /** Delete */
   Delete = "DELETE",
-  /** Options */
   Options = "OPTIONS",
-  /** Head */
   Head = "HEAD",
-  /** Trace */
   Trace = "TRACE"
 }
 
@@ -12243,7 +11984,6 @@ export type AzureFunctionActivityMethod = string;
 
 /** Known values of {@link WebHookActivityMethod} that the service accepts. */
 export enum KnownWebHookActivityMethod {
-  /** Post */
   Post = "POST"
 }
 
@@ -12258,9 +11998,7 @@ export type WebHookActivityMethod = string;
 
 /** Known values of {@link ScriptType} that the service accepts. */
 export enum KnownScriptType {
-  /** Query */
   Query = "Query",
-  /** NonQuery */
   NonQuery = "NonQuery"
 }
 
@@ -12276,29 +12014,17 @@ export type ScriptType = string;
 
 /** Known values of {@link ScriptActivityParameterType} that the service accepts. */
 export enum KnownScriptActivityParameterType {
-  /** Boolean */
   Boolean = "Boolean",
-  /** DateTime */
   DateTime = "DateTime",
-  /** DateTimeOffset */
   DateTimeOffset = "DateTimeOffset",
-  /** Decimal */
   Decimal = "Decimal",
-  /** Double */
   Double = "Double",
-  /** Guid */
   Guid = "Guid",
-  /** Int16 */
   Int16 = "Int16",
-  /** Int32 */
   Int32 = "Int32",
-  /** Int64 */
   Int64 = "Int64",
-  /** Single */
   Single = "Single",
-  /** String */
   String = "String",
-  /** Timespan */
   Timespan = "Timespan"
 }
 
@@ -12324,11 +12050,8 @@ export type ScriptActivityParameterType = string;
 
 /** Known values of {@link ScriptActivityParameterDirection} that the service accepts. */
 export enum KnownScriptActivityParameterDirection {
-  /** Input */
   Input = "Input",
-  /** Output */
   Output = "Output",
-  /** InputOutput */
   InputOutput = "InputOutput"
 }
 
@@ -12345,9 +12068,7 @@ export type ScriptActivityParameterDirection = string;
 
 /** Known values of {@link ScriptActivityLogDestination} that the service accepts. */
 export enum KnownScriptActivityLogDestination {
-  /** ActivityOutput */
   ActivityOutput = "ActivityOutput",
-  /** ExternalStore */
   ExternalStore = "ExternalStore"
 }
 
@@ -12363,19 +12084,12 @@ export type ScriptActivityLogDestination = string;
 
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
-  /** NotSpecified */
   NotSpecified = "NotSpecified",
-  /** Minute */
   Minute = "Minute",
-  /** Hour */
   Hour = "Hour",
-  /** Day */
   Day = "Day",
-  /** Week */
   Week = "Week",
-  /** Month */
   Month = "Month",
-  /** Year */
   Year = "Year"
 }
 
@@ -12396,9 +12110,7 @@ export type RecurrenceFrequency = string;
 
 /** Known values of {@link BlobEventTypes} that the service accepts. */
 export enum KnownBlobEventTypes {
-  /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
-  /** MicrosoftStorageBlobDeleted */
   MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted"
 }
 
@@ -12414,11 +12126,8 @@ export type BlobEventTypes = string;
 
 /** Known values of {@link TumblingWindowFrequency} that the service accepts. */
 export enum KnownTumblingWindowFrequency {
-  /** Minute */
   Minute = "Minute",
-  /** Hour */
   Hour = "Hour",
-  /** Month */
   Month = "Month"
 }
 
@@ -12435,7 +12144,6 @@ export type TumblingWindowFrequency = string;
 
 /** Known values of {@link TriggerReferenceType} that the service accepts. */
 export enum KnownTriggerReferenceType {
-  /** TriggerReference */
   TriggerReference = "TriggerReference"
 }
 
@@ -12450,9 +12158,7 @@ export type TriggerReferenceType = string;
 
 /** Known values of {@link JsonFormatFilePattern} that the service accepts. */
 export enum KnownJsonFormatFilePattern {
-  /** SetOfObjects */
   SetOfObjects = "setOfObjects",
-  /** ArrayOfObjects */
   ArrayOfObjects = "arrayOfObjects"
 }
 
@@ -12468,9 +12174,7 @@ export type JsonFormatFilePattern = string;
 
 /** Known values of {@link DatasetCompressionLevel} that the service accepts. */
 export enum KnownDatasetCompressionLevel {
-  /** Optimal */
   Optimal = "Optimal",
-  /** Fastest */
   Fastest = "Fastest"
 }
 
@@ -12486,15 +12190,10 @@ export type DatasetCompressionLevel = string;
 
 /** Known values of {@link AvroCompressionCodec} that the service accepts. */
 export enum KnownAvroCompressionCodec {
-  /** None */
   None = "none",
-  /** Deflate */
   Deflate = "deflate",
-  /** Snappy */
   Snappy = "snappy",
-  /** Xz */
   Xz = "xz",
-  /** Bzip2 */
   Bzip2 = "bzip2"
 }
 
@@ -12513,25 +12212,15 @@ export type AvroCompressionCodec = string;
 
 /** Known values of {@link CompressionCodec} that the service accepts. */
 export enum KnownCompressionCodec {
-  /** None */
   None = "none",
-  /** Lzo */
   Lzo = "lzo",
-  /** Bzip2 */
   Bzip2 = "bzip2",
-  /** Gzip */
   Gzip = "gzip",
-  /** Deflate */
   Deflate = "deflate",
-  /** ZipDeflate */
   ZipDeflate = "zipDeflate",
-  /** Snappy */
   Snappy = "snappy",
-  /** Lz4 */
   Lz4 = "lz4",
-  /** Tar */
   Tar = "tar",
-  /** TarGZip */
   TarGZip = "tarGZip"
 }
 
@@ -12555,13 +12244,9 @@ export type CompressionCodec = string;
 
 /** Known values of {@link OrcCompressionCodec} that the service accepts. */
 export enum KnownOrcCompressionCodec {
-  /** None */
   None = "none",
-  /** Zlib */
   Zlib = "zlib",
-  /** Snappy */
   Snappy = "snappy",
-  /** Lzo */
   Lzo = "lzo"
 }
 
@@ -12579,9 +12264,7 @@ export type OrcCompressionCodec = string;
 
 /** Known values of {@link DynamicsDeploymentType} that the service accepts. */
 export enum KnownDynamicsDeploymentType {
-  /** Online */
   Online = "Online",
-  /** OnPremisesWithIfd */
   OnPremisesWithIfd = "OnPremisesWithIfd"
 }
 
@@ -12597,11 +12280,8 @@ export type DynamicsDeploymentType = string;
 
 /** Known values of {@link DynamicsAuthenticationType} that the service accepts. */
 export enum KnownDynamicsAuthenticationType {
-  /** Office365 */
   Office365 = "Office365",
-  /** Ifd */
   Ifd = "Ifd",
-  /** AADServicePrincipal */
   AADServicePrincipal = "AADServicePrincipal"
 }
 
@@ -12618,9 +12298,7 @@ export type DynamicsAuthenticationType = string;
 
 /** Known values of {@link ServicePrincipalCredentialType} that the service accepts. */
 export enum KnownServicePrincipalCredentialType {
-  /** ServicePrincipalKey */
   ServicePrincipalKey = "ServicePrincipalKey",
-  /** ServicePrincipalCert */
   ServicePrincipalCert = "ServicePrincipalCert"
 }
 
@@ -12636,11 +12314,8 @@ export type ServicePrincipalCredentialType = string;
 
 /** Known values of {@link HdiNodeTypes} that the service accepts. */
 export enum KnownHdiNodeTypes {
-  /** Headnode */
   Headnode = "Headnode",
-  /** Workernode */
   Workernode = "Workernode",
-  /** Zookeeper */
   Zookeeper = "Zookeeper"
 }
 
@@ -12657,9 +12332,7 @@ export type HdiNodeTypes = string;
 
 /** Known values of {@link JsonWriteFilePattern} that the service accepts. */
 export enum KnownJsonWriteFilePattern {
-  /** SetOfObjects */
   SetOfObjects = "setOfObjects",
-  /** ArrayOfObjects */
   ArrayOfObjects = "arrayOfObjects"
 }
 
@@ -12675,11 +12348,8 @@ export type JsonWriteFilePattern = string;
 
 /** Known values of {@link AmazonRdsForOraclePartitionOption} that the service accepts. */
 export enum KnownAmazonRdsForOraclePartitionOption {
-  /** None */
   None = "None",
-  /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-  /** DynamicRange */
   DynamicRange = "DynamicRange"
 }
 
@@ -12696,11 +12366,8 @@ export type AmazonRdsForOraclePartitionOption = string;
 
 /** Known values of {@link CopyBehaviorType} that the service accepts. */
 export enum KnownCopyBehaviorType {
-  /** PreserveHierarchy */
   PreserveHierarchy = "PreserveHierarchy",
-  /** FlattenHierarchy */
   FlattenHierarchy = "FlattenHierarchy",
-  /** MergeFiles */
   MergeFiles = "MergeFiles"
 }
 
@@ -12717,11 +12384,8 @@ export type CopyBehaviorType = string;
 
 /** Known values of {@link SqlWriteBehaviorEnum} that the service accepts. */
 export enum KnownSqlWriteBehaviorEnum {
-  /** Insert */
   Insert = "Insert",
-  /** Upsert */
   Upsert = "Upsert",
-  /** StoredProcedure */
   StoredProcedure = "StoredProcedure"
 }
 
@@ -12738,9 +12402,7 @@ export type SqlWriteBehaviorEnum = string;
 
 /** Known values of {@link SqlDWWriteBehaviorEnum} that the service accepts. */
 export enum KnownSqlDWWriteBehaviorEnum {
-  /** Insert */
   Insert = "Insert",
-  /** Upsert */
   Upsert = "Upsert"
 }
 
@@ -12756,11 +12418,8 @@ export type SqlDWWriteBehaviorEnum = string;
 
 /** Known values of {@link SqlPartitionOption} that the service accepts. */
 export enum KnownSqlPartitionOption {
-  /** None */
   None = "None",
-  /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-  /** DynamicRange */
   DynamicRange = "DynamicRange"
 }
 
@@ -12777,11 +12436,8 @@ export type SqlPartitionOption = string;
 
 /** Known values of {@link SapHanaPartitionOption} that the service accepts. */
 export enum KnownSapHanaPartitionOption {
-  /** None */
   None = "None",
-  /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-  /** SapHanaDynamicRange */
   SapHanaDynamicRange = "SapHanaDynamicRange"
 }
 
@@ -12798,17 +12454,11 @@ export type SapHanaPartitionOption = string;
 
 /** Known values of {@link SapTablePartitionOption} that the service accepts. */
 export enum KnownSapTablePartitionOption {
-  /** None */
   None = "None",
-  /** PartitionOnInt */
   PartitionOnInt = "PartitionOnInt",
-  /** PartitionOnCalendarYear */
   PartitionOnCalendarYear = "PartitionOnCalendarYear",
-  /** PartitionOnCalendarMonth */
   PartitionOnCalendarMonth = "PartitionOnCalendarMonth",
-  /** PartitionOnCalendarDate */
   PartitionOnCalendarDate = "PartitionOnCalendarDate",
-  /** PartitionOnTime */
   PartitionOnTime = "PartitionOnTime"
 }
 
@@ -12828,11 +12478,8 @@ export type SapTablePartitionOption = string;
 
 /** Known values of {@link OraclePartitionOption} that the service accepts. */
 export enum KnownOraclePartitionOption {
-  /** None */
   None = "None",
-  /** PhysicalPartitionsOfTable */
   PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-  /** DynamicRange */
   DynamicRange = "DynamicRange"
 }
 
@@ -12849,11 +12496,8 @@ export type OraclePartitionOption = string;
 
 /** Known values of {@link TeradataPartitionOption} that the service accepts. */
 export enum KnownTeradataPartitionOption {
-  /** None */
   None = "None",
-  /** Hash */
   Hash = "Hash",
-  /** DynamicRange */
   DynamicRange = "DynamicRange"
 }
 
@@ -12870,11 +12514,8 @@ export type TeradataPartitionOption = string;
 
 /** Known values of {@link NetezzaPartitionOption} that the service accepts. */
 export enum KnownNetezzaPartitionOption {
-  /** None */
   None = "None",
-  /** DataSlice */
   DataSlice = "DataSlice",
-  /** DynamicRange */
   DynamicRange = "DynamicRange"
 }
 
