@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:./projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:./projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -357,6 +358,7 @@ dependencies:
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -3927,7 +3929,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220626
+      typescript: 4.8.0-dev.20220627
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8737,8 +8739,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220626:
-    resolution: {integrity: sha512-VZIjYK79iDpdGCURSffPw0s8a6gNxFYRYQsB6m8TgjqqwHFG1+LJbqV9+dZKAG1cOLqALWrdEpCYDBdr1k4P/A==}
+  /typescript/4.8.0-dev.20220627:
+    resolution: {integrity: sha512-AotGcCE4LR1khwUAONhErpEdikkPmmkibtbhakf8A6mfzTe7VxsUF8CVLbE4ZJlGkafl0TsWFi7mxvrv47Dq2w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11420,6 +11422,33 @@ packages:
       - '@types/node'
       - debug
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-elasticsan.tgz:
+    resolution: {integrity: sha512-WwAyiCHLRS9Y5saAPHQisB9G2UAO20RWiAa15ZACSeJzWJVqBdhfQeqBHpJ2i9Ga9f67J+IbuxrtMuqhCSxrig==, tarball: file:projects/arm-elasticsan.tgz}
+    name: '@rush-temp/arm-elasticsan'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
       - supports-color
     dev: false
 
