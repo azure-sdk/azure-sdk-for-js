@@ -19,6 +19,162 @@ export interface ActiveDeploymentCollection {
 }
 
 // @public
+export interface ApiPortalCustomDomainProperties {
+    thumbprint?: string;
+}
+
+// @public
+export type ApiPortalCustomDomainResource = ProxyResource & {
+    properties?: ApiPortalCustomDomainProperties;
+};
+
+// @public
+export interface ApiPortalCustomDomainResourceCollection {
+    nextLink?: string;
+    value?: ApiPortalCustomDomainResource[];
+}
+
+// @public
+export interface ApiPortalCustomDomains {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, apiPortalName: string, domainName: string, apiPortalCustomDomainResource: ApiPortalCustomDomainResource, options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>, ApiPortalCustomDomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, apiPortalName: string, domainName: string, apiPortalCustomDomainResource: ApiPortalCustomDomainResource, options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams): Promise<ApiPortalCustomDomainsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, apiPortalName: string, domainName: string, options?: ApiPortalCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, apiPortalName: string, domainName: string, options?: ApiPortalCustomDomainsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, apiPortalName: string, domainName: string, options?: ApiPortalCustomDomainsGetOptionalParams): Promise<ApiPortalCustomDomainsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, apiPortalName: string, options?: ApiPortalCustomDomainsListOptionalParams): PagedAsyncIterableIterator<ApiPortalCustomDomainResource>;
+}
+
+// @public
+export interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApiPortalCustomDomainsCreateOrUpdateResponse = ApiPortalCustomDomainResource;
+
+// @public
+export interface ApiPortalCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApiPortalCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalCustomDomainsGetResponse = ApiPortalCustomDomainResource;
+
+// @public
+export interface ApiPortalCustomDomainsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalCustomDomainsListNextResponse = ApiPortalCustomDomainResourceCollection;
+
+// @public
+export interface ApiPortalCustomDomainsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalCustomDomainsListResponse = ApiPortalCustomDomainResourceCollection;
+
+// @public
+export interface ApiPortalInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ApiPortalProperties {
+    gatewayIds?: string[];
+    httpsOnly?: boolean;
+    readonly instances?: ApiPortalInstance[];
+    readonly provisioningState?: ApiPortalProvisioningState;
+    public?: boolean;
+    readonly resourceRequests?: ApiPortalResourceRequests;
+    sourceUrls?: string[];
+    ssoProperties?: SsoProperties;
+    readonly url?: string;
+}
+
+// @public
+export type ApiPortalProvisioningState = string;
+
+// @public
+export type ApiPortalResource = ProxyResource & {
+    properties?: ApiPortalProperties;
+    sku?: Sku;
+};
+
+// @public
+export interface ApiPortalResourceCollection {
+    nextLink?: string;
+    value?: ApiPortalResource[];
+}
+
+// @public
+export interface ApiPortalResourceRequests {
+    readonly cpu?: string;
+    readonly memory?: string;
+}
+
+// @public
+export interface ApiPortals {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, apiPortalName: string, apiPortalResource: ApiPortalResource, options?: ApiPortalsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApiPortalsCreateOrUpdateResponse>, ApiPortalsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, apiPortalName: string, apiPortalResource: ApiPortalResource, options?: ApiPortalsCreateOrUpdateOptionalParams): Promise<ApiPortalsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, apiPortalName: string, options?: ApiPortalsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, apiPortalName: string, options?: ApiPortalsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, apiPortalName: string, options?: ApiPortalsGetOptionalParams): Promise<ApiPortalsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ApiPortalsListOptionalParams): PagedAsyncIterableIterator<ApiPortalResource>;
+    validateDomain(resourceGroupName: string, serviceName: string, apiPortalName: string, validatePayload: CustomDomainValidatePayload, options?: ApiPortalsValidateDomainOptionalParams): Promise<ApiPortalsValidateDomainResponse>;
+}
+
+// @public
+export interface ApiPortalsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApiPortalsCreateOrUpdateResponse = ApiPortalResource;
+
+// @public
+export interface ApiPortalsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApiPortalsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalsGetResponse = ApiPortalResource;
+
+// @public
+export interface ApiPortalsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalsListNextResponse = ApiPortalResourceCollection;
+
+// @public
+export interface ApiPortalsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalsListResponse = ApiPortalResourceCollection;
+
+// @public
+export interface ApiPortalsValidateDomainOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApiPortalsValidateDomainResponse = CustomDomainValidateResult;
+
+// @public
 export interface ApplicationInsightsAgentVersions {
     readonly java?: string;
 }
@@ -28,6 +184,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
+    // (undocumented)
+    apiPortalCustomDomains: ApiPortalCustomDomains;
+    // (undocumented)
+    apiPortals: ApiPortals;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -53,6 +213,12 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     deployments: Deployments;
     // (undocumented)
+    gatewayCustomDomains: GatewayCustomDomains;
+    // (undocumented)
+    gatewayRouteConfigs: GatewayRouteConfigs;
+    // (undocumented)
+    gateways: Gateways;
+    // (undocumented)
     monitoringSettings: MonitoringSettings;
     // (undocumented)
     operations: Operations;
@@ -64,6 +230,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     services: Services;
     // (undocumented)
     skus: Skus;
+    // (undocumented)
+    storages: Storages;
     // (undocumented)
     subscriptionId: string;
 }
@@ -95,6 +263,7 @@ export interface AppResourceProperties {
             [propertyName: string]: Record<string, unknown>;
         };
     };
+    customPersistentDisks?: CustomPersistentDiskResource[];
     enableEndToEndTLS?: boolean;
     fqdn?: string;
     httpsOnly?: boolean;
@@ -104,6 +273,7 @@ export interface AppResourceProperties {
     public?: boolean;
     temporaryDisk?: TemporaryDisk;
     readonly url?: string;
+    vnetAddons?: AppVNetAddons;
 }
 
 // @public
@@ -195,6 +365,12 @@ export interface AppsValidateDomainOptionalParams extends coreClient.OperationOp
 export type AppsValidateDomainResponse = CustomDomainValidateResult;
 
 // @public
+export interface AppVNetAddons {
+    publicEndpoint?: boolean;
+    readonly publicEndpointUrl?: string;
+}
+
+// @public
 export interface AvailableOperations {
     nextLink?: string;
     value?: OperationDetail[];
@@ -204,6 +380,12 @@ export interface AvailableOperations {
 export interface AvailableRuntimeVersions {
     readonly value?: SupportedRuntimeVersion[];
 }
+
+// @public
+export type AzureFileVolume = CustomPersistentDiskProperties & {
+    type: "AzureFileVolume";
+    shareName: string;
+};
 
 // @public
 export type BindingResource = ProxyResource & {
@@ -419,11 +601,18 @@ export interface BuildProperties {
     };
     readonly provisioningState?: BuildProvisioningState;
     relativePath?: string;
+    resourceRequests?: BuildResourceRequests;
     readonly triggeredBuildResult?: TriggeredBuildResult;
 }
 
 // @public
 export type BuildProvisioningState = string;
+
+// @public
+export interface BuildResourceRequests {
+    cpu?: string;
+    memory?: string;
+}
 
 // @public
 export type BuildResult = ProxyResource & {
@@ -735,6 +924,7 @@ export interface CertificateProperties {
     readonly expirationDate?: string;
     readonly issuedDate?: string;
     readonly issuer?: string;
+    readonly provisioningState?: CertificateResourceProvisioningState;
     readonly subjectName?: string;
     readonly thumbprint?: string;
     type: "KeyVaultCertificate" | "ContentCertificate";
@@ -753,6 +943,9 @@ export interface CertificateResourceCollection {
     nextLink?: string;
     value?: CertificateResource[];
 }
+
+// @public
+export type CertificateResourceProvisioningState = string;
 
 // @public
 export interface Certificates {
@@ -816,10 +1009,13 @@ export interface CloudErrorBody {
 // @public
 export interface ClusterResourceProperties {
     readonly fqdn?: string;
+    marketplaceResource?: MarketplaceResource;
     networkProfile?: NetworkProfile;
+    readonly powerState?: PowerState;
     readonly provisioningState?: ProvisioningState;
     readonly serviceId?: string;
     readonly version?: number;
+    vnetAddons?: ServiceVNetAddons;
     // (undocumented)
     zoneRedundant?: boolean;
 }
@@ -1045,6 +1241,11 @@ export interface ConfigurationServicesValidateOptionalParams extends coreClient.
 export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
 
 // @public
+export interface ContainerProbeSettings {
+    disableProbe?: boolean;
+}
+
+// @public
 export type ContentCertificateProperties = CertificateProperties & {
     type: "ContentCertificate";
     content?: string;
@@ -1054,9 +1255,26 @@ export type ContentCertificateProperties = CertificateProperties & {
 export type CreatedByType = string;
 
 // @public
+export interface CustomContainer {
+    args?: string[];
+    command?: string[];
+    containerImage?: string;
+    imageRegistryCredential?: ImageRegistryCredential;
+    languageFramework?: string;
+    server?: string;
+}
+
+// @public
+export type CustomContainerUserSourceInfo = UserSourceInfo & {
+    type: "Container";
+    customContainer?: CustomContainer;
+};
+
+// @public
 export interface CustomDomainProperties {
     readonly appName?: string;
     certName?: string;
+    readonly provisioningState?: CustomDomainResourceProvisioningState;
     thumbprint?: string;
 }
 
@@ -1070,6 +1288,9 @@ export interface CustomDomainResourceCollection {
     nextLink?: string;
     value?: CustomDomainResource[];
 }
+
+// @public
+export type CustomDomainResourceProvisioningState = string;
 
 // @public
 export interface CustomDomains {
@@ -1137,6 +1358,23 @@ export interface CustomDomainValidatePayload {
 export interface CustomDomainValidateResult {
     isValid?: boolean;
     message?: string;
+}
+
+// @public
+export interface CustomPersistentDiskProperties {
+    mountOptions?: string[];
+    mountPath: string;
+    readOnly?: boolean;
+    type: "AzureFileVolume";
+}
+
+// @public (undocumented)
+export type CustomPersistentDiskPropertiesUnion = CustomPersistentDiskProperties | AzureFileVolume;
+
+// @public
+export interface CustomPersistentDiskResource {
+    customPersistentDiskProperties?: CustomPersistentDiskPropertiesUnion;
+    storageId: string;
 }
 
 // @public
@@ -1225,10 +1463,15 @@ export interface DeploymentSettings {
             [propertyName: string]: Record<string, unknown>;
         };
     };
+    containerProbeSettings?: ContainerProbeSettings;
     environmentVariables?: {
         [propertyName: string]: string;
     };
+    livenessProbe?: Probe;
+    readinessProbe?: Probe;
     resourceRequests?: ResourceRequests;
+    startupProbe?: Probe;
+    terminationGracePeriodSeconds?: number;
 }
 
 // @public
@@ -1336,6 +1579,284 @@ export interface ErrorModel {
 }
 
 // @public
+export type ExecAction = ProbeAction & {
+    type: "ExecAction";
+    command?: string[];
+};
+
+// @public
+export interface GatewayApiMetadataProperties {
+    description?: string;
+    documentation?: string;
+    serverUrl?: string;
+    title?: string;
+    version?: string;
+}
+
+// @public
+export interface GatewayApiRoute {
+    description?: string;
+    filters?: string[];
+    order?: number;
+    predicates?: string[];
+    ssoEnabled?: boolean;
+    tags?: string[];
+    title?: string;
+    tokenRelay?: boolean;
+    uri?: string;
+}
+
+// @public
+export interface GatewayCorsProperties {
+    allowCredentials?: boolean;
+    allowedHeaders?: string[];
+    allowedMethods?: string[];
+    allowedOrigins?: string[];
+    exposedHeaders?: string[];
+    maxAge?: number;
+}
+
+// @public
+export interface GatewayCustomDomainProperties {
+    thumbprint?: string;
+}
+
+// @public
+export type GatewayCustomDomainResource = ProxyResource & {
+    properties?: GatewayCustomDomainProperties;
+};
+
+// @public
+export interface GatewayCustomDomainResourceCollection {
+    nextLink?: string;
+    value?: GatewayCustomDomainResource[];
+}
+
+// @public
+export interface GatewayCustomDomains {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, gatewayName: string, domainName: string, gatewayCustomDomainResource: GatewayCustomDomainResource, options?: GatewayCustomDomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GatewayCustomDomainsCreateOrUpdateResponse>, GatewayCustomDomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, domainName: string, gatewayCustomDomainResource: GatewayCustomDomainResource, options?: GatewayCustomDomainsCreateOrUpdateOptionalParams): Promise<GatewayCustomDomainsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, gatewayName: string, domainName: string, options?: GatewayCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, domainName: string, options?: GatewayCustomDomainsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, gatewayName: string, domainName: string, options?: GatewayCustomDomainsGetOptionalParams): Promise<GatewayCustomDomainsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewayCustomDomainsListOptionalParams): PagedAsyncIterableIterator<GatewayCustomDomainResource>;
+}
+
+// @public
+export interface GatewayCustomDomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewayCustomDomainsCreateOrUpdateResponse = GatewayCustomDomainResource;
+
+// @public
+export interface GatewayCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GatewayCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayCustomDomainsGetResponse = GatewayCustomDomainResource;
+
+// @public
+export interface GatewayCustomDomainsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayCustomDomainsListNextResponse = GatewayCustomDomainResourceCollection;
+
+// @public
+export interface GatewayCustomDomainsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayCustomDomainsListResponse = GatewayCustomDomainResourceCollection;
+
+// @public
+export interface GatewayInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface GatewayOperatorProperties {
+    readonly instances?: GatewayInstance[];
+    readonly resourceRequests?: GatewayOperatorResourceRequests;
+}
+
+// @public
+export interface GatewayOperatorResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
+
+// @public
+export interface GatewayProperties {
+    apiMetadataProperties?: GatewayApiMetadataProperties;
+    corsProperties?: GatewayCorsProperties;
+    httpsOnly?: boolean;
+    readonly instances?: GatewayInstance[];
+    readonly operatorProperties?: GatewayOperatorProperties;
+    readonly provisioningState?: GatewayProvisioningState;
+    public?: boolean;
+    resourceRequests?: GatewayResourceRequests;
+    ssoProperties?: SsoProperties;
+    readonly url?: string;
+}
+
+// @public
+export type GatewayProvisioningState = string;
+
+// @public
+export type GatewayResource = ProxyResource & {
+    properties?: GatewayProperties;
+    sku?: Sku;
+};
+
+// @public
+export interface GatewayResourceCollection {
+    nextLink?: string;
+    value?: GatewayResource[];
+}
+
+// @public
+export interface GatewayResourceRequests {
+    cpu?: string;
+    memory?: string;
+}
+
+// @public
+export interface GatewayRouteConfigOpenApiProperties {
+    uri?: string;
+}
+
+// @public
+export interface GatewayRouteConfigProperties {
+    appResourceId?: string;
+    openApi?: GatewayRouteConfigOpenApiProperties;
+    readonly provisioningState?: GatewayProvisioningState;
+    routes?: GatewayApiRoute[];
+}
+
+// @public
+export type GatewayRouteConfigResource = ProxyResource & {
+    properties?: GatewayRouteConfigProperties;
+};
+
+// @public
+export interface GatewayRouteConfigResourceCollection {
+    nextLink?: string;
+    value?: GatewayRouteConfigResource[];
+}
+
+// @public
+export interface GatewayRouteConfigs {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, gatewayName: string, routeConfigName: string, gatewayRouteConfigResource: GatewayRouteConfigResource, options?: GatewayRouteConfigsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GatewayRouteConfigsCreateOrUpdateResponse>, GatewayRouteConfigsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, routeConfigName: string, gatewayRouteConfigResource: GatewayRouteConfigResource, options?: GatewayRouteConfigsCreateOrUpdateOptionalParams): Promise<GatewayRouteConfigsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, gatewayName: string, routeConfigName: string, options?: GatewayRouteConfigsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, routeConfigName: string, options?: GatewayRouteConfigsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, gatewayName: string, routeConfigName: string, options?: GatewayRouteConfigsGetOptionalParams): Promise<GatewayRouteConfigsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewayRouteConfigsListOptionalParams): PagedAsyncIterableIterator<GatewayRouteConfigResource>;
+}
+
+// @public
+export interface GatewayRouteConfigsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewayRouteConfigsCreateOrUpdateResponse = GatewayRouteConfigResource;
+
+// @public
+export interface GatewayRouteConfigsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GatewayRouteConfigsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayRouteConfigsGetResponse = GatewayRouteConfigResource;
+
+// @public
+export interface GatewayRouteConfigsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayRouteConfigsListNextResponse = GatewayRouteConfigResourceCollection;
+
+// @public
+export interface GatewayRouteConfigsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewayRouteConfigsListResponse = GatewayRouteConfigResourceCollection;
+
+// @public
+export interface Gateways {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayResource: GatewayResource, options?: GatewaysCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<GatewaysCreateOrUpdateResponse>, GatewaysCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, gatewayResource: GatewayResource, options?: GatewaysCreateOrUpdateOptionalParams): Promise<GatewaysCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: GatewaysListOptionalParams): PagedAsyncIterableIterator<GatewayResource>;
+    validateDomain(resourceGroupName: string, serviceName: string, gatewayName: string, validatePayload: CustomDomainValidatePayload, options?: GatewaysValidateDomainOptionalParams): Promise<GatewaysValidateDomainResponse>;
+}
+
+// @public
+export interface GatewaysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GatewaysCreateOrUpdateResponse = GatewayResource;
+
+// @public
+export interface GatewaysDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface GatewaysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysGetResponse = GatewayResource;
+
+// @public
+export interface GatewaysListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListNextResponse = GatewayResourceCollection;
+
+// @public
+export interface GatewaysListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListResponse = GatewayResourceCollection;
+
+// @public
+export interface GatewaysValidateDomainOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysValidateDomainResponse = CustomDomainValidateResult;
+
+// @public
 export interface GitPatternRepository {
     hostKey?: string;
     hostKeyAlgorithm?: string;
@@ -1348,6 +1869,27 @@ export interface GitPatternRepository {
     strictHostKeyChecking?: boolean;
     uri: string;
     username?: string;
+}
+
+// @public
+export type HttpGetAction = ProbeAction & {
+    type: "HTTPGetAction";
+    path?: string;
+    scheme?: HttpSchemeType;
+};
+
+// @public
+export type HttpSchemeType = string;
+
+// @public
+export interface ImageRegistryCredential {
+    password?: string;
+    username?: string;
+}
+
+// @public
+export interface IngressConfig {
+    readTimeoutInSeconds?: number;
 }
 
 // @public
@@ -1370,6 +1912,20 @@ export type KeyVaultCertificateProperties = CertificateProperties & {
 export enum KnownActionType {
     // (undocumented)
     Internal = "Internal"
+}
+
+// @public
+export enum KnownApiPortalProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -1473,6 +2029,20 @@ export enum KnownBuildServiceProvisioningState {
 }
 
 // @public
+export enum KnownCertificateResourceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownConfigServerState {
     // (undocumented)
     Deleted = "Deleted",
@@ -1513,6 +2083,20 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownCustomDomainResourceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownDeploymentResourceProvisioningState {
     // (undocumented)
     Creating = "Creating",
@@ -1530,6 +2114,28 @@ export enum KnownDeploymentResourceStatus {
     Running = "Running",
     // (undocumented)
     Stopped = "Stopped"
+}
+
+// @public
+export enum KnownGatewayProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownHttpSchemeType {
+    // (undocumented)
+    Http = "HTTP",
+    // (undocumented)
+    Https = "HTTPS"
 }
 
 // @public
@@ -1578,6 +2184,24 @@ export enum KnownMonitoringSettingState {
     Succeeded = "Succeeded",
     // (undocumented)
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPowerState {
+    // (undocumented)
+    Running = "Running",
+    // (undocumented)
+    Stopped = "Stopped"
+}
+
+// @public
+export enum KnownProbeActionType {
+    // (undocumented)
+    ExecAction = "ExecAction",
+    // (undocumented)
+    HttpGetAction = "HTTPGetAction",
+    // (undocumented)
+    TCPSocketAction = "TCPSocketAction"
 }
 
 // @public
@@ -1647,6 +2271,12 @@ export enum KnownSkuScaleType {
 }
 
 // @public
+export enum KnownStorageType {
+    // (undocumented)
+    StorageAccount = "StorageAccount"
+}
+
+// @public
 export enum KnownSupportedRuntimePlatform {
     // (undocumented)
     Java = "Java",
@@ -1683,6 +2313,12 @@ export enum KnownTrafficDirection {
 }
 
 // @public
+export enum KnownType {
+    // (undocumented)
+    AzureFileVolume = "AzureFileVolume"
+}
+
+// @public
 export type KPackBuildStageProvisioningState = string;
 
 // @public
@@ -1711,10 +2347,20 @@ export interface ManagedIdentityProperties {
     principalId?: string;
     tenantId?: string;
     type?: ManagedIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedManagedIdentity;
+    };
 }
 
 // @public
 export type ManagedIdentityType = string;
+
+// @public
+export interface MarketplaceResource {
+    plan?: string;
+    product?: string;
+    publisher?: string;
+}
 
 // @public
 export interface MetricDimension {
@@ -1814,6 +2460,7 @@ export type NetCoreZipUploadedUserSourceInfo = UploadedUserSourceInfo & {
 export interface NetworkProfile {
     appNetworkResourceGroup?: string;
     appSubnetId?: string;
+    ingressConfig?: IngressConfig;
     readonly outboundIPs?: NetworkProfileOutboundIPs;
     readonly requiredTraffics?: RequiredTraffic[];
     serviceCidr?: string;
@@ -1874,6 +2521,31 @@ export interface PersistentDisk {
     sizeInGB?: number;
     readonly usedInGB?: number;
 }
+
+// @public
+export type PowerState = string;
+
+// @public
+export interface Probe {
+    disableProbe: boolean;
+    failureThreshold?: number;
+    initialDelaySeconds?: number;
+    periodSeconds?: number;
+    probeAction?: ProbeActionUnion;
+    successThreshold?: number;
+    timeoutSeconds?: number;
+}
+
+// @public
+export interface ProbeAction {
+    type: "HTTPGetAction" | "ExecAction" | "TCPSocketAction";
+}
+
+// @public
+export type ProbeActionType = string;
+
+// @public (undocumented)
+export type ProbeActionUnion = ProbeAction | HttpGetAction | ExecAction | TCPSocketAction;
 
 // @public
 export type ProvisioningState = string;
@@ -2081,6 +2753,10 @@ export interface Services {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStartAndWait(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<void>;
+    beginStop(resourceGroupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopAndWait(resourceGroupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
     checkNameAvailability(location: string, availabilityParameters: NameAvailabilityParameters, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
@@ -2182,6 +2858,18 @@ export interface ServicesRegenerateTestKeyOptionalParams extends coreClient.Oper
 export type ServicesRegenerateTestKeyResponse = TestKeys;
 
 // @public
+export interface ServicesStartOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServicesStopOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2189,6 +2877,11 @@ export interface ServicesUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ServicesUpdateResponse = ServiceResource;
+
+// @public
+export interface ServiceVNetAddons {
+    logStreamPublicEndpoint?: boolean;
+}
 
 // @public
 export interface Sku {
@@ -2235,10 +2928,93 @@ export type SourceUploadedUserSourceInfo = UploadedUserSourceInfo & {
 };
 
 // @public
+export interface SsoProperties {
+    clientId?: string;
+    clientSecret?: string;
+    issuerUri?: string;
+    scope?: string[];
+}
+
+// @public
 export interface StackProperties {
     id?: string;
     version?: string;
 }
+
+// @public
+export type StorageAccount = StorageProperties & {
+    storageType: "StorageAccount";
+    accountName: string;
+    accountKey: string;
+};
+
+// @public
+export interface StorageProperties {
+    storageType: "StorageAccount";
+}
+
+// @public (undocumented)
+export type StoragePropertiesUnion = StorageProperties | StorageAccount;
+
+// @public
+export type StorageResource = ProxyResource & {
+    properties?: StoragePropertiesUnion;
+};
+
+// @public
+export interface StorageResourceCollection {
+    nextLink?: string;
+    value?: StorageResource[];
+}
+
+// @public
+export interface Storages {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, storageName: string, storageResource: StorageResource, options?: StoragesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StoragesCreateOrUpdateResponse>, StoragesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, storageName: string, storageResource: StorageResource, options?: StoragesCreateOrUpdateOptionalParams): Promise<StoragesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesGetOptionalParams): Promise<StoragesGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: StoragesListOptionalParams): PagedAsyncIterableIterator<StorageResource>;
+}
+
+// @public
+export interface StoragesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type StoragesCreateOrUpdateResponse = StorageResource;
+
+// @public
+export interface StoragesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface StoragesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StoragesGetResponse = StorageResource;
+
+// @public
+export interface StoragesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StoragesListNextResponse = StorageResourceCollection;
+
+// @public
+export interface StoragesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StoragesListResponse = StorageResourceCollection;
+
+// @public
+export type StorageType = string;
 
 // @public
 export type SupportedBuildpackResource = ProxyResource & {
@@ -2297,6 +3073,11 @@ export interface SystemData {
 }
 
 // @public
+export type TCPSocketAction = ProbeAction & {
+    type: "TCPSocketAction";
+};
+
+// @public
 export interface TemporaryDisk {
     mountPath?: string;
     sizeInGB?: number;
@@ -2331,6 +3112,9 @@ export interface TriggeredBuildResult {
 }
 
 // @public
+export type Type = string;
+
+// @public
 export type UploadedUserSourceInfo = UserSourceInfo & {
     type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip";
     relativePath?: string;
@@ -2340,13 +3124,19 @@ export type UploadedUserSourceInfo = UserSourceInfo & {
 export type UploadedUserSourceInfoUnion = UploadedUserSourceInfo | JarUploadedUserSourceInfo | SourceUploadedUserSourceInfo | NetCoreZipUploadedUserSourceInfo;
 
 // @public
+export interface UserAssignedManagedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface UserSourceInfo {
-    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult";
+    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container";
     version?: string;
 }
 
 // @public (undocumented)
-export type UserSourceInfoUnion = UserSourceInfo | UploadedUserSourceInfoUnion | BuildResultUserSourceInfo;
+export type UserSourceInfoUnion = UserSourceInfo | UploadedUserSourceInfoUnion | BuildResultUserSourceInfo | CustomContainerUserSourceInfo;
 
 // @public
 export interface ValidationMessages {
