@@ -1232,7 +1232,7 @@ export type MyWorkbook = MyWorkbookResource & {
 };
 
 /** Identity used for BYOS */
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export type WorkbookResourceIdentity = ManagedServiceIdentity & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1243,7 +1243,7 @@ export type TrackedResource = Resource & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 /** An Application Insights component definition. */
 export type ApplicationInsightsComponent = ComponentsResource & {
