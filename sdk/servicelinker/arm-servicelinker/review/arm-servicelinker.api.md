@@ -136,6 +136,8 @@ export enum KnownClientType {
     // (undocumented)
     Java = "java",
     // (undocumented)
+    KafkaSpringBoot = "kafka-springBoot",
+    // (undocumented)
     Nodejs = "nodejs",
     // (undocumented)
     None = "none",

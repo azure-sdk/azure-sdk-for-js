@@ -492,7 +492,8 @@ export enum KnownClientType {
   Ruby = "ruby",
   Django = "django",
   Nodejs = "nodejs",
-  SpringBoot = "springBoot"
+  SpringBoot = "springBoot",
+  KafkaSpringBoot = "kafka-springBoot"
 }
 
 /**
@@ -509,7 +510,8 @@ export enum KnownClientType {
  * **ruby** \
  * **django** \
  * **nodejs** \
- * **springBoot**
+ * **springBoot** \
+ * **kafka-springBoot**
  */
 export type ClientType = string;
 
