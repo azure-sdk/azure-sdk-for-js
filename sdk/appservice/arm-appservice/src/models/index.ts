@@ -218,6 +218,28 @@ export interface SiteSeal {
   html: string;
 }
 
+/** Certificate order action. */
+export interface CertificateOrderAction {
+  /**
+   * Action type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: CertificateOrderActionType;
+  /**
+   * Time at which the certificate action was performed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+}
+
+/** SSL certificate email. */
+export interface CertificateEmail {
+  /** Email id. */
+  emailId?: string;
+  /** Time stamp. */
+  timeStamp?: Date;
+}
+
 /** Collection of detector responses */
 export interface DetectorResponseCollection {
   /** Collection of resources. */
@@ -711,10 +733,21 @@ export interface AppServiceEnvironment {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
+  /** Upgrade Preference */
+  upgradePreference?: UpgradePreference;
   /** Dedicated Host Count */
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
+  /**
+   * Whether an upgrade is available for this App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailability?: UpgradeAvailability;
 }
 
 /** Specification for using a Virtual Network. */
@@ -3055,6 +3088,24 @@ export interface StaticSiteTemplateOptions {
   isPrivate?: boolean;
 }
 
+/** Static Site Linked Backend ARM resource. */
+export interface StaticSiteLinkedBackend {
+  /** The resource id of the backend linked to the static site */
+  backendResourceId?: string;
+  /** The region of the backend linked to the static site */
+  region?: string;
+  /**
+   * The date and time on which the backend was linked to the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The provisioning state of the linking process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** Collection of static site custom users. */
 export interface StaticSiteUserCollection {
   /** Collection of resources. */
@@ -3103,6 +3154,17 @@ export interface StaticSiteUserProvidedFunctionAppsCollection {
 export interface StaticSiteCustomDomainOverviewCollection {
   /** Collection of resources. */
   value: StaticSiteCustomDomainOverviewARMResource[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Collection of static site linked backends. */
+export interface StaticSiteLinkedBackendsCollection {
+  /** Collection of resources. */
+  value: StaticSiteLinkedBackendARMResource[];
   /**
    * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3742,6 +3804,17 @@ export interface ContinuousWebJobCollection {
   readonly nextLink?: string;
 }
 
+/** Deployment status collection ARM resource. */
+export interface CsmDeploymentStatusCollection {
+  /** Collection of resources. */
+  value: CsmDeploymentStatus[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Collection of app deployments. */
 export interface DeploymentCollection {
   /** Collection of resources. */
@@ -4170,6 +4243,525 @@ export interface WebJobCollection {
   readonly nextLink?: string;
 }
 
+/** The access key regenerate action content. */
+export interface RegenerateActionParameter {
+  /** The key type. */
+  keyType?: KeyType;
+}
+
+/** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
+export interface ErrorResponse {
+  /** The error properties. */
+  error?: ErrorProperties;
+}
+
+/** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
+export interface ErrorProperties {
+  /** Error code. */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** The list of workflow runs. */
+export interface WorkflowRunListResult {
+  /** A list of workflow runs. */
+  value?: WorkflowRun[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The correlation property. */
+export interface Correlation {
+  /** The client tracking id. */
+  clientTrackingId?: string;
+}
+
+/** The resource reference. */
+export interface ResourceReference {
+  /** The resource id. */
+  id?: string;
+  /**
+   * Gets the resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The workflow run trigger. */
+export interface WorkflowRunTrigger {
+  /**
+   * Gets the name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputs?: Record<string, unknown>;
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: Record<string, unknown>;
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the scheduled time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledTime?: Date;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /** The run correlation. */
+  correlation?: Correlation;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: Record<string, unknown>;
+}
+
+/** The content link. */
+export interface ContentLink {
+  /** The content link URI. */
+  uri?: string;
+  /**
+   * The content version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentVersion?: string;
+  /**
+   * The content size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentSize?: number;
+  /**
+   * The content hash.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentHash?: ContentHash;
+  /**
+   * The metadata.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metadata?: Record<string, unknown>;
+}
+
+/** The content hash. */
+export interface ContentHash {
+  /** The algorithm of the content hash. */
+  algorithm?: string;
+  /** The value of the content hash. */
+  value?: string;
+}
+
+/** The workflow parameters. */
+export interface WorkflowParameter {
+  /** The type. */
+  type?: ParameterType;
+  /** The value. */
+  value?: Record<string, unknown>;
+  /** The metadata. */
+  metadata?: Record<string, unknown>;
+  /** The description. */
+  description?: string;
+}
+
+/** The sub resource type. */
+export interface SubResource {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** The list of workflow run actions. */
+export interface WorkflowRunActionListResult {
+  /** A list of workflow run actions. */
+  value?: WorkflowRunAction[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The correlation properties. */
+export interface RunCorrelation {
+  /** The client tracking identifier. */
+  clientTrackingId?: string;
+  /** The client keywords. */
+  clientKeywords?: string[];
+}
+
+/** The retry history. */
+export interface RetryHistory {
+  /** Gets the start time. */
+  startTime?: Date;
+  /** Gets the end time. */
+  endTime?: Date;
+  /** Gets the status code. */
+  code?: string;
+  /** Gets the client request Id. */
+  clientRequestId?: string;
+  /** Gets the service request Id. */
+  serviceRequestId?: string;
+  /** Gets the error response. */
+  error?: ErrorResponse;
+}
+
+/** The expression traces. */
+export interface ExpressionTraces {
+  /** Anything */
+  value?: any;
+  inputs?: ExpressionRoot[];
+  /** The link used to get the next page of recommendations. */
+  nextLink?: string;
+}
+
+/** The expression. */
+export interface Expression {
+  /** The text. */
+  text?: string;
+  /** Anything */
+  value?: any;
+  /** The sub expressions. */
+  subexpressions?: Expression[];
+  /** The azure resource error info. */
+  error?: AzureResourceErrorInfo;
+}
+
+/** The error info. */
+export interface ErrorInfo {
+  /** The error code. */
+  code: string;
+}
+
+/** A collection of workflow run action repetitions. */
+export interface WorkflowRunActionRepetitionDefinitionCollection {
+  /** The link used to get the next page of recommendations. */
+  nextLink?: string;
+  value?: WorkflowRunActionRepetitionDefinition[];
+}
+
+/** The workflow run action repetition index. */
+export interface RepetitionIndex {
+  /** The scope. */
+  scopeName?: string;
+  /** The index. */
+  itemIndex: number;
+}
+
+/** The run operation result properties. */
+export interface OperationResultProperties {
+  /** The start time of the workflow scope repetition. */
+  startTime?: Date;
+  /** The end time of the workflow scope repetition. */
+  endTime?: Date;
+  /** The correlation properties. */
+  correlation?: RunActionCorrelation;
+  /** The status of the workflow scope repetition. */
+  status?: WorkflowStatus;
+  /** The workflow scope repetition code. */
+  code?: string;
+  /** Anything */
+  error?: any;
+}
+
+/** The base resource type. */
+export interface WorkflowResource {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets the resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource location. */
+  location?: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The list of workflow request histories. */
+export interface RequestHistoryListResult {
+  /** A list of workflow request histories. */
+  value?: RequestHistory[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The request history. */
+export interface RequestHistoryProperties {
+  /** The time the request started. */
+  startTime?: Date;
+  /** The time the request ended. */
+  endTime?: Date;
+  /** The request. */
+  request?: Request;
+  /** The response. */
+  response?: Response;
+}
+
+/** A request. */
+export interface Request {
+  /** A list of all the headers attached to the request. */
+  headers?: Record<string, unknown>;
+  /** The destination for the request. */
+  uri?: string;
+  /** The HTTP method used for the request. */
+  method?: string;
+}
+
+/** A response. */
+export interface Response {
+  /** A list of all the headers attached to the response. */
+  headers?: Record<string, unknown>;
+  /** The status code of the response. */
+  statusCode?: number;
+  /** Details on the location of the body content. */
+  bodyLink?: ContentLink;
+}
+
+/** The list of workflow triggers. */
+export interface WorkflowTriggerListResult {
+  /** A list of workflow triggers. */
+  value?: WorkflowTrigger[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The workflow trigger recurrence. */
+export interface WorkflowTriggerRecurrence {
+  /** The frequency. */
+  frequency?: RecurrenceFrequency;
+  /** The interval. */
+  interval?: number;
+  /** The start time. */
+  startTime?: string;
+  /** The end time. */
+  endTime?: string;
+  /** The time zone. */
+  timeZone?: string;
+  /** The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
+}
+
+/** The recurrence schedule. */
+export interface RecurrenceSchedule {
+  /** The minutes. */
+  minutes?: number[];
+  /** The hours. */
+  hours?: number[];
+  /** The days of the week. */
+  weekDays?: DaysOfWeek[];
+  /** The month days. */
+  monthDays?: number[];
+  /** The monthly occurrences. */
+  monthlyOccurrences?: RecurrenceScheduleOccurrence[];
+}
+
+/** The recurrence schedule occurrence. */
+export interface RecurrenceScheduleOccurrence {
+  /** The day of the week. */
+  day?: DayOfWeek;
+  /** The occurrence. */
+  occurrence?: number;
+}
+
+/** The list of workflow trigger histories. */
+export interface WorkflowTriggerHistoryListResult {
+  /** A list of workflow trigger histories. */
+  value?: WorkflowTriggerHistory[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The workflow trigger callback URL. */
+export interface WorkflowTriggerCallbackUrl {
+  /**
+   * Gets the workflow trigger callback URL.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * Gets the workflow trigger callback URL HTTP method.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly method?: string;
+  /**
+   * Gets the workflow trigger callback URL base path.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly basePath?: string;
+  /**
+   * Gets the workflow trigger callback URL relative path.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly relativePath?: string;
+  /** Gets the workflow trigger callback URL relative path parameters. */
+  relativePathParameters?: string[];
+  /** Gets the workflow trigger callback URL query parameters. */
+  queries?: WorkflowTriggerListCallbackUrlQueries;
+}
+
+/** Gets the workflow trigger callback URL query parameters. */
+export interface WorkflowTriggerListCallbackUrlQueries {
+  /** The api version. */
+  apiVersion?: string;
+  /** The SAS permissions. */
+  sp?: string;
+  /** The SAS version. */
+  sv?: string;
+  /** The SAS signature. */
+  sig?: string;
+  /** The SAS timestamp. */
+  se?: string;
+}
+
+/** The JSON schema. */
+export interface JsonSchema {
+  /** The JSON title. */
+  title?: string;
+  /** The JSON content. */
+  content?: string;
+}
+
+/** The endpoints configuration. */
+export interface FlowEndpointsConfiguration {
+  /** The workflow endpoints. */
+  workflow?: FlowEndpoints;
+  /** The connector endpoints. */
+  connector?: FlowEndpoints;
+}
+
+/** The flow endpoints configuration. */
+export interface FlowEndpoints {
+  /** The outgoing ip address. */
+  outgoingIpAddresses?: IpAddress[];
+  /** The access endpoint ip address. */
+  accessEndpointIpAddresses?: IpAddress[];
+}
+
+/** The ip address. */
+export interface IpAddress {
+  /** The address. */
+  address?: string;
+}
+
+/** The access control configuration. */
+export interface FlowAccessControlConfiguration {
+  /** The access control configuration for invoking workflow triggers. */
+  triggers?: FlowAccessControlConfigurationPolicy;
+  /** The access control configuration for accessing workflow run contents. */
+  contents?: FlowAccessControlConfigurationPolicy;
+  /** The access control configuration for workflow actions. */
+  actions?: FlowAccessControlConfigurationPolicy;
+  /** The access control configuration for workflow management. */
+  workflowManagement?: FlowAccessControlConfigurationPolicy;
+}
+
+/** The access control configuration policy. */
+export interface FlowAccessControlConfigurationPolicy {
+  /** The allowed caller IP address ranges. */
+  allowedCallerIpAddresses?: IpAddressRange[];
+  /** The authentication policies for workflow. */
+  openAuthenticationPolicies?: OpenAuthenticationAccessPolicies;
+}
+
+/** The ip address range. */
+export interface IpAddressRange {
+  /** The IP address range. */
+  addressRange?: string;
+}
+
+/** AuthenticationPolicy of type Open. */
+export interface OpenAuthenticationAccessPolicies {
+  /** Open authentication policies. */
+  policies?: { [propertyName: string]: OpenAuthenticationAccessPolicy };
+}
+
+/** Open authentication access policy defined by user. */
+export interface OpenAuthenticationAccessPolicy {
+  /** Type of provider for OAuth. */
+  type?: OpenAuthenticationProviderType;
+  /** The access policy claims. */
+  claims?: OpenAuthenticationPolicyClaim[];
+}
+
+/** Open authentication policy claim. */
+export interface OpenAuthenticationPolicyClaim {
+  /** The name of the claim. */
+  name?: string;
+  /** The value of the claim. */
+  value?: string;
+}
+
+/** The sku type. */
+export interface WorkflowSku {
+  /** The name. */
+  name: WorkflowSkuName;
+  /** The reference to plan. */
+  plan?: ResourceReference;
+}
+
+/** The list of workflow versions. */
+export interface WorkflowVersionListResult {
+  /** A list of workflow versions. */
+  value?: WorkflowVersion[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
 /** Github access token for Appservice CLI github integration. */
 export interface AppserviceGithubToken {
   /** Github access token for Appservice CLI github integration */
@@ -4190,6 +4782,44 @@ export interface AppserviceGithubTokenRequest {
   code: string;
   /** State string used for verification. */
   state: string;
+}
+
+/** The workflow filter. */
+export interface WorkflowFilter {
+  /** The state of workflows. */
+  state?: WorkflowState;
+}
+
+/** The list of workflows. */
+export interface WorkflowListResult {
+  /** The list of workflows. */
+  value?: Workflow[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** The workflow run action filter. */
+export interface WorkflowRunActionFilter {
+  /** The status of workflow run action. */
+  status?: WorkflowStatus;
+}
+
+/** The workflow run filter. */
+export interface WorkflowRunFilter {
+  /** The status of workflow run. */
+  status?: WorkflowStatus;
+}
+
+/** The workflow trigger filter. */
+export interface WorkflowTriggerFilter {
+  /** The state of workflow trigger. */
+  state?: WorkflowState;
+}
+
+/** The workflow trigger history filter. */
+export interface WorkflowTriggerHistoryFilter {
+  /** The status of workflow trigger history. */
+  status?: WorkflowStatus;
 }
 
 /** SSL certificate purchase order. */
@@ -4262,7 +4892,7 @@ export type AppServiceCertificateOrder = Resource & {
    * Reasons why App Service Certificate is not renewable at the current moment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem[];
+  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
   /**
    * Time stamp when the certificate would be auto renewed next
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4349,7 +4979,7 @@ export type Domain = Resource & {
    * Reasons why domain is not renewable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly domainNotRenewableReasons?: DomainPropertiesDomainNotRenewableReasonsItem[];
+  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
   /** Current DNS type */
   dnsType?: DnsType;
   /** Azure DNS Zone to use */
@@ -4408,10 +5038,21 @@ export type AppServiceEnvironmentResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
+  /** Upgrade Preference */
+  upgradePreference?: UpgradePreference;
   /** Dedicated Host Count */
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
+  /**
+   * Whether an upgrade is available for this App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailability?: UpgradeAvailability;
 };
 
 /** A web app, a mobile app backend, or an API app. */
@@ -4468,6 +5109,12 @@ export type Site = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
+  /** Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied. */
+  vnetRouteAllEnabled?: boolean;
+  /** To enable pulling image over Virtual Network */
+  vnetImagePullEnabled?: boolean;
+  /** To enable accessing content over virtual network */
+  vnetContentShareEnabled?: boolean;
   /** Configuration of the app. */
   siteConfig?: SiteConfig;
   /**
@@ -4563,6 +5210,8 @@ export type Site = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly inProgressOperationId?: string;
+  /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
   /** Checks if Customer provided storage account is required */
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
@@ -4599,6 +5248,11 @@ export type AppServicePlan = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maximumNumberOfWorkers?: number;
+  /**
+   * The number of instances that are assigned to this App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfWorkers?: number;
   /**
    * Geographical location for the App Service plan.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4907,10 +5561,17 @@ export type StaticSiteARMResource = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
   /** The provider that submitted the last deployment to the primary environment of the static site. */
   provider?: string;
   /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
   enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
+  /** State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
 };
 
 /** Premier add-on. */
@@ -4997,7 +5658,7 @@ export type AppServiceCertificateOrderPatchResource = ProxyOnlyResource & {
    * Reasons why App Service Certificate is not renewable at the current moment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem[];
+  readonly appServiceCertificateNotRenewableReasons?: ResourceNotRenewableReason[];
   /**
    * Time stamp when the certificate would be auto renewed next
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5043,28 +5704,6 @@ export type RenewCertificateOrderRequest = ProxyOnlyResource & {
   csr?: string;
   /** Should we change the ASC type (from managed private key to external private key and vice versa). */
   isPrivateKeyExternal?: boolean;
-};
-
-/** Certificate order action. */
-export type CertificateOrderAction = ProxyOnlyResource & {
-  /**
-   * Action type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: CertificateOrderActionType;
-  /**
-   * Time at which the certificate action was performed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-};
-
-/** SSL certificate email. */
-export type CertificateEmail = ProxyOnlyResource & {
-  /** Email id. */
-  emailId?: string;
-  /** Time stamp. */
-  timeStamp?: Date;
 };
 
 /** Class representing Response from Detector */
@@ -5142,7 +5781,7 @@ export type DomainPatchResource = ProxyOnlyResource & {
    * Reasons why domain is not renewable.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly domainNotRenewableReasons?: DomainPatchResourcePropertiesDomainNotRenewableReasonsItem[];
+  readonly domainNotRenewableReasons?: ResourceNotRenewableReason[];
   /** Current DNS type */
   dnsType?: DnsType;
   /** Azure DNS Zone to use */
@@ -5162,6 +5801,40 @@ export type DomainOwnershipIdentifier = ProxyOnlyResource & {
 export type TopLevelDomain = ProxyOnlyResource & {
   /** If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>. */
   privacy?: boolean;
+};
+
+/** Full view of the custom domain suffix configuration for ASEv3. */
+export type CustomDnsSuffixConfiguration = ProxyOnlyResource & {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: CustomDnsSuffixProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningDetails?: string;
+  /** The default custom domain suffix to use for all sites deployed on the ASE. */
+  dnsSuffix?: string;
+  /** The URL referencing the Azure Key Vault certificate secret that should be used as the default SSL/TLS certificate for sites with the custom domain suffix. */
+  certificateUrl?: string;
+  /** The user-assigned identity to use for resolving the key vault certificate reference. If not specified, the system-assigned ASE identity will be used if available. */
+  keyVaultReferenceIdentity?: string;
+};
+
+/** Full view of networking configuration for an ASE. */
+export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly windowsOutboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly linuxOutboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly externalInboundIpAddresses?: string[];
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly internalInboundIpAddresses?: string[];
+  /** Property to enable and disable new private endpoint connection creation on ASE */
+  allowNewPrivateEndpointConnections?: boolean;
+  /** Property to enable and disable FTP on ASEV3 */
+  ftpEnabled?: boolean;
+  /** Property to enable and disable Remote Debug on ASEV3 */
+  remoteDebugEnabled?: boolean;
+  /** Customer provided Inbound IP Address. Only able to be set on Ase create. */
+  inboundIpAddressOverride?: string;
 };
 
 /** ARM resource for a app service environment. */
@@ -5213,10 +5886,21 @@ export type AppServiceEnvironmentPatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hasLinuxWorkers?: boolean;
+  /** Upgrade Preference */
+  upgradePreference?: UpgradePreference;
   /** Dedicated Host Count */
   dedicatedHostCount?: number;
   /** Whether or not this App Service Environment is zone-redundant. */
   zoneRedundant?: boolean;
+  /** Full view of the custom domain suffix configuration for ASEv3. */
+  customDnsSuffixConfiguration?: CustomDnsSuffixConfiguration;
+  /** Full view of networking configuration for an ASE. */
+  networkingConfiguration?: AseV3NetworkingConfiguration;
+  /**
+   * Whether an upgrade is available for this App Service Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailability?: UpgradeAvailability;
 };
 
 /** Describes main public IP address and any extra virtual IPs. */
@@ -5246,20 +5930,6 @@ export type PushSettings = ProxyOnlyResource & {
   tagsRequiringAuth?: string;
   /** Gets or sets a JSON string containing a list of dynamic tags that will be evaluated from user claims in the push registration endpoint. */
   dynamicTagsJson?: string;
-};
-
-/** Full view of networking configuration for an ASE. */
-export type AseV3NetworkingConfiguration = ProxyOnlyResource & {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly windowsOutboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly linuxOutboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly externalInboundIpAddresses?: string[];
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly internalInboundIpAddresses?: string[];
-  /** Property to enable and disable new private endpoint connection creation on ASE */
-  allowNewPrivateEndpointConnections?: boolean;
 };
 
 /** Worker pool of an App Service Environment ARM resource. */
@@ -5393,6 +6063,11 @@ export type AppServicePlanPatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly maximumNumberOfWorkers?: number;
+  /**
+   * The number of instances that are assigned to this App Service plan.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfWorkers?: number;
   /**
    * Geographical location for the App Service plan.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6212,10 +6887,17 @@ export type StaticSitePatchResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
   /** The provider that submitted the last deployment to the primary environment of the static site. */
   provider?: string;
   /** State indicating the status of the enterprise grade CDN serving traffic to the static web app. */
   enterpriseGradeCdnStatus?: EnterpriseGradeCdnStatus;
+  /** State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
 };
 
 /** Static Site User ARM resource. */
@@ -6281,6 +6963,11 @@ export type StaticSiteBuildARMResource = ProxyOnlyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * Backends linked to the static side build
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkedBackends?: StaticSiteLinkedBackend[];
 };
 
 /** String dictionary resource. */
@@ -6402,6 +7089,24 @@ export type StaticSiteResetPropertiesARMResource = ProxyOnlyResource & {
   repositoryToken?: string;
   /** Determines whether the repository should be updated with the new properties. */
   shouldUpdateRepository?: boolean;
+};
+
+/** Static Site Linked Backend ARM resource. */
+export type StaticSiteLinkedBackendARMResource = ProxyOnlyResource & {
+  /** The resource id of the backend linked to the static site */
+  backendResourceId?: string;
+  /** The region of the backend linked to the static site */
+  region?: string;
+  /**
+   * The date and time on which the backend was linked to the static site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The provisioning state of the linking process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
 };
 
 /** ARM resource for a site. */
@@ -7179,6 +7884,24 @@ export type ContinuousWebJob = ProxyOnlyResource & {
   settings?: { [propertyName: string]: Record<string, unknown> };
 };
 
+/** Deployment status response payload. */
+export type CsmDeploymentStatus = ProxyOnlyResource & {
+  /** Deployment operation id. */
+  deploymentId?: string;
+  /** Deployment build status. */
+  status?: DeploymentBuildStatus;
+  /** Number of site instances currently being provisioned. */
+  numberOfInstancesInProgress?: number;
+  /** Number of site instances provisioned successfully. */
+  numberOfInstancesSuccessful?: number;
+  /** Number of site instances failed to provision. */
+  numberOfInstancesFailed?: number;
+  /** List of URLs pointing to logs for instances which failed to provision. */
+  failedInstancesLogs?: string[];
+  /** List of errors. */
+  errors?: ErrorEntity[];
+};
+
 /** User credentials used for publishing activity. */
 export type Deployment = ProxyOnlyResource & {
   /** Deployment status. */
@@ -7768,6 +8491,10 @@ export type TriggeredWebJob = ProxyOnlyResource & {
   error?: string;
   /** Using SDK? */
   usingSdk?: boolean;
+  /** Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty string. */
+  publicNetworkAccess?: string;
+  /** Checks if Customer provided storage account is required */
+  storageAccountRequired?: boolean;
   /** Job settings. */
   settings?: { [propertyName: string]: Record<string, unknown> };
 };
@@ -7796,77 +8523,514 @@ export type WebJob = ProxyOnlyResource & {
   settings?: { [propertyName: string]: Record<string, unknown> };
 };
 
-/** Known values of {@link AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem} that the service accepts. */
-export enum KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem {
+/** The workflow output parameter. */
+export type WorkflowOutputParameter = WorkflowParameter & {
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+};
+
+/** The workflow run. */
+export type WorkflowRun = SubResource & {
+  /**
+   * Gets the workflow run name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the workflow run type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Gets the wait end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly waitEndTime?: Date;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+  /**
+   * Gets the correlation id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+  /** The run correlation. */
+  correlation?: Correlation;
+  /**
+   * Gets the reference to workflow version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workflow?: ResourceReference;
+  /**
+   * Gets the fired trigger.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trigger?: WorkflowRunTrigger;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: { [propertyName: string]: WorkflowOutputParameter };
+  /**
+   * Gets the response of the flow run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly response?: WorkflowRunTrigger;
+};
+
+/** The workflow run action. */
+export type WorkflowRunAction = SubResource & {
+  /**
+   * Gets the workflow run action name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the workflow run action type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /** The correlation properties. */
+  correlation?: RunActionCorrelation;
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: Record<string, unknown>;
+  /** Gets the retry histories. */
+  retryHistory?: RetryHistory[];
+};
+
+/** The workflow trigger. */
+export type WorkflowTrigger = SubResource & {
+  /**
+   * Gets the workflow trigger name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the workflow trigger type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowTriggerProvisioningState;
+  /**
+   * Gets the created time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets the changed time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changedTime?: Date;
+  /**
+   * Gets the state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: WorkflowState;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the last execution time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastExecutionTime?: Date;
+  /**
+   * Gets the next execution time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextExecutionTime?: Date;
+  /**
+   * Gets the workflow trigger recurrence.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recurrence?: WorkflowTriggerRecurrence;
+  /**
+   * Gets the reference to workflow.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workflow?: ResourceReference;
+};
+
+/** The workflow trigger history. */
+export type WorkflowTriggerHistory = SubResource & {
+  /**
+   * Gets the workflow trigger history name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the workflow trigger history type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Gets the start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Gets the end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+  /**
+   * The scheduled time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledTime?: Date;
+  /**
+   * Gets the status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: WorkflowStatus;
+  /**
+   * Gets the code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /** The run correlation. */
+  correlation?: Correlation;
+  /**
+   * Gets the link to input parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the link to output parameters.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * The value indicating whether trigger was fired.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fired?: boolean;
+  /**
+   * Gets the reference to workflow run.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly run?: ResourceReference;
+};
+
+/** The workflow run action correlation properties. */
+export type RunActionCorrelation = RunCorrelation & {
+  /** The action tracking identifier. */
+  actionTrackingId?: string;
+};
+
+/** The expression root. */
+export type ExpressionRoot = Expression & {
+  /** The path. */
+  path?: string;
+};
+
+/** The azure resource error info. */
+export type AzureResourceErrorInfo = ErrorInfo & {
+  /** The error message. */
+  message: string;
+  /** The error details. */
+  details?: AzureResourceErrorInfo[];
+};
+
+/** The operation result definition. */
+export type OperationResult = OperationResultProperties & {
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /**
+   * Gets the inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputs?: Record<string, unknown>;
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: Record<string, unknown>;
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: Record<string, unknown>;
+  /** Gets the retry histories. */
+  retryHistory?: RetryHistory[];
+  iterationCount?: number;
+};
+
+/** The workflow run action repetition definition. */
+export type WorkflowRunActionRepetitionDefinition = WorkflowResource & {
+  /** The start time of the workflow scope repetition. */
+  startTime?: Date;
+  /** The end time of the workflow scope repetition. */
+  endTime?: Date;
+  /** The correlation properties. */
+  correlation?: RunActionCorrelation;
+  /** The status of the workflow scope repetition. */
+  status?: WorkflowStatus;
+  /** The workflow scope repetition code. */
+  code?: string;
+  /** Anything */
+  error?: any;
+  /**
+   * Gets the tracking id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackingId?: string;
+  /**
+   * Gets the inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputs?: Record<string, unknown>;
+  /**
+   * Gets the link to inputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inputsLink?: ContentLink;
+  /**
+   * Gets the outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputs?: Record<string, unknown>;
+  /**
+   * Gets the link to outputs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputsLink?: ContentLink;
+  /**
+   * Gets the tracked properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly trackedProperties?: Record<string, unknown>;
+  /** Gets the retry histories. */
+  retryHistory?: RetryHistory[];
+  iterationCount?: number;
+  /** The repetition indexes. */
+  repetitionIndexes?: RepetitionIndex[];
+};
+
+/** The request history. */
+export type RequestHistory = WorkflowResource & {
+  /** The request history properties. */
+  properties?: RequestHistoryProperties;
+};
+
+/** The workflow type. */
+export type Workflow = WorkflowResource & {
+  /** Managed service identity. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * Gets the provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * Gets the created time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets the changed time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changedTime?: Date;
+  /** The state. */
+  state?: WorkflowState;
+  /**
+   * Gets the version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the access endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessEndpoint?: string;
+  /** The endpoints configuration. */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /** The access control configuration. */
+  accessControl?: FlowAccessControlConfiguration;
+  /**
+   * The sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: WorkflowSku;
+  /** The integration account. */
+  integrationAccount?: ResourceReference;
+  /** The integration service environment. */
+  integrationServiceEnvironment?: ResourceReference;
+  /** The definition. */
+  definition?: Record<string, unknown>;
+  /** The parameters. */
+  parameters?: { [propertyName: string]: WorkflowParameter };
+  /** The workflow kind. */
+  kind?: Kind;
+};
+
+/** The workflow version. */
+export type WorkflowVersion = WorkflowResource & {
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: WorkflowProvisioningState;
+  /**
+   * Gets the created time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets the changed time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly changedTime?: Date;
+  /** The state. */
+  state?: WorkflowState;
+  /**
+   * Gets the version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+  /**
+   * Gets the access endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessEndpoint?: string;
+  /** The endpoints configuration. */
+  endpointsConfiguration?: FlowEndpointsConfiguration;
+  /** The access control configuration. */
+  accessControl?: FlowAccessControlConfiguration;
+  /**
+   * The sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: WorkflowSku;
+  /** The integration account. */
+  integrationAccount?: ResourceReference;
+  /** The definition. */
+  definition?: Record<string, unknown>;
+  /** The parameters. */
+  parameters?: { [propertyName: string]: WorkflowParameter };
+};
+
+/** The workflow run action repetition properties definition. */
+export type WorkflowRunActionRepetitionProperties = OperationResult & {
+  /** The repetition indexes. */
+  repetitionIndexes?: RepetitionIndex[];
+};
+
+/** Known values of {@link ResourceNotRenewableReason} that the service accepts. */
+export enum KnownResourceNotRenewableReason {
   RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
   ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
   SubscriptionNotActive = "SubscriptionNotActive"
 }
 
 /**
- * Defines values for AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem. \
- * {@link KnownAppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem} can be used interchangeably with AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem,
+ * Defines values for ResourceNotRenewableReason. \
+ * {@link KnownResourceNotRenewableReason} can be used interchangeably with ResourceNotRenewableReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **RegistrationStatusNotSupportedForRenewal** \
  * **ExpirationNotInRenewalTimeRange** \
  * **SubscriptionNotActive**
  */
-export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-/** Known values of {@link AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem} that the service accepts. */
-export enum KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem. \
- * {@link KnownAppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem} can be used interchangeably with AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type AppServiceCertificateOrderPatchResourcePropertiesAppServiceCertificateNotRenewableReasonsItem = string;
-
-/** Known values of {@link DomainPropertiesDomainNotRenewableReasonsItem} that the service accepts. */
-export enum KnownDomainPropertiesDomainNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for DomainPropertiesDomainNotRenewableReasonsItem. \
- * {@link KnownDomainPropertiesDomainNotRenewableReasonsItem} can be used interchangeably with DomainPropertiesDomainNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type DomainPropertiesDomainNotRenewableReasonsItem = string;
-
-/** Known values of {@link DomainPatchResourcePropertiesDomainNotRenewableReasonsItem} that the service accepts. */
-export enum KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem {
-  RegistrationStatusNotSupportedForRenewal = "RegistrationStatusNotSupportedForRenewal",
-  ExpirationNotInRenewalTimeRange = "ExpirationNotInRenewalTimeRange",
-  SubscriptionNotActive = "SubscriptionNotActive"
-}
-
-/**
- * Defines values for DomainPatchResourcePropertiesDomainNotRenewableReasonsItem. \
- * {@link KnownDomainPatchResourcePropertiesDomainNotRenewableReasonsItem} can be used interchangeably with DomainPatchResourcePropertiesDomainNotRenewableReasonsItem,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RegistrationStatusNotSupportedForRenewal** \
- * **ExpirationNotInRenewalTimeRange** \
- * **SubscriptionNotActive**
- */
-export type DomainPatchResourcePropertiesDomainNotRenewableReasonsItem = string;
+export type ResourceNotRenewableReason = string;
 
 /** Known values of {@link LoadBalancingMode} that the service accepts. */
 export enum KnownLoadBalancingMode {
@@ -7887,6 +9051,48 @@ export enum KnownLoadBalancingMode {
  * **Web, Publishing**
  */
 export type LoadBalancingMode = string;
+
+/** Known values of {@link UpgradePreference} that the service accepts. */
+export enum KnownUpgradePreference {
+  /** No preference on when this App Service Environment will be upgraded */
+  None = "None",
+  /** This App Service Environment will be upgraded before others in the same region that have Upgrade Preference 'Late' */
+  Early = "Early",
+  /** This App Service Environment will be upgraded after others in the same region that have Upgrade Preference 'Early' */
+  Late = "Late",
+  /** ASEv3 only. Once an upgrade is available, this App Service Environment will wait 10 days for the upgrade to be manually initiated. After 10 days the upgrade will begin automatically */
+  Manual = "Manual"
+}
+
+/**
+ * Defines values for UpgradePreference. \
+ * {@link KnownUpgradePreference} can be used interchangeably with UpgradePreference,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No preference on when this App Service Environment will be upgraded \
+ * **Early**: This App Service Environment will be upgraded before others in the same region that have Upgrade Preference 'Late' \
+ * **Late**: This App Service Environment will be upgraded after others in the same region that have Upgrade Preference 'Early' \
+ * **Manual**: ASEv3 only. Once an upgrade is available, this App Service Environment will wait 10 days for the upgrade to be manually initiated. After 10 days the upgrade will begin automatically
+ */
+export type UpgradePreference = string;
+
+/** Known values of {@link UpgradeAvailability} that the service accepts. */
+export enum KnownUpgradeAvailability {
+  /** No upgrade is currently available for this App Service Environment */
+  None = "None",
+  /** An upgrade is ready to be manually initiated on this App Service Environment */
+  Ready = "Ready"
+}
+
+/**
+ * Defines values for UpgradeAvailability. \
+ * {@link KnownUpgradeAvailability} can be used interchangeably with UpgradeAvailability,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No upgrade is currently available for this App Service Environment \
+ * **Ready**: An upgrade is ready to be manually initiated on this App Service Environment
+ */
+export type UpgradeAvailability = string;
 
 /** Known values of {@link ScmType} that the service accepts. */
 export enum KnownScmType {
@@ -8094,12 +9300,32 @@ export enum KnownRevisionProvisioningState {
  */
 export type RevisionProvisioningState = string;
 
-/** Known values of {@link Enum15} that the service accepts. */
-export enum KnownEnum15 {
+/** Known values of {@link Enum14} that the service accepts. */
+export enum KnownEnum14 {
   Windows = "Windows",
   Linux = "Linux",
   WindowsFunctions = "WindowsFunctions",
   LinuxFunctions = "LinuxFunctions",
+  All = "All"
+}
+
+/**
+ * Defines values for Enum14. \
+ * {@link KnownEnum14} can be used interchangeably with Enum14,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux** \
+ * **WindowsFunctions** \
+ * **LinuxFunctions** \
+ * **All**
+ */
+export type Enum14 = string;
+
+/** Known values of {@link Enum15} that the service accepts. */
+export enum KnownEnum15 {
+  Windows = "Windows",
+  Linux = "Linux",
   All = "All"
 }
 
@@ -8110,8 +9336,6 @@ export enum KnownEnum15 {
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
- * **WindowsFunctions** \
- * **LinuxFunctions** \
  * **All**
  */
 export type Enum15 = string;
@@ -8174,6 +9398,8 @@ export type Enum18 = string;
 export enum KnownEnum19 {
   Windows = "Windows",
   Linux = "Linux",
+  WindowsFunctions = "WindowsFunctions",
+  LinuxFunctions = "LinuxFunctions",
   All = "All"
 }
 
@@ -8184,31 +9410,11 @@ export enum KnownEnum19 {
  * ### Known values supported by the service
  * **Windows** \
  * **Linux** \
- * **All**
- */
-export type Enum19 = string;
-
-/** Known values of {@link Enum20} that the service accepts. */
-export enum KnownEnum20 {
-  Windows = "Windows",
-  Linux = "Linux",
-  WindowsFunctions = "WindowsFunctions",
-  LinuxFunctions = "LinuxFunctions",
-  All = "All"
-}
-
-/**
- * Defines values for Enum20. \
- * {@link KnownEnum20} can be used interchangeably with Enum20,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux** \
  * **WindowsFunctions** \
  * **LinuxFunctions** \
  * **All**
  */
-export type Enum20 = string;
+export type Enum19 = string;
 
 /** Known values of {@link ResourceScopeType} that the service accepts. */
 export enum KnownResourceScopeType {
@@ -8397,7 +9603,8 @@ export enum KnownCustomDomainStatus {
   Adding = "Adding",
   Ready = "Ready",
   Failed = "Failed",
-  Deleting = "Deleting"
+  Deleting = "Deleting",
+  Unhealthy = "Unhealthy"
 }
 
 /**
@@ -8410,7 +9617,8 @@ export enum KnownCustomDomainStatus {
  * **Adding** \
  * **Ready** \
  * **Failed** \
- * **Deleting**
+ * **Deleting** \
+ * **Unhealthy**
  */
 export type CustomDomainStatus = string;
 
@@ -8434,6 +9642,44 @@ export enum KnownDatabaseType {
  */
 export type DatabaseType = string;
 
+/** Known values of {@link DeploymentBuildStatus} that the service accepts. */
+export enum KnownDeploymentBuildStatus {
+  TimedOut = "TimedOut",
+  RuntimeFailed = "RuntimeFailed",
+  BuildAborted = "BuildAborted",
+  BuildFailed = "BuildFailed",
+  BuildRequestReceived = "BuildRequestReceived",
+  BuildPending = "BuildPending",
+  BuildInProgress = "BuildInProgress",
+  BuildSuccessful = "BuildSuccessful",
+  PostBuildRestartRequired = "PostBuildRestartRequired",
+  StartPolling = "StartPolling",
+  StartPollingWithRestart = "StartPollingWithRestart",
+  RuntimeStarting = "RuntimeStarting",
+  RuntimeSuccessful = "RuntimeSuccessful"
+}
+
+/**
+ * Defines values for DeploymentBuildStatus. \
+ * {@link KnownDeploymentBuildStatus} can be used interchangeably with DeploymentBuildStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TimedOut** \
+ * **RuntimeFailed** \
+ * **BuildAborted** \
+ * **BuildFailed** \
+ * **BuildRequestReceived** \
+ * **BuildPending** \
+ * **BuildInProgress** \
+ * **BuildSuccessful** \
+ * **PostBuildRestartRequired** \
+ * **StartPolling** \
+ * **StartPollingWithRestart** \
+ * **RuntimeStarting** \
+ * **RuntimeSuccessful**
+ */
+export type DeploymentBuildStatus = string;
+
 /** Known values of {@link PublishingProfileFormat} that the service accepts. */
 export enum KnownPublishingProfileFormat {
   FileZilla3 = "FileZilla3",
@@ -8451,6 +9697,302 @@ export enum KnownPublishingProfileFormat {
  * **Ftp**
  */
 export type PublishingProfileFormat = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  NotSpecified = "NotSpecified",
+  Primary = "Primary",
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Primary** \
+ * **Secondary**
+ */
+export type KeyType = string;
+
+/** Known values of {@link WorkflowStatus} that the service accepts. */
+export enum KnownWorkflowStatus {
+  NotSpecified = "NotSpecified",
+  Paused = "Paused",
+  Running = "Running",
+  Waiting = "Waiting",
+  Succeeded = "Succeeded",
+  Skipped = "Skipped",
+  Suspended = "Suspended",
+  Cancelled = "Cancelled",
+  Failed = "Failed",
+  Faulted = "Faulted",
+  TimedOut = "TimedOut",
+  Aborted = "Aborted",
+  Ignored = "Ignored"
+}
+
+/**
+ * Defines values for WorkflowStatus. \
+ * {@link KnownWorkflowStatus} can be used interchangeably with WorkflowStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Paused** \
+ * **Running** \
+ * **Waiting** \
+ * **Succeeded** \
+ * **Skipped** \
+ * **Suspended** \
+ * **Cancelled** \
+ * **Failed** \
+ * **Faulted** \
+ * **TimedOut** \
+ * **Aborted** \
+ * **Ignored**
+ */
+export type WorkflowStatus = string;
+
+/** Known values of {@link ParameterType} that the service accepts. */
+export enum KnownParameterType {
+  NotSpecified = "NotSpecified",
+  String = "String",
+  SecureString = "SecureString",
+  Int = "Int",
+  Float = "Float",
+  Bool = "Bool",
+  Array = "Array",
+  Object = "Object",
+  SecureObject = "SecureObject"
+}
+
+/**
+ * Defines values for ParameterType. \
+ * {@link KnownParameterType} can be used interchangeably with ParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **String** \
+ * **SecureString** \
+ * **Int** \
+ * **Float** \
+ * **Bool** \
+ * **Array** \
+ * **Object** \
+ * **SecureObject**
+ */
+export type ParameterType = string;
+
+/** Known values of {@link WorkflowTriggerProvisioningState} that the service accepts. */
+export enum KnownWorkflowTriggerProvisioningState {
+  NotSpecified = "NotSpecified",
+  Accepted = "Accepted",
+  Running = "Running",
+  Ready = "Ready",
+  Creating = "Creating",
+  Created = "Created",
+  Deleting = "Deleting",
+  Deleted = "Deleted",
+  Canceled = "Canceled",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Moving = "Moving",
+  Updating = "Updating",
+  Registering = "Registering",
+  Registered = "Registered",
+  Unregistering = "Unregistering",
+  Unregistered = "Unregistered",
+  Completed = "Completed"
+}
+
+/**
+ * Defines values for WorkflowTriggerProvisioningState. \
+ * {@link KnownWorkflowTriggerProvisioningState} can be used interchangeably with WorkflowTriggerProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Accepted** \
+ * **Running** \
+ * **Ready** \
+ * **Creating** \
+ * **Created** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Canceled** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Moving** \
+ * **Updating** \
+ * **Registering** \
+ * **Registered** \
+ * **Unregistering** \
+ * **Unregistered** \
+ * **Completed**
+ */
+export type WorkflowTriggerProvisioningState = string;
+
+/** Known values of {@link WorkflowState} that the service accepts. */
+export enum KnownWorkflowState {
+  NotSpecified = "NotSpecified",
+  Completed = "Completed",
+  Enabled = "Enabled",
+  Disabled = "Disabled",
+  Deleted = "Deleted",
+  Suspended = "Suspended"
+}
+
+/**
+ * Defines values for WorkflowState. \
+ * {@link KnownWorkflowState} can be used interchangeably with WorkflowState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Completed** \
+ * **Enabled** \
+ * **Disabled** \
+ * **Deleted** \
+ * **Suspended**
+ */
+export type WorkflowState = string;
+
+/** Known values of {@link RecurrenceFrequency} that the service accepts. */
+export enum KnownRecurrenceFrequency {
+  NotSpecified = "NotSpecified",
+  Second = "Second",
+  Minute = "Minute",
+  Hour = "Hour",
+  Day = "Day",
+  Week = "Week",
+  Month = "Month",
+  Year = "Year"
+}
+
+/**
+ * Defines values for RecurrenceFrequency. \
+ * {@link KnownRecurrenceFrequency} can be used interchangeably with RecurrenceFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Second** \
+ * **Minute** \
+ * **Hour** \
+ * **Day** \
+ * **Week** \
+ * **Month** \
+ * **Year**
+ */
+export type RecurrenceFrequency = string;
+
+/** Known values of {@link WorkflowProvisioningState} that the service accepts. */
+export enum KnownWorkflowProvisioningState {
+  NotSpecified = "NotSpecified",
+  Accepted = "Accepted",
+  Running = "Running",
+  Ready = "Ready",
+  Creating = "Creating",
+  Created = "Created",
+  Deleting = "Deleting",
+  Deleted = "Deleted",
+  Canceled = "Canceled",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Moving = "Moving",
+  Updating = "Updating",
+  Registering = "Registering",
+  Registered = "Registered",
+  Unregistering = "Unregistering",
+  Unregistered = "Unregistered",
+  Completed = "Completed",
+  Renewing = "Renewing",
+  Pending = "Pending",
+  Waiting = "Waiting",
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for WorkflowProvisioningState. \
+ * {@link KnownWorkflowProvisioningState} can be used interchangeably with WorkflowProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Accepted** \
+ * **Running** \
+ * **Ready** \
+ * **Creating** \
+ * **Created** \
+ * **Deleting** \
+ * **Deleted** \
+ * **Canceled** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Moving** \
+ * **Updating** \
+ * **Registering** \
+ * **Registered** \
+ * **Unregistering** \
+ * **Unregistered** \
+ * **Completed** \
+ * **Renewing** \
+ * **Pending** \
+ * **Waiting** \
+ * **InProgress**
+ */
+export type WorkflowProvisioningState = string;
+
+/** Known values of {@link OpenAuthenticationProviderType} that the service accepts. */
+export enum KnownOpenAuthenticationProviderType {
+  AAD = "AAD"
+}
+
+/**
+ * Defines values for OpenAuthenticationProviderType. \
+ * {@link KnownOpenAuthenticationProviderType} can be used interchangeably with OpenAuthenticationProviderType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AAD**
+ */
+export type OpenAuthenticationProviderType = string;
+
+/** Known values of {@link WorkflowSkuName} that the service accepts. */
+export enum KnownWorkflowSkuName {
+  NotSpecified = "NotSpecified",
+  Free = "Free",
+  Shared = "Shared",
+  Basic = "Basic",
+  Standard = "Standard",
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for WorkflowSkuName. \
+ * {@link KnownWorkflowSkuName} can be used interchangeably with WorkflowSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **Free** \
+ * **Shared** \
+ * **Basic** \
+ * **Standard** \
+ * **Premium**
+ */
+export type WorkflowSkuName = string;
+
+/** Known values of {@link Kind} that the service accepts. */
+export enum KnownKind {
+  Stateful = "Stateful",
+  Stateless = "Stateless"
+}
+
+/**
+ * Defines values for Kind. \
+ * {@link KnownKind} can be used interchangeably with Kind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Stateful** \
+ * **Stateless**
+ */
+export type Kind = string;
 /** Defines values for KeyVaultSecretStatus. */
 export type KeyVaultSecretStatus =
   | "Initialized"
@@ -8578,6 +10120,12 @@ export type HostingEnvironmentStatus =
   | "Ready"
   | "Scaling"
   | "Deleting";
+/** Defines values for CustomDnsSuffixProvisioningState. */
+export type CustomDnsSuffixProvisioningState =
+  | "Succeeded"
+  | "Failed"
+  | "Degraded"
+  | "InProgress";
 /** Defines values for ComputeModeOptions. */
 export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 /** Defines values for WorkerSizeOptions. */
@@ -8814,6 +10362,24 @@ export type PublicCertificateLocation =
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
+/** Defines values for DaysOfWeek. */
+export type DaysOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
+/** Defines values for DayOfWeek. */
+export type DayOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersListOptionalParams
@@ -9269,6 +10835,30 @@ export interface AppServiceEnvironmentsChangeVnetOptionalParams
 export type AppServiceEnvironmentsChangeVnetResponse = WebAppCollection;
 
 /** Optional parameters. */
+export interface AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsGetAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsUpdateAseCustomDnsSuffixConfigurationResponse = CustomDnsSuffixConfiguration;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the deleteAseCustomDnsSuffixConfiguration operation. */
+export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = Record<
+  string,
+  unknown
+>;
+
+/** Optional parameters. */
 export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -9356,6 +10946,19 @@ export interface AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams
 
 /** Contains response data for the listMultiRolePoolSkus operation. */
 export type AppServiceEnvironmentsListMultiRolePoolSkusResponse = SkuInfoCollection;
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AppServiceEnvironmentsUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListMultiRoleUsagesOptionalParams
@@ -10498,7 +12101,7 @@ export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCol
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum14;
 }
 
 /** Contains response data for the getAvailableStacks operation. */
@@ -10508,7 +12111,7 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum16;
+  stackOsType?: Enum15;
 }
 
 /** Contains response data for the getFunctionAppStacks operation. */
@@ -10518,7 +12121,7 @@ export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection;
 export interface ProviderGetFunctionAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum17;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
@@ -10528,7 +12131,7 @@ export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCo
 export interface ProviderGetWebAppStacksForLocationOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum18;
+  stackOsType?: Enum17;
 }
 
 /** Contains response data for the getWebAppStacksForLocation operation. */
@@ -10545,7 +12148,7 @@ export type ProviderListOperationsResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum19;
+  stackOsType?: Enum18;
 }
 
 /** Contains response data for the getWebAppStacks operation. */
@@ -10554,7 +12157,7 @@ export type ProviderGetWebAppStacksResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum20;
+  osTypeSelected?: Enum19;
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
@@ -10563,7 +12166,7 @@ export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollectio
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum15;
+  osTypeSelected?: Enum14;
 }
 
 /** Contains response data for the getAvailableStacksNext operation. */
@@ -10573,7 +12176,7 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
 export interface ProviderGetFunctionAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum16;
+  stackOsType?: Enum15;
 }
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
@@ -10583,7 +12186,7 @@ export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollectio
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum17;
+  stackOsType?: Enum16;
 }
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
@@ -10593,7 +12196,7 @@ export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppSta
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum18;
+  stackOsType?: Enum17;
 }
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
@@ -10610,7 +12213,7 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection;
 export interface ProviderGetWebAppStacksNextOptionalParams
   extends coreClient.OperationOptions {
   /** Stack OS Type */
-  stackOsType?: Enum19;
+  stackOsType?: Enum18;
 }
 
 /** Contains response data for the getWebAppStacksNext operation. */
@@ -10619,7 +12222,7 @@ export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
 /** Optional parameters. */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams
   extends coreClient.OperationOptions {
-  osTypeSelected?: Enum20;
+  osTypeSelected?: Enum19;
 }
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
@@ -10930,7 +12533,10 @@ export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 /** Optional parameters. */
 export interface ListCustomHostNameSitesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Specific hostname */
+  hostname?: string;
+}
 
 /** Contains response data for the listCustomHostNameSites operation. */
 export type ListCustomHostNameSitesResponse = CustomHostnameSitesCollection;
@@ -11019,7 +12625,10 @@ export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
 export interface ListCustomHostNameSitesNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Specific hostname */
+  hostname?: string;
+}
 
 /** Contains response data for the listCustomHostNameSitesNext operation. */
 export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
@@ -11164,6 +12773,15 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOpti
 
 /** Contains response data for the createOrUpdateStaticSiteBuildFunctionAppSettings operation. */
 export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse = StringDictionary;
+
+/** Optional parameters. */
+export interface StaticSitesPurgeStaticSiteBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams
@@ -11385,6 +13003,15 @@ export interface StaticSitesGetPrivateLinkResourcesOptionalParams
 export type StaticSitesGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
+export interface StaticSitesPurgeStaticSiteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface StaticSitesResetStaticSiteApiKeyOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -11427,6 +13054,90 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StaticSitesValidateBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StaticSitesValidateBackendForBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackends operation. */
+export type StaticSitesGetLinkedBackendsResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsForBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsForBuild operation. */
+export type StaticSitesGetLinkedBackendsForBuildResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackend operation. */
+export type StaticSitesGetLinkedBackendResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesLinkBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the linkBackend operation. */
+export type StaticSitesLinkBackendResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesUnlinkBackendOptionalParams
+  extends coreClient.OperationOptions {
+  /** Decides if Easy Auth configuration will be removed from backend configuration */
+  isCleaningAuthConfig?: boolean;
+}
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendForBuildOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendForBuild operation. */
+export type StaticSitesGetLinkedBackendForBuildResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesLinkBackendToBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the linkBackendToBuild operation. */
+export type StaticSitesLinkBackendToBuildResponse = StaticSiteLinkedBackendARMResource;
+
+/** Optional parameters. */
+export interface StaticSitesUnlinkBackendFromBuildOptionalParams
+  extends coreClient.OperationOptions {
+  /** Decides if auth will be removed from backend configuration */
+  isCleaningAuthConfig?: boolean;
 }
 
 /** Optional parameters. */
@@ -11498,6 +13209,20 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptional
 
 /** Contains response data for the getUserProvidedFunctionAppsForStaticSiteNext operation. */
 export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse = StaticSiteUserProvidedFunctionAppsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsNext operation. */
+export type StaticSitesGetLinkedBackendsNextResponse = StaticSiteLinkedBackendsCollection;
+
+/** Optional parameters. */
+export interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkedBackendsForBuildNext operation. */
+export type StaticSitesGetLinkedBackendsForBuildNextResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
 export interface WebAppsListOptionalParams
@@ -11948,6 +13673,25 @@ export interface WebAppsStopContinuousWebJobOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface WebAppsListProductionSiteDeploymentStatusesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProductionSiteDeploymentStatuses operation. */
+export type WebAppsListProductionSiteDeploymentStatusesResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getProductionSiteDeploymentStatus operation. */
+export type WebAppsGetProductionSiteDeploymentStatusResponse = CsmDeploymentStatus;
+
+/** Optional parameters. */
 export interface WebAppsListDeploymentsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12043,6 +13787,20 @@ export interface WebAppsGetMSDeployLogOptionalParams
 
 /** Contains response data for the getMSDeployLog operation. */
 export type WebAppsGetMSDeployLogResponse = MSDeployLog;
+
+/** Optional parameters. */
+export interface WebAppsGetOneDeployStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOneDeployStatus operation. */
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface WebAppsCreateOneDeployOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOneDeployOperation operation. */
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsListFunctionsOptionalParams
@@ -12937,6 +14695,13 @@ export interface WebAppsGetAuthSettingsSlotOptionalParams
 export type WebAppsGetAuthSettingsSlotResponse = SiteAuthSettings;
 
 /** Optional parameters. */
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthSettingsV2WithoutSecretsSlot operation. */
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+/** Optional parameters. */
 export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -13186,6 +14951,25 @@ export interface WebAppsStartContinuousWebJobSlotOptionalParams
 /** Optional parameters. */
 export interface WebAppsStopContinuousWebJobSlotOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotSiteDeploymentStatusesSlot operation. */
+export type WebAppsListSlotSiteDeploymentStatusesSlotResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
+export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getSlotSiteDeploymentStatusSlot operation. */
+export type WebAppsGetSlotSiteDeploymentStatusSlotResponse = CsmDeploymentStatus;
 
 /** Optional parameters. */
 export interface WebAppsListDeploymentsSlotOptionalParams
@@ -14478,6 +16262,13 @@ export interface WebAppsListContinuousWebJobsNextOptionalParams
 export type WebAppsListContinuousWebJobsNextResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
+export interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listProductionSiteDeploymentStatusesNext operation. */
+export type WebAppsListProductionSiteDeploymentStatusesNextResponse = CsmDeploymentStatusCollection;
+
+/** Optional parameters. */
 export interface WebAppsListDeploymentsNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14647,6 +16438,13 @@ export interface WebAppsListContinuousWebJobsSlotNextOptionalParams
 
 /** Contains response data for the listContinuousWebJobsSlotNext operation. */
 export type WebAppsListContinuousWebJobsSlotNextResponse = ContinuousWebJobCollection;
+
+/** Optional parameters. */
+export interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSlotSiteDeploymentStatusesSlotNext operation. */
+export type WebAppsListSlotSiteDeploymentStatusesSlotNextResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsListDeploymentsSlotNextOptionalParams
@@ -14866,6 +16664,292 @@ export interface WebAppsListWebJobsNextOptionalParams
 
 /** Contains response data for the listWebJobsNext operation. */
 export type WebAppsListWebJobsNextResponse = WebJobCollection;
+
+/** Optional parameters. */
+export interface WorkflowsRegenerateAccessKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkflowsValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkflowRunsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunsListResponse = WorkflowRunListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunsGetResponse = WorkflowRun;
+
+/** Optional parameters. */
+export interface WorkflowRunsCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkflowRunsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunsListNextResponse = WorkflowRunListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunActionsListResponse = WorkflowRunActionListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunActionsGetResponse = WorkflowRunAction;
+
+/** Optional parameters. */
+export interface WorkflowRunActionsListExpressionTracesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExpressionTraces operation. */
+export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
+
+/** Optional parameters. */
+export interface WorkflowRunActionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status. */
+  filter?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionsListExpressionTracesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExpressionTracesNext operation. */
+export type WorkflowRunActionsListExpressionTracesNextResponse = ExpressionTraces;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunActionRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExpressionTraces operation. */
+export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionRepetitionsListNextResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsListExpressionTracesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listExpressionTracesNext operation. */
+export type WorkflowRunActionRepetitionsListExpressionTracesNextResponse = ExpressionTraces;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
+
+/** Optional parameters. */
+export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
+
+/** Optional parameters. */
+export interface WorkflowRunActionScopeRepetitionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkflowRunActionScopeRepetitionsListResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowRunActionScopeRepetitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
+
+/** Optional parameters. */
+export interface WorkflowRunActionScopeRepetitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowRunActionScopeRepetitionsListNextResponse = WorkflowRunActionRepetitionDefinitionCollection;
+
+/** Optional parameters. */
+export interface WorkflowTriggersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
+
+/** Optional parameters. */
+export interface WorkflowTriggersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowTriggersGetResponse = WorkflowTrigger;
+
+/** Optional parameters. */
+export interface WorkflowTriggersListCallbackUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCallbackUrl operation. */
+export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
+
+/** Optional parameters. */
+export interface WorkflowTriggersRunOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WorkflowTriggersGetSchemaJsonOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSchemaJson operation. */
+export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
+
+/** Optional parameters. */
+export interface WorkflowTriggersListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesResubmitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WorkflowTriggerHistoriesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
+  filter?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
+
+/** Optional parameters. */
+export interface WorkflowVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type WorkflowVersionsListResponse = WorkflowVersionListResult;
+
+/** Optional parameters. */
+export interface WorkflowVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkflowVersionsGetResponse = WorkflowVersion;
+
+/** Optional parameters. */
+export interface WorkflowVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+}
+
+/** Contains response data for the listNext operation. */
+export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
 
 /** Optional parameters. */
 export interface WebSiteManagementClientOptionalParams
