@@ -1065,7 +1065,7 @@ export interface PrivateLinkScopedResource {
 export type ProvisioningStateEnum = string;
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccessType = string;

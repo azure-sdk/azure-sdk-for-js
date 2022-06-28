@@ -917,7 +917,7 @@ export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
