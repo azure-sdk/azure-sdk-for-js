@@ -1,5 +1,93 @@
 # Release History
     
+## 1.0.0-beta.4 (2022-06-28)
+    
+**Features**
+
+  - Added operation group Get
+  - Added operation group SecurityMLAnalyticsSettings
+  - Added operation group Update
+  - Added Interface AutomationRulePropertyArrayChangedValuesCondition
+  - Added Interface AutomationRulePropertyValuesChangedCondition
+  - Added Interface Content
+  - Added Interface GetInsightsErrorKind
+  - Added Interface GetRecommendationsOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface Instructions
+  - Added Interface Recommendation
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsDataSource
+  - Added Interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsGetOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsList
+  - Added Interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsListOptionalParams
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias AnomalySecurityMLAnalyticsSettings
+  - Added Type Alias AnomalyTimelineItem
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias EntityProviders
+  - Added Type Alias Enum13
+  - Added Type Alias GetInsightsError
+  - Added Type Alias GetRecommendationsResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias Op
+  - Added Type Alias Priority
+  - Added Type Alias PropertyArrayChangedConditionProperties
+  - Added Type Alias PropertyChangedConditionProperties
+  - Added Type Alias SecurityMLAnalyticsSetting
+  - Added Type Alias SecurityMLAnalyticsSettingsCreateOrUpdateResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsGetResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsKind
+  - Added Type Alias SecurityMLAnalyticsSettingsListNextResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsListResponse
+  - Added Type Alias SecurityMLAnalyticsSettingUnion
+  - Added Type Alias SettingsStatus
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionEndpoint
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionRuleImmutableId
+  - Interface DataConnectorConnectBody has a new optional parameter outputStream
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter securityMLAnalyticsSettings
+  - Class SecurityInsights has a new parameter update
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownEnum13
+  - Added Enum KnownGetInsightsError
+  - Added Enum KnownOp
+  - Added Enum KnownPriority
+  - Added Enum KnownSecurityMLAnalyticsSettingsKind
+  - Added Enum KnownSettingsStatus
+  - Added Enum KnownState
+  - Enum KnownConditionType has a new value PropertyArrayChanged
+  - Enum KnownConditionType has a new value PropertyChanged
+  - Enum KnownEntityTimelineKind has a new value Anomaly
+  - Enum KnownTriggersWhen has a new value Updated
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias Watchlist no longer has parameter sasUri
+  - Type Alias Watchlist no longer has parameter provisioningState
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownSkuKind
+    
+    
 ## 1.0.0-beta.3 (2022-05-16)
     
 **Features**
