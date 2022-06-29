@@ -7,6 +7,12 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "./lroImpl";
@@ -29,6 +35,10 @@ import {
   ApiExportImpl,
   ApiVersionSetImpl,
   AuthorizationServerImpl,
+  AuthorizationProviderImpl,
+  AuthorizationImpl,
+  AuthorizationLoginLinksImpl,
+  AuthorizationAccessPolicyImpl,
   BackendImpl,
   CacheImpl,
   CertificateImpl,
@@ -58,6 +68,8 @@ import {
   OutboundNetworkDependenciesEndpointsImpl,
   PolicyImpl,
   PolicyDescriptionImpl,
+  PolicyFragmentImpl,
+  PortalConfigImpl,
   PortalRevisionImpl,
   PortalSettingsImpl,
   SignInSettingsImpl,
@@ -73,6 +85,7 @@ import {
   QuotaByPeriodKeysImpl,
   RegionImpl,
   ReportsImpl,
+  GlobalSchemaImpl,
   TenantSettingsImpl,
   ApiManagementSkusImpl,
   SubscriptionImpl,
@@ -105,6 +118,10 @@ import {
   ApiExport,
   ApiVersionSet,
   AuthorizationServer,
+  AuthorizationProvider,
+  Authorization,
+  AuthorizationLoginLinks,
+  AuthorizationAccessPolicy,
   Backend,
   Cache,
   Certificate,
@@ -134,6 +151,8 @@ import {
   OutboundNetworkDependenciesEndpoints,
   Policy,
   PolicyDescription,
+  PolicyFragment,
+  PortalConfig,
   PortalRevision,
   PortalSettings,
   SignInSettings,
@@ -149,6 +168,7 @@ import {
   QuotaByPeriodKeys,
   Region,
   Reports,
+  GlobalSchema,
   TenantSettings,
   ApiManagementSkus,
   Subscription,
@@ -204,7 +224,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.0.2`;
+    const packageDetails = `azsdk-js-arm-apimanagement/8.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -223,12 +243,35 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-01";
+    this.apiVersion = options.apiVersion || "2022-04-01-preview";
     this.api = new ApiImpl(this);
     this.apiRevision = new ApiRevisionImpl(this);
     this.apiRelease = new ApiReleaseImpl(this);
@@ -247,6 +290,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.apiExport = new ApiExportImpl(this);
     this.apiVersionSet = new ApiVersionSetImpl(this);
     this.authorizationServer = new AuthorizationServerImpl(this);
+    this.authorizationProvider = new AuthorizationProviderImpl(this);
+    this.authorization = new AuthorizationImpl(this);
+    this.authorizationLoginLinks = new AuthorizationLoginLinksImpl(this);
+    this.authorizationAccessPolicy = new AuthorizationAccessPolicyImpl(this);
     this.backend = new BackendImpl(this);
     this.cache = new CacheImpl(this);
     this.certificate = new CertificateImpl(this);
@@ -282,6 +329,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     );
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
+    this.policyFragment = new PolicyFragmentImpl(this);
+    this.portalConfig = new PortalConfigImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
     this.portalSettings = new PortalSettingsImpl(this);
     this.signInSettings = new SignInSettingsImpl(this);
@@ -299,6 +348,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
     this.reports = new ReportsImpl(this);
+    this.globalSchema = new GlobalSchemaImpl(this);
     this.tenantSettings = new TenantSettingsImpl(this);
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
@@ -311,6 +361,35 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.userSubscription = new UserSubscriptionImpl(this);
     this.userIdentities = new UserIdentitiesImpl(this);
     this.userConfirmationPassword = new UserConfirmationPasswordImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   /**
@@ -431,6 +510,10 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   apiExport: ApiExport;
   apiVersionSet: ApiVersionSet;
   authorizationServer: AuthorizationServer;
+  authorizationProvider: AuthorizationProvider;
+  authorization: Authorization;
+  authorizationLoginLinks: AuthorizationLoginLinks;
+  authorizationAccessPolicy: AuthorizationAccessPolicy;
   backend: Backend;
   cache: Cache;
   certificate: Certificate;
@@ -460,6 +543,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   outboundNetworkDependenciesEndpoints: OutboundNetworkDependenciesEndpoints;
   policy: Policy;
   policyDescription: PolicyDescription;
+  policyFragment: PolicyFragment;
+  portalConfig: PortalConfig;
   portalRevision: PortalRevision;
   portalSettings: PortalSettings;
   signInSettings: SignInSettings;
@@ -475,6 +560,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
   reports: Reports;
+  globalSchema: GlobalSchema;
   tenantSettings: TenantSettings;
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;
