@@ -23,6 +23,7 @@ specifiers:
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:./projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
@@ -309,6 +310,7 @@ dependencies:
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
@@ -3941,7 +3943,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220628
+      typescript: 4.8.0-dev.20220629
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8751,8 +8753,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220628:
-    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
+  /typescript/4.8.0-dev.20220629:
+    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10048,6 +10050,32 @@ packages:
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.5
+    dev: false
+
+  file:projects/arm-automanage.tgz:
+    resolution: {integrity: sha512-cdJmAexqrMxYLKCBcz2QD9kq7tXP2VTmPT28JgJbPq8Az+2AcbFmjY15K/qBm7JwOAH0qHSCTjKU9O3m01wCDw==, tarball: file:projects/arm-automanage.tgz}
+    name: '@rush-temp/arm-automanage'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-avs.tgz:
