@@ -3941,7 +3941,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220628
+      typescript: 4.8.0-dev.20220629
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8751,8 +8751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220628:
-    resolution: {integrity: sha512-89n1Fp/JQev/bPPuVferlfw0VguLxr0uFergLfPbhs+6Hlu3M5rLwplGLHL+JZ+0+BsTyWg779TmaMcqa5FB5Q==}
+  /typescript/4.8.0-dev.20220629:
+    resolution: {integrity: sha512-QEp1M6iqlYpQXFF2f9ucXMkXbYcAoXcG0ws0IG8bWd7mjPGf8R5iVCbQVSm1dzV/GoOy0PsvfNe5/uL6D9TSPA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10033,21 +10033,29 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-FtAlpnbtBBhaN18iWEqbgft877CIeIjLOdxCk0XK8/13kYL8O39+/J6DYWO7XM0r0j1ZBcbjLQ3Y2Yw7ZYD8uw==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-r8eRWh++jzM+CNgIcI62W1n1ypyLdljo77qPa5cl4BA7i9d45Dl+gbx7Jl/bwE2HnH8RqEJRQoDD1VT91V0Djw==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.74.1
       '@rollup/plugin-json': 4.1.0_rollup@2.74.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.74.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.74.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.74.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.74.1
+      cross-env: 7.0.3
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.74.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.74.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.74.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
     dev: false
 
   file:projects/arm-avs.tgz:
@@ -14854,7 +14862,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-cg+0o/UDZTS8e6Eud4C2ql+IE9FaqPi5QPAtPgjoFTMqsKulijRkLtb1guIK1mJ9SkaqFbUq8JYFsIYkClMmnA==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-AlPbxogx/1TifV283TyuACZ7i4eQcVPCzYNbFkyLanbd95uk97Q+991I7XLxgA9tOIgo1xOrZdGTJO1E6WFXsw==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -14892,7 +14900,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
