@@ -9,6 +9,22 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export interface AgentUpdatePatchProperties {
+    maintenanceWindows?: MaintenanceWindowPatchProperties[];
+    maintenanceWindowTimeZone?: string;
+    type?: SessionHostComponentUpdateType;
+    useSessionHostLocalTime?: boolean;
+}
+
+// @public
+export interface AgentUpdateProperties {
+    maintenanceWindows?: MaintenanceWindowProperties[];
+    maintenanceWindowTimeZone?: string;
+    type?: SessionHostComponentUpdateType;
+    useSessionHostLocalTime?: boolean;
+}
+
+// @public
 export type Application = Resource & {
     readonly systemData?: SystemData;
     readonly objectId?: string;
@@ -220,6 +236,9 @@ export type CommandLineSetting = string;
 export type CreatedByType = string;
 
 // @public
+export type DayOfWeek = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
+// @public
 export type Desktop = Resource & {
     readonly systemData?: SystemData;
     readonly objectId?: string;
@@ -306,6 +325,8 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    scalingPlanPooledSchedules: ScalingPlanPooledSchedules;
+    // (undocumented)
     scalingPlans: ScalingPlans;
     // (undocumented)
     sessionHosts: SessionHosts;
@@ -379,7 +400,9 @@ export type HostPool = ResourceModelWithAllowedPropertySet & {
     startVMOnConnect?: boolean;
     migrationRequest?: MigrationRequestProperties;
     readonly cloudPcResource?: boolean;
-    publicNetworkAccess?: PublicNetworkAccess;
+    publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    agentUpdate?: AgentUpdateProperties;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -409,8 +432,12 @@ export type HostPoolPatch = Resource & {
     ssoSecretType?: SSOSecretType;
     preferredAppGroupType?: PreferredAppGroupType;
     startVMOnConnect?: boolean;
-    publicNetworkAccess?: PublicNetworkAccess;
+    publicNetworkAccess?: HostpoolPublicNetworkAccess;
+    agentUpdate?: AgentUpdatePatchProperties;
 };
+
+// @public
+export type HostpoolPublicNetworkAccess = string;
 
 // @public
 export interface HostPools {
@@ -557,6 +584,18 @@ export enum KnownHealthCheckResult {
 }
 
 // @public
+export enum KnownHostpoolPublicNetworkAccess {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled",
+    // (undocumented)
+    EnabledForClientsOnly = "EnabledForClientsOnly",
+    // (undocumented)
+    EnabledForSessionHostsOnly = "EnabledForSessionHostsOnly"
+}
+
+// @public
 export enum KnownHostPoolType {
     BYODesktop = "BYODesktop",
     Personal = "Personal",
@@ -672,6 +711,12 @@ export enum KnownScalingScheduleDaysOfWeekItem {
 }
 
 // @public
+export enum KnownSessionHostComponentUpdateType {
+    Default = "Default",
+    Scheduled = "Scheduled"
+}
+
+// @public
 export enum KnownSessionHostLoadBalancingAlgorithm {
     // (undocumented)
     BreadthFirst = "BreadthFirst",
@@ -753,6 +798,18 @@ export interface LogSpecification {
     blobDuration?: string;
     displayName?: string;
     name?: string;
+}
+
+// @public
+export interface MaintenanceWindowPatchProperties {
+    dayOfWeek?: DayOfWeek;
+    hour?: number;
+}
+
+// @public
+export interface MaintenanceWindowProperties {
+    dayOfWeek?: DayOfWeek;
+    hour?: number;
 }
 
 // @public
@@ -1177,7 +1234,7 @@ export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
     readonly objectId?: string;
     description?: string;
     friendlyName?: string;
-    timeZone?: string;
+    timeZone: string;
     hostPoolType?: ScalingHostPoolType;
     exclusionTag?: string;
     schedules?: ScalingSchedule[];
@@ -1202,6 +1259,104 @@ export interface ScalingPlanPatch {
     };
     timeZone?: string;
 }
+
+// @public
+export type ScalingPlanPooledSchedule = Resource & {
+    readonly systemData?: SystemData;
+    daysOfWeek?: DayOfWeek[];
+    rampUpStartTime?: Time;
+    rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampUpMinimumHostsPct?: number;
+    rampUpCapacityThresholdPct?: number;
+    peakStartTime?: Time;
+    peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownStartTime?: Time;
+    rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownMinimumHostsPct?: number;
+    rampDownCapacityThresholdPct?: number;
+    rampDownForceLogoffUsers?: boolean;
+    rampDownStopHostsWhen?: StopHostsWhen;
+    rampDownWaitTimeMinutes?: number;
+    rampDownNotificationMessage?: string;
+    offPeakStartTime?: Time;
+    offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+};
+
+// @public
+export interface ScalingPlanPooledScheduleList {
+    readonly nextLink?: string;
+    value?: ScalingPlanPooledSchedule[];
+}
+
+// @public
+export type ScalingPlanPooledSchedulePatch = Resource & {
+    daysOfWeek?: DayOfWeek[];
+    rampUpStartTime?: Time;
+    rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampUpMinimumHostsPct?: number;
+    rampUpCapacityThresholdPct?: number;
+    peakStartTime?: Time;
+    peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownStartTime?: Time;
+    rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+    rampDownMinimumHostsPct?: number;
+    rampDownCapacityThresholdPct?: number;
+    rampDownForceLogoffUsers?: boolean;
+    rampDownStopHostsWhen?: StopHostsWhen;
+    rampDownWaitTimeMinutes?: number;
+    rampDownNotificationMessage?: string;
+    offPeakStartTime?: Time;
+    offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
+};
+
+// @public
+export interface ScalingPlanPooledSchedules {
+    create(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, scalingPlanSchedule: ScalingPlanPooledSchedule, options?: ScalingPlanPooledSchedulesCreateOptionalParams): Promise<ScalingPlanPooledSchedulesCreateResponse>;
+    delete(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesGetOptionalParams): Promise<ScalingPlanPooledSchedulesGetResponse>;
+    list(resourceGroupName: string, scalingPlanName: string, options?: ScalingPlanPooledSchedulesListOptionalParams): PagedAsyncIterableIterator<ScalingPlanPooledSchedule>;
+    update(resourceGroupName: string, scalingPlanName: string, scalingPlanScheduleName: string, options?: ScalingPlanPooledSchedulesUpdateOptionalParams): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
+}
+
+// @public
+export interface ScalingPlanPooledSchedulesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesCreateResponse = ScalingPlanPooledSchedule;
+
+// @public
+export interface ScalingPlanPooledSchedulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ScalingPlanPooledSchedulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesGetResponse = ScalingPlanPooledSchedule;
+
+// @public
+export interface ScalingPlanPooledSchedulesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesListNextResponse = ScalingPlanPooledScheduleList;
+
+// @public
+export interface ScalingPlanPooledSchedulesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ScalingPlanPooledSchedulesListResponse = ScalingPlanPooledScheduleList;
+
+// @public
+export interface ScalingPlanPooledSchedulesUpdateOptionalParams extends coreClient.OperationOptions {
+    scalingPlanSchedule?: ScalingPlanPooledSchedulePatch;
+}
+
+// @public
+export type ScalingPlanPooledSchedulesUpdateResponse = ScalingPlanPooledSchedule;
 
 // @public
 export interface ScalingPlans {
@@ -1329,6 +1484,7 @@ export type SessionHost = Resource & {
     readonly virtualMachineId?: string;
     readonly resourceId?: string;
     assignedUser?: string;
+    friendlyName?: string;
     status?: Status;
     readonly statusTimestamp?: Date;
     osVersion?: string;
@@ -1338,6 +1494,9 @@ export type SessionHost = Resource & {
     updateErrorMessage?: string;
     readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
 };
+
+// @public
+export type SessionHostComponentUpdateType = string;
 
 // @public
 export interface SessionHostHealthCheckFailureDetails {
@@ -1366,6 +1525,7 @@ export type SessionHostLoadBalancingAlgorithm = string;
 export type SessionHostPatch = Resource & {
     allowNewSession?: boolean;
     assignedUser?: string;
+    friendlyName?: string;
 };
 
 // @public
@@ -1575,6 +1735,7 @@ export type Workspace = ResourceModelWithAllowedPropertySet & {
     applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     publicNetworkAccess?: PublicNetworkAccess;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
