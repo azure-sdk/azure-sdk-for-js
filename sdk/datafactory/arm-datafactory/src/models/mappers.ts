@@ -3956,29 +3956,6 @@ export const DataFlowReference: coreClient.CompositeMapper = {
   }
 };
 
-export const ManagedVirtualNetworkReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedVirtualNetworkReference",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CredentialReference: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7098,28 +7075,29 @@ export const Factory: coreClient.CompositeMapper = {
   }
 };
 
-export const ManagedIntegrationRuntime: coreClient.CompositeMapper = {
-  serializedName: "Managed",
+export const ManagedIntegrationRuntimeBase: coreClient.CompositeMapper = {
+  serializedName: "ManagedIntegrationRuntimeBase",
   type: {
     name: "Composite",
-    className: "ManagedIntegrationRuntime",
+    className: "ManagedIntegrationRuntimeBase",
     uberParent: "IntegrationRuntime",
     additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
     modelProperties: {
       ...IntegrationRuntime.type.modelProperties,
-      state: {
-        serializedName: "state",
-        readOnly: true,
+      typeManagedVirtualNetworkType: {
+        serializedName: "managedVirtualNetwork.type",
         type: {
           name: "String"
         }
       },
-      managedVirtualNetwork: {
-        serializedName: "managedVirtualNetwork",
+      referenceName: {
+        serializedName: "managedVirtualNetwork.referenceName",
         type: {
-          name: "Composite",
-          className: "ManagedVirtualNetworkReference"
+          name: "String"
         }
       },
       computeProperties: {
@@ -22577,6 +22555,27 @@ export const SelfDependencyTumblingWindowTriggerReference: coreClient.CompositeM
   }
 };
 
+export const ManagedIntegrationRuntime: coreClient.CompositeMapper = {
+  serializedName: "Managed",
+  type: {
+    name: "Composite",
+    className: "ManagedIntegrationRuntime",
+    uberParent: "IntegrationRuntime",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: IntegrationRuntime.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ManagedIntegrationRuntimeBase.type.modelProperties,
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ExecutePipelineActivity: coreClient.CompositeMapper = {
   serializedName: "ExecutePipeline",
   type: {
@@ -26322,7 +26321,7 @@ export let discriminators = {
   DependencyReference: DependencyReference,
   "FactoryRepoConfiguration.FactoryVSTSConfiguration": FactoryVstsConfiguration,
   "FactoryRepoConfiguration.FactoryGitHubConfiguration": FactoryGitHubConfiguration,
-  "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
+  "IntegrationRuntime.ManagedIntegrationRuntimeBase": ManagedIntegrationRuntimeBase,
   "IntegrationRuntime.SelfHosted": SelfHostedIntegrationRuntime,
   "IntegrationRuntimeStatus.Managed": ManagedIntegrationRuntimeStatus,
   "IntegrationRuntimeStatus.SelfHosted": SelfHostedIntegrationRuntimeStatus,
@@ -26692,6 +26691,7 @@ export let discriminators = {
   "CopyTranslator.TabularTranslator": TabularTranslator,
   "DependencyReference.TriggerDependencyReference": TriggerDependencyReference,
   "DependencyReference.SelfDependencyTumblingWindowTriggerReference": SelfDependencyTumblingWindowTriggerReference,
+  "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
   "Activity.ExecutePipeline": ExecutePipelineActivity,
   "Activity.IfCondition": IfConditionActivity,
   "Activity.Switch": SwitchActivity,
