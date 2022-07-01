@@ -11,7 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AlertsState = string;
+
+// @public
 export type AuthType = string;
+
+// @public
+export interface AzureMonitorAlertSettings {
+    // (undocumented)
+    alertsForAllJobFailures?: AlertsState;
+}
+
+// @public
+export type BackupStorageVersion = string;
 
 // @public
 export interface CertificateRequest {
@@ -32,6 +44,12 @@ export interface CheckNameAvailabilityResult {
     nameAvailable?: boolean;
     // (undocumented)
     reason?: string;
+}
+
+// @public
+export interface ClassicAlertSettings {
+    // (undocumented)
+    alertsForCriticalOperations?: AlertsState;
 }
 
 // @public
@@ -93,6 +111,9 @@ export interface CmkKeyVaultProperties {
 export type CreatedByType = string;
 
 // @public
+export type CrossRegionRestore = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -142,6 +163,14 @@ export interface JobsSummary {
 }
 
 // @public
+export enum KnownAlertsState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAuthType {
     // (undocumented)
     AAD = "AAD",
@@ -156,6 +185,16 @@ export enum KnownAuthType {
 }
 
 // @public
+export enum KnownBackupStorageVersion {
+    // (undocumented)
+    Unassigned = "Unassigned",
+    // (undocumented)
+    V1 = "V1",
+    // (undocumented)
+    V2 = "V2"
+}
+
+// @public
 export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
@@ -165,6 +204,14 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
+}
+
+// @public
+export enum KnownCrossRegionRestore {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
 }
 
 // @public
@@ -244,6 +291,16 @@ export enum KnownSkuName {
 }
 
 // @public
+export enum KnownStandardTierStorageRedundancy {
+    // (undocumented)
+    GeoRedundant = "GeoRedundant",
+    // (undocumented)
+    LocallyRedundant = "LocallyRedundant",
+    // (undocumented)
+    ZoneRedundant = "ZoneRedundant"
+}
+
+// @public
 export enum KnownTriggerType {
     // (undocumented)
     ForcedUpgrade = "ForcedUpgrade",
@@ -285,6 +342,12 @@ export enum KnownVaultUpgradeState {
     Unknown = "Unknown",
     // (undocumented)
     Upgraded = "Upgraded"
+}
+
+// @public
+export interface MonitoringSettings {
+    azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+    classicAlertSettings?: ClassicAlertSettings;
 }
 
 // @public
@@ -533,6 +596,7 @@ export type ResourceCertificateAndAadDetails = ResourceCertificateDetails & {
     servicePrincipalObjectId: string;
     azureManagementEndpointAudience: string;
     serviceResourceId?: string;
+    aadAudience?: string;
 };
 
 // @public
@@ -576,6 +640,9 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export type StandardTierStorageRedundancy = string;
 
 // @public
 export interface SystemData {
@@ -708,13 +775,16 @@ export type VaultPrivateEndpointState = string;
 
 // @public
 export interface VaultProperties {
+    readonly backupStorageVersion?: BackupStorageVersion;
     encryption?: VaultPropertiesEncryption;
+    monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
     readonly moveState?: ResourceMoveState;
     readonly privateEndpointConnections?: PrivateEndpointConnectionVaultProperties[];
     readonly privateEndpointStateForBackup?: VaultPrivateEndpointState;
     readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
     readonly provisioningState?: string;
+    redundancySettings?: VaultPropertiesRedundancySettings;
     upgradeDetails?: UpgradeDetails;
 }
 
@@ -732,6 +802,12 @@ export interface VaultPropertiesMoveDetails {
     readonly sourceResourceId?: string;
     readonly startTimeUtc?: Date;
     readonly targetResourceId?: string;
+}
+
+// @public
+export interface VaultPropertiesRedundancySettings {
+    readonly crossRegionRestore?: CrossRegionRestore;
+    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public
