@@ -1,5 +1,31 @@
 # Release History
+    
+## 5.1.0 (2022-07-02)
+    
+**Features**
 
+  - Added Interface AzureMonitorAlertSettings
+  - Added Interface ClassicAlertSettings
+  - Added Interface ImmutabilitySettings
+  - Added Interface MonitoringSettings
+  - Added Interface SecuritySettings
+  - Added Interface VaultPropertiesRedundancySettings
+  - Added Type Alias AlertsState
+  - Added Type Alias BackupStorageVersion
+  - Added Type Alias CrossRegionRestore
+  - Added Type Alias ImmutabilityState
+  - Added Type Alias StandardTierStorageRedundancy
+  - Interface VaultProperties has a new optional parameter backupStorageVersion
+  - Interface VaultProperties has a new optional parameter monitoringSettings
+  - Interface VaultProperties has a new optional parameter redundancySettings
+  - Interface VaultProperties has a new optional parameter securitySettings
+  - Type Alias ResourceCertificateAndAadDetails has a new parameter aadAudience
+  - Added Enum KnownAlertsState
+  - Added Enum KnownBackupStorageVersion
+  - Added Enum KnownCrossRegionRestore
+  - Added Enum KnownImmutabilityState
+  - Added Enum KnownStandardTierStorageRedundancy
+    
 ## 5.0.1 (2022-04-29)
 
 **Features**
