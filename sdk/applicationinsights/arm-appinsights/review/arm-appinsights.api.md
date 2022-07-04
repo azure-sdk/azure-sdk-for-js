@@ -399,6 +399,8 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     myWorkbooks: MyWorkbooks;
     // (undocumented)
+    operations: Operations;
+    // (undocumented)
     proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
     // (undocumented)
     subscriptionId: string;
@@ -655,8 +657,16 @@ export interface ErrorDefinition {
 }
 
 // @public
+export interface ErrorFieldContract {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     code?: string;
+    details?: ErrorFieldContract[];
     message?: string;
 }
 
@@ -779,6 +789,12 @@ export type FavoriteType = "shared" | "user";
 
 // @public
 export type FlowType = string;
+
+// @public
+export interface HeaderField {
+    headerFieldName?: string;
+    headerFieldValue?: string;
+}
 
 // @public
 export type IngestionMode = string;
@@ -1184,6 +1200,25 @@ export interface OperationLive {
 }
 
 // @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
+
+// @public
 export interface OperationsListResult {
     nextLink?: string;
     value?: OperationLive[];
@@ -1224,7 +1259,7 @@ export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends co
 export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1290,6 +1325,8 @@ export type WebTest = WebtestsResource & {
     locations?: WebTestGeolocation[];
     configuration?: WebTestPropertiesConfiguration;
     readonly provisioningState?: string;
+    request?: WebTestPropertiesRequest;
+    validationRules?: WebTestPropertiesValidationRules;
 };
 
 // @public
@@ -1298,7 +1335,7 @@ export interface WebTestGeolocation {
 }
 
 // @public
-export type WebTestKind = "ping" | "multistep";
+export type WebTestKind = "ping" | "multistep" | "standard";
 
 // @public
 export interface WebTestListResult {
@@ -1321,6 +1358,32 @@ export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsLi
 // @public
 export interface WebTestPropertiesConfiguration {
     webTest?: string;
+}
+
+// @public
+export interface WebTestPropertiesRequest {
+    followRedirects?: boolean;
+    headers?: HeaderField[];
+    httpVerb?: string;
+    parseDependentRequests?: boolean;
+    requestBody?: string;
+    requestUrl?: string;
+}
+
+// @public
+export interface WebTestPropertiesValidationRules {
+    contentValidation?: WebTestPropertiesValidationRulesContentValidation;
+    expectedHttpStatusCode?: number;
+    ignoreHttpsStatusCode?: boolean;
+    sSLCertRemainingLifetimeCheck?: number;
+    sSLCheck?: boolean;
+}
+
+// @public
+export interface WebTestPropertiesValidationRulesContentValidation {
+    contentMatch?: string;
+    ignoreCase?: boolean;
+    passIfTextFound?: boolean;
 }
 
 // @public
@@ -1453,7 +1516,7 @@ export type WorkbookResource = TrackedResource & {
 };
 
 // @public
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export type WorkbookResourceIdentity = ManagedServiceIdentity & {};
 
 // @public
 export interface Workbooks {
