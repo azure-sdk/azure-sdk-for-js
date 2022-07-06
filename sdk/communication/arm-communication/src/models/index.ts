@@ -323,7 +323,7 @@ export interface EmailServiceResourceList {
 }
 
 /** Data POST-ed to the nameAvailability action */
-export type NameAvailabilityParameters = CheckNameAvailabilityRequest;
+export type NameAvailabilityParameters = CheckNameAvailabilityRequest & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -348,7 +348,7 @@ export type UpdateDomainRequestParameters = TaggedResource & {
 };
 
 /** A class representing update parameters for EmailService resource. */
-export type EmailServiceResourceUpdate = TaggedResource;
+export type EmailServiceResourceUpdate = TaggedResource & {};
 
 /** A class representing a CommunicationService resource. */
 export type CommunicationServiceResource = TrackedResource & {
@@ -450,12 +450,6 @@ export interface CommunicationServicesCreateOrUpdateHeaders {
 export interface CommunicationServicesDeleteHeaders {
   /** URL to query for status of the operation. */
   location?: string;
-}
-
-/** Defines headers for CommunicationServices_regenerateKey operation. */
-export interface CommunicationServicesRegenerateKeyHeaders {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
 }
 
 /** Defines headers for Domains_createOrUpdate operation. */

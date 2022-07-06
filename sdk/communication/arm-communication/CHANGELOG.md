@@ -1,16 +1,6 @@
 # Release History
-
-## 4.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 4.0.0-beta.1 (2022-06-08)
+    
+## 4.0.0-beta.2 (2022-07-06)
     
 **Features**
 
@@ -31,7 +21,6 @@
   - Added Interface CommunicationServicesListBySubscriptionNextOptionalParams
   - Added Interface CommunicationServicesListBySubscriptionOptionalParams
   - Added Interface CommunicationServicesListKeysOptionalParams
-  - Added Interface CommunicationServicesRegenerateKeyHeaders
   - Added Interface CommunicationServicesRegenerateKeyOptionalParams
   - Added Interface CommunicationServicesUpdateHeaders
   - Added Interface CommunicationServicesUpdateOptionalParams

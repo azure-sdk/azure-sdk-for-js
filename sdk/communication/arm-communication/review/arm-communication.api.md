@@ -189,11 +189,6 @@ export type CommunicationServicesListKeysResponse = CommunicationServiceKeys;
 export type CommunicationServicesProvisioningState = string;
 
 // @public
-export interface CommunicationServicesRegenerateKeyHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface CommunicationServicesRegenerateKeyOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -389,7 +384,7 @@ export interface EmailServiceResourceList {
 }
 
 // @public
-export type EmailServiceResourceUpdate = TaggedResource;
+export type EmailServiceResourceUpdate = TaggedResource & {};
 
 // @public
 export interface EmailServices {
@@ -677,7 +672,7 @@ export interface LinkNotificationHubParameters {
 }
 
 // @public
-export type NameAvailabilityParameters = CheckNameAvailabilityRequest;
+export type NameAvailabilityParameters = CheckNameAvailabilityRequest & {};
 
 // @public
 export interface Operation {
