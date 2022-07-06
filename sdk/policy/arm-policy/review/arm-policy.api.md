@@ -174,9 +174,13 @@ export enum KnownAliasPathTokenType {
 
 // @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
@@ -194,20 +198,31 @@ export enum KnownExemptionCategory {
 
 // @public
 export enum KnownParameterType {
+    // (undocumented)
     Array = "Array",
+    // (undocumented)
     Boolean = "Boolean",
+    // (undocumented)
     DateTime = "DateTime",
+    // (undocumented)
     Float = "Float",
+    // (undocumented)
     Integer = "Integer",
+    // (undocumented)
     Object = "Object",
+    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownPolicyType {
+    // (undocumented)
     BuiltIn = "BuiltIn",
+    // (undocumented)
     Custom = "Custom",
+    // (undocumented)
     NotSpecified = "NotSpecified",
+    // (undocumented)
     Static = "Static"
 }
 
