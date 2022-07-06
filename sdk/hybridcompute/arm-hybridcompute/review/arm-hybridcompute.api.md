@@ -10,6 +10,35 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
+// @public
+export interface AgentConfiguration {
+    readonly configMode?: AgentConfigurationMode;
+    readonly extensionsAllowList?: ConfigurationExtension[];
+    readonly extensionsBlockList?: ConfigurationExtension[];
+    readonly extensionsEnabled?: string;
+    readonly guestConfigurationEnabled?: string;
+    readonly incomingConnectionsPorts?: string[];
+    readonly proxyBypass?: string[];
+    readonly proxyUrl?: string;
+}
+
+// @public
+export type AgentConfigurationMode = string;
+
+// @public
+export type AssessmentModeTypes = string;
+
+// @public
+export interface CloudMetadata {
+    readonly provider?: string;
+}
+
+// @public
+export interface ConfigurationExtension {
+    readonly publisher?: string;
+    readonly type?: string;
+}
+
 // @public (undocumented)
 export interface ConnectionDetail {
     readonly groupId?: string;
@@ -110,6 +139,22 @@ export interface Identity {
 export type InstanceViewTypes = string;
 
 // @public
+export enum KnownAgentConfigurationMode {
+    // (undocumented)
+    Full = "full",
+    // (undocumented)
+    Monitor = "monitor"
+}
+
+// @public
+export enum KnownAssessmentModeTypes {
+    // (undocumented)
+    AutomaticByPlatform = "AutomaticByPlatform",
+    // (undocumented)
+    ImageDefault = "ImageDefault"
+}
+
+// @public
 export enum KnownCreatedByType {
     // (undocumented)
     Application = "Application",
@@ -125,6 +170,18 @@ export enum KnownCreatedByType {
 export enum KnownInstanceViewTypes {
     // (undocumented)
     InstanceView = "instanceView"
+}
+
+// @public
+export enum KnownPatchModeTypes {
+    // (undocumented)
+    AutomaticByOS = "AutomaticByOS",
+    // (undocumented)
+    AutomaticByPlatform = "AutomaticByPlatform",
+    // (undocumented)
+    ImageDefault = "ImageDefault",
+    // (undocumented)
+    Manual = "Manual"
 }
 
 // @public
@@ -164,6 +221,7 @@ export interface LocationData {
 // @public
 export type Machine = TrackedResource & {
     properties?: MachineProperties;
+    readonly resources?: MachineExtension[];
     identity?: Identity;
     readonly systemData?: SystemData;
 };
@@ -194,12 +252,17 @@ export interface MachineExtensionInstanceViewStatus {
 // @public
 export interface MachineExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     instanceView?: MachineExtensionInstanceView;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: {
+        [propertyName: string]: any;
+    };
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: {
+        [propertyName: string]: any;
+    };
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -277,10 +340,15 @@ export type MachineExtensionUpdate = ResourceUpdate & {
 // @public
 export interface MachineExtensionUpdateProperties {
     autoUpgradeMinorVersion?: boolean;
+    enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: Record<string, unknown>;
+    protectedSettings?: {
+        [propertyName: string]: any;
+    };
     publisher?: string;
-    settings?: Record<string, unknown>;
+    settings?: {
+        [propertyName: string]: any;
+    };
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -301,8 +369,10 @@ export interface MachineListResult {
 // @public
 export interface MachineProperties {
     readonly adFqdn?: string;
+    readonly agentConfiguration?: AgentConfiguration;
     readonly agentVersion?: string;
     clientPublicKey?: string;
+    cloudMetadata?: CloudMetadata;
     readonly detectedProperties?: {
         [propertyName: string]: string;
     };
@@ -310,12 +380,10 @@ export interface MachineProperties {
     readonly dnsFqdn?: string;
     readonly domainName?: string;
     readonly errorDetails?: ErrorDetail[];
-    extensions?: MachineExtensionInstanceView[];
     readonly lastStatusChange?: Date;
     locationData?: LocationData;
     readonly machineFqdn?: string;
     mssqlDiscovered?: string;
-    readonly osName?: string;
     osProfile?: OSProfile;
     readonly osSku?: string;
     osType?: string;
@@ -323,6 +391,7 @@ export interface MachineProperties {
     parentClusterResourceId?: string;
     privateLinkScopeResourceId?: string;
     readonly provisioningState?: string;
+    serviceStatuses?: ServiceStatuses;
     readonly status?: StatusTypes;
     vmId?: string;
     readonly vmUuid?: string;
@@ -384,6 +453,7 @@ export type MachineUpdate = ResourceUpdate & {
 
 // @public
 export interface MachineUpdateProperties {
+    cloudMetadata?: CloudMetadata;
     locationData?: LocationData;
     osProfile?: OSProfile;
     parentClusterResourceId?: string;
@@ -410,6 +480,7 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export interface OperationValue {
     display?: OperationValueDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: string;
 }
@@ -431,13 +502,18 @@ export interface OSProfile {
 
 // @public
 export interface OSProfileLinuxConfiguration {
-    assessmentMode?: string;
+    assessmentMode?: AssessmentModeTypes;
+    patchMode?: PatchModeTypes;
 }
 
 // @public
 export interface OSProfileWindowsConfiguration {
-    assessmentMode?: string;
+    assessmentMode?: AssessmentModeTypes;
+    patchMode?: PatchModeTypes;
 }
+
+// @public
+export type PatchModeTypes = string;
 
 // @public
 export type PrivateEndpointConnection = ProxyResource & {
@@ -461,6 +537,7 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: string;
@@ -688,6 +765,18 @@ export interface ResourceUpdate {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ServiceStatus {
+    startupType?: string;
+    status?: string;
+}
+
+// @public
+export interface ServiceStatuses {
+    extensionService?: ServiceStatus;
+    guestConfigurationService?: ServiceStatus;
 }
 
 // @public

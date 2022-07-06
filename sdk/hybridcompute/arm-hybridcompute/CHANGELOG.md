@@ -1,28 +1,43 @@
 # Release History
-
-## 3.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0-beta.1 (2022-04-26)
+    
+## 4.0.0-beta.1 (2022-07-06)
     
 **Features**
 
+  - Added Interface AgentConfiguration
+  - Added Interface CloudMetadata
+  - Added Interface ConfigurationExtension
   - Added Interface OSProfileLinuxConfiguration
   - Added Interface OSProfileWindowsConfiguration
   - Added Interface PrivateEndpointConnectionDataModel
+  - Added Interface ServiceStatus
+  - Added Interface ServiceStatuses
+  - Added Type Alias AgentConfigurationMode
+  - Added Type Alias AssessmentModeTypes
+  - Added Type Alias PatchModeTypes
   - Interface HybridComputePrivateLinkScopeProperties has a new optional parameter privateEndpointConnections
+  - Interface MachineExtensionProperties has a new optional parameter enableAutomaticUpgrade
+  - Interface MachineExtensionUpdateProperties has a new optional parameter enableAutomaticUpgrade
+  - Interface MachineProperties has a new optional parameter agentConfiguration
+  - Interface MachineProperties has a new optional parameter cloudMetadata
   - Interface MachineProperties has a new optional parameter mssqlDiscovered
   - Interface MachineProperties has a new optional parameter osType
+  - Interface MachineProperties has a new optional parameter serviceStatuses
+  - Interface MachineUpdateProperties has a new optional parameter cloudMetadata
   - Interface MachineUpdateProperties has a new optional parameter osProfile
+  - Interface OperationValue has a new optional parameter isDataAction
   - Interface OSProfile has a new optional parameter linuxConfiguration
   - Interface OSProfile has a new optional parameter windowsConfiguration
+  - Interface PrivateEndpointConnectionProperties has a new optional parameter groupIds
+  - Type Alias Machine has a new parameter resources
+  - Added Enum KnownAgentConfigurationMode
+  - Added Enum KnownAssessmentModeTypes
+  - Added Enum KnownPatchModeTypes
+
+**Breaking Changes**
+
+  - Interface MachineProperties no longer has parameter extensions
+  - Interface MachineProperties no longer has parameter osName
     
     
 ## 3.0.0 (2022-01-18)
