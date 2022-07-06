@@ -8,40 +8,20 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  NetworkExperimentProfilesImpl,
-  PreconfiguredEndpointsImpl,
-  ExperimentsImpl,
-  ReportsImpl,
-  FrontDoorNameAvailabilityImpl,
-  FrontDoorNameAvailabilityWithSubscriptionImpl,
-  FrontDoorsImpl,
-  FrontendEndpointsImpl,
-  EndpointsImpl,
-  RulesEnginesImpl,
-  PoliciesImpl,
-  ManagedRuleSetsImpl
-} from "./operations";
-import {
-  NetworkExperimentProfiles,
-  PreconfiguredEndpoints,
-  Experiments,
-  Reports,
-  FrontDoorNameAvailability,
-  FrontDoorNameAvailabilityWithSubscription,
-  FrontDoors,
-  FrontendEndpoints,
-  Endpoints,
-  RulesEngines,
-  Policies,
-  ManagedRuleSets
-} from "./operationsInterfaces";
+import { PoliciesImpl, ManagedRuleSetsImpl } from "./operations";
+import { Policies, ManagedRuleSets } from "./operationsInterfaces";
 import { FrontDoorManagementClientOptionalParams } from "./models";
 
 export class FrontDoorManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the FrontDoorManagementClient class.
@@ -71,7 +51,7 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-frontdoor/5.0.2`;
+    const packageDetails = `azsdk-js-arm-frontdoor/6.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -118,32 +98,40 @@ export class FrontDoorManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.networkExperimentProfiles = new NetworkExperimentProfilesImpl(this);
-    this.preconfiguredEndpoints = new PreconfiguredEndpointsImpl(this);
-    this.experiments = new ExperimentsImpl(this);
-    this.reports = new ReportsImpl(this);
-    this.frontDoorNameAvailability = new FrontDoorNameAvailabilityImpl(this);
-    this.frontDoorNameAvailabilityWithSubscription = new FrontDoorNameAvailabilityWithSubscriptionImpl(
-      this
-    );
-    this.frontDoors = new FrontDoorsImpl(this);
-    this.frontendEndpoints = new FrontendEndpointsImpl(this);
-    this.endpoints = new EndpointsImpl(this);
-    this.rulesEngines = new RulesEnginesImpl(this);
+    this.apiVersion = options.apiVersion || "2022-07-01";
     this.policies = new PoliciesImpl(this);
     this.managedRuleSets = new ManagedRuleSetsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  networkExperimentProfiles: NetworkExperimentProfiles;
-  preconfiguredEndpoints: PreconfiguredEndpoints;
-  experiments: Experiments;
-  reports: Reports;
-  frontDoorNameAvailability: FrontDoorNameAvailability;
-  frontDoorNameAvailabilityWithSubscription: FrontDoorNameAvailabilityWithSubscription;
-  frontDoors: FrontDoors;
-  frontendEndpoints: FrontendEndpoints;
-  endpoints: Endpoints;
-  rulesEngines: RulesEngines;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   policies: Policies;
   managedRuleSets: ManagedRuleSets;
 }
