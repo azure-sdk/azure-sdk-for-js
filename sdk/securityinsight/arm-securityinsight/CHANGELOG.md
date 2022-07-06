@@ -1,5 +1,123 @@
 # Release History
     
+## 1.0.0-beta.4 (2022-07-06)
+    
+**Features**
+
+  - Added operation group FileImports
+  - Added operation group SecurityMLAnalyticsSettings
+  - Added Interface AutomationRulePropertyArrayChangedValuesCondition
+  - Added Interface AutomationRulePropertyValuesChangedCondition
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface GetInsightsErrorKind
+  - Added Interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsDataSource
+  - Added Interface SecurityMLAnalyticsSettingsDeleteOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsGetOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsList
+  - Added Interface SecurityMLAnalyticsSettingsListNextOptionalParams
+  - Added Interface SecurityMLAnalyticsSettingsListOptionalParams
+  - Added Interface ValidationError
+  - Added Type Alias AnomalySecurityMLAnalyticsSettings
+  - Added Type Alias AnomalyTimelineItem
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Type Alias AutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Type Alias AutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Type Alias DeleteStatus
+  - Added Type Alias DeviceImportance
+  - Added Type Alias EntityProviders
+  - Added Type Alias Enum13
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImport
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias GetInsightsError
+  - Added Type Alias IngestionMode
+  - Added Type Alias NicEntity
+  - Added Type Alias NicEntityProperties
+  - Added Type Alias PropertyArrayChangedConditionProperties
+  - Added Type Alias PropertyChangedConditionProperties
+  - Added Type Alias SecurityMLAnalyticsSetting
+  - Added Type Alias SecurityMLAnalyticsSettingsCreateOrUpdateResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsGetResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsKind
+  - Added Type Alias SecurityMLAnalyticsSettingsListNextResponse
+  - Added Type Alias SecurityMLAnalyticsSettingsListResponse
+  - Added Type Alias SecurityMLAnalyticsSettingUnion
+  - Added Type Alias SettingsStatus
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionEndpoint
+  - Interface DataConnectorConnectBody has a new optional parameter dataCollectionRuleImmutableId
+  - Interface DataConnectorConnectBody has a new optional parameter outputStream
+  - Class SecurityInsights has a new parameter fileImports
+  - Class SecurityInsights has a new parameter securityMLAnalyticsSettings
+  - Type Alias EntityAnalytics has a new parameter entityProviders
+  - Type Alias IoTDeviceEntity has a new parameter owners
+  - Type Alias IoTDeviceEntity has a new parameter nicEntityIds
+  - Type Alias IoTDeviceEntity has a new parameter site
+  - Type Alias IoTDeviceEntity has a new parameter zone
+  - Type Alias IoTDeviceEntity has a new parameter sensor
+  - Type Alias IoTDeviceEntity has a new parameter deviceSubType
+  - Type Alias IoTDeviceEntity has a new parameter importance
+  - Type Alias IoTDeviceEntity has a new parameter purdueLayer
+  - Type Alias IoTDeviceEntity has a new parameter isAuthorized
+  - Type Alias IoTDeviceEntity has a new parameter isProgramming
+  - Type Alias IoTDeviceEntity has a new parameter isScanner
+  - Type Alias IoTDeviceEntityProperties has a new parameter owners
+  - Type Alias IoTDeviceEntityProperties has a new parameter nicEntityIds
+  - Type Alias IoTDeviceEntityProperties has a new parameter site
+  - Type Alias IoTDeviceEntityProperties has a new parameter zone
+  - Type Alias IoTDeviceEntityProperties has a new parameter sensor
+  - Type Alias IoTDeviceEntityProperties has a new parameter deviceSubType
+  - Type Alias IoTDeviceEntityProperties has a new parameter importance
+  - Type Alias IoTDeviceEntityProperties has a new parameter purdueLayer
+  - Type Alias IoTDeviceEntityProperties has a new parameter isAuthorized
+  - Type Alias IoTDeviceEntityProperties has a new parameter isProgramming
+  - Type Alias IoTDeviceEntityProperties has a new parameter isScanner
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Added Enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedChangedType
+  - Added Enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownDeviceImportance
+  - Added Enum KnownEntityProviders
+  - Added Enum KnownEnum13
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownGetInsightsError
+  - Added Enum KnownIngestionMode
+  - Added Enum KnownSecurityMLAnalyticsSettingsKind
+  - Added Enum KnownSettingsStatus
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value AlertAnalyticRuleIds
+  - Enum KnownConditionType has a new value PropertyArrayChanged
+  - Enum KnownConditionType has a new value PropertyChanged
+  - Enum KnownEntityKind has a new value Nic
+  - Enum KnownEntityTimelineKind has a new value Anomaly
+  - Enum KnownEntityType has a new value Nic
+  - Enum KnownTriggersOn has a new value Alerts
+  - Enum KnownTriggersWhen has a new value Updated
+
+**Breaking Changes**
+
+  - Type Alias EntityAnalytics no longer has parameter isEnabled
+  - Type Alias Watchlist no longer has parameter sasUri
+  - Type Alias Watchlist no longer has parameter provisioningState
+  - Removed Enum KnownEnum12
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownSkuKind
+    
+    
 ## 1.0.0-beta.3 (2022-05-16)
     
 **Features**
