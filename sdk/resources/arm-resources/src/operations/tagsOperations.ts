@@ -370,6 +370,7 @@ const createOrUpdateAtScopeOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TagsResource
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -388,6 +389,7 @@ const updateAtScopeOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.TagsResource
     },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -420,6 +422,7 @@ const deleteAtScopeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
