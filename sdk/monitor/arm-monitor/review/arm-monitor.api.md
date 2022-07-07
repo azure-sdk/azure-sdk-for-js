@@ -711,13 +711,13 @@ export interface DataCollectionEndpoint {
 }
 
 // @public
-export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec;
+export type DataCollectionEndpointConfigurationAccess = ConfigurationAccessEndpointSpec & {};
 
 // @public
-export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec;
+export type DataCollectionEndpointLogsIngestion = LogsIngestionEndpointSpec & {};
 
 // @public
-export type DataCollectionEndpointNetworkAcls = NetworkRuleSet;
+export type DataCollectionEndpointNetworkAcls = NetworkRuleSet & {};
 
 // @public
 export interface DataCollectionEndpointResource {
@@ -746,10 +746,10 @@ export interface DataCollectionEndpointResourceListResult {
 }
 
 // @public
-export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint;
+export type DataCollectionEndpointResourceProperties = DataCollectionEndpoint & {};
 
 // @public
-export type DataCollectionEndpointResourceSystemData = SystemData;
+export type DataCollectionEndpointResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionEndpoints {
@@ -841,7 +841,7 @@ export interface DataCollectionRuleAssociation {
 }
 
 // @public
-export type DataCollectionRuleAssociationMetadata = Metadata;
+export type DataCollectionRuleAssociationMetadata = Metadata & {};
 
 // @public
 export interface DataCollectionRuleAssociationProxyOnlyResource {
@@ -864,10 +864,10 @@ export interface DataCollectionRuleAssociationProxyOnlyResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation;
+export type DataCollectionRuleAssociationProxyOnlyResourceProperties = DataCollectionRuleAssociation & {};
 
 // @public
-export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData;
+export type DataCollectionRuleAssociationProxyOnlyResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionRuleAssociations {
@@ -941,13 +941,13 @@ export interface DataCollectionRuleAssociationsListByRuleOptionalParams extends 
 export type DataCollectionRuleAssociationsListByRuleResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 // @public
-export type DataCollectionRuleDataSources = DataSourcesSpec;
+export type DataCollectionRuleDataSources = DataSourcesSpec & {};
 
 // @public
-export type DataCollectionRuleDestinations = DestinationsSpec;
+export type DataCollectionRuleDestinations = DestinationsSpec & {};
 
 // @public
-export type DataCollectionRuleMetadata = Metadata;
+export type DataCollectionRuleMetadata = Metadata & {};
 
 // @public
 export interface DataCollectionRuleResource {
@@ -981,10 +981,10 @@ export interface DataCollectionRuleResourceListResult {
 }
 
 // @public
-export type DataCollectionRuleResourceProperties = DataCollectionRule;
+export type DataCollectionRuleResourceProperties = DataCollectionRule & {};
 
 // @public
-export type DataCollectionRuleResourceSystemData = SystemData;
+export type DataCollectionRuleResourceSystemData = SystemData & {};
 
 // @public
 export interface DataCollectionRules {
@@ -1084,7 +1084,7 @@ export interface DestinationsSpec {
 }
 
 // @public
-export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination;
+export type DestinationsSpecAzureMonitorMetrics = AzureMonitorMetricsDestination & {};
 
 // @public
 export interface DiagnosticSettings {
@@ -1921,7 +1921,7 @@ export interface LogFilesDataSource {
 }
 
 // @public
-export type LogFilesDataSourceSettings = LogFileSettings;
+export type LogFilesDataSourceSettings = LogFileSettings & {};
 
 // @public
 export interface LogFileSettings {
@@ -1929,7 +1929,7 @@ export interface LogFileSettings {
 }
 
 // @public
-export type LogFileSettingsText = LogFileTextSettings;
+export type LogFileSettingsText = LogFileTextSettings & {};
 
 // @public
 export interface LogFileTextSettings {
@@ -3213,7 +3213,7 @@ export interface TestNotificationDetailsResponse {
     completedTime?: string;
     context?: Context;
     createdTime?: string;
-    state: string;
+    state?: string;
 }
 
 // @public
