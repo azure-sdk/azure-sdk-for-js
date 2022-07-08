@@ -281,6 +281,15 @@ export interface CloudTieringFilesNotTiering {
 }
 
 // @public
+export interface CloudTieringLowDiskMode {
+    readonly lastUpdatedTimestamp?: Date;
+    readonly state?: CloudTieringLowDiskModeState;
+}
+
+// @public
+export type CloudTieringLowDiskModeState = string;
+
+// @public
 export interface CloudTieringSpaceSavings {
     readonly cachedSizeBytes?: number;
     readonly lastUpdatedTimestamp?: Date;
@@ -296,6 +305,9 @@ export interface CloudTieringVolumeFreeSpacePolicyStatus {
     readonly effectiveVolumeFreeSpacePolicy?: number;
     readonly lastUpdatedTimestamp?: Date;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type FeatureStatus = string;
@@ -337,6 +349,26 @@ export enum KnownCloudEndpointChangeEnumerationTotalCountsState {
     Calculating = "Calculating",
     // (undocumented)
     Final = "Final"
+}
+
+// @public
+export enum KnownCloudTieringLowDiskModeState {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -628,6 +660,7 @@ export interface OperationResourceMetricSpecification {
     displayName?: string;
     fillGapWithZero?: boolean;
     name?: string;
+    supportedAggregationTypes?: string[];
     unit?: string;
 }
 
@@ -998,6 +1031,7 @@ export type RegisteredServersTriggerRolloverResponse = RegisteredServersTriggerR
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1060,6 +1094,7 @@ export interface ServerEndpointCloudTieringStatus {
     readonly lastCloudTieringResult?: number;
     readonly lastSuccessTimestamp?: Date;
     readonly lastUpdatedTimestamp?: Date;
+    readonly lowDiskMode?: CloudTieringLowDiskMode;
     readonly spaceSavings?: CloudTieringSpaceSavings;
     readonly volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
 }
@@ -1267,7 +1302,7 @@ export interface ServerEndpointUpdateParameters {
 export interface StorageSyncApiError {
     code?: string;
     details?: StorageSyncErrorDetails;
-    innerError?: StorageSyncInnerErrorDetails;
+    innererror?: StorageSyncInnerErrorDetails;
     message?: string;
     target?: string;
 }
@@ -1522,6 +1557,16 @@ export interface SyncGroupsListByStorageSyncServiceOptionalParams extends coreCl
 
 // @public
 export type SyncGroupsListByStorageSyncServiceResponse = SyncGroupsListByStorageSyncServiceHeaders & SyncGroupArray;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
 
 // @public
 export type TrackedResource = Resource & {
