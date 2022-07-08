@@ -1,25 +1,42 @@
 # Release History
     
-## 2.1.0-beta.1 (2022-04-24)
+## 3.0.0 (2022-07-08)
     
 **Features**
 
+  - Added operation ManagedHsms.checkMhsmNameAvailability
   - Added Interface Action
+  - Added Interface CheckMhsmNameAvailabilityParameters
+  - Added Interface CheckMhsmNameAvailabilityResult
   - Added Interface KeyReleasePolicy
   - Added Interface KeyRotationPolicyAttributes
   - Added Interface LifetimeAction
+  - Added Interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
+  - Added Interface ManagedHsmsCreateOrUpdateHeaders
+  - Added Interface ManagedHsmsDeleteHeaders
+  - Added Interface ManagedHSMSecurityDomainProperties
+  - Added Interface ManagedHsmsPurgeDeletedHeaders
+  - Added Interface ManagedHsmsUpdateHeaders
   - Added Interface RotationPolicy
   - Added Interface Trigger
+  - Added Type Alias ActivationStatus
   - Added Type Alias KeyRotationPolicyActionType
+  - Added Type Alias ManagedHsmsCheckMhsmNameAvailabilityResponse
+  - Added Type Alias ManagedHsmsPurgeDeletedResponse
   - Interface KeyProperties has a new optional parameter releasePolicy
   - Interface KeyProperties has a new optional parameter rotationPolicy
   - Type Alias Key has a new parameter rotationPolicy
   - Type Alias Key has a new parameter releasePolicy
+  - Added Enum KnownActivationStatus
   - Enum KnownJsonWebKeyOperation has a new value Release
   - Enum KnownKeyPermissions has a new value Getrotationpolicy
   - Enum KnownKeyPermissions has a new value Release
   - Enum KnownKeyPermissions has a new value Rotate
   - Enum KnownKeyPermissions has a new value Setrotationpolicy
+
+**Breaking Changes**
+
+  - Interface MhsmPrivateEndpointConnectionsDeleteHeaders no longer has parameter retryAfter
     
     
 ## 2.0.0 (2022-01-17)
