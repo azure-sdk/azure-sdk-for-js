@@ -1,15 +1,164 @@
 # Release History
+    
+## 14.0.0 (2022-07-11)
+    
+**Features**
 
-## 13.0.1 (Unreleased)
+  - Added Type Alias AddressResponse
+  - Added Type Alias AnalysisDefinition
+  - Added Type Alias ApiKVReference
+  - Added Type Alias ApplicationStackResource
+  - Added Type Alias AppServiceCertificateOrder
+  - Added Type Alias AppServiceCertificateOrderPatchResource
+  - Added Type Alias AppServiceCertificatePatchResource
+  - Added Type Alias AppServiceCertificateResource
+  - Added Type Alias AppServiceEnvironmentPatchResource
+  - Added Type Alias AppServiceEnvironmentResource
+  - Added Type Alias AppServicePlan
+  - Added Type Alias AppServicePlanPatchResource
+  - Added Type Alias AseV3NetworkingConfiguration
+  - Added Type Alias AzureResourceErrorInfo
+  - Added Type Alias AzureStoragePropertyDictionaryResource
+  - Added Type Alias BackupItem
+  - Added Type Alias BackupRequest
+  - Added Type Alias BillingMeter
+  - Added Type Alias Certificate
+  - Added Type Alias CertificatePatchResource
+  - Added Type Alias ConnectionStringDictionary
+  - Added Type Alias ContainerApp
+  - Added Type Alias ContinuousWebJob
+  - Added Type Alias CsmDeploymentStatus
+  - Added Type Alias CsmPublishingCredentialsPoliciesEntity
+  - Added Type Alias CustomDnsSuffixConfiguration
+  - Added Type Alias CustomHostnameAnalysisResult
+  - Added Type Alias CustomHostnameSites
+  - Added Type Alias DeletedAppRestoreRequest
+  - Added Type Alias DeletedSite
+  - Added Type Alias Deployment
+  - Added Type Alias DetectorDefinitionResource
+  - Added Type Alias DetectorResponse
+  - Added Type Alias DiagnosticAnalysis
+  - Added Type Alias DiagnosticCategory
+  - Added Type Alias DiagnosticDetectorResponse
+  - Added Type Alias Domain
+  - Added Type Alias DomainOwnershipIdentifier
+  - Added Type Alias DomainPatchResource
+  - Added Type Alias ExpressionRoot
+  - Added Type Alias FunctionAppStack
+  - Added Type Alias FunctionEnvelope
+  - Added Type Alias GeoRegion
+  - Added Type Alias HostNameBinding
+  - Added Type Alias HybridConnection
+  - Added Type Alias HybridConnectionKey
+  - Added Type Alias HybridConnectionLimits
+  - Added Type Alias Identifier
+  - Added Type Alias KubeEnvironment
+  - Added Type Alias KubeEnvironmentPatchResource
+  - Added Type Alias MigrateMySqlRequest
+  - Added Type Alias MigrateMySqlStatus
+  - Added Type Alias MSDeploy
+  - Added Type Alias MSDeployLog
+  - Added Type Alias MSDeployStatus
+  - Added Type Alias NetworkFeatures
+  - Added Type Alias OperationResult
+  - Added Type Alias PremierAddOn
+  - Added Type Alias PremierAddOnOffer
+  - Added Type Alias PremierAddOnPatchResource
+  - Added Type Alias PrivateAccess
+  - Added Type Alias PrivateLinkConnectionApprovalRequestResource
+  - Added Type Alias ProcessInfo
+  - Added Type Alias ProcessModuleInfo
+  - Added Type Alias ProcessThreadInfo
+  - Added Type Alias ProviderOsTypeSelected
+  - Added Type Alias ProviderStackOsType
+  - Added Type Alias PublicCertificate
+  - Added Type Alias PushSettings
+  - Added Type Alias Recommendation
+  - Added Type Alias RecommendationRule
+  - Added Type Alias ReissueCertificateOrderRequest
+  - Added Type Alias RelayServiceConnectionEntity
+  - Added Type Alias RemotePrivateEndpointConnection
+  - Added Type Alias RemotePrivateEndpointConnectionARMResource
+  - Added Type Alias RenewCertificateOrderRequest
+  - Added Type Alias RequestHistory
+  - Added Type Alias ResourceHealthMetadata
+  - Added Type Alias ResourceMetricDefinition
+  - Added Type Alias RestoreRequest
+  - Added Type Alias Revision
+  - Added Type Alias RunActionCorrelation
+  - Added Type Alias Site
+  - Added Type Alias SiteAuthSettings
+  - Added Type Alias SiteAuthSettingsV2
+  - Added Type Alias SiteConfigResource
+  - Added Type Alias SiteConfigurationSnapshotInfo
+  - Added Type Alias SiteExtensionInfo
+  - Added Type Alias SiteLogsConfig
+  - Added Type Alias SitePatchResource
+  - Added Type Alias SitePhpErrorLogFlag
+  - Added Type Alias SiteSourceControl
+  - Added Type Alias SlotConfigNamesResource
+  - Added Type Alias SlotDifference
+  - Added Type Alias Snapshot
+  - Added Type Alias SnapshotRestoreRequest
+  - Added Type Alias SourceControl
+  - Added Type Alias StaticSiteARMResource
+  - Added Type Alias StaticSiteBuildARMResource
+  - Added Type Alias StaticSiteCustomDomainOverviewARMResource
+  - Added Type Alias StaticSiteCustomDomainRequestPropertiesARMResource
+  - Added Type Alias StaticSiteFunctionOverviewARMResource
+  - Added Type Alias StaticSiteLinkedBackendARMResource
+  - Added Type Alias StaticSitePatchResource
+  - Added Type Alias StaticSiteResetPropertiesARMResource
+  - Added Type Alias StaticSitesWorkflowPreview
+  - Added Type Alias StaticSitesWorkflowPreviewRequest
+  - Added Type Alias StaticSiteUserARMResource
+  - Added Type Alias StaticSiteUserInvitationRequestResource
+  - Added Type Alias StaticSiteUserInvitationResponseResource
+  - Added Type Alias StaticSiteUserProvidedFunctionApp
+  - Added Type Alias StaticSiteUserProvidedFunctionAppARMResource
+  - Added Type Alias StaticSiteZipDeploymentARMResource
+  - Added Type Alias StorageMigrationOptions
+  - Added Type Alias StorageMigrationResponse
+  - Added Type Alias StringDictionary
+  - Added Type Alias StringList
+  - Added Type Alias SwiftVirtualNetwork
+  - Added Type Alias TopLevelDomain
+  - Added Type Alias TriggeredJobHistory
+  - Added Type Alias TriggeredWebJob
+  - Added Type Alias Usage
+  - Added Type Alias User
+  - Added Type Alias VnetGateway
+  - Added Type Alias VnetInfoResource
+  - Added Type Alias VnetParameters
+  - Added Type Alias VnetRoute
+  - Added Type Alias VnetValidationFailureDetails
+  - Added Type Alias VnetValidationTestFailure
+  - Added Type Alias WebAppStack
+  - Added Type Alias WebJob
+  - Added Type Alias WebSiteInstanceStatus
+  - Added Type Alias WorkerPoolResource
+  - Added Type Alias Workflow
+  - Added Type Alias WorkflowOutputParameter
+  - Added Type Alias WorkflowRun
+  - Added Type Alias WorkflowRunAction
+  - Added Type Alias WorkflowRunActionRepetitionDefinition
+  - Added Type Alias WorkflowRunActionRepetitionProperties
+  - Added Type Alias WorkflowTrigger
+  - Added Type Alias WorkflowTriggerHistory
+  - Added Type Alias WorkflowVersion
+  - Added Enum KnownProviderOsTypeSelected
+  - Added Enum KnownProviderStackOsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed Enum KnownEnum14
+  - Removed Enum KnownEnum15
+  - Removed Enum KnownEnum16
+  - Removed Enum KnownEnum17
+  - Removed Enum KnownEnum18
+  - Removed Enum KnownEnum19
+    
+    
 ## 13.0.0 (2022-07-06)
     
 **Features**

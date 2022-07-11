@@ -173,7 +173,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/13.0.1`;
+    const packageDetails = `azsdk-js-arm-appservice/14.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -282,7 +282,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
+              return item.replace(/(?<==).*$/, apiVersion);
             } else {
               return item;
             }
