@@ -1189,6 +1189,102 @@ export const VirtualNetworkPeeringList: coreClient.CompositeMapper = {
   }
 };
 
+export const IdentityData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdentityData",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityData"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnectorListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnectorListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AccessConnector"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1361,6 +1457,30 @@ export const Workspace: coreClient.CompositeMapper = {
         serializedName: "properties.requiredNsgRules",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessConnector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessConnector",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityData"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AccessConnectorProperties"
         }
       }
     }
