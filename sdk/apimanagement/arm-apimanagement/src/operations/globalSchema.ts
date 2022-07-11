@@ -7,38 +7,35 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OpenIdConnectProvider } from "../operationsInterfaces";
+import { GlobalSchema } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
-  OpenidConnectProviderContract,
-  OpenIdConnectProviderListByServiceNextOptionalParams,
-  OpenIdConnectProviderListByServiceOptionalParams,
-  OpenIdConnectProviderListByServiceResponse,
-  OpenIdConnectProviderGetEntityTagOptionalParams,
-  OpenIdConnectProviderGetEntityTagResponse,
-  OpenIdConnectProviderGetOptionalParams,
-  OpenIdConnectProviderGetResponse,
-  OpenIdConnectProviderCreateOrUpdateOptionalParams,
-  OpenIdConnectProviderCreateOrUpdateResponse,
-  OpenidConnectProviderUpdateContract,
-  OpenIdConnectProviderUpdateOptionalParams,
-  OpenIdConnectProviderUpdateResponse,
-  OpenIdConnectProviderDeleteOptionalParams,
-  OpenIdConnectProviderListSecretsOptionalParams,
-  OpenIdConnectProviderListSecretsResponse,
-  OpenIdConnectProviderListByServiceNextResponse
+  GlobalSchemaContract,
+  GlobalSchemaListByServiceNextOptionalParams,
+  GlobalSchemaListByServiceOptionalParams,
+  GlobalSchemaListByServiceResponse,
+  GlobalSchemaGetEntityTagOptionalParams,
+  GlobalSchemaGetEntityTagResponse,
+  GlobalSchemaGetOptionalParams,
+  GlobalSchemaGetResponse,
+  GlobalSchemaCreateOrUpdateOptionalParams,
+  GlobalSchemaCreateOrUpdateResponse,
+  GlobalSchemaDeleteOptionalParams,
+  GlobalSchemaListByServiceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing OpenIdConnectProvider operations. */
-export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
+/** Class containing GlobalSchema operations. */
+export class GlobalSchemaImpl implements GlobalSchema {
   private readonly client: ApiManagementClient;
 
   /**
-   * Initialize a new instance of the class OpenIdConnectProvider class.
+   * Initialize a new instance of the class GlobalSchema class.
    * @param client Reference to the service client
    */
   constructor(client: ApiManagementClient) {
@@ -46,7 +43,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   }
 
   /**
-   * Lists of all the OpenId Connect Providers.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
@@ -54,8 +51,8 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: OpenIdConnectProviderListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<OpenidConnectProviderContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<GlobalSchemaContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
@@ -81,8 +78,8 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: OpenIdConnectProviderListByServiceOptionalParams
-  ): AsyncIterableIterator<OpenidConnectProviderContract[]> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): AsyncIterableIterator<GlobalSchemaContract[]> {
     let result = await this._listByService(
       resourceGroupName,
       serviceName,
@@ -105,8 +102,8 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: OpenIdConnectProviderListByServiceOptionalParams
-  ): AsyncIterableIterator<OpenidConnectProviderContract> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): AsyncIterableIterator<GlobalSchemaContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
@@ -117,7 +114,7 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   }
 
   /**
-   * Lists of all the OpenId Connect Providers.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
    * @param options The options parameters.
@@ -125,8 +122,8 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    options?: OpenIdConnectProviderListByServiceOptionalParams
-  ): Promise<OpenIdConnectProviderListByServiceResponse> {
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): Promise<GlobalSchemaListByServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
       listByServiceOperationSpec
@@ -134,93 +131,146 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   }
 
   /**
-   * Gets the entity state (Etag) version of the openIdConnectProvider specified by its identifier.
+   * Gets the entity state (Etag) version of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    opid: string,
-    options?: OpenIdConnectProviderGetEntityTagOptionalParams
-  ): Promise<OpenIdConnectProviderGetEntityTagResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetEntityTagOptionalParams
+  ): Promise<GlobalSchemaGetEntityTagResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getEntityTagOperationSpec
     );
   }
 
   /**
-   * Gets specific OpenID Connect Provider without secrets.
+   * Gets the details of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    opid: string,
-    options?: OpenIdConnectProviderGetOptionalParams
-  ): Promise<OpenIdConnectProviderGetResponse> {
+    schemaId: string,
+    options?: GlobalSchemaGetOptionalParams
+  ): Promise<GlobalSchemaGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, options },
+      { resourceGroupName, serviceName, schemaId, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates the OpenID Connect Provider.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
-   * @param parameters Create parameters.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    opid: string,
-    parameters: OpenidConnectProviderContract,
-    options?: OpenIdConnectProviderCreateOrUpdateOptionalParams
-  ): Promise<OpenIdConnectProviderCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, parameters, options },
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<GlobalSchemaCreateOrUpdateResponse>,
+      GlobalSchemaCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<GlobalSchemaCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, serviceName, schemaId, parameters, options },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates the specific OpenID Connect Provider.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param parameters Update parameters.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
-  update(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    opid: string,
-    ifMatch: string,
-    parameters: OpenidConnectProviderUpdateContract,
-    options?: OpenIdConnectProviderUpdateOptionalParams
-  ): Promise<OpenIdConnectProviderUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, ifMatch, parameters, options },
-      updateOperationSpec
+    schemaId: string,
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<GlobalSchemaCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      serviceName,
+      schemaId,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Deletes specific OpenID Connect Provider of the API Management service instance.
+   * Deletes specific Schema.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
+   * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
@@ -228,32 +278,13 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
   delete(
     resourceGroupName: string,
     serviceName: string,
-    opid: string,
+    schemaId: string,
     ifMatch: string,
-    options?: OpenIdConnectProviderDeleteOptionalParams
+    options?: GlobalSchemaDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, ifMatch, options },
+      { resourceGroupName, serviceName, schemaId, ifMatch, options },
       deleteOperationSpec
-    );
-  }
-
-  /**
-   * Gets the client secret details of the OpenID Connect Provider.
-   * @param resourceGroupName The name of the resource group.
-   * @param serviceName The name of the API Management service.
-   * @param opid Identifier of the OpenID Connect Provider.
-   * @param options The options parameters.
-   */
-  listSecrets(
-    resourceGroupName: string,
-    serviceName: string,
-    opid: string,
-    options?: OpenIdConnectProviderListSecretsOptionalParams
-  ): Promise<OpenIdConnectProviderListSecretsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, opid, options },
-      listSecretsOperationSpec
     );
   }
 
@@ -268,8 +299,8 @@ export class OpenIdConnectProviderImpl implements OpenIdConnectProvider {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: OpenIdConnectProviderListByServiceNextOptionalParams
-  ): Promise<OpenIdConnectProviderListByServiceNextResponse> {
+    options?: GlobalSchemaListByServiceNextOptionalParams
+  ): Promise<GlobalSchemaListByServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
       listByServiceNextOperationSpec
@@ -281,11 +312,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OpenIdConnectProviderCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -308,11 +339,11 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "HEAD",
   responses: {
     200: {
-      headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
+      headersMapper: Mappers.GlobalSchemaGetEntityTagHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -324,19 +355,19 @@ const getEntityTagOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.opid
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OpenidConnectProviderContract,
-      headersMapper: Mappers.OpenIdConnectProviderGetHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -348,36 +379,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.opid
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OpenidConnectProviderContract,
-      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.OpenidConnectProviderContract,
-      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    202: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
+    },
+    204: {
+      bodyMapper: Mappers.GlobalSchemaContract,
+      headersMapper: Mappers.GlobalSchemaCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters49,
+  requestBody: Parameters.parameters60,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.opid
+    Parameters.schemaId
   ],
   headerParameters: [
     Parameters.accept,
@@ -387,39 +426,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OpenidConnectProviderContract,
-      headersMapper: Mappers.OpenIdConnectProviderUpdateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters50,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.opid
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/schemas/{schemaId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -434,33 +443,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.opid
+    Parameters.schemaId
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
-};
-const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/openidConnectProviders/{opid}/listSecrets",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ClientSecretContract,
-      headersMapper: Mappers.OpenIdConnectProviderListSecretsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.opid
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
@@ -468,7 +453,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OpenIdConnectProviderCollection
+      bodyMapper: Mappers.GlobalSchemaCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
