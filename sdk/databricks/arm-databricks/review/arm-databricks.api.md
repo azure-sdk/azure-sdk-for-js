@@ -11,6 +11,103 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AccessConnector = TrackedResource & {
+    identity?: IdentityData;
+    properties?: AccessConnectorProperties;
+};
+
+// @public
+export interface AccessConnectorListResult {
+    nextLink?: string;
+    value?: AccessConnector[];
+}
+
+// @public (undocumented)
+export interface AccessConnectorProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AccessConnectors {
+    beginCreateOrUpdate(resourceGroupName: string, connectorName: string, parameters: AccessConnector, options?: AccessConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccessConnectorsCreateOrUpdateResponse>, AccessConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, connectorName: string, parameters: AccessConnector, options?: AccessConnectorsCreateOrUpdateOptionalParams): Promise<AccessConnectorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, connectorName: string, options?: AccessConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, connectorName: string, options?: AccessConnectorsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, connectorName: string, parameters: AccessConnectorUpdate, options?: AccessConnectorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccessConnectorsUpdateResponse>, AccessConnectorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, connectorName: string, parameters: AccessConnectorUpdate, options?: AccessConnectorsUpdateOptionalParams): Promise<AccessConnectorsUpdateResponse>;
+    get(resourceGroupName: string, connectorName: string, options?: AccessConnectorsGetOptionalParams): Promise<AccessConnectorsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AccessConnectorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AccessConnector>;
+    listBySubscription(options?: AccessConnectorsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AccessConnector>;
+}
+
+// @public
+export interface AccessConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccessConnectorsCreateOrUpdateResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AccessConnectorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsGetResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListByResourceGroupNextResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListByResourceGroupResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListBySubscriptionNextResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessConnectorsListBySubscriptionResponse = AccessConnectorListResult;
+
+// @public
+export interface AccessConnectorsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AccessConnectorsUpdateResponse = AccessConnector;
+
+// @public
+export interface AccessConnectorUpdate {
+    identity?: IdentityData;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface AddressSpace {
     addressPrefixes?: string[];
 }
@@ -20,6 +117,8 @@ export class AzureDatabricksManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureDatabricksManagementClientOptionalParams);
+    // (undocumented)
+    accessConnectors: AccessConnectors;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -134,6 +233,19 @@ export interface GroupIdInformationProperties {
 }
 
 // @public
+export interface IdentityData {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserIdentity;
+    };
+}
+
+// @public
+export type IdentityType = string;
+
+// @public
 export type KeySource = string;
 
 // @public
@@ -162,6 +274,18 @@ export enum KnownCustomParameterType {
 export enum KnownEncryptionKeySource {
     // (undocumented)
     MicrosoftKeyvault = "Microsoft.Keyvault"
+}
+
+// @public
+export enum KnownIdentityType {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -490,6 +614,12 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
+
+// @public
+export interface UserIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface VirtualNetworkPeering {
