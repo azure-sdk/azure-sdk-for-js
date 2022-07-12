@@ -7,23 +7,22 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  Datastore,
-  DatastoresListOptionalParams,
-  DatastoresDeleteOptionalParams,
-  DatastoresGetOptionalParams,
-  DatastoresGetResponse,
-  DatastoresCreateOrUpdateOptionalParams,
-  DatastoresCreateOrUpdateResponse,
-  DatastoresListSecretsOptionalParams,
-  DatastoresListSecretsResponse
+  Schedule,
+  SchedulesListOptionalParams,
+  SchedulesDeleteOptionalParams,
+  SchedulesGetOptionalParams,
+  SchedulesGetResponse,
+  SchedulesCreateOrUpdateOptionalParams,
+  SchedulesCreateOrUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Datastores. */
-export interface Datastores {
+/** Interface representing a Schedules. */
+export interface Schedules {
   /**
-   * List datastores.
+   * List schedules in specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -31,60 +30,80 @@ export interface Datastores {
   list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
-  ): PagedAsyncIterableIterator<Datastore>;
+    options?: SchedulesListOptionalParams
+  ): PagedAsyncIterableIterator<Schedule>;
   /**
-   * Delete datastore.
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresDeleteOptionalParams
-  ): Promise<void>;
+    options?: SchedulesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Get datastore.
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    options?: SchedulesDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Get schedule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresGetOptionalParams
-  ): Promise<DatastoresGetResponse>;
+    options?: SchedulesGetOptionalParams
+  ): Promise<SchedulesGetResponse>;
   /**
-   * Create or update datastore.
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
-   * @param body Datastore entity to create or update.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
-  ): Promise<DatastoresCreateOrUpdateResponse>;
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SchedulesCreateOrUpdateResponse>,
+      SchedulesCreateOrUpdateResponse
+    >
+  >;
   /**
-   * Get datastore secrets.
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
-  listSecrets(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresListSecretsOptionalParams
-  ): Promise<DatastoresListSecretsResponse>;
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
+  ): Promise<SchedulesCreateOrUpdateResponse>;
 }

@@ -1,5 +1,318 @@
 # Release History
     
+## 1.0.0-beta.2 (2022-07-12)
+    
+**Features**
+
+  - Added operation group LabelingJobs
+  - Added operation group Schedules
+  - Added operation Jobs.beginCancel
+  - Added operation Jobs.beginCancelAndWait
+  - Added Interface AzureDatastore
+  - Added Interface ExportSummary
+  - Added Interface JobsCancelHeaders
+  - Added Interface LabelCategory
+  - Added Interface LabelClass
+  - Added Interface LabelingDataConfiguration
+  - Added Interface LabelingJobInstructions
+  - Added Interface LabelingJobMediaProperties
+  - Added Interface LabelingJobResourceArmPaginatedResult
+  - Added Interface LabelingJobsCreateOrUpdateHeaders
+  - Added Interface LabelingJobsCreateOrUpdateOptionalParams
+  - Added Interface LabelingJobsDeleteOptionalParams
+  - Added Interface LabelingJobsExportLabelsHeaders
+  - Added Interface LabelingJobsExportLabelsOptionalParams
+  - Added Interface LabelingJobsGetOptionalParams
+  - Added Interface LabelingJobsListNextOptionalParams
+  - Added Interface LabelingJobsListOptionalParams
+  - Added Interface LabelingJobsPauseOptionalParams
+  - Added Interface LabelingJobsResumeHeaders
+  - Added Interface LabelingJobsResumeOptionalParams
+  - Added Interface MLAssistConfiguration
+  - Added Interface PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties
+  - Added Interface PartialMinimalTrackedResource
+  - Added Interface ProgressMetrics
+  - Added Interface RecurrenceSchedule
+  - Added Interface ScheduleActionBase
+  - Added Interface ScheduleResourceArmPaginatedResult
+  - Added Interface SchedulesCreateOrUpdateHeaders
+  - Added Interface SchedulesCreateOrUpdateOptionalParams
+  - Added Interface SchedulesDeleteHeaders
+  - Added Interface SchedulesDeleteOptionalParams
+  - Added Interface SchedulesGetOptionalParams
+  - Added Interface SchedulesListNextOptionalParams
+  - Added Interface SchedulesListOptionalParams
+  - Added Interface SparkJobEntry
+  - Added Interface SparkResourceConfiguration
+  - Added Interface StatusMessage
+  - Added Interface TriggerBase
+  - Added Interface WorkspaceConnectionManagedIdentity
+  - Added Interface WorkspaceConnectionPersonalAccessToken
+  - Added Interface WorkspaceConnectionPropertiesV2
+  - Added Interface WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+  - Added Interface WorkspaceConnectionSharedAccessSignature
+  - Added Interface WorkspaceConnectionsListNextOptionalParams
+  - Added Interface WorkspaceConnectionUsernamePassword
+  - Added Type Alias BatchDeployment
+  - Added Type Alias BatchDeploymentProperties
+  - Added Type Alias BatchEndpoint
+  - Added Type Alias BatchEndpointProperties
+  - Added Type Alias BlockedTransformers
+  - Added Type Alias ClassificationTrainingSettings
+  - Added Type Alias CocoExportSummary
+  - Added Type Alias CodeContainer
+  - Added Type Alias CodeContainerProperties
+  - Added Type Alias CodeVersion
+  - Added Type Alias CodeVersionProperties
+  - Added Type Alias ComponentContainer
+  - Added Type Alias ComponentContainerProperties
+  - Added Type Alias ComponentVersion
+  - Added Type Alias ComponentVersionProperties
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias CronTrigger
+  - Added Type Alias CsvExportSummary
+  - Added Type Alias DataContainer
+  - Added Type Alias DataContainerProperties
+  - Added Type Alias DatasetExportSummary
+  - Added Type Alias Datastore
+  - Added Type Alias DatastoreProperties
+  - Added Type Alias DatastorePropertiesUnion
+  - Added Type Alias DataVersionBase
+  - Added Type Alias DataVersionBaseProperties
+  - Added Type Alias DataVersionBasePropertiesUnion
+  - Added Type Alias DeploymentResourceConfiguration
+  - Added Type Alias EndpointScheduleAction
+  - Added Type Alias EnvironmentContainer
+  - Added Type Alias EnvironmentContainerProperties
+  - Added Type Alias EnvironmentVersion
+  - Added Type Alias EnvironmentVersionProperties
+  - Added Type Alias ExportFormatType
+  - Added Type Alias ExportSummaryUnion
+  - Added Type Alias ForecastingTrainingSettings
+  - Added Type Alias ImageAnnotationType
+  - Added Type Alias JobBase
+  - Added Type Alias JobBaseProperties
+  - Added Type Alias JobBasePropertiesUnion
+  - Added Type Alias JobProvisioningState
+  - Added Type Alias JobResourceConfiguration
+  - Added Type Alias JobScheduleAction
+  - Added Type Alias LabelingJob
+  - Added Type Alias LabelingJobImageProperties
+  - Added Type Alias LabelingJobMediaPropertiesUnion
+  - Added Type Alias LabelingJobProperties
+  - Added Type Alias LabelingJobsCreateOrUpdateResponse
+  - Added Type Alias LabelingJobsExportLabelsResponse
+  - Added Type Alias LabelingJobsGetResponse
+  - Added Type Alias LabelingJobsListNextResponse
+  - Added Type Alias LabelingJobsListResponse
+  - Added Type Alias LabelingJobTextProperties
+  - Added Type Alias ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias MediaType
+  - Added Type Alias MLAssistConfigurationDisabled
+  - Added Type Alias MLAssistConfigurationEnabled
+  - Added Type Alias MLAssistConfigurationType
+  - Added Type Alias MLAssistConfigurationUnion
+  - Added Type Alias ModelContainer
+  - Added Type Alias ModelContainerProperties
+  - Added Type Alias ModelVersion
+  - Added Type Alias ModelVersionProperties
+  - Added Type Alias NoneAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias OnlineDeployment
+  - Added Type Alias OnlineDeploymentProperties
+  - Added Type Alias OnlineDeploymentPropertiesUnion
+  - Added Type Alias OnlineEndpoint
+  - Added Type Alias OnlineEndpointProperties
+  - Added Type Alias PartialMinimalTrackedResourceWithIdentity
+  - Added Type Alias PartialMinimalTrackedResourceWithSku
+  - Added Type Alias PATAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias RecurrenceTrigger
+  - Added Type Alias RegressionTrainingSettings
+  - Added Type Alias SASAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias Schedule
+  - Added Type Alias ScheduleActionBaseUnion
+  - Added Type Alias ScheduleActionType
+  - Added Type Alias ScheduleProperties
+  - Added Type Alias ScheduleProvisioningState
+  - Added Type Alias ScheduleProvisioningStatus
+  - Added Type Alias SchedulesCreateOrUpdateResponse
+  - Added Type Alias SchedulesGetResponse
+  - Added Type Alias SchedulesListNextResponse
+  - Added Type Alias SchedulesListResponse
+  - Added Type Alias SparkJob
+  - Added Type Alias SparkJobEntryType
+  - Added Type Alias SparkJobEntryUnion
+  - Added Type Alias SparkJobPythonEntry
+  - Added Type Alias SparkJobScalaEntry
+  - Added Type Alias SslConfigStatus
+  - Added Type Alias StatusMessageLevel
+  - Added Type Alias TextAnnotationType
+  - Added Type Alias TriggerBaseUnion
+  - Added Type Alias TriggerType
+  - Added Type Alias UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias WeekDay
+  - Added Type Alias WorkspaceConnectionPropertiesV2BasicResource
+  - Added Type Alias WorkspaceConnectionPropertiesV2Union
+  - Added Type Alias WorkspaceConnectionsListNextResponse
+  - Interface AutoMLVertical has a new optional parameter targetColumnName
+  - Interface ImageModelSettings has a new optional parameter checkpointModel
+  - Interface ImageVertical has a new optional parameter validationData
+  - Interface ImageVertical has a new optional parameter validationDataSize
+  - Interface JobsCancelOptionalParams has a new optional parameter resumeFrom
+  - Interface JobsCancelOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface NlpVertical has a new optional parameter validationData
+  - Interface ScheduleBase has a new optional parameter id
+  - Interface ScheduleBase has a new optional parameter provisioningStatus
+  - Interface ScheduleBase has a new optional parameter status
+  - Interface TableVertical has a new optional parameter cvSplitColumnNames
+  - Interface TableVertical has a new optional parameter nCrossValidations
+  - Interface TableVertical has a new optional parameter testData
+  - Interface TableVertical has a new optional parameter testDataSize
+  - Interface TableVertical has a new optional parameter validationData
+  - Interface TableVertical has a new optional parameter validationDataSize
+  - Interface TableVertical has a new optional parameter weightColumnName
+  - Class AzureMachineLearningWorkspaces has a new parameter labelingJobs
+  - Class AzureMachineLearningWorkspaces has a new parameter schedules
+  - Add parameters of JobBaseProperties to TypeAlias AutoMLJob
+  - Add parameters of AzureDatastore to TypeAlias AzureBlobDatastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureBlobDatastore
+  - Add parameters of AzureDatastore to TypeAlias AzureDataLakeGen1Datastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureDataLakeGen1Datastore
+  - Add parameters of AzureDatastore to TypeAlias AzureDataLakeGen2Datastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureDataLakeGen2Datastore
+  - Add parameters of AzureDatastore to TypeAlias AzureFileDatastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureFileDatastore
+  - Add parameters of JobBaseProperties to TypeAlias CommandJob
+  - Add parameters of DatastoreProperties to TypeAlias HdfsDatastore
+  - Add parameters of OnlineDeploymentProperties to TypeAlias KubernetesOnlineDeployment
+  - Add parameters of OnlineDeploymentProperties to TypeAlias ManagedOnlineDeployment
+  - Add parameters of DataVersionBaseProperties to TypeAlias MLTableData
+  - Add parameters of JobBaseProperties to TypeAlias PipelineJob
+  - Add parameters of JobBaseProperties to TypeAlias SweepJob
+  - Add parameters of DataVersionBaseProperties to TypeAlias UriFileDataVersion
+  - Add parameters of DataVersionBaseProperties to TypeAlias UriFolderDataVersion
+  - Type Alias Classification has a new parameter positiveLabel
+  - Type Alias Classification has a new parameter trainingSettings
+  - Type Alias Forecasting has a new parameter trainingSettings
+  - Type Alias PipelineJob has a new parameter sourceJobId
+  - Type Alias Regression has a new parameter trainingSettings
+  - Type Alias Workspace has a new parameter v1LegacyMode
+  - Added Enum KnownBlockedTransformers
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownExportFormatType
+  - Added Enum KnownImageAnnotationType
+  - Added Enum KnownJobProvisioningState
+  - Added Enum KnownMediaType
+  - Added Enum KnownMLAssistConfigurationType
+  - Added Enum KnownScheduleActionType
+  - Added Enum KnownScheduleProvisioningState
+  - Added Enum KnownScheduleProvisioningStatus
+  - Added Enum KnownSparkJobEntryType
+  - Added Enum KnownSslConfigStatus
+  - Added Enum KnownStatusMessageLevel
+  - Added Enum KnownTextAnnotationType
+  - Added Enum KnownTriggerType
+  - Added Enum KnownWeekDay
+  - Enum KnownDataType has a new value Mltable
+  - Enum KnownJobInputType has a new value MlflowModel
+  - Enum KnownJobInputType has a new value Mltable
+  - Enum KnownJobOutputType has a new value MlflowModel
+  - Enum KnownJobOutputType has a new value Mltable
+  - Enum KnownJobType has a new value Labeling
+  - Enum KnownJobType has a new value Spark
+
+**Breaking Changes**
+
+  - Removed operation Jobs.cancel
+  - Operation BatchDeployments.beginCreateOrUpdate has a new signature
+  - Operation BatchDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchDeployments.beginUpdate has a new signature
+  - Operation BatchDeployments.beginUpdateAndWait has a new signature
+  - Operation BatchEndpoints.beginCreateOrUpdate has a new signature
+  - Operation BatchEndpoints.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchEndpoints.beginUpdate has a new signature
+  - Operation BatchEndpoints.beginUpdateAndWait has a new signature
+  - Operation CodeContainers.createOrUpdate has a new signature
+  - Operation CodeVersions.createOrUpdate has a new signature
+  - Operation ComponentContainers.createOrUpdate has a new signature
+  - Operation ComponentVersions.createOrUpdate has a new signature
+  - Operation DataContainers.createOrUpdate has a new signature
+  - Operation Datastores.createOrUpdate has a new signature
+  - Operation DataVersions.createOrUpdate has a new signature
+  - Operation EnvironmentContainers.createOrUpdate has a new signature
+  - Operation EnvironmentVersions.createOrUpdate has a new signature
+  - Operation Jobs.createOrUpdate has a new signature
+  - Operation ModelContainers.createOrUpdate has a new signature
+  - Operation ModelVersions.createOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineDeployments.beginUpdate has a new signature
+  - Operation OnlineDeployments.beginUpdateAndWait has a new signature
+  - Operation OnlineEndpoints.beginCreateOrUpdate has a new signature
+  - Operation OnlineEndpoints.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineEndpoints.beginUpdate has a new signature
+  - Operation OnlineEndpoints.beginUpdateAndWait has a new signature
+  - Operation WorkspaceConnections.create has a new signature
+  - Interface ImageModelDistributionSettings no longer has parameter splitRatio
+  - Interface ImageModelSettings no longer has parameter checkpointDatasetId
+  - Interface ImageModelSettings no longer has parameter checkpointFilename
+  - Interface ImageModelSettings no longer has parameter splitRatio
+  - Interface ImageVertical no longer has parameter dataSettings
+  - Interface NlpVertical no longer has parameter dataSettings
+  - Interface PartialBatchDeployment no longer has parameter codeConfiguration
+  - Interface PartialBatchDeployment no longer has parameter compute
+  - Interface PartialBatchDeployment no longer has parameter environmentId
+  - Interface PartialBatchDeployment no longer has parameter environmentVariables
+  - Interface PartialBatchDeployment no longer has parameter errorThreshold
+  - Interface PartialBatchDeployment no longer has parameter loggingLevel
+  - Interface PartialBatchDeployment no longer has parameter maxConcurrencyPerInstance
+  - Interface PartialBatchDeployment no longer has parameter miniBatchSize
+  - Interface PartialBatchDeployment no longer has parameter model
+  - Interface PartialBatchDeployment no longer has parameter outputAction
+  - Interface PartialBatchDeployment no longer has parameter outputFileName
+  - Interface PartialBatchDeployment no longer has parameter properties
+  - Interface PartialBatchDeployment no longer has parameter retrySettings
+  - Interface ScheduleBase no longer has parameter endTime
+  - Interface ScheduleBase no longer has parameter scheduleStatus
+  - Interface ScheduleBase no longer has parameter scheduleType
+  - Interface ScheduleBase no longer has parameter startTime
+  - Interface ScheduleBase no longer has parameter timeZone
+  - Interface TableVertical no longer has parameter dataSettings
+  - Interface TableVertical no longer has parameter trainingSettings
+  - Interface AutoMLVertical has a new required parameter trainingData
+  - Delete parameters of JobBaseDetails in TypeAlias AutoMLJob
+  - Delete parameters of DatastoreDetails in TypeAlias AzureBlobDatastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureDataLakeGen1Datastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureDataLakeGen2Datastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureFileDatastore
+  - Delete parameters of JobBaseDetails in TypeAlias CommandJob
+  - Delete parameters of DatastoreDetails in TypeAlias HdfsDatastore
+  - Delete parameters of OnlineDeploymentDetails in TypeAlias KubernetesOnlineDeployment
+  - Delete parameters of OnlineDeploymentDetails in TypeAlias ManagedOnlineDeployment
+  - Delete parameters of DataVersionBaseDetails in TypeAlias MLTableData
+  - Delete parameters of JobBaseDetails in TypeAlias PipelineJob
+  - Delete parameters of JobBaseDetails in TypeAlias SweepJob
+  - Delete parameters of DataVersionBaseDetails in TypeAlias UriFileDataVersion
+  - Delete parameters of DataVersionBaseDetails in TypeAlias UriFolderDataVersion
+  - Type Alias Classification no longer has parameter allowedModels
+  - Type Alias Classification no longer has parameter blockedModels
+  - Type Alias Forecasting no longer has parameter allowedModels
+  - Type Alias Forecasting no longer has parameter blockedModels
+  - Type Alias Regression no longer has parameter allowedModels
+  - Type Alias Regression no longer has parameter blockedModels
+  - Type Alias TableVerticalFeaturizationSettings no longer has parameter dropColumns
+  - Removed Enum KnownModelType
+  - Removed Enum KnownScheduleType
+  - Removed Enum KnownSslConfigurationStatus
+  - Removed Enum KnownWeekday
+  - Enum KnownDataType no longer has value MLTable
+  - Enum KnownJobInputType no longer has value MLFlowModel
+  - Enum KnownJobInputType no longer has value MLTable
+  - Enum KnownJobOutputType no longer has value MLFlowModel
+  - Enum KnownJobOutputType no longer has value MLTable
+    
+    
 ## 1.0.0-beta.1 (2022-05-26)
 
 The package of @azure/arm-machinelearning is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
