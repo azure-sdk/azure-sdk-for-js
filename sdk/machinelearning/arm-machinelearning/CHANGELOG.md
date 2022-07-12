@@ -1,5 +1,212 @@
 # Release History
     
+## 1.0.0-beta.2 (2022-07-12)
+    
+**Features**
+
+  - Added operation Jobs.beginCancel
+  - Added operation Jobs.beginCancelAndWait
+  - Added Interface JobsCancelHeaders
+  - Added Interface PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties
+  - Added Interface PartialMinimalTrackedResource
+  - Added Interface WorkspaceConnectionManagedIdentity
+  - Added Interface WorkspaceConnectionPersonalAccessToken
+  - Added Interface WorkspaceConnectionPropertiesV2
+  - Added Interface WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult
+  - Added Interface WorkspaceConnectionSharedAccessSignature
+  - Added Interface WorkspaceConnectionsListNextOptionalParams
+  - Added Interface WorkspaceConnectionUsernamePassword
+  - Added Type Alias BatchDeployment
+  - Added Type Alias BatchDeploymentProperties
+  - Added Type Alias BatchEndpoint
+  - Added Type Alias BatchEndpointProperties
+  - Added Type Alias CodeContainer
+  - Added Type Alias CodeContainerProperties
+  - Added Type Alias CodeVersion
+  - Added Type Alias CodeVersionProperties
+  - Added Type Alias ComponentContainer
+  - Added Type Alias ComponentContainerProperties
+  - Added Type Alias ComponentVersion
+  - Added Type Alias ComponentVersionProperties
+  - Added Type Alias ConnectionAuthType
+  - Added Type Alias ConnectionCategory
+  - Added Type Alias DataContainer
+  - Added Type Alias DataContainerProperties
+  - Added Type Alias Datastore
+  - Added Type Alias DatastoreProperties
+  - Added Type Alias DatastorePropertiesUnion
+  - Added Type Alias DataVersionBase
+  - Added Type Alias DataVersionBaseProperties
+  - Added Type Alias DataVersionBasePropertiesUnion
+  - Added Type Alias EnvironmentContainer
+  - Added Type Alias EnvironmentContainerProperties
+  - Added Type Alias EnvironmentVersion
+  - Added Type Alias EnvironmentVersionProperties
+  - Added Type Alias JobBase
+  - Added Type Alias JobBaseProperties
+  - Added Type Alias JobBasePropertiesUnion
+  - Added Type Alias ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias ModelContainer
+  - Added Type Alias ModelContainerProperties
+  - Added Type Alias ModelVersion
+  - Added Type Alias ModelVersionProperties
+  - Added Type Alias NoneAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias OnlineDeployment
+  - Added Type Alias OnlineDeploymentProperties
+  - Added Type Alias OnlineDeploymentPropertiesUnion
+  - Added Type Alias OnlineEndpoint
+  - Added Type Alias OnlineEndpointProperties
+  - Added Type Alias PartialMinimalTrackedResourceWithIdentity
+  - Added Type Alias PartialMinimalTrackedResourceWithSku
+  - Added Type Alias PATAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias SASAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias ScheduleProvisioningState
+  - Added Type Alias SslConfigStatus
+  - Added Type Alias UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias WorkspaceConnectionPropertiesV2BasicResource
+  - Added Type Alias WorkspaceConnectionPropertiesV2Union
+  - Added Type Alias WorkspaceConnectionsListNextResponse
+  - Interface JobsCancelOptionalParams has a new optional parameter resumeFrom
+  - Interface JobsCancelOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ScheduleBase has a new optional parameter id
+  - Interface ScheduleBase has a new optional parameter provisioningStatus
+  - Interface ScheduleBase has a new optional parameter status
+  - Add parameters of DatastoreProperties to TypeAlias AzureBlobDatastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureDataLakeGen1Datastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureDataLakeGen2Datastore
+  - Add parameters of DatastoreProperties to TypeAlias AzureFileDatastore
+  - Add parameters of JobBaseProperties to TypeAlias CommandJob
+  - Add parameters of OnlineDeploymentProperties to TypeAlias KubernetesOnlineDeployment
+  - Add parameters of OnlineDeploymentProperties to TypeAlias ManagedOnlineDeployment
+  - Add parameters of DataVersionBaseProperties to TypeAlias MLTableData
+  - Add parameters of JobBaseProperties to TypeAlias PipelineJob
+  - Add parameters of JobBaseProperties to TypeAlias SweepJob
+  - Add parameters of DataVersionBaseProperties to TypeAlias UriFileDataVersion
+  - Add parameters of DataVersionBaseProperties to TypeAlias UriFolderDataVersion
+  - Type Alias Workspace has a new parameter v1LegacyMode
+  - Added Enum KnownConnectionAuthType
+  - Added Enum KnownConnectionCategory
+  - Added Enum KnownScheduleProvisioningState
+  - Added Enum KnownSslConfigStatus
+  - Enum KnownDataType has a new value Mltable
+  - Enum KnownJobInputType has a new value MlflowModel
+  - Enum KnownJobInputType has a new value Mltable
+  - Enum KnownJobOutputType has a new value MlflowModel
+  - Enum KnownJobOutputType has a new value Mltable
+
+**Breaking Changes**
+
+  - Removed operation Jobs.cancel
+  - Operation BatchDeployments.beginCreateOrUpdate has a new signature
+  - Operation BatchDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchDeployments.beginUpdate has a new signature
+  - Operation BatchDeployments.beginUpdateAndWait has a new signature
+  - Operation BatchEndpoints.beginCreateOrUpdate has a new signature
+  - Operation BatchEndpoints.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchEndpoints.beginUpdate has a new signature
+  - Operation BatchEndpoints.beginUpdateAndWait has a new signature
+  - Operation CodeContainers.createOrUpdate has a new signature
+  - Operation CodeVersions.createOrUpdate has a new signature
+  - Operation ComponentContainers.createOrUpdate has a new signature
+  - Operation ComponentVersions.createOrUpdate has a new signature
+  - Operation DataContainers.createOrUpdate has a new signature
+  - Operation Datastores.createOrUpdate has a new signature
+  - Operation DataVersions.createOrUpdate has a new signature
+  - Operation EnvironmentContainers.createOrUpdate has a new signature
+  - Operation EnvironmentVersions.createOrUpdate has a new signature
+  - Operation Jobs.createOrUpdate has a new signature
+  - Operation ModelContainers.createOrUpdate has a new signature
+  - Operation ModelVersions.createOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineDeployments.beginUpdate has a new signature
+  - Operation OnlineDeployments.beginUpdateAndWait has a new signature
+  - Operation OnlineEndpoints.beginCreateOrUpdate has a new signature
+  - Operation OnlineEndpoints.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineEndpoints.beginUpdate has a new signature
+  - Operation OnlineEndpoints.beginUpdateAndWait has a new signature
+  - Operation WorkspaceConnections.create has a new signature
+  - Interface JobsListNextOptionalParams no longer has parameter scheduled
+  - Interface JobsListNextOptionalParams no longer has parameter scheduleId
+  - Interface JobsListOptionalParams no longer has parameter scheduled
+  - Interface JobsListOptionalParams no longer has parameter scheduleId
+  - Interface PartialBatchDeployment no longer has parameter codeConfiguration
+  - Interface PartialBatchDeployment no longer has parameter compute
+  - Interface PartialBatchDeployment no longer has parameter environmentId
+  - Interface PartialBatchDeployment no longer has parameter environmentVariables
+  - Interface PartialBatchDeployment no longer has parameter errorThreshold
+  - Interface PartialBatchDeployment no longer has parameter loggingLevel
+  - Interface PartialBatchDeployment no longer has parameter maxConcurrencyPerInstance
+  - Interface PartialBatchDeployment no longer has parameter miniBatchSize
+  - Interface PartialBatchDeployment no longer has parameter model
+  - Interface PartialBatchDeployment no longer has parameter outputAction
+  - Interface PartialBatchDeployment no longer has parameter outputFileName
+  - Interface PartialBatchDeployment no longer has parameter properties
+  - Interface PartialBatchDeployment no longer has parameter retrySettings
+  - Interface ScheduleBase no longer has parameter endTime
+  - Interface ScheduleBase no longer has parameter scheduleStatus
+  - Interface ScheduleBase no longer has parameter scheduleType
+  - Interface ScheduleBase no longer has parameter startTime
+  - Interface ScheduleBase no longer has parameter timeZone
+  - Delete parameters of DatastoreDetails in TypeAlias AzureBlobDatastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureDataLakeGen1Datastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureDataLakeGen2Datastore
+  - Delete parameters of DatastoreDetails in TypeAlias AzureFileDatastore
+  - Delete parameters of JobBaseDetails in TypeAlias CommandJob
+  - Delete parameters of OnlineDeploymentDetails in TypeAlias KubernetesOnlineDeployment
+  - Delete parameters of OnlineDeploymentDetails in TypeAlias ManagedOnlineDeployment
+  - Delete parameters of DataVersionBaseDetails in TypeAlias MLTableData
+  - Delete parameters of JobBaseDetails in TypeAlias PipelineJob
+  - Delete parameters of JobBaseDetails in TypeAlias SweepJob
+  - Delete parameters of DataVersionBaseDetails in TypeAlias UriFileDataVersion
+  - Delete parameters of DataVersionBaseDetails in TypeAlias UriFolderDataVersion
+  - Removed Enum KnownClassificationModels
+  - Removed Enum KnownClassificationMultilabelPrimaryMetrics
+  - Removed Enum KnownClassificationPrimaryMetrics
+  - Removed Enum KnownEgressPublicNetworkAccessType
+  - Removed Enum KnownFeatureLags
+  - Removed Enum KnownFeaturizationMode
+  - Removed Enum KnownForecastHorizonMode
+  - Removed Enum KnownForecastingModels
+  - Removed Enum KnownForecastingPrimaryMetrics
+  - Removed Enum KnownInstanceSegmentationPrimaryMetrics
+  - Removed Enum KnownLearningRateScheduler
+  - Removed Enum KnownLogVerbosity
+  - Removed Enum KnownModelSize
+  - Removed Enum KnownModelType
+  - Removed Enum KnownNCrossValidationsMode
+  - Removed Enum KnownObjectDetectionPrimaryMetrics
+  - Removed Enum KnownPublicNetworkAccessType
+  - Removed Enum KnownRecurrenceFrequency
+  - Removed Enum KnownRegressionModels
+  - Removed Enum KnownRegressionPrimaryMetrics
+  - Removed Enum KnownScheduleType
+  - Removed Enum KnownSeasonalityMode
+  - Removed Enum KnownShortSeriesHandlingConfiguration
+  - Removed Enum KnownSslConfigurationStatus
+  - Removed Enum KnownStackMetaLearnerType
+  - Removed Enum KnownStochasticOptimizer
+  - Removed Enum KnownTargetAggregationFunction
+  - Removed Enum KnownTargetLagsMode
+  - Removed Enum KnownTargetRollingWindowSizeMode
+  - Removed Enum KnownTaskType
+  - Removed Enum KnownUseStl
+  - Removed Enum KnownValidationMetricType
+  - Removed Enum KnownWeekday
+  - Enum KnownCredentialsType no longer has value KerberosKeytab
+  - Enum KnownCredentialsType no longer has value KerberosPassword
+  - Enum KnownDatastoreType no longer has value Hdfs
+  - Enum KnownDataType no longer has value MLTable
+  - Enum KnownJobInputType no longer has value MLFlowModel
+  - Enum KnownJobInputType no longer has value MLTable
+  - Enum KnownJobOutputType no longer has value MLFlowModel
+  - Enum KnownJobOutputType no longer has value MLTable
+  - Enum KnownJobStatus no longer has value Scheduled
+  - Enum KnownJobType no longer has value AutoML
+  - Enum KnownSecretsType no longer has value KerberosKeytab
+  - Enum KnownSecretsType no longer has value KerberosPassword
+    
+    
 ## 1.0.0-beta.1 (2022-05-26)
 
 The package of @azure/arm-machinelearning is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
