@@ -7,33 +7,33 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Datastores } from "../operationsInterfaces";
+import { Schedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
-  Datastore,
-  DatastoresListNextOptionalParams,
-  DatastoresListOptionalParams,
-  DatastoresListResponse,
-  DatastoresDeleteOptionalParams,
-  DatastoresGetOptionalParams,
-  DatastoresGetResponse,
-  DatastoresCreateOrUpdateOptionalParams,
-  DatastoresCreateOrUpdateResponse,
-  DatastoresListSecretsOptionalParams,
-  DatastoresListSecretsResponse,
-  DatastoresListNextResponse
+  Schedule,
+  SchedulesListNextOptionalParams,
+  SchedulesListOptionalParams,
+  SchedulesListResponse,
+  SchedulesDeleteOptionalParams,
+  SchedulesGetOptionalParams,
+  SchedulesGetResponse,
+  SchedulesCreateOrUpdateOptionalParams,
+  SchedulesCreateOrUpdateResponse,
+  SchedulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Datastores operations. */
-export class DatastoresImpl implements Datastores {
+/** Class containing Schedules operations. */
+export class SchedulesImpl implements Schedules {
   private readonly client: AzureMachineLearningWorkspaces;
 
   /**
-   * Initialize a new instance of the class Datastores class.
+   * Initialize a new instance of the class Schedules class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningWorkspaces) {
@@ -41,7 +41,7 @@ export class DatastoresImpl implements Datastores {
   }
 
   /**
-   * List datastores.
+   * List schedules in specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -49,8 +49,8 @@ export class DatastoresImpl implements Datastores {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
-  ): PagedAsyncIterableIterator<Datastore> {
+    options?: SchedulesListOptionalParams
+  ): PagedAsyncIterableIterator<Schedule> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -68,8 +68,8 @@ export class DatastoresImpl implements Datastores {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
-  ): AsyncIterableIterator<Datastore[]> {
+    options?: SchedulesListOptionalParams
+  ): AsyncIterableIterator<Schedule[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -88,8 +88,8 @@ export class DatastoresImpl implements Datastores {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
-  ): AsyncIterableIterator<Datastore> {
+    options?: SchedulesListOptionalParams
+  ): AsyncIterableIterator<Schedule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -100,7 +100,7 @@ export class DatastoresImpl implements Datastores {
   }
 
   /**
-   * List datastores.
+   * List schedules in specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -108,8 +108,8 @@ export class DatastoresImpl implements Datastores {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: DatastoresListOptionalParams
-  ): Promise<DatastoresListResponse> {
+    options?: SchedulesListOptionalParams
+  ): Promise<SchedulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -117,37 +117,105 @@ export class DatastoresImpl implements Datastores {
   }
 
   /**
-   * Delete datastore.
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
+    options?: SchedulesDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { resourceGroupName, workspaceName, name, options },
       deleteOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Get datastore.
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    options?: SchedulesDeleteOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      workspaceName,
+      name,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get schedule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresGetOptionalParams
-  ): Promise<DatastoresGetResponse> {
+    options?: SchedulesGetOptionalParams
+  ): Promise<SchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, name, options },
       getOperationSpec
@@ -155,43 +223,100 @@ export class DatastoresImpl implements Datastores {
   }
 
   /**
-   * Create or update datastore.
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
-   * @param body Datastore entity to create or update.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    body: Datastore,
-    options?: DatastoresCreateOrUpdateOptionalParams
-  ): Promise<DatastoresCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SchedulesCreateOrUpdateResponse>,
+      SchedulesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SchedulesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { resourceGroupName, workspaceName, name, body, options },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Get datastore secrets.
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param name Datastore name.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
-  listSecrets(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    options?: DatastoresListSecretsOptionalParams
-  ): Promise<DatastoresListSecretsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, name, options },
-      listSecretsOperationSpec
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
+  ): Promise<SchedulesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      workspaceName,
+      name,
+      body,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -205,8 +330,8 @@ export class DatastoresImpl implements Datastores {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: DatastoresListNextOptionalParams
-  ): Promise<DatastoresListNextResponse> {
+    options?: SchedulesListNextOptionalParams
+  ): Promise<SchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -218,26 +343,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult
+      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count1,
-    Parameters.isDefault,
-    Parameters.names,
-    Parameters.searchText,
-    Parameters.orderBy1,
-    Parameters.orderByAsc
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -249,10 +365,12 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -271,11 +389,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Schedule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -294,21 +412,27 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Schedule
     },
     201: {
-      bodyMapper: Mappers.Datastore
+      bodyMapper: Mappers.Schedule
+    },
+    202: {
+      bodyMapper: Mappers.Schedule
+    },
+    204: {
+      bodyMapper: Mappers.Schedule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
-  queryParameters: [Parameters.apiVersion, Parameters.skipValidation],
+  requestBody: Parameters.body23,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -320,50 +444,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}/listSecrets",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatastoreSecrets
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.name
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatastoreResourceArmPaginatedResult
+      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count1,
-    Parameters.isDefault,
-    Parameters.names,
-    Parameters.searchText,
-    Parameters.orderBy1,
-    Parameters.orderByAsc
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
