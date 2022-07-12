@@ -50,7 +50,7 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Get all Application Insights web tests defined within a specified resource group.
+   * Get all Application Insights web tests defined for the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -103,7 +103,7 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitions within a subscription.
+   * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
   public list(
@@ -216,7 +216,7 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Get all Application Insights web tests defined within a specified resource group.
+   * Get all Application Insights web tests defined for the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -233,7 +233,7 @@ export class WebTestsImpl implements WebTests {
   /**
    * Get a specific Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   get(
@@ -250,7 +250,7 @@ export class WebTestsImpl implements WebTests {
   /**
    * Creates or updates an Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    *                          Insights web test definition.
    * @param options The options parameters.
@@ -268,10 +268,10 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Creates or updates an Application Insights web test definition.
+   * Updates the tags associated with an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
-   * @param webTestTags Updated tag information to set into the web test instance.
+   * @param webTestName The name of the Application Insights WebTest resource.
+   * @param webTestTags Updated tag information to associate with the web test resource.
    * @param options The options parameters.
    */
   updateTags(
@@ -289,7 +289,7 @@ export class WebTestsImpl implements WebTests {
   /**
    * Deletes an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   delete(
@@ -304,7 +304,7 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Get all Application Insights web test alerts definitions within a subscription.
+   * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -393,11 +393,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -411,11 +411,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTest
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.webTestName
   ],
   headerParameters: [Parameters.accept],
@@ -431,11 +431,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.webTestDefinition,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.webTestName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -452,11 +452,11 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.webTestTags,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.webTestName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -468,11 +468,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.webTestName
   ],
   serializer
@@ -485,7 +485,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -499,11 +499,11 @@ const listByComponentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.componentName
   ],
   headerParameters: [Parameters.accept],
@@ -517,11 +517,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -535,7 +535,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -552,13 +552,13 @@ const listByComponentNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WebTestListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.componentName,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.componentName
   ],
   headerParameters: [Parameters.accept],
   serializer
