@@ -1,15 +1,17 @@
 # Release History
+    
+## 2.0.0 (2022-07-13)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
+  - Added Type Alias ConfidentialLedger
+  - Interface LedgerProperties has a new optional parameter certificateClientEndpoint
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface LedgerProperties no longer has parameter identityServiceUri
+    
+    
 ## 1.1.0 (2022-07-05)
     
 **Features**

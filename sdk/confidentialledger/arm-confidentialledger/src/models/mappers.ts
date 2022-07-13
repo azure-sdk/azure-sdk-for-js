@@ -261,8 +261,8 @@ export const LedgerProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      identityServiceUri: {
-        serializedName: "identityServiceUri",
+      certificateClientEndpoint: {
+        serializedName: "certificateClientEndpoint",
         readOnly: true,
         type: {
           name: "String"
