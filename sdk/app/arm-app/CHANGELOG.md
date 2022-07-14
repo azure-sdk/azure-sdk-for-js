@@ -1,5 +1,166 @@
 # Release History
     
+## 1.0.0-beta.1 (2022-07-14)
+    
+**Features**
+
+  - Added operation group ConnectedEnvironments
+  - Added operation group ConnectedEnvironmentsCertificates
+  - Added operation group ConnectedEnvironmentsDaprComponents
+  - Added operation group ConnectedEnvironmentsStorages
+  - Added operation group ContainerAppsDiagnostics
+  - Added operation group ManagedEnvironmentDiagnostics
+  - Added operation group ManagedEnvironmentsDiagnostics
+  - Added operation group Namespaces
+  - Added operation ContainerApps.beginUpdate
+  - Added operation ContainerApps.beginUpdateAndWait
+  - Added operation DaprComponents.listSecrets
+  - Added operation ManagedEnvironments.beginUpdate
+  - Added operation ManagedEnvironments.beginUpdateAndWait
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface ConnectedEnvironmentCollection
+  - Added Interface ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
+  - Added Interface ConnectedEnvironmentsCertificatesDeleteOptionalParams
+  - Added Interface ConnectedEnvironmentsCertificatesGetOptionalParams
+  - Added Interface ConnectedEnvironmentsCertificatesListNextOptionalParams
+  - Added Interface ConnectedEnvironmentsCertificatesListOptionalParams
+  - Added Interface ConnectedEnvironmentsCertificatesUpdateOptionalParams
+  - Added Interface ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
+  - Added Interface ConnectedEnvironmentsCreateOrUpdateOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsGetOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsListNextOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsListOptionalParams
+  - Added Interface ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
+  - Added Interface ConnectedEnvironmentsDeleteOptionalParams
+  - Added Interface ConnectedEnvironmentsGetOptionalParams
+  - Added Interface ConnectedEnvironmentsListByResourceGroupNextOptionalParams
+  - Added Interface ConnectedEnvironmentsListByResourceGroupOptionalParams
+  - Added Interface ConnectedEnvironmentsListBySubscriptionNextOptionalParams
+  - Added Interface ConnectedEnvironmentsListBySubscriptionOptionalParams
+  - Added Interface ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  - Added Interface ConnectedEnvironmentsStoragesDeleteOptionalParams
+  - Added Interface ConnectedEnvironmentsStoragesGetOptionalParams
+  - Added Interface ConnectedEnvironmentsStoragesListOptionalParams
+  - Added Interface ConnectedEnvironmentStorageProperties
+  - Added Interface ConnectedEnvironmentStoragesCollection
+  - Added Interface ConnectedEnvironmentsUpdateOptionalParams
+  - Added Interface ContainerAppsDiagnosticsGetDetectorOptionalParams
+  - Added Interface ContainerAppsDiagnosticsGetRevisionOptionalParams
+  - Added Interface ContainerAppsDiagnosticsGetRootOptionalParams
+  - Added Interface ContainerAppsDiagnosticsListDetectorsNextOptionalParams
+  - Added Interface ContainerAppsDiagnosticsListDetectorsOptionalParams
+  - Added Interface ContainerAppsDiagnosticsListRevisionsNextOptionalParams
+  - Added Interface ContainerAppsDiagnosticsListRevisionsOptionalParams
+  - Added Interface CustomHostnameAnalysisResult
+  - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
+  - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
+  - Added Interface DaprComponentsListSecretsOptionalParams
+  - Added Interface DaprSecretsCollection
+  - Added Interface DiagnosticDataProviderMetadata
+  - Added Interface DiagnosticDataProviderMetadataPropertyBagItem
+  - Added Interface DiagnosticDataTableResponseColumn
+  - Added Interface DiagnosticDataTableResponseObject
+  - Added Interface DiagnosticRendering
+  - Added Interface DiagnosticsCollection
+  - Added Interface DiagnosticsDataApiResponse
+  - Added Interface DiagnosticsDefinition
+  - Added Interface DiagnosticsProperties
+  - Added Interface DiagnosticsStatus
+  - Added Interface DiagnosticSupportTopic
+  - Added Interface EnvironmentSkuProperties
+  - Added Interface ExtendedLocation
+  - Added Interface ManagedEnvironmentDiagnosticsGetDetectorOptionalParams
+  - Added Interface ManagedEnvironmentDiagnosticsListDetectorsOptionalParams
+  - Added Interface ManagedEnvironmentsDiagnosticsGetRootOptionalParams
+  - Added Interface NamespacesCheckNameAvailabilityOptionalParams
+  - Added Interface TrafficLabel
+  - Added Interface WorkloadProfile
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias ConnectedEnvironment
+  - Added Type Alias ConnectedEnvironmentProvisioningState
+  - Added Type Alias ConnectedEnvironmentsCertificatesCreateOrUpdateResponse
+  - Added Type Alias ConnectedEnvironmentsCertificatesGetResponse
+  - Added Type Alias ConnectedEnvironmentsCertificatesListNextResponse
+  - Added Type Alias ConnectedEnvironmentsCertificatesListResponse
+  - Added Type Alias ConnectedEnvironmentsCertificatesUpdateResponse
+  - Added Type Alias ConnectedEnvironmentsCheckNameAvailabilityResponse
+  - Added Type Alias ConnectedEnvironmentsCreateOrUpdateResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsGetResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsListNextResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsListResponse
+  - Added Type Alias ConnectedEnvironmentsDaprComponentsListSecretsResponse
+  - Added Type Alias ConnectedEnvironmentsGetResponse
+  - Added Type Alias ConnectedEnvironmentsListByResourceGroupNextResponse
+  - Added Type Alias ConnectedEnvironmentsListByResourceGroupResponse
+  - Added Type Alias ConnectedEnvironmentsListBySubscriptionNextResponse
+  - Added Type Alias ConnectedEnvironmentsListBySubscriptionResponse
+  - Added Type Alias ConnectedEnvironmentsStoragesCreateOrUpdateResponse
+  - Added Type Alias ConnectedEnvironmentsStoragesGetResponse
+  - Added Type Alias ConnectedEnvironmentsStoragesListResponse
+  - Added Type Alias ConnectedEnvironmentStorage
+  - Added Type Alias ConnectedEnvironmentsUpdateResponse
+  - Added Type Alias ContainerAppsDiagnosticsGetDetectorResponse
+  - Added Type Alias ContainerAppsDiagnosticsGetRevisionResponse
+  - Added Type Alias ContainerAppsDiagnosticsGetRootResponse
+  - Added Type Alias ContainerAppsDiagnosticsListDetectorsNextResponse
+  - Added Type Alias ContainerAppsDiagnosticsListDetectorsResponse
+  - Added Type Alias ContainerAppsDiagnosticsListRevisionsNextResponse
+  - Added Type Alias ContainerAppsDiagnosticsListRevisionsResponse
+  - Added Type Alias DaprComponentsListSecretsResponse
+  - Added Type Alias Diagnostics
+  - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias ManagedEnvironmentDiagnosticsGetDetectorResponse
+  - Added Type Alias ManagedEnvironmentDiagnosticsListDetectorsResponse
+  - Added Type Alias ManagedEnvironmentsDiagnosticsGetRootResponse
+  - Added Type Alias NamespacesCheckNameAvailabilityResponse
+  - Added Type Alias Scheme
+  - Added Type Alias SkuType
+  - Added Type Alias WorkloadProfileType
+  - Interface ContainerAppsRevisionsListRevisionsNextOptionalParams has a new optional parameter filter
+  - Interface ContainerAppsRevisionsListRevisionsOptionalParams has a new optional parameter filter
+  - Interface ContainerAppsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ContainerAppsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface Dapr has a new optional parameter httpReadBufferSize
+  - Interface GithubActionConfiguration has a new optional parameter contextPath
+  - Interface GithubActionConfiguration has a new optional parameter image
+  - Interface ManagedEnvironmentsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ManagedEnvironmentsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface RegistryCredentials has a new optional parameter identity
+  - Interface TrafficWeight has a new optional parameter label
+  - Class ContainerAppsAPIClient has a new parameter connectedEnvironments
+  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsCertificates
+  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsDaprComponents
+  - Class ContainerAppsAPIClient has a new parameter connectedEnvironmentsStorages
+  - Class ContainerAppsAPIClient has a new parameter containerAppsDiagnostics
+  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentDiagnostics
+  - Class ContainerAppsAPIClient has a new parameter managedEnvironmentsDiagnostics
+  - Class ContainerAppsAPIClient has a new parameter namespaces
+  - Type Alias ContainerApp has a new parameter extendedLocation
+  - Type Alias ContainerApp has a new parameter environmentId
+  - Type Alias ContainerApp has a new parameter workloadProfileType
+  - Type Alias ManagedEnvironment has a new parameter sku
+  - Type Alias ManagedEnvironment has a new parameter daprAIConnectionString
+  - Type Alias ManagedEnvironment has a new parameter zoneRedundant
+  - Type Alias ManagedEnvironment has a new parameter workloadProfiles
+  - Type Alias Revision has a new parameter trafficLabels
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownConnectedEnvironmentProvisioningState
+  - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownScheme
+  - Added Enum KnownSkuType
+  - Added Enum KnownWorkloadProfileType
+
+**Breaking Changes**
+
+  - Removed operation ContainerApps.update
+  - Removed operation ManagedEnvironments.update
+  - Interface GithubActionConfiguration no longer has parameter dockerfilePath
+    
+    
 ## 1.0.0-beta.1 (2022-03-23)
 
 The package of @azure/arm-app is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
