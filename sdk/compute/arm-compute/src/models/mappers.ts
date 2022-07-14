@@ -10357,13 +10357,15 @@ export const CloudServiceExtensionProperties: coreClient.CompositeMapper = {
       settings: {
         serializedName: "settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettingsFromKeyVault: {
@@ -11186,6 +11188,12 @@ export const VirtualMachineScaleSetNetworkConfiguration: coreClient.CompositeMap
           name: "Boolean"
         }
       },
+      disableTcpStateTracking: {
+        serializedName: "properties.disableTcpStateTracking",
+        type: {
+          name: "Boolean"
+        }
+      },
       enableFpga: {
         serializedName: "properties.enableFpga",
         type: {
@@ -11348,6 +11356,12 @@ export const VirtualMachineScaleSetUpdateNetworkConfiguration: coreClient.Compos
           name: "Boolean"
         }
       },
+      disableTcpStateTracking: {
+        serializedName: "properties.disableTcpStateTracking",
+        type: {
+          name: "Boolean"
+        }
+      },
       enableFpga: {
         serializedName: "properties.enableFpga",
         type: {
@@ -11472,7 +11486,8 @@ export const VirtualMachineCaptureResult: coreClient.CompositeMapper = {
         serializedName: "parameters",
         readOnly: true,
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       resources: {
@@ -11482,7 +11497,8 @@ export const VirtualMachineCaptureResult: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "any"
+              name: "Dictionary",
+              value: { type: { name: "any" } }
             }
           }
         }
@@ -11604,13 +11620,15 @@ export const VirtualMachineScaleSetExtension: coreClient.CompositeMapper = {
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       provisioningState: {
@@ -11640,7 +11658,8 @@ export const VirtualMachineScaleSetExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -11706,13 +11725,15 @@ export const VirtualMachineScaleSetExtensionUpdate: coreClient.CompositeMapper =
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       provisioningState: {
@@ -11742,7 +11763,8 @@ export const VirtualMachineScaleSetExtensionUpdate: coreClient.CompositeMapper =
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -11808,13 +11830,15 @@ export const VirtualMachineScaleSetVMExtension: coreClient.CompositeMapper = {
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       provisioningState: {
@@ -11840,7 +11864,8 @@ export const VirtualMachineScaleSetVMExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -11906,13 +11931,15 @@ export const VirtualMachineScaleSetVMExtensionUpdate: coreClient.CompositeMapper
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       suppressFailures: {
@@ -11924,7 +11951,8 @@ export const VirtualMachineScaleSetVMExtensionUpdate: coreClient.CompositeMapper
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -14163,13 +14191,15 @@ export const VirtualMachineExtensionUpdate: coreClient.CompositeMapper = {
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       suppressFailures: {
@@ -14181,7 +14211,8 @@ export const VirtualMachineExtensionUpdate: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -14969,13 +15000,15 @@ export const VirtualMachineExtension: coreClient.CompositeMapper = {
       settings: {
         serializedName: "properties.settings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       protectedSettings: {
         serializedName: "properties.protectedSettings",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       provisioningState: {
@@ -15001,7 +15034,8 @@ export const VirtualMachineExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }

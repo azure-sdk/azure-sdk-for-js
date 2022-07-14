@@ -1,15 +1,96 @@
 # Release History
+    
+## 19.2.0 (2022-07-14)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias AvailabilitySet
+  - Added Type Alias AvailabilitySetUpdate
+  - Added Type Alias CapacityReservation
+  - Added Type Alias CapacityReservationGroup
+  - Added Type Alias CapacityReservationGroupUpdate
+  - Added Type Alias CapacityReservationInstanceViewWithName
+  - Added Type Alias CapacityReservationUpdate
+  - Added Type Alias CommunityGallery
+  - Added Type Alias CommunityGalleryImage
+  - Added Type Alias CommunityGalleryImageVersion
+  - Added Type Alias DataDiskImageEncryption
+  - Added Type Alias DedicatedHost
+  - Added Type Alias DedicatedHostGroup
+  - Added Type Alias DedicatedHostGroupUpdate
+  - Added Type Alias DedicatedHostInstanceViewWithName
+  - Added Type Alias DedicatedHostUpdate
+  - Added Type Alias Disk
+  - Added Type Alias DiskAccess
+  - Added Type Alias DiskEncryptionSet
+  - Added Type Alias DiskEncryptionSetParameters
+  - Added Type Alias DiskRestorePoint
+  - Added Type Alias Gallery
+  - Added Type Alias GalleryApplication
+  - Added Type Alias GalleryApplicationUpdate
+  - Added Type Alias GalleryApplicationVersion
+  - Added Type Alias GalleryApplicationVersionPublishingProfile
+  - Added Type Alias GalleryApplicationVersionUpdate
+  - Added Type Alias GalleryDataDiskImage
+  - Added Type Alias GalleryImage
+  - Added Type Alias GalleryImageUpdate
+  - Added Type Alias GalleryImageVersion
+  - Added Type Alias GalleryImageVersionPublishingProfile
+  - Added Type Alias GalleryImageVersionUpdate
+  - Added Type Alias GalleryOSDiskImage
+  - Added Type Alias GalleryUpdate
+  - Added Type Alias Image_2
+  - Added Type Alias ImageDataDisk
+  - Added Type Alias ImageOSDisk
+  - Added Type Alias ImageReference
+  - Added Type Alias ImageUpdate
+  - Added Type Alias ManagedDiskParameters
+  - Added Type Alias NetworkInterfaceReference
+  - Added Type Alias OSDiskImageEncryption
+  - Added Type Alias PirSharedGalleryResource
+  - Added Type Alias ProximityPlacementGroup
+  - Added Type Alias ProximityPlacementGroupUpdate
+  - Added Type Alias RequestRateByIntervalInput
+  - Added Type Alias RestorePoint
+  - Added Type Alias RestorePointCollection
+  - Added Type Alias RestorePointCollectionUpdate
+  - Added Type Alias RollingUpgradeStatusInfo
+  - Added Type Alias RunCommandDocument
+  - Added Type Alias SharedGallery
+  - Added Type Alias SharedGalleryDataDiskImage
+  - Added Type Alias SharedGalleryImage
+  - Added Type Alias SharedGalleryImageVersion
+  - Added Type Alias SharedGalleryOSDiskImage
+  - Added Type Alias Snapshot
+  - Added Type Alias SshPublicKeyResource
+  - Added Type Alias SshPublicKeyUpdateResource
+  - Added Type Alias SubResourceWithColocationStatus
+  - Added Type Alias ThrottledRequestsInput
+  - Added Type Alias VirtualMachine
+  - Added Type Alias VirtualMachineCaptureResult
+  - Added Type Alias VirtualMachineExtension
+  - Added Type Alias VirtualMachineExtensionImage
+  - Added Type Alias VirtualMachineExtensionUpdate
+  - Added Type Alias VirtualMachineImage
+  - Added Type Alias VirtualMachineImageResource
+  - Added Type Alias VirtualMachineRunCommand
+  - Added Type Alias VirtualMachineRunCommandUpdate
+  - Added Type Alias VirtualMachineScaleSet
+  - Added Type Alias VirtualMachineScaleSetExtension
+  - Added Type Alias VirtualMachineScaleSetExtensionUpdate
+  - Added Type Alias VirtualMachineScaleSetIPConfiguration
+  - Added Type Alias VirtualMachineScaleSetNetworkConfiguration
+  - Added Type Alias VirtualMachineScaleSetReimageParameters
+  - Added Type Alias VirtualMachineScaleSetUpdate
+  - Added Type Alias VirtualMachineScaleSetUpdateIPConfiguration
+  - Added Type Alias VirtualMachineScaleSetUpdateNetworkConfiguration
+  - Added Type Alias VirtualMachineScaleSetVM
+  - Added Type Alias VirtualMachineScaleSetVMExtension
+  - Added Type Alias VirtualMachineScaleSetVMExtensionUpdate
+  - Added Type Alias VirtualMachineScaleSetVMReimageParameters
+  - Added Type Alias VirtualMachineUpdate
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
