@@ -3855,7 +3855,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220713
+      typescript: 4.8.0-dev.20220714
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8665,8 +8665,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220713:
-    resolution: {integrity: sha512-bgvBy+eVzJfxLvylV2rp4wK8+UO38/LJXjKZ95F0pOQZU/9BfGEaXmTk0Ar2gsTmq7ewzZ6iTeIbQuumR4jZLA==}
+  /typescript/4.8.0-dev.20220714:
+    resolution: {integrity: sha512-wKK9FMpdvwI68PZiQdNTNmX4rpVXJBDOG9aylV9O6nJUO5YX8yv3bQNcyLc5tbI7J3+u7AU48LVY9SF9lYwy5g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11330,7 +11330,7 @@ packages:
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-qh8KGDnbqoUV6UbWCbFhWA3nCJ0WIhdO4VjeozivtHaTzV9lYUjn5gRIomUnuD/yIJXyKds2jCqOTAXMPxQiRQ==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-8tTdmurcnnlFetKjKW3KCjwGcoeOraE/ak8Vri/4RAl+fdusg+f4BsgzH7PxumTTQtLdYFuf+xjj5KLq6JuTEQ==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
@@ -11339,19 +11339,19 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
       '@rollup/plugin-json': 4.1.0_rollup@2.76.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.76.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.76.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.16.2
     transitivePeerDependencies:
-      - encoding
-      - supports-color
+      - '@types/node'
     dev: false
 
   file:projects/arm-features.tgz:
