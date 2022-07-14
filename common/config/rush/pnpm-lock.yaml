@@ -286,6 +286,7 @@ specifiers:
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:./projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
@@ -576,6 +577,7 @@ dependencies:
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -3855,7 +3857,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220713
+      typescript: 4.8.0-dev.20220714
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8665,8 +8667,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220713:
-    resolution: {integrity: sha512-bgvBy+eVzJfxLvylV2rp4wK8+UO38/LJXjKZ95F0pOQZU/9BfGEaXmTk0Ar2gsTmq7ewzZ6iTeIbQuumR4jZLA==}
+  /typescript/4.8.0-dev.20220714:
+    resolution: {integrity: sha512-wKK9FMpdvwI68PZiQdNTNmX4rpVXJBDOG9aylV9O6nJUO5YX8yv3bQNcyLc5tbI7J3+u7AU48LVY9SF9lYwy5g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18204,6 +18206,29 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/vi.tgz:
+    resolution: {integrity: sha512-c87jvaaGNoPslhCAc5j18d7xOqFlOs2DS3aabQUQnL/VzcupXfXayCyUXpEQXHtd8ECHdiDqy5o7gFepYBcHcA==, tarball: file:projects/vi.tgz}
+    name: '@rush-temp/vi'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/video-analyzer-edge.tgz:

@@ -1760,6 +1760,11 @@
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "vi",
+      "projectFolder": "sdk/vi/arm-vi",
+      "versionPolicyName": "management"
     }
   ]
 }
