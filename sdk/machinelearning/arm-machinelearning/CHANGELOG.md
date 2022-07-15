@@ -1,5 +1,128 @@
 # Release History
     
+## 1.1.0-beta.1 (2022-07-15)
+    
+**Features**
+
+  - Added operation ComputeOperations.updateIdleShutdownSetting
+  - Added Interface ComputeUpdateIdleShutdownSettingOptionalParams
+  - Added Interface IdleShutdownSetting
+  - Added Type Alias AccountKeyDatastoreCredentials
+  - Added Type Alias AccountKeyDatastoreSecrets
+  - Added Type Alias Aks
+  - Added Type Alias AksComputeSecrets
+  - Added Type Alias AmlCompute
+  - Added Type Alias AmlToken
+  - Added Type Alias AssetBase
+  - Added Type Alias AssetContainer
+  - Added Type Alias AzureBlobDatastore
+  - Added Type Alias AzureDataLakeGen1Datastore
+  - Added Type Alias AzureDataLakeGen2Datastore
+  - Added Type Alias AzureFileDatastore
+  - Added Type Alias BanditPolicy
+  - Added Type Alias BatchDeployment
+  - Added Type Alias BatchDeploymentProperties
+  - Added Type Alias BatchEndpoint
+  - Added Type Alias BatchEndpointProperties
+  - Added Type Alias BayesianSamplingAlgorithm
+  - Added Type Alias CertificateDatastoreCredentials
+  - Added Type Alias CertificateDatastoreSecrets
+  - Added Type Alias CodeContainer
+  - Added Type Alias CodeContainerProperties
+  - Added Type Alias CodeVersion
+  - Added Type Alias CodeVersionProperties
+  - Added Type Alias CommandJob
+  - Added Type Alias CommandJobLimits
+  - Added Type Alias ComponentContainer
+  - Added Type Alias ComponentContainerProperties
+  - Added Type Alias ComponentVersion
+  - Added Type Alias ComponentVersionProperties
+  - Added Type Alias ComputeInstance
+  - Added Type Alias ComputeResource
+  - Added Type Alias CustomModelJobInput
+  - Added Type Alias CustomModelJobOutput
+  - Added Type Alias Databricks
+  - Added Type Alias DatabricksComputeSecrets
+  - Added Type Alias DataContainer
+  - Added Type Alias DataContainerProperties
+  - Added Type Alias DataFactory
+  - Added Type Alias DataLakeAnalytics
+  - Added Type Alias DataPathAssetReference
+  - Added Type Alias Datastore
+  - Added Type Alias DatastoreProperties
+  - Added Type Alias DataVersionBase
+  - Added Type Alias DataVersionBaseProperties
+  - Added Type Alias DefaultScaleSettings
+  - Added Type Alias EnvironmentContainer
+  - Added Type Alias EnvironmentContainerProperties
+  - Added Type Alias EnvironmentVersion
+  - Added Type Alias EnvironmentVersionProperties
+  - Added Type Alias GridSamplingAlgorithm
+  - Added Type Alias HDInsight
+  - Added Type Alias IdAssetReference
+  - Added Type Alias JobBase
+  - Added Type Alias JobBaseProperties
+  - Added Type Alias Kubernetes
+  - Added Type Alias KubernetesOnlineDeployment
+  - Added Type Alias LiteralJobInput
+  - Added Type Alias ManagedIdentity
+  - Added Type Alias ManagedIdentityAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias ManagedOnlineDeployment
+  - Added Type Alias MedianStoppingPolicy
+  - Added Type Alias MLFlowModelJobInput
+  - Added Type Alias MLFlowModelJobOutput
+  - Added Type Alias MLTableData
+  - Added Type Alias MLTableJobInput
+  - Added Type Alias MLTableJobOutput
+  - Added Type Alias ModelContainer
+  - Added Type Alias ModelContainerProperties
+  - Added Type Alias ModelVersion
+  - Added Type Alias ModelVersionProperties
+  - Added Type Alias Mpi
+  - Added Type Alias NoneAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias NoneDatastoreCredentials
+  - Added Type Alias OnlineDeployment
+  - Added Type Alias OnlineDeploymentProperties
+  - Added Type Alias OnlineEndpoint
+  - Added Type Alias OnlineEndpointProperties
+  - Added Type Alias OutputPathAssetReference
+  - Added Type Alias PartialMinimalTrackedResourceWithIdentity
+  - Added Type Alias PartialMinimalTrackedResourceWithSku
+  - Added Type Alias PATAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias PipelineJob
+  - Added Type Alias PrivateEndpointConnection
+  - Added Type Alias PrivateLinkResource
+  - Added Type Alias PyTorch
+  - Added Type Alias RandomSamplingAlgorithm
+  - Added Type Alias SASAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias SasDatastoreCredentials
+  - Added Type Alias SasDatastoreSecrets
+  - Added Type Alias ServicePrincipalDatastoreCredentials
+  - Added Type Alias ServicePrincipalDatastoreSecrets
+  - Added Type Alias SweepJob
+  - Added Type Alias SweepJobLimits
+  - Added Type Alias SynapseSpark
+  - Added Type Alias TargetUtilizationScaleSettings
+  - Added Type Alias TensorFlow
+  - Added Type Alias TrackedResource
+  - Added Type Alias TritonModelJobInput
+  - Added Type Alias TritonModelJobOutput
+  - Added Type Alias TruncationSelectionPolicy
+  - Added Type Alias UriFileDataVersion
+  - Added Type Alias UriFileJobInput
+  - Added Type Alias UriFileJobOutput
+  - Added Type Alias UriFolderDataVersion
+  - Added Type Alias UriFolderJobInput
+  - Added Type Alias UriFolderJobOutput
+  - Added Type Alias UserIdentity
+  - Added Type Alias UsernamePasswordAuthTypeWorkspaceConnectionProperties
+  - Added Type Alias VirtualMachine
+  - Added Type Alias VirtualMachineSecrets
+  - Added Type Alias Workspace
+  - Added Type Alias WorkspaceConnectionPropertiesV2BasicResource
+  - Interface ComputeInstanceProperties has a new optional parameter idleTimeBeforeShutdown
+    
+    
 ## 1.0.0 (2022-07-13)
 
 The package of @azure/arm-machinelearning is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

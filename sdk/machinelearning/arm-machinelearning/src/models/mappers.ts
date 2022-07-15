@@ -1998,6 +1998,21 @@ export const ComputeSecrets: coreClient.CompositeMapper = {
   }
 };
 
+export const IdleShutdownSetting: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IdleShutdownSetting",
+    modelProperties: {
+      idleTimeBeforeShutdown: {
+        serializedName: "idleTimeBeforeShutdown",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4375,6 +4390,12 @@ export const ComputeInstanceProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ComputeSchedules"
+        }
+      },
+      idleTimeBeforeShutdown: {
+        serializedName: "idleTimeBeforeShutdown",
+        type: {
+          name: "String"
         }
       },
       enableNodePublicIp: {

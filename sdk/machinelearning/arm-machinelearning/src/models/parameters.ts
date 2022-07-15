@@ -18,6 +18,7 @@ import {
   QuotaUpdateParameters as QuotaUpdateParametersMapper,
   ComputeResource as ComputeResourceMapper,
   ClusterUpdateParameters as ClusterUpdateParametersMapper,
+  IdleShutdownSetting as IdleShutdownSettingMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   WorkspaceConnectionPropertiesV2BasicResource as WorkspaceConnectionPropertiesV2BasicResourceMapper,
   PartialMinimalTrackedResourceWithIdentity as PartialMinimalTrackedResourceWithIdentityMapper,
@@ -70,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-06-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -219,6 +220,11 @@ export const underlyingResourceAction: OperationQueryParameter = {
   }
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdleShutdownSettingMapper
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -235,7 +241,7 @@ export const properties: OperationParameter = {
   mapper: PrivateEndpointConnectionMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: WorkspaceConnectionPropertiesV2BasicResourceMapper
 };

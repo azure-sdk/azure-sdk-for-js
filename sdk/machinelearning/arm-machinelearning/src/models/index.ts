@@ -916,6 +916,12 @@ export interface ComputeSecrets {
   computeType: "AKS" | "VirtualMachine" | "Databricks";
 }
 
+/** Stops compute instance after user defined period of inactivity. */
+export interface IdleShutdownSetting {
+  /** Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string;
+}
+
 /** List of private endpoint connection associated with the specified workspace */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
@@ -1739,6 +1745,8 @@ export interface ComputeInstanceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly schedules?: ComputeSchedules;
+  /** Stops compute instance after user defined period of inactivity. Time is defined in ISO8601 format. Minimum is 15 min, maximum is 3 days. */
+  idleTimeBeforeShutdown?: string;
   /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
   enableNodePublicIp?: boolean;
   /**
@@ -2247,7 +2255,7 @@ export interface TrialComponent {
 }
 
 /** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends Resource {
+export type PrivateEndpointConnection = Resource & {
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
   /** Specifies the location of the resource. */
@@ -2265,10 +2273,10 @@ export interface PrivateEndpointConnection extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
+};
 
 /** An object that represents a machine learning workspace. */
-export interface Workspace extends Resource {
+export type Workspace = Resource & {
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
   /** Specifies the location of the resource. */
@@ -2354,22 +2362,23 @@ export interface Workspace extends Resource {
   readonly mlFlowTrackingUri?: string;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
   v1LegacyMode?: boolean;
-}
+};
 
 /** Machine Learning compute object wrapped into ARM resource envelope. */
-export interface ComputeResource extends Resource, ComputeResourceSchema {
-  /** The identity of the resource. */
-  identity?: ManagedServiceIdentity;
-  /** Specifies the location of the resource. */
-  location?: string;
-  /** Contains resource tags defined as key/value pairs. */
-  tags?: { [propertyName: string]: string };
-  /** The sku of the workspace. */
-  sku?: Sku;
-}
+export type ComputeResource = Resource &
+  ComputeResourceSchema & {
+    /** The identity of the resource. */
+    identity?: ManagedServiceIdentity;
+    /** Specifies the location of the resource. */
+    location?: string;
+    /** Contains resource tags defined as key/value pairs. */
+    tags?: { [propertyName: string]: string };
+    /** The sku of the workspace. */
+    sku?: Sku;
+  };
 
 /** A private link resource */
-export interface PrivateLinkResource extends Resource {
+export type PrivateLinkResource = Resource & {
   /** The identity of the resource. */
   identity?: ManagedServiceIdentity;
   /** Specifies the location of the resource. */
@@ -2390,213 +2399,213 @@ export interface PrivateLinkResource extends Resource {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-}
+};
 
-export interface WorkspaceConnectionPropertiesV2BasicResource extends Resource {
+export type WorkspaceConnectionPropertiesV2BasicResource = Resource & {
   properties: WorkspaceConnectionPropertiesV2Union;
-}
+};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
+export type TrackedResource = Resource & {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface CodeContainer extends Resource {
+export type CodeContainer = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface CodeVersion extends Resource {
+export type CodeVersion = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface ComponentContainer extends Resource {
+export type ComponentContainer = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface ComponentVersion extends Resource {
+export type ComponentVersion = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface DataContainer extends Resource {
+export type DataContainer = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface DataVersionBase extends Resource {
+export type DataVersionBase = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBasePropertiesUnion;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface Datastore extends Resource {
+export type Datastore = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: DatastorePropertiesUnion;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface EnvironmentContainer extends Resource {
+export type EnvironmentContainer = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface EnvironmentVersion extends Resource {
+export type EnvironmentVersion = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface JobBase extends Resource {
+export type JobBase = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: JobBasePropertiesUnion;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface ModelContainer extends Resource {
+export type ModelContainer = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
-}
+};
 
 /** Azure Resource Manager resource envelope. */
-export interface ModelVersion extends Resource {
+export type ModelVersion = Resource & {
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
-}
+};
 
 /** A Machine Learning compute based on AKS. */
-export interface Aks extends Compute, AKSSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "AKS";
-}
+export type Aks = Compute &
+  AKSSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "AKS";
+  };
 
 /** A Machine Learning compute based on Kubernetes Compute. */
-export interface Kubernetes extends Compute, KubernetesSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "Kubernetes";
-}
+export type Kubernetes = Compute &
+  KubernetesSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "Kubernetes";
+  };
 
 /** An Azure Machine Learning compute. */
-export interface AmlCompute extends Compute, AmlComputeSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "AmlCompute";
-}
+export type AmlCompute = Compute &
+  AmlComputeSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "AmlCompute";
+  };
 
 /** An Azure Machine Learning compute instance. */
-export interface ComputeInstance extends Compute, ComputeInstanceSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "ComputeInstance";
-}
+export type ComputeInstance = Compute &
+  ComputeInstanceSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "ComputeInstance";
+  };
 
 /** A Machine Learning compute based on Azure Virtual Machines. */
-export interface VirtualMachine extends Compute, VirtualMachineSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "VirtualMachine";
-}
+export type VirtualMachine = Compute &
+  VirtualMachineSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "VirtualMachine";
+  };
 
 /** A HDInsight compute. */
-export interface HDInsight extends Compute, HDInsightSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "HDInsight";
-}
+export type HDInsight = Compute &
+  HDInsightSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "HDInsight";
+  };
 
 /** A DataFactory compute. */
-export interface DataFactory extends Compute {
+export type DataFactory = Compute & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "DataFactory";
-}
+};
 
 /** A DataFactory compute. */
-export interface Databricks extends Compute, DatabricksSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "Databricks";
-}
+export type Databricks = Compute &
+  DatabricksSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "Databricks";
+  };
 
 /** A DataLakeAnalytics compute. */
-export interface DataLakeAnalytics extends Compute, DataLakeAnalyticsSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "DataLakeAnalytics";
-}
+export type DataLakeAnalytics = Compute &
+  DataLakeAnalyticsSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "DataLakeAnalytics";
+  };
 
 /** A SynapseSpark compute. */
-export interface SynapseSpark extends Compute {
+export type SynapseSpark = Compute & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "SynapseSpark";
   properties?: SynapseSparkProperties;
-}
+};
 
 /** Secrets related to a Machine Learning compute based on AKS. */
-export interface AksComputeSecrets
-  extends ComputeSecrets,
-    AksComputeSecretsProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "AKS";
-}
+export type AksComputeSecrets = ComputeSecrets &
+  AksComputeSecretsProperties & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "AKS";
+  };
 
 /** Secrets related to a Machine Learning compute based on AKS. */
-export interface VirtualMachineSecrets
-  extends ComputeSecrets,
-    VirtualMachineSecretsSchema {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "VirtualMachine";
-}
+export type VirtualMachineSecrets = ComputeSecrets &
+  VirtualMachineSecretsSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "VirtualMachine";
+  };
 
 /** Secrets related to a Machine Learning compute based on Databricks. */
-export interface DatabricksComputeSecrets
-  extends ComputeSecrets,
-    DatabricksComputeSecretsProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  computeType: "Databricks";
-}
+export type DatabricksComputeSecrets = ComputeSecrets &
+  DatabricksComputeSecretsProperties & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "Databricks";
+  };
 
-export interface PATAuthTypeWorkspaceConnectionProperties
-  extends WorkspaceConnectionPropertiesV2 {
+export type PATAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "PAT";
   credentials?: WorkspaceConnectionPersonalAccessToken;
-}
+};
 
-export interface SASAuthTypeWorkspaceConnectionProperties
-  extends WorkspaceConnectionPropertiesV2 {
+export type SASAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "SAS";
   credentials?: WorkspaceConnectionSharedAccessSignature;
-}
+};
 
-export interface UsernamePasswordAuthTypeWorkspaceConnectionProperties
-  extends WorkspaceConnectionPropertiesV2 {
+export type UsernamePasswordAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "UsernamePassword";
   credentials?: WorkspaceConnectionUsernamePassword;
-}
+};
 
-export interface NoneAuthTypeWorkspaceConnectionProperties
-  extends WorkspaceConnectionPropertiesV2 {
+export type NoneAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "None";
-}
+};
 
-export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties
-  extends WorkspaceConnectionPropertiesV2 {
+export type ManagedIdentityAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "ManagedIdentity";
   credentials?: WorkspaceConnectionManagedIdentity;
-}
+};
 
 /** Batch endpoint configuration. */
-export interface BatchEndpointProperties extends EndpointPropertiesBase {
+export type BatchEndpointProperties = EndpointPropertiesBase & {
   /** Default values for Batch Endpoint */
   defaults?: BatchEndpointDefaults;
   /**
@@ -2604,10 +2613,10 @@ export interface BatchEndpointProperties extends EndpointPropertiesBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: EndpointProvisioningState;
-}
+};
 
 /** Online endpoint configuration */
-export interface OnlineEndpointProperties extends EndpointPropertiesBase {
+export type OnlineEndpointProperties = EndpointPropertiesBase & {
   /**
    * ARM resource ID of the compute if it exists.
    * optional
@@ -2620,53 +2629,50 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
   readonly provisioningState?: EndpointProvisioningState;
   /** Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100. */
   traffic?: { [propertyName: string]: number };
-}
+};
 
 /** Strictly used in update requests. */
-export interface PartialMinimalTrackedResourceWithIdentity
-  extends PartialMinimalTrackedResource {
+export type PartialMinimalTrackedResourceWithIdentity = PartialMinimalTrackedResource & {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: PartialManagedServiceIdentity;
-}
+};
 
 /** Strictly used in update requests. */
-export interface PartialMinimalTrackedResourceWithSku
-  extends PartialMinimalTrackedResource {
+export type PartialMinimalTrackedResourceWithSku = PartialMinimalTrackedResource & {
   /** Sku details required for ARM contract for Autoscaling. */
   sku?: PartialSku;
-}
+};
 
 /** Reference to an asset via its path in a datastore. */
-export interface DataPathAssetReference extends AssetReferenceBase {
+export type DataPathAssetReference = AssetReferenceBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   referenceType: "DataPath";
   /** ARM resource ID of the datastore where the asset is located. */
   datastoreId?: string;
   /** The path of the file/directory in the datastore. */
   path?: string;
-}
+};
 
 /** Reference to an asset via its ARM resource ID. */
-export interface IdAssetReference extends AssetReferenceBase {
+export type IdAssetReference = AssetReferenceBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   referenceType: "Id";
   /** [Required] ARM resource ID of the asset. */
   assetId: string;
-}
+};
 
 /** Reference to an asset via its path in a job output. */
-export interface OutputPathAssetReference extends AssetReferenceBase {
+export type OutputPathAssetReference = AssetReferenceBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   referenceType: "OutputPath";
   /** ARM resource ID of the job. */
   jobId?: string;
   /** The path of the file/directory in the job output. */
   path?: string;
-}
+};
 
 /** Batch inference settings per deployment. */
-export interface BatchDeploymentProperties
-  extends EndpointDeploymentPropertiesBase {
+export type BatchDeploymentProperties = EndpointDeploymentPropertiesBase & {
   /** Compute target for batch inference operation. */
   compute?: string;
   /**
@@ -2708,10 +2714,9 @@ export interface BatchDeploymentProperties
    * If not provided, will default to the defaults defined in BatchRetrySettings.
    */
   retrySettings?: BatchRetrySettings;
-}
+};
 
-export interface OnlineDeploymentProperties
-  extends EndpointDeploymentPropertiesBase {
+export type OnlineDeploymentProperties = EndpointDeploymentPropertiesBase & {
   /** If true, enables Application Insights logging. */
   appInsightsEnabled?: boolean;
   /** [Required] The compute type of the endpoint. */
@@ -2740,9 +2745,9 @@ export interface OnlineDeploymentProperties
    * and to DefaultScaleSettings for ManagedOnlineDeployment.
    */
   scaleSettings?: OnlineScaleSettingsUnion;
-}
+};
 
-export interface AssetContainer extends ResourceBase {
+export type AssetContainer = ResourceBase & {
   /** Is the asset archived? */
   isArchived?: boolean;
   /**
@@ -2755,17 +2760,17 @@ export interface AssetContainer extends ResourceBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextVersion?: string;
-}
+};
 
-export interface AssetBase extends ResourceBase {
+export type AssetBase = ResourceBase & {
   /** If the name version are system generated (anonymous registration). */
   isAnonymous?: boolean;
   /** Is the asset archived? */
   isArchived?: boolean;
-}
+};
 
 /** Base definition for datastore contents configuration. */
-export interface DatastoreProperties extends ResourceBase {
+export type DatastoreProperties = ResourceBase & {
   /** [Required] Account credentials. */
   credentials: DatastoreCredentialsUnion;
   /** [Required] Storage type backing the datastore. */
@@ -2775,10 +2780,10 @@ export interface DatastoreProperties extends ResourceBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDefault?: boolean;
-}
+};
 
 /** Base definition for a job. */
-export interface JobBaseProperties extends ResourceBase {
+export type JobBaseProperties = ResourceBase & {
   /** ARM resource ID of the compute resource. */
   computeId?: string;
   /** Display name of job. */
@@ -2804,18 +2809,18 @@ export interface JobBaseProperties extends ResourceBase {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: JobStatus;
-}
+};
 
 /** Account key datastore credentials configuration. */
-export interface AccountKeyDatastoreCredentials extends DatastoreCredentials {
+export type AccountKeyDatastoreCredentials = DatastoreCredentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType: "AccountKey";
   /** [Required] Storage account secrets. */
   secrets: AccountKeyDatastoreSecrets;
-}
+};
 
 /** Certificate datastore credentials configuration. */
-export interface CertificateDatastoreCredentials extends DatastoreCredentials {
+export type CertificateDatastoreCredentials = DatastoreCredentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType: "Certificate";
   /** Authority URL used for authentication. */
@@ -2830,25 +2835,24 @@ export interface CertificateDatastoreCredentials extends DatastoreCredentials {
   tenantId: string;
   /** [Required] Thumbprint of the certificate used for authentication. */
   thumbprint: string;
-}
+};
 
 /** Empty/none datastore credentials. */
-export interface NoneDatastoreCredentials extends DatastoreCredentials {
+export type NoneDatastoreCredentials = DatastoreCredentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType: "None";
-}
+};
 
 /** SAS datastore credentials configuration. */
-export interface SasDatastoreCredentials extends DatastoreCredentials {
+export type SasDatastoreCredentials = DatastoreCredentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType: "Sas";
   /** [Required] Storage container secrets. */
   secrets: SasDatastoreSecrets;
-}
+};
 
 /** Service Principal datastore credentials configuration. */
-export interface ServicePrincipalDatastoreCredentials
-  extends DatastoreCredentials {
+export type ServicePrincipalDatastoreCredentials = DatastoreCredentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType: "ServicePrincipal";
   /** Authority URL used for authentication. */
@@ -2861,48 +2865,48 @@ export interface ServicePrincipalDatastoreCredentials
   secrets: ServicePrincipalDatastoreSecrets;
   /** [Required] ID of the tenant to which the service principal belongs. */
   tenantId: string;
-}
+};
 
 /** Datastore account key secrets. */
-export interface AccountKeyDatastoreSecrets extends DatastoreSecrets {
+export type AccountKeyDatastoreSecrets = DatastoreSecrets & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretsType: "AccountKey";
   /** Storage account key. */
   key?: string;
-}
+};
 
 /** Datastore certificate secrets. */
-export interface CertificateDatastoreSecrets extends DatastoreSecrets {
+export type CertificateDatastoreSecrets = DatastoreSecrets & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretsType: "Certificate";
   /** Service principal certificate. */
   certificate?: string;
-}
+};
 
 /** Datastore SAS secrets. */
-export interface SasDatastoreSecrets extends DatastoreSecrets {
+export type SasDatastoreSecrets = DatastoreSecrets & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretsType: "Sas";
   /** Storage container SAS token. */
   sasToken?: string;
-}
+};
 
 /** Datastore Service Principal secrets. */
-export interface ServicePrincipalDatastoreSecrets extends DatastoreSecrets {
+export type ServicePrincipalDatastoreSecrets = DatastoreSecrets & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretsType: "ServicePrincipal";
   /** Service principal secret. */
   clientSecret?: string;
-}
+};
 
 /** AML Token identity configuration. */
-export interface AmlToken extends IdentityConfiguration {
+export type AmlToken = IdentityConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   identityType: "AMLToken";
-}
+};
 
 /** Managed identity configuration. */
-export interface ManagedIdentity extends IdentityConfiguration {
+export type ManagedIdentity = IdentityConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   identityType: "Managed";
   /** Specifies a user-assigned identity by client ID. For system-assigned, do not set this field. */
@@ -2911,20 +2915,20 @@ export interface ManagedIdentity extends IdentityConfiguration {
   objectId?: string;
   /** Specifies a user-assigned identity by ARM resource ID. For system-assigned, do not set this field. */
   resourceId?: string;
-}
+};
 
 /** User identity configuration. */
-export interface UserIdentity extends IdentityConfiguration {
+export type UserIdentity = IdentityConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   identityType: "UserIdentity";
-}
+};
 
-export interface DefaultScaleSettings extends OnlineScaleSettings {
+export type DefaultScaleSettings = OnlineScaleSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scaleType: "Default";
-}
+};
 
-export interface TargetUtilizationScaleSettings extends OnlineScaleSettings {
+export type TargetUtilizationScaleSettings = OnlineScaleSettings & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   scaleType: "TargetUtilization";
   /** The maximum number of instances that the deployment can scale to. The quota will be reserved for max_instances. */
@@ -2935,120 +2939,120 @@ export interface TargetUtilizationScaleSettings extends OnlineScaleSettings {
   pollingInterval?: string;
   /** Target CPU usage for the autoscaler. */
   targetUtilizationPercentage?: number;
-}
+};
 
-export interface CustomModelJobInput extends AssetJobInput, JobInput {}
+export type CustomModelJobInput = AssetJobInput & JobInput & {};
 
-export interface MLFlowModelJobInput extends AssetJobInput, JobInput {}
+export type MLFlowModelJobInput = AssetJobInput & JobInput & {};
 
-export interface MLTableJobInput extends AssetJobInput, JobInput {}
+export type MLTableJobInput = AssetJobInput & JobInput & {};
 
-export interface TritonModelJobInput extends AssetJobInput, JobInput {}
+export type TritonModelJobInput = AssetJobInput & JobInput & {};
 
-export interface UriFileJobInput extends AssetJobInput, JobInput {}
+export type UriFileJobInput = AssetJobInput & JobInput & {};
 
-export interface UriFolderJobInput extends AssetJobInput, JobInput {}
+export type UriFolderJobInput = AssetJobInput & JobInput & {};
 
-export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {}
+export type CustomModelJobOutput = AssetJobOutput & JobOutput & {};
 
-export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {}
+export type MLFlowModelJobOutput = AssetJobOutput & JobOutput & {};
 
-export interface MLTableJobOutput extends AssetJobOutput, JobOutput {}
+export type MLTableJobOutput = AssetJobOutput & JobOutput & {};
 
-export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {}
+export type TritonModelJobOutput = AssetJobOutput & JobOutput & {};
 
-export interface UriFileJobOutput extends AssetJobOutput, JobOutput {}
+export type UriFileJobOutput = AssetJobOutput & JobOutput & {};
 
-export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {}
+export type UriFolderJobOutput = AssetJobOutput & JobOutput & {};
 
 /** Defines an early termination policy based on slack criteria, and a frequency and delay interval for evaluation */
-export interface BanditPolicy extends EarlyTerminationPolicy {
+export type BanditPolicy = EarlyTerminationPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   policyType: "Bandit";
   /** Absolute distance allowed from the best performing run. */
   slackAmount?: number;
   /** Ratio of the allowed distance from the best performing run. */
   slackFactor?: number;
-}
+};
 
 /** Defines an early termination policy based on running averages of the primary metric of all runs */
-export interface MedianStoppingPolicy extends EarlyTerminationPolicy {
+export type MedianStoppingPolicy = EarlyTerminationPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   policyType: "MedianStopping";
-}
+};
 
 /** Defines an early termination policy that cancels a given percentage of runs at each evaluation interval. */
-export interface TruncationSelectionPolicy extends EarlyTerminationPolicy {
+export type TruncationSelectionPolicy = EarlyTerminationPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   policyType: "TruncationSelection";
   /** The percentage of runs to cancel at each evaluation interval. */
   truncationPercentage?: number;
-}
+};
 
 /** Defines a Sampling Algorithm that generates values based on previous values */
-export interface BayesianSamplingAlgorithm extends SamplingAlgorithm {
+export type BayesianSamplingAlgorithm = SamplingAlgorithm & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   samplingAlgorithmType: "Bayesian";
-}
+};
 
 /** Defines a Sampling Algorithm that exhaustively generates every value combination in the space */
-export interface GridSamplingAlgorithm extends SamplingAlgorithm {
+export type GridSamplingAlgorithm = SamplingAlgorithm & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   samplingAlgorithmType: "Grid";
-}
+};
 
 /** Defines a Sampling Algorithm that generates values randomly */
-export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
+export type RandomSamplingAlgorithm = SamplingAlgorithm & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   samplingAlgorithmType: "Random";
   /** The specific type of random algorithm */
   rule?: RandomSamplingAlgorithmRule;
   /** An optional integer to use as the seed for random number generation */
   seed?: number;
-}
+};
 
 /** MPI distribution configuration. */
-export interface Mpi extends DistributionConfiguration {
+export type Mpi = DistributionConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   distributionType: "Mpi";
   /** Number of processes per MPI node. */
   processCountPerInstance?: number;
-}
+};
 
 /** PyTorch distribution configuration. */
-export interface PyTorch extends DistributionConfiguration {
+export type PyTorch = DistributionConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   distributionType: "PyTorch";
   /** Number of processes per node. */
   processCountPerInstance?: number;
-}
+};
 
 /** TensorFlow distribution configuration. */
-export interface TensorFlow extends DistributionConfiguration {
+export type TensorFlow = DistributionConfiguration & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   distributionType: "TensorFlow";
   /** Number of parameter server tasks. */
   parameterServerCount?: number;
   /** Number of workers. If not specified, will default to the instance count. */
   workerCount?: number;
-}
+};
 
 /** Literal input type. */
-export interface LiteralJobInput extends JobInput {
+export type LiteralJobInput = JobInput & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobInputType: "literal";
   /** [Required] Literal value for the input. */
   value: string;
-}
+};
 
 /** Command Job limit class. */
-export interface CommandJobLimits extends JobLimits {
+export type CommandJobLimits = JobLimits & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobLimitsType: "Command";
-}
+};
 
 /** Sweep Job limit class. */
-export interface SweepJobLimits extends JobLimits {
+export type SweepJobLimits = JobLimits & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobLimitsType: "Sweep";
   /** Sweep Job max concurrent trials. */
@@ -3057,9 +3061,9 @@ export interface SweepJobLimits extends JobLimits {
   maxTotalTrials?: number;
   /** Sweep Job Trial timeout value. */
   trialTimeout?: string;
-}
+};
 
-export interface BatchEndpoint extends TrackedResource {
+export type BatchEndpoint = TrackedResource & {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -3068,9 +3072,9 @@ export interface BatchEndpoint extends TrackedResource {
   properties: BatchEndpointProperties;
   /** Sku details required for ARM contract for Autoscaling. */
   sku?: Sku;
-}
+};
 
-export interface BatchDeployment extends TrackedResource {
+export type BatchDeployment = TrackedResource & {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -3079,9 +3083,9 @@ export interface BatchDeployment extends TrackedResource {
   properties: BatchDeploymentProperties;
   /** Sku details required for ARM contract for Autoscaling. */
   sku?: Sku;
-}
+};
 
-export interface OnlineEndpoint extends TrackedResource {
+export type OnlineEndpoint = TrackedResource & {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -3090,9 +3094,9 @@ export interface OnlineEndpoint extends TrackedResource {
   properties: OnlineEndpointProperties;
   /** Sku details required for ARM contract for Autoscaling. */
   sku?: Sku;
-}
+};
 
-export interface OnlineDeployment extends TrackedResource {
+export type OnlineDeployment = TrackedResource & {
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ManagedServiceIdentity;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -3101,62 +3105,62 @@ export interface OnlineDeployment extends TrackedResource {
   properties: OnlineDeploymentPropertiesUnion;
   /** Sku details required for ARM contract for Autoscaling. */
   sku?: Sku;
-}
+};
 
 /** Properties specific to a KubernetesOnlineDeployment. */
-export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
+export type KubernetesOnlineDeployment = OnlineDeploymentProperties & {
   /** The resource requirements for the container (cpu and memory). */
   containerResourceRequirements?: ContainerResourceRequirements;
-}
+};
 
 /** Properties specific to a ManagedOnlineDeployment. */
-export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {}
+export type ManagedOnlineDeployment = OnlineDeploymentProperties & {};
 
 /** Container for code asset versions. */
-export interface CodeContainerProperties extends AssetContainer {}
+export type CodeContainerProperties = AssetContainer & {};
 
 /**
  * Component container definition.
  * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
  */
-export interface ComponentContainerProperties extends AssetContainer {}
+export type ComponentContainerProperties = AssetContainer & {};
 
 /** Container for data asset versions. */
-export interface DataContainerProperties extends AssetContainer {
+export type DataContainerProperties = AssetContainer & {
   /** [Required] Specifies the type of data. */
   dataType: DataType;
-}
+};
 
 /** Container for environment specification versions. */
-export interface EnvironmentContainerProperties extends AssetContainer {}
+export type EnvironmentContainerProperties = AssetContainer & {};
 
-export interface ModelContainerProperties extends AssetContainer {}
+export type ModelContainerProperties = AssetContainer & {};
 
 /** Code asset version details. */
-export interface CodeVersionProperties extends AssetBase {
+export type CodeVersionProperties = AssetBase & {
   /** Uri where code is located */
   codeUri?: string;
-}
+};
 
 /** Definition of a component version: defines resources that span component types. */
-export interface ComponentVersionProperties extends AssetBase {
+export type ComponentVersionProperties = AssetBase & {
   /**
    * Defines Component definition details.
    * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
    */
   componentSpec?: Record<string, unknown>;
-}
+};
 
 /** Data version base definition */
-export interface DataVersionBaseProperties extends AssetBase {
+export type DataVersionBaseProperties = AssetBase & {
   /** [Required] Specifies the type of data. */
   dataType: DataType;
   /** [Required] Uri of the data. Usage/meaning depends on Microsoft.MachineLearning.ManagementFrontEnd.Contracts.V20220501.Assets.DataVersionBase.DataType */
   dataUri: string;
-}
+};
 
 /** Environment version details. */
-export interface EnvironmentVersionProperties extends AssetBase {
+export type EnvironmentVersionProperties = AssetBase & {
   /** Configuration settings for Docker build context. */
   build?: BuildContext;
   /**
@@ -3179,10 +3183,10 @@ export interface EnvironmentVersionProperties extends AssetBase {
   inferenceConfig?: InferenceContainerProperties;
   /** The OS type of the environment. */
   osType?: OperatingSystemType;
-}
+};
 
 /** Model asset version details. */
-export interface ModelVersionProperties extends AssetBase {
+export type ModelVersionProperties = AssetBase & {
   /** Mapping of model flavors to their properties. */
   flavors?: { [propertyName: string]: FlavorData | null };
   /** Name of the training job which produced this model */
@@ -3191,10 +3195,10 @@ export interface ModelVersionProperties extends AssetBase {
   modelType?: string;
   /** The URI path to the model contents. */
   modelUri?: string;
-}
+};
 
 /** Azure Blob datastore configuration. */
-export interface AzureBlobDatastore extends DatastoreProperties {
+export type AzureBlobDatastore = DatastoreProperties & {
   /** Storage account name. */
   accountName?: string;
   /** Storage account container name. */
@@ -3205,18 +3209,18 @@ export interface AzureBlobDatastore extends DatastoreProperties {
   protocol?: string;
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
+};
 
 /** Azure Data Lake Gen1 datastore configuration. */
-export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
+export type AzureDataLakeGen1Datastore = DatastoreProperties & {
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
   /** [Required] Azure Data Lake store name. */
   storeName: string;
-}
+};
 
 /** Azure Data Lake Gen2 datastore configuration. */
-export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
+export type AzureDataLakeGen2Datastore = DatastoreProperties & {
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3227,10 +3231,10 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
   protocol?: string;
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
+};
 
 /** Azure File datastore configuration. */
-export interface AzureFileDatastore extends DatastoreProperties {
+export type AzureFileDatastore = DatastoreProperties & {
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3241,10 +3245,10 @@ export interface AzureFileDatastore extends DatastoreProperties {
   protocol?: string;
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
+};
 
 /** Command job definition. */
-export interface CommandJob extends JobBaseProperties {
+export type CommandJob = JobBaseProperties & {
   /** ARM resource ID of the code asset. */
   codeId?: string;
   /** [Required] The command to execute on startup of the job. eg. "python train.py" */
@@ -3268,10 +3272,10 @@ export interface CommandJob extends JobBaseProperties {
   readonly parameters?: Record<string, unknown>;
   /** Compute Resource configuration for the job. */
   resources?: ResourceConfiguration;
-}
+};
 
 /** Pipeline Job definition: defines generic to MFE attributes. */
-export interface PipelineJob extends JobBaseProperties {
+export type PipelineJob = JobBaseProperties & {
   /** Inputs for the pipeline job. */
   inputs?: { [propertyName: string]: JobInputUnion | null };
   /** Jobs construct the Pipeline Job. */
@@ -3280,10 +3284,10 @@ export interface PipelineJob extends JobBaseProperties {
   outputs?: { [propertyName: string]: JobOutputUnion | null };
   /** Pipeline settings, for things like ContinueRunOnStepFailure etc. */
   settings?: Record<string, unknown>;
-}
+};
 
 /** Sweep job definition. */
-export interface SweepJob extends JobBaseProperties {
+export type SweepJob = JobBaseProperties & {
   /** Early termination policies enable canceling poor-performing runs before they complete */
   earlyTermination?: EarlyTerminationPolicyUnion;
   /** Mapping of input data bindings used in the job. */
@@ -3300,19 +3304,19 @@ export interface SweepJob extends JobBaseProperties {
   searchSpace: Record<string, unknown>;
   /** [Required] Trial component definition. */
   trial: TrialComponent;
-}
+};
 
 /** MLTable data definition */
-export interface MLTableData extends DataVersionBaseProperties {
+export type MLTableData = DataVersionBaseProperties & {
   /** Uris referenced in the MLTable definition (required for lineage) */
   referencedUris?: string[];
-}
+};
 
 /** uri-file data version entity */
-export interface UriFileDataVersion extends DataVersionBaseProperties {}
+export type UriFileDataVersion = DataVersionBaseProperties & {};
 
 /** uri-folder data version entity */
-export interface UriFolderDataVersion extends DataVersionBaseProperties {}
+export type UriFolderDataVersion = DataVersionBaseProperties & {};
 
 /** Defines headers for Workspaces_diagnose operation. */
 export interface WorkspacesDiagnoseHeaders {
@@ -3476,19 +3480,12 @@ export interface OnlineDeploymentsCreateOrUpdateHeaders {
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Unknown */
   Unknown = "Unknown",
-  /** Updating */
   Updating = "Updating",
-  /** Creating */
   Creating = "Creating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -3509,9 +3506,7 @@ export type ProvisioningState = string;
 
 /** Known values of {@link EncryptionStatus} that the service accepts. */
 export enum KnownEncryptionStatus {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3527,9 +3522,7 @@ export type EncryptionStatus = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3545,15 +3538,10 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
   Pending = "Pending",
-  /** Approved */
   Approved = "Approved",
-  /** Rejected */
   Rejected = "Rejected",
-  /** Disconnected */
   Disconnected = "Disconnected",
-  /** Timeout */
   Timeout = "Timeout"
 }
 
@@ -3572,13 +3560,9 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Creating */
   Creating = "Creating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -3596,13 +3580,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
-  /** None */
   None = "None",
-  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
   UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -3620,13 +3600,9 @@ export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** User */
   User = "User",
-  /** Application */
   Application = "Application",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
   Key = "Key"
 }
 
@@ -3644,11 +3620,8 @@ export type CreatedByType = string;
 
 /** Known values of {@link DiagnoseResultLevel} that the service accepts. */
 export enum KnownDiagnoseResultLevel {
-  /** Warning */
   Warning = "Warning",
-  /** Error */
   Error = "Error",
-  /** Information */
   Information = "Information"
 }
 
@@ -3665,7 +3638,6 @@ export type DiagnoseResultLevel = string;
 
 /** Known values of {@link UsageUnit} that the service accepts. */
 export enum KnownUsageUnit {
-  /** Count */
   Count = "Count"
 }
 
@@ -3680,7 +3652,6 @@ export type UsageUnit = string;
 
 /** Known values of {@link BillingCurrency} that the service accepts. */
 export enum KnownBillingCurrency {
-  /** USD */
   USD = "USD"
 }
 
@@ -3695,7 +3666,6 @@ export type BillingCurrency = string;
 
 /** Known values of {@link UnitOfMeasure} that the service accepts. */
 export enum KnownUnitOfMeasure {
-  /** OneHour */
   OneHour = "OneHour"
 }
 
@@ -3710,9 +3680,7 @@ export type UnitOfMeasure = string;
 
 /** Known values of {@link VMPriceOSType} that the service accepts. */
 export enum KnownVMPriceOSType {
-  /** Linux */
   Linux = "Linux",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -3728,11 +3696,8 @@ export type VMPriceOSType = string;
 
 /** Known values of {@link VMTier} that the service accepts. */
 export enum KnownVMTier {
-  /** Standard */
   Standard = "Standard",
-  /** LowPriority */
   LowPriority = "LowPriority",
-  /** Spot */
   Spot = "Spot"
 }
 
@@ -3749,7 +3714,6 @@ export type VMTier = string;
 
 /** Known values of {@link QuotaUnit} that the service accepts. */
 export enum KnownQuotaUnit {
-  /** Count */
   Count = "Count"
 }
 
@@ -3764,21 +3728,13 @@ export type QuotaUnit = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
-  /** Undefined */
   Undefined = "Undefined",
-  /** Success */
   Success = "Success",
-  /** Failure */
   Failure = "Failure",
-  /** InvalidQuotaBelowClusterMinimum */
   InvalidQuotaBelowClusterMinimum = "InvalidQuotaBelowClusterMinimum",
-  /** InvalidQuotaExceedsSubscriptionLimit */
   InvalidQuotaExceedsSubscriptionLimit = "InvalidQuotaExceedsSubscriptionLimit",
-  /** InvalidVMFamilyName */
   InvalidVMFamilyName = "InvalidVMFamilyName",
-  /** OperationNotSupportedForSku */
   OperationNotSupportedForSku = "OperationNotSupportedForSku",
-  /** OperationNotEnabledForRegion */
   OperationNotEnabledForRegion = "OperationNotEnabledForRegion"
 }
 
@@ -3800,25 +3756,15 @@ export type Status = string;
 
 /** Known values of {@link ComputeType} that the service accepts. */
 export enum KnownComputeType {
-  /** AKS */
   AKS = "AKS",
-  /** Kubernetes */
   Kubernetes = "Kubernetes",
-  /** AmlCompute */
   AmlCompute = "AmlCompute",
-  /** ComputeInstance */
   ComputeInstance = "ComputeInstance",
-  /** DataFactory */
   DataFactory = "DataFactory",
-  /** VirtualMachine */
   VirtualMachine = "VirtualMachine",
-  /** HDInsight */
   HDInsight = "HDInsight",
-  /** Databricks */
   Databricks = "Databricks",
-  /** DataLakeAnalytics */
   DataLakeAnalytics = "DataLakeAnalytics",
-  /** SynapseSpark */
   SynapseSpark = "SynapseSpark"
 }
 
@@ -3842,9 +3788,7 @@ export type ComputeType = string;
 
 /** Known values of {@link UnderlyingResourceAction} that the service accepts. */
 export enum KnownUnderlyingResourceAction {
-  /** Delete */
   Delete = "Delete",
-  /** Detach */
   Detach = "Detach"
 }
 
@@ -3860,17 +3804,11 @@ export type UnderlyingResourceAction = string;
 
 /** Known values of {@link NodeState} that the service accepts. */
 export enum KnownNodeState {
-  /** Idle */
   Idle = "idle",
-  /** Running */
   Running = "running",
-  /** Preparing */
   Preparing = "preparing",
-  /** Unusable */
   Unusable = "unusable",
-  /** Leaving */
   Leaving = "leaving",
-  /** Preempted */
   Preempted = "preempted"
 }
 
@@ -3890,15 +3828,10 @@ export type NodeState = string;
 
 /** Known values of {@link ConnectionAuthType} that the service accepts. */
 export enum KnownConnectionAuthType {
-  /** PAT */
   PAT = "PAT",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** UsernamePassword */
   UsernamePassword = "UsernamePassword",
-  /** None */
   None = "None",
-  /** SAS */
   SAS = "SAS"
 }
 
@@ -3917,11 +3850,8 @@ export type ConnectionAuthType = string;
 
 /** Known values of {@link ConnectionCategory} that the service accepts. */
 export enum KnownConnectionCategory {
-  /** PythonFeed */
   PythonFeed = "PythonFeed",
-  /** ContainerRegistry */
   ContainerRegistry = "ContainerRegistry",
-  /** Git */
   Git = "Git"
 }
 
@@ -3938,7 +3868,6 @@ export type ConnectionCategory = string;
 
 /** Known values of {@link ValueFormat} that the service accepts. */
 export enum KnownValueFormat {
-  /** Json */
   Json = "JSON"
 }
 
@@ -3953,17 +3882,11 @@ export type ValueFormat = string;
 
 /** Known values of {@link EndpointProvisioningState} that the service accepts. */
 export enum KnownEndpointProvisioningState {
-  /** Creating */
   Creating = "Creating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Updating */
   Updating = "Updating",
-  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -3983,11 +3906,8 @@ export type EndpointProvisioningState = string;
 
 /** Known values of {@link EndpointAuthMode} that the service accepts. */
 export enum KnownEndpointAuthMode {
-  /** AMLToken */
   AMLToken = "AMLToken",
-  /** Key */
   Key = "Key",
-  /** AADToken */
   AADToken = "AADToken"
 }
 
@@ -4004,11 +3924,8 @@ export type EndpointAuthMode = string;
 
 /** Known values of {@link BatchLoggingLevel} that the service accepts. */
 export enum KnownBatchLoggingLevel {
-  /** Info */
   Info = "Info",
-  /** Warning */
   Warning = "Warning",
-  /** Debug */
   Debug = "Debug"
 }
 
@@ -4025,11 +3942,8 @@ export type BatchLoggingLevel = string;
 
 /** Known values of {@link ReferenceType} that the service accepts. */
 export enum KnownReferenceType {
-  /** Id */
   Id = "Id",
-  /** DataPath */
   DataPath = "DataPath",
-  /** OutputPath */
   OutputPath = "OutputPath"
 }
 
@@ -4046,9 +3960,7 @@ export type ReferenceType = string;
 
 /** Known values of {@link BatchOutputAction} that the service accepts. */
 export enum KnownBatchOutputAction {
-  /** SummaryOnly */
   SummaryOnly = "SummaryOnly",
-  /** AppendRow */
   AppendRow = "AppendRow"
 }
 
@@ -4064,19 +3976,12 @@ export type BatchOutputAction = string;
 
 /** Known values of {@link DeploymentProvisioningState} that the service accepts. */
 export enum KnownDeploymentProvisioningState {
-  /** Creating */
   Creating = "Creating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Scaling */
   Scaling = "Scaling",
-  /** Updating */
   Updating = "Updating",
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -4097,11 +4002,8 @@ export type DeploymentProvisioningState = string;
 
 /** Known values of {@link ListViewType} that the service accepts. */
 export enum KnownListViewType {
-  /** ActiveOnly */
   ActiveOnly = "ActiveOnly",
-  /** ArchivedOnly */
   ArchivedOnly = "ArchivedOnly",
-  /** All */
   All = "All"
 }
 
@@ -4118,11 +4020,8 @@ export type ListViewType = string;
 
 /** Known values of {@link DataType} that the service accepts. */
 export enum KnownDataType {
-  /** UriFile */
   UriFile = "uri_file",
-  /** UriFolder */
   UriFolder = "uri_folder",
-  /** Mltable */
   Mltable = "mltable"
 }
 
@@ -4139,15 +4038,10 @@ export type DataType = string;
 
 /** Known values of {@link CredentialsType} that the service accepts. */
 export enum KnownCredentialsType {
-  /** AccountKey */
   AccountKey = "AccountKey",
-  /** Certificate */
   Certificate = "Certificate",
-  /** None */
   None = "None",
-  /** Sas */
   Sas = "Sas",
-  /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal"
 }
 
@@ -4166,13 +4060,9 @@ export type CredentialsType = string;
 
 /** Known values of {@link DatastoreType} that the service accepts. */
 export enum KnownDatastoreType {
-  /** AzureBlob */
   AzureBlob = "AzureBlob",
-  /** AzureDataLakeGen1 */
   AzureDataLakeGen1 = "AzureDataLakeGen1",
-  /** AzureDataLakeGen2 */
   AzureDataLakeGen2 = "AzureDataLakeGen2",
-  /** AzureFile */
   AzureFile = "AzureFile"
 }
 
@@ -4190,13 +4080,9 @@ export type DatastoreType = string;
 
 /** Known values of {@link SecretsType} that the service accepts. */
 export enum KnownSecretsType {
-  /** AccountKey */
   AccountKey = "AccountKey",
-  /** Certificate */
   Certificate = "Certificate",
-  /** Sas */
   Sas = "Sas",
-  /** ServicePrincipal */
   ServicePrincipal = "ServicePrincipal"
 }
 
@@ -4214,9 +4100,7 @@ export type SecretsType = string;
 
 /** Known values of {@link EnvironmentType} that the service accepts. */
 export enum KnownEnvironmentType {
-  /** Curated */
   Curated = "Curated",
-  /** UserCreated */
   UserCreated = "UserCreated"
 }
 
@@ -4232,9 +4116,7 @@ export type EnvironmentType = string;
 
 /** Known values of {@link OperatingSystemType} that the service accepts. */
 export enum KnownOperatingSystemType {
-  /** Linux */
   Linux = "Linux",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -4250,11 +4132,8 @@ export type OperatingSystemType = string;
 
 /** Known values of {@link IdentityConfigurationType} that the service accepts. */
 export enum KnownIdentityConfigurationType {
-  /** Managed */
   Managed = "Managed",
-  /** AMLToken */
   AMLToken = "AMLToken",
-  /** UserIdentity */
   UserIdentity = "UserIdentity"
 }
 
@@ -4271,11 +4150,8 @@ export type IdentityConfigurationType = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
-  /** Command */
   Command = "Command",
-  /** Sweep */
   Sweep = "Sweep",
-  /** Pipeline */
   Pipeline = "Pipeline"
 }
 
@@ -4350,11 +4226,8 @@ export type JobStatus = string;
 
 /** Known values of {@link EndpointComputeType} that the service accepts. */
 export enum KnownEndpointComputeType {
-  /** Managed */
   Managed = "Managed",
-  /** Kubernetes */
   Kubernetes = "Kubernetes",
-  /** AzureMLCompute */
   AzureMLCompute = "AzureMLCompute"
 }
 
@@ -4371,13 +4244,9 @@ export type EndpointComputeType = string;
 
 /** Known values of {@link OrderString} that the service accepts. */
 export enum KnownOrderString {
-  /** CreatedAtDesc */
   CreatedAtDesc = "CreatedAtDesc",
-  /** CreatedAtAsc */
   CreatedAtAsc = "CreatedAtAsc",
-  /** UpdatedAtDesc */
   UpdatedAtDesc = "UpdatedAtDesc",
-  /** UpdatedAtAsc */
   UpdatedAtAsc = "UpdatedAtAsc"
 }
 
@@ -4395,9 +4264,7 @@ export type OrderString = string;
 
 /** Known values of {@link ScaleType} that the service accepts. */
 export enum KnownScaleType {
-  /** Default */
   Default = "Default",
-  /** TargetUtilization */
   TargetUtilization = "TargetUtilization"
 }
 
@@ -4413,9 +4280,7 @@ export type ScaleType = string;
 
 /** Known values of {@link ContainerType} that the service accepts. */
 export enum KnownContainerType {
-  /** StorageInitializer */
   StorageInitializer = "StorageInitializer",
-  /** InferenceServer */
   InferenceServer = "InferenceServer"
 }
 
@@ -4452,9 +4317,7 @@ export type SkuScaleType = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
-  /** Primary */
   Primary = "Primary",
-  /** Secondary */
   Secondary = "Secondary"
 }
 
@@ -4470,11 +4333,8 @@ export type KeyType = string;
 
 /** Known values of {@link ClusterPurpose} that the service accepts. */
 export enum KnownClusterPurpose {
-  /** FastProd */
   FastProd = "FastProd",
-  /** DenseProd */
   DenseProd = "DenseProd",
-  /** DevTest */
   DevTest = "DevTest"
 }
 
@@ -4491,11 +4351,8 @@ export type ClusterPurpose = string;
 
 /** Known values of {@link SslConfigStatus} that the service accepts. */
 export enum KnownSslConfigStatus {
-  /** Disabled */
   Disabled = "Disabled",
-  /** Enabled */
   Enabled = "Enabled",
-  /** Auto */
   Auto = "Auto"
 }
 
@@ -4512,9 +4369,7 @@ export type SslConfigStatus = string;
 
 /** Known values of {@link LoadBalancerType} that the service accepts. */
 export enum KnownLoadBalancerType {
-  /** PublicIp */
   PublicIp = "PublicIp",
-  /** InternalLoadBalancer */
   InternalLoadBalancer = "InternalLoadBalancer"
 }
 
@@ -4530,9 +4385,7 @@ export type LoadBalancerType = string;
 
 /** Known values of {@link OsType} that the service accepts. */
 export enum KnownOsType {
-  /** Linux */
   Linux = "Linux",
-  /** Windows */
   Windows = "Windows"
 }
 
@@ -4548,9 +4401,7 @@ export type OsType = string;
 
 /** Known values of {@link VmPriority} that the service accepts. */
 export enum KnownVmPriority {
-  /** Dedicated */
   Dedicated = "Dedicated",
-  /** LowPriority */
   LowPriority = "LowPriority"
 }
 
@@ -4566,11 +4417,8 @@ export type VmPriority = string;
 
 /** Known values of {@link RemoteLoginPortPublicAccess} that the service accepts. */
 export enum KnownRemoteLoginPortPublicAccess {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled",
-  /** NotSpecified */
   NotSpecified = "NotSpecified"
 }
 
@@ -4587,9 +4435,7 @@ export type RemoteLoginPortPublicAccess = string;
 
 /** Known values of {@link AllocationState} that the service accepts. */
 export enum KnownAllocationState {
-  /** Steady */
   Steady = "Steady",
-  /** Resizing */
   Resizing = "Resizing"
 }
 
@@ -4605,9 +4451,7 @@ export type AllocationState = string;
 
 /** Known values of {@link ApplicationSharingPolicy} that the service accepts. */
 export enum KnownApplicationSharingPolicy {
-  /** Personal */
   Personal = "Personal",
-  /** Shared */
   Shared = "Shared"
 }
 
@@ -4623,9 +4467,7 @@ export type ApplicationSharingPolicy = string;
 
 /** Known values of {@link SshPublicAccess} that the service accepts. */
 export enum KnownSshPublicAccess {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -4641,35 +4483,20 @@ export type SshPublicAccess = string;
 
 /** Known values of {@link ComputeInstanceState} that the service accepts. */
 export enum KnownComputeInstanceState {
-  /** Creating */
   Creating = "Creating",
-  /** CreateFailed */
   CreateFailed = "CreateFailed",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Running */
   Running = "Running",
-  /** Restarting */
   Restarting = "Restarting",
-  /** JobRunning */
   JobRunning = "JobRunning",
-  /** SettingUp */
   SettingUp = "SettingUp",
-  /** SetupFailed */
   SetupFailed = "SetupFailed",
-  /** Starting */
   Starting = "Starting",
-  /** Stopped */
   Stopped = "Stopped",
-  /** Stopping */
   Stopping = "Stopping",
-  /** UserSettingUp */
   UserSettingUp = "UserSettingUp",
-  /** UserSetupFailed */
   UserSetupFailed = "UserSetupFailed",
-  /** Unknown */
   Unknown = "Unknown",
-  /** Unusable */
   Unusable = "Unusable"
 }
 
@@ -4698,7 +4525,6 @@ export type ComputeInstanceState = string;
 
 /** Known values of {@link ComputeInstanceAuthorizationType} that the service accepts. */
 export enum KnownComputeInstanceAuthorizationType {
-  /** Personal */
   Personal = "personal"
 }
 
@@ -4713,17 +4539,11 @@ export type ComputeInstanceAuthorizationType = string;
 
 /** Known values of {@link OperationName} that the service accepts. */
 export enum KnownOperationName {
-  /** Create */
   Create = "Create",
-  /** Start */
   Start = "Start",
-  /** Stop */
   Stop = "Stop",
-  /** Restart */
   Restart = "Restart",
-  /** Reimage */
   Reimage = "Reimage",
-  /** Delete */
   Delete = "Delete"
 }
 
@@ -4743,21 +4563,13 @@ export type OperationName = string;
 
 /** Known values of {@link OperationStatus} that the service accepts. */
 export enum KnownOperationStatus {
-  /** InProgress */
   InProgress = "InProgress",
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** CreateFailed */
   CreateFailed = "CreateFailed",
-  /** StartFailed */
   StartFailed = "StartFailed",
-  /** StopFailed */
   StopFailed = "StopFailed",
-  /** RestartFailed */
   RestartFailed = "RestartFailed",
-  /** ReimageFailed */
   ReimageFailed = "ReimageFailed",
-  /** DeleteFailed */
   DeleteFailed = "DeleteFailed"
 }
 
@@ -4779,11 +4591,8 @@ export type OperationStatus = string;
 
 /** Known values of {@link OperationTrigger} that the service accepts. */
 export enum KnownOperationTrigger {
-  /** User */
   User = "User",
-  /** Schedule */
   Schedule = "Schedule",
-  /** IdleShutdown */
   IdleShutdown = "IdleShutdown"
 }
 
@@ -4800,11 +4609,8 @@ export type OperationTrigger = string;
 
 /** Known values of {@link ProvisioningStatus} that the service accepts. */
 export enum KnownProvisioningStatus {
-  /** Completed */
   Completed = "Completed",
-  /** Provisioning */
   Provisioning = "Provisioning",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -4821,9 +4627,7 @@ export type ProvisioningStatus = string;
 
 /** Known values of {@link ComputePowerAction} that the service accepts. */
 export enum KnownComputePowerAction {
-  /** Start */
   Start = "Start",
-  /** Stop */
   Stop = "Stop"
 }
 
@@ -4839,11 +4643,8 @@ export type ComputePowerAction = string;
 
 /** Known values of {@link ScheduleProvisioningState} that the service accepts. */
 export enum KnownScheduleProvisioningState {
-  /** Completed */
   Completed = "Completed",
-  /** Provisioning */
   Provisioning = "Provisioning",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -4860,9 +4661,7 @@ export type ScheduleProvisioningState = string;
 
 /** Known values of {@link ScheduleStatus} that the service accepts. */
 export enum KnownScheduleStatus {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -4878,11 +4677,8 @@ export type ScheduleStatus = string;
 
 /** Known values of {@link Autosave} that the service accepts. */
 export enum KnownAutosave {
-  /** None */
   None = "None",
-  /** Local */
   Local = "Local",
-  /** Remote */
   Remote = "Remote"
 }
 
@@ -4899,9 +4695,7 @@ export type Autosave = string;
 
 /** Known values of {@link Network} that the service accepts. */
 export enum KnownNetwork {
-  /** Bridge */
   Bridge = "Bridge",
-  /** Host */
   Host = "Host"
 }
 
@@ -4917,11 +4711,8 @@ export type Network = string;
 
 /** Known values of {@link Caching} that the service accepts. */
 export enum KnownCaching {
-  /** None */
   None = "None",
-  /** ReadOnly */
   ReadOnly = "ReadOnly",
-  /** ReadWrite */
   ReadWrite = "ReadWrite"
 }
 
@@ -4938,9 +4729,7 @@ export type Caching = string;
 
 /** Known values of {@link StorageAccountType} that the service accepts. */
 export enum KnownStorageAccountType {
-  /** StandardLRS */
   StandardLRS = "Standard_LRS",
-  /** PremiumLRS */
   PremiumLRS = "Premium_LRS"
 }
 
@@ -4956,11 +4745,8 @@ export type StorageAccountType = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
-  /** Dataset */
   Dataset = "Dataset",
-  /** Datastore */
   Datastore = "Datastore",
-  /** URI */
   URI = "URI"
 }
 
@@ -4977,9 +4763,7 @@ export type SourceType = string;
 
 /** Known values of {@link MountAction} that the service accepts. */
 export enum KnownMountAction {
-  /** Mount */
   Mount = "Mount",
-  /** Unmount */
   Unmount = "Unmount"
 }
 
@@ -4995,17 +4779,11 @@ export type MountAction = string;
 
 /** Known values of {@link MountState} that the service accepts. */
 export enum KnownMountState {
-  /** MountRequested */
   MountRequested = "MountRequested",
-  /** Mounted */
   Mounted = "Mounted",
-  /** MountFailed */
   MountFailed = "MountFailed",
-  /** UnmountRequested */
   UnmountRequested = "UnmountRequested",
-  /** UnmountFailed */
   UnmountFailed = "UnmountFailed",
-  /** Unmounted */
   Unmounted = "Unmounted"
 }
 
@@ -5025,17 +4803,11 @@ export type MountState = string;
 
 /** Known values of {@link InputDeliveryMode} that the service accepts. */
 export enum KnownInputDeliveryMode {
-  /** ReadOnlyMount */
   ReadOnlyMount = "ReadOnlyMount",
-  /** ReadWriteMount */
   ReadWriteMount = "ReadWriteMount",
-  /** Download */
   Download = "Download",
-  /** Direct */
   Direct = "Direct",
-  /** EvalMount */
   EvalMount = "EvalMount",
-  /** EvalDownload */
   EvalDownload = "EvalDownload"
 }
 
@@ -5055,9 +4827,7 @@ export type InputDeliveryMode = string;
 
 /** Known values of {@link OutputDeliveryMode} that the service accepts. */
 export enum KnownOutputDeliveryMode {
-  /** ReadWriteMount */
   ReadWriteMount = "ReadWriteMount",
-  /** Upload */
   Upload = "Upload"
 }
 
@@ -5094,11 +4864,8 @@ export type ServiceDataAccessAuthIdentity = string;
 
 /** Known values of {@link EarlyTerminationPolicyType} that the service accepts. */
 export enum KnownEarlyTerminationPolicyType {
-  /** Bandit */
   Bandit = "Bandit",
-  /** MedianStopping */
   MedianStopping = "MedianStopping",
-  /** TruncationSelection */
   TruncationSelection = "TruncationSelection"
 }
 
@@ -5115,11 +4882,8 @@ export type EarlyTerminationPolicyType = string;
 
 /** Known values of {@link SamplingAlgorithmType} that the service accepts. */
 export enum KnownSamplingAlgorithmType {
-  /** Grid */
   Grid = "Grid",
-  /** Random */
   Random = "Random",
-  /** Bayesian */
   Bayesian = "Bayesian"
 }
 
@@ -5136,11 +4900,8 @@ export type SamplingAlgorithmType = string;
 
 /** Known values of {@link DistributionType} that the service accepts. */
 export enum KnownDistributionType {
-  /** PyTorch */
   PyTorch = "PyTorch",
-  /** TensorFlow */
   TensorFlow = "TensorFlow",
-  /** Mpi */
   Mpi = "Mpi"
 }
 
@@ -5157,19 +4918,12 @@ export type DistributionType = string;
 
 /** Known values of {@link JobInputType} that the service accepts. */
 export enum KnownJobInputType {
-  /** Literal */
   Literal = "literal",
-  /** UriFile */
   UriFile = "uri_file",
-  /** UriFolder */
   UriFolder = "uri_folder",
-  /** Mltable */
   Mltable = "mltable",
-  /** CustomModel */
   CustomModel = "custom_model",
-  /** MlflowModel */
   MlflowModel = "mlflow_model",
-  /** TritonModel */
   TritonModel = "triton_model"
 }
 
@@ -5190,9 +4944,7 @@ export type JobInputType = string;
 
 /** Known values of {@link JobLimitsType} that the service accepts. */
 export enum KnownJobLimitsType {
-  /** Command */
   Command = "Command",
-  /** Sweep */
   Sweep = "Sweep"
 }
 
@@ -5208,17 +4960,11 @@ export type JobLimitsType = string;
 
 /** Known values of {@link JobOutputType} that the service accepts. */
 export enum KnownJobOutputType {
-  /** UriFile */
   UriFile = "uri_file",
-  /** UriFolder */
   UriFolder = "uri_folder",
-  /** Mltable */
   Mltable = "mltable",
-  /** CustomModel */
   CustomModel = "custom_model",
-  /** MlflowModel */
   MlflowModel = "mlflow_model",
-  /** TritonModel */
   TritonModel = "triton_model"
 }
 
@@ -5238,9 +4984,7 @@ export type JobOutputType = string;
 
 /** Known values of {@link Goal} that the service accepts. */
 export enum KnownGoal {
-  /** Minimize */
   Minimize = "Minimize",
-  /** Maximize */
   Maximize = "Maximize"
 }
 
@@ -5256,9 +5000,7 @@ export type Goal = string;
 
 /** Known values of {@link RandomSamplingAlgorithmRule} that the service accepts. */
 export enum KnownRandomSamplingAlgorithmRule {
-  /** Random */
   Random = "Random",
-  /** Sobol */
   Sobol = "Sobol"
 }
 
@@ -5558,6 +5300,10 @@ export interface ComputeRestartOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ComputeUpdateIdleShutdownSettingOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ComputeListNextOptionalParams
