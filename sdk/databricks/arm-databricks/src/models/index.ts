@@ -468,6 +468,62 @@ export interface VirtualNetworkPeeringList {
   nextLink?: string;
 }
 
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+export interface AccessConnectorProperties {
+  /**
+   * Provisioning status of the accessConnector.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/** An update to an azure databricks accessConnector. */
+export interface AccessConnectorUpdate {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+}
+
+/** List of azure databricks accessConnector. */
+export interface AccessConnectorListResult {
+  /** The array of azure databricks accessConnector. */
+  value?: AccessConnector[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
 /** The resource model definition for a ARM tracked top level resource */
 export type TrackedResource = Resource & {
   /** Resource tags. */
@@ -536,6 +592,14 @@ export type Workspace = TrackedResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Gets or sets a value indicating whether data plane (clusters) to control plane communication happen over private endpoint. Supported values are 'AllRules' and 'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. */
   requiredNsgRules?: RequiredNsgRules;
+};
+
+/** Information about azure databricks accessConnector. */
+export type AccessConnector = TrackedResource & {
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** Azure Databricks accessConnector properties */
+  properties?: AccessConnectorProperties;
 };
 
 /** Known values of {@link CustomParameterType} that the service accepts. */
@@ -754,6 +818,26 @@ export enum KnownPeeringProvisioningState {
  */
 export type PeeringProvisioningState = string;
 
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
+
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -947,6 +1031,74 @@ export interface VNetPeeringListByWorkspaceNextOptionalParams
 
 /** Contains response data for the listByWorkspaceNext operation. */
 export type VNetPeeringListByWorkspaceNextResponse = VirtualNetworkPeeringList;
+
+/** Optional parameters. */
+export interface AccessConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AccessConnectorsGetResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface AccessConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AccessConnectorsCreateOrUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type AccessConnectorsUpdateResponse = AccessConnector;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type AccessConnectorsListByResourceGroupResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type AccessConnectorsListBySubscriptionResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type AccessConnectorsListByResourceGroupNextResponse = AccessConnectorListResult;
+
+/** Optional parameters. */
+export interface AccessConnectorsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AccessConnectorsListBySubscriptionNextResponse = AccessConnectorListResult;
 
 /** Optional parameters. */
 export interface AzureDatabricksManagementClientOptionalParams
