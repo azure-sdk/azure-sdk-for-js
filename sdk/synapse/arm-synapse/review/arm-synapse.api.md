@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ActualState = "Enabling" | "Enabled" | "Disabling" | "Disabled" | "Unknown";
+
+// @public
 export type AttachedDatabaseConfiguration = ProxyResource & {
     location?: string;
     readonly systemData?: SystemData;
@@ -576,6 +579,9 @@ export interface DedicatedSQLminimalTlsSettingsPatchInfo {
 
 // @public
 export type DefaultPrincipalsModificationKind = string;
+
+// @public
+export type DesiredState = "Enabled" | "Disabled";
 
 // @public
 export interface DynamicExecutorAllocation {
@@ -1847,28 +1853,6 @@ export enum KnownLanguageExtensionName {
 }
 
 // @public
-export enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState {
-    // (undocumented)
-    Disabled = "Disabled",
-    // (undocumented)
-    Disabling = "Disabling",
-    // (undocumented)
-    Enabled = "Enabled",
-    // (undocumented)
-    Enabling = "Enabling",
-    // (undocumented)
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState {
-    // (undocumented)
-    Disabled = "Disabled",
-    // (undocumented)
-    Enabled = "Enabled"
-}
-
-// @public
 export enum KnownManagedIntegrationRuntimeNodeStatus {
     // (undocumented)
     Available = "Available",
@@ -2781,15 +2765,9 @@ export type ManagedIdentitySqlControlSettingsModel = ProxyResource & {
 
 // @public
 export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity {
-    readonly actualState?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState;
-    desiredState?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState;
+    readonly actualState?: ActualState;
+    desiredState?: DesiredState;
 }
-
-// @public
-export type ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState = string;
-
-// @public
-export type ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState = string;
 
 // @public
 export type ManagedIntegrationRuntime = IntegrationRuntime & {

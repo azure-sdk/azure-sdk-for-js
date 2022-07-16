@@ -2564,14 +2564,22 @@ export const ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToMa
       desiredState: {
         serializedName: "desiredState",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       actualState: {
         serializedName: "actualState",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Enabling",
+            "Enabled",
+            "Disabling",
+            "Disabled",
+            "Unknown"
+          ]
         }
       }
     }
