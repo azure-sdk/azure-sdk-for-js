@@ -1770,6 +1770,11 @@
       "packageName": "@azure/arm-networkfunction",
       "projectFolder": "sdk/networkfunction/arm-networkfunction",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-chaos",
+      "projectFolder": "sdk/chaos/arm-chaos",
+      "versionPolicyName": "management"
     }
   ]
 }
