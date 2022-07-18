@@ -14,6 +14,8 @@ import {
   ProductsGetResponse,
   ProductsListDetailsOptionalParams,
   ProductsListDetailsResponse,
+  ProductsListProductsOptionalParams,
+  ProductsListProductsResponse,
   ProductsGetProductsOptionalParams,
   ProductsGetProductsResponse,
   ProductsGetProductOptionalParams,
@@ -62,6 +64,19 @@ export interface Products {
     productName: string,
     options?: ProductsListDetailsOptionalParams
   ): Promise<ProductsListDetailsResponse>;
+  /**
+   * Returns a list of products.
+   * @param resourceGroup Name of the resource group.
+   * @param registrationName Name of the Azure Stack registration.
+   * @param productName Name of the product.
+   * @param options The options parameters.
+   */
+  listProducts(
+    resourceGroup: string,
+    registrationName: string,
+    productName: string,
+    options?: ProductsListProductsOptionalParams
+  ): Promise<ProductsListProductsResponse>;
   /**
    * Returns a list of products.
    * @param resourceGroup Name of the resource group.

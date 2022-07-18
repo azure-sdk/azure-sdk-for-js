@@ -12,11 +12,11 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  DeploymentLicenseRequest as DeploymentLicenseRequestMapper,
   CustomerSubscription as CustomerSubscriptionMapper,
   DeviceConfiguration as DeviceConfigurationMapper,
   MarketplaceProductLogUpdate as MarketplaceProductLogUpdateMapper,
-  RegistrationParameter as RegistrationParameterMapper,
-  LinkedSubscriptionParameter as LinkedSubscriptionParameterMapper
+  RegistrationParameter as RegistrationParameterMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-06-01-preview",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -86,6 +86,23 @@ export const versionCreationDate: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const deploymentLicenseRequest: OperationParameter = {
+  parameterPath: "deploymentLicenseRequest",
+  mapper: DeploymentLicenseRequestMapper
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -132,18 +149,6 @@ export const customerSubscriptionName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const customerCreationParameters: OperationParameter = {
   parameterPath: "customerCreationParameters",
   mapper: CustomerSubscriptionMapper
@@ -173,20 +178,4 @@ export const marketplaceProductLogUpdate: OperationParameter = {
 export const token: OperationParameter = {
   parameterPath: "token",
   mapper: RegistrationParameterMapper
-};
-
-export const linkedSubscriptionName: OperationURLParameter = {
-  parameterPath: "linkedSubscriptionName",
-  mapper: {
-    serializedName: "linkedSubscriptionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resource: OperationParameter = {
-  parameterPath: "resource",
-  mapper: LinkedSubscriptionParameterMapper
 };

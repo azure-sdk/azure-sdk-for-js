@@ -25,7 +25,7 @@ export class AzureStackManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     customerSubscriptions: CustomerSubscriptions;
     // (undocumented)
-    linkedSubscriptions: LinkedSubscriptions;
+    deploymentLicense: DeploymentLicense;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -101,11 +101,7 @@ export type CompatibilityIssue = string;
 export type ComputeRole = string;
 
 // @public
-export type CreatedByType = string;
-
-// @public
 export type CustomerSubscription = Resource & {
-    readonly systemData?: SystemData;
     tenantId?: string;
 };
 
@@ -159,6 +155,29 @@ export type CustomerSubscriptionsListResponse = CustomerSubscriptionList;
 export interface DataDiskImage {
     readonly lun?: number;
     readonly sourceBlobSasUri?: string;
+}
+
+// @public
+export interface DeploymentLicense {
+    create(deploymentLicenseRequest: DeploymentLicenseRequest, options?: DeploymentLicenseCreateOptionalParams): Promise<DeploymentLicenseCreateResponse>;
+}
+
+// @public
+export interface DeploymentLicenseCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeploymentLicenseCreateResponse = DeploymentLicenseResponse;
+
+// @public
+export interface DeploymentLicenseRequest {
+    verificationVersion?: string;
+}
+
+// @public
+export interface DeploymentLicenseResponse {
+    signature?: string;
+    temporaryLicenseChain?: string[];
 }
 
 // @public
@@ -258,18 +277,6 @@ export enum KnownComputeRole {
 }
 
 // @public
-export enum KnownCreatedByType {
-    // (undocumented)
-    Application = "Application",
-    // (undocumented)
-    Key = "Key",
-    // (undocumented)
-    ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
-    User = "User"
-}
-
-// @public
 export enum KnownLocation {
     // (undocumented)
     Global = "global"
@@ -284,93 +291,6 @@ export enum KnownOperatingSystem {
     // (undocumented)
     Windows = "Windows"
 }
-
-// @public
-export type LinkedSubscription = TrackedResource & {
-    linkedSubscriptionId?: string;
-    registrationResourceId?: string;
-    readonly deviceId?: string;
-    readonly deviceObjectId?: string;
-    readonly deviceLinkState?: string;
-    readonly lastConnectedTime?: string;
-    readonly deviceConnectionStatus?: string;
-};
-
-// @public
-export interface LinkedSubscriptionParameter {
-    linkedSubscriptionId: string;
-    location: Location_2;
-    registrationResourceId: string;
-}
-
-// @public
-export interface LinkedSubscriptions {
-    createOrUpdate(resourceGroup: string, linkedSubscriptionName: string, resource: LinkedSubscriptionParameter, options?: LinkedSubscriptionsCreateOrUpdateOptionalParams): Promise<LinkedSubscriptionsCreateOrUpdateResponse>;
-    delete(resourceGroup: string, linkedSubscriptionName: string, options?: LinkedSubscriptionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroup: string, linkedSubscriptionName: string, options?: LinkedSubscriptionsGetOptionalParams): Promise<LinkedSubscriptionsGetResponse>;
-    listByResourceGroup(resourceGroup: string, options?: LinkedSubscriptionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LinkedSubscription>;
-    listBySubscription(options?: LinkedSubscriptionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LinkedSubscription>;
-    update(resourceGroup: string, linkedSubscriptionName: string, resource: LinkedSubscriptionParameter, options?: LinkedSubscriptionsUpdateOptionalParams): Promise<LinkedSubscriptionsUpdateResponse>;
-}
-
-// @public
-export interface LinkedSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsCreateOrUpdateResponse = LinkedSubscription;
-
-// @public
-export interface LinkedSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface LinkedSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsGetResponse = LinkedSubscription;
-
-// @public
-export interface LinkedSubscriptionsList {
-    nextLink?: string;
-    value?: LinkedSubscription[];
-}
-
-// @public
-export interface LinkedSubscriptionsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsListByResourceGroupNextResponse = LinkedSubscriptionsList;
-
-// @public
-export interface LinkedSubscriptionsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsListByResourceGroupResponse = LinkedSubscriptionsList;
-
-// @public
-export interface LinkedSubscriptionsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsListBySubscriptionNextResponse = LinkedSubscriptionsList;
-
-// @public
-export interface LinkedSubscriptionsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsListBySubscriptionResponse = LinkedSubscriptionsList;
-
-// @public
-export interface LinkedSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LinkedSubscriptionsUpdateResponse = LinkedSubscription;
 
 // @public
 type Location_2 = string;
@@ -427,7 +347,6 @@ export interface OsDiskImage {
 
 // @public
 export type Product = Resource & {
-    readonly systemData?: SystemData;
     displayName?: string;
     description?: string;
     publisherDisplayName?: string;
@@ -487,6 +406,7 @@ export interface Products {
     getProducts(resourceGroup: string, registrationName: string, productName: string, options?: ProductsGetProductsOptionalParams): Promise<ProductsGetProductsResponse>;
     list(resourceGroup: string, registrationName: string, options?: ProductsListOptionalParams): PagedAsyncIterableIterator<Product>;
     listDetails(resourceGroup: string, registrationName: string, productName: string, options?: ProductsListDetailsOptionalParams): Promise<ProductsListDetailsResponse>;
+    listProducts(resourceGroup: string, registrationName: string, productName: string, options?: ProductsListProductsOptionalParams): Promise<ProductsListProductsResponse>;
     uploadLog(resourceGroup: string, registrationName: string, productName: string, options?: ProductsUploadLogOptionalParams): Promise<ProductsUploadLogResponse>;
 }
 
@@ -530,6 +450,14 @@ export type ProductsListNextResponse = ProductList;
 // @public
 export interface ProductsListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface ProductsListProductsOptionalParams extends coreClient.OperationOptions {
+    deviceConfiguration?: DeviceConfiguration;
+}
+
+// @public
+export type ProductsListProductsResponse = ProductList;
 
 // @public
 export type ProductsListResponse = ProductList;
@@ -649,23 +577,11 @@ export interface Resource {
 }
 
 // @public
-export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
-}
-
-// @public
 export interface TrackedResource {
     etag?: string;
     readonly id?: string;
-    readonly kind?: string;
     location: Location_2;
     readonly name?: string;
-    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };

@@ -6,7 +6,7 @@ Azure Stack
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestack/arm-azurestack) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-azurestack) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-azurestack?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-azurestack) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
