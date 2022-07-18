@@ -8,213 +8,104 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The List availabilityStatus operation response. */
-export interface AvailabilityStatusListResult {
-  /** The list of availabilityStatuses. */
-  value: AvailabilityStatus[];
-  /** The URI to fetch the next page of availabilityStatuses. Call ListNext() with this URI to fetch the next page of availabilityStatuses. */
+/** The List events operation response. */
+export interface Events {
+  /** The list of event. */
+  value: Event[];
+  /** The URI to fetch the next page of events. Call ListNext() with this URI to fetch the next page of events. */
   nextLink?: string;
 }
 
-/** availabilityStatus of a resource. */
-export interface AvailabilityStatus {
-  /** Azure Resource Manager Identity for the availabilityStatuses resource. */
-  id?: string;
-  /** current. */
-  name?: string;
-  /** Microsoft.ResourceHealth/AvailabilityStatuses. */
-  type?: string;
-  /** Azure Resource Manager geo location of the resource. */
-  location?: string;
-  /** Properties of availability state. */
-  properties?: AvailabilityStatusProperties;
+/** Article of event. */
+export interface EventPropertiesArticle {
+  /** Article content of event. */
+  articleContent?: string;
 }
 
-/** Properties of availability state. */
-export interface AvailabilityStatusProperties {
-  /** Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event */
-  availabilityState?: AvailabilityStateValues;
-  /** Summary description of the availability status. */
-  summary?: string;
-  /** Details of the availability status. */
-  detailedStatus?: string;
-  /** When the resource's availabilityState is Unavailable, it describes where the health impacting event was originated. Examples are planned, unplanned, user initiated or an outage etc. */
-  reasonType?: string;
-  /** When the resource's availabilityState is Unavailable, it provides the Timestamp for when the health impacting event was received. */
-  rootCauseAttributionTime?: Date;
-  /** In case of an availability impacting event, it describes when the health impacting event was originated. Examples are Lifecycle, Downtime, Fault Analysis etc. */
-  healthEventType?: string;
-  /** In case of an availability impacting event, it describes where the health impacting event was originated. Examples are PlatformInitiated, UserInitiated etc. */
-  healthEventCause?: string;
-  /** In case of an availability impacting event, it describes the category of a PlatformInitiated health impacting event. Examples are Planned, Unplanned etc. */
-  healthEventCategory?: string;
-  /** It is a unique Id that identifies the event */
-  healthEventId?: string;
-  /** When the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved. */
-  resolutionETA?: Date;
-  /** Timestamp for when last change in health status occurred. */
-  occuredTime?: Date;
-  /** Chronicity of the availability transition. */
-  reasonChronicity?: ReasonChronicityTypes;
-  /** Timestamp for when the health was last checked. */
-  reportedTime?: Date;
-  /** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
-  recentlyResolvedState?: AvailabilityStatusPropertiesRecentlyResolvedState;
-  /** Lists actions the user can take based on the current availabilityState of the resource. */
-  recommendedActions?: RecommendedAction[];
-  /** Lists the service impacting events that may be affecting the health of the resource. */
-  serviceImpactingEvents?: ServiceImpactingEvent[];
+/** Useful links for service health event. */
+export interface Link {
+  /** Type of link. */
+  type?: LinkTypeValues;
+  /** Display text of link. */
+  displayText?: LinkDisplayText;
+  /** It provides the name of portal extension to produce link for given service health event. */
+  extensionName?: string;
+  /** It provides the name of portal extension blade to produce link for given service health event. */
+  bladeName?: string;
+  /** It provides a map of parameter name and value for portal extension blade to produce lik for given service health event. */
+  parameters?: Record<string, unknown>;
 }
 
-/** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
-export interface AvailabilityStatusPropertiesRecentlyResolvedState {
-  /** Timestamp for when the availabilityState changed to Unavailable */
-  unavailableOccurredTime?: Date;
-  /** Timestamp when the availabilityState changes to Available. */
-  resolvedTime?: Date;
-  /** Brief description of cause of the resource becoming unavailable. */
-  unavailabilitySummary?: string;
-}
-
-/** Lists actions the user can take based on the current availabilityState of the resource. */
-export interface RecommendedAction {
-  /** Recommended action. */
-  action?: string;
-  /** Link to the action */
-  actionUrl?: string;
-  /** Substring of action, it describes which text should host the action url. */
-  actionUrlText?: string;
-}
-
-/** Lists the service impacting events that may be affecting the health of the resource. */
-export interface ServiceImpactingEvent {
-  /** Timestamp for when the event started. */
-  eventStartTime?: Date;
-  /** Timestamp for when event was submitted/detected. */
-  eventStatusLastModifiedTime?: Date;
-  /** Correlation id for the event */
-  correlationId?: string;
-  /** Status of the service impacting event. */
-  status?: ServiceImpactingEventStatus;
-  /** Properties of the service impacting event. */
-  incidentProperties?: ServiceImpactingEventIncidentProperties;
-}
-
-/** Status of the service impacting event. */
-export interface ServiceImpactingEventStatus {
-  /** Current status of the event */
+/** Display text of link. */
+export interface LinkDisplayText {
+  /** Display text of link. */
   value?: string;
+  /** Localized display text of link. */
+  localizedValue?: string;
 }
 
-/** Properties of the service impacting event. */
-export interface ServiceImpactingEventIncidentProperties {
-  /** Title of the incident. */
-  title?: string;
-  /** Service impacted by the event. */
-  service?: string;
-  /** Region impacted by the event. */
-  region?: string;
-  /** Type of Event. */
-  incidentType?: string;
+/** Azure service impacted by the service health event. */
+export interface Impact {
+  /** Impacted service name. */
+  impactedService?: string;
+  /** List regions impacted by the service health event. */
+  impactedRegions?: ImpactedServiceRegion[];
 }
 
-/** Error details. */
-export interface ErrorResponse {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: string;
+/** Azure region impacted by the service health event. */
+export interface ImpactedServiceRegion {
+  /** Impacted region name. */
+  impactedRegion?: string;
+  /** Current status of event in the region. */
+  status?: EventStatusValues;
+  /** List subscription impacted by the service health event. */
+  impactedSubscriptions?: string[];
+  /** It provides the Timestamp for when the last update for the service health event. */
+  lastUpdateTime?: Date;
+  /** List of updates for given service health event. */
+  updates?: Update[];
 }
 
-/** Lists the operations response. */
-export interface OperationListResult {
-  /** List of operations available in the resourcehealth resource provider. */
-  value: Operation[];
+/** Update for service health event. */
+export interface Update {
+  /** Summary text for the given update for the service health event. */
+  summary?: string;
+  /** It provides the Timestamp for the given update for the service health event. */
+  updateDateTime?: Date;
 }
 
-/** Operation available in the resourcehealth resource provider. */
-export interface Operation {
-  /** Name of the operation. */
-  name?: string;
-  /** Properties of the operation. */
-  display?: OperationDisplay;
-}
-
-/** Properties of the operation. */
-export interface OperationDisplay {
-  /** Provider name. */
-  provider?: string;
-  /** Resource name. */
-  resource?: string;
-  /** Operation name. */
-  operation?: string;
-  /** Description of the operation. */
-  description?: string;
-}
-
-/** Banner type of emerging issue. */
-export interface StatusBanner {
-  /** The banner title. */
-  title?: string;
-  /** The details of banner. */
+/** Recommended actions of event. */
+export interface EventPropertiesRecommendedActions {
+  /** Recommended action title for the service health event. */
   message?: string;
-  /** The cloud type of this banner. */
-  cloud?: string;
-  /** The last time modified on this banner. */
-  lastModifiedTime?: Date;
+  /** Recommended actions for the service health event. */
+  actions?: EventPropertiesRecommendedActionsItem[];
+  /** Recommended action locale for the service health event. */
+  localeCode?: string;
 }
 
-/** Active event type of emerging issue. */
-export interface StatusActiveEvent {
-  /** The active event title. */
-  title?: string;
-  /** The details of active event. */
-  description?: string;
-  /** The tracking id of this active event. */
-  trackingId?: string;
-  /** The impact start time on this active event. */
-  startTime?: Date;
-  /** The cloud type of this active event. */
-  cloud?: string;
-  /** The severity level of this active event. */
-  severity?: SeverityValues;
-  /** The stage of this active event. */
-  stage?: StageValues;
-  /** The boolean value of this active event if published or not. */
-  published?: boolean;
-  /** The last time modified on this banner. */
-  lastModifiedTime?: Date;
-  /** The list of emerging issues impacts. */
-  impacts?: EmergingIssueImpact[];
+/** Recommended action for the service health event. */
+export interface EventPropertiesRecommendedActionsItem {
+  /** Recommended action group Id for the service health event. */
+  groupId?: number;
+  /** Recommended action text */
+  actionText?: string;
 }
 
-/** Object of the emerging issue impact on services and regions. */
-export interface EmergingIssueImpact {
-  /** The impacted service id. */
-  id?: string;
-  /** The impacted service name. */
-  name?: string;
-  /** The list of impacted regions for corresponding emerging issues. */
-  regions?: ImpactedRegion[];
+/** Frequently asked question for the service health event */
+export interface Faq {
+  /** FAQ question for the service health event. */
+  question?: string;
+  /** FAQ answer for the service health event. */
+  answer?: string;
+  /** FAQ locale for the service health event. */
+  localeCode?: string;
 }
 
-/** Object of impacted region. */
-export interface ImpactedRegion {
-  /** The impacted region id. */
-  id?: string;
-  /** The impacted region name. */
-  name?: string;
+/** Contains additional information regarding the event. */
+export interface EventPropertiesAdditionalInformation {
+  /** Additional information message. */
+  message?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -236,213 +127,263 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** The list of emerging issues. */
-export interface EmergingIssueListResult {
-  /** The list of emerging issues. */
-  value?: EmergingIssuesGetResult[];
-  /** The link used to get the next page of emerging issues. */
-  nextLink?: string;
+/** Error details. */
+export interface ErrorResponse {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
 }
 
-/** The Get EmergingIssues operation response. */
-export interface EmergingIssuesGetResult extends Resource {
-  /** Timestamp for when last time refreshed for ongoing emerging issue. */
-  refreshTimestamp?: Date;
-  /** The list of emerging issues of banner type. */
-  statusBanners?: StatusBanner[];
-  /** The list of emerging issues of active event type. */
-  statusActiveEvents?: StatusActiveEvent[];
+/** Lists the operations response. */
+export interface OperationListResult {
+  /** List of operations available in the resourcehealth resource provider. */
+  value: Operation[];
 }
 
-/** Known values of {@link SeverityValues} that the service accepts. */
-export enum KnownSeverityValues {
-  /** Information */
-  Information = "Information",
-  /** Warning */
-  Warning = "Warning",
-  /** Error */
-  Error = "Error"
+/** Operation available in the resourcehealth resource provider. */
+export interface Operation {
+  /** Name of the operation. */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Properties of the operation. */
+  display?: OperationDisplay;
+}
+
+/** Properties of the operation. */
+export interface OperationDisplay {
+  /** Provider name. */
+  provider?: string;
+  /** Resource name. */
+  resource?: string;
+  /** Operation name. */
+  operation?: string;
+  /** Description of the operation. */
+  description?: string;
+}
+
+/** Service health event */
+export type Event = Resource & {
+  /** Type of event. */
+  eventType?: EventTypeValues;
+  /** Source of event. */
+  eventSource?: EventSourceValues;
+  /** Current status of event. */
+  status?: EventStatusValues;
+  /** Title text of event. */
+  title?: string;
+  /** Summary text of event. */
+  summary?: string;
+  /** Header text of event. */
+  header?: string;
+  /** Level of insight. */
+  level?: LevelValues;
+  /** Level of event. */
+  eventLevel?: EventLevelValues;
+  /** Article of event. */
+  article?: EventPropertiesArticle;
+  /** Useful links of event. */
+  links?: Link[];
+  /** It provides the Timestamp for when the health impacting event started. */
+  impactStartTime?: Date;
+  /** It provides the Timestamp for when the health impacting event resolved. */
+  impactMitigationTime?: Date;
+  /** List services impacted by the service health event. */
+  impact?: Impact[];
+  /** Recommended actions of event. */
+  recommendedActions?: EventPropertiesRecommendedActions;
+  /** Frequently asked questions for the service health event. */
+  faqs?: Faq[];
+  /** It provides information if the event is High incident rate event or not. */
+  isHIR?: boolean;
+  /** Tells if we want to enable or disable Microsoft Support for this event. */
+  enableMicrosoftSupport?: boolean;
+  /** Contains the communication message for the event, that could include summary, root cause and other details. */
+  description?: string;
+  /** Is true if the event is platform initiated. */
+  platformInitiated?: boolean;
+  /** Tells if we want to enable or disable Microsoft Support for this event. */
+  enableChatWithUs?: boolean;
+  /** Priority level of the event. Has value from 0 to 23. 0 is the highest priority. Service issue events have higher priority followed by planned maintenance and health advisory. Critical events have higher priority followed by error, warning and informational. Furthermore, active events have higher priority than resolved. */
+  priority?: number;
+  /** It provides the Timestamp for when the health impacting event was last updated. */
+  lastUpdateTime?: Date;
+  /** Stage for HIR Document */
+  hirStage?: string;
+  /** The expected duration of the event in seconds. */
+  duration?: number;
+  /** The event's impact type */
+  impactType?: string;
+  /** Contains additional information regarding the event. */
+  additionalInformation?: EventPropertiesAdditionalInformation;
+};
+
+/** Known values of {@link EventTypeValues} that the service accepts. */
+export enum KnownEventTypeValues {
+  ServiceIssue = "ServiceIssue",
+  PlannedMaintenance = "PlannedMaintenance",
+  HealthAdvisory = "HealthAdvisory",
+  RCA = "RCA",
+  EmergingIssues = "EmergingIssues",
+  SecurityAdvisory = "SecurityAdvisory"
 }
 
 /**
- * Defines values for SeverityValues. \
- * {@link KnownSeverityValues} can be used interchangeably with SeverityValues,
+ * Defines values for EventTypeValues. \
+ * {@link KnownEventTypeValues} can be used interchangeably with EventTypeValues,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Information** \
- * **Warning** \
- * **Error**
+ * **ServiceIssue** \
+ * **PlannedMaintenance** \
+ * **HealthAdvisory** \
+ * **RCA** \
+ * **EmergingIssues** \
+ * **SecurityAdvisory**
  */
-export type SeverityValues = string;
+export type EventTypeValues = string;
 
-/** Known values of {@link StageValues} that the service accepts. */
-export enum KnownStageValues {
-  /** Active */
-  Active = "Active",
-  /** Resolve */
-  Resolve = "Resolve",
-  /** Archived */
-  Archived = "Archived"
+/** Known values of {@link EventSourceValues} that the service accepts. */
+export enum KnownEventSourceValues {
+  ResourceHealth = "ResourceHealth",
+  ServiceHealth = "ServiceHealth"
 }
 
 /**
- * Defines values for StageValues. \
- * {@link KnownStageValues} can be used interchangeably with StageValues,
+ * Defines values for EventSourceValues. \
+ * {@link KnownEventSourceValues} can be used interchangeably with EventSourceValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ResourceHealth** \
+ * **ServiceHealth**
+ */
+export type EventSourceValues = string;
+
+/** Known values of {@link EventStatusValues} that the service accepts. */
+export enum KnownEventStatusValues {
+  Active = "Active",
+  Resolved = "Resolved"
+}
+
+/**
+ * Defines values for EventStatusValues. \
+ * {@link KnownEventStatusValues} can be used interchangeably with EventStatusValues,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Active** \
- * **Resolve** \
- * **Archived**
+ * **Resolved**
  */
-export type StageValues = string;
-/** Defines values for AvailabilityStateValues. */
-export type AvailabilityStateValues = "Available" | "Unavailable" | "Unknown";
-/** Defines values for ReasonChronicityTypes. */
-export type ReasonChronicityTypes = "Transient" | "Persistent";
+export type EventStatusValues = string;
+
+/** Known values of {@link LevelValues} that the service accepts. */
+export enum KnownLevelValues {
+  Critical = "Critical",
+  Warning = "Warning"
+}
+
+/**
+ * Defines values for LevelValues. \
+ * {@link KnownLevelValues} can be used interchangeably with LevelValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **Warning**
+ */
+export type LevelValues = string;
+
+/** Known values of {@link EventLevelValues} that the service accepts. */
+export enum KnownEventLevelValues {
+  Critical = "Critical",
+  Error = "Error",
+  Warning = "Warning",
+  Informational = "Informational"
+}
+
+/**
+ * Defines values for EventLevelValues. \
+ * {@link KnownEventLevelValues} can be used interchangeably with EventLevelValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **Error** \
+ * **Warning** \
+ * **Informational**
+ */
+export type EventLevelValues = string;
+
+/** Known values of {@link LinkTypeValues} that the service accepts. */
+export enum KnownLinkTypeValues {
+  Button = "Button",
+  Hyperlink = "Hyperlink"
+}
+
+/**
+ * Defines values for LinkTypeValues. \
+ * {@link KnownLinkTypeValues} can be used interchangeably with LinkTypeValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Button** \
+ * **Hyperlink**
+ */
+export type LinkTypeValues = string;
 
 /** Optional parameters. */
-export interface AvailabilityStatusesListBySubscriptionIdOptionalParams
+export interface EventsListBySubscriptionIdOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** A valid odata query to limit the events returned. The logical operators and, or, equal, not equal, and top are supported. For example, $filter=Properties/EventType eq 'ServiceIssue' or Properties/EventType eq 'PlannedMaintenance' OR %24filter=Properties%2FEventType%20eq%20%27ServiceIssue%27%20or%20Properties%2FEventType%20eq%20%27PlannedMaintenance%27 */
   filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
+  /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
+  queryStartTime?: string;
+  /** setting view=full expands the article parameters */
+  view?: string;
 }
 
 /** Contains response data for the listBySubscriptionId operation. */
-export type AvailabilityStatusesListBySubscriptionIdResponse = AvailabilityStatusListResult;
+export type EventsListBySubscriptionIdResponse = Events;
 
 /** Optional parameters. */
-export interface AvailabilityStatusesListByResourceGroupOptionalParams
+export interface EventsListBySingleResourceOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** A valid odata query to limit the events returned. The logical operators and, or, equal, not equal, and top are supported. For example, $filter=Properties/EventType eq 'ServiceIssue' or Properties/EventType eq 'PlannedMaintenance' OR %24filter=Properties%2FEventType%20eq%20%27ServiceIssue%27%20or%20Properties%2FEventType%20eq%20%27PlannedMaintenance%27 */
   filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
+  /** setting view=full expands the article parameters */
+  view?: string;
 }
 
-/** Contains response data for the listByResourceGroup operation. */
-export type AvailabilityStatusesListByResourceGroupResponse = AvailabilityStatusListResult;
+/** Contains response data for the listBySingleResource operation. */
+export type EventsListBySingleResourceResponse = Events;
 
 /** Optional parameters. */
-export interface AvailabilityStatusesGetByResourceOptionalParams
+export interface EventsListBySubscriptionIdNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** A valid odata query to limit the events returned. The logical operators and, or, equal, not equal, and top are supported. For example, $filter=Properties/EventType eq 'ServiceIssue' or Properties/EventType eq 'PlannedMaintenance' OR %24filter=Properties%2FEventType%20eq%20%27ServiceIssue%27%20or%20Properties%2FEventType%20eq%20%27PlannedMaintenance%27 */
   filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the getByResource operation. */
-export type AvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-/** Optional parameters. */
-export interface AvailabilityStatusesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type AvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
+  /** Specifies from when to return events, based on the lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020 */
+  queryStartTime?: string;
+  /** setting view=full expands the article parameters */
+  view?: string;
 }
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
-export type AvailabilityStatusesListBySubscriptionIdNextResponse = AvailabilityStatusListResult;
+export type EventsListBySubscriptionIdNextResponse = Events;
 
 /** Optional parameters. */
-export interface AvailabilityStatusesListByResourceGroupNextOptionalParams
+export interface EventsListBySingleResourceNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
+  /** A valid odata query to limit the events returned. The logical operators and, or, equal, not equal, and top are supported. For example, $filter=Properties/EventType eq 'ServiceIssue' or Properties/EventType eq 'PlannedMaintenance' OR %24filter=Properties%2FEventType%20eq%20%27ServiceIssue%27%20or%20Properties%2FEventType%20eq%20%27PlannedMaintenance%27 */
   filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
+  /** setting view=full expands the article parameters */
+  view?: string;
 }
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type AvailabilityStatusesListByResourceGroupNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface AvailabilityStatusesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type AvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the getByResource operation. */
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
+/** Contains response data for the listBySingleResourceNext operation. */
+export type EventsListBySingleResourceNextResponse = Events;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -450,27 +391,6 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type EmergingIssuesListResponse = EmergingIssueListResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type EmergingIssuesListNextResponse = EmergingIssueListResult;
 
 /** Optional parameters. */
 export interface MicrosoftResourceHealthOptionalParams

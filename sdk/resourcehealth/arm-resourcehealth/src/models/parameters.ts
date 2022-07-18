@@ -39,7 +39,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-07-01",
+    defaultValue: "2022-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -58,6 +58,16 @@ export const filter: OperationQueryParameter = {
   }
 };
 
+export const queryStartTime: OperationQueryParameter = {
+  parameterPath: ["options", "queryStartTime"],
+  mapper: {
+    serializedName: "queryStartTime",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -69,21 +79,10 @@ export const subscriptionId: OperationURLParameter = {
   }
 };
 
-export const expand: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
+export const view: OperationQueryParameter = {
+  parameterPath: ["options", "view"],
   mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
+    serializedName: "view",
     type: {
       name: "String"
     }
@@ -112,16 +111,4 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const issueName: OperationURLParameter = {
-  parameterPath: "issueName",
-  mapper: {
-    defaultValue: "default",
-    isConstant: true,
-    serializedName: "issueName",
-    type: {
-      name: "String"
-    }
-  }
 };

@@ -1,15 +1,60 @@
 # Release History
+    
+## 4.0.0 (2022-07-18)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
+  - Added operation group EventsOperations
+  - Added Interface EventPropertiesAdditionalInformation
+  - Added Interface EventPropertiesArticle
+  - Added Interface EventPropertiesRecommendedActions
+  - Added Interface EventPropertiesRecommendedActionsItem
+  - Added Interface Events
+  - Added Interface EventsListBySingleResourceNextOptionalParams
+  - Added Interface EventsListBySingleResourceOptionalParams
+  - Added Interface EventsListBySubscriptionIdNextOptionalParams
+  - Added Interface EventsListBySubscriptionIdOptionalParams
+  - Added Interface Faq
+  - Added Interface Impact
+  - Added Interface ImpactedServiceRegion
+  - Added Interface Link
+  - Added Interface LinkDisplayText
+  - Added Interface Update
+  - Added Type Alias Event_2
+  - Added Type Alias EventLevelValues
+  - Added Type Alias EventsListBySingleResourceNextResponse
+  - Added Type Alias EventsListBySingleResourceResponse
+  - Added Type Alias EventsListBySubscriptionIdNextResponse
+  - Added Type Alias EventsListBySubscriptionIdResponse
+  - Added Type Alias EventSourceValues
+  - Added Type Alias EventStatusValues
+  - Added Type Alias EventTypeValues
+  - Added Type Alias LevelValues
+  - Added Type Alias LinkTypeValues
+  - Interface Operation has a new optional parameter isDataAction
+  - Class MicrosoftResourceHealth has a new parameter eventsOperations
+  - Added Enum KnownEventLevelValues
+  - Added Enum KnownEventSourceValues
+  - Added Enum KnownEventStatusValues
+  - Added Enum KnownEventTypeValues
+  - Added Enum KnownLevelValues
+  - Added Enum KnownLinkTypeValues
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AvailabilityStatuses
+  - Removed operation group ChildAvailabilityStatuses
+  - Removed operation group ChildResources
+  - Removed operation group EmergingIssues
+  - Interface ErrorResponse no longer has parameter details
+  - Class MicrosoftResourceHealth no longer has parameter availabilityStatuses
+  - Class MicrosoftResourceHealth no longer has parameter childAvailabilityStatuses
+  - Class MicrosoftResourceHealth no longer has parameter childResources
+  - Class MicrosoftResourceHealth no longer has parameter emergingIssues
+  - Removed Enum KnownSeverityValues
+  - Removed Enum KnownStageValues
+    
+    
 ## 3.1.0 (2022-07-14)
     
 **Features**
