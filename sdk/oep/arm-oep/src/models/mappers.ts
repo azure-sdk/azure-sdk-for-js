@@ -333,6 +333,64 @@ export const EnergyResourceUpdate: coreClient.CompositeMapper = {
   }
 };
 
+export const DataPartitionAddOrRemoveRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPartitionAddOrRemoveRequest",
+    modelProperties: {
+      dataPartitionName: {
+        serializedName: "dataPartitionName",
+        type: {
+          name: "Composite",
+          className: "DataPartitionNames"
+        }
+      }
+    }
+  }
+};
+
+export const DataPartitionsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPartitionsListResult",
+    modelProperties: {
+      dataPartitionInfo: {
+        serializedName: "dataPartitionInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataPartitionProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DataPartitionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPartitionProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -437,6 +495,27 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataPartitionsList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataPartitionsList",
+    modelProperties: {
+      dataPartitionNames: {
+        serializedName: "dataPartitionNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataPartitionNames"
+            }
+          }
         }
       }
     }
