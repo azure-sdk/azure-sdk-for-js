@@ -26,6 +26,12 @@ export type ActionType = string;
 export type AofFrequency = string;
 
 // @public
+export interface Capability {
+    name?: string;
+    value?: boolean;
+}
+
+// @public
 export type Cluster = TrackedResource & {
     sku: Sku;
     zones?: string[];
@@ -293,6 +299,24 @@ export enum KnownLinkState {
 }
 
 // @public
+export enum KnownName {
+    // (undocumented)
+    EnterpriseE10 = "Enterprise_E10",
+    // (undocumented)
+    EnterpriseE100 = "Enterprise_E100",
+    // (undocumented)
+    EnterpriseE20 = "Enterprise_E20",
+    // (undocumented)
+    EnterpriseE50 = "Enterprise_E50",
+    // (undocumented)
+    EnterpriseFlashF1500 = "EnterpriseFlash_F1500",
+    // (undocumented)
+    EnterpriseFlashF300 = "EnterpriseFlash_F300",
+    // (undocumented)
+    EnterpriseFlashF700 = "EnterpriseFlash_F700"
+}
+
+// @public
 export enum KnownOrigin {
     // (undocumented)
     System = "system",
@@ -424,11 +448,20 @@ export interface LinkedDatabase {
 export type LinkState = string;
 
 // @public
+export interface LocationInfo {
+    capabilities?: Capability[];
+    location?: string;
+}
+
+// @public
 export interface Module {
     args?: string;
     name: string;
     readonly version?: string;
 }
+
+// @public
+export type Name = string;
 
 // @public
 export interface Operation {
@@ -690,6 +723,8 @@ export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     redisEnterprise: RedisEnterprise;
     // (undocumented)
+    skus: Skus;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -715,6 +750,18 @@ export interface RegenerateKeyParameters {
 }
 
 // @public
+export interface RegionSkuDetail {
+    locationInfo?: LocationInfo;
+    resourceType?: string;
+    skuDetails?: SkuDetail;
+}
+
+// @public
+export interface RegionSkuDetails {
+    value?: RegionSkuDetail[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -731,7 +778,26 @@ export interface Sku {
 }
 
 // @public
+export interface SkuDetail {
+    defaultMaxFlash?: number;
+    defaultMaxMemory?: number;
+    name?: Name;
+}
+
+// @public
 export type SkuName = string;
+
+// @public
+export interface Skus {
+    list(location: string, options?: SkusListOptionalParams): PagedAsyncIterableIterator<RegionSkuDetail>;
+}
+
+// @public
+export interface SkusListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SkusListResponse = RegionSkuDetails;
 
 // @public
 export type TlsVersion = string;
