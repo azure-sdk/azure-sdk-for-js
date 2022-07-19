@@ -3450,6 +3450,44 @@ export const ContainerApp: coreClient.CompositeMapper = {
   }
 };
 
+export const ContainerAppAuthToken: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerAppAuthToken",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      token: {
+        serializedName: "properties.token",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      expires: {
+        serializedName: "properties.expires",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      logStreamEndpoint: {
+        serializedName: "properties.logStreamEndpoint",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      execEndpoint: {
+        serializedName: "properties.execEndpoint",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedEnvironment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

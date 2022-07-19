@@ -285,6 +285,14 @@ export type ContainerApp = TrackedResource & {
 };
 
 // @public
+export type ContainerAppAuthToken = TrackedResource & {
+    readonly token?: string;
+    readonly expires?: Date;
+    readonly logStreamEndpoint?: string;
+    readonly execEndpoint?: string;
+};
+
+// @public
 export interface ContainerAppCollection {
     readonly nextLink?: string;
     value: ContainerApp[];
@@ -336,6 +344,7 @@ export interface ContainerApps {
     beginUpdate(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUpdateAndWait(resourceGroupName: string, containerAppName: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
+    getAuthToken(resourceGroupName: string, containerAppName: string, options?: ContainerAppsGetAuthTokenOptionalParams): Promise<ContainerAppsGetAuthTokenResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
     listBySubscription(options?: ContainerAppsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
     listCustomHostNameAnalysis(resourceGroupName: string, containerAppName: string, options?: ContainerAppsListCustomHostNameAnalysisOptionalParams): Promise<ContainerAppsListCustomHostNameAnalysisResponse>;
@@ -442,6 +451,13 @@ export interface ContainerAppSecret {
     readonly name?: string;
     readonly value?: string;
 }
+
+// @public
+export interface ContainerAppsGetAuthTokenOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerAppsGetAuthTokenResponse = ContainerAppAuthToken;
 
 // @public
 export interface ContainerAppsGetOptionalParams extends coreClient.OperationOptions {
