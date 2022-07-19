@@ -25,7 +25,13 @@ import {
   ApplicationsCreateOrUpdateByIdOptionalParams,
   ApplicationsCreateOrUpdateByIdResponse,
   ApplicationsUpdateByIdOptionalParams,
-  ApplicationsUpdateByIdResponse
+  ApplicationsUpdateByIdResponse,
+  UpdateAccessDefinition,
+  ApplicationsUpdateAccessOptionalParams,
+  ApplicationsUpdateAccessResponse,
+  ListTokenRequest,
+  ApplicationsListTokensOptionalParams,
+  ApplicationsListTokensResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -199,4 +205,30 @@ export interface Applications {
     applicationId: string,
     options?: ApplicationsUpdateByIdOptionalParams
   ): Promise<ApplicationsUpdateByIdResponse>;
+  /**
+   * Update access for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  updateAccess(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: UpdateAccessDefinition,
+    options?: ApplicationsUpdateAccessOptionalParams
+  ): Promise<ApplicationsUpdateAccessResponse>;
+  /**
+   * List tokens for application.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationName The name of the managed application.
+   * @param parameters Request body parameters to list tokens.
+   * @param options The options parameters.
+   */
+  listTokens(
+    resourceGroupName: string,
+    applicationName: string,
+    parameters: ListTokenRequest,
+    options?: ApplicationsListTokensOptionalParams
+  ): Promise<ApplicationsListTokensResponse>;
 }

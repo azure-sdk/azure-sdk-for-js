@@ -14,6 +14,8 @@ import {
 import {
   Application as ApplicationMapper,
   ApplicationPatchable as ApplicationPatchableMapper,
+  UpdateAccessDefinition as UpdateAccessDefinitionMapper,
+  ListTokenRequest as ListTokenRequestMapper,
   ApplicationDefinition as ApplicationDefinitionMapper
 } from "../models/mappers";
 
@@ -146,6 +148,31 @@ export const parameters2: OperationParameter = {
   mapper: ApplicationMapper
 };
 
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: UpdateAccessDefinitionMapper
+};
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ListTokenRequestMapper
+};
+
 export const applicationDefinitionName: OperationURLParameter = {
   parameterPath: "applicationDefinitionName",
   mapper: {
@@ -161,7 +188,7 @@ export const applicationDefinitionName: OperationURLParameter = {
   }
 };
 
-export const parameters3: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: ApplicationDefinitionMapper
 };
