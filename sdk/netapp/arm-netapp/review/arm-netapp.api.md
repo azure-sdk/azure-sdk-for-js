@@ -408,6 +408,7 @@ export interface CapacityPoolList {
 
 // @public
 export interface CapacityPoolPatch {
+    coolAccess?: boolean;
     readonly id?: string;
     location?: string;
     readonly name?: string;
@@ -589,6 +590,7 @@ export enum KnownEnableSubvolumes {
 
 // @public
 export enum KnownEncryptionKeySource {
+    MicrosoftKeyVault = "Microsoft.KeyVault",
     MicrosoftNetApp = "Microsoft.NetApp"
 }
 
@@ -999,7 +1001,7 @@ export type PoolsUpdateResponse = CapacityPool;
 export type ProvisioningState = "Accepted" | "Creating" | "Patching" | "Deleting" | "Moving" | "Failed" | "Succeeded";
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type QosType = string;
@@ -1009,6 +1011,11 @@ export interface QuotaAvailabilityRequest {
     name: string;
     resourceGroup: string;
     type: CheckQuotaNameResourceTypes;
+}
+
+// @public
+export interface ReestablishReplicationRequest {
+    sourceVolumeId?: string;
 }
 
 // @public
@@ -1469,6 +1476,7 @@ export type Volume = TrackedResource & {
     smbContinuouslyAvailable?: boolean;
     throughputMibps?: number;
     encryptionKeySource?: EncryptionKeySource;
+    keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
     coolAccess?: boolean;
     coolnessPeriod?: number;
@@ -1601,6 +1609,7 @@ export interface VolumeGroupVolumeProperties {
     isDefaultQuotaEnabled?: boolean;
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
+    keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -1640,6 +1649,8 @@ export interface VolumeList {
 
 // @public
 export interface VolumePatch {
+    coolAccess?: boolean;
+    coolnessPeriod?: number;
     dataProtection?: VolumePatchPropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
@@ -1780,6 +1791,8 @@ export interface Volumes {
     beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
     beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginPoolChangeAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<void>;
+    beginReestablishReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReestablishReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<void>;
     beginReInitializeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReInitializeReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<void>;
     beginRelocate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRelocateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1876,6 +1889,12 @@ export interface VolumeSnapshotProperties {
 
 // @public
 export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesReestablishReplicationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

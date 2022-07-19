@@ -339,6 +339,8 @@ export interface CapacityPoolPatch {
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
+  /** If enabled (true) the pool can contain cool Access enabled volumes. */
+  coolAccess?: boolean;
 }
 
 /** List of volume resources */
@@ -496,6 +498,10 @@ export interface VolumePatch {
   defaultGroupQuotaInKiBs?: number;
   /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
+  /** Specifies whether Cool Access(tiering) is enabled for the volume. */
+  coolAccess?: boolean;
+  /** Specifies the number of days after which data that is not accessed by clients will be tiered. */
+  coolnessPeriod?: number;
 }
 
 /** Set of export policy rules */
@@ -522,6 +528,12 @@ export interface VolumeRevert {
 export interface BreakReplicationRequest {
   /** If replication is in status transferring and you want to force break the replication, set to true */
   forceBreakReplication?: boolean;
+}
+
+/** Re-establish request object supplied in the body of the operation. */
+export interface ReestablishReplicationRequest {
+  /** Resource id of the source volume for the replication */
+  sourceVolumeId?: string;
 }
 
 /** Replication status */
@@ -1187,10 +1199,12 @@ export interface VolumeGroupVolumeProperties {
   smbEncryption?: boolean;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
-  /** Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
-  /** Source of key used to encrypt data in volume. Possible values (case-insensitive) are: 'Microsoft.NetApp' */
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
@@ -1452,7 +1466,7 @@ export interface BackupPolicyDetails {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1531,12 +1545,12 @@ export type CapacityPool = TrackedResource & {
    */
   readonly provisioningState?: string;
   /**
-   * Total throughput of pool in Mibps
+   * Total throughput of pool in MiB/s
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalThroughputMibps?: number;
   /**
-   * Utilized throughput of pool in Mibps
+   * Utilized throughput of pool in MiB/s
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedThroughputMibps?: number;
@@ -1621,10 +1635,12 @@ export type Volume = TrackedResource & {
   smbEncryption?: boolean;
   /** Enables continuously available share property for smb volume. Only applicable for SMB volume */
   smbContinuouslyAvailable?: boolean;
-  /** Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
+  /** Maximum throughput in MiB/s that can be achieved by this volume and this will be accepted as input only for manual qosType volume */
   throughputMibps?: number;
-  /** Source of key used to encrypt data in volume. Possible values (case-insensitive) are: 'Microsoft.NetApp' */
+  /** Source of key used to encrypt data in volume. Applicable if NetApp account has encryption.keySource = 'Microsoft.KeyVault'. Possible values (case-insensitive) are: 'Microsoft.NetApp, Microsoft.KeyVault' */
   encryptionKeySource?: EncryptionKeySource;
+  /** The resource ID of private endpoint for KeyVault. It must reside in the same VNET as the volume. Only applicable if encryptionKeySource = 'Microsoft.KeyVault'. */
+  keyVaultPrivateEndpointResourceId?: string;
   /** Specifies whether LDAP is enabled or not for a given NFS volume. */
   ldapEnabled?: boolean;
   /** Specifies whether Cool Access(tiering) is enabled for the volume. */
@@ -2039,7 +2055,9 @@ export type SecurityStyle = string;
 /** Known values of {@link EncryptionKeySource} that the service accepts. */
 export enum KnownEncryptionKeySource {
   /** Microsoft-managed key encryption */
-  MicrosoftNetApp = "Microsoft.NetApp"
+  MicrosoftNetApp = "Microsoft.NetApp",
+  /** Customer-managed key encryption */
+  MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
 /**
@@ -2047,7 +2065,8 @@ export enum KnownEncryptionKeySource {
  * {@link KnownEncryptionKeySource} can be used interchangeably with EncryptionKeySource,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Microsoft.NetApp**: Microsoft-managed key encryption
+ * **Microsoft.NetApp**: Microsoft-managed key encryption \
+ * **Microsoft.KeyVault**: Customer-managed key encryption
  */
 export type EncryptionKeySource = string;
 
@@ -2417,6 +2436,15 @@ export interface VolumesBreakReplicationOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to force break the replication. */
   body?: BreakReplicationRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VolumesReestablishReplicationOptionalParams
+  extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

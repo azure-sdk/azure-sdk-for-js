@@ -1,15 +1,21 @@
 # Release History
+    
+## 16.1.0 (2022-07-19)
+    
+**Features**
 
-## 16.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Volumes.beginReestablishReplication
+  - Added operation Volumes.beginReestablishReplicationAndWait
+  - Added Interface ReestablishReplicationRequest
+  - Added Interface VolumesReestablishReplicationOptionalParams
+  - Interface CapacityPoolPatch has a new optional parameter coolAccess
+  - Interface VolumeGroupVolumeProperties has a new optional parameter keyVaultPrivateEndpointResourceId
+  - Interface VolumePatch has a new optional parameter coolAccess
+  - Interface VolumePatch has a new optional parameter coolnessPeriod
+  - Type Alias Volume has a new parameter keyVaultPrivateEndpointResourceId
+  - Enum KnownEncryptionKeySource has a new value MicrosoftKeyVault
+    
+    
 ## 16.0.0 (2022-06-13)
     
 **Features**
