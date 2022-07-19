@@ -536,6 +536,29 @@ export const WebhookNotification: coreClient.CompositeMapper = {
   }
 };
 
+export const PredictiveAutoscalePolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictiveAutoscalePolicy",
+    modelProperties: {
+      scaleMode: {
+        serializedName: "scaleMode",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Disabled", "ForecastOnly", "Enabled"]
+        }
+      },
+      scaleLookAheadTime: {
+        serializedName: "scaleLookAheadTime",
+        type: {
+          name: "TimeSpan"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -575,15 +598,90 @@ export const Resource: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "String" } }
         }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
       }
     }
   }
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoscaleErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "AutoscaleErrorResponseError"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const AutoscaleErrorResponseError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutoscaleErrorResponseError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -593,6 +691,18 @@ export const ErrorResponse: coreClient.CompositeMapper = {
       },
       message: {
         serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
         type: {
           name: "String"
         }
@@ -641,10 +751,17 @@ export const AutoscaleSettingResourcePatch: coreClient.CompositeMapper = {
         }
       },
       enabled: {
-        defaultValue: true,
+        defaultValue: false,
         serializedName: "properties.enabled",
         type: {
           name: "Boolean"
+        }
+      },
+      predictiveAutoscalePolicy: {
+        serializedName: "properties.predictiveAutoscalePolicy",
+        type: {
+          name: "Composite",
+          className: "PredictiveAutoscalePolicy"
         }
       },
       name: {
@@ -663,6 +780,74 @@ export const AutoscaleSettingResourcePatch: coreClient.CompositeMapper = {
         serializedName: "properties.targetResourceLocation",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PredictiveResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictiveResponse",
+    modelProperties: {
+      timespan: {
+        serializedName: "timespan",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      metricName: {
+        serializedName: "metricName",
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceId: {
+        serializedName: "targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PredictiveValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PredictiveValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PredictiveValue",
+    modelProperties: {
+      timeStamp: {
+        serializedName: "timeStamp",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -789,6 +974,27 @@ export const Incident: coreClient.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const IncidentListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -898,6 +1104,50 @@ export const RuleAction: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceAutoGenerated",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -1018,6 +1268,50 @@ export const RetentionPolicy: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceAutoGenerated2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceAutoGenerated2",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -1922,33 +2216,33 @@ export const TestNotificationDetailsResponse: coreClient.CompositeMapper = {
     className: "TestNotificationDetailsResponse",
     modelProperties: {
       context: {
-        serializedName: "Context",
+        serializedName: "context",
         type: {
           name: "Composite",
           className: "Context"
         }
       },
       state: {
-        serializedName: "State",
+        serializedName: "state",
         required: true,
         type: {
           name: "String"
         }
       },
       completedTime: {
-        serializedName: "CompletedTime",
+        serializedName: "completedTime",
         type: {
           name: "String"
         }
       },
       createdTime: {
-        serializedName: "CreatedTime",
+        serializedName: "createdTime",
         type: {
           name: "String"
         }
       },
       actionDetails: {
-        serializedName: "ActionDetails",
+        serializedName: "actionDetails",
         type: {
           name: "Sequence",
           element: {
@@ -1969,13 +2263,13 @@ export const Context: coreClient.CompositeMapper = {
     className: "Context",
     modelProperties: {
       notificationSource: {
-        serializedName: "NotificationSource",
+        serializedName: "notificationSource",
         type: {
           name: "String"
         }
       },
       contextType: {
-        serializedName: "ContextType",
+        serializedName: "contextType",
         type: {
           name: "String"
         }
@@ -3080,6 +3374,50 @@ export const MetricAlertAction: coreClient.CompositeMapper = {
   }
 };
 
+export const ResourceAutoGenerated3: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceAutoGenerated3",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
 export const MetricAlertResourcePatch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3354,10 +3692,10 @@ export const Action: coreClient.CompositeMapper = {
   }
 };
 
-export const ResourceAutoGenerated: coreClient.CompositeMapper = {
+export const ResourceAutoGenerated4: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResourceAutoGenerated",
+    className: "ResourceAutoGenerated4",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -4391,51 +4729,6 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
         serializedName: "publicNetworkAccess",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -5833,10 +6126,17 @@ export const AutoscaleSettingResource: coreClient.CompositeMapper = {
         }
       },
       enabled: {
-        defaultValue: true,
+        defaultValue: false,
         serializedName: "properties.enabled",
         type: {
           name: "Boolean"
+        }
+      },
+      predictiveAutoscalePolicy: {
+        serializedName: "properties.predictiveAutoscalePolicy",
+        type: {
+          name: "Composite",
+          className: "PredictiveAutoscalePolicy"
         }
       },
       namePropertiesName: {
@@ -5861,231 +6161,32 @@ export const AutoscaleSettingResource: coreClient.CompositeMapper = {
   }
 };
 
-export const AlertRuleResource: coreClient.CompositeMapper = {
+export const DataCollectionEndpointResourceSystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AlertRuleResource",
+    className: "DataCollectionEndpointResourceSystemData",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      namePropertiesName: {
-        serializedName: "properties.name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      },
-      isEnabled: {
-        serializedName: "properties.isEnabled",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      condition: {
-        serializedName: "properties.condition",
-        type: {
-          name: "Composite",
-          className: "RuleCondition"
-        }
-      },
-      action: {
-        serializedName: "properties.action",
-        type: {
-          name: "Composite",
-          className: "RuleAction"
-        }
-      },
-      actions: {
-        serializedName: "properties.actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RuleAction"
-            }
-          }
-        }
-      },
-      lastUpdatedTime: {
-        serializedName: "properties.lastUpdatedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      }
+      ...SystemData.type.modelProperties
     }
   }
 };
 
-export const LogProfileResource: coreClient.CompositeMapper = {
+export const DataCollectionRuleAssociationProxyOnlyResourceSystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LogProfileResource",
+    className: "DataCollectionRuleAssociationProxyOnlyResourceSystemData",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      storageAccountId: {
-        serializedName: "properties.storageAccountId",
-        type: {
-          name: "String"
-        }
-      },
-      serviceBusRuleId: {
-        serializedName: "properties.serviceBusRuleId",
-        type: {
-          name: "String"
-        }
-      },
-      locations: {
-        serializedName: "properties.locations",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      categories: {
-        serializedName: "properties.categories",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      retentionPolicy: {
-        serializedName: "properties.retentionPolicy",
-        type: {
-          name: "Composite",
-          className: "RetentionPolicy"
-        }
-      }
+      ...SystemData.type.modelProperties
     }
   }
 };
 
-export const MetricAlertResource: coreClient.CompositeMapper = {
+export const DataCollectionRuleResourceSystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricAlertResource",
+    className: "DataCollectionRuleResourceSystemData",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      description: {
-        serializedName: "properties.description",
-        type: {
-          name: "String"
-        }
-      },
-      severity: {
-        serializedName: "properties.severity",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      enabled: {
-        serializedName: "properties.enabled",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      scopes: {
-        serializedName: "properties.scopes",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      evaluationFrequency: {
-        serializedName: "properties.evaluationFrequency",
-        required: true,
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      windowSize: {
-        serializedName: "properties.windowSize",
-        required: true,
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      targetResourceType: {
-        serializedName: "properties.targetResourceType",
-        type: {
-          name: "String"
-        }
-      },
-      targetResourceRegion: {
-        serializedName: "properties.targetResourceRegion",
-        type: {
-          name: "String"
-        }
-      },
-      criteria: {
-        serializedName: "properties.criteria",
-        type: {
-          name: "Composite",
-          className: "MetricAlertCriteria"
-        }
-      },
-      autoMitigate: {
-        serializedName: "properties.autoMitigate",
-        type: {
-          name: "Boolean"
-        }
-      },
-      actions: {
-        serializedName: "properties.actions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MetricAlertAction"
-            }
-          }
-        }
-      },
-      lastUpdatedTime: {
-        serializedName: "properties.lastUpdatedTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      isMigrated: {
-        serializedName: "properties.isMigrated",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      }
+      ...SystemData.type.modelProperties
     }
   }
 };
@@ -6364,6 +6465,128 @@ export const RuleWebhookAction: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AlertRuleResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AlertRuleResource",
+    modelProperties: {
+      ...ResourceAutoGenerated.type.modelProperties,
+      namePropertiesName: {
+        serializedName: "properties.name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      isEnabled: {
+        serializedName: "properties.isEnabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "Composite",
+          className: "RuleCondition"
+        }
+      },
+      action: {
+        serializedName: "properties.action",
+        type: {
+          name: "Composite",
+          className: "RuleAction"
+        }
+      },
+      actions: {
+        serializedName: "properties.actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RuleAction"
+            }
+          }
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "properties.lastUpdatedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const LogProfileResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LogProfileResource",
+    modelProperties: {
+      ...ResourceAutoGenerated2.type.modelProperties,
+      storageAccountId: {
+        serializedName: "properties.storageAccountId",
+        type: {
+          name: "String"
+        }
+      },
+      serviceBusRuleId: {
+        serializedName: "properties.serviceBusRuleId",
+        type: {
+          name: "String"
+        }
+      },
+      locations: {
+        serializedName: "properties.locations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      categories: {
+        serializedName: "properties.categories",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      retentionPolicy: {
+        serializedName: "properties.retentionPolicy",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
         }
       }
     }
@@ -6704,6 +6927,113 @@ export const MetricAlertMultipleResourceMultipleMetricCriteria: coreClient.Compo
   }
 };
 
+export const MetricAlertResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetricAlertResource",
+    modelProperties: {
+      ...ResourceAutoGenerated3.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      severity: {
+        serializedName: "properties.severity",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      scopes: {
+        serializedName: "properties.scopes",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      evaluationFrequency: {
+        serializedName: "properties.evaluationFrequency",
+        required: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      windowSize: {
+        serializedName: "properties.windowSize",
+        required: true,
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      targetResourceType: {
+        serializedName: "properties.targetResourceType",
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceRegion: {
+        serializedName: "properties.targetResourceRegion",
+        type: {
+          name: "String"
+        }
+      },
+      criteria: {
+        serializedName: "properties.criteria",
+        type: {
+          name: "Composite",
+          className: "MetricAlertCriteria"
+        }
+      },
+      autoMitigate: {
+        serializedName: "properties.autoMitigate",
+        type: {
+          name: "Boolean"
+        }
+      },
+      actions: {
+        serializedName: "properties.actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricAlertAction"
+            }
+          }
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "properties.lastUpdatedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      isMigrated: {
+        serializedName: "properties.isMigrated",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const AlertingAction: coreClient.CompositeMapper = {
   serializedName:
     "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
@@ -6777,7 +7107,7 @@ export const LogSearchRuleResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "LogSearchRuleResource",
     modelProperties: {
-      ...ResourceAutoGenerated.type.modelProperties,
+      ...ResourceAutoGenerated4.type.modelProperties,
       createdWithApiVersion: {
         serializedName: "properties.createdWithApiVersion",
         readOnly: true,
@@ -7115,36 +7445,6 @@ export const DataCollectionEndpointNetworkAcls: coreClient.CompositeMapper = {
     className: "DataCollectionEndpointNetworkAcls",
     modelProperties: {
       ...NetworkRuleSet.type.modelProperties
-    }
-  }
-};
-
-export const DataCollectionEndpointResourceSystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataCollectionEndpointResourceSystemData",
-    modelProperties: {
-      ...SystemData.type.modelProperties
-    }
-  }
-};
-
-export const DataCollectionRuleAssociationProxyOnlyResourceSystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataCollectionRuleAssociationProxyOnlyResourceSystemData",
-    modelProperties: {
-      ...SystemData.type.modelProperties
-    }
-  }
-};
-
-export const DataCollectionRuleResourceSystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DataCollectionRuleResourceSystemData",
-    modelProperties: {
-      ...SystemData.type.modelProperties
     }
   }
 };

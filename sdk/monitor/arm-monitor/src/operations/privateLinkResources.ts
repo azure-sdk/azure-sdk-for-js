@@ -173,7 +173,7 @@ const listByPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -192,7 +192,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResource
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -211,7 +211,7 @@ const listByPrivateLinkScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion10],
+  queryParameters: [Parameters.apiVersion11],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
