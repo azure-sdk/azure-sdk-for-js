@@ -1199,9 +1199,9 @@ export type SearchProfile = NodeProfile & {
 };
 
 /** Identity for the resource. Currently not supported */
-export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity;
+export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity & {};
 
-export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity;
+export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1212,7 +1212,7 @@ export type TrackedResource = Resource & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 /** Defines the workload operation content. */
 export type OperationsContent = Resource & {
@@ -1296,10 +1296,10 @@ export type DeploymentWithOSConfiguration = SAPConfiguration & {
 };
 
 /** Defines the SAP monitor errors. */
-export type MonitorPropertiesErrors = ErrorModel;
+export type MonitorPropertiesErrors = ErrorModel & {};
 
 /** Defines the provider instance errors. */
-export type ProviderInstancePropertiesErrors = ErrorModel;
+export type ProviderInstancePropertiesErrors = ErrorModel & {};
 
 /** Gets or sets the provider properties. */
 export type HanaDbProviderInstanceProperties = ProviderSpecificProperties & {
@@ -1492,7 +1492,7 @@ export type SAPInstallWithoutOSConfigSoftwareConfiguration = SoftwareConfigurati
 };
 
 /** Display information of the operation. */
-export type OperationsDefinitionDisplay = OperationsDisplayDefinition;
+export type OperationsDefinitionDisplay = OperationsDisplayDefinition & {};
 
 /** Php workload resource */
 export type PhpWorkloadResource = TrackedResource & {

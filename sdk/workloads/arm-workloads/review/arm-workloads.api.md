@@ -793,7 +793,7 @@ export interface MonitorListResult {
 }
 
 // @public
-export type MonitorPropertiesErrors = ErrorModel;
+export type MonitorPropertiesErrors = ErrorModel & {};
 
 // @public
 export interface Monitors {
@@ -965,7 +965,7 @@ export interface OperationsDefinitionArrayResponseWithContinuation {
 }
 
 // @public
-export type OperationsDefinitionDisplay = OperationsDisplayDefinition;
+export type OperationsDefinitionDisplay = OperationsDisplayDefinition & {};
 
 // @public
 export interface OperationsDisplayDefinition {
@@ -1058,7 +1058,7 @@ export interface PatchResourceRequestBody {
 }
 
 // @public (undocumented)
-export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity;
+export type PatchResourceRequestBodyIdentity = UserAssignedServiceIdentity & {};
 
 // @public
 export interface PhpProfile {
@@ -1093,7 +1093,7 @@ export type PhpWorkloadResource = TrackedResource & {
 };
 
 // @public
-export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity;
+export type PhpWorkloadResourceIdentity = UserAssignedServiceIdentity & {};
 
 // @public
 export interface PhpWorkloadResourceList {
@@ -1201,7 +1201,7 @@ export interface ProviderInstanceListResult {
 }
 
 // @public
-export type ProviderInstancePropertiesErrors = ErrorModel;
+export type ProviderInstancePropertiesErrors = ErrorModel & {};
 
 // @public
 export interface ProviderInstances {
@@ -1261,7 +1261,7 @@ export interface ProviderSpecificProperties {
 export type ProviderSpecificPropertiesUnion = ProviderSpecificProperties | HanaDbProviderInstanceProperties | SapNetWeaverProviderInstanceProperties | PrometheusOSProviderInstanceProperties | DB2ProviderInstanceProperties | PrometheusHaClusterProviderInstanceProperties | MsSqlServerProviderInstanceProperties;
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type RedisCacheFamily = string;
