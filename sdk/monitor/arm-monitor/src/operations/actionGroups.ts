@@ -683,16 +683,16 @@ const postTestNotificationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -711,20 +711,16 @@ const createNotificationsAtResourceGroupLevelOperationSpec: coreClient.Operation
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -747,20 +743,16 @@ const createNotificationsAtActionGroupResourceLevelOperationSpec: coreClient.Ope
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     201: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     202: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     204: {
-      headersMapper:
-        Mappers.ActionGroupsCreateNotificationsAtActionGroupResourceLevelHeaders
+      bodyMapper: Mappers.TestNotificationDetailsResponse
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

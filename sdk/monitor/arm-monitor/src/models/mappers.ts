@@ -1922,33 +1922,33 @@ export const TestNotificationDetailsResponse: coreClient.CompositeMapper = {
     className: "TestNotificationDetailsResponse",
     modelProperties: {
       context: {
-        serializedName: "Context",
+        serializedName: "context",
         type: {
           name: "Composite",
           className: "Context"
         }
       },
       state: {
-        serializedName: "State",
+        serializedName: "state",
         required: true,
         type: {
           name: "String"
         }
       },
       completedTime: {
-        serializedName: "CompletedTime",
+        serializedName: "completedTime",
         type: {
           name: "String"
         }
       },
       createdTime: {
-        serializedName: "CreatedTime",
+        serializedName: "createdTime",
         type: {
           name: "String"
         }
       },
       actionDetails: {
-        serializedName: "ActionDetails",
+        serializedName: "actionDetails",
         type: {
           name: "Sequence",
           element: {
@@ -1969,13 +1969,13 @@ export const Context: coreClient.CompositeMapper = {
     className: "Context",
     modelProperties: {
       notificationSource: {
-        serializedName: "NotificationSource",
+        serializedName: "notificationSource",
         type: {
           name: "String"
         }
       },
       contextType: {
-        serializedName: "ContextType",
+        serializedName: "contextType",
         type: {
           name: "String"
         }
