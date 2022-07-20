@@ -46,9 +46,6 @@ export interface AzureResourcePropertiesBase {
 export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties;
 
 // @public
-export type AzureResourceType = string;
-
-// @public
 export type ClientType = string;
 
 // @public
@@ -87,19 +84,6 @@ export interface ErrorResponse {
 }
 
 // @public
-export type KeyVaultSecretReferenceSecretInfo = SecretInfoBase & {
-    secretType: "keyVaultSecretReference";
-    name?: string;
-    version?: string;
-};
-
-// @public
-export type KeyVaultSecretUriSecretInfo = SecretInfoBase & {
-    secretType: "keyVaultSecretUri";
-    value?: string;
-};
-
-// @public
 export enum KnownActionType {
     // (undocumented)
     Internal = "Internal"
@@ -117,12 +101,6 @@ export enum KnownAuthType {
     SystemAssignedIdentity = "systemAssignedIdentity",
     // (undocumented)
     UserAssignedIdentity = "userAssignedIdentity"
-}
-
-// @public
-export enum KnownAzureResourceType {
-    // (undocumented)
-    KeyVault = "KeyVault"
 }
 
 // @public
@@ -172,29 +150,21 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownSecretType {
-    // (undocumented)
-    KeyVaultSecretReference = "keyVaultSecretReference",
-    // (undocumented)
-    KeyVaultSecretUri = "keyVaultSecretUri",
-    // (undocumented)
-    RawValue = "rawValue"
-}
-
-// @public
-export enum KnownTargetServiceType {
+export enum KnownType {
     // (undocumented)
     AzureResource = "AzureResource",
     // (undocumented)
     ConfluentBootstrapServer = "ConfluentBootstrapServer",
     // (undocumented)
-    ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
+    ConfluentSchemaRegistry = "ConfluentSchemaRegistry",
+    // (undocumented)
+    KeyVault = "KeyVault"
 }
 
 // @public
-export enum KnownValidationResultStatus {
+export enum KnownValidationItemResult {
     // (undocumented)
-    Failure = "failure",
+    Failed = "failed",
     // (undocumented)
     Success = "success",
     // (undocumented)
@@ -312,7 +282,27 @@ export interface LinkerValidateOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type LinkerValidateResponse = ValidateOperationResult;
+export type LinkerValidateResponse = ValidateResult;
+
+// @public (undocumented)
+export class MicrosoftServiceLinker extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, options?: MicrosoftServiceLinkerOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    linker: Linker;
+    // (undocumented)
+    operations: Operations;
+}
+
+// @public
+export interface MicrosoftServiceLinkerOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
+}
 
 // @public
 export interface Operation {
@@ -373,43 +363,12 @@ export interface Resource {
 export type SecretAuthInfo = AuthInfoBase & {
     authType: "secret";
     name?: string;
-    secretInfo?: SecretInfoBaseUnion;
+    secret?: string;
 };
-
-// @public
-export interface SecretInfoBase {
-    secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
-}
-
-// @public (undocumented)
-export type SecretInfoBaseUnion = SecretInfoBase | ValueSecretInfo | KeyVaultSecretReferenceSecretInfo | KeyVaultSecretUriSecretInfo;
 
 // @public
 export interface SecretStore {
     keyVaultId?: string;
-}
-
-// @public
-export type SecretType = string;
-
-// @public (undocumented)
-export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: ServiceLinkerManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    linker: Linker;
-    // (undocumented)
-    operations: Operations;
-}
-
-// @public
-export interface ServiceLinkerManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -463,7 +422,7 @@ export interface TargetServiceBase {
 export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry;
 
 // @public
-export type TargetServiceType = string;
+export type Type = string;
 
 // @public
 export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
@@ -473,18 +432,19 @@ export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
 };
 
 // @public
-export interface ValidateOperationResult {
+export interface ValidateResult {
     authType?: AuthType;
     isConnectionAvailable?: boolean;
     linkerName?: string;
     reportEndTimeUtc?: Date;
     reportStartTimeUtc?: Date;
-    resourceId?: string;
     sourceId?: string;
-    status?: string;
     targetId?: string;
     validationDetail?: ValidationResultItem[];
 }
+
+// @public
+export type ValidationItemResult = string;
 
 // @public
 export interface ValidationResultItem {
@@ -492,17 +452,8 @@ export interface ValidationResultItem {
     errorCode?: string;
     errorMessage?: string;
     name?: string;
-    result?: ValidationResultStatus;
+    result?: ValidationItemResult;
 }
-
-// @public
-export type ValidationResultStatus = string;
-
-// @public
-export type ValueSecretInfo = SecretInfoBase & {
-    secretType: "rawValue";
-    value?: string;
-};
 
 // @public
 export interface VNetSolution {

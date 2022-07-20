@@ -8,23 +8,28 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { LinkerImpl, OperationsImpl } from "./operations";
 import { Linker, Operations } from "./operationsInterfaces";
-import { ServiceLinkerManagementClientOptionalParams } from "./models";
+import { MicrosoftServiceLinkerOptionalParams } from "./models";
 
-export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
+export class MicrosoftServiceLinker extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the ServiceLinkerManagementClient class.
+   * Initializes a new instance of the MicrosoftServiceLinker class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: ServiceLinkerManagementClientOptionalParams
+    options?: MicrosoftServiceLinkerOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -34,12 +39,12 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: ServiceLinkerManagementClientOptionalParams = {
+    const defaults: MicrosoftServiceLinkerOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-servicelinker/2.0.0`;
+    const packageDetails = `azsdk-js-arm-servicelinker/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,9 +89,38 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2021-07-20";
     this.linker = new LinkerImpl(this);
     this.operations = new OperationsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return item.replace(/(?<==).*$/, apiVersion);
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   linker: Linker;
