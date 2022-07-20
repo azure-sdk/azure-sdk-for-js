@@ -15,7 +15,6 @@ export const LinkerList: coreClient.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "nextLink",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -85,7 +84,6 @@ export const VNetSolution: coreClient.CompositeMapper = {
     modelProperties: {
       type: {
         serializedName: "type",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -101,7 +99,6 @@ export const SecretStore: coreClient.CompositeMapper = {
     modelProperties: {
       keyVaultId: {
         serializedName: "keyVaultId",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -329,7 +326,6 @@ export const LinkerPatch: coreClient.CompositeMapper = {
       },
       scope: {
         serializedName: "properties.scope",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -338,77 +334,55 @@ export const LinkerPatch: coreClient.CompositeMapper = {
   }
 };
 
-export const ValidateOperationResult: coreClient.CompositeMapper = {
+export const ValidateResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ValidateOperationResult",
+    className: "ValidateResult",
     modelProperties: {
-      resourceId: {
-        serializedName: "resourceId",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      },
       linkerName: {
-        serializedName: "properties.linkerName",
-        nullable: true,
+        serializedName: "linkerName",
         type: {
           name: "String"
         }
       },
       isConnectionAvailable: {
-        serializedName: "properties.isConnectionAvailable",
-        nullable: true,
+        serializedName: "isConnectionAvailable",
         type: {
           name: "Boolean"
         }
       },
       reportStartTimeUtc: {
-        serializedName: "properties.reportStartTimeUtc",
-        nullable: true,
+        serializedName: "reportStartTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       reportEndTimeUtc: {
-        serializedName: "properties.reportEndTimeUtc",
-        nullable: true,
+        serializedName: "reportEndTimeUtc",
         type: {
           name: "DateTime"
         }
       },
       sourceId: {
-        serializedName: "properties.sourceId",
-        nullable: true,
+        serializedName: "sourceId",
         type: {
           name: "String"
         }
       },
       targetId: {
-        serializedName: "properties.targetId",
-        nullable: true,
+        serializedName: "targetId",
         type: {
           name: "String"
         }
       },
       authType: {
-        serializedName: "properties.authType",
-        nullable: true,
+        serializedName: "authType",
         type: {
           name: "String"
         }
       },
       validationDetail: {
-        serializedName: "properties.validationDetail",
-        nullable: true,
+        serializedName: "validationDetail",
         type: {
           name: "Sequence",
           element: {
@@ -436,28 +410,24 @@ export const ValidationResultItem: coreClient.CompositeMapper = {
       },
       description: {
         serializedName: "description",
-        nullable: true,
         type: {
           name: "String"
         }
       },
       result: {
         serializedName: "result",
-        nullable: true,
         type: {
           name: "String"
         }
       },
       errorMessage: {
         serializedName: "errorMessage",
-        nullable: true,
         type: {
           name: "String"
         }
       },
       errorCode: {
         serializedName: "errorCode",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -500,7 +470,6 @@ export const SourceConfiguration: coreClient.CompositeMapper = {
       },
       value: {
         serializedName: "value",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -640,27 +609,6 @@ export const AzureResourcePropertiesBase: coreClient.CompositeMapper = {
   }
 };
 
-export const SecretInfoBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecretInfoBase",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: {
-      serializedName: "secretType",
-      clientName: "secretType"
-    },
-    modelProperties: {
-      secretType: {
-        serializedName: "secretType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AzureResource: coreClient.CompositeMapper = {
   serializedName: "AzureResource",
   type: {
@@ -736,16 +684,14 @@ export const SecretAuthInfo: coreClient.CompositeMapper = {
       ...AuthInfoBase.type.modelProperties,
       name: {
         serializedName: "name",
-        nullable: true,
         type: {
           name: "String"
         }
       },
-      secretInfo: {
-        serializedName: "secretInfo",
+      secret: {
+        serializedName: "secret",
         type: {
-          name: "Composite",
-          className: "SecretInfoBase"
+          name: "String"
         }
       }
     }
@@ -880,74 +826,8 @@ export const AzureKeyVaultProperties: coreClient.CompositeMapper = {
       ...AzureResourcePropertiesBase.type.modelProperties,
       connectAsKubernetesCsiDriver: {
         serializedName: "connectAsKubernetesCsiDriver",
-        nullable: true,
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ValueSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "rawValue",
-  type: {
-    name: "Composite",
-    className: "ValueSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      value: {
-        serializedName: "value",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSecretReferenceSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "keyVaultSecretReference",
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretReferenceSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
-        nullable: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSecretUriSecretInfo: coreClient.CompositeMapper = {
-  serializedName: "keyVaultSecretUri",
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretUriSecretInfo",
-    uberParent: "SecretInfoBase",
-    polymorphicDiscriminator: SecretInfoBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretInfoBase.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1010,7 +890,6 @@ export const LinkerResource: coreClient.CompositeMapper = {
       },
       scope: {
         serializedName: "properties.scope",
-        nullable: true,
         type: {
           name: "String"
         }
@@ -1023,7 +902,6 @@ export let discriminators = {
   TargetServiceBase: TargetServiceBase,
   AuthInfoBase: AuthInfoBase,
   AzureResourcePropertiesBase: AzureResourcePropertiesBase,
-  SecretInfoBase: SecretInfoBase,
   "TargetServiceBase.AzureResource": AzureResource,
   "TargetServiceBase.ConfluentBootstrapServer": ConfluentBootstrapServer,
   "TargetServiceBase.ConfluentSchemaRegistry": ConfluentSchemaRegistry,
@@ -1032,8 +910,5 @@ export let discriminators = {
   "AuthInfoBase.systemAssignedIdentity": SystemAssignedIdentityAuthInfo,
   "AuthInfoBase.servicePrincipalSecret": ServicePrincipalSecretAuthInfo,
   "AuthInfoBase.servicePrincipalCertificate": ServicePrincipalCertificateAuthInfo,
-  "AzureResourcePropertiesBase.KeyVault": AzureKeyVaultProperties,
-  "SecretInfoBase.rawValue": ValueSecretInfo,
-  "SecretInfoBase.keyVaultSecretReference": KeyVaultSecretReferenceSecretInfo,
-  "SecretInfoBase.keyVaultSecretUri": KeyVaultSecretUriSecretInfo
+  "AzureResourcePropertiesBase.KeyVault": AzureKeyVaultProperties
 };
