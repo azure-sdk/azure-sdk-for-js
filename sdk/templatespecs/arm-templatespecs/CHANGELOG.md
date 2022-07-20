@@ -1,15 +1,26 @@
 # Release History
+    
+## 2.1.0 (2022-07-20)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation TemplateSpecs.getBuiltIn
+  - Added operation TemplateSpecs.listBuiltIns
+  - Added operation TemplateSpecVersions.getBuiltIn
+  - Added operation TemplateSpecVersions.listBuiltIns
+  - Added Interface TemplateSpecsGetBuiltInOptionalParams
+  - Added Interface TemplateSpecsListBuiltInsNextOptionalParams
+  - Added Interface TemplateSpecsListBuiltInsOptionalParams
+  - Added Interface TemplateSpecVersionsGetBuiltInOptionalParams
+  - Added Interface TemplateSpecVersionsListBuiltInsNextOptionalParams
+  - Added Interface TemplateSpecVersionsListBuiltInsOptionalParams
+  - Added Type Alias TemplateSpecsGetBuiltInResponse
+  - Added Type Alias TemplateSpecsListBuiltInsNextResponse
+  - Added Type Alias TemplateSpecsListBuiltInsResponse
+  - Added Type Alias TemplateSpecVersionsGetBuiltInResponse
+  - Added Type Alias TemplateSpecVersionsListBuiltInsNextResponse
+  - Added Type Alias TemplateSpecVersionsListBuiltInsResponse
+    
 ## 2.0.1 (2022-04-18)
 
 **features**
