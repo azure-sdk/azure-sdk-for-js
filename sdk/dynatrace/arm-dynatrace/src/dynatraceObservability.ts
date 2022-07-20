@@ -60,7 +60,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dynatrace/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-dynatrace/1.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -130,7 +130,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
+              return item.replace(/(?<==).*$/, apiVersion);
             } else {
               return item;
             }

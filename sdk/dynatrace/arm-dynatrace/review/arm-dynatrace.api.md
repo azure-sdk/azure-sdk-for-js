@@ -98,14 +98,14 @@ export interface DynatraceSingleSignOnProperties {
 }
 
 // @public
-export interface DynatraceSingleSignOnResource extends ProxyResource {
-    aadDomains?: string[];
-    enterpriseAppId?: string;
-    readonly provisioningState?: ProvisioningState;
-    singleSignOnState?: SingleSignOnStates;
-    singleSignOnUrl?: string;
+export type DynatraceSingleSignOnResource = ProxyResource & {
     readonly systemData?: SystemData;
-}
+    singleSignOnState?: SingleSignOnStates;
+    enterpriseAppId?: string;
+    singleSignOnUrl?: string;
+    aadDomains?: string[];
+    readonly provisioningState?: ProvisioningState;
+};
 
 // @public
 export interface DynatraceSingleSignOnResourceListResult {
@@ -160,152 +160,219 @@ export interface IdentityProperties {
 
 // @public
 export enum KnownActionType {
+    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownAutoUpdateSetting {
+    // (undocumented)
     Disabled = "DISABLED",
+    // (undocumented)
     Enabled = "ENABLED"
 }
 
 // @public
 export enum KnownAvailabilityState {
+    // (undocumented)
     Crashed = "CRASHED",
+    // (undocumented)
     Lost = "LOST",
+    // (undocumented)
     Monitored = "MONITORED",
+    // (undocumented)
     PREMonitored = "PRE_MONITORED",
+    // (undocumented)
     Shutdown = "SHUTDOWN",
+    // (undocumented)
     UnexpectedShutdown = "UNEXPECTED_SHUTDOWN",
+    // (undocumented)
     Unknown = "UNKNOWN",
+    // (undocumented)
     Unmonitored = "UNMONITORED"
 }
 
 // @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLiftrResourceCategories {
+    // (undocumented)
     MonitorLogs = "MonitorLogs",
+    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownLogModule {
+    // (undocumented)
     Disabled = "DISABLED",
+    // (undocumented)
     Enabled = "ENABLED"
 }
 
 // @public
 export enum KnownManagedIdentityType {
+    // (undocumented)
     SystemAndUserAssigned = "SystemAndUserAssigned",
+    // (undocumented)
     SystemAssigned = "SystemAssigned",
+    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMarketplaceSubscriptionStatus {
+    // (undocumented)
     Active = "Active",
+    // (undocumented)
     Suspended = "Suspended"
 }
 
 // @public
 export enum KnownMonitoringStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMonitoringType {
+    // (undocumented)
     CloudInfrastructure = "CLOUD_INFRASTRUCTURE",
+    // (undocumented)
     FullStack = "FULL_STACK"
 }
 
 // @public
 export enum KnownOrigin {
+    // (undocumented)
     System = "system",
+    // (undocumented)
     User = "user",
+    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Accepted = "Accepted",
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleted = "Deleted",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     NotSpecified = "NotSpecified",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSendAadLogsStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendActivityLogsStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendingLogsStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendingMetricsStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSendSubscriptionLogsStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSingleSignOnStates {
+    // (undocumented)
     Disable = "Disable",
+    // (undocumented)
     Enable = "Enable",
+    // (undocumented)
     Existing = "Existing",
+    // (undocumented)
     Initial = "Initial"
 }
 
 // @public
 export enum KnownSSOStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTagAction {
+    // (undocumented)
     Exclude = "Exclude",
+    // (undocumented)
     Include = "Include"
 }
 
 // @public
 export enum KnownUpdateStatus {
+    // (undocumented)
     Incompatible = "INCOMPATIBLE",
+    // (undocumented)
     Outdated = "OUTDATED",
+    // (undocumented)
     Scheduled = "SCHEDULED",
+    // (undocumented)
     Suppressed = "SUPPRESSED",
+    // (undocumented)
     Unknown = "UNKNOWN",
+    // (undocumented)
     UP2Date = "UP2DATE",
+    // (undocumented)
     UpdateINProgress = "UPDATE_IN_PROGRESS",
+    // (undocumented)
     UpdatePending = "UPDATE_PENDING",
+    // (undocumented)
     UpdateProblem = "UPDATE_PROBLEM"
 }
 
@@ -376,18 +443,18 @@ export type MonitoringStatus = string;
 export type MonitoringType = string;
 
 // @public
-export interface MonitorResource extends TrackedResource {
-    dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
+export type MonitorResource = TrackedResource & {
+    readonly systemData?: SystemData;
     identity?: IdentityProperties;
+    monitoringStatus?: MonitoringStatus;
+    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+    dynatraceEnvironmentProperties?: DynatraceEnvironmentProperties;
+    userInfo?: UserInfo;
+    planData?: PlanData;
     readonly liftrResourceCategory?: LiftrResourceCategories;
     readonly liftrResourcePreference?: number;
-    marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
-    monitoringStatus?: MonitoringStatus;
-    planData?: PlanData;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
-    userInfo?: UserInfo;
-}
+};
 
 // @public
 export interface MonitorResourceListResult {
@@ -618,8 +685,7 @@ export interface PlanData {
 export type ProvisioningState = string;
 
 // @public
-export interface ProxyResource extends Resource {
-}
+export type ProxyResource = Resource & {};
 
 // @public
 export interface Resource {
@@ -715,12 +781,12 @@ export interface SystemData {
 export type TagAction = string;
 
 // @public
-export interface TagRule extends ProxyResource {
+export type TagRule = ProxyResource & {
+    readonly systemData?: SystemData;
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: SystemData;
-}
+};
 
 // @public
 export interface TagRuleListResult {
@@ -789,12 +855,12 @@ export interface TagRuleUpdate {
 }
 
 // @public
-export interface TrackedResource extends Resource {
-    location: string;
+export type TrackedResource = Resource & {
     tags?: {
         [propertyName: string]: string;
     };
-}
+    location: string;
+};
 
 // @public
 export type UpdateStatus = string;

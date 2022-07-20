@@ -1,5 +1,16 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-07-20)
+    
+**Features**
+
+  - Added Type Alias DynatraceSingleSignOnResource
+  - Added Type Alias MonitorResource
+  - Added Type Alias ProxyResource
+  - Added Type Alias TagRule
+  - Added Type Alias TrackedResource
+    
+    
 ## 1.0.0-beta.2 (2022-07-12)
     
 **Features**

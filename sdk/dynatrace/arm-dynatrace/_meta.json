@@ -1,8 +1,8 @@
 {
-  "commit": "2de5136a3664520fa0a6f9517997676590534403",
+  "commit": "ed2c4344050c9ab02f0f3e0dba5c76c706996e8a",
   "readme": "specification/dynatrace/resource-manager/readme.md",
-  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\dynatrace\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.1 --generate-sample=true",
+  "autorest_command": "autorest --version=3.7.3 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-js ../azure-rest-api-specs/specification/dynatrace/resource-manager/readme.md --use=@autorest/typescript@6.0.0-alpha.19.20220425.1",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
   "release_tool": "@azure-tools/js-sdk-release-tools@2.4.0",
-  "use": "@autorest/typescript@6.0.0-rc.1"
+  "use": "@autorest/typescript@6.0.0-alpha.19.20220425.1"
 }
