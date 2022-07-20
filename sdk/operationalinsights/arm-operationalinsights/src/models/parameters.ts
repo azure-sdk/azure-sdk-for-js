@@ -95,17 +95,6 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const queryPackName: OperationURLParameter = {
-  parameterPath: "queryPackName",
-  mapper: {
-    serializedName: "queryPackName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -121,6 +110,17 @@ export const contentType: OperationParameter = {
 export const logAnalyticsQueryPackPayload: OperationParameter = {
   parameterPath: "logAnalyticsQueryPackPayload",
   mapper: LogAnalyticsQueryPackMapper
+};
+
+export const queryPackName: OperationURLParameter = {
+  parameterPath: "queryPackName",
+  mapper: {
+    serializedName: "queryPackName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const queryPackTags: OperationParameter = {

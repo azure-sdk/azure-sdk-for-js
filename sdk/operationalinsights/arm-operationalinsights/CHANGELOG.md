@@ -1,16 +1,6 @@
 # Release History
-
-## 9.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 9.0.0-beta.1 (2022-06-24)
+    
+## 9.0.0-beta.2 (2022-07-20)
     
 **Features**
 
@@ -40,6 +30,7 @@
   - Added Interface QueriesSearchOptionalParams
   - Added Interface QueriesUpdateOptionalParams
   - Added Interface QueryPacksCreateOrUpdateOptionalParams
+  - Added Interface QueryPacksCreateOrUpdateWithoutNameOptionalParams
   - Added Interface QueryPacksDeleteOptionalParams
   - Added Interface QueryPacksGetOptionalParams
   - Added Interface QueryPacksListByResourceGroupNextOptionalParams
@@ -72,6 +63,7 @@
   - Added Type Alias QueriesSearchResponse
   - Added Type Alias QueriesUpdateResponse
   - Added Type Alias QueryPacksCreateOrUpdateResponse
+  - Added Type Alias QueryPacksCreateOrUpdateWithoutNameResponse
   - Added Type Alias QueryPacksGetResponse
   - Added Type Alias QueryPacksListByResourceGroupNextResponse
   - Added Type Alias QueryPacksListByResourceGroupResponse

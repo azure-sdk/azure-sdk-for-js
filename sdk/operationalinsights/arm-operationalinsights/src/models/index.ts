@@ -917,7 +917,7 @@ export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
@@ -1794,6 +1794,13 @@ export interface QueryPacksListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type QueryPacksListByResourceGroupResponse = LogAnalyticsQueryPackListResult;
+
+/** Optional parameters. */
+export interface QueryPacksCreateOrUpdateWithoutNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateWithoutName operation. */
+export type QueryPacksCreateOrUpdateWithoutNameResponse = LogAnalyticsQueryPack;
 
 /** Optional parameters. */
 export interface QueryPacksDeleteOptionalParams

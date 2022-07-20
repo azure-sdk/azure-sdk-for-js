@@ -1065,7 +1065,7 @@ export interface PrivateLinkScopedResource {
 export type ProvisioningStateEnum = string;
 
 // @public
-export type ProxyResource = Resource;
+export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1151,6 +1151,7 @@ export type QueriesUpdateResponse = LogAnalyticsQueryPackQuery;
 // @public
 export interface QueryPacks {
     createOrUpdate(resourceGroupName: string, queryPackName: string, logAnalyticsQueryPackPayload: LogAnalyticsQueryPack, options?: QueryPacksCreateOrUpdateOptionalParams): Promise<QueryPacksCreateOrUpdateResponse>;
+    createOrUpdateWithoutName(resourceGroupName: string, logAnalyticsQueryPackPayload: LogAnalyticsQueryPack, options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams): Promise<QueryPacksCreateOrUpdateWithoutNameResponse>;
     delete(resourceGroupName: string, queryPackName: string, options?: QueryPacksDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, queryPackName: string, options?: QueryPacksGetOptionalParams): Promise<QueryPacksGetResponse>;
     list(options?: QueryPacksListOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
@@ -1164,6 +1165,13 @@ export interface QueryPacksCreateOrUpdateOptionalParams extends coreClient.Opera
 
 // @public
 export type QueryPacksCreateOrUpdateResponse = LogAnalyticsQueryPack;
+
+// @public
+export interface QueryPacksCreateOrUpdateWithoutNameOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueryPacksCreateOrUpdateWithoutNameResponse = LogAnalyticsQueryPack;
 
 // @public
 export interface QueryPacksDeleteOptionalParams extends coreClient.OperationOptions {
