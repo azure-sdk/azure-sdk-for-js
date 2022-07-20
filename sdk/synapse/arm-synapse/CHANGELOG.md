@@ -1,16 +1,6 @@
 # Release History
-
-## 8.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 8.1.0-beta.1 (2022-04-20)
+    
+## 9.0.0-beta.1 (2022-07-20)
     
 **Features**
 
@@ -21,14 +11,23 @@
   - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams
   - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
   - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
+  - Added Type Alias ActualState
   - Added Type Alias DedicatedSQLminimalTlsSettings
   - Added Type Alias DedicatedSQLMinimalTlsSettingsName
+  - Added Type Alias DesiredState
   - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse
   - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse
   - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse
   - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
   - Class SynapseManagementClient has a new parameter workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings
+  - Type Alias ClusterPrincipalAssignment has a new parameter aadObjectId
+  - Type Alias DatabasePrincipalAssignment has a new parameter aadObjectId
   - Added Enum KnownDedicatedSQLMinimalTlsSettingsName
+
+**Breaking Changes**
+
+  - Removed Enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityActualState
+  - Removed Enum KnownManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentityDesiredState
     
     
 ## 8.0.0 (2022-01-13)
