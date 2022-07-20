@@ -172,6 +172,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:./projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -465,6 +466,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -3045,8 +3047,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.1:
-    resolution: {integrity: sha512-tTOnfQq+LAyqnxFrOOnyCEaErXnjRTgduUN7a8LUv2u5deqDlI0zoJllHeIEYDZS2o2Kr1s8pDj2NxaFPOWldg==}
+  /autorest/3.6.2:
+    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3892,7 +3894,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220718
+      typescript: 4.8.0-dev.20220720
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8706,8 +8708,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220718:
-    resolution: {integrity: sha512-B2TGSCNm1UToV38TnZVxcprJJSmakj3DG0ASbRO3MMl19ezUwMzf7oEM7dRYde2wR6cCrNXC6wpZME1vJYPK3g==}
+  /typescript/4.8.0-dev.20220720:
+    resolution: {integrity: sha512-P2hOKzT3tkfEBDVHQYCA1yQ/1JA6cNEiEuyEavCW7obrlUExBzozuYJpXlp+m63eUxvKzOBHo8WgBD4jycvScw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9910,7 +9912,7 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10120,7 +10122,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-fFmE9nIaZb8y7DLcarA1THOeWJ7NG8xvY9c2GFXtUmIGOreQWDDSl0Pwu5sha5auLYmgtjCdlhEAaYMcclU9Mw==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-WvI6renEr2M/hgjEe0QSV9g+KGPKf1dLno1FTDXu7dKWjh51uHZtonOGZ6hNGFtaLUwxM2IY+p73RWsTyI0rBA==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10636,7 +10638,7 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13691,7 +13693,7 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       '@types/chai': 4.3.1
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13976,6 +13978,30 @@ packages:
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       '@types/chai': 4.3.1
       chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.76.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.76.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.2
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  file:projects/arm-storagemover.tgz:
+    resolution: {integrity: sha512-OwKrUCSwUC6QFqSpeNCpJhSRq9af2Kl2XCT3z0OZHNxcu3Qm9aZy4W4ZLQvA6zFNdMRCtpAlfhGlRz8HIzzXHg==, tarball: file:projects/arm-storagemover.tgz}
+    name: '@rush-temp/arm-storagemover'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.76.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.76.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.76.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14572,7 +14598,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-QYiz5CiHw4P/K/DUR0a0KfBeFnugs06pbRr7zcYT9sr/2oikwjT6MtQpaxSp1e4Zz4VJkgi38oyGI9cEbDkp0Q==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-mnNckWFQl27y/ndb20JRxFebvSLuJfjv+UsNlY2J9munxANACbabJTEqMylXA6nkUPF8vhNL7qMs4i8PZFXpuA==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -14659,7 +14685,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-aM3fVUeLtsiZaT5CGHhTPtD7QeRL9seCYBukST3IUxv6mwVvnH6O/QsiJgf0ZK3P+t8GMa5EcHvhiYsTHkhIKw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-7fC8WwtG7OSfUR9UhicT2/i9rdmUxo4yb1M1bXYqqXImOVvNWJCHvnn8JXgBwSyb2XOwUqeOREFksNJyN8INZQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -14908,7 +14934,7 @@ packages:
       '@types/chai': 4.3.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.1
+      autorest: 3.6.2
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15621,7 +15647,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-gU+AQjNxOJc60XWlAELpktHbJohW5ICqLYsPDRtLzvh/pOTA8RkYfl/iaQB1EFXu1Em1mmebSQ9tg51gW16H0g==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-l2ZrdSy5xOjnp97H5IIgaS5vYNWvSuelFzC9oF2IS9iHfHd9BxH40eTDij3yHga2o1UMN4+OW/k8OfmjLhYMNw==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
