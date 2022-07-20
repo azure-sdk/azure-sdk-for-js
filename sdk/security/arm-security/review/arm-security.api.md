@@ -530,6 +530,77 @@ export type AmqpD2CMessagesNotInAllowedRange = TimeWindowCustomAlertRule & {
 };
 
 // @public
+export type Application = Resource & {
+    displayName?: string;
+    description?: string;
+    sourceResourceType?: ApplicationSourceResourceType;
+    conditionSets?: Record<string, unknown>[];
+};
+
+// @public
+export interface ApplicationCondition {
+    operator?: ApplicationConditionOperator;
+    property?: string;
+    value?: string;
+}
+
+// @public
+export type ApplicationConditionOperator = string;
+
+// @public
+export interface ApplicationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationCreateOrUpdateResponse = Application;
+
+// @public
+export interface ApplicationDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ApplicationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationGetResponse = Application;
+
+// @public
+export interface ApplicationOperations {
+    createOrUpdate(applicationId: string, application: Application, options?: ApplicationCreateOrUpdateOptionalParams): Promise<ApplicationCreateOrUpdateResponse>;
+    delete(applicationId: string, options?: ApplicationDeleteOptionalParams): Promise<void>;
+    get(applicationId: string, options?: ApplicationGetOptionalParams): Promise<ApplicationGetResponse>;
+}
+
+// @public
+export interface Applications {
+    list(options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
+}
+
+// @public
+export interface ApplicationsList {
+    readonly nextLink?: string;
+    readonly value?: Application[];
+}
+
+// @public
+export interface ApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationsListNextResponse = ApplicationsList;
+
+// @public
+export interface ApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationsListResponse = ApplicationsList;
+
+// @public
+export type ApplicationSourceResourceType = string;
+
+// @public
 export type AscLocation = Resource & {
     properties?: Record<string, unknown>;
 };
@@ -902,6 +973,38 @@ export type AwsCredsAuthenticationDetailsProperties = AuthenticationDetailsPrope
 };
 
 // @public
+export type AWSEnvironmentData = EnvironmentData & {
+    environmentType: "AwsAccount";
+    organizationalData?: AwsOrganizationalDataUnion;
+};
+
+// @public
+export interface AwsOrganizationalData {
+    organizationMembershipType: "Organization" | "Member";
+}
+
+// @public
+export type AwsOrganizationalDataMaster = AwsOrganizationalData & {
+    organizationMembershipType: "Organization";
+    stacksetName?: string;
+    excludedAccountIds?: string[];
+};
+
+// @public
+export type AwsOrganizationalDataMember = AwsOrganizationalData & {
+    organizationMembershipType: "Member";
+    parentHierarchyId?: string;
+};
+
+// @public (undocumented)
+export type AwsOrganizationalDataUnion = AwsOrganizationalData | AwsOrganizationalDataMaster | AwsOrganizationalDataMember;
+
+// @public
+export type AzureDevOpsScopeEnvironmentData = EnvironmentData & {
+    environmentType: "AzureDevOpsScope";
+};
+
+// @public
 export type AzureResourceDetails = ResourceDetails & {
     source: "Azure";
     readonly id?: string;
@@ -985,11 +1088,11 @@ export type CloudName = string;
 // @public
 export interface CloudOffering {
     readonly description?: string;
-    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "InformationProtectionAws";
+    offeringType: "CspmMonitorAws" | "DefenderForContainersAws" | "DefenderForServersAws" | "DefenderForDatabasesAws" | "InformationProtectionAws" | "CspmMonitorGcp" | "DefenderForServersGcp" | "DefenderForDatabasesGcp" | "DefenderForContainersGcp" | "CspmMonitorGithub" | "CspmMonitorAzureDevOps";
 }
 
 // @public (undocumented)
-export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | InformationProtectionAwsOffering;
+export type CloudOfferingUnion = CloudOffering | CspmMonitorAwsOffering | DefenderForContainersAwsOffering | DefenderForServersAwsOffering | DefenderFoDatabasesAwsOffering | InformationProtectionAwsOffering | CspmMonitorGcpOffering | DefenderForServersGcpOffering | DefenderForDatabasesGcpOffering | DefenderForContainersGcpOffering | CspmMonitorGithubOffering | CspmMonitorAzureDevOpsOffering;
 
 // @public
 export type Compliance = Resource & {
@@ -1074,6 +1177,13 @@ export interface CompliancesListOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type CompliancesListResponse = ComplianceList;
+
+// @public
+export interface Condition {
+    operator?: GovernanceRuleConditionOperator;
+    property?: string;
+    value?: string;
+}
 
 // @public
 export type ConfigurationStatus = string;
@@ -1199,6 +1309,28 @@ export type CspmMonitorAwsOffering = CloudOffering & {
 export interface CspmMonitorAwsOfferingNativeCloudConnection {
     cloudRoleArn?: string;
 }
+
+// @public
+export type CspmMonitorAzureDevOpsOffering = CloudOffering & {
+    offeringType: "CspmMonitorAzureDevOps";
+};
+
+// @public
+export type CspmMonitorGcpOffering = CloudOffering & {
+    offeringType: "CspmMonitorGcp";
+    nativeCloudConnection?: CspmMonitorGcpOfferingNativeCloudConnection;
+};
+
+// @public
+export interface CspmMonitorGcpOfferingNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export type CspmMonitorGithubOffering = CloudOffering & {
+    offeringType: "CspmMonitorGithub";
+};
 
 // @public
 export interface CustomAlertRule {
@@ -1387,16 +1519,52 @@ export type DataExportSettings = Setting & {
 export type DataSource = string;
 
 // @public
+export type DefenderFoDatabasesAwsOffering = CloudOffering & {
+    offeringType: "DefenderForDatabasesAws";
+    arcAutoProvisioning?: DefenderFoDatabasesAwsOfferingArcAutoProvisioning;
+};
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioning {
+    cloudRoleArn?: string;
+    enabled?: boolean;
+    servicePrincipalSecretMetadata?: DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
+}
+
+// @public
+export interface DefenderFoDatabasesAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata {
+    expiryDate?: Date;
+    parameterNameInStore?: string;
+    parameterStoreRegion?: string;
+}
+
+// @public
 export type DefenderForContainersAwsOffering = CloudOffering & {
     offeringType: "DefenderForContainersAws";
     kubernetesService?: DefenderForContainersAwsOfferingKubernetesService;
     kubernetesScubaReader?: DefenderForContainersAwsOfferingKubernetesScubaReader;
     cloudWatchToKinesis?: DefenderForContainersAwsOfferingCloudWatchToKinesis;
     kinesisToS3?: DefenderForContainersAwsOfferingKinesisToS3;
+    containerVulnerabilityAssessment?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessment;
+    containerVulnerabilityAssessmentTask?: DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask;
+    enableContainerVulnerabilityAssessment?: boolean;
+    autoProvisioning?: boolean;
+    kubeAuditRetentionTime?: number;
+    scubaExternalId?: string;
 };
 
 // @public
 export interface DefenderForContainersAwsOfferingCloudWatchToKinesis {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessment {
+    cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForContainersAwsOfferingContainerVulnerabilityAssessmentTask {
     cloudRoleArn?: string;
 }
 
@@ -1416,14 +1584,66 @@ export interface DefenderForContainersAwsOfferingKubernetesService {
 }
 
 // @public
+export type DefenderForContainersGcpOffering = CloudOffering & {
+    offeringType: "DefenderForContainersGcp";
+    nativeCloudConnection?: DefenderForContainersGcpOfferingNativeCloudConnection;
+    dataPipelineNativeCloudConnection?: DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection;
+    auditLogsAutoProvisioningFlag?: boolean;
+    defenderAgentAutoProvisioningFlag?: boolean;
+    policyAgentAutoProvisioningFlag?: boolean;
+};
+
+// @public
+export interface DefenderForContainersGcpOfferingDataPipelineNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForContainersGcpOfferingNativeCloudConnection {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export type DefenderForDatabasesGcpOffering = CloudOffering & {
+    offeringType: "DefenderForDatabasesGcp";
+    arcAutoProvisioning?: DefenderForDatabasesGcpOfferingArcAutoProvisioning;
+    defenderForDatabasesArcAutoProvisioning?: DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning;
+};
+
+// @public
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioning {
+    configuration?: DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForDatabasesGcpOfferingArcAutoProvisioningConfiguration {
+    agentOnboardingServiceAccountNumericId?: string;
+    clientId?: string;
+}
+
+// @public
+export interface DefenderForDatabasesGcpOfferingDefenderForDatabasesArcAutoProvisioning {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
 export type DefenderForServersAwsOffering = CloudOffering & {
     offeringType: "DefenderForServersAws";
     defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
     arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
+    vaAutoProvisioning?: DefenderForServersAwsOfferingVaAutoProvisioning;
+    mdeAutoProvisioning?: DefenderForServersAwsOfferingMdeAutoProvisioning;
+    subPlan?: DefenderForServersAwsOfferingSubPlan;
+    vmScanners?: DefenderForServersAwsOfferingVmScanners;
 };
 
 // @public
 export interface DefenderForServersAwsOfferingArcAutoProvisioning {
+    cloudRoleArn?: string;
     enabled?: boolean;
     servicePrincipalSecretMetadata?: DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipalSecretMetadata;
 }
@@ -1438,6 +1658,91 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipa
 // @public
 export interface DefenderForServersAwsOfferingDefenderForServers {
     cloudRoleArn?: string;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingMdeAutoProvisioning {
+    configuration?: Record<string, unknown>;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingSubPlan {
+    type?: SubPlan;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVaAutoProvisioning {
+    configuration?: DefenderForServersAwsOfferingVaAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVaAutoProvisioningConfiguration {
+    type?: Type;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVmScanners {
+    configuration?: DefenderForServersAwsOfferingVmScannersConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersAwsOfferingVmScannersConfiguration {
+    cloudRoleArn?: string;
+    exclusionTags?: Record<string, unknown>;
+    scanningMode?: ScanningMode;
+}
+
+// @public
+export type DefenderForServersGcpOffering = CloudOffering & {
+    offeringType: "DefenderForServersGcp";
+    defenderForServers?: DefenderForServersGcpOfferingDefenderForServers;
+    arcAutoProvisioning?: DefenderForServersGcpOfferingArcAutoProvisioning;
+    vaAutoProvisioning?: DefenderForServersGcpOfferingVaAutoProvisioning;
+    mdeAutoProvisioning?: DefenderForServersGcpOfferingMdeAutoProvisioning;
+    subPlan?: DefenderForServersGcpOfferingSubPlan;
+};
+
+// @public
+export interface DefenderForServersGcpOfferingArcAutoProvisioning {
+    configuration?: DefenderForServersGcpOfferingArcAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingArcAutoProvisioningConfiguration {
+    agentOnboardingServiceAccountNumericId?: string;
+    clientId?: string;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingDefenderForServers {
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingMdeAutoProvisioning {
+    configuration?: Record<string, unknown>;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingSubPlan {
+    type?: SubPlan;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVaAutoProvisioning {
+    configuration?: DefenderForServersGcpOfferingVaAutoProvisioningConfiguration;
+    enabled?: boolean;
+}
+
+// @public
+export interface DefenderForServersGcpOfferingVaAutoProvisioningConfiguration {
+    type?: Type;
 }
 
 // @public
@@ -1581,6 +1886,17 @@ export type EnforcementMode = string;
 export type EnforcementSupport = string;
 
 // @public
+export interface EnvironmentData {
+    environmentType: "AwsAccount" | "GcpProject" | "GithubScope" | "AzureDevOpsScope";
+}
+
+// @public (undocumented)
+export type EnvironmentDataUnion = EnvironmentData | AWSEnvironmentData | GcpProjectEnvironmentData | GithubScopeEnvironmentData | AzureDevOpsScopeEnvironmentData;
+
+// @public
+export type EnvironmentType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -1594,6 +1910,16 @@ export interface ETag {
 // @public
 type EventSource_2 = string;
 export { EventSource_2 as EventSource }
+
+// @public
+export interface ExecuteGovernanceRuleParams {
+    override?: boolean;
+}
+
+// @public
+export interface ExecuteRuleStatus {
+    readonly operationId?: string;
+}
 
 // @public
 export type ExpandControlsEnum = string;
@@ -1705,6 +2031,240 @@ export type GcpCredentialsDetailsProperties = AuthenticationDetailsProperties & 
     authProviderX509CertUrl: string;
     clientX509CertUrl: string;
 };
+
+// @public
+export interface GcpOrganizationalData {
+    organizationMembershipType: "Organization" | "Member";
+}
+
+// @public
+export type GcpOrganizationalDataMember = GcpOrganizationalData & {
+    organizationMembershipType: "Member";
+    parentHierarchyId?: string;
+    managementProjectNumber?: string;
+};
+
+// @public
+export type GcpOrganizationalDataOrganization = GcpOrganizationalData & {
+    organizationMembershipType: "Organization";
+    excludedProjectNumbers?: string[];
+    serviceAccountEmailAddress?: string;
+    workloadIdentityProviderId?: string;
+};
+
+// @public (undocumented)
+export type GcpOrganizationalDataUnion = GcpOrganizationalData | GcpOrganizationalDataOrganization | GcpOrganizationalDataMember;
+
+// @public
+export interface GcpProjectDetails {
+    projectId?: string;
+    projectNumber?: string;
+    readonly workloadIdentityPoolId?: string;
+}
+
+// @public
+export type GcpProjectEnvironmentData = EnvironmentData & {
+    environmentType: "GcpProject";
+    organizationalData?: GcpOrganizationalDataUnion;
+    projectDetails?: GcpProjectDetails;
+};
+
+// @public
+export type GithubScopeEnvironmentData = EnvironmentData & {
+    environmentType: "GithubScope";
+};
+
+// @public
+export type GovernanceAssignment = Resource & {
+    owner?: string;
+    remediationDueDate?: Date;
+    remediationEta?: RemediationEta;
+    isGracePeriod?: boolean;
+    governanceEmailNotification?: GovernanceEmailNotification;
+    additionalData?: GovernanceAssignmentAdditionalData;
+};
+
+// @public
+export interface GovernanceAssignmentAdditionalData {
+    ticketLink?: string;
+    ticketNumber?: number;
+    ticketStatus?: string;
+}
+
+// @public
+export interface GovernanceAssignments {
+    createOrUpdate(scope: string, assessmentName: string, assignmentKey: string, governanceAssignment: GovernanceAssignment, options?: GovernanceAssignmentsCreateOrUpdateOptionalParams): Promise<GovernanceAssignmentsCreateOrUpdateResponse>;
+    delete(scope: string, assessmentName: string, assignmentKey: string, options?: GovernanceAssignmentsDeleteOptionalParams): Promise<void>;
+    get(scope: string, assessmentName: string, assignmentKey: string, options?: GovernanceAssignmentsGetOptionalParams): Promise<GovernanceAssignmentsGetResponse>;
+    list(scope: string, assessmentName: string, options?: GovernanceAssignmentsListOptionalParams): PagedAsyncIterableIterator<GovernanceAssignment>;
+}
+
+// @public
+export interface GovernanceAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceAssignmentsCreateOrUpdateResponse = GovernanceAssignment;
+
+// @public
+export interface GovernanceAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GovernanceAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceAssignmentsGetResponse = GovernanceAssignment;
+
+// @public
+export interface GovernanceAssignmentsList {
+    readonly nextLink?: string;
+    readonly value?: GovernanceAssignment[];
+}
+
+// @public
+export interface GovernanceAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceAssignmentsListNextResponse = GovernanceAssignmentsList;
+
+// @public
+export interface GovernanceAssignmentsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceAssignmentsListResponse = GovernanceAssignmentsList;
+
+// @public
+export interface GovernanceEmailNotification {
+    disableManagerEmailNotification?: boolean;
+    disableOwnerEmailNotification?: boolean;
+}
+
+// @public
+export type GovernanceRule = Resource & {
+    displayName?: string;
+    description?: string;
+    remediationTimeframe?: string;
+    isGracePeriod?: boolean;
+    rulePriority?: number;
+    isDisabled?: boolean;
+    ruleType?: GovernanceRuleType;
+    sourceResourceType?: GovernanceRuleSourceResourceType;
+    conditionSets?: Record<string, unknown>[];
+    ownerSource?: GovernanceRuleOwnerSource;
+    governanceEmailNotification?: GovernanceRuleEmailNotification;
+};
+
+// @public
+export type GovernanceRuleConditionOperator = string;
+
+// @public
+export interface GovernanceRuleEmailNotification {
+    disableManagerEmailNotification?: boolean;
+    disableOwnerEmailNotification?: boolean;
+}
+
+// @public
+export interface GovernanceRuleList {
+    readonly nextLink?: string;
+    readonly value?: GovernanceRule[];
+}
+
+// @public
+export interface GovernanceRuleListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRuleListNextResponse = GovernanceRuleList;
+
+// @public
+export interface GovernanceRuleListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRuleListResponse = GovernanceRuleList;
+
+// @public
+export interface GovernanceRuleOperations {
+    list(options?: GovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
+}
+
+// @public
+export interface GovernanceRuleOwnerSource {
+    type?: GovernanceRuleOwnerSourceType;
+    value?: string;
+}
+
+// @public
+export type GovernanceRuleOwnerSourceType = string;
+
+// @public
+export interface GovernanceRules {
+    beginRuleIdExecuteSingleSecurityConnector(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>, GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>>;
+    beginRuleIdExecuteSingleSecurityConnectorAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse>;
+    beginRuleIdExecuteSingleSubscription(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams): Promise<PollerLike<PollOperationState<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>, GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>>;
+    beginRuleIdExecuteSingleSubscriptionAndWait(ruleId: string, options?: GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams): Promise<GovernanceRulesRuleIdExecuteSingleSubscriptionResponse>;
+    createOrUpdate(ruleId: string, governanceRule: GovernanceRule, options?: GovernanceRulesCreateOrUpdateOptionalParams): Promise<GovernanceRulesCreateOrUpdateResponse>;
+    delete(ruleId: string, options?: GovernanceRulesDeleteOptionalParams): Promise<void>;
+    get(ruleId: string, options?: GovernanceRulesGetOptionalParams): Promise<GovernanceRulesGetResponse>;
+}
+
+// @public
+export interface GovernanceRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+// @public
+export interface GovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface GovernanceRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GovernanceRulesGetResponse = GovernanceRule;
+
+// @public
+export type GovernanceRuleSourceResourceType = string;
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders {
+    location?: string;
+}
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleSecurityConnectorOptionalParams extends coreClient.OperationOptions {
+    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GovernanceRulesRuleIdExecuteSingleSecurityConnectorResponse = GovernanceRulesRuleIdExecuteSingleSecurityConnectorHeaders;
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders {
+    location?: string;
+}
+
+// @public
+export interface GovernanceRulesRuleIdExecuteSingleSubscriptionOptionalParams extends coreClient.OperationOptions {
+    executeGovernanceRuleParams?: ExecuteGovernanceRuleParams;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type GovernanceRulesRuleIdExecuteSingleSubscriptionResponse = GovernanceRulesRuleIdExecuteSingleSubscriptionHeaders;
+
+// @public
+export type GovernanceRuleType = string;
 
 // @public
 export type HttpC2DMessagesNotInAllowedRange = TimeWindowCustomAlertRule & {
@@ -2434,6 +2994,17 @@ export enum KnownAlertsToAdmins {
 }
 
 // @public
+export enum KnownApplicationConditionOperator {
+    Contains = "Contains",
+    In = "In"
+}
+
+// @public
+export enum KnownApplicationSourceResourceType {
+    Assessments = "Assessments"
+}
+
+// @public
 export enum KnownAssessedResourceType {
     // (undocumented)
     ContainerRegistryVulnerability = "ContainerRegistryVulnerability",
@@ -2520,7 +3091,11 @@ export enum KnownCloudName {
     // (undocumented)
     Azure = "Azure",
     // (undocumented)
-    GCP = "GCP"
+    AzureDevOps = "AzureDevOps",
+    // (undocumented)
+    GCP = "GCP",
+    // (undocumented)
+    Github = "Github"
 }
 
 // @public
@@ -2611,6 +3186,18 @@ export enum KnownEnforcementSupport {
 }
 
 // @public
+export enum KnownEnvironmentType {
+    // (undocumented)
+    AwsAccount = "AwsAccount",
+    // (undocumented)
+    AzureDevOpsScope = "AzureDevOpsScope",
+    // (undocumented)
+    GcpProject = "GcpProject",
+    // (undocumented)
+    GithubScope = "GithubScope"
+}
+
+// @public
 export enum KnownEventSource {
     // (undocumented)
     Alerts = "Alerts",
@@ -2679,6 +3266,29 @@ export enum KnownFileType {
 }
 
 // @public
+export enum KnownGovernanceRuleConditionOperator {
+    Equals = "Equals",
+    In = "In"
+}
+
+// @public
+export enum KnownGovernanceRuleOwnerSourceType {
+    ByTag = "ByTag",
+    Manually = "Manually"
+}
+
+// @public
+export enum KnownGovernanceRuleSourceResourceType {
+    Assessments = "Assessments"
+}
+
+// @public
+export enum KnownGovernanceRuleType {
+    Integrated = "Integrated",
+    ServiceNow = "ServiceNow"
+}
+
+// @public
 export enum KnownHybridComputeProvisioningState {
     Expired = "Expired",
     Invalid = "Invalid",
@@ -2733,9 +3343,23 @@ export enum KnownOfferingType {
     // (undocumented)
     CspmMonitorAws = "CspmMonitorAws",
     // (undocumented)
+    CspmMonitorAzureDevOps = "CspmMonitorAzureDevOps",
+    // (undocumented)
+    CspmMonitorGcp = "CspmMonitorGcp",
+    // (undocumented)
+    CspmMonitorGithub = "CspmMonitorGithub",
+    // (undocumented)
     DefenderForContainersAws = "DefenderForContainersAws",
     // (undocumented)
+    DefenderForContainersGcp = "DefenderForContainersGcp",
+    // (undocumented)
+    DefenderForDatabasesAws = "DefenderForDatabasesAws",
+    // (undocumented)
+    DefenderForDatabasesGcp = "DefenderForDatabasesGcp",
+    // (undocumented)
     DefenderForServersAws = "DefenderForServersAws",
+    // (undocumented)
+    DefenderForServersGcp = "DefenderForServersGcp",
     // (undocumented)
     InformationProtectionAws = "InformationProtectionAws"
 }
@@ -2910,6 +3534,12 @@ export enum KnownRuleType {
 }
 
 // @public
+export enum KnownScanningMode {
+    // (undocumented)
+    Default = "Default"
+}
+
+// @public
 export enum KnownScanState {
     Failed = "Failed",
     FailedToRun = "FailedToRun",
@@ -2976,7 +3606,9 @@ export enum KnownSettingName {
     // (undocumented)
     Wdatp = "WDATP",
     // (undocumented)
-    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW"
+    WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
+    // (undocumented)
+    WdatpUnifiedSolution = "WDATP_UNIFIED_SOLUTION"
 }
 
 // @public
@@ -3051,6 +3683,14 @@ export enum KnownSubAssessmentStatusCode {
     Healthy = "Healthy",
     NotApplicable = "NotApplicable",
     Unhealthy = "Unhealthy"
+}
+
+// @public
+export enum KnownSubPlan {
+    // (undocumented)
+    P1 = "P1",
+    // (undocumented)
+    P2 = "P2"
 }
 
 // @public
@@ -3345,6 +3985,14 @@ export enum KnownTransportProtocol {
     TCP = "TCP",
     // (undocumented)
     UDP = "UDP"
+}
+
+// @public
+export enum KnownType {
+    // (undocumented)
+    Qualys = "Qualys",
+    // (undocumented)
+    TVM = "TVM"
 }
 
 // @public
@@ -3816,6 +4464,12 @@ export interface Remediation {
 }
 
 // @public
+export interface RemediationEta {
+    eta: Date;
+    justification: string;
+}
+
+// @public
 export type ReportedSeverity = string;
 
 // @public
@@ -3901,6 +4555,9 @@ export type RuleType = string;
 export type Scan = Resource & {
     properties?: ScanProperties;
 };
+
+// @public
+export type ScanningMode = string;
 
 // @public
 export interface ScanProperties {
@@ -4279,6 +4936,10 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     allowedConnections: AllowedConnections;
     // (undocumented)
+    applicationOperations: ApplicationOperations;
+    // (undocumented)
+    applications: Applications;
+    // (undocumented)
     assessments: Assessments;
     // (undocumented)
     assessmentsMetadata: AssessmentsMetadata;
@@ -4302,6 +4963,12 @@ export class SecurityCenter extends coreClient.ServiceClient {
     discoveredSecuritySolutions: DiscoveredSecuritySolutions;
     // (undocumented)
     externalSecuritySolutions: ExternalSecuritySolutions;
+    // (undocumented)
+    governanceAssignments: GovernanceAssignments;
+    // (undocumented)
+    governanceRuleOperations: GovernanceRuleOperations;
+    // (undocumented)
+    governanceRules: GovernanceRules;
     // (undocumented)
     informationProtectionPolicies: InformationProtectionPolicies;
     // (undocumented)
@@ -4337,6 +5004,16 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     secureScores: SecureScores;
     // (undocumented)
+    securityConnectorApplication: SecurityConnectorApplication;
+    // (undocumented)
+    securityConnectorApplications: SecurityConnectorApplications;
+    // (undocumented)
+    securityConnectorGovernanceRule: SecurityConnectorGovernanceRule;
+    // (undocumented)
+    securityConnectorGovernanceRules: SecurityConnectorGovernanceRules;
+    // (undocumented)
+    securityConnectorGovernanceRulesExecuteStatus: SecurityConnectorGovernanceRulesExecuteStatus;
+    // (undocumented)
     securityConnectors: SecurityConnectors;
     // (undocumented)
     securityContacts: SecurityContacts;
@@ -4359,6 +5036,8 @@ export class SecurityCenter extends coreClient.ServiceClient {
     // (undocumented)
     subAssessments: SubAssessments;
     // (undocumented)
+    subscriptionGovernanceRulesExecuteStatus: SubscriptionGovernanceRulesExecuteStatus;
+    // (undocumented)
     subscriptionId: string;
     // (undocumented)
     tasks: Tasks;
@@ -4378,18 +5057,119 @@ export interface SecurityCenterOptionalParams extends coreClient.ServiceClientOp
 export type SecurityConnector = TrackedResource & {
     readonly systemData?: SystemData;
     hierarchyIdentifier?: string;
-    cloudName?: CloudName;
+    readonly hierarchyIdentifierTrialEndDate?: Date;
+    environmentName?: CloudName;
     offerings?: CloudOfferingUnion[];
-    organizationalData?: SecurityConnectorPropertiesOrganizationalData;
+    environmentData?: EnvironmentDataUnion;
 };
 
 // @public
-export interface SecurityConnectorPropertiesOrganizationalData {
-    excludedAccountIds?: string[];
-    organizationMembershipType?: OrganizationMembershipType;
-    parentHierarchyId?: string;
-    stacksetName?: string;
+export interface SecurityConnectorApplication {
+    createOrUpdate(resourceGroupName: string, securityConnectorName: string, applicationId: string, application: Application, options?: SecurityConnectorApplicationCreateOrUpdateOptionalParams): Promise<SecurityConnectorApplicationCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, securityConnectorName: string, applicationId: string, options?: SecurityConnectorApplicationDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, securityConnectorName: string, applicationId: string, options?: SecurityConnectorApplicationGetOptionalParams): Promise<SecurityConnectorApplicationGetResponse>;
 }
+
+// @public
+export interface SecurityConnectorApplicationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
+
+// @public
+export interface SecurityConnectorApplicationDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityConnectorApplicationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationGetResponse = Application;
+
+// @public
+export interface SecurityConnectorApplications {
+    list(resourceGroupName: string, securityConnectorName: string, options?: SecurityConnectorApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
+}
+
+// @public
+export interface SecurityConnectorApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationsListNextResponse = ApplicationsList;
+
+// @public
+export interface SecurityConnectorApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorApplicationsListResponse = ApplicationsList;
+
+// @public
+export interface SecurityConnectorGovernanceRule {
+    list(resourceGroupName: string, securityConnectorName: string, options?: SecurityConnectorGovernanceRuleListOptionalParams): PagedAsyncIterableIterator<GovernanceRule>;
+}
+
+// @public
+export interface SecurityConnectorGovernanceRuleListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorGovernanceRuleListNextResponse = GovernanceRuleList;
+
+// @public
+export interface SecurityConnectorGovernanceRuleListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorGovernanceRuleListResponse = GovernanceRuleList;
+
+// @public
+export interface SecurityConnectorGovernanceRules {
+    createOrUpdate(resourceGroupName: string, securityConnectorName: string, ruleId: string, governanceRule: GovernanceRule, options?: SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams): Promise<SecurityConnectorGovernanceRulesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, securityConnectorName: string, ruleId: string, options?: SecurityConnectorGovernanceRulesGetOptionalParams): Promise<SecurityConnectorGovernanceRulesGetResponse>;
+}
+
+// @public
+export interface SecurityConnectorGovernanceRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorGovernanceRulesCreateOrUpdateResponse = GovernanceRule;
+
+// @public
+export interface SecurityConnectorGovernanceRulesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SecurityConnectorGovernanceRulesExecuteStatus {
+    beginGet(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>, SecurityConnectorGovernanceRulesExecuteStatusGetResponse>>;
+    beginGetAndWait(resourceGroupName: string, securityConnectorName: string, ruleId: string, operationId: string, options?: SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams): Promise<SecurityConnectorGovernanceRulesExecuteStatusGetResponse>;
+}
+
+// @public
+export interface SecurityConnectorGovernanceRulesExecuteStatusGetHeaders {
+    location?: string;
+}
+
+// @public
+export interface SecurityConnectorGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SecurityConnectorGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+// @public
+export interface SecurityConnectorGovernanceRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SecurityConnectorGovernanceRulesGetResponse = GovernanceRule;
 
 // @public
 export interface SecurityConnectors {
@@ -5009,6 +5789,29 @@ export interface SubAssessmentStatus {
 export type SubAssessmentStatusCode = string;
 
 // @public
+export type SubPlan = string;
+
+// @public
+export interface SubscriptionGovernanceRulesExecuteStatus {
+    beginGet(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<PollerLike<PollOperationState<SubscriptionGovernanceRulesExecuteStatusGetResponse>, SubscriptionGovernanceRulesExecuteStatusGetResponse>>;
+    beginGetAndWait(ruleId: string, operationId: string, options?: SubscriptionGovernanceRulesExecuteStatusGetOptionalParams): Promise<SubscriptionGovernanceRulesExecuteStatusGetResponse>;
+}
+
+// @public
+export interface SubscriptionGovernanceRulesExecuteStatusGetHeaders {
+    location?: string;
+}
+
+// @public
+export interface SubscriptionGovernanceRulesExecuteStatusGetOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SubscriptionGovernanceRulesExecuteStatusGetResponse = ExecuteRuleStatus;
+
+// @public
 export type SupportedCloudEnum = string;
 
 // @public (undocumented)
@@ -5238,6 +6041,9 @@ export type TransportProtocol = string;
 export type TwinUpdatesNotInAllowedRange = TimeWindowCustomAlertRule & {
     ruleType: "TwinUpdatesNotInAllowedRange";
 };
+
+// @public
+export type Type = string;
 
 // @public
 export type UnauthorizedOperationsNotInAllowedRange = TimeWindowCustomAlertRule & {

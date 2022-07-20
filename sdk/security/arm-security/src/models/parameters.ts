@@ -37,7 +37,11 @@ import {
   AlertSimulatorRequestBody as AlertSimulatorRequestBodyMapper,
   Setting as SettingMapper,
   IngestionSetting as IngestionSettingMapper,
-  SecurityConnector as SecurityConnectorMapper
+  SecurityConnector as SecurityConnectorMapper,
+  GovernanceRule as GovernanceRuleMapper,
+  ExecuteGovernanceRuleParams as ExecuteGovernanceRuleParamsMapper,
+  GovernanceAssignment as GovernanceAssignmentMapper,
+  Application as ApplicationMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -1010,7 +1014,7 @@ export const alertSimulatorRequestBody: OperationParameter = {
 export const apiVersion14: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-07-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1086,6 +1090,18 @@ export const softwareName: OperationURLParameter = {
   }
 };
 
+export const apiVersion17: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-05-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const securityConnectorName: OperationURLParameter = {
   parameterPath: "securityConnectorName",
   mapper: {
@@ -1100,4 +1116,81 @@ export const securityConnectorName: OperationURLParameter = {
 export const securityConnector: OperationParameter = {
   parameterPath: "securityConnector",
   mapper: SecurityConnectorMapper
+};
+
+export const apiVersion18: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-01-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const governanceRule: OperationParameter = {
+  parameterPath: "governanceRule",
+  mapper: GovernanceRuleMapper
+};
+
+export const executeGovernanceRuleParams: OperationParameter = {
+  parameterPath: ["options", "executeGovernanceRuleParams"],
+  mapper: ExecuteGovernanceRuleParamsMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const assignmentKey: OperationURLParameter = {
+  parameterPath: "assignmentKey",
+  mapper: {
+    serializedName: "assignmentKey",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const governanceAssignment: OperationParameter = {
+  parameterPath: "governanceAssignment",
+  mapper: GovernanceAssignmentMapper
+};
+
+export const apiVersion19: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const applicationId: OperationURLParameter = {
+  parameterPath: "applicationId",
+  mapper: {
+    serializedName: "applicationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const application: OperationParameter = {
+  parameterPath: "application",
+  mapper: ApplicationMapper
 };
