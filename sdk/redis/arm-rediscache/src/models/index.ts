@@ -138,7 +138,7 @@ export interface RedisCreateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -176,7 +176,7 @@ export interface Sku {
 export interface RedisCommonProperties {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -206,6 +206,8 @@ export interface RedisCommonPropertiesRedisConfiguration {
   rdbBackupMaxSnapshotCount?: string;
   /** The storage account connection string for storing rdb file */
   rdbStorageConnectionString?: string;
+  /** Specifies whether the aof backup is enabled */
+  aofBackupEnabled?: string;
   /** First storage account connection string */
   aofStorageConnectionString0?: string;
   /** Second storage account connection string */
@@ -228,16 +230,15 @@ export interface RedisCommonPropertiesRedisConfiguration {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly preferredDataArchiveAuthMethod?: string;
-  /**
-   * Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly preferredDataPersistenceAuthMethod?: string;
+  /** Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataPersistenceAuthMethod?: string;
   /**
    * Zonal Configuration
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly zonalConfiguration?: string;
+  /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view. */
+  authnotrequired?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -375,7 +376,7 @@ export interface RedisUpdateParameters {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -437,6 +438,8 @@ export interface ImportRDBParameters {
   format?: string;
   /** files to import. */
   files: string[];
+  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataArchiveAuthMethod?: string;
 }
 
 /** Parameters for Redis export operation. */
@@ -447,6 +450,8 @@ export interface ExportRDBParameters {
   prefix: string;
   /** Container name to export to. */
   container: string;
+  /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
+  preferredDataArchiveAuthMethod?: string;
 }
 
 /** The response of list firewall rules Redis operation. */
@@ -696,7 +701,7 @@ export type RedisResource = TrackedResource & {
   identity?: ManagedServiceIdentity;
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value etc. */
   redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
-  /** Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6) */
+  /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
   redisVersion?: string;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
   enableNonSslPort?: boolean;
@@ -1043,8 +1048,12 @@ export interface RedisCreateOptionalParams extends coreClient.OperationOptions {
 export type RedisCreateResponse = RedisResource;
 
 /** Optional parameters. */
-export interface RedisUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type RedisUpdateResponse = RedisResource;
@@ -1215,7 +1224,12 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties;
 
 /** Optional parameters. */
 export interface LinkedServerDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface LinkedServerGetOptionalParams

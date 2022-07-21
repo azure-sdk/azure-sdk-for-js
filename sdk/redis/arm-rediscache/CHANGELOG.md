@@ -1,15 +1,28 @@
 # Release History
+    
+## 7.0.0 (2022-07-21)
+    
+**Features**
 
-## 6.1.1 (Unreleased)
+  - Added operation LinkedServer.beginDelete
+  - Added operation LinkedServer.beginDeleteAndWait
+  - Added operation Redis.beginUpdate
+  - Added operation Redis.beginUpdateAndWait
+  - Interface ExportRDBParameters has a new optional parameter preferredDataArchiveAuthMethod
+  - Interface ImportRDBParameters has a new optional parameter preferredDataArchiveAuthMethod
+  - Interface LinkedServerDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface LinkedServerDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter aofBackupEnabled
+  - Interface RedisCommonPropertiesRedisConfiguration has a new optional parameter authnotrequired
+  - Interface RedisUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface RedisUpdateOptionalParams has a new optional parameter updateIntervalInMs
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation LinkedServer.delete
+  - Removed operation Redis.update
+    
+    
 ## 6.1.0 (2022-03-07)
     
 **Features**

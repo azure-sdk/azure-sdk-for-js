@@ -67,6 +67,7 @@ export interface ErrorResponse {
 export interface ExportRDBParameters {
     container: string;
     format?: string;
+    preferredDataArchiveAuthMethod?: string;
     prefix: string;
 }
 
@@ -114,6 +115,7 @@ export type FirewallRulesListResponse = RedisFirewallRuleListResult;
 export interface ImportRDBParameters {
     files: string[];
     format?: string;
+    preferredDataArchiveAuthMethod?: string;
 }
 
 // @public
@@ -234,7 +236,8 @@ export enum KnownTlsVersion {
 export interface LinkedServer {
     beginCreate(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<PollerLike<PollOperationState<LinkedServerCreateResponse>, LinkedServerCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, name: string, linkedServerName: string, parameters: RedisLinkedServerCreateParameters, options?: LinkedServerCreateOptionalParams): Promise<LinkedServerCreateResponse>;
-    delete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, linkedServerName: string, options?: LinkedServerGetOptionalParams): Promise<LinkedServerGetResponse>;
     list(resourceGroupName: string, name: string, options?: LinkedServerListOptionalParams): PagedAsyncIterableIterator<RedisLinkedServerWithProperties>;
 }
@@ -250,6 +253,8 @@ export type LinkedServerCreateResponse = RedisLinkedServerWithProperties;
 
 // @public
 export interface LinkedServerDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -502,6 +507,8 @@ export interface Redis {
     beginExportDataAndWait(resourceGroupName: string, name: string, parameters: ExportRDBParameters, options?: RedisExportDataOptionalParams): Promise<void>;
     beginImportData(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginImportDataAndWait(resourceGroupName: string, name: string, parameters: ImportRDBParameters, options?: RedisImportDataOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<PollerLike<PollOperationState<RedisUpdateResponse>, RedisUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<RedisUpdateResponse>;
     checkNameAvailability(parameters: CheckNameAvailabilityParameters, options?: RedisCheckNameAvailabilityOptionalParams): Promise<void>;
     forceReboot(resourceGroupName: string, name: string, parameters: RedisRebootParameters, options?: RedisForceRebootOptionalParams): Promise<RedisForceRebootOperationResponse>;
     get(resourceGroupName: string, name: string, options?: RedisGetOptionalParams): Promise<RedisGetResponse>;
@@ -510,7 +517,6 @@ export interface Redis {
     listKeys(resourceGroupName: string, name: string, options?: RedisListKeysOptionalParams): Promise<RedisListKeysResponse>;
     listUpgradeNotifications(resourceGroupName: string, name: string, history: number, options?: RedisListUpgradeNotificationsOptionalParams): PagedAsyncIterableIterator<UpgradeNotification>;
     regenerateKey(resourceGroupName: string, name: string, parameters: RedisRegenerateKeyParameters, options?: RedisRegenerateKeyOptionalParams): Promise<RedisRegenerateKeyResponse>;
-    update(resourceGroupName: string, name: string, parameters: RedisUpdateParameters, options?: RedisUpdateOptionalParams): Promise<RedisUpdateResponse>;
 }
 
 // @public
@@ -541,15 +547,17 @@ export interface RedisCommonProperties {
 // @public
 export interface RedisCommonPropertiesRedisConfiguration {
     [property: string]: any;
+    aofBackupEnabled?: string;
     aofStorageConnectionString0?: string;
     aofStorageConnectionString1?: string;
+    authnotrequired?: string;
     readonly maxclients?: string;
     maxfragmentationmemoryReserved?: string;
     maxmemoryDelta?: string;
     maxmemoryPolicy?: string;
     maxmemoryReserved?: string;
     readonly preferredDataArchiveAuthMethod?: string;
-    readonly preferredDataPersistenceAuthMethod?: string;
+    preferredDataPersistenceAuthMethod?: string;
     rdbBackupEnabled?: string;
     rdbBackupFrequency?: string;
     rdbBackupMaxSnapshotCount?: string;
@@ -862,6 +870,8 @@ export type RedisResource = TrackedResource & {
 
 // @public
 export interface RedisUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
