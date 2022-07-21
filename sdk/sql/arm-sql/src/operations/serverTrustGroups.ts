@@ -491,7 +491,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -521,8 +521,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters65,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters57,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -539,7 +539,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/serverTrustGroups/{serverTrustGroupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -559,7 +559,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -579,7 +579,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -598,7 +598,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -618,7 +618,7 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
