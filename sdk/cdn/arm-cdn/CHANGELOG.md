@@ -1,5 +1,34 @@
 # Release History
+    
+## 8.0.0 (2022-07-21)
+    
+**Features**
 
+  - Added operation CustomDomains.beginDisableCustomHttps
+  - Added operation CustomDomains.beginDisableCustomHttpsAndWait
+  - Added operation CustomDomains.beginEnableCustomHttps
+  - Added operation CustomDomains.beginEnableCustomHttpsAndWait
+  - Added Interface DeepCreatedCustomDomain
+  - Added Type Alias EndpointProvisioningState
+  - Added Type Alias OriginGroupProvisioningState
+  - Added Type Alias OriginProvisioningState
+  - Added Type Alias ProfileProvisioningState
+  - Added Type Alias ResourceUsageUnit
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsDisableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter resumeFrom
+  - Interface CustomDomainsEnableCustomHttpsOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownEndpointProvisioningState
+  - Added Enum KnownOriginGroupProvisioningState
+  - Added Enum KnownOriginProvisioningState
+  - Added Enum KnownProfileProvisioningState
+  - Added Enum KnownResourceUsageUnit
+
+**Breaking Changes**
+
+  - Removed operation CustomDomains.disableCustomHttps
+  - Removed operation CustomDomains.enableCustomHttps
+    
 ## 7.0.1 (2022-04-21)
 
 **Features**

@@ -1012,10 +1012,10 @@ export interface ResourceUsage {
    */
   readonly resourceType?: string;
   /**
-   * Unit of the usage. e.g. Count.
+   * Unit of the usage. e.g. count.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly unit?: string;
+  readonly unit?: ResourceUsageUnit;
   /**
    * Actual value of usage on the specified resource type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1104,14 +1104,14 @@ export interface HttpErrorRangeParameters {
   end?: number;
 }
 
-/** The JSON object that contains the properties to secure a custom domain. */
-export interface CustomDomainHttpsParameters {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "Cdn" | "AzureKeyVault";
-  /** Defines the TLS extension protocol that is used for secure delivery. */
-  protocolType: ProtocolType;
-  /** TLS protocol version that will be used for Https */
-  minimumTlsVersion?: MinimumTlsVersion;
+/** Custom domains created on the CDN endpoint. */
+export interface DeepCreatedCustomDomain {
+  /** Custom domain name. */
+  name: string;
+  /** The host name of the custom domain. Must be a domain name. */
+  hostName?: string;
+  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
+  validationData?: string;
 }
 
 /** The JSON object containing endpoint update parameters. */
@@ -1358,6 +1358,16 @@ export interface CustomDomainListResult {
   readonly value?: CustomDomain[];
   /** URL to get the next set of custom domain objects if there are any. */
   nextLink?: string;
+}
+
+/** The JSON object that contains the properties to secure a custom domain. */
+export interface CustomDomainHttpsParameters {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "Cdn" | "AzureKeyVault";
+  /** Defines the TLS extension protocol that is used for secure delivery. */
+  protocolType: ProtocolType;
+  /** TLS protocol version that will be used for Https */
+  minimumTlsVersion?: MinimumTlsVersion;
 }
 
 /** The customDomain JSON object required for custom domain creation or update. */
@@ -1631,7 +1641,7 @@ export interface ManagedRuleSet {
 export interface ManagedRuleGroupOverride {
   /** Describes the managed rule group within the rule set to override */
   ruleGroupName: string;
-  /** List of rules that will be disabled. If none specified, all rules in the group will be disabled. */
+  /** List of rules that will be enabled. If none specified, all rules in the group will be disabled. */
   rules?: ManagedRuleOverride[];
 }
 
@@ -2539,22 +2549,6 @@ export type AzureFirstPartyManagedCertificateParameters = SecretParameters & {
   type: "AzureFirstPartyManagedCertificate";
 };
 
-/** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
-export type CdnManagedHttpsParameters = CustomDomainHttpsParameters & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "Cdn";
-  /** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
-  certificateSourceParameters: CdnCertificateSourceParameters;
-};
-
-/** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
-export type UserManagedHttpsParameters = CustomDomainHttpsParameters & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  certificateSource: "AzureKeyVault";
-  /** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
-  certificateSourceParameters: KeyVaultCertificateSourceParameters;
-};
-
 /** The JSON object that contains the properties required to create an endpoint. */
 export type EndpointProperties = EndpointPropertiesUpdateParameters & {
   /**
@@ -2570,7 +2564,7 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
    * The custom domains under the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomains?: CustomDomain[];
+  readonly customDomains?: DeepCreatedCustomDomain[];
   /**
    * Resource status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2580,7 +2574,7 @@ export type EndpointProperties = EndpointPropertiesUpdateParameters & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: EndpointProvisioningState;
 };
 
 /** The JSON object that contains the properties of the origin. */
@@ -2594,7 +2588,7 @@ export type OriginProperties = OriginUpdatePropertiesParameters & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2613,7 +2607,23 @@ export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginGroupProvisioningState;
+};
+
+/** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+export type CdnManagedHttpsParameters = CustomDomainHttpsParameters & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "Cdn";
+  /** Defines the certificate source parameters using CDN managed certificate for enabling SSL. */
+  certificateSourceParameters: CdnCertificateSourceParameters;
+};
+
+/** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+export type UserManagedHttpsParameters = CustomDomainHttpsParameters & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  certificateSource: "AzureKeyVault";
+  /** Defines the certificate source parameters using user's keyvault certificate for enabling SSL. */
+  certificateSourceParameters: KeyVaultCertificateSourceParameters;
 };
 
 /** Defines a rate limiting rule that can be included in a waf policy */
@@ -2860,36 +2870,6 @@ export type Secret = ProxyResource & {
   parameters?: SecretParametersUnion;
 };
 
-/** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
-export type CustomDomain = ProxyResource & {
-  /** The host name of the custom domain. Must be a domain name. */
-  hostName?: string;
-  /**
-   * Resource status of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceState?: CustomDomainResourceState;
-  /**
-   * Provisioning status of Custom Https of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
-  /**
-   * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-  /** Certificate parameters for securing custom HTTPS */
-  customHttpsParameters?: CustomDomainHttpsParametersUnion;
-  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
-  validationData?: string;
-  /**
-   * Provisioning status of the custom domain.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-};
-
 /** CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins. */
 export type Origin = ProxyResource & {
   /** The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint. */
@@ -2923,7 +2903,7 @@ export type Origin = ProxyResource & {
    * Provisioning status of the origin.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginProvisioningState;
   /**
    * The approval status for the connection to the Private Link
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2950,7 +2930,37 @@ export type OriginGroup = ProxyResource & {
    * Provisioning status of the origin group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: OriginGroupProvisioningState;
+};
+
+/** Friendly domain name mapping to the endpoint hostname that the customer provides for branding purposes, e.g. www.contoso.com. */
+export type CustomDomain = ProxyResource & {
+  /** The host name of the custom domain. Must be a domain name. */
+  hostName?: string;
+  /**
+   * Resource status of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceState?: CustomDomainResourceState;
+  /**
+   * Provisioning status of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
+  /**
+   * Provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
+  /** Certificate parameters for securing custom HTTPS */
+  customHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /** Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China. */
+  validationData?: string;
+  /**
+   * Provisioning status of Custom Https of the custom domain.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CustomHttpsProvisioningState;
 };
 
 /** Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users. */
@@ -3002,7 +3012,7 @@ export type Profile = TrackedResource & {
    * Provisioning status of the profile.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProfileProvisioningState;
   /**
    * The Id of the frontdoor.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3055,7 +3065,7 @@ export type Endpoint = TrackedResource & {
    * The custom domains under the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomains?: CustomDomain[];
+  readonly customDomains?: DeepCreatedCustomDomain[];
   /**
    * Resource status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3065,7 +3075,7 @@ export type Endpoint = TrackedResource & {
    * Provisioning status of the endpoint.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: EndpointProvisioningState;
 };
 
 /** Defines web application firewall policy for Azure CDN. */
@@ -3849,6 +3859,28 @@ export enum KnownProfileResourceState {
  */
 export type ProfileResourceState = string;
 
+/** Known values of {@link ProfileProvisioningState} that the service accepts. */
+export enum KnownProfileProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for ProfileProvisioningState. \
+ * {@link KnownProfileProvisioningState} can be used interchangeably with ProfileProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type ProfileProvisioningState = string;
+
 /** Known values of {@link OptimizationType} that the service accepts. */
 export enum KnownOptimizationType {
   GeneralWebDelivery = "GeneralWebDelivery",
@@ -3871,6 +3903,20 @@ export enum KnownOptimizationType {
  */
 export type OptimizationType = string;
 
+/** Known values of {@link ResourceUsageUnit} that the service accepts. */
+export enum KnownResourceUsageUnit {
+  Count = "count"
+}
+
+/**
+ * Defines values for ResourceUsageUnit. \
+ * {@link KnownResourceUsageUnit} can be used interchangeably with ResourceUsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **count**
+ */
+export type ResourceUsageUnit = string;
+
 /** Known values of {@link PrivateEndpointStatus} that the service accepts. */
 export enum KnownPrivateEndpointStatus {
   Pending = "Pending",
@@ -3892,6 +3938,132 @@ export enum KnownPrivateEndpointStatus {
  * **Timeout**
  */
 export type PrivateEndpointStatus = string;
+
+/** Known values of {@link EndpointResourceState} that the service accepts. */
+export enum KnownEndpointResourceState {
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Running = "Running",
+  Starting = "Starting",
+  Stopped = "Stopped",
+  Stopping = "Stopping"
+}
+
+/**
+ * Defines values for EndpointResourceState. \
+ * {@link KnownEndpointResourceState} can be used interchangeably with EndpointResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Deleting** \
+ * **Running** \
+ * **Starting** \
+ * **Stopped** \
+ * **Stopping**
+ */
+export type EndpointResourceState = string;
+
+/** Known values of {@link EndpointProvisioningState} that the service accepts. */
+export enum KnownEndpointProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for EndpointProvisioningState. \
+ * {@link KnownEndpointProvisioningState} can be used interchangeably with EndpointProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type EndpointProvisioningState = string;
+
+/** Known values of {@link OriginResourceState} that the service accepts. */
+export enum KnownOriginResourceState {
+  Creating = "Creating",
+  Active = "Active",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for OriginResourceState. \
+ * {@link KnownOriginResourceState} can be used interchangeably with OriginResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Active** \
+ * **Deleting**
+ */
+export type OriginResourceState = string;
+
+/** Known values of {@link OriginProvisioningState} that the service accepts. */
+export enum KnownOriginProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginProvisioningState. \
+ * {@link KnownOriginProvisioningState} can be used interchangeably with OriginProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginProvisioningState = string;
+
+/** Known values of {@link OriginGroupResourceState} that the service accepts. */
+export enum KnownOriginGroupResourceState {
+  Creating = "Creating",
+  Active = "Active",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for OriginGroupResourceState. \
+ * {@link KnownOriginGroupResourceState} can be used interchangeably with OriginGroupResourceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Active** \
+ * **Deleting**
+ */
+export type OriginGroupResourceState = string;
+
+/** Known values of {@link OriginGroupProvisioningState} that the service accepts. */
+export enum KnownOriginGroupProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting",
+  Creating = "Creating"
+}
+
+/**
+ * Defines values for OriginGroupProvisioningState. \
+ * {@link KnownOriginGroupProvisioningState} can be used interchangeably with OriginGroupProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting** \
+ * **Creating**
+ */
+export type OriginGroupProvisioningState = string;
 
 /** Known values of {@link CustomDomainResourceState} that the service accepts. */
 export enum KnownCustomDomainResourceState {
@@ -3996,66 +4168,6 @@ export enum KnownProtocolType {
  * **IPBased**
  */
 export type ProtocolType = string;
-
-/** Known values of {@link EndpointResourceState} that the service accepts. */
-export enum KnownEndpointResourceState {
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Running = "Running",
-  Starting = "Starting",
-  Stopped = "Stopped",
-  Stopping = "Stopping"
-}
-
-/**
- * Defines values for EndpointResourceState. \
- * {@link KnownEndpointResourceState} can be used interchangeably with EndpointResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Deleting** \
- * **Running** \
- * **Starting** \
- * **Stopped** \
- * **Stopping**
- */
-export type EndpointResourceState = string;
-
-/** Known values of {@link OriginResourceState} that the service accepts. */
-export enum KnownOriginResourceState {
-  Creating = "Creating",
-  Active = "Active",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for OriginResourceState. \
- * {@link KnownOriginResourceState} can be used interchangeably with OriginResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Active** \
- * **Deleting**
- */
-export type OriginResourceState = string;
-
-/** Known values of {@link OriginGroupResourceState} that the service accepts. */
-export enum KnownOriginGroupResourceState {
-  Creating = "Creating",
-  Active = "Active",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for OriginGroupResourceState. \
- * {@link KnownOriginGroupResourceState} can be used interchangeably with OriginGroupResourceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Active** \
- * **Deleting**
- */
-export type OriginGroupResourceState = string;
 
 /** Known values of {@link PolicyEnabledState} that the service accepts. */
 export enum KnownPolicyEnabledState {
@@ -5126,8 +5238,6 @@ export type ResponseBasedDetectedErrorTypes =
   | "None"
   | "TcpErrorsOnly"
   | "TcpAndHttpErrors";
-/** Defines values for MinimumTlsVersion. */
-export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 /** Defines values for QueryStringCachingBehavior. */
 export type QueryStringCachingBehavior =
   | "IgnoreQueryString"
@@ -5136,6 +5246,8 @@ export type QueryStringCachingBehavior =
   | "NotSet";
 /** Defines values for GeoFilterActions. */
 export type GeoFilterActions = "Block" | "Allow";
+/** Defines values for MinimumTlsVersion. */
+export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 
 /** Optional parameters. */
 export interface CheckEndpointNameAvailabilityOptionalParams
@@ -6132,7 +6244,12 @@ export interface CustomDomainsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface CustomDomainsDisableCustomHttpsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the disableCustomHttps operation. */
 export type CustomDomainsDisableCustomHttpsResponse = CustomDomain;
@@ -6142,6 +6259,10 @@ export interface CustomDomainsEnableCustomHttpsOptionalParams
   extends coreClient.OperationOptions {
   /** The configuration specifying how to enable HTTPS for the custom domain - using CDN managed certificate or user's own certificate. If not specified, enabling ssl uses CDN managed certificate by default. */
   customDomainHttpsParameters?: CustomDomainHttpsParametersUnion;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the enableCustomHttps operation. */
