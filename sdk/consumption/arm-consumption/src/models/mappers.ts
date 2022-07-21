@@ -218,13 +218,6 @@ export const BudgetFilter: coreClient.CompositeMapper = {
           }
         }
       },
-      not: {
-        serializedName: "not",
-        type: {
-          name: "Composite",
-          className: "BudgetFilterProperties"
-        }
-      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -2385,72 +2378,6 @@ export const ManagementGroupAggregatedCostResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CreditSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreditSummary",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      balanceSummary: {
-        serializedName: "properties.balanceSummary",
-        type: {
-          name: "Composite",
-          className: "CreditBalanceSummary"
-        }
-      },
-      pendingCreditAdjustments: {
-        serializedName: "properties.pendingCreditAdjustments",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      expiredCredit: {
-        serializedName: "properties.expiredCredit",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      pendingEligibleCharges: {
-        serializedName: "properties.pendingEligibleCharges",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      creditCurrency: {
-        serializedName: "properties.creditCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      billingCurrency: {
-        serializedName: "properties.billingCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      reseller: {
-        serializedName: "properties.reseller",
-        type: {
-          name: "Composite",
-          className: "Reseller"
-        }
-      },
-      eTag: {
-        serializedName: "properties.eTag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Budget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2851,6 +2778,72 @@ export const LotSummary: coreClient.CompositeMapper = {
   }
 };
 
+export const CreditSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreditSummary",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      balanceSummary: {
+        serializedName: "properties.balanceSummary",
+        type: {
+          name: "Composite",
+          className: "CreditBalanceSummary"
+        }
+      },
+      pendingCreditAdjustments: {
+        serializedName: "properties.pendingCreditAdjustments",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      expiredCredit: {
+        serializedName: "properties.expiredCredit",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      pendingEligibleCharges: {
+        serializedName: "properties.pendingEligibleCharges",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      creditCurrency: {
+        serializedName: "properties.creditCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      billingCurrency: {
+        serializedName: "properties.billingCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      reseller: {
+        serializedName: "properties.reseller",
+        type: {
+          name: "Composite",
+          className: "Reseller"
+        }
+      },
+      eTagPropertiesETag: {
+        serializedName: "properties.eTag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReservationTransaction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3023,7 +3016,6 @@ export const ReservationTransaction: coreClient.CompositeMapper = {
 };
 
 export const ModernReservationTransaction: coreClient.CompositeMapper = {
-  serializedName: "Modern",
   type: {
     name: "Composite",
     className: "ModernReservationTransaction",
@@ -3540,6 +3532,20 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      },
+      benefitId: {
+        serializedName: "properties.benefitId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      benefitName: {
+        serializedName: "properties.benefitName",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       pricingModel: {
