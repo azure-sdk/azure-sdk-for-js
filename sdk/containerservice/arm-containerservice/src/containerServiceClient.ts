@@ -25,7 +25,9 @@ import {
   SnapshotsImpl,
   ManagedClusterSnapshotsImpl,
   TrustedAccessRolesImpl,
-  TrustedAccessRoleBindingsImpl
+  TrustedAccessRoleBindingsImpl,
+  FleetsImpl,
+  FleetMembersImpl
 } from "./operations";
 import {
   Operations,
@@ -38,7 +40,9 @@ import {
   Snapshots,
   ManagedClusterSnapshots,
   TrustedAccessRoles,
-  TrustedAccessRoleBindings
+  TrustedAccessRoleBindings,
+  Fleets,
+  FleetMembers
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -121,7 +125,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-02-preview";
+    this.apiVersion = options.apiVersion || "2022-07-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -135,6 +139,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
     this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
+    this.fleets = new FleetsImpl(this);
+    this.fleetMembers = new FleetMembersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -177,4 +183,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   managedClusterSnapshots: ManagedClusterSnapshots;
   trustedAccessRoles: TrustedAccessRoles;
   trustedAccessRoleBindings: TrustedAccessRoleBindings;
+  fleets: Fleets;
+  fleetMembers: FleetMembers;
 }
