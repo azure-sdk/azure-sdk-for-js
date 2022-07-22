@@ -37,6 +37,8 @@ import {
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams,
   ComputeListNextResponse,
   ComputeListNodesNextResponse
 } from "../models";
@@ -827,6 +829,27 @@ export class ComputeOperationsImpl implements ComputeOperations {
   }
 
   /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, parameters, options },
+      updateIdleShutdownSettingOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -1122,6 +1145,29 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.computeName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateIdleShutdownSettingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateIdleShutdownSetting",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
