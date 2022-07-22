@@ -2603,26 +2603,26 @@ export interface MaterializedViewsBuilderServiceResource {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export type ProxyResource = Resource & {};
 
 /** The object representing periodic mode backup policy. */
-export interface PeriodicModeBackupPolicy extends BackupPolicy {
+export type PeriodicModeBackupPolicy = BackupPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Periodic";
   /** Configuration values for periodic mode backup */
   periodicModeProperties?: PeriodicModeProperties;
-}
+};
 
 /** The object representing continuous mode backup policy. */
-export interface ContinuousModeBackupPolicy extends BackupPolicy {
+export type ContinuousModeBackupPolicy = BackupPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Continuous";
   /** Configuration values for continuous mode backup */
   continuousModeProperties?: ContinuousModeProperties;
-}
+};
 
 /** An Azure Cosmos DB database account. */
-export interface DatabaseAccountGetResults extends ARMResourceProperties {
+export type DatabaseAccountGetResults = ARMResourceProperties & {
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: DatabaseAccountKind;
   /**
@@ -2731,11 +2731,10 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   enableMaterializedViews?: boolean;
   /** The object that represents the metadata for the Account Keys of the Cosmos DB account. */
   keysMetadata?: DatabaseAccountKeysMetadata;
-}
+};
 
 /** Parameters to create and update Cosmos DB database accounts. */
-export interface DatabaseAccountCreateUpdateParameters
-  extends ARMResourceProperties {
+export type DatabaseAccountCreateUpdateParameters = ARMResourceProperties & {
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: DatabaseAccountKind;
   /** The consistency policy for the Cosmos DB account. */
@@ -2798,250 +2797,232 @@ export interface DatabaseAccountCreateUpdateParameters
   enableMaterializedViews?: boolean;
   /** This property is ignored during the update/create operation, as the metadata is read-only. The object represents the metadata for the Account Keys of the Cosmos DB account. */
   keysMetadata?: DatabaseAccountKeysMetadata;
-}
+};
 
 /** An Azure Cosmos DB Graph resource. */
-export interface GraphResourceGetResults extends ARMResourceProperties {
+export type GraphResourceGetResults = ARMResourceProperties & {
   resource?: GraphResourceGetPropertiesResource;
   options?: GraphResourceGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Graph resource. */
-export interface GraphResourceCreateUpdateParameters
-  extends ARMResourceProperties {
+export type GraphResourceCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Graph resource */
   resource: GraphResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB SQL database. */
-export interface SqlDatabaseGetResults extends ARMResourceProperties {
+export type SqlDatabaseGetResults = ARMResourceProperties & {
   resource?: SqlDatabaseGetPropertiesResource;
   options?: SqlDatabaseGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB SQL database. */
-export interface SqlDatabaseCreateUpdateParameters
-  extends ARMResourceProperties {
+export type SqlDatabaseCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a SQL database */
   resource: SqlDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB resource throughput. */
-export interface ThroughputSettingsGetResults extends ARMResourceProperties {
+export type ThroughputSettingsGetResults = ARMResourceProperties & {
   resource?: ThroughputSettingsGetPropertiesResource;
-}
+};
 
 /** Parameters to update Cosmos DB resource throughput. */
-export interface ThroughputSettingsUpdateParameters
-  extends ARMResourceProperties {
+export type ThroughputSettingsUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a resource throughput */
   resource: ThroughputSettingsResource;
-}
+};
 
 /** An Azure Cosmos DB container. */
-export interface SqlContainerGetResults extends ARMResourceProperties {
+export type SqlContainerGetResults = ARMResourceProperties & {
   resource?: SqlContainerGetPropertiesResource;
   options?: SqlContainerGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB container. */
-export interface SqlContainerCreateUpdateParameters
-  extends ARMResourceProperties {
+export type SqlContainerCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a container */
   resource: SqlContainerResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** Cosmos DB retrieve throughput parameters object */
-export interface RetrieveThroughputParameters extends ARMResourceProperties {
+export type RetrieveThroughputParameters = ARMResourceProperties & {
   /** The standard JSON format of a resource throughput */
   resource: RetrieveThroughputPropertiesResource;
-}
+};
 
 /** An Azure Cosmos DB PhysicalPartitionThroughputInfoResult object. */
-export interface PhysicalPartitionThroughputInfoResult
-  extends ARMResourceProperties {
+export type PhysicalPartitionThroughputInfoResult = ARMResourceProperties & {
   /** properties of physical partition throughput info */
   resource?: PhysicalPartitionThroughputInfoResultPropertiesResource;
-}
+};
 
 /** Cosmos DB redistribute throughput parameters object */
-export interface RedistributeThroughputParameters
-  extends ARMResourceProperties {
+export type RedistributeThroughputParameters = ARMResourceProperties & {
   /** The standard JSON format of a resource throughput */
   resource: RedistributeThroughputPropertiesResource;
-}
+};
 
 /** An Azure Cosmos DB storedProcedure. */
-export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
+export type SqlStoredProcedureGetResults = ARMResourceProperties & {
   resource?: SqlStoredProcedureGetPropertiesResource;
-}
+};
 
 /** Parameters to create and update Cosmos DB storedProcedure. */
-export interface SqlStoredProcedureCreateUpdateParameters
-  extends ARMResourceProperties {
+export type SqlStoredProcedureCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a storedProcedure */
   resource: SqlStoredProcedureResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB userDefinedFunction. */
-export interface SqlUserDefinedFunctionGetResults
-  extends ARMResourceProperties {
+export type SqlUserDefinedFunctionGetResults = ARMResourceProperties & {
   resource?: SqlUserDefinedFunctionGetPropertiesResource;
-}
+};
 
 /** Parameters to create and update Cosmos DB userDefinedFunction. */
-export interface SqlUserDefinedFunctionCreateUpdateParameters
-  extends ARMResourceProperties {
+export type SqlUserDefinedFunctionCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a userDefinedFunction */
   resource: SqlUserDefinedFunctionResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB trigger. */
-export interface SqlTriggerGetResults extends ARMResourceProperties {
+export type SqlTriggerGetResults = ARMResourceProperties & {
   resource?: SqlTriggerGetPropertiesResource;
-}
+};
 
 /** Parameters to create and update Cosmos DB trigger. */
-export interface SqlTriggerCreateUpdateParameters
-  extends ARMResourceProperties {
+export type SqlTriggerCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a trigger */
   resource: SqlTriggerResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB MongoDB database. */
-export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
+export type MongoDBDatabaseGetResults = ARMResourceProperties & {
   resource?: MongoDBDatabaseGetPropertiesResource;
   options?: MongoDBDatabaseGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB MongoDB database. */
-export interface MongoDBDatabaseCreateUpdateParameters
-  extends ARMResourceProperties {
+export type MongoDBDatabaseCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a MongoDB database */
   resource: MongoDBDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB MongoDB collection. */
-export interface MongoDBCollectionGetResults extends ARMResourceProperties {
+export type MongoDBCollectionGetResults = ARMResourceProperties & {
   resource?: MongoDBCollectionGetPropertiesResource;
   options?: MongoDBCollectionGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB MongoDB collection. */
-export interface MongoDBCollectionCreateUpdateParameters
-  extends ARMResourceProperties {
+export type MongoDBCollectionCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a MongoDB collection */
   resource: MongoDBCollectionResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Table. */
-export interface TableGetResults extends ARMResourceProperties {
+export type TableGetResults = ARMResourceProperties & {
   resource?: TableGetPropertiesResource;
   options?: TableGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Table. */
-export interface TableCreateUpdateParameters extends ARMResourceProperties {
+export type TableCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Table */
   resource: TableResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Cassandra keyspace. */
-export interface CassandraKeyspaceGetResults extends ARMResourceProperties {
+export type CassandraKeyspaceGetResults = ARMResourceProperties & {
   resource?: CassandraKeyspaceGetPropertiesResource;
   options?: CassandraKeyspaceGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Cassandra keyspace. */
-export interface CassandraKeyspaceCreateUpdateParameters
-  extends ARMResourceProperties {
+export type CassandraKeyspaceCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Cassandra keyspace */
   resource: CassandraKeyspaceResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Cassandra table. */
-export interface CassandraTableGetResults extends ARMResourceProperties {
+export type CassandraTableGetResults = ARMResourceProperties & {
   resource?: CassandraTableGetPropertiesResource;
   options?: CassandraTableGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Cassandra table. */
-export interface CassandraTableCreateUpdateParameters
-  extends ARMResourceProperties {
+export type CassandraTableCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Cassandra table */
   resource: CassandraTableResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Gremlin database. */
-export interface GremlinDatabaseGetResults extends ARMResourceProperties {
+export type GremlinDatabaseGetResults = ARMResourceProperties & {
   resource?: GremlinDatabaseGetPropertiesResource;
   options?: GremlinDatabaseGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Gremlin database. */
-export interface GremlinDatabaseCreateUpdateParameters
-  extends ARMResourceProperties {
+export type GremlinDatabaseCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Gremlin database */
   resource: GremlinDatabaseResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Gremlin graph. */
-export interface GremlinGraphGetResults extends ARMResourceProperties {
+export type GremlinGraphGetResults = ARMResourceProperties & {
   resource?: GremlinGraphGetPropertiesResource;
   options?: GremlinGraphGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Gremlin graph. */
-export interface GremlinGraphCreateUpdateParameters
-  extends ARMResourceProperties {
+export type GremlinGraphCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Gremlin graph */
   resource: GremlinGraphResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** An Azure Cosmos DB Cassandra view. */
-export interface CassandraViewGetResults extends ARMResourceProperties {
+export type CassandraViewGetResults = ARMResourceProperties & {
   resource?: CassandraViewGetPropertiesResource;
   options?: CassandraViewGetPropertiesOptions;
-}
+};
 
 /** Parameters to create and update Cosmos DB Cassandra view. */
-export interface CassandraViewCreateUpdateParameters
-  extends ARMResourceProperties {
+export type CassandraViewCreateUpdateParameters = ARMResourceProperties & {
   /** The standard JSON format of a Cassandra view */
   resource: CassandraViewResource;
   /** A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request. */
   options?: CreateUpdateOptions;
-}
+};
 
 /** The access keys for the given database account. */
-export interface DatabaseAccountListKeysResult
-  extends DatabaseAccountListReadOnlyKeysResult {
+export type DatabaseAccountListKeysResult = DatabaseAccountListReadOnlyKeysResult & {
   /**
    * Base 64 encoded value of the primary read-write key.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3052,10 +3033,10 @@ export interface DatabaseAccountListKeysResult
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly secondaryMasterKey?: string;
-}
+};
 
 /** The metric values for a single partition. */
-export interface PartitionMetric extends Metric {
+export type PartitionMetric = Metric & {
   /**
    * The partition id (GUID identifier) of the metric values.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3066,10 +3047,10 @@ export interface PartitionMetric extends Metric {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly partitionKeyRangeId?: string;
-}
+};
 
 /** Represents percentile metrics values. */
-export interface PercentileMetricValue extends MetricValue {
+export type PercentileMetricValue = MetricValue & {
   /**
    * The 10th percentile value for the metric.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3105,10 +3086,10 @@ export interface PercentileMetricValue extends MetricValue {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly p99?: number;
-}
+};
 
 /** The partition level usage data for a usage request. */
-export interface PartitionUsage extends Usage {
+export type PartitionUsage = Usage & {
   /**
    * The partition id (GUID identifier) of the usages.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3119,150 +3100,131 @@ export interface PartitionUsage extends Usage {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly partitionKeyRangeId?: string;
-}
+};
 
-export interface GraphResourceGetPropertiesResource extends GraphResource {}
+export type GraphResourceGetPropertiesResource = GraphResource & {};
 
-export interface GraphResourceGetPropertiesOptions extends OptionsResource {}
+export type GraphResourceGetPropertiesOptions = OptionsResource & {};
 
-export interface SqlDatabaseGetPropertiesOptions extends OptionsResource {}
+export type SqlDatabaseGetPropertiesOptions = OptionsResource & {};
 
-export interface SqlContainerGetPropertiesOptions extends OptionsResource {}
+export type SqlContainerGetPropertiesOptions = OptionsResource & {};
 
-export interface MongoDBDatabaseGetPropertiesOptions extends OptionsResource {}
+export type MongoDBDatabaseGetPropertiesOptions = OptionsResource & {};
 
-export interface MongoDBCollectionGetPropertiesOptions
-  extends OptionsResource {}
+export type MongoDBCollectionGetPropertiesOptions = OptionsResource & {};
 
-export interface TableGetPropertiesOptions extends OptionsResource {}
+export type TableGetPropertiesOptions = OptionsResource & {};
 
-export interface CassandraKeyspaceGetPropertiesOptions
-  extends OptionsResource {}
+export type CassandraKeyspaceGetPropertiesOptions = OptionsResource & {};
 
-export interface CassandraTableGetPropertiesOptions extends OptionsResource {}
+export type CassandraTableGetPropertiesOptions = OptionsResource & {};
 
-export interface GremlinDatabaseGetPropertiesOptions extends OptionsResource {}
+export type GremlinDatabaseGetPropertiesOptions = OptionsResource & {};
 
-export interface GremlinGraphGetPropertiesOptions extends OptionsResource {}
+export type GremlinGraphGetPropertiesOptions = OptionsResource & {};
 
-export interface CassandraViewGetPropertiesOptions extends OptionsResource {}
+export type CassandraViewGetPropertiesOptions = OptionsResource & {};
 
-export interface SqlDatabaseGetPropertiesResource
-  extends SqlDatabaseResource,
-    ExtendedResourceProperties {
-  /** A system generated property that specified the addressable path of the collections resource. */
-  colls?: string;
-  /** A system generated property that specifies the addressable path of the users resource. */
-  users?: string;
-}
+export type SqlDatabaseGetPropertiesResource = SqlDatabaseResource &
+  ExtendedResourceProperties & {
+    /** A system generated property that specified the addressable path of the collections resource. */
+    colls?: string;
+    /** A system generated property that specifies the addressable path of the users resource. */
+    users?: string;
+  };
 
 /** Cosmos DB SQL database resource object */
-export interface RestorableSqlDatabasePropertiesResourceDatabase
-  extends SqlDatabaseResource,
-    ExtendedResourceProperties {
-  /**
-   * A system generated property that specified the addressable path of the collections resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly colls?: string;
-  /**
-   * A system generated property that specifies the addressable path of the users resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly users?: string;
-  /**
-   * A system generated property that specifies the addressable path of the database resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self?: string;
-}
+export type RestorableSqlDatabasePropertiesResourceDatabase = SqlDatabaseResource &
+  ExtendedResourceProperties & {
+    /**
+     * A system generated property that specified the addressable path of the collections resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly colls?: string;
+    /**
+     * A system generated property that specifies the addressable path of the users resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly users?: string;
+    /**
+     * A system generated property that specifies the addressable path of the database resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly self?: string;
+  };
 
-export interface ThroughputSettingsGetPropertiesResource
-  extends ThroughputSettingsResource,
-    ExtendedResourceProperties {}
+export type ThroughputSettingsGetPropertiesResource = ThroughputSettingsResource &
+  ExtendedResourceProperties & {};
 
-export interface ClientEncryptionKeyGetPropertiesResource
-  extends ClientEncryptionKeyResource,
-    ExtendedResourceProperties {}
+export type ClientEncryptionKeyGetPropertiesResource = ClientEncryptionKeyResource &
+  ExtendedResourceProperties & {};
 
-export interface SqlContainerGetPropertiesResource
-  extends SqlContainerResource,
-    ExtendedResourceProperties {}
+export type SqlContainerGetPropertiesResource = SqlContainerResource &
+  ExtendedResourceProperties & {};
 
-export interface SqlStoredProcedureGetPropertiesResource
-  extends SqlStoredProcedureResource,
-    ExtendedResourceProperties {}
+export type SqlStoredProcedureGetPropertiesResource = SqlStoredProcedureResource &
+  ExtendedResourceProperties & {};
 
-export interface SqlUserDefinedFunctionGetPropertiesResource
-  extends SqlUserDefinedFunctionResource,
-    ExtendedResourceProperties {}
+export type SqlUserDefinedFunctionGetPropertiesResource = SqlUserDefinedFunctionResource &
+  ExtendedResourceProperties & {};
 
-export interface SqlTriggerGetPropertiesResource
-  extends SqlTriggerResource,
-    ExtendedResourceProperties {}
+export type SqlTriggerGetPropertiesResource = SqlTriggerResource &
+  ExtendedResourceProperties & {};
 
-export interface MongoDBDatabaseGetPropertiesResource
-  extends MongoDBDatabaseResource,
-    ExtendedResourceProperties {}
+export type MongoDBDatabaseGetPropertiesResource = MongoDBDatabaseResource &
+  ExtendedResourceProperties & {};
 
-export interface MongoDBCollectionGetPropertiesResource
-  extends MongoDBCollectionResource,
-    ExtendedResourceProperties {}
+export type MongoDBCollectionGetPropertiesResource = MongoDBCollectionResource &
+  ExtendedResourceProperties & {};
 
-export interface TableGetPropertiesResource
-  extends TableResource,
-    ExtendedResourceProperties {}
+export type TableGetPropertiesResource = TableResource &
+  ExtendedResourceProperties & {};
 
-export interface CassandraKeyspaceGetPropertiesResource
-  extends CassandraKeyspaceResource,
-    ExtendedResourceProperties {}
+export type CassandraKeyspaceGetPropertiesResource = CassandraKeyspaceResource &
+  ExtendedResourceProperties & {};
 
-export interface CassandraTableGetPropertiesResource
-  extends CassandraTableResource,
-    ExtendedResourceProperties {}
+export type CassandraTableGetPropertiesResource = CassandraTableResource &
+  ExtendedResourceProperties & {};
 
-export interface GremlinDatabaseGetPropertiesResource
-  extends GremlinDatabaseResource,
-    ExtendedResourceProperties {}
+export type GremlinDatabaseGetPropertiesResource = GremlinDatabaseResource &
+  ExtendedResourceProperties & {};
 
-export interface GremlinGraphGetPropertiesResource
-  extends GremlinGraphResource,
-    ExtendedResourceProperties {}
+export type GremlinGraphGetPropertiesResource = GremlinGraphResource &
+  ExtendedResourceProperties & {};
 
-export interface CassandraViewGetPropertiesResource
-  extends CassandraViewResource,
-    ExtendedResourceProperties {}
+export type CassandraViewGetPropertiesResource = CassandraViewResource &
+  ExtendedResourceProperties & {};
 
 /** Cosmos DB SQL container resource object */
-export interface RestorableSqlContainerPropertiesResourceContainer
-  extends SqlContainerResource,
-    ExtendedResourceProperties {
-  /**
-   * A system generated property that specifies the addressable path of the container resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly self?: string;
-}
+export type RestorableSqlContainerPropertiesResourceContainer = SqlContainerResource &
+  ExtendedResourceProperties & {
+    /**
+     * A system generated property that specifies the addressable path of the container resource.
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly self?: string;
+  };
 
 /** Client Encryption Key. */
-export interface ClientEncryptionKeyGetResults extends ARMProxyResource {
+export type ClientEncryptionKeyGetResults = ARMProxyResource & {
   resource?: ClientEncryptionKeyGetPropertiesResource;
-}
+};
 
 /** Cosmos DB location get result */
-export interface LocationGetResult extends ARMProxyResource {
+export type LocationGetResult = ARMProxyResource & {
   /** Cosmos DB location metadata */
   properties?: LocationProperties;
-}
+};
 
 /** Parameters to create Data Transfer Job */
-export interface CreateJobRequest extends ARMProxyResource {
+export type CreateJobRequest = ARMProxyResource & {
   /** Data Transfer Create Job Properties */
   properties: DataTransferJobProperties;
-}
+};
 
 /** A Cosmos DB Data Transfer Job */
-export interface DataTransferJobGetResults extends ARMProxyResource {
+export type DataTransferJobGetResults = ARMProxyResource & {
   /**
    * Job Name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3299,21 +3261,21 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
-}
+};
 
 /** A restorable backup of a Cassandra cluster. */
-export interface BackupResource extends ARMProxyResource {
+export type BackupResource = ARMProxyResource & {
   properties?: BackupResourceProperties;
-}
+};
 
 /** A managed Cassandra data center. */
-export interface DataCenterResource extends ARMProxyResource {
+export type DataCenterResource = ARMProxyResource & {
   /** Properties of a managed Cassandra data center. */
   properties?: DataCenterResourceProperties;
-}
+};
 
 /** An Azure Cosmos DB Mongo Role Definition. */
-export interface MongoRoleDefinitionGetResults extends ARMProxyResource {
+export type MongoRoleDefinitionGetResults = ARMProxyResource & {
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
   roleName?: string;
   /** Indicates whether the Role Definition was built-in or user created. */
@@ -3324,10 +3286,10 @@ export interface MongoRoleDefinitionGetResults extends ARMProxyResource {
   privileges?: Privilege[];
   /** The set of roles inherited by this Role Definition. */
   roles?: Role[];
-}
+};
 
 /** An Azure Cosmos DB User Definition */
-export interface MongoUserDefinitionGetResults extends ARMProxyResource {
+export type MongoUserDefinitionGetResults = ARMProxyResource & {
   /** The user name for User Definition. */
   userName?: string;
   /** The password for User Definition. Response does not contain user password. */
@@ -3340,10 +3302,10 @@ export interface MongoUserDefinitionGetResults extends ARMProxyResource {
   roles?: Role[];
   /** The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256. */
   mechanisms?: string;
-}
+};
 
 /** A notebook workspace resource */
-export interface NotebookWorkspace extends ARMProxyResource {
+export type NotebookWorkspace = ARMProxyResource & {
   /**
    * Specifies the endpoint of Notebook server.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3354,14 +3316,13 @@ export interface NotebookWorkspace extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-}
+};
 
 /** Parameters to create a notebook workspace resource */
-export interface NotebookWorkspaceCreateUpdateParameters
-  extends ARMProxyResource {}
+export type NotebookWorkspaceCreateUpdateParameters = ARMProxyResource & {};
 
 /** A private link resource */
-export interface PrivateLinkResource extends ARMProxyResource {
+export type PrivateLinkResource = ARMProxyResource & {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3377,10 +3338,10 @@ export interface PrivateLinkResource extends ARMProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-}
+};
 
 /** An Azure Cosmos DB SQL Role Definition. */
-export interface SqlRoleDefinitionGetResults extends ARMProxyResource {
+export type SqlRoleDefinitionGetResults = ARMProxyResource & {
   /** A user-friendly name for the Role Definition. Must be unique for the database account. */
   roleName?: string;
   /** Indicates whether the Role Definition was built-in or user created. */
@@ -3389,64 +3350,59 @@ export interface SqlRoleDefinitionGetResults extends ARMProxyResource {
   assignableScopes?: string[];
   /** The set of operations allowed through this Role Definition. */
   permissions?: Permission[];
-}
+};
 
 /** An Azure Cosmos DB Role Assignment */
-export interface SqlRoleAssignmentGetResults extends ARMProxyResource {
+export type SqlRoleAssignmentGetResults = ARMProxyResource & {
   /** The unique identifier for the associated Role Definition. */
   roleDefinitionId?: string;
   /** The data plane resource path for which access is being granted through this Role Assignment. */
   scope?: string;
   /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
   principalId?: string;
-}
+};
 
 /** Properties for the database account. */
-export interface ServiceResource extends ARMProxyResource {
+export type ServiceResource = ARMProxyResource & {
   /** Services response resource. */
   properties?: ServiceResourcePropertiesUnion;
-}
+};
 
 /** properties of physical partition throughput info */
-export interface PhysicalPartitionThroughputInfoResultPropertiesResource
-  extends PhysicalPartitionThroughputInfoProperties {}
+export type PhysicalPartitionThroughputInfoResultPropertiesResource = PhysicalPartitionThroughputInfoProperties & {};
 
 /** A CosmosDB Cassandra API data source/sink */
-export interface CosmosCassandraDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+export type CosmosCassandraDataTransferDataSourceSink = DataTransferDataSourceSink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBCassandra";
   keyspaceName: string;
   tableName: string;
-}
+};
 
 /** A CosmosDB Cassandra API data source/sink */
-export interface CosmosSqlDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+export type CosmosSqlDataTransferDataSourceSink = DataTransferDataSourceSink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBSql";
   databaseName: string;
   containerName: string;
-}
+};
 
 /** An Azure Blob Storage data source/sink */
-export interface AzureBlobDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+export type AzureBlobDataTransferDataSourceSink = DataTransferDataSourceSink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "AzureBlobStorage";
   containerName: string;
   endpointUrl?: string;
-}
+};
 
 /** Representation of a managed Cassandra cluster. */
-export interface ClusterResource extends ManagedCassandraARMResourceProperties {
+export type ClusterResource = ManagedCassandraARMResourceProperties & {
   /** Properties of a managed Cassandra cluster. */
   properties?: ClusterResourceProperties;
-}
+};
 
 /** Properties for DataTransferServiceResource. */
-export interface DataTransferServiceResourceProperties
-  extends ServiceResourceProperties {
+export type DataTransferServiceResourceProperties = ServiceResourceProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "DataTransfer";
   /**
@@ -3454,11 +3410,10 @@ export interface DataTransferServiceResourceProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: DataTransferRegionalServiceResource[];
-}
+};
 
 /** Properties for SqlDedicatedGatewayServiceResource. */
-export interface SqlDedicatedGatewayServiceResourceProperties
-  extends ServiceResourceProperties {
+export type SqlDedicatedGatewayServiceResourceProperties = ServiceResourceProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "SqlDedicatedGateway";
   /** SqlDedicatedGateway endpoint for the service. */
@@ -3468,11 +3423,10 @@ export interface SqlDedicatedGatewayServiceResourceProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
-}
+};
 
 /** Properties for GraphAPIComputeServiceResource. */
-export interface GraphAPIComputeServiceResourceProperties
-  extends ServiceResourceProperties {
+export type GraphAPIComputeServiceResourceProperties = ServiceResourceProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "GraphAPICompute";
   /** GraphAPICompute endpoint for the service. */
@@ -3482,11 +3436,10 @@ export interface GraphAPIComputeServiceResourceProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: GraphAPIComputeRegionalServiceResource[];
-}
+};
 
 /** Properties for MaterializedViewsBuilderServiceResource. */
-export interface MaterializedViewsBuilderServiceResourceProperties
-  extends ServiceResourceProperties {
+export type MaterializedViewsBuilderServiceResourceProperties = ServiceResourceProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   serviceType: "MaterializedViewsBuilder";
   /**
@@ -3494,38 +3447,34 @@ export interface MaterializedViewsBuilderServiceResourceProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
-}
+};
 
 /** Resource for a regional service location. */
-export interface DataTransferRegionalServiceResource
-  extends RegionalServiceResource {}
+export type DataTransferRegionalServiceResource = RegionalServiceResource & {};
 
 /** Resource for a regional service location. */
-export interface SqlDedicatedGatewayRegionalServiceResource
-  extends RegionalServiceResource {
+export type SqlDedicatedGatewayRegionalServiceResource = RegionalServiceResource & {
   /**
    * The regional endpoint for SqlDedicatedGateway.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sqlDedicatedGatewayEndpoint?: string;
-}
+};
 
 /** Resource for a regional service location. */
-export interface GraphAPIComputeRegionalServiceResource
-  extends RegionalServiceResource {
+export type GraphAPIComputeRegionalServiceResource = RegionalServiceResource & {
   /**
    * The regional endpoint for GraphAPICompute.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly graphApiComputeEndpoint?: string;
-}
+};
 
 /** Resource for a regional service location. */
-export interface MaterializedViewsBuilderRegionalServiceResource
-  extends RegionalServiceResource {}
+export type MaterializedViewsBuilderRegionalServiceResource = RegionalServiceResource & {};
 
 /** A private endpoint connection */
-export interface PrivateEndpointConnection extends ProxyResource {
+export type PrivateEndpointConnection = ProxyResource & {
   /** Private endpoint which the connection belongs to. */
   privateEndpoint?: PrivateEndpointProperty;
   /** Connection State of the Private Endpoint Connection. */
@@ -3534,15 +3483,12 @@ export interface PrivateEndpointConnection extends ProxyResource {
   groupId?: string;
   /** Provisioning state of the private endpoint. */
   provisioningState?: string;
-}
+};
 
 /** Known values of {@link DatabaseAccountKind} that the service accepts. */
 export enum KnownDatabaseAccountKind {
-  /** GlobalDocumentDB */
   GlobalDocumentDB = "GlobalDocumentDB",
-  /** MongoDB */
   MongoDB = "MongoDB",
-  /** Parse */
   Parse = "Parse"
 }
 
@@ -3559,7 +3505,6 @@ export type DatabaseAccountKind = string;
 
 /** Known values of {@link ConnectorOffer} that the service accepts. */
 export enum KnownConnectorOffer {
-  /** Small */
   Small = "Small"
 }
 
@@ -3574,9 +3519,7 @@ export type ConnectorOffer = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3592,13 +3535,9 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
-  /** Three2 */
   Three2 = "3.2",
-  /** Three6 */
   Three6 = "3.6",
-  /** Four0 */
   Four0 = "4.0",
-  /** Four2 */
   Four2 = "4.2"
 }
 
@@ -3616,9 +3555,7 @@ export type ServerVersion = string;
 
 /** Known values of {@link AnalyticalStorageSchemaType} that the service accepts. */
 export enum KnownAnalyticalStorageSchemaType {
-  /** WellDefined */
   WellDefined = "WellDefined",
-  /** FullFidelity */
   FullFidelity = "FullFidelity"
 }
 
@@ -3634,9 +3571,7 @@ export type AnalyticalStorageSchemaType = string;
 
 /** Known values of {@link CreateMode} that the service accepts. */
 export enum KnownCreateMode {
-  /** Default */
   Default = "Default",
-  /** Restore */
   Restore = "Restore"
 }
 
@@ -3652,7 +3587,6 @@ export type CreateMode = string;
 
 /** Known values of {@link RestoreMode} that the service accepts. */
 export enum KnownRestoreMode {
-  /** PointInTime */
   PointInTime = "PointInTime"
 }
 
@@ -3667,9 +3601,7 @@ export type RestoreMode = string;
 
 /** Known values of {@link BackupPolicyType} that the service accepts. */
 export enum KnownBackupPolicyType {
-  /** Periodic */
   Periodic = "Periodic",
-  /** Continuous */
   Continuous = "Continuous"
 }
 
@@ -3685,13 +3617,9 @@ export type BackupPolicyType = string;
 
 /** Known values of {@link BackupPolicyMigrationStatus} that the service accepts. */
 export enum KnownBackupPolicyMigrationStatus {
-  /** Invalid */
   Invalid = "Invalid",
-  /** InProgress */
   InProgress = "InProgress",
-  /** Completed */
   Completed = "Completed",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -3709,13 +3637,9 @@ export type BackupPolicyMigrationStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** User */
   User = "User",
-  /** Application */
   Application = "Application",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
   Key = "Key"
 }
 
@@ -3733,13 +3657,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link KeyKind} that the service accepts. */
 export enum KnownKeyKind {
-  /** Primary */
   Primary = "primary",
-  /** Secondary */
   Secondary = "secondary",
-  /** PrimaryReadonly */
   PrimaryReadonly = "primaryReadonly",
-  /** SecondaryReadonly */
   SecondaryReadonly = "secondaryReadonly"
 }
 
@@ -3757,19 +3677,12 @@ export type KeyKind = string;
 
 /** Known values of {@link UnitType} that the service accepts. */
 export enum KnownUnitType {
-  /** Count */
   Count = "Count",
-  /** Bytes */
   Bytes = "Bytes",
-  /** Seconds */
   Seconds = "Seconds",
-  /** Percent */
   Percent = "Percent",
-  /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
-  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
-  /** Milliseconds */
   Milliseconds = "Milliseconds"
 }
 
@@ -3790,17 +3703,11 @@ export type UnitType = string;
 
 /** Known values of {@link PrimaryAggregationType} that the service accepts. */
 export enum KnownPrimaryAggregationType {
-  /** None */
   None = "None",
-  /** Average */
   Average = "Average",
-  /** Total */
   Total = "Total",
-  /** Minimum */
   Minimum = "Minimum",
-  /** Maximum */
   Maximum = "Maximum",
-  /** Last */
   Last = "Last"
 }
 
@@ -3820,11 +3727,8 @@ export type PrimaryAggregationType = string;
 
 /** Known values of {@link IndexingMode} that the service accepts. */
 export enum KnownIndexingMode {
-  /** Consistent */
   Consistent = "consistent",
-  /** Lazy */
   Lazy = "lazy",
-  /** None */
   None = "none"
 }
 
@@ -3841,17 +3745,11 @@ export type IndexingMode = string;
 
 /** Known values of {@link DataType} that the service accepts. */
 export enum KnownDataType {
-  /** String */
   String = "String",
-  /** Number */
   Number = "Number",
-  /** Point */
   Point = "Point",
-  /** Polygon */
   Polygon = "Polygon",
-  /** LineString */
   LineString = "LineString",
-  /** MultiPolygon */
   MultiPolygon = "MultiPolygon"
 }
 
@@ -3871,11 +3769,8 @@ export type DataType = string;
 
 /** Known values of {@link IndexKind} that the service accepts. */
 export enum KnownIndexKind {
-  /** Hash */
   Hash = "Hash",
-  /** Range */
   Range = "Range",
-  /** Spatial */
   Spatial = "Spatial"
 }
 
@@ -3892,9 +3787,7 @@ export type IndexKind = string;
 
 /** Known values of {@link CompositePathSortOrder} that the service accepts. */
 export enum KnownCompositePathSortOrder {
-  /** Ascending */
   Ascending = "ascending",
-  /** Descending */
   Descending = "descending"
 }
 
@@ -3910,13 +3803,9 @@ export type CompositePathSortOrder = string;
 
 /** Known values of {@link SpatialType} that the service accepts. */
 export enum KnownSpatialType {
-  /** Point */
   Point = "Point",
-  /** LineString */
   LineString = "LineString",
-  /** Polygon */
   Polygon = "Polygon",
-  /** MultiPolygon */
   MultiPolygon = "MultiPolygon"
 }
 
@@ -3934,11 +3823,8 @@ export type SpatialType = string;
 
 /** Known values of {@link PartitionKind} that the service accepts. */
 export enum KnownPartitionKind {
-  /** Hash */
   Hash = "Hash",
-  /** Range */
   Range = "Range",
-  /** MultiHash */
   MultiHash = "MultiHash"
 }
 
@@ -3955,9 +3841,7 @@ export type PartitionKind = string;
 
 /** Known values of {@link ConflictResolutionMode} that the service accepts. */
 export enum KnownConflictResolutionMode {
-  /** LastWriterWins */
   LastWriterWins = "LastWriterWins",
-  /** Custom */
   Custom = "Custom"
 }
 
@@ -3973,11 +3857,8 @@ export type ConflictResolutionMode = string;
 
 /** Known values of {@link ThroughputPolicyType} that the service accepts. */
 export enum KnownThroughputPolicyType {
-  /** None */
   None = "none",
-  /** Equal */
   Equal = "equal",
-  /** Custom */
   Custom = "custom"
 }
 
@@ -3994,9 +3875,7 @@ export type ThroughputPolicyType = string;
 
 /** Known values of {@link TriggerType} that the service accepts. */
 export enum KnownTriggerType {
-  /** Pre */
   Pre = "Pre",
-  /** Post */
   Post = "Post"
 }
 
@@ -4012,15 +3891,10 @@ export type TriggerType = string;
 
 /** Known values of {@link TriggerOperation} that the service accepts. */
 export enum KnownTriggerOperation {
-  /** All */
   All = "All",
-  /** Create */
   Create = "Create",
-  /** Update */
   Update = "Update",
-  /** Delete */
   Delete = "Delete",
-  /** Replace */
   Replace = "Replace"
 }
 
@@ -4039,11 +3913,8 @@ export type TriggerOperation = string;
 
 /** Known values of {@link BackupStorageRedundancy} that the service accepts. */
 export enum KnownBackupStorageRedundancy {
-  /** Geo */
   Geo = "Geo",
-  /** Local */
   Local = "Local",
-  /** Zone */
   Zone = "Zone"
 }
 
@@ -4060,11 +3931,8 @@ export type BackupStorageRedundancy = string;
 
 /** Known values of {@link DataTransferComponent} that the service accepts. */
 export enum KnownDataTransferComponent {
-  /** CosmosDBCassandra */
   CosmosDBCassandra = "CosmosDBCassandra",
-  /** CosmosDBSql */
   CosmosDBSql = "CosmosDBSql",
-  /** AzureBlobStorage */
   AzureBlobStorage = "AzureBlobStorage"
 }
 
@@ -4081,17 +3949,11 @@ export type DataTransferComponent = string;
 
 /** Known values of {@link ManagedCassandraProvisioningState} that the service accepts. */
 export enum KnownManagedCassandraProvisioningState {
-  /** Creating */
   Creating = "Creating",
-  /** Updating */
   Updating = "Updating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Failed */
   Failed = "Failed",
-  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -4111,11 +3973,8 @@ export type ManagedCassandraProvisioningState = string;
 
 /** Known values of {@link AuthenticationMethod} that the service accepts. */
 export enum KnownAuthenticationMethod {
-  /** None */
   None = "None",
-  /** Cassandra */
   Cassandra = "Cassandra",
-  /** Ldap */
   Ldap = "Ldap"
 }
 
@@ -4132,9 +3991,7 @@ export type AuthenticationMethod = string;
 
 /** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
 export enum KnownManagedCassandraResourceIdentityType {
-  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
-  /** None */
   None = "None"
 }
 
@@ -4150,17 +4007,11 @@ export type ManagedCassandraResourceIdentityType = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
 export enum KnownConnectionState {
-  /** Unknown */
   Unknown = "Unknown",
-  /** OK */
   OK = "OK",
-  /** OperatorToDataCenterNetworkError */
   OperatorToDataCenterNetworkError = "OperatorToDataCenterNetworkError",
-  /** DatacenterToDatacenterNetworkError */
   DatacenterToDatacenterNetworkError = "DatacenterToDatacenterNetworkError",
-  /** InternalOperatorToDataCenterCertificateError */
   InternalOperatorToDataCenterCertificateError = "InternalOperatorToDataCenterCertificateError",
-  /** InternalError */
   InternalError = "InternalError"
 }
 
@@ -4180,15 +4031,10 @@ export type ConnectionState = string;
 
 /** Known values of {@link NodeState} that the service accepts. */
 export enum KnownNodeState {
-  /** Normal */
   Normal = "Normal",
-  /** Leaving */
   Leaving = "Leaving",
-  /** Joining */
   Joining = "Joining",
-  /** Moving */
   Moving = "Moving",
-  /** Stopped */
   Stopped = "Stopped"
 }
 
@@ -4207,7 +4053,6 @@ export type NodeState = string;
 
 /** Known values of {@link NotebookWorkspaceName} that the service accepts. */
 export enum KnownNotebookWorkspaceName {
-  /** Default */
   Default = "default"
 }
 
@@ -4222,17 +4067,11 @@ export type NotebookWorkspaceName = string;
 
 /** Known values of {@link ApiType} that the service accepts. */
 export enum KnownApiType {
-  /** MongoDB */
   MongoDB = "MongoDB",
-  /** Gremlin */
   Gremlin = "Gremlin",
-  /** Cassandra */
   Cassandra = "Cassandra",
-  /** Table */
   Table = "Table",
-  /** Sql */
   Sql = "Sql",
-  /** GremlinV2 */
   GremlinV2 = "GremlinV2"
 }
 
@@ -4252,13 +4091,9 @@ export type ApiType = string;
 
 /** Known values of {@link OperationType} that the service accepts. */
 export enum KnownOperationType {
-  /** Create */
   Create = "Create",
-  /** Replace */
   Replace = "Replace",
-  /** Delete */
   Delete = "Delete",
-  /** SystemOperation */
   SystemOperation = "SystemOperation"
 }
 
@@ -4276,11 +4111,8 @@ export type OperationType = string;
 
 /** Known values of {@link ServiceSize} that the service accepts. */
 export enum KnownServiceSize {
-  /** CosmosD4S */
   CosmosD4S = "Cosmos.D4s",
-  /** CosmosD8S */
   CosmosD8S = "Cosmos.D8s",
-  /** CosmosD16S */
   CosmosD16S = "Cosmos.D16s"
 }
 
@@ -4297,13 +4129,9 @@ export type ServiceSize = string;
 
 /** Known values of {@link ServiceType} that the service accepts. */
 export enum KnownServiceType {
-  /** SqlDedicatedGateway */
   SqlDedicatedGateway = "SqlDedicatedGateway",
-  /** DataTransfer */
   DataTransfer = "DataTransfer",
-  /** GraphAPICompute */
   GraphAPICompute = "GraphAPICompute",
-  /** MaterializedViewsBuilder */
   MaterializedViewsBuilder = "MaterializedViewsBuilder"
 }
 
@@ -4321,17 +4149,11 @@ export type ServiceType = string;
 
 /** Known values of {@link ServiceStatus} that the service accepts. */
 export enum KnownServiceStatus {
-  /** Creating */
   Creating = "Creating",
-  /** Running */
   Running = "Running",
-  /** Updating */
   Updating = "Updating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Error */
   Error = "Error",
-  /** Stopped */
   Stopped = "Stopped"
 }
 
@@ -4351,9 +4173,7 @@ export type ServiceStatus = string;
 
 /** Known values of {@link ContinuousTier} that the service accepts. */
 export enum KnownContinuousTier {
-  /** Continuous7Days */
   Continuous7Days = "Continuous7Days",
-  /** Continuous30Days */
   Continuous30Days = "Continuous30Days"
 }
 
@@ -4369,9 +4189,7 @@ export type ContinuousTier = string;
 
 /** Known values of {@link NodeStatus} that the service accepts. */
 export enum KnownNodeStatus {
-  /** Up */
   Up = "Up",
-  /** Down */
   Down = "Down"
 }
 
