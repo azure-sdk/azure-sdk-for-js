@@ -405,6 +405,7 @@ export const ManualTriggerRequestBody: coreClient.CompositeMapper = {
       },
       logicAppsResourceId: {
         serializedName: "logicAppsResourceId",
+        required: true,
         type: {
           name: "String"
         }

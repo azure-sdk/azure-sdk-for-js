@@ -271,7 +271,7 @@ export interface AutomationRulesList {
 
 export interface ManualTriggerRequestBody {
   tenantId?: string;
-  logicAppsResourceId?: string;
+  logicAppsResourceId: string;
 }
 
 /** List all the bookmarks. */
@@ -2152,89 +2152,86 @@ export interface GeoLocation {
 }
 
 /** An azure resource object with an Etag property */
-export interface ResourceWithEtag extends Resource {
+export type ResourceWithEtag = Resource & {
   /** Etag of the azure resource */
   etag?: string;
-}
+};
 
 /** Alert rule template. */
-export interface AlertRuleTemplate extends Resource {
+export type AlertRuleTemplate = Resource & {
   /** The kind of the alert rule */
   kind: AlertRuleKind;
-}
+};
 
 /** Specific entity. */
-export interface Entity extends Resource {
+export type Entity = Resource & {
   /** The kind of the entity. */
   kind: EntityKind;
-}
+};
 
 /** Specific entity query template. */
-export interface EntityQueryTemplate extends Resource {
+export type EntityQueryTemplate = Resource & {
   /** the entity query template kind */
   kind: EntityQueryTemplateKind;
-}
+};
 
 /** Consent for Office365 tenant that already made. */
-export interface OfficeConsent extends Resource {
+export type OfficeConsent = Resource & {
   /** The tenantId of the Office365 with the consent. */
   tenantId?: string;
   /** Help to easily cascade among the data layers. */
   consentId?: string;
-}
+};
 
 /** Action property bag. */
-export interface ActionResponseProperties extends ActionPropertiesBase {
+export type ActionResponseProperties = ActionPropertiesBase & {
   /** The name of the logic app's workflow. */
   workflowId?: string;
-}
+};
 
 /** Action property bag. */
-export interface ActionRequestProperties extends ActionPropertiesBase {
+export type ActionRequestProperties = ActionPropertiesBase & {
   /** Logic App Callback URL for this specific workflow. */
   triggerUri: string;
-}
+};
 
 /** Describes an automation rule condition that evaluates an array property's value change */
-export interface PropertyArrayChangedConditionProperties
-  extends AutomationRuleCondition {
+export type PropertyArrayChangedConditionProperties = AutomationRuleCondition & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "PropertyArrayChanged";
   conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
-}
+};
 
 /** Describes an automation rule condition that evaluates a property's value change */
-export interface PropertyChangedConditionProperties
-  extends AutomationRuleCondition {
+export type PropertyChangedConditionProperties = AutomationRuleCondition & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "PropertyChanged";
   conditionProperties?: AutomationRulePropertyValuesChangedCondition;
-}
+};
 
 /** Describes an automation rule condition that evaluates a property's value */
-export interface PropertyConditionProperties extends AutomationRuleCondition {
+export type PropertyConditionProperties = AutomationRuleCondition & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "Property";
   conditionProperties?: AutomationRulePropertyValuesCondition;
-}
+};
 
 /** Describes an automation rule action to modify an object's properties */
-export interface AutomationRuleModifyPropertiesAction
-  extends AutomationRuleAction {
+export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "ModifyProperties";
   actionConfiguration?: IncidentPropertiesAction;
-}
+};
 
 /** Describes an automation rule action to run a playbook */
-export interface AutomationRuleRunPlaybookAction extends AutomationRuleAction {
+export type AutomationRuleRunPlaybookAction = AutomationRuleAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "RunPlaybook";
   actionConfiguration?: PlaybookActionProperties;
-}
+};
 
 /** Represents Activity timeline item. */
-export interface ActivityTimelineItem extends EntityTimelineItem {
+export type ActivityTimelineItem = EntityTimelineItem & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Activity";
   /** The activity query id. */
@@ -2251,10 +2248,10 @@ export interface ActivityTimelineItem extends EntityTimelineItem {
   content: string;
   /** The activity timeline title. */
   title: string;
-}
+};
 
 /** Represents bookmark timeline item. */
-export interface BookmarkTimelineItem extends EntityTimelineItem {
+export type BookmarkTimelineItem = EntityTimelineItem & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Bookmark";
   /** The bookmark azure resource id. */
@@ -2273,10 +2270,10 @@ export interface BookmarkTimelineItem extends EntityTimelineItem {
   createdBy?: UserInfo;
   /** List of labels relevant to this bookmark */
   labels?: string[];
-}
+};
 
 /** Represents anomaly timeline item. */
-export interface AnomalyTimelineItem extends EntityTimelineItem {
+export type AnomalyTimelineItem = EntityTimelineItem & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Anomaly";
   /** The anomaly azure resource id. */
@@ -2301,10 +2298,10 @@ export interface AnomalyTimelineItem extends EntityTimelineItem {
   techniques?: string[];
   /** The reasons that cause the anomaly. */
   reasons?: string[];
-}
+};
 
 /** Represents security alert timeline item. */
-export interface SecurityAlertTimelineItem extends EntityTimelineItem {
+export type SecurityAlertTimelineItem = EntityTimelineItem & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "SecurityAlert";
   /** The alert azure resource id. */
@@ -2325,18 +2322,18 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
-}
+};
 
 /** Represents Insight Query. */
-export interface InsightQueryItem extends EntityQueryItem {
+export type InsightQueryItem = EntityQueryItem & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Insight";
   /** Properties bag for InsightQueryItem */
   properties?: InsightQueryItemProperties;
-}
+};
 
 /** SecurityAlert entity property bag. */
-export interface SecurityAlertProperties extends EntityCommonProperties {
+export type SecurityAlertProperties = EntityCommonProperties & {
   /**
    * The display name of the alert.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2459,10 +2456,10 @@ export interface SecurityAlertProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceIdentifiers?: Record<string, unknown>[];
-}
+};
 
 /** Describes bookmark properties */
-export interface HuntingBookmarkProperties extends EntityCommonProperties {
+export type HuntingBookmarkProperties = EntityCommonProperties & {
   /** The time the bookmark was created */
   created?: Date;
   /** Describes a user that created the bookmark */
@@ -2485,11 +2482,10 @@ export interface HuntingBookmarkProperties extends EntityCommonProperties {
   updatedBy?: UserInfo;
   /** Describes an incident that relates to bookmark */
   incidentInfo?: IncidentInfo;
-}
+};
 
 /** Describes threat intelligence entity properties */
-export interface ThreatIntelligenceIndicatorProperties
-  extends EntityCommonProperties {
+export type ThreatIntelligenceIndicatorProperties = EntityCommonProperties & {
   /** List of tags */
   threatIntelligenceTags?: string[];
   /** Last updated time in UTC */
@@ -2546,10 +2542,10 @@ export interface ThreatIntelligenceIndicatorProperties
   modified?: string;
   /** Extensions map */
   extensions?: { [propertyName: string]: any };
-}
+};
 
 /** Account entity property bag. */
-export interface AccountEntityProperties extends EntityCommonProperties {
+export type AccountEntityProperties = EntityCommonProperties & {
   /**
    * The Azure Active Directory tenant id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2610,10 +2606,10 @@ export interface AccountEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dnsDomain?: string;
-}
+};
 
 /** AzureResource entity property bag. */
-export interface AzureResourceEntityProperties extends EntityCommonProperties {
+export type AzureResourceEntityProperties = EntityCommonProperties & {
   /**
    * The azure resource id of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2624,11 +2620,10 @@ export interface AzureResourceEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-}
+};
 
 /** CloudApplication entity property bag. */
-export interface CloudApplicationEntityProperties
-  extends EntityCommonProperties {
+export type CloudApplicationEntityProperties = EntityCommonProperties & {
   /**
    * The technical identifier of the application.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2644,10 +2639,10 @@ export interface CloudApplicationEntityProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceName?: string;
-}
+};
 
 /** Dns entity property bag. */
-export interface DnsEntityProperties extends EntityCommonProperties {
+export type DnsEntityProperties = EntityCommonProperties & {
   /**
    * An ip entity id for the dns server resolving the request
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2668,10 +2663,10 @@ export interface DnsEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddressEntityIds?: string[];
-}
+};
 
 /** File entity property bag. */
-export interface FileEntityProperties extends EntityCommonProperties {
+export type FileEntityProperties = EntityCommonProperties & {
   /**
    * The full path to the file.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2692,10 +2687,10 @@ export interface FileEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostEntityId?: string;
-}
+};
 
 /** FileHash entity property bag. */
-export interface FileHashEntityProperties extends EntityCommonProperties {
+export type FileHashEntityProperties = EntityCommonProperties & {
   /**
    * The hash algorithm type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2706,10 +2701,10 @@ export interface FileHashEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hashValue?: string;
-}
+};
 
 /** Host entity property bag. */
-export interface HostEntityProperties extends EntityCommonProperties {
+export type HostEntityProperties = EntityCommonProperties & {
   /**
    * The azure resource id of the VM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2752,10 +2747,10 @@ export interface HostEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
-}
+};
 
 /** IoTDevice entity property bag. */
-export interface IoTDeviceEntityProperties extends EntityCommonProperties {
+export type IoTDeviceEntityProperties = EntityCommonProperties & {
   /**
    * The ID of the IoT Device in the IoT Hub
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2893,10 +2888,10 @@ export interface IoTDeviceEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isScanner?: boolean;
-}
+};
 
 /** Ip entity property bag. */
-export interface IpEntityProperties extends EntityCommonProperties {
+export type IpEntityProperties = EntityCommonProperties & {
   /**
    * The IP address as string, e.g. 127.0.0.1 (either in Ipv4 or Ipv6)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2912,10 +2907,10 @@ export interface IpEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly threatIntelligence?: ThreatIntelligence[];
-}
+};
 
 /** Mailbox entity property bag. */
-export interface MailboxEntityProperties extends EntityCommonProperties {
+export type MailboxEntityProperties = EntityCommonProperties & {
   /**
    * The mailbox's primary address
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2936,10 +2931,10 @@ export interface MailboxEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly externalDirectoryObjectId?: string;
-}
+};
 
 /** Mail cluster entity property bag. */
-export interface MailClusterEntityProperties extends EntityCommonProperties {
+export type MailClusterEntityProperties = EntityCommonProperties & {
   /**
    * The mail message IDs that are part of the mail cluster
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3015,10 +3010,10 @@ export interface MailClusterEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterGroup?: string;
-}
+};
 
 /** Mail message entity property bag. */
-export interface MailMessageEntityProperties extends EntityCommonProperties {
+export type MailMessageEntityProperties = EntityCommonProperties & {
   /**
    * The File entity ids of this mail message's attachments
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3120,10 +3115,10 @@ export interface MailMessageEntityProperties extends EntityCommonProperties {
   deliveryAction?: DeliveryAction;
   /** The delivery location of this mail message like Inbox, JunkFolder etc */
   deliveryLocation?: DeliveryLocation;
-}
+};
 
 /** Malware entity property bag. */
-export interface MalwareEntityProperties extends EntityCommonProperties {
+export type MalwareEntityProperties = EntityCommonProperties & {
   /**
    * The malware category by the vendor, e.g. Trojan
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3144,10 +3139,10 @@ export interface MalwareEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processEntityIds?: string[];
-}
+};
 
 /** Process entity property bag. */
-export interface ProcessEntityProperties extends EntityCommonProperties {
+export type ProcessEntityProperties = EntityCommonProperties & {
   /**
    * The account entity id running the processes.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3190,10 +3185,10 @@ export interface ProcessEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processId?: string;
-}
+};
 
 /** RegistryKey entity property bag. */
-export interface RegistryKeyEntityProperties extends EntityCommonProperties {
+export type RegistryKeyEntityProperties = EntityCommonProperties & {
   /**
    * the hive that holds the registry key.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3204,10 +3199,10 @@ export interface RegistryKeyEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly key?: string;
-}
+};
 
 /** RegistryValue entity property bag. */
-export interface RegistryValueEntityProperties extends EntityCommonProperties {
+export type RegistryValueEntityProperties = EntityCommonProperties & {
   /**
    * The registry key entity id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3228,10 +3223,10 @@ export interface RegistryValueEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly valueType?: RegistryValueKind;
-}
+};
 
 /** SecurityGroup entity property bag. */
-export interface SecurityGroupEntityProperties extends EntityCommonProperties {
+export type SecurityGroupEntityProperties = EntityCommonProperties & {
   /**
    * The group distinguished name
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3247,10 +3242,10 @@ export interface SecurityGroupEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sid?: string;
-}
+};
 
 /** Submission mail entity property bag. */
-export interface SubmissionMailEntityProperties extends EntityCommonProperties {
+export type SubmissionMailEntityProperties = EntityCommonProperties & {
   /**
    * The network message id of email to which submission belongs
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3301,19 +3296,19 @@ export interface SubmissionMailEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reportType?: string;
-}
+};
 
 /** Url entity property bag. */
-export interface UrlEntityProperties extends EntityCommonProperties {
+export type UrlEntityProperties = EntityCommonProperties & {
   /**
    * A full URL the entity points to
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
-}
+};
 
 /** Nic entity property bag. */
-export interface NicEntityProperties extends EntityCommonProperties {
+export type NicEntityProperties = EntityCommonProperties & {
   /**
    * The MAC address of this network interface
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3329,161 +3324,150 @@ export interface NicEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vlans?: string[];
-}
+};
 
 /** Represents AAD (Azure Active Directory) requirements check request. */
-export interface AADCheckRequirements extends DataConnectorsCheckRequirements {
+export type AADCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureActiveDirectory";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents AATP (Azure Advanced Threat Protection) requirements check request. */
-export interface AatpCheckRequirements extends DataConnectorsCheckRequirements {
+export type AatpCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents ASC (Azure Security Center) requirements check request. */
-export interface ASCCheckRequirements extends DataConnectorsCheckRequirements {
+export type ASCCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AzureSecurityCenter";
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** Amazon Web Services CloudTrail requirements check request. */
-export interface AwsCloudTrailCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type AwsCloudTrailCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AmazonWebServicesCloudTrail";
-}
+};
 
 /** Amazon Web Services S3 requirements check request. */
-export interface AwsS3CheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type AwsS3CheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "AmazonWebServicesS3";
-}
+};
 
 /** Represents Dynamics365 requirements check request. */
-export interface Dynamics365CheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type Dynamics365CheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Dynamics365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents MCAS (Microsoft Cloud App Security) requirements check request. */
-export interface McasCheckRequirements extends DataConnectorsCheckRequirements {
+export type McasCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftCloudAppSecurity";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) requirements check request. */
-export interface MdatpCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type MdatpCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftDefenderAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents Microsoft Threat Intelligence requirements check request. */
-export interface MstiCheckRequirements extends DataConnectorsCheckRequirements {
+export type MstiCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents MTP (Microsoft Threat Protection) requirements check request. */
-export interface MtpCheckRequirements extends DataConnectorsCheckRequirements {
+export type MtpCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "MicrosoftThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) requirements check request. */
-export interface OfficeATPCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type OfficeATPCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficeATP";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) requirements check request. */
-export interface OfficeIRMCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type OfficeIRMCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficeIRM";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents Office365 Project requirements check request. */
-export interface Office365ProjectCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type Office365ProjectCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "Office365Project";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents Office PowerBI requirements check request. */
-export interface OfficePowerBICheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type OfficePowerBICheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "OfficePowerBI";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Threat Intelligence Platforms data connector check requirements */
-export interface TICheckRequirements extends DataConnectorsCheckRequirements {
+export type TICheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Threat Intelligence TAXII data connector check requirements */
-export interface TiTaxiiCheckRequirements
-  extends DataConnectorsCheckRequirements {
+export type TiTaxiiCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "ThreatIntelligenceTaxii";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
-}
+};
 
 /** Represents IoT requirements check request. */
-export interface IoTCheckRequirements extends DataConnectorsCheckRequirements {
+export type IoTCheckRequirements = DataConnectorsCheckRequirements & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "IOT";
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** Alert rule template with MITRE property bag. */
-export interface AlertRuleTemplateWithMitreProperties
-  extends AlertRuleTemplatePropertiesBase {
+export type AlertRuleTemplateWithMitreProperties = AlertRuleTemplatePropertiesBase & {
   /** The tactics of the alert rule */
   tactics?: AttackTactic[];
   /** The techniques of the alert rule */
   techniques?: string[];
-}
+};
 
 /** MicrosoftSecurityIncidentCreation rule template properties */
-export interface MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties
-  extends AlertRuleTemplatePropertiesBase {
+export type MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties = AlertRuleTemplatePropertiesBase & {
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -3492,16 +3476,14 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties
   productFilter?: MicrosoftSecurityProductName;
   /** the alerts' severities on which the cases will be generated */
   severitiesFilter?: AlertSeverity[];
-}
+};
 
 /** NRT alert rule template properties */
-export interface NrtAlertRuleTemplateProperties
-  extends AlertRuleTemplateWithMitreProperties,
-    QueryBasedAlertRuleTemplateProperties {}
+export type NrtAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties &
+  QueryBasedAlertRuleTemplateProperties & {};
 
 /** MicrosoftSecurityIncidentCreation rule property bag. */
-export interface MicrosoftSecurityIncidentCreationAlertRuleProperties
-  extends MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
+export type MicrosoftSecurityIncidentCreationAlertRuleProperties = MicrosoftSecurityIncidentCreationAlertRuleCommonProperties & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The description of the alert rule. */
@@ -3515,11 +3497,10 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleProperties
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedUtc?: Date;
-}
+};
 
 /** Scheduled alert rule base property bag. */
-export interface ScheduledAlertRuleProperties
-  extends ScheduledAlertRuleCommonProperties {
+export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -3545,10 +3526,10 @@ export interface ScheduledAlertRuleProperties
   techniques?: string[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
-}
+};
 
 /** Represents Insight Query. */
-export interface InsightQueryItemProperties extends EntityQueryItemProperties {
+export type InsightQueryItemProperties = EntityQueryItemProperties & {
   /** The insight display name. */
   displayName?: string;
   /** The insight description. */
@@ -3565,137 +3546,119 @@ export interface InsightQueryItemProperties extends EntityQueryItemProperties {
   defaultTimeRange?: InsightQueryItemPropertiesDefaultTimeRange;
   /** The insight chart query. */
   referenceTimeRange?: InsightQueryItemPropertiesReferenceTimeRange;
-}
+};
 
 /** AAD (Azure Active Directory) requirements check properties. */
-export interface AADCheckRequirementsProperties extends DataConnectorTenantId {}
+export type AADCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** AATP (Azure Advanced Threat Protection) requirements check properties. */
-export interface AatpCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type AatpCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Dynamics365 requirements check properties. */
-export interface Dynamics365CheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type Dynamics365CheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** MCAS (Microsoft Cloud App Security) requirements check properties. */
-export interface McasCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type McasCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** MDATP (Microsoft Defender Advanced Threat Protection) requirements check properties. */
-export interface MdatpCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type MdatpCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Microsoft Threat Intelligence requirements check properties. */
-export interface MstiCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type MstiCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** MTP (Microsoft Threat Protection) requirements check properties. */
-export interface MTPCheckRequirementsProperties extends DataConnectorTenantId {}
+export type MTPCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** OfficeATP (Office 365 Advanced Threat Protection) requirements check properties. */
-export interface OfficeATPCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type OfficeATPCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** OfficeIRM (Microsoft Insider Risk Management) requirements check properties. */
-export interface OfficeIRMCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type OfficeIRMCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Office365 Project requirements check properties. */
-export interface Office365ProjectCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type Office365ProjectCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Office PowerBI requirements check properties. */
-export interface OfficePowerBICheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type OfficePowerBICheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Threat Intelligence Platforms data connector required properties. */
-export interface TICheckRequirementsProperties extends DataConnectorTenantId {}
+export type TICheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** Threat Intelligence TAXII data connector required properties. */
-export interface TiTaxiiCheckRequirementsProperties
-  extends DataConnectorTenantId {}
+export type TiTaxiiCheckRequirementsProperties = DataConnectorTenantId & {};
 
 /** AAD (Azure Active Directory) data connector properties. */
-export interface AADDataConnectorProperties
-  extends DataConnectorTenantId,
-    DataConnectorWithAlertsProperties {}
+export type AADDataConnectorProperties = DataConnectorTenantId &
+  DataConnectorWithAlertsProperties & {};
 
 /** Microsoft Threat Intelligence data connector properties. */
-export interface MstiDataConnectorProperties extends DataConnectorTenantId {
+export type MstiDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: MstiDataConnectorDataTypes;
-}
+};
 
 /** MTP (Microsoft Threat Protection) data connector properties. */
-export interface MTPDataConnectorProperties extends DataConnectorTenantId {
+export type MTPDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: MTPDataConnectorDataTypes;
-}
+};
 
 /** AATP (Azure Advanced Threat Protection) data connector properties. */
-export interface AatpDataConnectorProperties
-  extends DataConnectorTenantId,
-    DataConnectorWithAlertsProperties {}
+export type AatpDataConnectorProperties = DataConnectorTenantId &
+  DataConnectorWithAlertsProperties & {};
 
 /** MCAS (Microsoft Cloud App Security) data connector properties. */
-export interface McasDataConnectorProperties extends DataConnectorTenantId {
+export type McasDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: McasDataConnectorDataTypes;
-}
+};
 
 /** Dynamics365 data connector properties. */
-export interface Dynamics365DataConnectorProperties
-  extends DataConnectorTenantId {
+export type Dynamics365DataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: Dynamics365DataConnectorDataTypes;
-}
+};
 
 /** OfficeATP (Office 365 Advanced Threat Protection) data connector properties. */
-export interface OfficeATPDataConnectorProperties
-  extends DataConnectorTenantId,
-    DataConnectorWithAlertsProperties {}
+export type OfficeATPDataConnectorProperties = DataConnectorTenantId &
+  DataConnectorWithAlertsProperties & {};
 
 /** Office Microsoft Project data connector properties. */
-export interface Office365ProjectDataConnectorProperties
-  extends DataConnectorTenantId {
+export type Office365ProjectDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: Office365ProjectConnectorDataTypes;
-}
+};
 
 /** Office Microsoft PowerBI data connector properties. */
-export interface OfficePowerBIDataConnectorProperties
-  extends DataConnectorTenantId {
+export type OfficePowerBIDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: OfficePowerBIConnectorDataTypes;
-}
+};
 
 /** OfficeIRM (Microsoft Insider Risk Management) data connector properties. */
-export interface OfficeIRMDataConnectorProperties
-  extends DataConnectorTenantId,
-    DataConnectorWithAlertsProperties {}
+export type OfficeIRMDataConnectorProperties = DataConnectorTenantId &
+  DataConnectorWithAlertsProperties & {};
 
 /** MDATP (Microsoft Defender Advanced Threat Protection) data connector properties. */
-export interface MdatpDataConnectorProperties
-  extends DataConnectorTenantId,
-    DataConnectorWithAlertsProperties {}
+export type MdatpDataConnectorProperties = DataConnectorTenantId &
+  DataConnectorWithAlertsProperties & {};
 
 /** Office data connector properties. */
-export interface OfficeDataConnectorProperties extends DataConnectorTenantId {
+export type OfficeDataConnectorProperties = DataConnectorTenantId & {
   /** The available data types for the connector. */
   dataTypes: OfficeDataConnectorDataTypes;
-}
+};
 
 /** TI (Threat Intelligence) data connector properties. */
-export interface TIDataConnectorProperties extends DataConnectorTenantId {
+export type TIDataConnectorProperties = DataConnectorTenantId & {
   /** The lookback period for the feed to be imported. */
   tipLookbackPeriod?: Date;
   /** The available data types for the connector. */
   dataTypes: TIDataConnectorDataTypes;
-}
+};
 
 /** Threat Intelligence TAXII data connector properties. */
-export interface TiTaxiiDataConnectorProperties extends DataConnectorTenantId {
+export type TiTaxiiDataConnectorProperties = DataConnectorTenantId & {
   /** The workspace id. */
   workspaceId?: string;
   /** The friendly name for the TAXII server. */
@@ -3714,133 +3677,111 @@ export interface TiTaxiiDataConnectorProperties extends DataConnectorTenantId {
   pollingFrequency: PollingFrequency | null;
   /** The available data types for Threat Intelligence TAXII data connector. */
   dataTypes: TiTaxiiDataConnectorDataTypes;
-}
+};
 
 /** ASC (Azure Security Center) data connector properties. */
-export interface ASCDataConnectorProperties
-  extends DataConnectorWithAlertsProperties {
+export type ASCDataConnectorProperties = DataConnectorWithAlertsProperties & {
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** IoT data connector properties. */
-export interface IoTDataConnectorProperties
-  extends DataConnectorWithAlertsProperties {
+export type IoTDataConnectorProperties = DataConnectorWithAlertsProperties & {
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** The available data types for MCAS (Microsoft Cloud App Security) data connector. */
-export interface McasDataConnectorDataTypes
-  extends AlertsDataTypeOfDataConnector {
+export type McasDataConnectorDataTypes = AlertsDataTypeOfDataConnector & {
   /** Discovery log data type connection. */
   discoveryLogs?: DataConnectorDataTypeCommon;
-}
+};
 
 /** Data type for Microsoft Threat Intelligence Platforms data connector. */
-export interface MstiDataConnectorDataTypesBingSafetyPhishingURL
-  extends DataConnectorDataTypeCommon {
+export type MstiDataConnectorDataTypesBingSafetyPhishingURL = DataConnectorDataTypeCommon & {
   /** lookback period */
   lookbackPeriod: string;
-}
+};
 
 /** Data type for Microsoft Threat Intelligence Platforms data connector. */
-export interface MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed
-  extends DataConnectorDataTypeCommon {
+export type MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed = DataConnectorDataTypeCommon & {
   /** lookback period */
   lookbackPeriod: string;
-}
+};
 
 /** Data type for Microsoft Threat Protection Platforms data connector. */
-export interface MTPDataConnectorDataTypesIncidents
-  extends DataConnectorDataTypeCommon {}
+export type MTPDataConnectorDataTypesIncidents = DataConnectorDataTypeCommon & {};
 
 /** Logs data type. */
-export interface AwsCloudTrailDataConnectorDataTypesLogs
-  extends DataConnectorDataTypeCommon {}
+export type AwsCloudTrailDataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Logs data type. */
-export interface AwsS3DataConnectorDataTypesLogs
-  extends DataConnectorDataTypeCommon {}
+export type AwsS3DataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Common Data Service data type connection. */
-export interface Dynamics365DataConnectorDataTypesDynamics365CdsActivities
-  extends DataConnectorDataTypeCommon {}
+export type Dynamics365DataConnectorDataTypesDynamics365CdsActivities = DataConnectorDataTypeCommon & {};
 
 /** Logs data type. */
-export interface Office365ProjectConnectorDataTypesLogs
-  extends DataConnectorDataTypeCommon {}
+export type Office365ProjectConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Logs data type. */
-export interface OfficePowerBIConnectorDataTypesLogs
-  extends DataConnectorDataTypeCommon {}
+export type OfficePowerBIConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 /** Exchange data type connection. */
-export interface OfficeDataConnectorDataTypesExchange
-  extends DataConnectorDataTypeCommon {}
+export type OfficeDataConnectorDataTypesExchange = DataConnectorDataTypeCommon & {};
 
 /** SharePoint data type connection. */
-export interface OfficeDataConnectorDataTypesSharePoint
-  extends DataConnectorDataTypeCommon {}
+export type OfficeDataConnectorDataTypesSharePoint = DataConnectorDataTypeCommon & {};
 
 /** Teams data type connection. */
-export interface OfficeDataConnectorDataTypesTeams
-  extends DataConnectorDataTypeCommon {}
+export type OfficeDataConnectorDataTypesTeams = DataConnectorDataTypeCommon & {};
 
 /** Data type for indicators connection. */
-export interface TIDataConnectorDataTypesIndicators
-  extends DataConnectorDataTypeCommon {}
+export type TIDataConnectorDataTypesIndicators = DataConnectorDataTypeCommon & {};
 
 /** Data type for TAXII connector. */
-export interface TiTaxiiDataConnectorDataTypesTaxiiClient
-  extends DataConnectorDataTypeCommon {}
+export type TiTaxiiDataConnectorDataTypesTaxiiClient = DataConnectorDataTypeCommon & {};
 
-export interface CodelessUiConnectorConfigPropertiesGraphQueriesItem
-  extends GraphQueries {}
+export type CodelessUiConnectorConfigPropertiesGraphQueriesItem = GraphQueries & {};
 
-export interface CodelessUiConnectorConfigPropertiesSampleQueriesItem
-  extends SampleQueries {}
+export type CodelessUiConnectorConfigPropertiesSampleQueriesItem = SampleQueries & {};
 
-export interface CodelessUiConnectorConfigPropertiesDataTypesItem
-  extends LastDataReceivedDataType {}
+export type CodelessUiConnectorConfigPropertiesDataTypesItem = LastDataReceivedDataType & {};
 
-export interface CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem
-  extends ConnectivityCriteria {}
+export type CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem = ConnectivityCriteria & {};
 
-export interface PermissionsResourceProviderItem extends ResourceProvider {}
+export type PermissionsResourceProviderItem = ResourceProvider & {};
 
 /** Customs permissions required for the connector */
-export interface Customs extends CustomsPermission {}
+export type Customs = CustomsPermission & {};
 
-export interface CodelessUiConnectorConfigPropertiesInstructionStepsItem
-  extends InstructionSteps {}
+export type CodelessUiConnectorConfigPropertiesInstructionStepsItem = InstructionSteps & {};
 
-export interface InstructionStepsInstructionsItem
-  extends ConnectorInstructionModelBase {}
+export type InstructionStepsInstructionsItem = ConnectorInstructionModelBase & {};
 
 /** Alert rule. */
-export interface AlertRule extends ResourceWithEtag {
+export type AlertRule = ResourceWithEtag & {
   /** The kind of the alert rule */
   kind: AlertRuleKind;
-}
+};
 
 /** Action for alert rule. */
-export interface ActionResponse extends ResourceWithEtag {
+export type ActionResponse = ResourceWithEtag & {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId?: string;
   /** The name of the logic app's workflow. */
   workflowId?: string;
-}
+};
 
 /** Action for alert rule. */
-export interface ActionRequest extends ResourceWithEtag {
+export type ActionRequest = ResourceWithEtag & {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId?: string;
   /** Logic App Callback URL for this specific workflow. */
   triggerUri?: string;
-}
+};
 
-export interface AutomationRule extends ResourceWithEtag {
+export type AutomationRule = ResourceWithEtag & {
   /** The display name of the automation rule. */
   displayName: string;
   /** The order of execution of the automation rule. */
@@ -3869,10 +3810,10 @@ export interface AutomationRule extends ResourceWithEtag {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdBy?: ClientInfo;
-}
+};
 
 /** Represents a bookmark in Azure Security Insights. */
-export interface Bookmark extends ResourceWithEtag {
+export type Bookmark = ResourceWithEtag & {
   /** The time the bookmark was created */
   created?: Date;
   /** Describes a user that created the bookmark */
@@ -3905,10 +3846,10 @@ export interface Bookmark extends ResourceWithEtag {
   tactics?: AttackTactic[];
   /** A list of relevant mitre techniques */
   techniques?: string[];
-}
+};
 
 /** Represents a relation between two resources */
-export interface Relation extends ResourceWithEtag {
+export type Relation = ResourceWithEtag & {
   /** The resource ID of the related resource */
   relatedResourceId?: string;
   /**
@@ -3926,22 +3867,22 @@ export interface Relation extends ResourceWithEtag {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly relatedResourceKind?: string;
-}
+};
 
 /** Specific entity query. */
-export interface EntityQuery extends ResourceWithEtag {
+export type EntityQuery = ResourceWithEtag & {
   /** the entity query kind */
   kind: EntityQueryKind;
-}
+};
 
 /** Specific entity query that supports put requests. */
-export interface CustomEntityQuery extends ResourceWithEtag {
+export type CustomEntityQuery = ResourceWithEtag & {
   /** the entity query kind */
   kind: CustomEntityQueryKind;
-}
+};
 
 /** Represents an incident in Azure Security Insights. */
-export interface Incident extends ResourceWithEtag {
+export type Incident = ResourceWithEtag & {
   /**
    * Additional data on the incident
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4000,10 +3941,10 @@ export interface Incident extends ResourceWithEtag {
   teamInformation?: TeamInformation;
   /** The title of the incident */
   title?: string;
-}
+};
 
 /** Represents an incident comment */
-export interface IncidentComment extends ResourceWithEtag {
+export type IncidentComment = ResourceWithEtag & {
   /**
    * The time the comment was created
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4021,10 +3962,10 @@ export interface IncidentComment extends ResourceWithEtag {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly author?: ClientInfo;
-}
+};
 
 /** Metadata resource definition. */
-export interface MetadataModel extends ResourceWithEtag {
+export type MetadataModel = ResourceWithEtag & {
   /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
   contentId?: string;
   /** Full parent resource ID of the content item the metadata is for.  This is the full resource ID including the scope (subscription and resource group) */
@@ -4063,10 +4004,10 @@ export interface MetadataModel extends ResourceWithEtag {
   previewImages?: string[];
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
   previewImagesDark?: string[];
-}
+};
 
 /** Metadata patch request body. */
-export interface MetadataPatch extends ResourceWithEtag {
+export type MetadataPatch = ResourceWithEtag & {
   /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
   contentId?: string;
   /** Full parent resource ID of the content item the metadata is for.  This is the full resource ID including the scope (subscription and resource group) */
@@ -4105,28 +4046,28 @@ export interface MetadataPatch extends ResourceWithEtag {
   previewImages?: string[];
   /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
   previewImagesDark?: string[];
-}
+};
 
 /** Sentinel onboarding state */
-export interface SentinelOnboardingState extends ResourceWithEtag {
+export type SentinelOnboardingState = ResourceWithEtag & {
   /** Flag that indicates the status of the CMK setting */
   customerManagedKey?: boolean;
-}
+};
 
 /** Security ML Analytics Setting */
-export interface SecurityMLAnalyticsSetting extends ResourceWithEtag {
+export type SecurityMLAnalyticsSetting = ResourceWithEtag & {
   /** The kind of security ML Analytics Settings */
   kind: SecurityMLAnalyticsSettingsKind;
-}
+};
 
 /** The Setting. */
-export interface Settings extends ResourceWithEtag {
+export type Settings = ResourceWithEtag & {
   /** The kind of the setting */
   kind: SettingKind;
-}
+};
 
 /** Represents a SourceControl in Azure Security Insights. */
-export interface SourceControl extends ResourceWithEtag {
+export type SourceControl = ResourceWithEtag & {
   /** The id (a Guid) of the source control */
   idPropertiesId?: string;
   /** The version number associated with the source control */
@@ -4145,16 +4086,16 @@ export interface SourceControl extends ResourceWithEtag {
   repositoryResourceInfo?: RepositoryResourceInfo;
   /** Information regarding the latest deployment for the source control. */
   lastDeploymentInfo?: DeploymentInfo;
-}
+};
 
 /** Threat intelligence information object. */
-export interface ThreatIntelligenceInformation extends ResourceWithEtag {
+export type ThreatIntelligenceInformation = ResourceWithEtag & {
   /** The kind of the entity. */
   kind: ThreatIntelligenceResourceKindEnum;
-}
+};
 
 /** Represents a Watchlist in Azure Security Insights. */
-export interface Watchlist extends ResourceWithEtag {
+export type Watchlist = ResourceWithEtag & {
   /** The id (a Guid) of the watchlist */
   watchlistId?: string;
   /** The display name of the watchlist */
@@ -4197,10 +4138,10 @@ export interface Watchlist extends ResourceWithEtag {
   contentType?: string;
   /** The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
-}
+};
 
 /** Represents a Watchlist item in Azure Security Insights. */
-export interface WatchlistItem extends ResourceWithEtag {
+export type WatchlistItem = ResourceWithEtag & {
   /** The type of the watchlist item */
   watchlistItemType?: string;
   /** The id (a Guid) of the watchlist item */
@@ -4221,17 +4162,16 @@ export interface WatchlistItem extends ResourceWithEtag {
   itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
   entityMapping?: { [propertyName: string]: any };
-}
+};
 
 /** Data connector */
-export interface DataConnector extends ResourceWithEtag {
+export type DataConnector = ResourceWithEtag & {
   /** The data connector kind */
   kind: DataConnectorKind;
-}
+};
 
 /** Represents MLBehaviorAnalytics alert rule template. */
-export interface MLBehaviorAnalyticsAlertRuleTemplate
-  extends AlertRuleTemplate {
+export type MLBehaviorAnalyticsAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4258,10 +4198,10 @@ export interface MLBehaviorAnalyticsAlertRuleTemplate
   techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-}
+};
 
 /** Represents Fusion alert rule template. */
-export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
+export type FusionAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4290,10 +4230,10 @@ export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
   techniques?: string[];
   /** All supported source signal configurations consumed in fusion detection. */
   sourceSettings?: FusionTemplateSourceSetting[];
-}
+};
 
 /** Represents Threat Intelligence alert rule template. */
-export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
+export type ThreatIntelligenceAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4320,11 +4260,10 @@ export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
   techniques?: string[];
   /** The severity for alerts created by this alert rule. */
   severity?: AlertSeverity;
-}
+};
 
 /** Represents MicrosoftSecurityIncidentCreation rule template. */
-export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
-  extends AlertRuleTemplate {
+export type MicrosoftSecurityIncidentCreationAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4353,10 +4292,10 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
   productFilter?: MicrosoftSecurityProductName;
   /** the alerts' severities on which the cases will be generated */
   severitiesFilter?: AlertSeverity[];
-}
+};
 
 /** Represents scheduled alert rule template. */
-export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
+export type ScheduledAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4403,10 +4342,10 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-}
+};
 
 /** Represents NRT alert rule template. */
-export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
+export type NrtAlertRuleTemplate = AlertRuleTemplate & {
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4443,10 +4382,10 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-}
+};
 
 /** Represents a security alert entity. */
-export interface SecurityAlert extends Entity {
+export type SecurityAlert = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4579,10 +4518,10 @@ export interface SecurityAlert extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceIdentifiers?: Record<string, unknown>[];
-}
+};
 
 /** Represents a Hunting bookmark entity. */
-export interface HuntingBookmark extends Entity {
+export type HuntingBookmark = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4615,10 +4554,10 @@ export interface HuntingBookmark extends Entity {
   updatedBy?: UserInfo;
   /** Describes an incident that relates to bookmark */
   incidentInfo?: IncidentInfo;
-}
+};
 
 /** Represents an account entity. */
-export interface AccountEntity extends Entity {
+export type AccountEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4689,10 +4628,10 @@ export interface AccountEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dnsDomain?: string;
-}
+};
 
 /** Represents an azure resource entity. */
-export interface AzureResourceEntity extends Entity {
+export type AzureResourceEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4713,10 +4652,10 @@ export interface AzureResourceEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly subscriptionId?: string;
-}
+};
 
 /** Represents a cloud application entity. */
-export interface CloudApplicationEntity extends Entity {
+export type CloudApplicationEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4742,10 +4681,10 @@ export interface CloudApplicationEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceName?: string;
-}
+};
 
 /** Represents a dns entity. */
-export interface DnsEntity extends Entity {
+export type DnsEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4776,10 +4715,10 @@ export interface DnsEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipAddressEntityIds?: string[];
-}
+};
 
 /** Represents a file entity. */
-export interface FileEntity extends Entity {
+export type FileEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4810,10 +4749,10 @@ export interface FileEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hostEntityId?: string;
-}
+};
 
 /** Represents a file hash entity. */
-export interface FileHashEntity extends Entity {
+export type FileHashEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4834,10 +4773,10 @@ export interface FileHashEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hashValue?: string;
-}
+};
 
 /** Represents a host entity. */
-export interface HostEntity extends Entity {
+export type HostEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4890,10 +4829,10 @@ export interface HostEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
-}
+};
 
 /** Represents an IoT device entity. */
-export interface IoTDeviceEntity extends Entity {
+export type IoTDeviceEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5041,10 +4980,10 @@ export interface IoTDeviceEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isScanner?: boolean;
-}
+};
 
 /** Represents an ip entity. */
-export interface IpEntity extends Entity {
+export type IpEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5070,10 +5009,10 @@ export interface IpEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly threatIntelligence?: ThreatIntelligence[];
-}
+};
 
 /** Represents a mailbox entity. */
-export interface MailboxEntity extends Entity {
+export type MailboxEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5104,10 +5043,10 @@ export interface MailboxEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly externalDirectoryObjectId?: string;
-}
+};
 
 /** Represents a mail cluster entity. */
-export interface MailClusterEntity extends Entity {
+export type MailClusterEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5193,10 +5132,10 @@ export interface MailClusterEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clusterGroup?: string;
-}
+};
 
 /** Represents a mail message entity. */
-export interface MailMessageEntity extends Entity {
+export type MailMessageEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5308,10 +5247,10 @@ export interface MailMessageEntity extends Entity {
   deliveryAction?: DeliveryAction;
   /** The delivery location of this mail message like Inbox, JunkFolder etc */
   deliveryLocation?: DeliveryLocation;
-}
+};
 
 /** Represents a malware entity. */
-export interface MalwareEntity extends Entity {
+export type MalwareEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5342,10 +5281,10 @@ export interface MalwareEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processEntityIds?: string[];
-}
+};
 
 /** Represents a process entity. */
-export interface ProcessEntity extends Entity {
+export type ProcessEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5398,10 +5337,10 @@ export interface ProcessEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly processId?: string;
-}
+};
 
 /** Represents a registry key entity. */
-export interface RegistryKeyEntity extends Entity {
+export type RegistryKeyEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5422,10 +5361,10 @@ export interface RegistryKeyEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly key?: string;
-}
+};
 
 /** Represents a registry value entity. */
-export interface RegistryValueEntity extends Entity {
+export type RegistryValueEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5456,10 +5395,10 @@ export interface RegistryValueEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly valueType?: RegistryValueKind;
-}
+};
 
 /** Represents a security group entity. */
-export interface SecurityGroupEntity extends Entity {
+export type SecurityGroupEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5485,10 +5424,10 @@ export interface SecurityGroupEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sid?: string;
-}
+};
 
 /** Represents a submission mail entity. */
-export interface SubmissionMailEntity extends Entity {
+export type SubmissionMailEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5549,10 +5488,10 @@ export interface SubmissionMailEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reportType?: string;
-}
+};
 
 /** Represents a url entity. */
-export interface UrlEntity extends Entity {
+export type UrlEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5568,10 +5507,10 @@ export interface UrlEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
-}
+};
 
 /** Represents an network interface entity. */
-export interface NicEntity extends Entity {
+export type NicEntity = Entity & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5597,10 +5536,10 @@ export interface NicEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vlans?: string[];
-}
+};
 
 /** Represents Activity entity query. */
-export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
+export type ActivityEntityQueryTemplate = EntityQueryTemplate & {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5617,26 +5556,24 @@ export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
   requiredInputFieldsSets?: string[][];
   /** The query applied only to entities matching to all filters */
   entitiesFilter?: { [propertyName: string]: string[] };
-}
+};
 
 /** MLBehaviorAnalytics alert rule template properties. */
-export interface MLBehaviorAnalyticsAlertRuleTemplateProperties
-  extends AlertRuleTemplateWithMitreProperties {
+export type MLBehaviorAnalyticsAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
   /** The severity for alerts created by this alert rule. */
   severity: AlertSeverity;
-}
+};
 
 /** Threat Intelligence alert rule template properties */
-export interface ThreatIntelligenceAlertRuleTemplateProperties
-  extends AlertRuleTemplateWithMitreProperties {
+export type ThreatIntelligenceAlertRuleTemplateProperties = AlertRuleTemplateWithMitreProperties & {
   /** The severity for alerts created by this alert rule. */
   severity: AlertSeverity;
-}
+};
 
-export interface PermissionsCustomsItem extends Customs {}
+export type PermissionsCustomsItem = Customs & {};
 
 /** Represents MLBehaviorAnalytics alert rule. */
-export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
+export type MLBehaviorAnalyticsAlertRule = AlertRule & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5671,10 +5608,10 @@ export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-}
+};
 
 /** Represents Fusion alert rule. */
-export interface FusionAlertRule extends AlertRule {
+export type FusionAlertRule = AlertRule & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5713,10 +5650,10 @@ export interface FusionAlertRule extends AlertRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-}
+};
 
 /** Represents Threat Intelligence alert rule. */
-export interface ThreatIntelligenceAlertRule extends AlertRule {
+export type ThreatIntelligenceAlertRule = AlertRule & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5751,10 +5688,10 @@ export interface ThreatIntelligenceAlertRule extends AlertRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly techniques?: string[];
-}
+};
 
 /** Represents MicrosoftSecurityIncidentCreation rule. */
-export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
+export type MicrosoftSecurityIncidentCreationAlertRule = AlertRule & {
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -5776,10 +5713,10 @@ export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedUtc?: Date;
-}
+};
 
 /** Represents scheduled alert rule. */
-export interface ScheduledAlertRule extends AlertRule {
+export type ScheduledAlertRule = AlertRule & {
   /** The query that creates alerts for this rule. */
   query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
@@ -5825,10 +5762,10 @@ export interface ScheduledAlertRule extends AlertRule {
   techniques?: string[];
   /** The settings of the incidents that created from alerts triggered by this analytics rule */
   incidentConfiguration?: IncidentConfiguration;
-}
+};
 
 /** Represents NRT alert rule. */
-export interface NrtAlertRule extends AlertRule {
+export type NrtAlertRule = AlertRule & {
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -5864,10 +5801,10 @@ export interface NrtAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-}
+};
 
 /** Represents Expansion entity query. */
-export interface ExpansionEntityQuery extends EntityQuery {
+export type ExpansionEntityQuery = EntityQuery & {
   /** List of the data sources that are required to run the query */
   dataSources?: string[];
   /** The query display name */
@@ -5880,10 +5817,10 @@ export interface ExpansionEntityQuery extends EntityQuery {
   outputEntityTypes?: EntityType[];
   /** The template query string to be parsed and formatted */
   queryTemplate?: string;
-}
+};
 
 /** Represents Activity entity query. */
-export interface ActivityEntityQuery extends EntityQuery {
+export type ActivityEntityQuery = EntityQuery & {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5912,10 +5849,10 @@ export interface ActivityEntityQuery extends EntityQuery {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-}
+};
 
 /** Represents Activity entity query. */
-export interface ActivityCustomEntityQuery extends CustomEntityQuery {
+export type ActivityCustomEntityQuery = CustomEntityQuery & {
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5944,11 +5881,10 @@ export interface ActivityCustomEntityQuery extends CustomEntityQuery {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastModifiedTimeUtc?: Date;
-}
+};
 
 /** Represents Anomaly Security ML Analytics Settings */
-export interface AnomalySecurityMLAnalyticsSettings
-  extends SecurityMLAnalyticsSetting {
+export type AnomalySecurityMLAnalyticsSettings = SecurityMLAnalyticsSetting & {
   /** The description of the SecurityMLAnalyticsSettings. */
   description?: string;
   /** The display name for settings created by this SecurityMLAnalyticsSettings. */
@@ -5980,41 +5916,40 @@ export interface AnomalySecurityMLAnalyticsSettings
   anomalySettingsVersion?: number;
   /** The anomaly settings definition Id */
   settingsDefinitionId?: string;
-}
+};
 
 /** Settings with single toggle. */
-export interface Anomalies extends Settings {
+export type Anomalies = Settings & {
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnabled?: boolean;
-}
+};
 
 /** Settings with single toggle. */
-export interface EyesOn extends Settings {
+export type EyesOn = Settings & {
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isEnabled?: boolean;
-}
+};
 
 /** Settings with single toggle. */
-export interface EntityAnalytics extends Settings {
+export type EntityAnalytics = Settings & {
   /** The relevant entity providers that are synced */
   entityProviders?: EntityProviders[];
-}
+};
 
 /** Settings with single toggle. */
-export interface Ueba extends Settings {
+export type Ueba = Settings & {
   /** The relevant data sources that enriched by ueba */
   dataSources?: UebaDataSources[];
-}
+};
 
 /** Threat intelligence indicator entity. */
-export interface ThreatIntelligenceIndicatorModel
-  extends ThreatIntelligenceInformation {
+export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6081,58 +6016,58 @@ export interface ThreatIntelligenceIndicatorModel
   modified?: string;
   /** Extensions map */
   extensions?: { [propertyName: string]: any };
-}
+};
 
 /** Represents AAD (Azure Active Directory) data connector. */
-export interface AADDataConnector extends DataConnector {
+export type AADDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-}
+};
 
 /** Represents Microsoft Threat Intelligence data connector. */
-export interface MstiDataConnector extends DataConnector {
+export type MstiDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: MstiDataConnectorDataTypes;
-}
+};
 
 /** Represents MTP (Microsoft Threat Protection) data connector. */
-export interface MTPDataConnector extends DataConnector {
+export type MTPDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: MTPDataConnectorDataTypes;
-}
+};
 
 /** Represents AATP (Azure Advanced Threat Protection) data connector. */
-export interface AatpDataConnector extends DataConnector {
+export type AatpDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-}
+};
 
 /** Represents ASC (Azure Security Center) data connector. */
-export interface ASCDataConnector extends DataConnector {
+export type ASCDataConnector = DataConnector & {
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** Represents Amazon Web Services CloudTrail data connector. */
-export interface AwsCloudTrailDataConnector extends DataConnector {
+export type AwsCloudTrailDataConnector = DataConnector & {
   /** The Aws Role Arn (with CloudTrailReadOnly policy) that is used to access the Aws account. */
   awsRoleArn?: string;
   /** The available data types for the connector. */
   dataTypes?: AwsCloudTrailDataConnectorDataTypes;
-}
+};
 
 /** Represents Amazon Web Services S3 data connector. */
-export interface AwsS3DataConnector extends DataConnector {
+export type AwsS3DataConnector = DataConnector & {
   /** The logs destination table name in LogAnalytics. */
   destinationTable?: string;
   /** The AWS sqs urls for the connector. */
@@ -6141,84 +6076,84 @@ export interface AwsS3DataConnector extends DataConnector {
   roleArn?: string;
   /** The available data types for the connector. */
   dataTypes?: AwsS3DataConnectorDataTypes;
-}
+};
 
 /** Represents MCAS (Microsoft Cloud App Security) data connector. */
-export interface McasDataConnector extends DataConnector {
+export type McasDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: McasDataConnectorDataTypes;
-}
+};
 
 /** Represents Dynamics365 data connector. */
-export interface Dynamics365DataConnector extends DataConnector {
+export type Dynamics365DataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: Dynamics365DataConnectorDataTypes;
-}
+};
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) data connector. */
-export interface OfficeATPDataConnector extends DataConnector {
+export type OfficeATPDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-}
+};
 
 /** Represents Office Microsoft Project data connector. */
-export interface Office365ProjectDataConnector extends DataConnector {
+export type Office365ProjectDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: Office365ProjectConnectorDataTypes;
-}
+};
 
 /** Represents Office Microsoft PowerBI data connector. */
-export interface OfficePowerBIDataConnector extends DataConnector {
+export type OfficePowerBIDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: OfficePowerBIConnectorDataTypes;
-}
+};
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) data connector. */
-export interface OfficeIRMDataConnector extends DataConnector {
+export type OfficeIRMDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-}
+};
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) data connector. */
-export interface MdatpDataConnector extends DataConnector {
+export type MdatpDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
-}
+};
 
 /** Represents office data connector. */
-export interface OfficeDataConnector extends DataConnector {
+export type OfficeDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
   dataTypes?: OfficeDataConnectorDataTypes;
-}
+};
 
 /** Represents threat intelligence data connector. */
-export interface TIDataConnector extends DataConnector {
+export type TIDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The lookback period for the feed to be imported. */
   tipLookbackPeriod?: Date;
   /** The available data types for the connector. */
   dataTypes?: TIDataConnectorDataTypes;
-}
+};
 
 /** Data connector to pull Threat intelligence data from TAXII 2.0/2.1 server */
-export interface TiTaxiiDataConnector extends DataConnector {
+export type TiTaxiiDataConnector = DataConnector & {
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The workspace id. */
@@ -6239,29 +6174,29 @@ export interface TiTaxiiDataConnector extends DataConnector {
   pollingFrequency?: PollingFrequency;
   /** The available data types for Threat Intelligence TAXII data connector. */
   dataTypes?: TiTaxiiDataConnectorDataTypes;
-}
+};
 
 /** Represents IoT data connector. */
-export interface IoTDataConnector extends DataConnector {
+export type IoTDataConnector = DataConnector & {
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
   subscriptionId?: string;
-}
+};
 
 /** Represents Codeless UI data connector. */
-export interface CodelessUiDataConnector extends DataConnector {
+export type CodelessUiDataConnector = DataConnector & {
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
-}
+};
 
 /** Represents Codeless API Polling data connector. */
-export interface CodelessApiPollingDataConnector extends DataConnector {
+export type CodelessApiPollingDataConnector = DataConnector & {
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
   /** Config to describe the polling instructions */
   pollingConfig?: CodelessConnectorPollingConfigProperties;
-}
+};
 
 /** Defines headers for Watchlists_delete operation. */
 export interface WatchlistsDeleteHeaders {
@@ -6277,17 +6212,11 @@ export interface WatchlistsCreateOrUpdateHeaders {
 
 /** Known values of {@link AlertRuleKind} that the service accepts. */
 export enum KnownAlertRuleKind {
-  /** Scheduled */
   Scheduled = "Scheduled",
-  /** MicrosoftSecurityIncidentCreation */
   MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
-  /** Fusion */
   Fusion = "Fusion",
-  /** MLBehaviorAnalytics */
   MLBehaviorAnalytics = "MLBehaviorAnalytics",
-  /** ThreatIntelligence */
   ThreatIntelligence = "ThreatIntelligence",
-  /** NRT */
   NRT = "NRT"
 }
 
@@ -6307,13 +6236,9 @@ export type AlertRuleKind = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** User */
   User = "User",
-  /** Application */
   Application = "Application",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
   Key = "Key"
 }
 
@@ -6430,39 +6355,22 @@ export type IncidentSeverity = string;
 
 /** Known values of {@link AttackTactic} that the service accepts. */
 export enum KnownAttackTactic {
-  /** Reconnaissance */
   Reconnaissance = "Reconnaissance",
-  /** ResourceDevelopment */
   ResourceDevelopment = "ResourceDevelopment",
-  /** InitialAccess */
   InitialAccess = "InitialAccess",
-  /** Execution */
   Execution = "Execution",
-  /** Persistence */
   Persistence = "Persistence",
-  /** PrivilegeEscalation */
   PrivilegeEscalation = "PrivilegeEscalation",
-  /** DefenseEvasion */
   DefenseEvasion = "DefenseEvasion",
-  /** CredentialAccess */
   CredentialAccess = "CredentialAccess",
-  /** Discovery */
   Discovery = "Discovery",
-  /** LateralMovement */
   LateralMovement = "LateralMovement",
-  /** Collection */
   Collection = "Collection",
-  /** Exfiltration */
   Exfiltration = "Exfiltration",
-  /** CommandAndControl */
   CommandAndControl = "CommandAndControl",
-  /** Impact */
   Impact = "Impact",
-  /** PreAttack */
   PreAttack = "PreAttack",
-  /** ImpairProcessControl */
   ImpairProcessControl = "ImpairProcessControl",
-  /** InhibitResponseFunction */
   InhibitResponseFunction = "InhibitResponseFunction"
 }
 
@@ -6610,11 +6518,8 @@ export type EntityItemQueryKind = string;
 
 /** Known values of {@link EntityQueryKind} that the service accepts. */
 export enum KnownEntityQueryKind {
-  /** Expansion */
   Expansion = "Expansion",
-  /** Insight */
   Insight = "Insight",
-  /** Activity */
   Activity = "Activity"
 }
 
@@ -6631,7 +6536,6 @@ export type EntityQueryKind = string;
 
 /** Known values of {@link GetInsightsError} that the service accepts. */
 export enum KnownGetInsightsError {
-  /** Insight */
   Insight = "Insight"
 }
 
@@ -6646,9 +6550,7 @@ export type GetInsightsError = string;
 
 /** Known values of {@link Enum13} that the service accepts. */
 export enum KnownEnum13 {
-  /** Expansion */
   Expansion = "Expansion",
-  /** Activity */
   Activity = "Activity"
 }
 
@@ -6664,7 +6566,6 @@ export type Enum13 = string;
 
 /** Known values of {@link CustomEntityQueryKind} that the service accepts. */
 export enum KnownCustomEntityQueryKind {
-  /** Activity */
   Activity = "Activity"
 }
 
@@ -6679,7 +6580,6 @@ export type CustomEntityQueryKind = string;
 
 /** Known values of {@link EntityQueryTemplateKind} that the service accepts. */
 export enum KnownEntityQueryTemplateKind {
-  /** Activity */
   Activity = "Activity"
 }
 
@@ -6952,39 +6852,22 @@ export type AlertStatus = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
-  /** DataConnector */
   DataConnector = "DataConnector",
-  /** DataType */
   DataType = "DataType",
-  /** Workbook */
   Workbook = "Workbook",
-  /** WorkbookTemplate */
   WorkbookTemplate = "WorkbookTemplate",
-  /** Playbook */
   Playbook = "Playbook",
-  /** PlaybookTemplate */
   PlaybookTemplate = "PlaybookTemplate",
-  /** AnalyticsRuleTemplate */
   AnalyticsRuleTemplate = "AnalyticsRuleTemplate",
-  /** AnalyticsRule */
   AnalyticsRule = "AnalyticsRule",
-  /** HuntingQuery */
   HuntingQuery = "HuntingQuery",
-  /** InvestigationQuery */
   InvestigationQuery = "InvestigationQuery",
-  /** Parser */
   Parser = "Parser",
-  /** Watchlist */
   Watchlist = "Watchlist",
-  /** WatchlistTemplate */
   WatchlistTemplate = "WatchlistTemplate",
-  /** Solution */
   Solution = "Solution",
-  /** AzureFunction */
   AzureFunction = "AzureFunction",
-  /** LogicAppsCustomConnector */
   LogicAppsCustomConnector = "LogicAppsCustomConnector",
-  /** AutomationRule */
   AutomationRule = "AutomationRule"
 }
 
@@ -7015,13 +6898,9 @@ export type Kind = string;
 
 /** Known values of {@link SourceKind} that the service accepts. */
 export enum KnownSourceKind {
-  /** LocalWorkspace */
   LocalWorkspace = "LocalWorkspace",
-  /** Community */
   Community = "Community",
-  /** Solution */
   Solution = "Solution",
-  /** SourceRepository */
   SourceRepository = "SourceRepository"
 }
 
@@ -7039,11 +6918,8 @@ export type SourceKind = string;
 
 /** Known values of {@link SupportTier} that the service accepts. */
 export enum KnownSupportTier {
-  /** Microsoft */
   Microsoft = "Microsoft",
-  /** Partner */
   Partner = "Partner",
-  /** Community */
   Community = "Community"
 }
 
@@ -7060,9 +6936,7 @@ export type SupportTier = string;
 
 /** Known values of {@link Operator} that the service accepts. */
 export enum KnownOperator {
-  /** AND */
   AND = "AND",
-  /** OR */
   OR = "OR"
 }
 
@@ -7078,7 +6952,6 @@ export type Operator = string;
 
 /** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
 export enum KnownSecurityMLAnalyticsSettingsKind {
-  /** Anomaly */
   Anomaly = "Anomaly"
 }
 
@@ -7093,13 +6966,9 @@ export type SecurityMLAnalyticsSettingsKind = string;
 
 /** Known values of {@link SettingKind} that the service accepts. */
 export enum KnownSettingKind {
-  /** Anomalies */
   Anomalies = "Anomalies",
-  /** EyesOn */
   EyesOn = "EyesOn",
-  /** EntityAnalytics */
   EntityAnalytics = "EntityAnalytics",
-  /** Ueba */
   Ueba = "Ueba"
 }
 
@@ -7117,9 +6986,7 @@ export type SettingKind = string;
 
 /** Known values of {@link RepoType} that the service accepts. */
 export enum KnownRepoType {
-  /** Github */
   Github = "Github",
-  /** DevOps */
   DevOps = "DevOps"
 }
 
@@ -7135,9 +7002,7 @@ export type RepoType = string;
 
 /** Known values of {@link Version} that the service accepts. */
 export enum KnownVersion {
-  /** V1 */
   V1 = "V1",
-  /** V2 */
   V2 = "V2"
 }
 
@@ -7153,9 +7018,7 @@ export type Version = string;
 
 /** Known values of {@link ContentType} that the service accepts. */
 export enum KnownContentType {
-  /** AnalyticRule */
   AnalyticRule = "AnalyticRule",
-  /** Workbook */
   Workbook = "Workbook"
 }
 
@@ -7171,11 +7034,8 @@ export type ContentType = string;
 
 /** Known values of {@link DeploymentFetchStatus} that the service accepts. */
 export enum KnownDeploymentFetchStatus {
-  /** Success */
   Success = "Success",
-  /** Unauthorized */
   Unauthorized = "Unauthorized",
-  /** NotFound */
   NotFound = "NotFound"
 }
 
@@ -7192,13 +7052,9 @@ export type DeploymentFetchStatus = string;
 
 /** Known values of {@link DeploymentState} that the service accepts. */
 export enum KnownDeploymentState {
-  /** InProgress */
   InProgress = "In_Progress",
-  /** Completed */
   Completed = "Completed",
-  /** Queued */
   Queued = "Queued",
-  /** Canceling */
   Canceling = "Canceling"
 }
 
@@ -7216,11 +7072,8 @@ export type DeploymentState = string;
 
 /** Known values of {@link DeploymentResult} that the service accepts. */
 export enum KnownDeploymentResult {
-  /** Success */
   Success = "Success",
-  /** Canceled */
   Canceled = "Canceled",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -7252,11 +7105,8 @@ export type ThreatIntelligenceResourceKindEnum = string;
 
 /** Known values of {@link ThreatIntelligenceSortingCriteriaEnum} that the service accepts. */
 export enum KnownThreatIntelligenceSortingCriteriaEnum {
-  /** Unsorted */
   Unsorted = "unsorted",
-  /** Ascending */
   Ascending = "ascending",
-  /** Descending */
   Descending = "descending"
 }
 
@@ -7273,9 +7123,7 @@ export type ThreatIntelligenceSortingCriteriaEnum = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
-  /** LocalFile */
   LocalFile = "Local file",
-  /** RemoteStorage */
   RemoteStorage = "Remote storage"
 }
 
@@ -7291,45 +7139,25 @@ export type SourceType = string;
 
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {
-  /** AzureActiveDirectory */
   AzureActiveDirectory = "AzureActiveDirectory",
-  /** AzureSecurityCenter */
   AzureSecurityCenter = "AzureSecurityCenter",
-  /** MicrosoftCloudAppSecurity */
   MicrosoftCloudAppSecurity = "MicrosoftCloudAppSecurity",
-  /** ThreatIntelligence */
   ThreatIntelligence = "ThreatIntelligence",
-  /** ThreatIntelligenceTaxii */
   ThreatIntelligenceTaxii = "ThreatIntelligenceTaxii",
-  /** Office365 */
   Office365 = "Office365",
-  /** OfficeATP */
   OfficeATP = "OfficeATP",
-  /** OfficeIRM */
   OfficeIRM = "OfficeIRM",
-  /** Office365Project */
   Office365Project = "Office365Project",
-  /** OfficePowerBI */
   OfficePowerBI = "OfficePowerBI",
-  /** AmazonWebServicesCloudTrail */
   AmazonWebServicesCloudTrail = "AmazonWebServicesCloudTrail",
-  /** AmazonWebServicesS3 */
   AmazonWebServicesS3 = "AmazonWebServicesS3",
-  /** AzureAdvancedThreatProtection */
   AzureAdvancedThreatProtection = "AzureAdvancedThreatProtection",
-  /** MicrosoftDefenderAdvancedThreatProtection */
   MicrosoftDefenderAdvancedThreatProtection = "MicrosoftDefenderAdvancedThreatProtection",
-  /** Dynamics365 */
   Dynamics365 = "Dynamics365",
-  /** MicrosoftThreatProtection */
   MicrosoftThreatProtection = "MicrosoftThreatProtection",
-  /** MicrosoftThreatIntelligence */
   MicrosoftThreatIntelligence = "MicrosoftThreatIntelligence",
-  /** GenericUI */
   GenericUI = "GenericUI",
-  /** APIPolling */
   APIPolling = "APIPolling",
-  /** IOT */
   IOT = "IOT"
 }
 
@@ -7363,11 +7191,8 @@ export type DataConnectorKind = string;
 
 /** Known values of {@link ConnectAuthKind} that the service accepts. */
 export enum KnownConnectAuthKind {
-  /** Basic */
   Basic = "Basic",
-  /** OAuth2 */
   OAuth2 = "OAuth2",
-  /** APIKey */
   APIKey = "APIKey"
 }
 
@@ -7384,9 +7209,7 @@ export type ConnectAuthKind = string;
 
 /** Known values of {@link DataConnectorAuthorizationState} that the service accepts. */
 export enum KnownDataConnectorAuthorizationState {
-  /** Valid */
   Valid = "Valid",
-  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -7402,11 +7225,8 @@ export type DataConnectorAuthorizationState = string;
 
 /** Known values of {@link DataConnectorLicenseState} that the service accepts. */
 export enum KnownDataConnectorLicenseState {
-  /** Valid */
   Valid = "Valid",
-  /** Invalid */
   Invalid = "Invalid",
-  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -7510,19 +7330,12 @@ export type EntityMappingType = string;
 
 /** Known values of {@link MicrosoftSecurityProductName} that the service accepts. */
 export enum KnownMicrosoftSecurityProductName {
-  /** MicrosoftCloudAppSecurity */
   MicrosoftCloudAppSecurity = "Microsoft Cloud App Security",
-  /** AzureSecurityCenter */
   AzureSecurityCenter = "Azure Security Center",
-  /** AzureAdvancedThreatProtection */
   AzureAdvancedThreatProtection = "Azure Advanced Threat Protection",
-  /** AzureActiveDirectoryIdentityProtection */
   AzureActiveDirectoryIdentityProtection = "Azure Active Directory Identity Protection",
-  /** AzureSecurityCenterForIoT */
   AzureSecurityCenterForIoT = "Azure Security Center for IoT",
-  /** Office365AdvancedThreatProtection */
   Office365AdvancedThreatProtection = "Office 365 Advanced Threat Protection",
-  /** MicrosoftDefenderAdvancedThreatProtection */
   MicrosoftDefenderAdvancedThreatProtection = "Microsoft Defender Advanced Threat Protection"
 }
 
@@ -7582,9 +7395,7 @@ export type AlertDetail = string;
 
 /** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
 export enum KnownEventGroupingAggregationKind {
-  /** SingleAlert */
   SingleAlert = "SingleAlert",
-  /** AlertPerResult */
   AlertPerResult = "AlertPerResult"
 }
 
@@ -7969,13 +7780,9 @@ export type EntityType = string;
 
 /** Known values of {@link OutputType} that the service accepts. */
 export enum KnownOutputType {
-  /** Number */
   Number = "Number",
-  /** String */
   String = "String",
-  /** Date */
   Date = "Date",
-  /** Entity */
   Entity = "Entity"
 }
 
@@ -8011,9 +7818,7 @@ export type SettingsStatus = string;
 
 /** Known values of {@link EntityProviders} that the service accepts. */
 export enum KnownEntityProviders {
-  /** ActiveDirectory */
   ActiveDirectory = "ActiveDirectory",
-  /** AzureActiveDirectory */
   AzureActiveDirectory = "AzureActiveDirectory"
 }
 
@@ -8029,13 +7834,9 @@ export type EntityProviders = string;
 
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
-  /** AuditLogs */
   AuditLogs = "AuditLogs",
-  /** AzureActivity */
   AzureActivity = "AzureActivity",
-  /** SecurityEvent */
   SecurityEvent = "SecurityEvent",
-  /** SigninLogs */
   SigninLogs = "SigninLogs"
 }
 
@@ -8053,9 +7854,7 @@ export type UebaDataSources = string;
 
 /** Known values of {@link DataTypeState} that the service accepts. */
 export enum KnownDataTypeState {
-  /** Enabled */
   Enabled = "Enabled",
-  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -8092,7 +7891,6 @@ export type PollingFrequency = string;
 
 /** Known values of {@link ConnectivityType} that the service accepts. */
 export enum KnownConnectivityType {
-  /** IsConnectedQuery */
   IsConnectedQuery = "IsConnectedQuery"
 }
 
@@ -8107,17 +7905,11 @@ export type ConnectivityType = string;
 
 /** Known values of {@link ProviderName} that the service accepts. */
 export enum KnownProviderName {
-  /** MicrosoftOperationalInsightsSolutions */
   MicrosoftOperationalInsightsSolutions = "Microsoft.OperationalInsights/solutions",
-  /** MicrosoftOperationalInsightsWorkspaces */
   MicrosoftOperationalInsightsWorkspaces = "Microsoft.OperationalInsights/workspaces",
-  /** MicrosoftOperationalInsightsWorkspacesDatasources */
   MicrosoftOperationalInsightsWorkspacesDatasources = "Microsoft.OperationalInsights/workspaces/datasources",
-  /** MicrosoftAadiamDiagnosticSettings */
   MicrosoftAadiamDiagnosticSettings = "microsoft.aadiam/diagnosticSettings",
-  /** MicrosoftOperationalInsightsWorkspacesSharedKeys */
   MicrosoftOperationalInsightsWorkspacesSharedKeys = "Microsoft.OperationalInsights/workspaces/sharedKeys",
-  /** MicrosoftAuthorizationPolicyAssignments */
   MicrosoftAuthorizationPolicyAssignments = "Microsoft.Authorization/policyAssignments"
 }
 
@@ -8137,11 +7929,8 @@ export type ProviderName = string;
 
 /** Known values of {@link PermissionProviderScope} that the service accepts. */
 export enum KnownPermissionProviderScope {
-  /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
-  /** Subscription */
   Subscription = "Subscription",
-  /** Workspace */
   Workspace = "Workspace"
 }
 
@@ -8158,11 +7947,8 @@ export type PermissionProviderScope = string;
 
 /** Known values of {@link SettingType} that the service accepts. */
 export enum KnownSettingType {
-  /** CopyableLabel */
   CopyableLabel = "CopyableLabel",
-  /** InstructionStepsGroup */
   InstructionStepsGroup = "InstructionStepsGroup",
-  /** InfoMessage */
   InfoMessage = "InfoMessage"
 }
 
