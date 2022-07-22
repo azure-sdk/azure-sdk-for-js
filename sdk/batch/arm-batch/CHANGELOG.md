@@ -1,15 +1,23 @@
 # Release History
+    
+## 7.3.0 (2022-07-22)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias Application
+  - Added Type Alias ApplicationPackage
+  - Added Type Alias AutoStorageProperties
+  - Added Type Alias BatchAccount
+  - Added Type Alias Certificate
+  - Added Type Alias CertificateCreateOrUpdateParameters
+  - Added Type Alias CertificateCreateOrUpdateProperties
+  - Added Type Alias CertificateProperties
+  - Added Type Alias DetectorResponse
+  - Added Type Alias Pool
+  - Added Type Alias PrivateEndpointConnection
+  - Added Type Alias PrivateLinkResource
+    
+    
 ## 7.2.0 (2022-07-19)
     
 **Features**

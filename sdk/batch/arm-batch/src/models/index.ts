@@ -383,7 +383,7 @@ export interface Operation {
   display?: OperationDisplay;
   /** The intended executor of the operation. */
   origin?: string;
-  /** Properties of the operation. */
+  /** Any object */
   properties?: Record<string, unknown>;
 }
 
@@ -625,7 +625,7 @@ export interface VMExtension {
   typeHandlerVersion?: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
-  /** JSON formatted public settings for the extension. */
+  /** Any object */
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
@@ -1039,13 +1039,13 @@ export interface EndpointDetail {
 }
 
 /** Contains information about the auto-storage account associated with a Batch account. */
-export interface AutoStorageProperties extends AutoStorageBaseProperties {
+export type AutoStorageProperties = AutoStorageBaseProperties & {
   /** The UTC time at which storage keys were last synchronized with the Batch account. */
   lastKeySync: Date;
-}
+};
 
 /** Contains information about a private link resource. */
-export interface PrivateEndpointConnection extends ProxyResource {
+export type PrivateEndpointConnection = ProxyResource & {
   /**
    * The provisioning state of the private endpoint connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1063,10 +1063,10 @@ export interface PrivateEndpointConnection extends ProxyResource {
   readonly groupIds?: string[];
   /** The private link service connection state of the private endpoint connection */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-}
+};
 
 /** An application package which represents a particular version of an application. */
-export interface ApplicationPackage extends ProxyResource {
+export type ApplicationPackage = ProxyResource & {
   /**
    * The current state of the application package.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1092,20 +1092,20 @@ export interface ApplicationPackage extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastActivationTime?: Date;
-}
+};
 
 /** Contains information about an application in a Batch account. */
-export interface Application extends ProxyResource {
+export type Application = ProxyResource & {
   /** The display name for the application. */
   displayName?: string;
   /** A value indicating whether packages within the application may be overwritten using the same version string. */
   allowUpdates?: boolean;
   /** The package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package. */
   defaultVersion?: string;
-}
+};
 
 /** Contains information about a certificate. */
-export interface Certificate extends ProxyResource {
+export type Certificate = ProxyResource & {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1139,10 +1139,10 @@ export interface Certificate extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deleteCertificateError?: DeleteCertificateError;
-}
+};
 
 /** Contains information about a certificate. */
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
+export type CertificateCreateOrUpdateParameters = ProxyResource & {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1153,16 +1153,16 @@ export interface CertificateCreateOrUpdateParameters extends ProxyResource {
   data?: string;
   /** This must not be specified if the certificate format is Cer. */
   password?: string;
-}
+};
 
 /** Contains the information for a detector. */
-export interface DetectorResponse extends ProxyResource {
+export type DetectorResponse = ProxyResource & {
   /** A base64 encoded string that represents the content of a detector. */
   value?: string;
-}
+};
 
 /** Contains information about a private link resource. */
-export interface PrivateLinkResource extends ProxyResource {
+export type PrivateLinkResource = ProxyResource & {
   /**
    * The group id is used to establish the private link connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1178,10 +1178,10 @@ export interface PrivateLinkResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredZoneNames?: string[];
-}
+};
 
 /** Contains information about a pool. */
-export interface Pool extends ProxyResource {
+export type Pool = ProxyResource & {
   /** The type of identity used for the Batch Pool. */
   identity?: BatchPoolIdentity;
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
@@ -1264,10 +1264,10 @@ export interface Pool extends ProxyResource {
   readonly resizeOperationStatus?: ResizeOperationStatus;
   /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
   mountConfiguration?: MountConfiguration[];
-}
+};
 
 /** Contains information about an Azure Batch account. */
-export interface BatchAccount extends Resource {
+export type BatchAccount = Resource & {
   /** The identity of the Batch account. */
   identity?: BatchAccountIdentity;
   /**
@@ -1349,10 +1349,10 @@ export interface BatchAccount extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allowedAuthenticationModes?: AuthenticationMode[];
-}
+};
 
 /** Certificate properties. */
-export interface CertificateProperties extends CertificateBaseProperties {
+export type CertificateProperties = CertificateBaseProperties & {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly provisioningState?: CertificateProvisioningState;
   /**
@@ -1380,16 +1380,15 @@ export interface CertificateProperties extends CertificateBaseProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deleteCertificateError?: DeleteCertificateError;
-}
+};
 
 /** Certificate properties for create operations */
-export interface CertificateCreateOrUpdateProperties
-  extends CertificateBaseProperties {
+export type CertificateCreateOrUpdateProperties = CertificateBaseProperties & {
   /** The maximum size is 10KB. */
   data: string;
   /** This must not be specified if the certificate format is Cer. */
   password?: string;
-}
+};
 
 /** Defines headers for BatchAccount_create operation. */
 export interface BatchAccountCreateHeaders {

@@ -22,11 +22,11 @@ export interface ActivateApplicationPackageParameters {
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 // @public
-export interface Application extends ProxyResource {
+export type Application = ProxyResource & {
+    displayName?: string;
     allowUpdates?: boolean;
     defaultVersion?: string;
-    displayName?: string;
-}
+};
 
 // @public
 export interface ApplicationCreateOptionalParams extends coreClient.OperationOptions {
@@ -73,13 +73,13 @@ export interface ApplicationOperations {
 }
 
 // @public
-export interface ApplicationPackage extends ProxyResource {
-    readonly format?: string;
-    readonly lastActivationTime?: Date;
+export type ApplicationPackage = ProxyResource & {
     readonly state?: PackageState;
+    readonly format?: string;
     readonly storageUrl?: string;
     readonly storageUrlExpiry?: Date;
-}
+    readonly lastActivationTime?: Date;
+};
 
 // @public
 export interface ApplicationPackageActivateOptionalParams extends coreClient.OperationOptions {
@@ -179,9 +179,9 @@ export interface AutoStorageBaseProperties {
 }
 
 // @public
-export interface AutoStorageProperties extends AutoStorageBaseProperties {
+export type AutoStorageProperties = AutoStorageBaseProperties & {
     lastKeySync: Date;
-}
+};
 
 // @public
 export type AutoUserScope = "Task" | "Pool";
@@ -213,26 +213,26 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export interface BatchAccount extends Resource {
+export type BatchAccount = Resource & {
+    identity?: BatchAccountIdentity;
     readonly accountEndpoint?: string;
-    readonly activeJobAndJobScheduleQuota?: number;
-    readonly allowedAuthenticationModes?: AuthenticationMode[];
+    readonly nodeManagementEndpoint?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly poolAllocationMode?: PoolAllocationMode;
+    readonly keyVaultReference?: KeyVaultReference;
+    publicNetworkAccess?: PublicNetworkAccessType;
+    networkProfile?: NetworkProfile;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly autoStorage?: AutoStorageProperties;
+    readonly encryption?: EncryptionProperties;
     readonly dedicatedCoreQuota?: number;
+    readonly lowPriorityCoreQuota?: number;
     readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
     readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
-    readonly encryption?: EncryptionProperties;
-    identity?: BatchAccountIdentity;
-    readonly keyVaultReference?: KeyVaultReference;
-    readonly lowPriorityCoreQuota?: number;
-    networkProfile?: NetworkProfile;
-    readonly nodeManagementEndpoint?: string;
-    readonly poolAllocationMode?: PoolAllocationMode;
     readonly poolQuota?: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccessType;
-}
+    readonly activeJobAndJobScheduleQuota?: number;
+    readonly allowedAuthenticationModes?: AuthenticationMode[];
+};
 
 // @public
 export interface BatchAccountCreateHeaders {
@@ -484,17 +484,17 @@ export interface BatchPoolIdentity {
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export interface Certificate extends ProxyResource {
-    readonly deleteCertificateError?: DeleteCertificateError;
+export type Certificate = ProxyResource & {
+    thumbprintAlgorithm?: string;
+    thumbprint?: string;
     format?: CertificateFormat;
-    readonly previousProvisioningState?: CertificateProvisioningState;
-    readonly previousProvisioningStateTransitionTime?: Date;
     readonly provisioningState?: CertificateProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
+    readonly previousProvisioningState?: CertificateProvisioningState;
+    readonly previousProvisioningStateTransitionTime?: Date;
     readonly publicData?: string;
-    thumbprint?: string;
-    thumbprintAlgorithm?: string;
-}
+    readonly deleteCertificateError?: DeleteCertificateError;
+};
 
 // @public
 export interface CertificateBaseProperties {
@@ -527,19 +527,19 @@ export interface CertificateCreateOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
-    data?: string;
-    format?: CertificateFormat;
-    password?: string;
-    thumbprint?: string;
+export type CertificateCreateOrUpdateParameters = ProxyResource & {
     thumbprintAlgorithm?: string;
-}
+    thumbprint?: string;
+    format?: CertificateFormat;
+    data?: string;
+    password?: string;
+};
 
 // @public
-export interface CertificateCreateOrUpdateProperties extends CertificateBaseProperties {
+export type CertificateCreateOrUpdateProperties = CertificateBaseProperties & {
     data: string;
     password?: string;
-}
+};
 
 // @public
 export type CertificateCreateResponse = CertificateCreateHeaders & Certificate;
@@ -603,14 +603,14 @@ export interface CertificateOperations {
 }
 
 // @public
-export interface CertificateProperties extends CertificateBaseProperties {
-    readonly deleteCertificateError?: DeleteCertificateError;
-    readonly previousProvisioningState?: CertificateProvisioningState;
-    readonly previousProvisioningStateTransitionTime?: Date;
+export type CertificateProperties = CertificateBaseProperties & {
     readonly provisioningState?: CertificateProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
+    readonly previousProvisioningState?: CertificateProvisioningState;
+    readonly previousProvisioningStateTransitionTime?: Date;
     readonly publicData?: string;
-}
+    readonly deleteCertificateError?: DeleteCertificateError;
+};
 
 // @public
 export type CertificateProvisioningState = "Succeeded" | "Deleting" | "Failed";
@@ -741,9 +741,9 @@ export interface DetectorListResult {
 }
 
 // @public
-export interface DetectorResponse extends ProxyResource {
+export type DetectorResponse = ProxyResource & {
     value?: string;
-}
+};
 
 // @public
 export interface DiffDiskSettings {
@@ -1078,34 +1078,34 @@ export interface OutboundEnvironmentEndpointCollection {
 export type PackageState = "Pending" | "Active";
 
 // @public
-export interface Pool extends ProxyResource {
-    readonly allocationState?: AllocationState;
-    readonly allocationStateTransitionTime?: Date;
-    applicationLicenses?: string[];
-    applicationPackages?: ApplicationPackageReference[];
-    readonly autoScaleRun?: AutoScaleRun;
-    certificates?: CertificateReference[];
-    readonly creationTime?: Date;
-    readonly currentDedicatedNodes?: number;
-    readonly currentLowPriorityNodes?: number;
-    deploymentConfiguration?: DeploymentConfiguration;
-    displayName?: string;
+export type Pool = ProxyResource & {
     identity?: BatchPoolIdentity;
-    interNodeCommunication?: InterNodeCommunicationState;
+    displayName?: string;
     readonly lastModified?: Date;
-    metadata?: MetadataItem[];
-    mountConfiguration?: MountConfiguration[];
-    networkConfiguration?: NetworkConfiguration;
+    readonly creationTime?: Date;
     readonly provisioningState?: PoolProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
-    readonly resizeOperationStatus?: ResizeOperationStatus;
-    scaleSettings?: ScaleSettings;
-    startTask?: StartTask;
-    taskSchedulingPolicy?: TaskSchedulingPolicy;
-    taskSlotsPerNode?: number;
-    userAccounts?: UserAccount[];
+    readonly allocationState?: AllocationState;
+    readonly allocationStateTransitionTime?: Date;
     vmSize?: string;
-}
+    deploymentConfiguration?: DeploymentConfiguration;
+    readonly currentDedicatedNodes?: number;
+    readonly currentLowPriorityNodes?: number;
+    scaleSettings?: ScaleSettings;
+    readonly autoScaleRun?: AutoScaleRun;
+    interNodeCommunication?: InterNodeCommunicationState;
+    networkConfiguration?: NetworkConfiguration;
+    taskSlotsPerNode?: number;
+    taskSchedulingPolicy?: TaskSchedulingPolicy;
+    userAccounts?: UserAccount[];
+    metadata?: MetadataItem[];
+    startTask?: StartTask;
+    certificates?: CertificateReference[];
+    applicationPackages?: ApplicationPackageReference[];
+    applicationLicenses?: string[];
+    readonly resizeOperationStatus?: ResizeOperationStatus;
+    mountConfiguration?: MountConfiguration[];
+};
 
 // @public
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
@@ -1234,12 +1234,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends ProxyResource {
-    readonly groupIds?: string[];
-    readonly privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+export type PrivateEndpointConnection = ProxyResource & {
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
+    readonly privateEndpoint?: PrivateEndpoint;
+    readonly groupIds?: string[];
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+};
 
 // @public
 export interface PrivateEndpointConnectionDeleteHeaders {
@@ -1309,11 +1309,11 @@ export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClien
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 // @public
-export interface PrivateLinkResource extends ProxyResource {
+export type PrivateLinkResource = ProxyResource & {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
-}
+};
 
 // @public
 export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {
