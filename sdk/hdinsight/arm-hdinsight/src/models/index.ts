@@ -8,103 +8,55 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The CreateCluster request parameters. */
-export interface ClusterCreateParametersExtended {
-  /** The location of the cluster. */
-  location?: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The availability zones. */
-  zones?: string[];
-  /** The cluster create parameters. */
-  properties?: ClusterCreateProperties;
-  /** The identity of the cluster, if configured. */
-  identity?: ClusterIdentity;
+/** Result of the request to list cluster Applications. It contains a list of operations and a URL link to get the next set of results. */
+export interface ApplicationListResult {
+  /** The list of HDInsight applications installed on HDInsight cluster. */
+  value?: Application[];
+  /**
+   * The URL to get the next set of operation list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-/** The cluster create parameters. */
-export interface ClusterCreateProperties {
-  /** The version of the cluster. */
-  clusterVersion?: string;
-  /** The type of operating system. */
-  osType?: OSType;
-  /** The cluster tier. */
-  tier?: Tier;
-  /** The cluster definition. */
-  clusterDefinition?: ClusterDefinition;
-  /** The cluster kafka rest proxy configuration. */
-  kafkaRestProperties?: KafkaRestProperties;
-  /** The security profile. */
-  securityProfile?: SecurityProfile;
-  /** The compute profile. */
+/** The HDInsight cluster application GET response. */
+export interface ApplicationProperties {
+  /** The list of roles in the cluster. */
   computeProfile?: ComputeProfile;
-  /** The storage profile. */
-  storageProfile?: StorageProfile;
-  /** The disk encryption properties. */
-  diskEncryptionProperties?: DiskEncryptionProperties;
-  /** The encryption-in-transit properties. */
-  encryptionInTransitProperties?: EncryptionInTransitProperties;
-  /** The minimal supported tls version. */
-  minSupportedTlsVersion?: string;
-  /** The network properties. */
-  networkProperties?: NetworkProperties;
-  /** The compute isolation properties. */
-  computeIsolationProperties?: ComputeIsolationProperties;
+  /** The list of install script actions. */
+  installScriptActions?: RuntimeScriptAction[];
+  /** The list of uninstall script actions. */
+  uninstallScriptActions?: RuntimeScriptAction[];
+  /** The list of application HTTPS endpoints. */
+  httpsEndpoints?: ApplicationGetHttpsEndpoint[];
+  /** The list of application SSH endpoints. */
+  sshEndpoints?: ApplicationGetEndpoint[];
+  /**
+   * The provisioning state of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** The application type. */
+  applicationType?: string;
+  /**
+   * The application state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationState?: string;
+  /** The list of errors. */
+  errors?: Errors[];
+  /**
+   * The application create date time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdDate?: string;
+  /**
+   * The marketplace identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly marketplaceIdentifier?: string;
   /** The private link configurations. */
   privateLinkConfigurations?: PrivateLinkConfiguration[];
-}
-
-/** The cluster definition. */
-export interface ClusterDefinition {
-  /** The link to the blueprint. */
-  blueprint?: string;
-  /** The type of cluster. */
-  kind?: string;
-  /** The versions of different services in the cluster. */
-  componentVersion?: { [propertyName: string]: string };
-  /** The cluster configurations. */
-  configurations?: Record<string, unknown>;
-}
-
-/** The kafka rest proxy configuration which contains AAD security group information. */
-export interface KafkaRestProperties {
-  /** The information of AAD security group. */
-  clientGroupInfo?: ClientGroupInfo;
-  /** The configurations that need to be overriden. */
-  configurationOverride?: { [propertyName: string]: string };
-}
-
-/** The information of AAD security group. */
-export interface ClientGroupInfo {
-  /** The AAD security group name. */
-  groupName?: string;
-  /** The AAD security group id. */
-  groupId?: string;
-}
-
-/** The security profile which contains Ssh public key for the HDInsight cluster. */
-export interface SecurityProfile {
-  /** The directory type. */
-  directoryType?: DirectoryType;
-  /** The organization's active directory domain. */
-  domain?: string;
-  /** The organizational unit within the Active Directory to place the cluster and service accounts. */
-  organizationalUnitDN?: string;
-  /** The LDAPS protocol URLs to communicate with the Active Directory. */
-  ldapsUrls?: string[];
-  /** The domain user account that will have admin privileges on the cluster. */
-  domainUsername?: string;
-  /**
-   * The domain admin password.
-   * This value contains a credential. Consider obscuring before showing to users
-   */
-  domainUserPassword?: string;
-  /** Optional. The Distinguished Names for cluster user groups */
-  clusterUsersGroupDNs?: string[];
-  /** The resource ID of the user's Azure Active Directory Domain Service. */
-  aaddsResourceId?: string;
-  /** User assigned identity that has permissions to read and create cluster-related artifacts in the user's AADDS. */
-  msiResourceId?: string;
 }
 
 /** Describes the compute profile. */
@@ -249,6 +201,277 @@ export interface ScriptAction {
   parameters: string;
 }
 
+/** Describes a script action on a running cluster. */
+export interface RuntimeScriptAction {
+  /** The name of the script action. */
+  name: string;
+  /** The URI to the script. */
+  uri: string;
+  /** The parameters for the script */
+  parameters?: string;
+  /** The list of roles where script will be executed. */
+  roles: string[];
+  /**
+   * The application name of the script action, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationName?: string;
+}
+
+/** Gets the application HTTP endpoints. */
+export interface ApplicationGetHttpsEndpoint {
+  /** The list of access modes for the application. */
+  accessModes?: string[];
+  /**
+   * The location of the endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** The destination port to connect to. */
+  destinationPort?: number;
+  /**
+   * The public port to connect to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicPort?: number;
+  /** The private ip address of the endpoint. */
+  privateIPAddress?: string;
+  /** The subdomain suffix of the application. */
+  subDomainSuffix?: string;
+  /** The value indicates whether to disable GatewayAuth. */
+  disableGatewayAuth?: boolean;
+}
+
+/** Gets the application SSH endpoint */
+export interface ApplicationGetEndpoint {
+  /** The location of the endpoint. */
+  location?: string;
+  /** The destination port to connect to. */
+  destinationPort?: number;
+  /** The public port to connect to. */
+  publicPort?: number;
+  /** The private ip address of the endpoint. */
+  privateIPAddress?: string;
+}
+
+/** The error message associated with the cluster creation. */
+export interface Errors {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+}
+
+/** The private link configuration. */
+export interface PrivateLinkConfiguration {
+  /**
+   * The private link configuration id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of private link configuration. */
+  name: string;
+  /**
+   * The type of the private link configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The HDInsight private linkable sub-resource name to apply the private link configuration to. For example, 'headnode', 'gateway', 'edgenode'. */
+  groupId: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /** The IP configurations for the private link service. */
+  ipConfigurations: IPConfiguration[];
+}
+
+/** The ip configurations for the private link service. */
+export interface IPConfiguration {
+  /**
+   * The private link IP configuration id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of private link IP configuration. */
+  name: string;
+  /**
+   * The type of the private link IP configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /** Indicates whether this IP configuration is primary for the corresponding NIC. */
+  primary?: boolean;
+  /** The IP address. */
+  privateIPAddress?: string;
+  /** The method that private IP address is allocated. */
+  privateIPAllocationMethod?: PrivateIPAllocationMethod;
+  /** The subnet resource id. */
+  subnet?: ResourceId;
+}
+
+/** The azure resource id. */
+export interface ResourceId {
+  /** The azure resource id. */
+  id?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Describes the format of Error response. */
+export interface ErrorResponse {
+  /** Error code */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** The azure async operation response. */
+export interface AsyncOperationResult {
+  /** The async operation state. */
+  status?: AsyncOperationState;
+  /** The operation error information. */
+  error?: Errors;
+}
+
+/** The CreateCluster request parameters. */
+export interface ClusterCreateParametersExtended {
+  /** The location of the cluster. */
+  location?: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The availability zones. */
+  zones?: string[];
+  /** The cluster create parameters. */
+  properties?: ClusterCreateProperties;
+  /** The identity of the cluster, if configured. */
+  identity?: ClusterIdentity;
+}
+
+/** The cluster create parameters. */
+export interface ClusterCreateProperties {
+  /** The version of the cluster. */
+  clusterVersion?: string;
+  /** The type of operating system. */
+  osType?: OSType;
+  /** The cluster tier. */
+  tier?: Tier;
+  /** The cluster definition. */
+  clusterDefinition?: ClusterDefinition;
+  /** The cluster kafka rest proxy configuration. */
+  kafkaRestProperties?: KafkaRestProperties;
+  /** The security profile. */
+  securityProfile?: SecurityProfile;
+  /** The compute profile. */
+  computeProfile?: ComputeProfile;
+  /** The storage profile. */
+  storageProfile?: StorageProfile;
+  /** The disk encryption properties. */
+  diskEncryptionProperties?: DiskEncryptionProperties;
+  /** The encryption-in-transit properties. */
+  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  /** The minimal supported tls version. */
+  minSupportedTlsVersion?: string;
+  /** The network properties. */
+  networkProperties?: NetworkProperties;
+  /** The compute isolation properties. */
+  computeIsolationProperties?: ComputeIsolationProperties;
+  /** The private link configurations. */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
+}
+
+/** The cluster definition. */
+export interface ClusterDefinition {
+  /** The link to the blueprint. */
+  blueprint?: string;
+  /** The type of cluster. */
+  kind?: string;
+  /** The versions of different services in the cluster. */
+  componentVersion?: { [propertyName: string]: string };
+  /** The cluster configurations. */
+  configurations?: Record<string, unknown>;
+}
+
+/** The kafka rest proxy configuration which contains AAD security group information. */
+export interface KafkaRestProperties {
+  /** The information of AAD security group. */
+  clientGroupInfo?: ClientGroupInfo;
+  /** The configurations that need to be overriden. */
+  configurationOverride?: { [propertyName: string]: string };
+}
+
+/** The information of AAD security group. */
+export interface ClientGroupInfo {
+  /** The AAD security group name. */
+  groupName?: string;
+  /** The AAD security group id. */
+  groupId?: string;
+}
+
+/** The security profile which contains Ssh public key for the HDInsight cluster. */
+export interface SecurityProfile {
+  /** The directory type. */
+  directoryType?: DirectoryType;
+  /** The organization's active directory domain. */
+  domain?: string;
+  /** The organizational unit within the Active Directory to place the cluster and service accounts. */
+  organizationalUnitDN?: string;
+  /** The LDAPS protocol URLs to communicate with the Active Directory. */
+  ldapsUrls?: string[];
+  /** The domain user account that will have admin privileges on the cluster. */
+  domainUsername?: string;
+  /**
+   * The domain admin password.
+   * This value contains a credential. Consider obscuring before showing to users
+   */
+  domainUserPassword?: string;
+  /** Optional. The Distinguished Names for cluster user groups */
+  clusterUsersGroupDNs?: string[];
+  /** The resource ID of the user's Azure Active Directory Domain Service. */
+  aaddsResourceId?: string;
+  /** User assigned identity that has permissions to read and create cluster-related artifacts in the user's AADDS. */
+  msiResourceId?: string;
+}
+
 /** The storage profile. */
 export interface StorageProfile {
   /** The list of storage accounts in the cluster. */
@@ -313,66 +536,6 @@ export interface ComputeIsolationProperties {
   enableComputeIsolation?: boolean;
   /** The host sku. */
   hostSku?: string;
-}
-
-/** The private link configuration. */
-export interface PrivateLinkConfiguration {
-  /**
-   * The private link configuration id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The name of private link configuration. */
-  name: string;
-  /**
-   * The type of the private link configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The HDInsight private linkable sub-resource name to apply the private link configuration to. For example, 'headnode', 'gateway', 'edgenode'. */
-  groupId: string;
-  /**
-   * The private link configuration provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
-  /** The IP configurations for the private link service. */
-  ipConfigurations: IPConfiguration[];
-}
-
-/** The ip configurations for the private link service. */
-export interface IPConfiguration {
-  /**
-   * The private link IP configuration id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** The name of private link IP configuration. */
-  name: string;
-  /**
-   * The type of the private link IP configuration.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The private link configuration provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
-  /** Indicates whether this IP configuration is primary for the corresponding NIC. */
-  primary?: boolean;
-  /** The IP address. */
-  privateIPAddress?: string;
-  /** The method that private IP address is allocated. */
-  privateIPAllocationMethod?: PrivateIPAllocationMethod;
-  /** The subnet resource id. */
-  subnet?: ResourceId;
-}
-
-/** The azure resource id. */
-export interface ResourceId {
-  /** The azure resource id. */
-  id?: string;
 }
 
 /** Identity for the cluster. */
@@ -470,14 +633,6 @@ export interface QuotaInfo {
   coresUsed?: number;
 }
 
-/** The error message associated with the cluster creation. */
-export interface Errors {
-  /** The error code. */
-  code?: string;
-  /** The error message. */
-  message?: string;
-}
-
 /** The connectivity properties */
 export interface ConnectivityEndpoint {
   /** The name of the endpoint. */
@@ -516,41 +671,6 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface ResourceAutoGenerated {
   /**
@@ -568,14 +688,6 @@ export interface ResourceAutoGenerated {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-/** Describes the format of Error response. */
-export interface ErrorResponse {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
 }
 
 /** The PatchCluster request parameters */
@@ -646,14 +758,6 @@ export interface UpdateGatewaySettingsParameters {
   password?: string;
 }
 
-/** The azure async operation response. */
-export interface AsyncOperationResult {
-  /** The async operation state. */
-  status?: AsyncOperationState;
-  /** The operation error information. */
-  error?: Errors;
-}
-
 /** The update cluster identity certificate request parameters. */
 export interface UpdateClusterIdentityCertificateParameters {
   /** The application id. */
@@ -664,108 +768,72 @@ export interface UpdateClusterIdentityCertificateParameters {
   certificatePassword?: string;
 }
 
-/** Result of the request to list cluster Applications. It contains a list of operations and a URL link to get the next set of results. */
-export interface ApplicationListResult {
-  /** The list of HDInsight applications installed on HDInsight cluster. */
-  value?: Application[];
-  /**
-   * The URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The configuration object for the specified cluster. */
+export interface ClusterConfigurations {
+  /** The configuration object for the specified configuration for the specified cluster. */
+  configurations?: {
+    [propertyName: string]: { [propertyName: string]: string };
+  };
 }
 
-/** The HDInsight cluster application GET response. */
-export interface ApplicationProperties {
-  /** The list of roles in the cluster. */
-  computeProfile?: ComputeProfile;
-  /** The list of install script actions. */
-  installScriptActions?: RuntimeScriptAction[];
-  /** The list of uninstall script actions. */
-  uninstallScriptActions?: RuntimeScriptAction[];
-  /** The list of application HTTPS endpoints. */
-  httpsEndpoints?: ApplicationGetHttpsEndpoint[];
-  /** The list of application SSH endpoints. */
-  sshEndpoints?: ApplicationGetEndpoint[];
-  /**
-   * The provisioning state of the application.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** The application type. */
-  applicationType?: string;
-  /**
-   * The application state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicationState?: string;
-  /** The list of errors. */
-  errors?: Errors[];
-  /**
-   * The application create date time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDate?: string;
-  /**
-   * The marketplace identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly marketplaceIdentifier?: string;
-  /** The private link configurations. */
-  privateLinkConfigurations?: PrivateLinkConfiguration[];
+/** The cluster monitor parameters. */
+export interface ClusterMonitoringRequest {
+  /** The cluster monitor workspace ID. */
+  workspaceId?: string;
+  /** The cluster monitor workspace key. */
+  primaryKey?: string;
 }
 
-/** Describes a script action on a running cluster. */
-export interface RuntimeScriptAction {
-  /** The name of the script action. */
-  name: string;
-  /** The URI to the script. */
-  uri: string;
-  /** The parameters for the script */
-  parameters?: string;
-  /** The list of roles where script will be executed. */
-  roles: string[];
-  /**
-   * The application name of the script action, if any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicationName?: string;
+/** The cluster monitoring status response. */
+export interface ClusterMonitoringResponse {
+  /** The status of the monitor on the HDInsight cluster. */
+  clusterMonitoringEnabled?: boolean;
+  /** The workspace ID of the monitor on the HDInsight cluster. */
+  workspaceId?: string;
 }
 
-/** Gets the application HTTP endpoints. */
-export interface ApplicationGetHttpsEndpoint {
-  /** The list of access modes for the application. */
-  accessModes?: string[];
-  /**
-   * The location of the endpoint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /** The destination port to connect to. */
-  destinationPort?: number;
-  /**
-   * The public port to connect to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicPort?: number;
-  /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
-  /** The subdomain suffix of the application. */
-  subDomainSuffix?: string;
-  /** The value indicates whether to disable GatewayAuth. */
-  disableGatewayAuth?: boolean;
+/** The azure monitor parameters. */
+export interface AzureMonitorRequest {
+  /** The Log Analytics workspace ID. */
+  workspaceId?: string;
+  /** The Log Analytics workspace key. */
+  primaryKey?: string;
+  /** The selected configurations. */
+  selectedConfigurations?: AzureMonitorSelectedConfigurations;
 }
 
-/** Gets the application SSH endpoint */
-export interface ApplicationGetEndpoint {
-  /** The location of the endpoint. */
-  location?: string;
-  /** The destination port to connect to. */
-  destinationPort?: number;
-  /** The public port to connect to. */
-  publicPort?: number;
-  /** The private ip address of the endpoint. */
-  privateIPAddress?: string;
+/** The selected configurations for azure monitor. */
+export interface AzureMonitorSelectedConfigurations {
+  /** The configuration version. */
+  configurationVersion?: string;
+  /** The global configurations of selected configurations. */
+  globalConfigurations?: { [propertyName: string]: string };
+  /** The table list. */
+  tableList?: AzureMonitorTableConfiguration[];
+}
+
+/** The table configuration for the Log Analytics integration. */
+export interface AzureMonitorTableConfiguration {
+  /** The name. */
+  name?: string;
+}
+
+/** The azure monitor status response. */
+export interface AzureMonitorResponse {
+  /** The status of the monitor on the HDInsight cluster. */
+  clusterMonitoringEnabled?: boolean;
+  /** The workspace ID of the monitor on the HDInsight cluster. */
+  workspaceId?: string;
+  /** The selected configurations. */
+  selectedConfigurations?: AzureMonitorSelectedConfigurations;
+}
+
+/** Cluster monitoring extensions. */
+export interface Extension {
+  /** The workspace ID for the cluster monitoring extension. */
+  workspaceId?: string;
+  /** The certificate for the cluster monitoring extensions. */
+  primaryKey?: string;
 }
 
 /** The Get Capabilities operation response. */
@@ -1015,121 +1083,6 @@ export interface AaddsResourceDetails {
   tenantId?: string;
 }
 
-/** The configuration object for the specified cluster. */
-export interface ClusterConfigurations {
-  /** The configuration object for the specified configuration for the specified cluster. */
-  configurations?: {
-    [propertyName: string]: { [propertyName: string]: string };
-  };
-}
-
-/** The cluster monitor parameters. */
-export interface ClusterMonitoringRequest {
-  /** The cluster monitor workspace ID. */
-  workspaceId?: string;
-  /** The cluster monitor workspace key. */
-  primaryKey?: string;
-}
-
-/** The cluster monitoring status response. */
-export interface ClusterMonitoringResponse {
-  /** The status of the monitor on the HDInsight cluster. */
-  clusterMonitoringEnabled?: boolean;
-  /** The workspace ID of the monitor on the HDInsight cluster. */
-  workspaceId?: string;
-}
-
-/** The azure monitor parameters. */
-export interface AzureMonitorRequest {
-  /** The Log Analytics workspace ID. */
-  workspaceId?: string;
-  /** The Log Analytics workspace key. */
-  primaryKey?: string;
-  /** The selected configurations. */
-  selectedConfigurations?: AzureMonitorSelectedConfigurations;
-}
-
-/** The selected configurations for azure monitor. */
-export interface AzureMonitorSelectedConfigurations {
-  /** The configuration version. */
-  configurationVersion?: string;
-  /** The global configurations of selected configurations. */
-  globalConfigurations?: { [propertyName: string]: string };
-  /** The table list. */
-  tableList?: AzureMonitorTableConfiguration[];
-}
-
-/** The table configuration for the Log Analytics integration. */
-export interface AzureMonitorTableConfiguration {
-  /** The name. */
-  name?: string;
-}
-
-/** The azure monitor status response. */
-export interface AzureMonitorResponse {
-  /** The status of the monitor on the HDInsight cluster. */
-  clusterMonitoringEnabled?: boolean;
-  /** The workspace ID of the monitor on the HDInsight cluster. */
-  workspaceId?: string;
-  /** The selected configurations. */
-  selectedConfigurations?: AzureMonitorSelectedConfigurations;
-}
-
-/** Cluster monitoring extensions. */
-export interface Extension {
-  /** The workspace ID for the cluster monitoring extension. */
-  workspaceId?: string;
-  /** The certificate for the cluster monitoring extensions. */
-  primaryKey?: string;
-}
-
-/** The parameters for the script actions to execute on a running cluster. */
-export interface ExecuteScriptActionParameters {
-  /** The list of run time script actions. */
-  scriptActions?: RuntimeScriptAction[];
-  /** Gets or sets if the scripts needs to be persisted. */
-  persistOnSuccess: boolean;
-}
-
-/** The persisted script action for the cluster. */
-export interface ScriptActionsList {
-  /** The list of persisted script action details for the cluster. */
-  value?: RuntimeScriptActionDetail[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The execution summary of a script action. */
-export interface ScriptActionExecutionSummary {
-  /**
-   * The status of script action execution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The instance count for a given script action execution status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceCount?: number;
-}
-
-/** The list script execution history response. */
-export interface ScriptActionExecutionHistoryList {
-  /**
-   * The list of persisted script action details for the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: RuntimeScriptActionDetail[];
-  /**
-   * The link (url) to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Result of the request to list HDInsight operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** The list of HDInsight operations supported by the HDInsight resource provider. */
@@ -1222,16 +1175,6 @@ export interface Dimension {
   toBeExportedForShoebox?: boolean;
 }
 
-/** The cluster host information. */
-export interface HostInfo {
-  /** The host name */
-  name?: string;
-  /** The Fully Qualified Domain Name of host */
-  fqdn?: string;
-  /** The effective disk encryption key URL used by the host */
-  effectiveDiskEncryptionKeyUrl?: string;
-}
-
 /** The list private endpoint connections response. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. */
@@ -1247,6 +1190,63 @@ export interface PrivateEndpointConnectionListResult {
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
   value?: PrivateLinkResource[];
+}
+
+/** The parameters for the script actions to execute on a running cluster. */
+export interface ExecuteScriptActionParameters {
+  /** The list of run time script actions. */
+  scriptActions?: RuntimeScriptAction[];
+  /** Gets or sets if the scripts needs to be persisted. */
+  persistOnSuccess: boolean;
+}
+
+/** The persisted script action for the cluster. */
+export interface ScriptActionsList {
+  /** The list of persisted script action details for the cluster. */
+  value?: RuntimeScriptActionDetail[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The execution summary of a script action. */
+export interface ScriptActionExecutionSummary {
+  /**
+   * The status of script action execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The instance count for a given script action execution status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** The list script execution history response. */
+export interface ScriptActionExecutionHistoryList {
+  /**
+   * The list of persisted script action details for the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: RuntimeScriptActionDetail[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The cluster host information. */
+export interface HostInfo {
+  /** The host name */
+  name?: string;
+  /** The Fully Qualified Domain Name of host */
+  fqdn?: string;
+  /** The effective disk encryption key URL used by the host */
+  effectiveDiskEncryptionKeyUrl?: string;
 }
 
 /** The ListPersistedScriptActions operation response. */
@@ -1273,76 +1273,6 @@ export interface ScriptActionPersistedGetResponseSpec {
   /** The application name for the script action. */
   applicationName?: string;
 }
-
-/** The cluster create request specification. */
-export type ClusterCreateRequestValidationParameters = ClusterCreateParametersExtended & {
-  /** The cluster name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The tenant id. */
-  tenantId?: string;
-  /** This indicates whether fetch Aadds resource or not. */
-  fetchAaddsResource?: boolean;
-};
-
-/** The private endpoint connection. */
-export type PrivateEndpointConnection = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The private endpoint of the private endpoint connection
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpoint?: PrivateEndpoint;
-  /** The private link service connection state. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /**
-   * The link identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly linkIdentifier?: string;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
-
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = ResourceAutoGenerated & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-};
-
-/** A private link resource */
-export type PrivateLinkResource = ResourceAutoGenerated & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: string[];
-};
 
 /** The execution details of a script action. */
 export type RuntimeScriptActionDetail = RuntimeScriptAction & {
@@ -1383,6 +1313,76 @@ export type RuntimeScriptActionDetail = RuntimeScriptAction & {
   readonly debugInformation?: string;
 };
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
+/** The private endpoint connection. */
+export type PrivateEndpointConnection = Resource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The private endpoint of the private endpoint connection
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** The private link service connection state. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The link identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The cluster create request specification. */
+export type ClusterCreateRequestValidationParameters = ClusterCreateParametersExtended & {
+  /** The cluster name. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+  /** The tenant id. */
+  tenantId?: string;
+  /** This indicates whether fetch Aadds resource or not. */
+  fetchAaddsResource?: boolean;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = ResourceAutoGenerated & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** A private link resource */
+export type PrivateLinkResource = ResourceAutoGenerated & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
 /** The HDInsight cluster application */
 export type Application = ProxyResource & {
   /** The ETag for the application */
@@ -1414,6 +1414,108 @@ export type Cluster = TrackedResource & {
    */
   readonly systemData?: SystemData;
 };
+
+/** Known values of {@link DaysOfWeek} that the service accepts. */
+export enum KnownDaysOfWeek {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
+
+/**
+ * Defines values for DaysOfWeek. \
+ * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monday** \
+ * **Tuesday** \
+ * **Wednesday** \
+ * **Thursday** \
+ * **Friday** \
+ * **Saturday** \
+ * **Sunday**
+ */
+export type DaysOfWeek = string;
+
+/** Known values of {@link PrivateLinkConfigurationProvisioningState} that the service accepts. */
+export enum KnownPrivateLinkConfigurationProvisioningState {
+  InProgress = "InProgress",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for PrivateLinkConfigurationProvisioningState. \
+ * {@link KnownPrivateLinkConfigurationProvisioningState} can be used interchangeably with PrivateLinkConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Deleting**
+ */
+export type PrivateLinkConfigurationProvisioningState = string;
+
+/** Known values of {@link PrivateIPAllocationMethod} that the service accepts. */
+export enum KnownPrivateIPAllocationMethod {
+  Dynamic = "dynamic",
+  Static = "static"
+}
+
+/**
+ * Defines values for PrivateIPAllocationMethod. \
+ * {@link KnownPrivateIPAllocationMethod} can be used interchangeably with PrivateIPAllocationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **dynamic** \
+ * **static**
+ */
+export type PrivateIPAllocationMethod = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link AsyncOperationState} that the service accepts. */
+export enum KnownAsyncOperationState {
+  InProgress = "InProgress",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for AsyncOperationState. \
+ * {@link KnownAsyncOperationState} can be used interchangeably with AsyncOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type AsyncOperationState = string;
 
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
@@ -1460,32 +1562,6 @@ export enum KnownDirectoryType {
  * **ActiveDirectory**
  */
 export type DirectoryType = string;
-
-/** Known values of {@link DaysOfWeek} that the service accepts. */
-export enum KnownDaysOfWeek {
-  Monday = "Monday",
-  Tuesday = "Tuesday",
-  Wednesday = "Wednesday",
-  Thursday = "Thursday",
-  Friday = "Friday",
-  Saturday = "Saturday",
-  Sunday = "Sunday"
-}
-
-/**
- * Defines values for DaysOfWeek. \
- * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Monday** \
- * **Tuesday** \
- * **Wednesday** \
- * **Thursday** \
- * **Friday** \
- * **Saturday** \
- * **Sunday**
- */
-export type DaysOfWeek = string;
 
 /** Known values of {@link JsonWebKeyEncryptionAlgorithm} that the service accepts. */
 export enum KnownJsonWebKeyEncryptionAlgorithm {
@@ -1536,44 +1612,6 @@ export enum KnownPrivateLink {
  * **Enabled**
  */
 export type PrivateLink = string;
-
-/** Known values of {@link PrivateLinkConfigurationProvisioningState} that the service accepts. */
-export enum KnownPrivateLinkConfigurationProvisioningState {
-  InProgress = "InProgress",
-  Failed = "Failed",
-  Succeeded = "Succeeded",
-  Canceled = "Canceled",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for PrivateLinkConfigurationProvisioningState. \
- * {@link KnownPrivateLinkConfigurationProvisioningState} can be used interchangeably with PrivateLinkConfigurationProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Failed** \
- * **Succeeded** \
- * **Canceled** \
- * **Deleting**
- */
-export type PrivateLinkConfigurationProvisioningState = string;
-
-/** Known values of {@link PrivateIPAllocationMethod} that the service accepts. */
-export enum KnownPrivateIPAllocationMethod {
-  Dynamic = "dynamic",
-  Static = "static"
-}
-
-/**
- * Defines values for PrivateIPAllocationMethod. \
- * {@link KnownPrivateIPAllocationMethod} can be used interchangeably with PrivateIPAllocationMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **dynamic** \
- * **static**
- */
-export type PrivateIPAllocationMethod = string;
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
@@ -1661,26 +1699,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link RoleName} that the service accepts. */
 export enum KnownRoleName {
   Workernode = "workernode"
@@ -1694,24 +1712,6 @@ export enum KnownRoleName {
  * **workernode**
  */
 export type RoleName = string;
-
-/** Known values of {@link AsyncOperationState} that the service accepts. */
-export enum KnownAsyncOperationState {
-  InProgress = "InProgress",
-  Succeeded = "Succeeded",
-  Failed = "Failed"
-}
-
-/**
- * Defines values for AsyncOperationState. \
- * {@link KnownAsyncOperationState} can be used interchangeably with AsyncOperationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Succeeded** \
- * **Failed**
- */
-export type AsyncOperationState = string;
 
 /** Known values of {@link FilterMode} that the service accepts. */
 export enum KnownFilterMode {
@@ -1732,6 +1732,55 @@ export enum KnownFilterMode {
  * **Default**
  */
 export type FilterMode = string;
+
+/** Optional parameters. */
+export interface ApplicationsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type ApplicationsListByClusterResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface ApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationsGetResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ApplicationsCreateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface ApplicationsListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ApplicationsListByClusterNextResponse = ApplicationListResult;
 
 /** Optional parameters. */
 export interface ClustersCreateOptionalParams
@@ -1865,97 +1914,6 @@ export interface ClustersListNextOptionalParams
 export type ClustersListNextResponse = ClusterListResult;
 
 /** Optional parameters. */
-export interface ApplicationsListByClusterOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCluster operation. */
-export type ApplicationsListByClusterResponse = ApplicationListResult;
-
-/** Optional parameters. */
-export interface ApplicationsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApplicationsGetResponse = Application;
-
-/** Optional parameters. */
-export interface ApplicationsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ApplicationsCreateResponse = Application;
-
-/** Optional parameters. */
-export interface ApplicationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAzureAsyncOperationStatus operation. */
-export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-/** Optional parameters. */
-export interface ApplicationsListByClusterNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByClusterNext operation. */
-export type ApplicationsListByClusterNextResponse = ApplicationListResult;
-
-/** Optional parameters. */
-export interface LocationsGetCapabilitiesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getCapabilities operation. */
-export type LocationsGetCapabilitiesResponse = CapabilitiesResult;
-
-/** Optional parameters. */
-export interface LocationsListUsagesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listUsages operation. */
-export type LocationsListUsagesResponse = UsagesListResult;
-
-/** Optional parameters. */
-export interface LocationsListBillingSpecsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBillingSpecs operation. */
-export type LocationsListBillingSpecsResponse = BillingResponseListResult;
-
-/** Optional parameters. */
-export interface LocationsGetAzureAsyncOperationStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAzureAsyncOperationStatus operation. */
-export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
-
-/** Optional parameters. */
-export interface LocationsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult;
-
-/** Optional parameters. */
-export interface LocationsValidateClusterCreateRequestOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateClusterCreateRequest operation. */
-export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult;
-
-/** Optional parameters. */
 export interface ConfigurationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2061,54 +2019,46 @@ export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams
 export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
 
 /** Optional parameters. */
-export interface ScriptActionsDeleteOptionalParams
+export interface LocationsGetCapabilitiesOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCapabilities operation. */
+export type LocationsGetCapabilitiesResponse = CapabilitiesResult;
 
 /** Optional parameters. */
-export interface ScriptActionsListByClusterOptionalParams
+export interface LocationsListUsagesOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCluster operation. */
-export type ScriptActionsListByClusterResponse = ScriptActionsList;
+/** Contains response data for the listUsages operation. */
+export type LocationsListUsagesResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface ScriptActionsGetExecutionDetailOptionalParams
+export interface LocationsListBillingSpecsOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getExecutionDetail operation. */
-export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail;
+/** Contains response data for the listBillingSpecs operation. */
+export type LocationsListBillingSpecsResponse = BillingResponseListResult;
 
 /** Optional parameters. */
-export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams
+export interface LocationsGetAzureAsyncOperationStatusOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getExecutionAsyncOperationStatus operation. */
-export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult;
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
 
 /** Optional parameters. */
-export interface ScriptActionsListByClusterNextOptionalParams
+export interface LocationsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByClusterNext operation. */
-export type ScriptActionsListByClusterNextResponse = ScriptActionsList;
+/** Contains response data for the checkNameAvailability operation. */
+export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult;
 
 /** Optional parameters. */
-export interface ScriptExecutionHistoryListByClusterOptionalParams
+export interface LocationsValidateClusterCreateRequestOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByCluster operation. */
-export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList;
-
-/** Optional parameters. */
-export interface ScriptExecutionHistoryPromoteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ScriptExecutionHistoryListByClusterNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByClusterNext operation. */
-export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList;
+/** Contains response data for the validateClusterCreateRequest operation. */
+export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2123,29 +2073,6 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListHostsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listHosts operation. */
-export type VirtualMachinesListHostsResponse = HostInfo[];
-
-/** Optional parameters. */
-export interface VirtualMachinesRestartHostsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesGetAsyncOperationStatusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getAsyncOperationStatus operation. */
-export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByClusterOptionalParams
@@ -2202,6 +2129,79 @@ export interface PrivateLinkResourcesGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface ScriptActionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScriptActionsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type ScriptActionsListByClusterResponse = ScriptActionsList;
+
+/** Optional parameters. */
+export interface ScriptActionsGetExecutionDetailOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getExecutionDetail operation. */
+export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail;
+
+/** Optional parameters. */
+export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getExecutionAsyncOperationStatus operation. */
+export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface ScriptActionsListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ScriptActionsListByClusterNextResponse = ScriptActionsList;
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList;
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryPromoteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList;
+
+/** Optional parameters. */
+export interface VirtualMachinesListHostsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listHosts operation. */
+export type VirtualMachinesListHostsResponse = HostInfo[];
+
+/** Optional parameters. */
+export interface VirtualMachinesRestartHostsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesGetAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAsyncOperationStatus operation. */
+export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult;
 
 /** Optional parameters. */
 export interface HDInsightManagementClientOptionalParams
