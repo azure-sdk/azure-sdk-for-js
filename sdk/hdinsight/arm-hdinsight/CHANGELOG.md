@@ -1,15 +1,24 @@
 # Release History
+    
+## 2.0.0-beta.1 (2022-07-22)
+    
+**Features**
 
-## 1.1.2 (Unreleased)
+  - Added operation Clusters.listOutboundNetworkDependenciesEndpoints
+  - Added Interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  - Added Interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface OutboundNetworkDependenciesEndpoint
+  - Added Interface OutboundNetworkDependenciesEndpointDetail
+  - Added Interface OutboundNetworkDependenciesEndpointListResult
+  - Added Interface OutboundNetworkDependenciesEndpointProperties
+  - Added Type Alias ClustersListOutboundNetworkDependenciesEndpointsNextResponse
+  - Added Type Alias ClustersListOutboundNetworkDependenciesEndpointsResponse
+  - Interface Role has a new optional parameter vmGroupName
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Role no longer has parameter vMGroupName
+    
 ## 1.1.1 (2022-04-26)
 
 **Features**

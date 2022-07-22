@@ -417,6 +417,7 @@ export interface Clusters {
     getGatewaySettings(resourceGroupName: string, clusterName: string, options?: ClustersGetGatewaySettingsOptionalParams): Promise<ClustersGetGatewaySettingsResponse>;
     list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, clusterName: string, options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint>;
     update(resourceGroupName: string, clusterName: string, parameters: ClusterPatchParameters, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
 }
 
@@ -486,6 +487,20 @@ export type ClustersListNextResponse = ClusterListResult;
 // @public
 export interface ClustersListOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundNetworkDependenciesEndpointListResult;
+
+// @public
+export interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundNetworkDependenciesEndpointListResult;
 
 // @public
 export type ClustersListResponse = ClusterListResult;
@@ -1170,6 +1185,30 @@ export interface OsProfile {
 export type OSType = string;
 
 // @public
+export interface OutboundNetworkDependenciesEndpoint {
+    category?: string;
+    endpoints?: OutboundNetworkDependenciesEndpointProperties[];
+}
+
+// @public
+export interface OutboundNetworkDependenciesEndpointDetail {
+    port?: string;
+    protocol?: string;
+}
+
+// @public
+export interface OutboundNetworkDependenciesEndpointListResult {
+    readonly nextLink?: string;
+    value?: OutboundNetworkDependenciesEndpoint[];
+}
+
+// @public
+export interface OutboundNetworkDependenciesEndpointProperties {
+    domainName?: string;
+    endpointDetails?: OutboundNetworkDependenciesEndpointDetail[];
+}
+
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
@@ -1364,7 +1403,7 @@ export interface Role {
     scriptActions?: ScriptAction[];
     targetInstanceCount?: number;
     virtualNetworkProfile?: VirtualNetworkProfile;
-    vMGroupName?: string;
+    vmGroupName?: string;
 }
 
 // @public

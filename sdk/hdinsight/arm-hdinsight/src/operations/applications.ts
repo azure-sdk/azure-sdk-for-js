@@ -444,7 +444,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -453,7 +453,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.applicationName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -499,8 +499,8 @@ const getAzureAsyncOperationStatusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.operationId,
-    Parameters.applicationName
+    Parameters.applicationName,
+    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
   serializer
