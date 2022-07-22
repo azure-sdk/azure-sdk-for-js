@@ -50,7 +50,6 @@ import {
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
-  ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersStopOptionalParams,
   ManagedClustersStartOptionalParams,
   RunCommandRequest,
@@ -633,7 +632,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -909,88 +909,6 @@ export class ManagedClustersImpl implements ManagedClusters {
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<void> {
     const poller = await this.beginRotateClusterCertificates(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Rotates the service account signing keys of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginRotateServiceAccountSigningKeys(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, resourceName, options },
-      rotateServiceAccountSigningKeysOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Rotates the service account signing keys of a managed cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  async beginRotateServiceAccountSigningKeysAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginRotateServiceAccountSigningKeys(
       resourceGroupName,
       resourceName,
       options
@@ -1637,10 +1555,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.ignorePodDisruptionBudget
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1703,29 +1618,6 @@ const resetAADProfileOperationSpec: coreClient.OperationSpec = {
 const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const rotateServiceAccountSigningKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
   httpMethod: "POST",
   responses: {
     200: {},
