@@ -40,7 +40,7 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Gets all automation rules.
+   * Gets all automation rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -99,7 +99,7 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Gets the automation rule.
+   * Gets the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
@@ -118,7 +118,7 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Creates or updates the automation rule.
+   * Creates or updates the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
@@ -137,7 +137,7 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Delete the automation rule.
+   * Delete the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
@@ -156,7 +156,7 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Gets all automation rules.
+   * Gets all automation rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.

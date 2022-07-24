@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SecurityInsights.",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -41,8 +41,6 @@
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^7.1.1",
-    "@types/chai": "^4.2.8",
-    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@azure/dev-tool": "^1.0.0"
   },
@@ -96,7 +94,8 @@
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped"
+    "integration-test:browser": "echo skipped",
+    "docs": "echo skipped"
   },
   "sideEffects": false,
   "//metadata": {
@@ -107,13 +106,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview"
-  }
+  "autoPublish": true
 }

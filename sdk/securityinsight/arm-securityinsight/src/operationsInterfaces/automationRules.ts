@@ -22,7 +22,7 @@ import {
 /** Interface representing a AutomationRules. */
 export interface AutomationRules {
   /**
-   * Gets all automation rules.
+   * Gets all automation rules
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
@@ -33,7 +33,7 @@ export interface AutomationRules {
     options?: AutomationRulesListOptionalParams
   ): PagedAsyncIterableIterator<AutomationRule>;
   /**
-   * Gets the automation rule.
+   * Gets the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
@@ -46,7 +46,7 @@ export interface AutomationRules {
     options?: AutomationRulesGetOptionalParams
   ): Promise<AutomationRulesGetResponse>;
   /**
-   * Creates or updates the automation rule.
+   * Creates or updates the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
@@ -59,7 +59,7 @@ export interface AutomationRules {
     options?: AutomationRulesCreateOrUpdateOptionalParams
   ): Promise<AutomationRulesCreateOrUpdateResponse>;
   /**
-   * Delete the automation rule.
+   * Delete the automation rule
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
