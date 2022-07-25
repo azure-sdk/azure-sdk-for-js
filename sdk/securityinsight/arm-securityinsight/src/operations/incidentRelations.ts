@@ -39,7 +39,7 @@ export class IncidentRelationsImpl implements IncidentRelations {
   }
 
   /**
-   * Gets all incident relations.
+   * Gets all relations for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -119,7 +119,7 @@ export class IncidentRelationsImpl implements IncidentRelations {
   }
 
   /**
-   * Gets all incident relations.
+   * Gets all relations for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -138,7 +138,7 @@ export class IncidentRelationsImpl implements IncidentRelations {
   }
 
   /**
-   * Gets an incident relation.
+   * Gets a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -159,7 +159,7 @@ export class IncidentRelationsImpl implements IncidentRelations {
   }
 
   /**
-   * Creates or updates the incident relation.
+   * Creates or updates a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID
@@ -189,7 +189,7 @@ export class IncidentRelationsImpl implements IncidentRelations {
   }
 
   /**
-   * Delete the incident relation.
+   * Deletes a relation for a given incident.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param incidentId Incident ID

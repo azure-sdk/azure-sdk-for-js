@@ -9,72 +9,27 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export interface AADCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "AzureActiveDirectory";
+export type AADDataConnector = DataConnector & {
     tenantId?: string;
-}
-
-// @public
-export interface AADCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface AADDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
+};
+
+// @public
+export type AatpDataConnector = DataConnector & {
     tenantId?: string;
-}
-
-// @public
-export interface AADDataConnectorProperties extends DataConnectorTenantId, DataConnectorWithAlertsProperties {
-}
-
-// @public
-export interface AatpCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "AzureAdvancedThreatProtection";
-    tenantId?: string;
-}
-
-// @public
-export interface AatpCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface AatpDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    tenantId?: string;
-}
+};
 
 // @public
-export interface AatpDataConnectorProperties extends DataConnectorTenantId, DataConnectorWithAlertsProperties {
-}
-
-// @public
-export interface AccountEntity extends Entity {
-    readonly aadTenantId?: string;
-    readonly aadUserId?: string;
-    readonly accountName?: string;
+export type AccountEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly displayName?: string;
-    readonly dnsDomain?: string;
     readonly friendlyName?: string;
-    readonly hostEntityId?: string;
-    readonly isDomainJoined?: boolean;
-    readonly ntDomain?: string;
-    readonly objectGuid?: string;
-    readonly puid?: string;
-    readonly sid?: string;
-    readonly upnSuffix?: string;
-}
-
-// @public
-export interface AccountEntityProperties extends EntityCommonProperties {
     readonly aadTenantId?: string;
     readonly aadUserId?: string;
     readonly accountName?: string;
     readonly displayName?: string;
-    readonly dnsDomain?: string;
     readonly hostEntityId?: string;
     readonly isDomainJoined?: boolean;
     readonly ntDomain?: string;
@@ -82,7 +37,24 @@ export interface AccountEntityProperties extends EntityCommonProperties {
     readonly puid?: string;
     readonly sid?: string;
     readonly upnSuffix?: string;
-}
+    readonly dnsDomain?: string;
+};
+
+// @public
+export type AccountEntityProperties = EntityCommonProperties & {
+    readonly aadTenantId?: string;
+    readonly aadUserId?: string;
+    readonly accountName?: string;
+    readonly displayName?: string;
+    readonly hostEntityId?: string;
+    readonly isDomainJoined?: boolean;
+    readonly ntDomain?: string;
+    readonly objectGuid?: string;
+    readonly puid?: string;
+    readonly sid?: string;
+    readonly upnSuffix?: string;
+    readonly dnsDomain?: string;
+};
 
 // @public
 export interface ActionPropertiesBase {
@@ -90,26 +62,27 @@ export interface ActionPropertiesBase {
 }
 
 // @public
-export interface ActionRequest extends ResourceWithEtag {
+export type ActionRequest = ResourceWithEtag & {
     logicAppResourceId?: string;
     triggerUri?: string;
-}
+};
 
 // @public
-export interface ActionRequestProperties extends ActionPropertiesBase {
+export type ActionRequestProperties = ActionPropertiesBase & {
     triggerUri: string;
-}
+};
 
 // @public
-export interface ActionResponse extends ResourceWithEtag {
+export type ActionResponse = Resource & {
+    etag?: string;
     logicAppResourceId?: string;
     workflowId?: string;
-}
+};
 
 // @public
-export interface ActionResponseProperties extends ActionPropertiesBase {
+export type ActionResponseProperties = ActionPropertiesBase & {
     workflowId?: string;
-}
+};
 
 // @public
 export interface Actions {
@@ -161,77 +134,6 @@ export type ActionsListByAlertRuleResponse = ActionsList;
 export type ActionType = string;
 
 // @public
-export interface ActivityCustomEntityQuery extends CustomEntityQuery {
-    content?: string;
-    readonly createdTimeUtc?: Date;
-    description?: string;
-    enabled?: boolean;
-    entitiesFilter?: {
-        [propertyName: string]: string[];
-    };
-    inputEntityType?: EntityType;
-    readonly lastModifiedTimeUtc?: Date;
-    queryDefinitions?: ActivityEntityQueriesPropertiesQueryDefinitions;
-    requiredInputFieldsSets?: string[][];
-    templateName?: string;
-    title?: string;
-}
-
-// @public
-export interface ActivityEntityQueriesPropertiesQueryDefinitions {
-    query?: string;
-}
-
-// @public
-export interface ActivityEntityQuery extends EntityQuery {
-    content?: string;
-    readonly createdTimeUtc?: Date;
-    description?: string;
-    enabled?: boolean;
-    entitiesFilter?: {
-        [propertyName: string]: string[];
-    };
-    inputEntityType?: EntityType;
-    readonly lastModifiedTimeUtc?: Date;
-    queryDefinitions?: ActivityEntityQueriesPropertiesQueryDefinitions;
-    requiredInputFieldsSets?: string[][];
-    templateName?: string;
-    title?: string;
-}
-
-// @public
-export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
-    content?: string;
-    dataTypes?: DataTypeDefinitions[];
-    description?: string;
-    entitiesFilter?: {
-        [propertyName: string]: string[];
-    };
-    inputEntityType?: EntityType;
-    queryDefinitions?: ActivityEntityQueryTemplatePropertiesQueryDefinitions;
-    requiredInputFieldsSets?: string[][];
-    title?: string;
-}
-
-// @public
-export interface ActivityEntityQueryTemplatePropertiesQueryDefinitions {
-    query?: string;
-    summarizeBy?: string;
-}
-
-// @public
-export interface ActivityTimelineItem extends EntityTimelineItem {
-    bucketEndTimeUTC: Date;
-    bucketStartTimeUTC: Date;
-    content: string;
-    firstActivityTimeUTC: Date;
-    kind: "Activity";
-    lastActivityTimeUTC: Date;
-    queryId: string;
-    title: string;
-}
-
-// @public
 export type AlertDetail = string;
 
 // @public
@@ -243,9 +145,9 @@ export interface AlertDetailsOverride {
 }
 
 // @public
-export interface AlertRule extends ResourceWithEtag {
+export type AlertRule = ResourceWithEtag & {
     kind: AlertRuleKind;
-}
+};
 
 // @public
 export type AlertRuleKind = string;
@@ -297,25 +199,14 @@ export interface AlertRulesListOptionalParams extends coreClient.OperationOption
 export type AlertRulesListResponse = AlertRulesList;
 
 // @public
-export interface AlertRuleTemplate extends Resource {
+export type AlertRuleTemplate = Resource & {
     kind: AlertRuleKind;
-}
+};
 
 // @public
 export interface AlertRuleTemplateDataSource {
     connectorId?: string;
     dataTypes?: string[];
-}
-
-// @public
-export interface AlertRuleTemplatePropertiesBase {
-    alertRulesCreatedByTemplateCount?: number;
-    readonly createdDateUTC?: Date;
-    description?: string;
-    displayName?: string;
-    readonly lastUpdatedDateUTC?: Date;
-    requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    status?: TemplateStatus;
 }
 
 // @public
@@ -352,20 +243,14 @@ export interface AlertRuleTemplatesListOptionalParams extends coreClient.Operati
 export type AlertRuleTemplatesListResponse = AlertRuleTemplatesList;
 
 // @public (undocumented)
-export type AlertRuleTemplateUnion = AlertRuleTemplate | MLBehaviorAnalyticsAlertRuleTemplate | FusionAlertRuleTemplate | ThreatIntelligenceAlertRuleTemplate | MicrosoftSecurityIncidentCreationAlertRuleTemplate | ScheduledAlertRuleTemplate | NrtAlertRuleTemplate;
-
-// @public
-export interface AlertRuleTemplateWithMitreProperties extends AlertRuleTemplatePropertiesBase {
-    tactics?: AttackTactic[];
-    techniques?: string[];
-}
+export type AlertRuleTemplateUnion = AlertRuleTemplate | FusionAlertRuleTemplate | MicrosoftSecurityIncidentCreationAlertRuleTemplate | ScheduledAlertRuleTemplate;
 
 // @public (undocumented)
-export type AlertRuleUnion = AlertRule | MLBehaviorAnalyticsAlertRule | FusionAlertRule | ThreatIntelligenceAlertRule | MicrosoftSecurityIncidentCreationAlertRule | ScheduledAlertRule | NrtAlertRule;
+export type AlertRuleUnion = AlertRule | FusionAlertRule | MicrosoftSecurityIncidentCreationAlertRule | ScheduledAlertRule;
 
 // @public
 export interface AlertsDataTypeOfDataConnector {
-    alerts: DataConnectorDataTypeCommon;
+    alerts?: DataConnectorDataTypeCommon;
 }
 
 // @public
@@ -375,78 +260,33 @@ export type AlertSeverity = string;
 export type AlertStatus = string;
 
 // @public
-export interface Anomalies extends Settings {
-    readonly isEnabled?: boolean;
-}
-
-// @public
-export interface AnomalySecurityMLAnalyticsSettings extends SecurityMLAnalyticsSetting {
-    anomalySettingsVersion?: number;
-    anomalyVersion?: string;
-    customizableObservations?: Record<string, unknown>;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    frequency?: string;
-    isDefaultSettings?: boolean;
-    readonly lastModifiedUtc?: Date;
-    requiredDataConnectors?: SecurityMLAnalyticsSettingsDataSource[];
-    settingsDefinitionId?: string;
-    settingsStatus?: SettingsStatus;
-    tactics?: AttackTactic[];
-    techniques?: string[];
-}
-
-// @public
-export interface AnomalyTimelineItem extends EntityTimelineItem {
-    azureResourceId: string;
-    description?: string;
-    displayName: string;
-    endTimeUtc: Date;
-    intent?: string;
-    kind: "Anomaly";
-    productName?: string;
-    reasons?: string[];
-    startTimeUtc: Date;
-    techniques?: string[];
-    timeGenerated: Date;
-    vendor?: string;
-}
-
-// @public
 export type AntispamMailDirection = string;
 
 // @public
-export interface ASCCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "AzureSecurityCenter";
-    subscriptionId?: string;
-}
-
-// @public
-export interface ASCDataConnector extends DataConnector {
+export type ASCDataConnector = DataConnector & {
     dataTypes?: AlertsDataTypeOfDataConnector;
     subscriptionId?: string;
-}
+};
 
 // @public
-export interface ASCDataConnectorProperties extends DataConnectorWithAlertsProperties {
+export type ASCDataConnectorProperties = DataConnectorWithAlertsProperties & {
     subscriptionId?: string;
-}
+};
 
 // @public
 export type AttackTactic = string;
 
 // @public (undocumented)
-export interface AutomationRule extends ResourceWithEtag {
-    actions: AutomationRuleActionUnion[];
-    readonly createdBy?: ClientInfo;
-    readonly createdTimeUtc?: Date;
+export type AutomationRule = ResourceWithEtag & {
     displayName: string;
-    readonly lastModifiedBy?: ClientInfo;
-    readonly lastModifiedTimeUtc?: Date;
     order: number;
     triggeringLogic: AutomationRuleTriggeringLogic;
-}
+    actions: AutomationRuleActionUnion[];
+    readonly lastModifiedTimeUtc?: Date;
+    readonly createdTimeUtc?: Date;
+    readonly lastModifiedBy?: ClientInfo;
+    readonly createdBy?: ClientInfo;
+};
 
 // @public
 export interface AutomationRuleAction {
@@ -460,56 +300,23 @@ export type AutomationRuleActionUnion = AutomationRuleAction | AutomationRuleMod
 
 // @public
 export interface AutomationRuleCondition {
-    conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
+    conditionType: "Property";
 }
 
 // @public (undocumented)
-export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyArrayChangedConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
+export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyConditionProperties;
 
 // @public
-export interface AutomationRuleModifyPropertiesAction extends AutomationRuleAction {
-    // (undocumented)
-    actionConfiguration?: IncidentPropertiesAction;
+export type AutomationRuleModifyPropertiesAction = AutomationRuleAction & {
     actionType: "ModifyProperties";
-}
-
-// @public
-export type AutomationRulePropertyArrayChangedConditionSupportedArrayType = string;
-
-// @public
-export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
-
-// @public (undocumented)
-export interface AutomationRulePropertyArrayChangedValuesCondition {
-    // (undocumented)
-    arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
-    // (undocumented)
-    changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
-}
-
-// @public
-export type AutomationRulePropertyChangedConditionSupportedChangedType = string;
-
-// @public
-export type AutomationRulePropertyChangedConditionSupportedPropertyType = string;
+    actionConfiguration?: IncidentPropertiesAction;
+};
 
 // @public
 export type AutomationRulePropertyConditionSupportedOperator = string;
 
 // @public
 export type AutomationRulePropertyConditionSupportedProperty = string;
-
-// @public (undocumented)
-export interface AutomationRulePropertyValuesChangedCondition {
-    // (undocumented)
-    changeType?: AutomationRulePropertyChangedConditionSupportedChangedType;
-    // (undocumented)
-    operator?: AutomationRulePropertyConditionSupportedOperator;
-    // (undocumented)
-    propertyName?: AutomationRulePropertyChangedConditionSupportedPropertyType;
-    // (undocumented)
-    propertyValues?: string[];
-}
 
 // @public (undocumented)
 export interface AutomationRulePropertyValuesCondition {
@@ -521,11 +328,10 @@ export interface AutomationRulePropertyValuesCondition {
 }
 
 // @public
-export interface AutomationRuleRunPlaybookAction extends AutomationRuleAction {
-    // (undocumented)
-    actionConfiguration?: PlaybookActionProperties;
+export type AutomationRuleRunPlaybookAction = AutomationRuleAction & {
     actionType: "RunPlaybook";
-}
+    actionConfiguration?: PlaybookActionProperties;
+};
 
 // @public
 export interface AutomationRules {
@@ -591,185 +397,57 @@ export interface AutomationRuleTriggeringLogic {
 }
 
 // @public
-export interface Availability {
-    isPreview?: boolean;
-    status?: 1;
-}
-
-// @public
-export interface AwsCloudTrailCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "AmazonWebServicesCloudTrail";
-}
-
-// @public
-export interface AwsCloudTrailDataConnector extends DataConnector {
+export type AwsCloudTrailDataConnector = DataConnector & {
     awsRoleArn?: string;
     dataTypes?: AwsCloudTrailDataConnectorDataTypes;
-}
+};
 
 // @public
 export interface AwsCloudTrailDataConnectorDataTypes {
-    logs: AwsCloudTrailDataConnectorDataTypesLogs;
+    logs?: AwsCloudTrailDataConnectorDataTypesLogs;
 }
 
 // @public
-export interface AwsCloudTrailDataConnectorDataTypesLogs extends DataConnectorDataTypeCommon {
-}
+export type AwsCloudTrailDataConnectorDataTypesLogs = DataConnectorDataTypeCommon & {};
 
 // @public
-export interface AwsS3CheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "AmazonWebServicesS3";
-}
-
-// @public
-export interface AwsS3DataConnector extends DataConnector {
-    dataTypes?: AwsS3DataConnectorDataTypes;
-    destinationTable?: string;
-    roleArn?: string;
-    sqsUrls?: string[];
-}
-
-// @public
-export interface AwsS3DataConnectorDataTypes {
-    logs: AwsS3DataConnectorDataTypesLogs;
-}
-
-// @public
-export interface AwsS3DataConnectorDataTypesLogs extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface AzureDevOpsResourceInfo {
-    pipelineId?: string;
-    serviceConnectionId?: string;
-}
-
-// @public
-export interface AzureResourceEntity extends Entity {
+export type AzureResourceEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
     readonly resourceId?: string;
     readonly subscriptionId?: string;
-}
+};
 
 // @public
-export interface AzureResourceEntityProperties extends EntityCommonProperties {
+export type AzureResourceEntityProperties = EntityCommonProperties & {
     readonly resourceId?: string;
     readonly subscriptionId?: string;
-}
+};
 
 // @public
-export interface Bookmark extends ResourceWithEtag {
+export type Bookmark = ResourceWithEtag & {
     created?: Date;
     createdBy?: UserInfo;
     displayName?: string;
-    entityMappings?: BookmarkEntityMappings[];
-    eventTime?: Date;
-    incidentInfo?: IncidentInfo;
     labels?: string[];
     notes?: string;
     query?: string;
-    queryEndTime?: Date;
     queryResult?: string;
-    queryStartTime?: Date;
-    tactics?: AttackTactic[];
-    techniques?: string[];
     updated?: Date;
     updatedBy?: UserInfo;
-}
-
-// @public
-export interface BookmarkEntityMappings {
-    entityType?: string;
-    fieldMappings?: EntityFieldMapping[];
-}
-
-// @public
-export type BookmarkExpandOperationResponse = BookmarkExpandResponse;
-
-// @public
-export interface BookmarkExpandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface BookmarkExpandParameters {
-    endTime?: Date;
-    expansionId?: string;
-    startTime?: Date;
-}
-
-// @public
-export interface BookmarkExpandResponse {
-    metaData?: ExpansionResultsMetadata;
-    value?: BookmarkExpandResponseValue;
-}
-
-// @public
-export interface BookmarkExpandResponseValue {
-    edges?: ConnectedEntity[];
-    entities?: EntityUnion[];
-}
+    eventTime?: Date;
+    queryStartTime?: Date;
+    queryEndTime?: Date;
+    incidentInfo?: IncidentInfo;
+};
 
 // @public
 export interface BookmarkList {
     readonly nextLink?: string;
     value: Bookmark[];
 }
-
-// @public
-export interface BookmarkOperations {
-    expand(resourceGroupName: string, workspaceName: string, bookmarkId: string, parameters: BookmarkExpandParameters, options?: BookmarkExpandOptionalParams): Promise<BookmarkExpandOperationResponse>;
-}
-
-// @public
-export interface BookmarkRelations {
-    createOrUpdate(resourceGroupName: string, workspaceName: string, bookmarkId: string, relationName: string, relation: Relation, options?: BookmarkRelationsCreateOrUpdateOptionalParams): Promise<BookmarkRelationsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, bookmarkId: string, relationName: string, options?: BookmarkRelationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, bookmarkId: string, relationName: string, options?: BookmarkRelationsGetOptionalParams): Promise<BookmarkRelationsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, bookmarkId: string, options?: BookmarkRelationsListOptionalParams): PagedAsyncIterableIterator<Relation>;
-}
-
-// @public
-export interface BookmarkRelationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BookmarkRelationsCreateOrUpdateResponse = Relation;
-
-// @public
-export interface BookmarkRelationsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface BookmarkRelationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type BookmarkRelationsGetResponse = Relation;
-
-// @public
-export interface BookmarkRelationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type BookmarkRelationsListNextResponse = RelationList;
-
-// @public
-export interface BookmarkRelationsListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type BookmarkRelationsListResponse = RelationList;
 
 // @public
 export interface Bookmarks {
@@ -812,19 +490,6 @@ export interface BookmarksListOptionalParams extends coreClient.OperationOptions
 export type BookmarksListResponse = BookmarkList;
 
 // @public
-export interface BookmarkTimelineItem extends EntityTimelineItem {
-    azureResourceId: string;
-    createdBy?: UserInfo;
-    displayName?: string;
-    endTimeUtc?: Date;
-    eventTime?: Date;
-    kind: "Bookmark";
-    labels?: string[];
-    notes?: string;
-    startTimeUtc?: Date;
-}
-
-// @public
 export interface ClientInfo {
     email?: string;
     name?: string;
@@ -833,22 +498,22 @@ export interface ClientInfo {
 }
 
 // @public
-export interface CloudApplicationEntity extends Entity {
+export type CloudApplicationEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    readonly friendlyName?: string;
     readonly appId?: number;
     readonly appName?: string;
-    readonly friendlyName?: string;
     readonly instanceName?: string;
-}
+};
 
 // @public
-export interface CloudApplicationEntityProperties extends EntityCommonProperties {
+export type CloudApplicationEntityProperties = EntityCommonProperties & {
     readonly appId?: number;
     readonly appName?: string;
     readonly instanceName?: string;
-}
+};
 
 // @public
 export interface CloudError {
@@ -862,116 +527,6 @@ export interface CloudErrorBody {
 }
 
 // @public
-export interface CodelessApiPollingDataConnector extends DataConnector {
-    connectorUiConfig?: CodelessUiConnectorConfigProperties;
-    pollingConfig?: CodelessConnectorPollingConfigProperties;
-}
-
-// @public
-export interface CodelessConnectorPollingAuthProperties {
-    apiKeyIdentifier?: string;
-    apiKeyName?: string;
-    authorizationEndpoint?: string;
-    authorizationEndpointQueryParameters?: Record<string, unknown>;
-    authType: string;
-    flowName?: string;
-    isApiKeyInPostPayload?: string;
-    isClientSecretInHeader?: boolean;
-    redirectionEndpoint?: string;
-    scope?: string;
-    tokenEndpoint?: string;
-    tokenEndpointHeaders?: Record<string, unknown>;
-    tokenEndpointQueryParameters?: Record<string, unknown>;
-}
-
-// @public
-export interface CodelessConnectorPollingConfigProperties {
-    auth: CodelessConnectorPollingAuthProperties;
-    isActive?: boolean;
-    paging?: CodelessConnectorPollingPagingProperties;
-    request: CodelessConnectorPollingRequestProperties;
-    response?: CodelessConnectorPollingResponseProperties;
-}
-
-// @public
-export interface CodelessConnectorPollingPagingProperties {
-    nextPageParaName?: string;
-    nextPageTokenJsonPath?: string;
-    pageCountAttributePath?: string;
-    pageSize?: number;
-    pageSizeParaName?: string;
-    pageTimeStampAttributePath?: string;
-    pageTotalCountAttributePath?: string;
-    pagingType: string;
-    searchTheLatestTimeStampFromEventsList?: string;
-}
-
-// @public
-export interface CodelessConnectorPollingRequestProperties {
-    apiEndpoint: string;
-    endTimeAttributeName?: string;
-    headers?: Record<string, unknown>;
-    httpMethod: string;
-    queryParameters?: Record<string, unknown>;
-    queryParametersTemplate?: string;
-    queryTimeFormat: string;
-    queryWindowInMin: number;
-    rateLimitQps?: number;
-    retryCount?: number;
-    startTimeAttributeName?: string;
-    timeoutInSeconds?: number;
-}
-
-// @public
-export interface CodelessConnectorPollingResponseProperties {
-    eventsJsonPaths: string[];
-    isGzipCompressed?: boolean;
-    successStatusJsonPath?: string;
-    successStatusValue?: string;
-}
-
-// @public
-export interface CodelessUiConnectorConfigProperties {
-    availability: Availability;
-    connectivityCriteria: CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem[];
-    customImage?: string;
-    dataTypes: CodelessUiConnectorConfigPropertiesDataTypesItem[];
-    descriptionMarkdown: string;
-    graphQueries: CodelessUiConnectorConfigPropertiesGraphQueriesItem[];
-    graphQueriesTableName: string;
-    instructionSteps: CodelessUiConnectorConfigPropertiesInstructionStepsItem[];
-    permissions: Permissions_2;
-    publisher: string;
-    sampleQueries: CodelessUiConnectorConfigPropertiesSampleQueriesItem[];
-    title: string;
-}
-
-// @public (undocumented)
-export interface CodelessUiConnectorConfigPropertiesConnectivityCriteriaItem extends ConnectivityCriteria {
-}
-
-// @public (undocumented)
-export interface CodelessUiConnectorConfigPropertiesDataTypesItem extends LastDataReceivedDataType {
-}
-
-// @public (undocumented)
-export interface CodelessUiConnectorConfigPropertiesGraphQueriesItem extends GraphQueries {
-}
-
-// @public (undocumented)
-export interface CodelessUiConnectorConfigPropertiesInstructionStepsItem extends InstructionSteps {
-}
-
-// @public (undocumented)
-export interface CodelessUiConnectorConfigPropertiesSampleQueriesItem extends SampleQueries {
-}
-
-// @public
-export interface CodelessUiDataConnector extends DataConnector {
-    connectorUiConfig?: CodelessUiConnectorConfigProperties;
-}
-
-// @public
 export type ConditionType = string;
 
 // @public
@@ -981,96 +536,20 @@ export type ConfidenceLevel = string;
 export type ConfidenceScoreStatus = string;
 
 // @public
-export type ConnectAuthKind = string;
-
-// @public
-export interface ConnectedEntity {
-    additionalData?: Record<string, unknown>;
-    targetEntityId?: string;
-}
-
-// @public
-export interface ConnectivityCriteria {
-    type?: ConnectivityType;
-    value?: string[];
-}
-
-// @public
-export type ConnectivityType = string;
-
-// @public
-export interface ConnectorInstructionModelBase {
-    parameters?: Record<string, unknown>;
-    type: SettingType;
-}
-
-// @public
-export interface ContentPathMap {
-    contentType?: ContentType;
-    path?: string;
-}
-
-// @public
-export type ContentType = string;
-
-// @public
 export type CreatedByType = string;
 
 // @public
-export interface CustomEntityQuery extends ResourceWithEtag {
-    kind: CustomEntityQueryKind;
-}
-
-// @public
-export type CustomEntityQueryKind = string;
-
-// @public (undocumented)
-export type CustomEntityQueryUnion = CustomEntityQuery | ActivityCustomEntityQuery;
-
-// @public
-export interface Customs extends CustomsPermission {
-}
-
-// @public
-export interface CustomsPermission {
-    description?: string;
-    name?: string;
-}
-
-// @public
-export interface DataConnector extends ResourceWithEtag {
+export type DataConnector = ResourceWithEtag & {
     kind: DataConnectorKind;
-}
-
-// @public
-export type DataConnectorAuthorizationState = string;
-
-// @public
-export interface DataConnectorConnectBody {
-    apiKey?: string;
-    authorizationCode?: string;
-    clientId?: string;
-    clientSecret?: string;
-    dataCollectionEndpoint?: string;
-    dataCollectionRuleImmutableId?: string;
-    kind?: ConnectAuthKind;
-    outputStream?: string;
-    password?: string;
-    // (undocumented)
-    requestConfigUserInputValues?: Record<string, unknown>[];
-    userName?: string;
-}
+};
 
 // @public
 export interface DataConnectorDataTypeCommon {
-    state: DataTypeState;
+    state?: DataTypeState;
 }
 
 // @public
 export type DataConnectorKind = string;
-
-// @public
-export type DataConnectorLicenseState = string;
 
 // @public
 export interface DataConnectorList {
@@ -1079,43 +558,11 @@ export interface DataConnectorList {
 }
 
 // @public
-export interface DataConnectorRequirementsState {
-    authorizationState?: DataConnectorAuthorizationState;
-    licenseState?: DataConnectorLicenseState;
-}
-
-// @public
 export interface DataConnectors {
-    connect(resourceGroupName: string, workspaceName: string, dataConnectorId: string, connectBody: DataConnectorConnectBody, options?: DataConnectorsConnectOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, workspaceName: string, dataConnectorId: string, dataConnector: DataConnectorUnion, options?: DataConnectorsCreateOrUpdateOptionalParams): Promise<DataConnectorsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, workspaceName: string, dataConnectorId: string, options?: DataConnectorsDeleteOptionalParams): Promise<void>;
-    disconnect(resourceGroupName: string, workspaceName: string, dataConnectorId: string, options?: DataConnectorsDisconnectOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, dataConnectorId: string, options?: DataConnectorsGetOptionalParams): Promise<DataConnectorsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: DataConnectorsListOptionalParams): PagedAsyncIterableIterator<DataConnectorUnion>;
-}
-
-// @public
-export interface DataConnectorsCheckRequirements {
-    kind: "AzureActiveDirectory" | "AzureAdvancedThreatProtection" | "AzureSecurityCenter" | "AmazonWebServicesCloudTrail" | "AmazonWebServicesS3" | "Dynamics365" | "MicrosoftCloudAppSecurity" | "MicrosoftDefenderAdvancedThreatProtection" | "MicrosoftThreatIntelligence" | "MicrosoftThreatProtection" | "OfficeATP" | "OfficeIRM" | "Office365Project" | "OfficePowerBI" | "ThreatIntelligence" | "ThreatIntelligenceTaxii" | "IOT";
-}
-
-// @public
-export interface DataConnectorsCheckRequirementsOperations {
-    post(resourceGroupName: string, workspaceName: string, dataConnectorsCheckRequirements: DataConnectorsCheckRequirementsUnion, options?: DataConnectorsCheckRequirementsPostOptionalParams): Promise<DataConnectorsCheckRequirementsPostResponse>;
-}
-
-// @public
-export interface DataConnectorsCheckRequirementsPostOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataConnectorsCheckRequirementsPostResponse = DataConnectorRequirementsState;
-
-// @public (undocumented)
-export type DataConnectorsCheckRequirementsUnion = DataConnectorsCheckRequirements | AADCheckRequirements | AatpCheckRequirements | ASCCheckRequirements | AwsCloudTrailCheckRequirements | AwsS3CheckRequirements | Dynamics365CheckRequirements | McasCheckRequirements | MdatpCheckRequirements | MstiCheckRequirements | MtpCheckRequirements | OfficeATPCheckRequirements | OfficeIRMCheckRequirements | Office365ProjectCheckRequirements | OfficePowerBICheckRequirements | TICheckRequirements | TiTaxiiCheckRequirements | IoTCheckRequirements;
-
-// @public
-export interface DataConnectorsConnectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1127,10 +574,6 @@ export type DataConnectorsCreateOrUpdateResponse = DataConnectorUnion;
 
 // @public
 export interface DataConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DataConnectorsDisconnectOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1156,20 +599,15 @@ export type DataConnectorsListResponse = DataConnectorList;
 
 // @public
 export interface DataConnectorTenantId {
-    tenantId: string;
+    tenantId?: string;
 }
 
 // @public (undocumented)
-export type DataConnectorUnion = DataConnector | AADDataConnector | MstiDataConnector | MTPDataConnector | AatpDataConnector | ASCDataConnector | AwsCloudTrailDataConnector | AwsS3DataConnector | McasDataConnector | Dynamics365DataConnector | OfficeATPDataConnector | Office365ProjectDataConnector | OfficePowerBIDataConnector | OfficeIRMDataConnector | MdatpDataConnector | OfficeDataConnector | TIDataConnector | TiTaxiiDataConnector | IoTDataConnector | CodelessUiDataConnector | CodelessApiPollingDataConnector;
+export type DataConnectorUnion = DataConnector | AADDataConnector | AatpDataConnector | ASCDataConnector | AwsCloudTrailDataConnector | McasDataConnector | MdatpDataConnector | TIDataConnector | OfficeDataConnector;
 
 // @public
 export interface DataConnectorWithAlertsProperties {
     dataTypes?: AlertsDataTypeOfDataConnector;
-}
-
-// @public
-export interface DataTypeDefinitions {
-    dataType?: string;
 }
 
 // @public
@@ -1182,268 +620,32 @@ export type DeliveryAction = "Unknown" | "DeliveredAsSpam" | "Delivered" | "Bloc
 export type DeliveryLocation = "Unknown" | "Inbox" | "JunkFolder" | "DeletedFolder" | "Quarantine" | "External" | "Failed" | "Dropped" | "Forwarded";
 
 // @public
-export interface Deployment {
-    deploymentId?: string;
-    deploymentLogsUrl?: string;
-    deploymentResult?: DeploymentResult;
-    deploymentState?: DeploymentState;
-    deploymentTime?: Date;
-}
-
-// @public
-export type DeploymentFetchStatus = string;
-
-// @public
-export interface DeploymentInfo {
-    deployment?: Deployment;
-    deploymentFetchStatus?: DeploymentFetchStatus;
-    message?: string;
-}
-
-// @public
-export type DeploymentResult = string;
-
-// @public
-export type DeploymentState = string;
-
-// @public
-export type DeviceImportance = string;
-
-// @public
-export interface DnsEntity extends Entity {
+export type DnsEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly dnsServerIpEntityId?: string;
-    readonly domainName?: string;
     readonly friendlyName?: string;
-    readonly hostIpAddressEntityId?: string;
-    readonly ipAddressEntityIds?: string[];
-}
-
-// @public
-export interface DnsEntityProperties extends EntityCommonProperties {
     readonly dnsServerIpEntityId?: string;
     readonly domainName?: string;
     readonly hostIpAddressEntityId?: string;
     readonly ipAddressEntityIds?: string[];
-}
+};
 
 // @public
-export interface DomainWhois {
-    get(resourceGroupName: string, domain: string, options?: DomainWhoisGetOptionalParams): Promise<DomainWhoisGetResponse>;
-}
-
-// @public
-export interface DomainWhoisGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DomainWhoisGetResponse = EnrichmentDomainWhois;
-
-// @public
-export interface Dynamics365CheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "Dynamics365";
-    tenantId?: string;
-}
-
-// @public
-export interface Dynamics365CheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface Dynamics365DataConnector extends DataConnector {
-    dataTypes?: Dynamics365DataConnectorDataTypes;
-    tenantId?: string;
-}
-
-// @public
-export interface Dynamics365DataConnectorDataTypes {
-    dynamics365CdsActivities: Dynamics365DataConnectorDataTypesDynamics365CdsActivities;
-}
-
-// @public
-export interface Dynamics365DataConnectorDataTypesDynamics365CdsActivities extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface Dynamics365DataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: Dynamics365DataConnectorDataTypes;
-}
+export type DnsEntityProperties = EntityCommonProperties & {
+    readonly dnsServerIpEntityId?: string;
+    readonly domainName?: string;
+    readonly hostIpAddressEntityId?: string;
+    readonly ipAddressEntityIds?: string[];
+};
 
 // @public
 export type ElevationToken = "Default" | "Full" | "Limited";
 
 // @public
-export interface EnrichmentDomainWhois {
-    created?: Date;
-    domain?: string;
-    expires?: Date;
-    parsedWhois?: EnrichmentDomainWhoisDetails;
-    server?: string;
-    updated?: Date;
-}
-
-// @public
-export interface EnrichmentDomainWhoisContact {
-    city?: string;
-    country?: string;
-    email?: string;
-    fax?: string;
-    name?: string;
-    org?: string;
-    phone?: string;
-    postal?: string;
-    state?: string;
-    street?: string[];
-}
-
-// @public
-export interface EnrichmentDomainWhoisContacts {
-    admin?: EnrichmentDomainWhoisContact;
-    billing?: EnrichmentDomainWhoisContact;
-    registrant?: EnrichmentDomainWhoisContact;
-    tech?: EnrichmentDomainWhoisContact;
-}
-
-// @public
-export interface EnrichmentDomainWhoisDetails {
-    contacts?: EnrichmentDomainWhoisContacts;
-    nameServers?: string[];
-    registrar?: EnrichmentDomainWhoisRegistrarDetails;
-    statuses?: string[];
-}
-
-// @public
-export interface EnrichmentDomainWhoisRegistrarDetails {
-    abuseContactEmail?: string;
-    abuseContactPhone?: string;
-    ianaId?: string;
-    name?: string;
-    url?: string;
-    whoisServer?: string;
-}
-
-// @public
-export interface EnrichmentIpGeodata {
-    asn?: string;
-    carrier?: string;
-    city?: string;
-    cityCf?: number;
-    continent?: string;
-    country?: string;
-    countryCf?: number;
-    ipAddr?: string;
-    ipRoutingType?: string;
-    latitude?: string;
-    longitude?: string;
-    organization?: string;
-    organizationType?: string;
-    region?: string;
-    state?: string;
-    stateCf?: number;
-    stateCode?: string;
-}
-
-// @public
-export interface Entities {
-    expand(resourceGroupName: string, workspaceName: string, entityId: string, parameters: EntityExpandParameters, options?: EntitiesExpandOptionalParams): Promise<EntitiesExpandResponse>;
-    get(resourceGroupName: string, workspaceName: string, entityId: string, options?: EntitiesGetOptionalParams): Promise<EntitiesGetResponse>;
-    getInsights(resourceGroupName: string, workspaceName: string, entityId: string, parameters: EntityGetInsightsParameters, options?: EntitiesGetInsightsOptionalParams): Promise<EntitiesGetInsightsResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: EntitiesListOptionalParams): PagedAsyncIterableIterator<EntityUnion>;
-    queries(resourceGroupName: string, workspaceName: string, entityId: string, kind: EntityItemQueryKind, options?: EntitiesQueriesOptionalParams): Promise<EntitiesQueriesResponse>;
-}
-
-// @public
-export interface EntitiesExpandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesExpandResponse = EntityExpandResponse;
-
-// @public
-export interface EntitiesGetInsightsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesGetInsightsResponse = EntityGetInsightsResponse;
-
-// @public
-export interface EntitiesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesGetResponse = EntityUnion;
-
-// @public
-export interface EntitiesGetTimeline {
-    list(resourceGroupName: string, workspaceName: string, entityId: string, parameters: EntityTimelineParameters, options?: EntitiesGetTimelineListOptionalParams): Promise<EntitiesGetTimelineListResponse>;
-}
-
-// @public
-export interface EntitiesGetTimelineListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesGetTimelineListResponse = EntityTimelineResponse;
-
-// @public
-export interface EntitiesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesListNextResponse = EntityList;
-
-// @public
-export interface EntitiesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesListResponse = EntityList;
-
-// @public
-export interface EntitiesQueriesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntitiesQueriesResponse = GetQueriesResponse;
-
-// @public
-export interface EntitiesRelations {
-    list(resourceGroupName: string, workspaceName: string, entityId: string, options?: EntitiesRelationsListOptionalParams): PagedAsyncIterableIterator<Relation>;
-}
-
-// @public
-export interface EntitiesRelationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type EntitiesRelationsListNextResponse = RelationList;
-
-// @public
-export interface EntitiesRelationsListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
-}
-
-// @public
-export type EntitiesRelationsListResponse = RelationList;
-
-// @public
-export interface Entity extends Resource {
-    kind: EntityKind;
-}
-
-// @public
-export interface EntityAnalytics extends Settings {
-    entityProviders?: EntityProviders[];
-}
+export type Entity = Resource & {
+    kind: EntityKindEnum;
+};
 
 // @public
 export interface EntityCommonProperties {
@@ -1454,77 +656,7 @@ export interface EntityCommonProperties {
 }
 
 // @public
-export interface EntityEdges {
-    additionalData?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    targetEntityId?: string;
-}
-
-// @public
-export interface EntityExpandParameters {
-    endTime?: Date;
-    expansionId?: string;
-    startTime?: Date;
-}
-
-// @public
-export interface EntityExpandResponse {
-    metaData?: ExpansionResultsMetadata;
-    value?: EntityExpandResponseValue;
-}
-
-// @public
-export interface EntityExpandResponseValue {
-    edges?: EntityEdges[];
-    entities?: EntityUnion[];
-}
-
-// @public
-export interface EntityFieldMapping {
-    identifier?: string;
-    value?: string;
-}
-
-// @public
-export interface EntityGetInsightsParameters {
-    addDefaultExtendedTimeRange?: boolean;
-    endTime: Date;
-    insightQueryIds?: string[];
-    startTime: Date;
-}
-
-// @public
-export interface EntityGetInsightsResponse {
-    metaData?: GetInsightsResultsMetadata;
-    value?: EntityInsightItem[];
-}
-
-// @public
-export interface EntityInsightItem {
-    chartQueryResults?: InsightsTableResult[];
-    queryId?: string;
-    queryTimeInterval?: EntityInsightItemQueryTimeInterval;
-    tableQueryResults?: InsightsTableResult;
-}
-
-// @public
-export interface EntityInsightItemQueryTimeInterval {
-    endTime?: Date;
-    startTime?: Date;
-}
-
-// @public
-export type EntityItemQueryKind = string;
-
-// @public
-export type EntityKind = string;
-
-// @public
-export interface EntityList {
-    readonly nextLink?: string;
-    value: EntityUnion[];
-}
+export type EntityKindEnum = string;
 
 // @public
 export interface EntityMapping {
@@ -1535,181 +667,8 @@ export interface EntityMapping {
 // @public
 export type EntityMappingType = string;
 
-// @public
-export type EntityProviders = string;
-
-// @public
-export interface EntityQueries {
-    createOrUpdate(resourceGroupName: string, workspaceName: string, entityQueryId: string, entityQuery: CustomEntityQueryUnion, options?: EntityQueriesCreateOrUpdateOptionalParams): Promise<EntityQueriesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, entityQueryId: string, options?: EntityQueriesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, entityQueryId: string, options?: EntityQueriesGetOptionalParams): Promise<EntityQueriesGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: EntityQueriesListOptionalParams): PagedAsyncIterableIterator<EntityQueryUnion>;
-}
-
-// @public
-export interface EntityQueriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityQueriesCreateOrUpdateResponse = EntityQueryUnion;
-
-// @public
-export interface EntityQueriesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface EntityQueriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityQueriesGetResponse = EntityQueryUnion;
-
-// @public
-export interface EntityQueriesListNextOptionalParams extends coreClient.OperationOptions {
-    kind?: Enum13;
-}
-
-// @public
-export type EntityQueriesListNextResponse = EntityQueryList;
-
-// @public
-export interface EntityQueriesListOptionalParams extends coreClient.OperationOptions {
-    kind?: Enum13;
-}
-
-// @public
-export type EntityQueriesListResponse = EntityQueryList;
-
-// @public
-export interface EntityQuery extends ResourceWithEtag {
-    kind: EntityQueryKind;
-}
-
-// @public
-export interface EntityQueryItem {
-    readonly id?: string;
-    kind: "Insight";
-    name?: string;
-    type?: string;
-}
-
-// @public
-export interface EntityQueryItemProperties {
-    dataTypes?: EntityQueryItemPropertiesDataTypesItem[];
-    entitiesFilter?: Record<string, unknown>;
-    inputEntityType?: EntityType;
-    requiredInputFieldsSets?: string[][];
-}
-
 // @public (undocumented)
-export interface EntityQueryItemPropertiesDataTypesItem {
-    dataType?: string;
-}
-
-// @public (undocumented)
-export type EntityQueryItemUnion = EntityQueryItem | InsightQueryItem;
-
-// @public
-export type EntityQueryKind = string;
-
-// @public
-export interface EntityQueryList {
-    readonly nextLink?: string;
-    value: EntityQueryUnion[];
-}
-
-// @public
-export interface EntityQueryTemplate extends Resource {
-    kind: EntityQueryTemplateKind;
-}
-
-// @public
-export type EntityQueryTemplateKind = string;
-
-// @public
-export interface EntityQueryTemplateList {
-    readonly nextLink?: string;
-    value: EntityQueryTemplateUnion[];
-}
-
-// @public
-export interface EntityQueryTemplates {
-    get(resourceGroupName: string, workspaceName: string, entityQueryTemplateId: string, options?: EntityQueryTemplatesGetOptionalParams): Promise<EntityQueryTemplatesGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: EntityQueryTemplatesListOptionalParams): PagedAsyncIterableIterator<EntityQueryTemplateUnion>;
-}
-
-// @public
-export interface EntityQueryTemplatesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityQueryTemplatesGetResponse = EntityQueryTemplateUnion;
-
-// @public
-export interface EntityQueryTemplatesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
-
-// @public
-export interface EntityQueryTemplatesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityQueryTemplatesListResponse = EntityQueryTemplateList;
-
-// @public (undocumented)
-export type EntityQueryTemplateUnion = EntityQueryTemplate | ActivityEntityQueryTemplate;
-
-// @public (undocumented)
-export type EntityQueryUnion = EntityQuery | ExpansionEntityQuery | ActivityEntityQuery;
-
-// @public
-export interface EntityRelations {
-    getRelation(resourceGroupName: string, workspaceName: string, entityId: string, relationName: string, options?: EntityRelationsGetRelationOptionalParams): Promise<EntityRelationsGetRelationResponse>;
-}
-
-// @public
-export interface EntityRelationsGetRelationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type EntityRelationsGetRelationResponse = Relation;
-
-// @public
-export interface EntityTimelineItem {
-    kind: "Activity" | "Bookmark" | "Anomaly" | "SecurityAlert";
-}
-
-// @public (undocumented)
-export type EntityTimelineItemUnion = EntityTimelineItem | ActivityTimelineItem | BookmarkTimelineItem | AnomalyTimelineItem | SecurityAlertTimelineItem;
-
-// @public
-export type EntityTimelineKind = string;
-
-// @public
-export interface EntityTimelineParameters {
-    endTime: Date;
-    kinds?: EntityTimelineKind[];
-    numberOfBucket?: number;
-    startTime: Date;
-}
-
-// @public
-export interface EntityTimelineResponse {
-    metaData?: TimelineResultsMetadata;
-    value?: EntityTimelineItemUnion[];
-}
-
-// @public
-export type EntityType = string;
-
-// @public (undocumented)
-export type EntityUnion = Entity | SecurityAlert | HuntingBookmark | AccountEntity | AzureResourceEntity | CloudApplicationEntity | DnsEntity | FileEntity | FileHashEntity | HostEntity | IoTDeviceEntity | IpEntity | MailboxEntity | MailClusterEntity | MailMessageEntity | MalwareEntity | ProcessEntity | RegistryKeyEntity | RegistryValueEntity | SecurityGroupEntity | SubmissionMailEntity | UrlEntity | NicEntity;
-
-// @public
-export type Enum13 = string;
+export type EntityUnion = Entity | SecurityAlert | HuntingBookmark | AccountEntity | AzureResourceEntity | CloudApplicationEntity | DnsEntity | FileEntity | FileHashEntity | HostEntity | IoTDeviceEntity | IpEntity | MailboxEntity | MailClusterEntity | MailMessageEntity | MalwareEntity | ProcessEntity | RegistryKeyEntity | RegistryValueEntity | SecurityGroupEntity | SubmissionMailEntity | UrlEntity;
 
 // @public
 export type EventGroupingAggregationKind = string;
@@ -1720,158 +679,75 @@ export interface EventGroupingSettings {
 }
 
 // @public
-export interface ExpansionEntityQuery extends EntityQuery {
-    dataSources?: string[];
-    displayName?: string;
-    inputEntityType?: EntityType;
-    inputFields?: string[];
-    outputEntityTypes?: EntityType[];
-    queryTemplate?: string;
-}
-
-// @public
-export interface ExpansionResultAggregation {
-    aggregationType?: string;
-    count: number;
-    displayName?: string;
-    entityKind: EntityKind;
-}
-
-// @public
-export interface ExpansionResultsMetadata {
-    aggregations?: ExpansionResultAggregation[];
-}
-
-// @public
-export interface EyesOn extends Settings {
-    readonly isEnabled?: boolean;
-}
-
-// @public
 export interface FieldMapping {
     columnName?: string;
     identifier?: string;
 }
 
 // @public
-export interface FileEntity extends Entity {
+export type FileEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    readonly friendlyName?: string;
     readonly directory?: string;
     readonly fileHashEntityIds?: string[];
     readonly fileName?: string;
-    readonly friendlyName?: string;
     readonly hostEntityId?: string;
-}
+};
 
 // @public
-export interface FileEntityProperties extends EntityCommonProperties {
+export type FileEntityProperties = EntityCommonProperties & {
     readonly directory?: string;
     readonly fileHashEntityIds?: string[];
     readonly fileName?: string;
     readonly hostEntityId?: string;
-}
+};
 
 // @public
 export type FileHashAlgorithm = string;
 
 // @public
-export interface FileHashEntity extends Entity {
+export type FileHashEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly algorithm?: FileHashAlgorithm;
     readonly friendlyName?: string;
-    readonly hashValue?: string;
-}
-
-// @public
-export interface FileHashEntityProperties extends EntityCommonProperties {
     readonly algorithm?: FileHashAlgorithm;
     readonly hashValue?: string;
-}
+};
 
 // @public
-export interface FusionAlertRule extends AlertRule {
+export type FileHashEntityProperties = EntityCommonProperties & {
+    readonly algorithm?: FileHashAlgorithm;
+    readonly hashValue?: string;
+};
+
+// @public
+export type FusionAlertRule = AlertRule & {
     alertRuleTemplateName?: string;
     readonly description?: string;
     readonly displayName?: string;
     enabled?: boolean;
     readonly lastModifiedUtc?: Date;
-    scenarioExclusionPatterns?: FusionScenarioExclusionPattern[];
     readonly severity?: AlertSeverity;
-    sourceSettings?: FusionSourceSettings[];
     readonly tactics?: AttackTactic[];
-    readonly techniques?: string[];
-}
+    techniques?: string[];
+};
 
 // @public
-export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
+export type FusionAlertRuleTemplate = AlertRuleTemplate & {
     alertRulesCreatedByTemplateCount?: number;
     readonly createdDateUTC?: Date;
+    readonly lastUpdatedDateUTC?: Date;
     description?: string;
     displayName?: string;
-    readonly lastUpdatedDateUTC?: Date;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    severity?: AlertSeverity;
-    sourceSettings?: FusionTemplateSourceSetting[];
     status?: TemplateStatus;
+    severity?: AlertSeverity;
     tactics?: AttackTactic[];
     techniques?: string[];
-}
-
-// @public
-export interface FusionScenarioExclusionPattern {
-    dateAddedInUTC: string;
-    exclusionPattern: string;
-}
-
-// @public
-export interface FusionSourceSettings {
-    enabled: boolean;
-    sourceName: string;
-    sourceSubTypes?: FusionSourceSubTypeSetting[];
-}
-
-// @public
-export interface FusionSourceSubTypeSetting {
-    enabled: boolean;
-    severityFilters: FusionSubTypeSeverityFilter;
-    readonly sourceSubTypeDisplayName?: string;
-    sourceSubTypeName: string;
-}
-
-// @public
-export interface FusionSubTypeSeverityFilter {
-    filters?: FusionSubTypeSeverityFiltersItem[];
-    readonly isSupported?: boolean;
-}
-
-// @public
-export interface FusionSubTypeSeverityFiltersItem {
-    enabled: boolean;
-    severity: AlertSeverity;
-}
-
-// @public
-export interface FusionTemplateSourceSetting {
-    sourceName: string;
-    sourceSubTypes?: FusionTemplateSourceSubType[];
-}
-
-// @public
-export interface FusionTemplateSourceSubType {
-    severityFilter: FusionTemplateSubTypeSeverityFilter;
-    readonly sourceSubTypeDisplayName?: string;
-    sourceSubTypeName: string;
-}
-
-// @public
-export interface FusionTemplateSubTypeSeverityFilter {
-    isSupported: boolean;
-    severityFilters?: AlertSeverity[];
-}
+};
 
 // @public
 export interface GeoLocation {
@@ -1882,39 +758,6 @@ export interface GeoLocation {
     readonly latitude?: number;
     readonly longitude?: number;
     readonly state?: string;
-}
-
-// @public
-export type GetInsightsError = string;
-
-// @public
-export interface GetInsightsErrorKind {
-    errorMessage: string;
-    kind: GetInsightsError;
-    queryId?: string;
-}
-
-// @public
-export interface GetInsightsResultsMetadata {
-    errors?: GetInsightsErrorKind[];
-    totalCount: number;
-}
-
-// @public
-export interface GetQueriesResponse {
-    value?: EntityQueryItemUnion[];
-}
-
-// @public
-export interface GitHubResourceInfo {
-    appInstallationId?: string;
-}
-
-// @public
-export interface GraphQueries {
-    baseQuery?: string;
-    legend?: string;
-    metricName?: string;
 }
 
 // @public
@@ -1929,24 +772,11 @@ export interface GroupingConfiguration {
 }
 
 // @public
-export interface HostEntity extends Entity {
+export type HostEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly azureID?: string;
-    readonly dnsDomain?: string;
     readonly friendlyName?: string;
-    readonly hostName?: string;
-    readonly isDomainJoined?: boolean;
-    readonly netBiosName?: string;
-    readonly ntDomain?: string;
-    readonly omsAgentID?: string;
-    osFamily?: OSFamily;
-    readonly osVersion?: string;
-}
-
-// @public
-export interface HostEntityProperties extends EntityCommonProperties {
     readonly azureID?: string;
     readonly dnsDomain?: string;
     readonly hostName?: string;
@@ -1956,44 +786,57 @@ export interface HostEntityProperties extends EntityCommonProperties {
     readonly omsAgentID?: string;
     osFamily?: OSFamily;
     readonly osVersion?: string;
-}
+};
 
 // @public
-export interface HuntingBookmark extends Entity {
+export type HostEntityProperties = EntityCommonProperties & {
+    readonly azureID?: string;
+    readonly dnsDomain?: string;
+    readonly hostName?: string;
+    readonly isDomainJoined?: boolean;
+    readonly netBiosName?: string;
+    readonly ntDomain?: string;
+    readonly omsAgentID?: string;
+    osFamily?: OSFamily;
+    readonly osVersion?: string;
+};
+
+// @public
+export type HuntingBookmark = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    readonly friendlyName?: string;
     created?: Date;
     createdBy?: UserInfo;
     displayName?: string;
     eventTime?: Date;
-    readonly friendlyName?: string;
-    incidentInfo?: IncidentInfo;
     labels?: string[];
     notes?: string;
     query?: string;
     queryResult?: string;
     updated?: Date;
     updatedBy?: UserInfo;
-}
+    incidentInfo?: IncidentInfo;
+};
 
 // @public
-export interface HuntingBookmarkProperties extends EntityCommonProperties {
+export type HuntingBookmarkProperties = EntityCommonProperties & {
     created?: Date;
     createdBy?: UserInfo;
     displayName: string;
     eventTime?: Date;
-    incidentInfo?: IncidentInfo;
     labels?: string[];
     notes?: string;
     query: string;
     queryResult?: string;
     updated?: Date;
     updatedBy?: UserInfo;
-}
+    incidentInfo?: IncidentInfo;
+};
 
 // @public
-export interface Incident extends ResourceWithEtag {
+export type Incident = ResourceWithEtag & {
     readonly additionalData?: IncidentAdditionalData;
     classification?: IncidentClassification;
     classificationComment?: string;
@@ -2001,20 +844,17 @@ export interface Incident extends ResourceWithEtag {
     readonly createdTimeUtc?: Date;
     description?: string;
     firstActivityTimeUtc?: Date;
-    readonly incidentNumber?: number;
     readonly incidentUrl?: string;
+    readonly incidentNumber?: number;
     labels?: IncidentLabel[];
     lastActivityTimeUtc?: Date;
     readonly lastModifiedTimeUtc?: Date;
     owner?: IncidentOwnerInfo;
-    providerIncidentId?: string;
-    providerName?: string;
     readonly relatedAnalyticRuleIds?: string[];
     severity?: IncidentSeverity;
     status?: IncidentStatus;
-    teamInformation?: TeamInformation;
     title?: string;
-}
+};
 
 // @public
 export interface IncidentAdditionalData {
@@ -2022,9 +862,7 @@ export interface IncidentAdditionalData {
     readonly alertsCount?: number;
     readonly bookmarksCount?: number;
     readonly commentsCount?: number;
-    readonly providerIncidentUrl?: string;
     readonly tactics?: AttackTactic[];
-    readonly techniques?: string[];
 }
 
 // @public
@@ -2044,12 +882,12 @@ export type IncidentClassification = string;
 export type IncidentClassificationReason = string;
 
 // @public
-export interface IncidentComment extends ResourceWithEtag {
-    readonly author?: ClientInfo;
+export type IncidentComment = ResourceWithEtag & {
     readonly createdTimeUtc?: Date;
     readonly lastModifiedTimeUtc?: Date;
     message?: string;
-}
+    readonly author?: ClientInfo;
+};
 
 // @public
 export interface IncidentCommentList {
@@ -2120,7 +958,7 @@ export interface IncidentEntitiesResponse {
 // @public
 export interface IncidentEntitiesResultsMetadata {
     count: number;
-    entityKind: EntityKind;
+    entityKind: EntityKindEnum;
 }
 
 // @public
@@ -2217,14 +1055,12 @@ export type IncidentRelationsListResponse = RelationList;
 // @public
 export interface Incidents {
     createOrUpdate(resourceGroupName: string, workspaceName: string, incidentId: string, incident: Incident, options?: IncidentsCreateOrUpdateOptionalParams): Promise<IncidentsCreateOrUpdateResponse>;
-    createTeam(resourceGroupName: string, workspaceName: string, incidentId: string, teamProperties: TeamProperties, options?: IncidentsCreateTeamOptionalParams): Promise<IncidentsCreateTeamResponse>;
     delete(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsGetOptionalParams): Promise<IncidentsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: IncidentsListOptionalParams): PagedAsyncIterableIterator<Incident>;
     listAlerts(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsListAlertsOptionalParams): Promise<IncidentsListAlertsResponse>;
     listBookmarks(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsListBookmarksOptionalParams): Promise<IncidentsListBookmarksResponse>;
     listEntities(resourceGroupName: string, workspaceName: string, incidentId: string, options?: IncidentsListEntitiesOptionalParams): Promise<IncidentsListEntitiesResponse>;
-    runPlaybook(resourceGroupName: string, workspaceName: string, incidentIdentifier: string, options?: IncidentsRunPlaybookOptionalParams): Promise<IncidentsRunPlaybookResponse>;
 }
 
 // @public
@@ -2233,13 +1069,6 @@ export interface IncidentsCreateOrUpdateOptionalParams extends coreClient.Operat
 
 // @public
 export type IncidentsCreateOrUpdateResponse = Incident;
-
-// @public
-export interface IncidentsCreateTeamOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IncidentsCreateTeamResponse = TeamInformation;
 
 // @public
 export interface IncidentsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -2299,222 +1128,74 @@ export interface IncidentsListOptionalParams extends coreClient.OperationOptions
 export type IncidentsListResponse = IncidentList;
 
 // @public
-export interface IncidentsRunPlaybookOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    requestBody?: ManualTriggerRequestBody;
-}
-
-// @public
-export type IncidentsRunPlaybookResponse = Record<string, unknown>;
-
-// @public
 export type IncidentStatus = string;
 
 // @public
-export interface InsightQueryItem extends EntityQueryItem {
-    kind: "Insight";
-    properties?: InsightQueryItemProperties;
-}
-
-// @public
-export interface InsightQueryItemProperties extends EntityQueryItemProperties {
-    additionalQuery?: InsightQueryItemPropertiesAdditionalQuery;
-    baseQuery?: string;
-    chartQuery?: Record<string, unknown>;
-    defaultTimeRange?: InsightQueryItemPropertiesDefaultTimeRange;
-    description?: string;
-    displayName?: string;
-    referenceTimeRange?: InsightQueryItemPropertiesReferenceTimeRange;
-    tableQuery?: InsightQueryItemPropertiesTableQuery;
-}
-
-// @public
-export interface InsightQueryItemPropertiesAdditionalQuery {
-    query?: string;
-    text?: string;
-}
-
-// @public
-export interface InsightQueryItemPropertiesDefaultTimeRange {
-    afterRange?: string;
-    beforeRange?: string;
-}
-
-// @public
-export interface InsightQueryItemPropertiesReferenceTimeRange {
-    beforeRange?: string;
-}
-
-// @public
-export interface InsightQueryItemPropertiesTableQuery {
-    columnsDefinitions?: InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem[];
-    queriesDefinitions?: InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem[];
-}
-
-// @public (undocumented)
-export interface InsightQueryItemPropertiesTableQueryColumnsDefinitionsItem {
-    header?: string;
-    outputType?: OutputType;
-    supportDeepLink?: boolean;
-}
-
-// @public (undocumented)
-export interface InsightQueryItemPropertiesTableQueryQueriesDefinitionsItem {
-    filter?: string;
-    linkColumnsDefinitions?: InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem[];
-    project?: string;
-    summarize?: string;
-}
-
-// @public (undocumented)
-export interface InsightQueryItemPropertiesTableQueryQueriesDefinitionsPropertiesItemsItem {
-    projectedName?: string;
-    query?: string;
-}
-
-// @public
-export interface InsightsTableResult {
-    columns?: InsightsTableResultColumnsItem[];
-    rows?: string[][];
-}
-
-// @public (undocumented)
-export interface InsightsTableResultColumnsItem {
-    name?: string;
-    type?: string;
-}
-
-// @public
-export interface InstructionSteps {
-    description?: string;
-    instructions?: InstructionStepsInstructionsItem[];
-    title?: string;
-}
-
-// @public (undocumented)
-export interface InstructionStepsInstructionsItem extends ConnectorInstructionModelBase {
-}
-
-// @public
-export interface IoTCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "IOT";
-    subscriptionId?: string;
-}
-
-// @public
-export interface IoTDataConnector extends DataConnector {
-    dataTypes?: AlertsDataTypeOfDataConnector;
-    subscriptionId?: string;
-}
-
-// @public
-export interface IoTDataConnectorProperties extends DataConnectorWithAlertsProperties {
-    subscriptionId?: string;
-}
-
-// @public
-export interface IoTDeviceEntity extends Entity {
+export type IoTDeviceEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly deviceId?: string;
-    readonly deviceName?: string;
-    readonly deviceSubType?: string;
-    readonly deviceType?: string;
-    readonly edgeId?: string;
-    readonly firmwareVersion?: string;
     readonly friendlyName?: string;
-    readonly hostEntityId?: string;
-    importance?: DeviceImportance;
-    readonly iotHubEntityId?: string;
-    readonly iotSecurityAgentId?: string;
-    readonly ipAddressEntityId?: string;
-    readonly isAuthorized?: boolean;
-    readonly isProgramming?: boolean;
-    readonly isScanner?: boolean;
-    readonly macAddress?: string;
-    readonly model?: string;
-    readonly nicEntityIds?: string[];
-    readonly operatingSystem?: string;
-    readonly owners?: string[];
-    readonly protocols?: string[];
-    readonly purdueLayer?: string;
-    readonly sensor?: string;
-    readonly serialNumber?: string;
-    readonly site?: string;
-    readonly source?: string;
-    readonly threatIntelligence?: ThreatIntelligence[];
-    readonly vendor?: string;
-    readonly zone?: string;
-}
-
-// @public
-export interface IoTDeviceEntityProperties extends EntityCommonProperties {
     readonly deviceId?: string;
     readonly deviceName?: string;
-    readonly deviceSubType?: string;
-    readonly deviceType?: string;
-    readonly edgeId?: string;
-    readonly firmwareVersion?: string;
-    readonly hostEntityId?: string;
-    importance?: DeviceImportance;
-    readonly iotHubEntityId?: string;
+    readonly source?: string;
     readonly iotSecurityAgentId?: string;
-    readonly ipAddressEntityId?: string;
-    readonly isAuthorized?: boolean;
-    readonly isProgramming?: boolean;
-    readonly isScanner?: boolean;
+    readonly deviceType?: string;
+    readonly vendor?: string;
+    readonly edgeId?: string;
     readonly macAddress?: string;
     readonly model?: string;
-    readonly nicEntityIds?: string[];
-    readonly operatingSystem?: string;
-    readonly owners?: string[];
-    readonly protocols?: string[];
-    readonly purdueLayer?: string;
-    readonly sensor?: string;
     readonly serialNumber?: string;
-    readonly site?: string;
-    readonly source?: string;
+    readonly firmwareVersion?: string;
+    readonly operatingSystem?: string;
+    readonly iotHubEntityId?: string;
+    readonly hostEntityId?: string;
+    readonly ipAddressEntityId?: string;
     readonly threatIntelligence?: ThreatIntelligence[];
-    readonly vendor?: string;
-    readonly zone?: string;
-}
+    readonly protocols?: string[];
+};
 
 // @public
-export interface IpEntity extends Entity {
+export type IoTDeviceEntityProperties = EntityCommonProperties & {
+    readonly deviceId?: string;
+    readonly deviceName?: string;
+    readonly source?: string;
+    readonly iotSecurityAgentId?: string;
+    readonly deviceType?: string;
+    readonly vendor?: string;
+    readonly edgeId?: string;
+    readonly macAddress?: string;
+    readonly model?: string;
+    readonly serialNumber?: string;
+    readonly firmwareVersion?: string;
+    readonly operatingSystem?: string;
+    readonly iotHubEntityId?: string;
+    readonly hostEntityId?: string;
+    readonly ipAddressEntityId?: string;
+    readonly threatIntelligence?: ThreatIntelligence[];
+    readonly protocols?: string[];
+};
+
+// @public
+export type IpEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly address?: string;
     readonly friendlyName?: string;
-    readonly location?: GeoLocation;
-    readonly threatIntelligence?: ThreatIntelligence[];
-}
-
-// @public
-export interface IpEntityProperties extends EntityCommonProperties {
     readonly address?: string;
     readonly location?: GeoLocation;
     readonly threatIntelligence?: ThreatIntelligence[];
-}
+};
 
 // @public
-export interface IPGeodata {
-    get(resourceGroupName: string, ipAddress: string, options?: IPGeodataGetOptionalParams): Promise<IPGeodataGetResponse>;
-}
-
-// @public
-export interface IPGeodataGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IPGeodataGetResponse = EnrichmentIpGeodata;
+export type IpEntityProperties = EntityCommonProperties & {
+    readonly address?: string;
+    readonly location?: GeoLocation;
+    readonly threatIntelligence?: ThreatIntelligence[];
+};
 
 // @public
 export type KillChainIntent = string;
-
-// @public
-export type Kind = string;
 
 // @public
 export enum KnownActionType {
@@ -2530,12 +1211,12 @@ export enum KnownAlertDetail {
 
 // @public
 export enum KnownAlertRuleKind {
+    // (undocumented)
     Fusion = "Fusion",
+    // (undocumented)
     MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
-    MLBehaviorAnalytics = "MLBehaviorAnalytics",
-    NRT = "NRT",
-    Scheduled = "Scheduled",
-    ThreatIntelligence = "ThreatIntelligence"
+    // (undocumented)
+    Scheduled = "Scheduled"
 }
 
 // @public
@@ -2565,49 +1246,40 @@ export enum KnownAntispamMailDirection {
 
 // @public
 export enum KnownAttackTactic {
+    // (undocumented)
     Collection = "Collection",
+    // (undocumented)
     CommandAndControl = "CommandAndControl",
+    // (undocumented)
     CredentialAccess = "CredentialAccess",
+    // (undocumented)
     DefenseEvasion = "DefenseEvasion",
+    // (undocumented)
     Discovery = "Discovery",
+    // (undocumented)
     Execution = "Execution",
+    // (undocumented)
     Exfiltration = "Exfiltration",
+    // (undocumented)
     Impact = "Impact",
+    // (undocumented)
     ImpairProcessControl = "ImpairProcessControl",
+    // (undocumented)
     InhibitResponseFunction = "InhibitResponseFunction",
+    // (undocumented)
     InitialAccess = "InitialAccess",
+    // (undocumented)
     LateralMovement = "LateralMovement",
+    // (undocumented)
     Persistence = "Persistence",
+    // (undocumented)
     PreAttack = "PreAttack",
+    // (undocumented)
     PrivilegeEscalation = "PrivilegeEscalation",
+    // (undocumented)
     Reconnaissance = "Reconnaissance",
+    // (undocumented)
     ResourceDevelopment = "ResourceDevelopment"
-}
-
-// @public
-export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
-    Alerts = "Alerts",
-    Comments = "Comments",
-    Labels = "Labels",
-    Tactics = "Tactics"
-}
-
-// @public
-export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
-    Added = "Added"
-}
-
-// @public
-export enum KnownAutomationRulePropertyChangedConditionSupportedChangedType {
-    ChangedFrom = "ChangedFrom",
-    ChangedTo = "ChangedTo"
-}
-
-// @public
-export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
-    IncidentOwner = "IncidentOwner",
-    IncidentSeverity = "IncidentSeverity",
-    IncidentStatus = "IncidentStatus"
 }
 
 // @public
@@ -2632,7 +1304,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
     AccountPuid = "AccountPUID",
     AccountSid = "AccountSid",
     AccountUPNSuffix = "AccountUPNSuffix",
-    AlertAnalyticRuleIds = "AlertAnalyticRuleIds",
     AlertProductNames = "AlertProductNames",
     AzureResourceResourceId = "AzureResourceResourceId",
     AzureResourceSubscriptionId = "AzureResourceSubscriptionId",
@@ -2683,9 +1354,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
 
 // @public
 export enum KnownConditionType {
-    Property = "Property",
-    PropertyArrayChanged = "PropertyArrayChanged",
-    PropertyChanged = "PropertyChanged"
+    Property = "Property"
 }
 
 // @public
@@ -2704,116 +1373,47 @@ export enum KnownConfidenceScoreStatus {
 }
 
 // @public
-export enum KnownConnectAuthKind {
-    APIKey = "APIKey",
-    Basic = "Basic",
-    OAuth2 = "OAuth2"
-}
-
-// @public
-export enum KnownConnectivityType {
-    IsConnectedQuery = "IsConnectedQuery"
-}
-
-// @public
-export enum KnownContentType {
-    AnalyticRule = "AnalyticRule",
-    Workbook = "Workbook"
-}
-
-// @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
 // @public
-export enum KnownCustomEntityQueryKind {
-    Activity = "Activity"
-}
-
-// @public
-export enum KnownDataConnectorAuthorizationState {
-    Invalid = "Invalid",
-    Valid = "Valid"
-}
-
-// @public
 export enum KnownDataConnectorKind {
+    // (undocumented)
     AmazonWebServicesCloudTrail = "AmazonWebServicesCloudTrail",
-    AmazonWebServicesS3 = "AmazonWebServicesS3",
-    APIPolling = "APIPolling",
+    // (undocumented)
     AzureActiveDirectory = "AzureActiveDirectory",
+    // (undocumented)
     AzureAdvancedThreatProtection = "AzureAdvancedThreatProtection",
+    // (undocumented)
     AzureSecurityCenter = "AzureSecurityCenter",
-    Dynamics365 = "Dynamics365",
-    GenericUI = "GenericUI",
-    IOT = "IOT",
+    // (undocumented)
     MicrosoftCloudAppSecurity = "MicrosoftCloudAppSecurity",
+    // (undocumented)
     MicrosoftDefenderAdvancedThreatProtection = "MicrosoftDefenderAdvancedThreatProtection",
-    MicrosoftThreatIntelligence = "MicrosoftThreatIntelligence",
-    MicrosoftThreatProtection = "MicrosoftThreatProtection",
+    // (undocumented)
     Office365 = "Office365",
-    Office365Project = "Office365Project",
-    OfficeATP = "OfficeATP",
-    OfficeIRM = "OfficeIRM",
-    OfficePowerBI = "OfficePowerBI",
-    ThreatIntelligence = "ThreatIntelligence",
-    ThreatIntelligenceTaxii = "ThreatIntelligenceTaxii"
-}
-
-// @public
-export enum KnownDataConnectorLicenseState {
-    Invalid = "Invalid",
-    Unknown = "Unknown",
-    Valid = "Valid"
+    // (undocumented)
+    ThreatIntelligence = "ThreatIntelligence"
 }
 
 // @public
 export enum KnownDataTypeState {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownDeploymentFetchStatus {
-    NotFound = "NotFound",
-    Success = "Success",
-    Unauthorized = "Unauthorized"
-}
-
-// @public
-export enum KnownDeploymentResult {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Success = "Success"
-}
-
-// @public
-export enum KnownDeploymentState {
-    Canceling = "Canceling",
-    Completed = "Completed",
-    InProgress = "In_Progress",
-    Queued = "Queued"
-}
-
-// @public
-export enum KnownDeviceImportance {
-    High = "High",
-    Low = "Low",
-    Normal = "Normal",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownEntityItemQueryKind {
-    Insight = "Insight"
-}
-
-// @public
-export enum KnownEntityKind {
+export enum KnownEntityKindEnum {
     Account = "Account",
     AzureResource = "AzureResource",
     Bookmark = "Bookmark",
@@ -2828,7 +1428,6 @@ export enum KnownEntityKind {
     MailCluster = "MailCluster",
     MailMessage = "MailMessage",
     Malware = "Malware",
-    Nic = "Nic",
     Process = "Process",
     RegistryKey = "RegistryKey",
     RegistryValue = "RegistryValue",
@@ -2861,66 +1460,10 @@ export enum KnownEntityMappingType {
 }
 
 // @public
-export enum KnownEntityProviders {
-    ActiveDirectory = "ActiveDirectory",
-    AzureActiveDirectory = "AzureActiveDirectory"
-}
-
-// @public
-export enum KnownEntityQueryKind {
-    Activity = "Activity",
-    Expansion = "Expansion",
-    Insight = "Insight"
-}
-
-// @public
-export enum KnownEntityQueryTemplateKind {
-    Activity = "Activity"
-}
-
-// @public
-export enum KnownEntityTimelineKind {
-    Activity = "Activity",
-    Anomaly = "Anomaly",
-    Bookmark = "Bookmark",
-    SecurityAlert = "SecurityAlert"
-}
-
-// @public
-export enum KnownEntityType {
-    Account = "Account",
-    AzureResource = "AzureResource",
-    CloudApplication = "CloudApplication",
-    DNS = "DNS",
-    File = "File",
-    FileHash = "FileHash",
-    Host = "Host",
-    HuntingBookmark = "HuntingBookmark",
-    IoTDevice = "IoTDevice",
-    IP = "IP",
-    Mailbox = "Mailbox",
-    MailCluster = "MailCluster",
-    MailMessage = "MailMessage",
-    Malware = "Malware",
-    Nic = "Nic",
-    Process = "Process",
-    RegistryKey = "RegistryKey",
-    RegistryValue = "RegistryValue",
-    SecurityAlert = "SecurityAlert",
-    SecurityGroup = "SecurityGroup",
-    SubmissionMail = "SubmissionMail",
-    URL = "URL"
-}
-
-// @public
-export enum KnownEnum13 {
-    Activity = "Activity",
-    Expansion = "Expansion"
-}
-
-// @public
 export enum KnownEventGroupingAggregationKind {
+    // (undocumented)
     AlertPerResult = "AlertPerResult",
+    // (undocumented)
     SingleAlert = "SingleAlert"
 }
 
@@ -2931,11 +1474,6 @@ export enum KnownFileHashAlgorithm {
     SHA256 = "SHA256",
     SHA256AC = "SHA256AC",
     Unknown = "Unknown"
-}
-
-// @public
-export enum KnownGetInsightsError {
-    Insight = "Insight"
 }
 
 // @public
@@ -2994,27 +1532,6 @@ export enum KnownKillChainIntent {
 }
 
 // @public
-export enum KnownKind {
-    AnalyticsRule = "AnalyticsRule",
-    AnalyticsRuleTemplate = "AnalyticsRuleTemplate",
-    AutomationRule = "AutomationRule",
-    AzureFunction = "AzureFunction",
-    DataConnector = "DataConnector",
-    DataType = "DataType",
-    HuntingQuery = "HuntingQuery",
-    InvestigationQuery = "InvestigationQuery",
-    LogicAppsCustomConnector = "LogicAppsCustomConnector",
-    Parser = "Parser",
-    Playbook = "Playbook",
-    PlaybookTemplate = "PlaybookTemplate",
-    Solution = "Solution",
-    Watchlist = "Watchlist",
-    WatchlistTemplate = "WatchlistTemplate",
-    Workbook = "Workbook",
-    WorkbookTemplate = "WorkbookTemplate"
-}
-
-// @public
 export enum KnownMatchingMethod {
     AllEntities = "AllEntities",
     AnyAlert = "AnyAlert",
@@ -3023,27 +1540,16 @@ export enum KnownMatchingMethod {
 
 // @public
 export enum KnownMicrosoftSecurityProductName {
+    // (undocumented)
     AzureActiveDirectoryIdentityProtection = "Azure Active Directory Identity Protection",
+    // (undocumented)
     AzureAdvancedThreatProtection = "Azure Advanced Threat Protection",
+    // (undocumented)
     AzureSecurityCenter = "Azure Security Center",
+    // (undocumented)
     AzureSecurityCenterForIoT = "Azure Security Center for IoT",
-    MicrosoftCloudAppSecurity = "Microsoft Cloud App Security",
-    MicrosoftDefenderAdvancedThreatProtection = "Microsoft Defender Advanced Threat Protection",
-    Office365AdvancedThreatProtection = "Office 365 Advanced Threat Protection"
-}
-
-// @public
-export enum KnownOperator {
-    AND = "AND",
-    OR = "OR"
-}
-
-// @public
-export enum KnownOutputType {
-    Date = "Date",
-    Entity = "Entity",
-    Number = "Number",
-    String = "String"
+    // (undocumented)
+    MicrosoftCloudAppSecurity = "Microsoft Cloud App Security"
 }
 
 // @public
@@ -3051,30 +1557,6 @@ export enum KnownOwnerType {
     Group = "Group",
     Unknown = "Unknown",
     User = "User"
-}
-
-// @public
-export enum KnownPermissionProviderScope {
-    ResourceGroup = "ResourceGroup",
-    Subscription = "Subscription",
-    Workspace = "Workspace"
-}
-
-// @public
-export enum KnownPollingFrequency {
-    OnceADay = "OnceADay",
-    OnceAMinute = "OnceAMinute",
-    OnceAnHour = "OnceAnHour"
-}
-
-// @public
-export enum KnownProviderName {
-    MicrosoftAadiamDiagnosticSettings = "microsoft.aadiam/diagnosticSettings",
-    MicrosoftAuthorizationPolicyAssignments = "Microsoft.Authorization/policyAssignments",
-    MicrosoftOperationalInsightsSolutions = "Microsoft.OperationalInsights/solutions",
-    MicrosoftOperationalInsightsWorkspaces = "Microsoft.OperationalInsights/workspaces",
-    MicrosoftOperationalInsightsWorkspacesDatasources = "Microsoft.OperationalInsights/workspaces/datasources",
-    MicrosoftOperationalInsightsWorkspacesSharedKeys = "Microsoft.OperationalInsights/workspaces/sharedKeys"
 }
 
 // @public
@@ -3104,56 +1586,11 @@ export enum KnownRegistryValueKind {
 }
 
 // @public
-export enum KnownRepoType {
-    DevOps = "DevOps",
-    Github = "Github"
-}
-
-// @public
-export enum KnownSecurityMLAnalyticsSettingsKind {
-    Anomaly = "Anomaly"
-}
-
-// @public
-export enum KnownSettingKind {
-    Anomalies = "Anomalies",
-    EntityAnalytics = "EntityAnalytics",
-    EyesOn = "EyesOn",
-    Ueba = "Ueba"
-}
-
-// @public
-export enum KnownSettingsStatus {
-    Flighting = "Flighting",
-    Production = "Production"
-}
-
-// @public
-export enum KnownSettingType {
-    CopyableLabel = "CopyableLabel",
-    InfoMessage = "InfoMessage",
-    InstructionStepsGroup = "InstructionStepsGroup"
-}
-
-// @public
-export enum KnownSourceKind {
-    Community = "Community",
-    LocalWorkspace = "LocalWorkspace",
-    Solution = "Solution",
-    SourceRepository = "SourceRepository"
-}
-
-// @public
-export enum KnownSourceType {
+export enum KnownSource {
+    // (undocumented)
     LocalFile = "Local file",
+    // (undocumented)
     RemoteStorage = "Remote storage"
-}
-
-// @public
-export enum KnownSupportTier {
-    Community = "Community",
-    Microsoft = "Microsoft",
-    Partner = "Partner"
 }
 
 // @public
@@ -3164,408 +1601,206 @@ export enum KnownTemplateStatus {
 }
 
 // @public
-export enum KnownThreatIntelligenceResourceKindEnum {
+export enum KnownThreatIntelligenceResourceInnerKind {
     Indicator = "indicator"
 }
 
 // @public
-export enum KnownThreatIntelligenceSortingCriteriaEnum {
+export enum KnownThreatIntelligenceSortingOrder {
+    // (undocumented)
     Ascending = "ascending",
+    // (undocumented)
     Descending = "descending",
+    // (undocumented)
     Unsorted = "unsorted"
 }
 
 // @public
 export enum KnownTriggersOn {
-    Alerts = "Alerts",
     Incidents = "Incidents"
 }
 
 // @public
 export enum KnownTriggersWhen {
-    Created = "Created",
-    Updated = "Updated"
+    Created = "Created"
 }
 
 // @public
-export enum KnownUebaDataSources {
-    AuditLogs = "AuditLogs",
-    AzureActivity = "AzureActivity",
-    SecurityEvent = "SecurityEvent",
-    SigninLogs = "SigninLogs"
-}
-
-// @public
-export enum KnownVersion {
-    V1 = "V1",
-    V2 = "V2"
-}
-
-// @public
-export interface LastDataReceivedDataType {
-    lastDataReceivedQuery?: string;
-    name?: string;
-}
-
-// @public
-export interface MailboxEntity extends Entity {
+export type MailboxEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly displayName?: string;
-    readonly externalDirectoryObjectId?: string;
     readonly friendlyName?: string;
     readonly mailboxPrimaryAddress?: string;
-    readonly upn?: string;
-}
-
-// @public
-export interface MailboxEntityProperties extends EntityCommonProperties {
     readonly displayName?: string;
-    readonly externalDirectoryObjectId?: string;
-    readonly mailboxPrimaryAddress?: string;
     readonly upn?: string;
-}
+    readonly externalDirectoryObjectId?: string;
+};
 
 // @public
-export interface MailClusterEntity extends Entity {
+export type MailboxEntityProperties = EntityCommonProperties & {
+    readonly mailboxPrimaryAddress?: string;
+    readonly displayName?: string;
+    readonly upn?: string;
+    readonly externalDirectoryObjectId?: string;
+};
+
+// @public
+export type MailClusterEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly clusterGroup?: string;
-    readonly clusterQueryEndTime?: Date;
-    readonly clusterQueryStartTime?: Date;
-    readonly clusterSourceIdentifier?: string;
-    readonly clusterSourceType?: string;
-    readonly countByDeliveryStatus?: Record<string, unknown>;
-    readonly countByProtectionStatus?: Record<string, unknown>;
-    readonly countByThreatType?: Record<string, unknown>;
     readonly friendlyName?: string;
-    readonly isVolumeAnomaly?: boolean;
-    readonly mailCount?: number;
     readonly networkMessageIds?: string[];
+    readonly countByDeliveryStatus?: Record<string, unknown>;
+    readonly countByThreatType?: Record<string, unknown>;
+    readonly countByProtectionStatus?: Record<string, unknown>;
+    readonly threats?: string[];
     readonly query?: string;
     readonly queryTime?: Date;
+    readonly mailCount?: number;
+    readonly isVolumeAnomaly?: boolean;
     readonly source?: string;
-    readonly threats?: string[];
-}
-
-// @public
-export interface MailClusterEntityProperties extends EntityCommonProperties {
-    readonly clusterGroup?: string;
-    readonly clusterQueryEndTime?: Date;
-    readonly clusterQueryStartTime?: Date;
     readonly clusterSourceIdentifier?: string;
     readonly clusterSourceType?: string;
-    readonly countByDeliveryStatus?: Record<string, unknown>;
-    readonly countByProtectionStatus?: Record<string, unknown>;
-    readonly countByThreatType?: Record<string, unknown>;
-    readonly isVolumeAnomaly?: boolean;
-    readonly mailCount?: number;
-    readonly networkMessageIds?: string[];
-    readonly query?: string;
-    readonly queryTime?: Date;
-    readonly source?: string;
-    readonly threats?: string[];
-}
+    readonly clusterQueryStartTime?: Date;
+    readonly clusterQueryEndTime?: Date;
+    readonly clusterGroup?: string;
+};
 
 // @public
-export interface MailMessageEntity extends Entity {
+export type MailClusterEntityProperties = EntityCommonProperties & {
+    readonly networkMessageIds?: string[];
+    readonly countByDeliveryStatus?: Record<string, unknown>;
+    readonly countByThreatType?: Record<string, unknown>;
+    readonly countByProtectionStatus?: Record<string, unknown>;
+    readonly threats?: string[];
+    readonly query?: string;
+    readonly queryTime?: Date;
+    readonly mailCount?: number;
+    readonly isVolumeAnomaly?: boolean;
+    readonly source?: string;
+    readonly clusterSourceIdentifier?: string;
+    readonly clusterSourceType?: string;
+    readonly clusterQueryStartTime?: Date;
+    readonly clusterQueryEndTime?: Date;
+    readonly clusterGroup?: string;
+};
+
+// @public
+export type MailMessageEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    antispamDirection?: AntispamMailDirection;
+    readonly friendlyName?: string;
+    readonly fileEntityIds?: string[];
+    readonly recipient?: string;
+    readonly urls?: string[];
+    readonly threats?: string[];
+    readonly p1Sender?: string;
+    readonly p1SenderDisplayName?: string;
+    readonly p1SenderDomain?: string;
+    readonly senderIP?: string;
+    readonly p2Sender?: string;
+    readonly p2SenderDisplayName?: string;
+    readonly p2SenderDomain?: string;
+    readonly receiveDate?: Date;
+    readonly networkMessageId?: string;
+    readonly internetMessageId?: string;
+    readonly subject?: string;
+    readonly language?: string;
+    readonly threatDetectionMethods?: string[];
     bodyFingerprintBin1?: number;
     bodyFingerprintBin2?: number;
     bodyFingerprintBin3?: number;
     bodyFingerprintBin4?: number;
     bodyFingerprintBin5?: number;
+    antispamDirection?: AntispamMailDirection;
     deliveryAction?: DeliveryAction;
     deliveryLocation?: DeliveryLocation;
+};
+
+// @public
+export type MailMessageEntityProperties = EntityCommonProperties & {
     readonly fileEntityIds?: string[];
-    readonly friendlyName?: string;
-    readonly internetMessageId?: string;
-    readonly language?: string;
-    readonly networkMessageId?: string;
+    readonly recipient?: string;
+    readonly urls?: string[];
+    readonly threats?: string[];
     readonly p1Sender?: string;
     readonly p1SenderDisplayName?: string;
     readonly p1SenderDomain?: string;
+    readonly senderIP?: string;
     readonly p2Sender?: string;
     readonly p2SenderDisplayName?: string;
     readonly p2SenderDomain?: string;
     readonly receiveDate?: Date;
-    readonly recipient?: string;
-    readonly senderIP?: string;
+    readonly networkMessageId?: string;
+    readonly internetMessageId?: string;
     readonly subject?: string;
+    readonly language?: string;
     readonly threatDetectionMethods?: string[];
-    readonly threats?: string[];
-    readonly urls?: string[];
-}
-
-// @public
-export interface MailMessageEntityProperties extends EntityCommonProperties {
-    antispamDirection?: AntispamMailDirection;
     bodyFingerprintBin1?: number;
     bodyFingerprintBin2?: number;
     bodyFingerprintBin3?: number;
     bodyFingerprintBin4?: number;
     bodyFingerprintBin5?: number;
+    antispamDirection?: AntispamMailDirection;
     deliveryAction?: DeliveryAction;
     deliveryLocation?: DeliveryLocation;
-    readonly fileEntityIds?: string[];
-    readonly internetMessageId?: string;
-    readonly language?: string;
-    readonly networkMessageId?: string;
-    readonly p1Sender?: string;
-    readonly p1SenderDisplayName?: string;
-    readonly p1SenderDomain?: string;
-    readonly p2Sender?: string;
-    readonly p2SenderDisplayName?: string;
-    readonly p2SenderDomain?: string;
-    readonly receiveDate?: Date;
-    readonly recipient?: string;
-    readonly senderIP?: string;
-    readonly subject?: string;
-    readonly threatDetectionMethods?: string[];
-    readonly threats?: string[];
-    readonly urls?: string[];
-}
+};
 
 // @public
-export interface MalwareEntity extends Entity {
+export type MalwareEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    readonly friendlyName?: string;
     readonly category?: string;
     readonly fileEntityIds?: string[];
-    readonly friendlyName?: string;
     readonly malwareName?: string;
     readonly processEntityIds?: string[];
-}
+};
 
 // @public
-export interface MalwareEntityProperties extends EntityCommonProperties {
+export type MalwareEntityProperties = EntityCommonProperties & {
     readonly category?: string;
     readonly fileEntityIds?: string[];
     readonly malwareName?: string;
     readonly processEntityIds?: string[];
-}
-
-// @public (undocumented)
-export interface ManualTriggerRequestBody {
-    // (undocumented)
-    logicAppsResourceId?: string;
-    // (undocumented)
-    tenantId?: string;
-}
+};
 
 // @public
 export type MatchingMethod = string;
 
 // @public
-export interface McasCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "MicrosoftCloudAppSecurity";
+export type McasDataConnector = DataConnector & {
     tenantId?: string;
-}
-
-// @public
-export interface McasCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface McasDataConnector extends DataConnector {
     dataTypes?: McasDataConnectorDataTypes;
-    tenantId?: string;
-}
+};
 
 // @public
-export interface McasDataConnectorDataTypes extends AlertsDataTypeOfDataConnector {
+export type McasDataConnectorDataTypes = AlertsDataTypeOfDataConnector & {
     discoveryLogs?: DataConnectorDataTypeCommon;
-}
+};
 
 // @public
-export interface McasDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: McasDataConnectorDataTypes;
-}
-
-// @public
-export interface MdatpCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "MicrosoftDefenderAdvancedThreatProtection";
+export type MdatpDataConnector = DataConnector & {
     tenantId?: string;
-}
-
-// @public
-export interface MdatpCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface MdatpDataConnector extends DataConnector {
     dataTypes?: AlertsDataTypeOfDataConnector;
-    tenantId?: string;
-}
+};
 
 // @public
-export interface MdatpDataConnectorProperties extends DataConnectorTenantId, DataConnectorWithAlertsProperties {
-}
-
-// @public
-export interface Metadata {
-    create(resourceGroupName: string, workspaceName: string, metadataName: string, metadata: MetadataModel, options?: MetadataCreateOptionalParams): Promise<MetadataCreateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, metadataName: string, options?: MetadataDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, metadataName: string, options?: MetadataGetOptionalParams): Promise<MetadataGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: MetadataListOptionalParams): PagedAsyncIterableIterator<MetadataModel>;
-    update(resourceGroupName: string, workspaceName: string, metadataName: string, metadataPatch: MetadataPatch, options?: MetadataUpdateOptionalParams): Promise<MetadataUpdateResponse>;
-}
-
-// @public
-export interface MetadataAuthor {
-    email?: string;
-    link?: string;
-    name?: string;
-}
-
-// @public
-export interface MetadataCategories {
-    domains?: string[];
-    verticals?: string[];
-}
-
-// @public
-export interface MetadataCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MetadataCreateResponse = MetadataModel;
-
-// @public
-export interface MetadataDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MetadataDependencies {
-    contentId?: string;
-    criteria?: MetadataDependencies[];
-    kind?: Kind;
-    name?: string;
-    operator?: Operator;
-    version?: string;
-}
-
-// @public
-export interface MetadataGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MetadataGetResponse = MetadataModel;
-
-// @public
-export interface MetadataList {
-    readonly nextLink?: string;
-    value: MetadataModel[];
-}
-
-// @public
-export interface MetadataListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type MetadataListNextResponse = MetadataList;
-
-// @public
-export interface MetadataListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type MetadataListResponse = MetadataList;
-
-// @public
-export interface MetadataModel extends ResourceWithEtag {
-    author?: MetadataAuthor;
-    categories?: MetadataCategories;
-    contentId?: string;
-    contentSchemaVersion?: string;
-    customVersion?: string;
-    dependencies?: MetadataDependencies;
-    firstPublishDate?: Date;
-    icon?: string;
-    kind?: Kind;
-    lastPublishDate?: Date;
-    parentId?: string;
-    previewImages?: string[];
-    previewImagesDark?: string[];
-    providers?: string[];
-    source?: MetadataSource;
-    support?: MetadataSupport;
-    threatAnalysisTactics?: string[];
-    threatAnalysisTechniques?: string[];
-    version?: string;
-}
-
-// @public
-export interface MetadataPatch extends ResourceWithEtag {
-    author?: MetadataAuthor;
-    categories?: MetadataCategories;
-    contentId?: string;
-    contentSchemaVersion?: string;
-    customVersion?: string;
-    dependencies?: MetadataDependencies;
-    firstPublishDate?: Date;
-    icon?: string;
-    kind?: Kind;
-    lastPublishDate?: Date;
-    parentId?: string;
-    previewImages?: string[];
-    previewImagesDark?: string[];
-    providers?: string[];
-    source?: MetadataSource;
-    support?: MetadataSupport;
-    threatAnalysisTactics?: string[];
-    threatAnalysisTechniques?: string[];
-    version?: string;
-}
-
-// @public
-export interface MetadataSource {
-    kind: SourceKind;
-    name?: string;
-    sourceId?: string;
-}
-
-// @public
-export interface MetadataSupport {
-    email?: string;
-    link?: string;
-    name?: string;
-    tier: SupportTier;
-}
-
-// @public
-export interface MetadataUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MetadataUpdateResponse = MetadataModel;
-
-// @public
-export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
+export type MicrosoftSecurityIncidentCreationAlertRule = AlertRule & {
+    displayNamesFilter?: string[];
+    displayNamesExcludeFilter?: string[];
+    productFilter?: MicrosoftSecurityProductName;
+    severitiesFilter?: AlertSeverity[];
     alertRuleTemplateName?: string;
     description?: string;
     displayName?: string;
-    displayNamesExcludeFilter?: string[];
-    displayNamesFilter?: string[];
     enabled?: boolean;
     readonly lastModifiedUtc?: Date;
-    productFilter?: MicrosoftSecurityProductName;
-    severitiesFilter?: AlertSeverity[];
-}
+};
 
 // @public
 export interface MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
@@ -3576,376 +1811,53 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
 }
 
 // @public
-export interface MicrosoftSecurityIncidentCreationAlertRuleProperties extends MicrosoftSecurityIncidentCreationAlertRuleCommonProperties {
+export type MicrosoftSecurityIncidentCreationAlertRuleProperties = MicrosoftSecurityIncidentCreationAlertRuleCommonProperties & {
     alertRuleTemplateName?: string;
     description?: string;
     displayName: string;
     enabled: boolean;
     readonly lastModifiedUtc?: Date;
-}
+};
 
 // @public
-export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate extends AlertRuleTemplate {
+export type MicrosoftSecurityIncidentCreationAlertRuleTemplate = AlertRuleTemplate & {
     alertRulesCreatedByTemplateCount?: number;
     readonly createdDateUTC?: Date;
+    readonly lastUpdatedDateUTC?: Date;
     description?: string;
     displayName?: string;
-    displayNamesExcludeFilter?: string[];
-    displayNamesFilter?: string[];
-    readonly lastUpdatedDateUTC?: Date;
-    productFilter?: MicrosoftSecurityProductName;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    severitiesFilter?: AlertSeverity[];
     status?: TemplateStatus;
-}
-
-// @public
-export interface MicrosoftSecurityIncidentCreationAlertRuleTemplateProperties extends AlertRuleTemplatePropertiesBase {
-    displayNamesExcludeFilter?: string[];
     displayNamesFilter?: string[];
+    displayNamesExcludeFilter?: string[];
     productFilter?: MicrosoftSecurityProductName;
     severitiesFilter?: AlertSeverity[];
-}
+};
 
 // @public
 export type MicrosoftSecurityProductName = string;
 
 // @public
-export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
-    alertRuleTemplateName?: string;
-    readonly description?: string;
-    readonly displayName?: string;
-    enabled?: boolean;
-    readonly lastModifiedUtc?: Date;
-    readonly severity?: AlertSeverity;
-    readonly tactics?: AttackTactic[];
-    readonly techniques?: string[];
-}
-
-// @public
-export interface MLBehaviorAnalyticsAlertRuleTemplate extends AlertRuleTemplate {
-    alertRulesCreatedByTemplateCount?: number;
-    readonly createdDateUTC?: Date;
-    description?: string;
-    displayName?: string;
-    readonly lastUpdatedDateUTC?: Date;
-    requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    severity?: AlertSeverity;
-    status?: TemplateStatus;
-    tactics?: AttackTactic[];
-    techniques?: string[];
-}
-
-// @public
-export interface MLBehaviorAnalyticsAlertRuleTemplateProperties extends AlertRuleTemplateWithMitreProperties {
-    severity: AlertSeverity;
-}
-
-// @public
-export interface MstiCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "MicrosoftThreatIntelligence";
+export type OfficeDataConnector = DataConnector & {
     tenantId?: string;
-}
-
-// @public
-export interface MstiCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface MstiDataConnector extends DataConnector {
-    dataTypes?: MstiDataConnectorDataTypes;
-    tenantId?: string;
-}
-
-// @public
-export interface MstiDataConnectorDataTypes {
-    bingSafetyPhishingURL: MstiDataConnectorDataTypesBingSafetyPhishingURL;
-    microsoftEmergingThreatFeed: MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed;
-}
-
-// @public
-export interface MstiDataConnectorDataTypesBingSafetyPhishingURL extends DataConnectorDataTypeCommon {
-    lookbackPeriod: string;
-}
-
-// @public
-export interface MstiDataConnectorDataTypesMicrosoftEmergingThreatFeed extends DataConnectorDataTypeCommon {
-    lookbackPeriod: string;
-}
-
-// @public
-export interface MstiDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: MstiDataConnectorDataTypes;
-}
-
-// @public
-export interface MtpCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "MicrosoftThreatProtection";
-    tenantId?: string;
-}
-
-// @public
-export interface MTPCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface MTPDataConnector extends DataConnector {
-    dataTypes?: MTPDataConnectorDataTypes;
-    tenantId?: string;
-}
-
-// @public
-export interface MTPDataConnectorDataTypes {
-    incidents: MTPDataConnectorDataTypesIncidents;
-}
-
-// @public
-export interface MTPDataConnectorDataTypesIncidents extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface MTPDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: MTPDataConnectorDataTypes;
-}
-
-// @public
-export interface NicEntity extends Entity {
-    readonly additionalData?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
-    readonly friendlyName?: string;
-    readonly ipAddressEntityId?: string;
-    readonly macAddress?: string;
-    readonly vlans?: string[];
-}
-
-// @public
-export interface NicEntityProperties extends EntityCommonProperties {
-    readonly ipAddressEntityId?: string;
-    readonly macAddress?: string;
-    readonly vlans?: string[];
-}
-
-// @public
-export interface NrtAlertRule extends AlertRule {
-    alertDetailsOverride?: AlertDetailsOverride;
-    alertRuleTemplateName?: string;
-    customDetails?: {
-        [propertyName: string]: string;
-    };
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    entityMappings?: EntityMapping[];
-    incidentConfiguration?: IncidentConfiguration;
-    readonly lastModifiedUtc?: Date;
-    query?: string;
-    severity?: AlertSeverity;
-    suppressionDuration?: string;
-    suppressionEnabled?: boolean;
-    tactics?: AttackTactic[];
-    techniques?: string[];
-    templateVersion?: string;
-}
-
-// @public
-export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
-    alertDetailsOverride?: AlertDetailsOverride;
-    alertRulesCreatedByTemplateCount?: number;
-    readonly createdDateUTC?: Date;
-    customDetails?: {
-        [propertyName: string]: string;
-    };
-    description?: string;
-    displayName?: string;
-    entityMappings?: EntityMapping[];
-    readonly lastUpdatedDateUTC?: Date;
-    query?: string;
-    requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    severity?: AlertSeverity;
-    status?: TemplateStatus;
-    tactics?: AttackTactic[];
-    techniques?: string[];
-    version?: string;
-}
-
-// @public
-export interface NrtAlertRuleTemplateProperties extends AlertRuleTemplateWithMitreProperties, QueryBasedAlertRuleTemplateProperties {
-}
-
-// @public
-export interface Office365ProjectCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "Office365Project";
-    tenantId?: string;
-}
-
-// @public
-export interface Office365ProjectCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface Office365ProjectConnectorDataTypes {
-    logs: Office365ProjectConnectorDataTypesLogs;
-}
-
-// @public
-export interface Office365ProjectConnectorDataTypesLogs extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface Office365ProjectDataConnector extends DataConnector {
-    dataTypes?: Office365ProjectConnectorDataTypes;
-    tenantId?: string;
-}
-
-// @public
-export interface Office365ProjectDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: Office365ProjectConnectorDataTypes;
-}
-
-// @public
-export interface OfficeATPCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "OfficeATP";
-    tenantId?: string;
-}
-
-// @public
-export interface OfficeATPCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface OfficeATPDataConnector extends DataConnector {
-    dataTypes?: AlertsDataTypeOfDataConnector;
-    tenantId?: string;
-}
-
-// @public
-export interface OfficeATPDataConnectorProperties extends DataConnectorTenantId, DataConnectorWithAlertsProperties {
-}
-
-// @public
-export interface OfficeConsent extends Resource {
-    consentId?: string;
-    tenantId?: string;
-}
-
-// @public
-export interface OfficeConsentList {
-    readonly nextLink?: string;
-    value: OfficeConsent[];
-}
-
-// @public
-export interface OfficeConsents {
-    delete(resourceGroupName: string, workspaceName: string, consentId: string, options?: OfficeConsentsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, consentId: string, options?: OfficeConsentsGetOptionalParams): Promise<OfficeConsentsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: OfficeConsentsListOptionalParams): PagedAsyncIterableIterator<OfficeConsent>;
-}
-
-// @public
-export interface OfficeConsentsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface OfficeConsentsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OfficeConsentsGetResponse = OfficeConsent;
-
-// @public
-export interface OfficeConsentsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OfficeConsentsListNextResponse = OfficeConsentList;
-
-// @public
-export interface OfficeConsentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OfficeConsentsListResponse = OfficeConsentList;
-
-// @public
-export interface OfficeDataConnector extends DataConnector {
     dataTypes?: OfficeDataConnectorDataTypes;
-    tenantId?: string;
-}
+};
 
 // @public
 export interface OfficeDataConnectorDataTypes {
-    exchange: OfficeDataConnectorDataTypesExchange;
-    sharePoint: OfficeDataConnectorDataTypesSharePoint;
-    teams: OfficeDataConnectorDataTypesTeams;
+    exchange?: OfficeDataConnectorDataTypesExchange;
+    sharePoint?: OfficeDataConnectorDataTypesSharePoint;
+    teams?: OfficeDataConnectorDataTypesTeams;
 }
 
 // @public
-export interface OfficeDataConnectorDataTypesExchange extends DataConnectorDataTypeCommon {
-}
+export type OfficeDataConnectorDataTypesExchange = DataConnectorDataTypeCommon & {};
 
 // @public
-export interface OfficeDataConnectorDataTypesSharePoint extends DataConnectorDataTypeCommon {
-}
+export type OfficeDataConnectorDataTypesSharePoint = DataConnectorDataTypeCommon & {};
 
 // @public
-export interface OfficeDataConnectorDataTypesTeams extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface OfficeDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: OfficeDataConnectorDataTypes;
-}
-
-// @public
-export interface OfficeIRMCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "OfficeIRM";
-    tenantId?: string;
-}
-
-// @public
-export interface OfficeIRMCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface OfficeIRMDataConnector extends DataConnector {
-    dataTypes?: AlertsDataTypeOfDataConnector;
-    tenantId?: string;
-}
-
-// @public
-export interface OfficeIRMDataConnectorProperties extends DataConnectorTenantId, DataConnectorWithAlertsProperties {
-}
-
-// @public
-export interface OfficePowerBICheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "OfficePowerBI";
-    tenantId?: string;
-}
-
-// @public
-export interface OfficePowerBICheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface OfficePowerBIConnectorDataTypes {
-    logs: OfficePowerBIConnectorDataTypesLogs;
-}
-
-// @public
-export interface OfficePowerBIConnectorDataTypesLogs extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface OfficePowerBIDataConnector extends DataConnector {
-    dataTypes?: OfficePowerBIConnectorDataTypes;
-    tenantId?: string;
-}
-
-// @public
-export interface OfficePowerBIDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: OfficePowerBIConnectorDataTypes;
-}
+export type OfficeDataConnectorDataTypesTeams = DataConnectorDataTypeCommon & {};
 
 // @public
 export interface Operation {
@@ -3989,63 +1901,23 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationsList;
 
 // @public
-export type Operator = string;
-
-// @public
 export type OSFamily = "Linux" | "Windows" | "Android" | "IOS" | "Unknown";
-
-// @public
-export type OutputType = string;
 
 // @public
 export type OwnerType = string;
 
-// @public
-export type PermissionProviderScope = string;
-
-// @public
-interface Permissions_2 {
-    customs?: PermissionsCustomsItem[];
-    resourceProvider?: PermissionsResourceProviderItem[];
-}
-export { Permissions_2 as Permissions }
-
-// @public (undocumented)
-export interface PermissionsCustomsItem extends Customs {
-}
-
-// @public (undocumented)
-export interface PermissionsResourceProviderItem extends ResourceProvider {
-}
-
 // @public (undocumented)
 export interface PlaybookActionProperties {
-    logicAppResourceId?: string;
+    logicAppResourceId: string;
     tenantId?: string;
 }
 
 // @public
-export type PollingFrequency = string;
-
-// @public
-export interface ProcessEntity extends Entity {
-    readonly accountEntityId?: string;
+export type ProcessEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly commandLine?: string;
-    readonly creationTimeUtc?: Date;
-    elevationToken?: ElevationToken;
     readonly friendlyName?: string;
-    readonly hostEntityId?: string;
-    readonly hostLogonSessionEntityId?: string;
-    readonly imageFileEntityId?: string;
-    readonly parentProcessEntityId?: string;
-    readonly processId?: string;
-}
-
-// @public
-export interface ProcessEntityProperties extends EntityCommonProperties {
     readonly accountEntityId?: string;
     readonly commandLine?: string;
     readonly creationTimeUtc?: Date;
@@ -4055,98 +1927,48 @@ export interface ProcessEntityProperties extends EntityCommonProperties {
     readonly imageFileEntityId?: string;
     readonly parentProcessEntityId?: string;
     readonly processId?: string;
-}
+};
 
 // @public
-export interface ProductSettings {
-    delete(resourceGroupName: string, workspaceName: string, settingsName: string, options?: ProductSettingsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, settingsName: string, options?: ProductSettingsGetOptionalParams): Promise<ProductSettingsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: ProductSettingsListOptionalParams): Promise<ProductSettingsListResponse>;
-    update(resourceGroupName: string, workspaceName: string, settingsName: string, settings: SettingsUnion, options?: ProductSettingsUpdateOptionalParams): Promise<ProductSettingsUpdateResponse>;
-}
+export type ProcessEntityProperties = EntityCommonProperties & {
+    readonly accountEntityId?: string;
+    readonly commandLine?: string;
+    readonly creationTimeUtc?: Date;
+    elevationToken?: ElevationToken;
+    readonly hostEntityId?: string;
+    readonly hostLogonSessionEntityId?: string;
+    readonly imageFileEntityId?: string;
+    readonly parentProcessEntityId?: string;
+    readonly processId?: string;
+};
 
 // @public
-export interface ProductSettingsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ProductSettingsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProductSettingsGetResponse = SettingsUnion;
-
-// @public
-export interface ProductSettingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProductSettingsListResponse = SettingList;
-
-// @public
-export interface ProductSettingsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProductSettingsUpdateResponse = SettingsUnion;
-
-// @public
-export interface PropertyArrayChangedConditionProperties extends AutomationRuleCondition {
-    // (undocumented)
-    conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
-    conditionType: "PropertyArrayChanged";
-}
-
-// @public
-export interface PropertyChangedConditionProperties extends AutomationRuleCondition {
-    // (undocumented)
-    conditionProperties?: AutomationRulePropertyValuesChangedCondition;
-    conditionType: "PropertyChanged";
-}
-
-// @public
-export interface PropertyConditionProperties extends AutomationRuleCondition {
-    // (undocumented)
-    conditionProperties?: AutomationRulePropertyValuesCondition;
+export type PropertyConditionProperties = AutomationRuleCondition & {
     conditionType: "Property";
-}
-
-// @public
-export type ProviderName = string;
-
-// @public
-export interface QueryBasedAlertRuleTemplateProperties {
-    alertDetailsOverride?: AlertDetailsOverride;
-    customDetails?: {
-        [propertyName: string]: string;
-    };
-    entityMappings?: EntityMapping[];
-    query?: string;
-    severity?: AlertSeverity;
-    version?: string;
-}
+    conditionProperties?: AutomationRulePropertyValuesCondition;
+};
 
 // @public
 export type RegistryHive = string;
 
 // @public
-export interface RegistryKeyEntity extends Entity {
+export type RegistryKeyEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
     readonly hive?: RegistryHive;
     readonly key?: string;
-}
+};
 
 // @public
-export interface RegistryKeyEntityProperties extends EntityCommonProperties {
+export type RegistryKeyEntityProperties = EntityCommonProperties & {
     readonly hive?: RegistryHive;
     readonly key?: string;
-}
+};
 
 // @public
-export interface RegistryValueEntity extends Entity {
+export type RegistryValueEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
@@ -4155,71 +1977,31 @@ export interface RegistryValueEntity extends Entity {
     readonly valueData?: string;
     readonly valueName?: string;
     readonly valueType?: RegistryValueKind;
-}
+};
 
 // @public
-export interface RegistryValueEntityProperties extends EntityCommonProperties {
+export type RegistryValueEntityProperties = EntityCommonProperties & {
     readonly keyEntityId?: string;
     readonly valueData?: string;
     readonly valueName?: string;
     readonly valueType?: RegistryValueKind;
-}
+};
 
 // @public
 export type RegistryValueKind = string;
 
 // @public
-export interface Relation extends ResourceWithEtag {
+export type Relation = ResourceWithEtag & {
     relatedResourceId?: string;
-    readonly relatedResourceKind?: string;
     readonly relatedResourceName?: string;
     readonly relatedResourceType?: string;
-}
+    readonly relatedResourceKind?: string;
+};
 
 // @public
 export interface RelationList {
     readonly nextLink?: string;
     value: Relation[];
-}
-
-// @public
-export interface Repo {
-    branches?: string[];
-    fullName?: string;
-    url?: string;
-}
-
-// @public
-export interface RepoList {
-    readonly nextLink?: string;
-    value: Repo[];
-}
-
-// @public
-export interface Repository {
-    branch?: string;
-    deploymentLogsUrl?: string;
-    displayUrl?: string;
-    pathMapping?: ContentPathMap[];
-    url?: string;
-}
-
-// @public
-export interface RepositoryResourceInfo {
-    azureDevOpsResourceInfo?: AzureDevOpsResourceInfo;
-    gitHubResourceInfo?: GitHubResourceInfo;
-    webhook?: Webhook;
-}
-
-// @public
-export type RepoType = string;
-
-// @public
-export interface RequiredPermissions {
-    action?: boolean;
-    delete?: boolean;
-    read?: boolean;
-    write?: boolean;
 }
 
 // @public
@@ -4231,51 +2013,36 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceProvider {
-    permissionsDisplayText?: string;
-    provider?: ProviderName;
-    providerDisplayName?: string;
-    requiredPermissions?: RequiredPermissions;
-    scope?: PermissionProviderScope;
-}
-
-// @public
-export interface ResourceWithEtag extends Resource {
+export type ResourceWithEtag = Resource & {
     etag?: string;
-}
+};
 
 // @public
-export interface SampleQueries {
-    description?: string;
-    query?: string;
-}
-
-// @public
-export interface ScheduledAlertRule extends AlertRule {
-    alertDetailsOverride?: AlertDetailsOverride;
-    alertRuleTemplateName?: string;
-    customDetails?: {
-        [propertyName: string]: string;
-    };
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    entityMappings?: EntityMapping[];
-    eventGroupingSettings?: EventGroupingSettings;
-    incidentConfiguration?: IncidentConfiguration;
-    readonly lastModifiedUtc?: Date;
+export type ScheduledAlertRule = AlertRule & {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
     severity?: AlertSeverity;
+    triggerOperator?: TriggerOperator;
+    triggerThreshold?: number;
+    eventGroupingSettings?: EventGroupingSettings;
+    customDetails?: {
+        [propertyName: string]: string;
+    };
+    entityMappings?: EntityMapping[];
+    alertDetailsOverride?: AlertDetailsOverride;
+    alertRuleTemplateName?: string;
+    templateVersion?: string;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    readonly lastModifiedUtc?: Date;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
     tactics?: AttackTactic[];
     techniques?: string[];
-    templateVersion?: string;
-    triggerOperator?: TriggerOperator;
-    triggerThreshold?: number;
-}
+    incidentConfiguration?: IncidentConfiguration;
+};
 
 // @public
 export interface ScheduledAlertRuleCommonProperties {
@@ -4294,53 +2061,53 @@ export interface ScheduledAlertRuleCommonProperties {
 }
 
 // @public
-export interface ScheduledAlertRuleProperties extends ScheduledAlertRuleCommonProperties {
+export type ScheduledAlertRuleProperties = ScheduledAlertRuleCommonProperties & {
     alertRuleTemplateName?: string;
+    templateVersion?: string;
     description?: string;
     displayName: string;
     enabled: boolean;
-    incidentConfiguration?: IncidentConfiguration;
     readonly lastModifiedUtc?: Date;
     suppressionDuration: string;
     suppressionEnabled: boolean;
     tactics?: AttackTactic[];
     techniques?: string[];
-    templateVersion?: string;
-}
+    incidentConfiguration?: IncidentConfiguration;
+};
 
 // @public
-export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
-    alertDetailsOverride?: AlertDetailsOverride;
+export type ScheduledAlertRuleTemplate = AlertRuleTemplate & {
     alertRulesCreatedByTemplateCount?: number;
     readonly createdDateUTC?: Date;
-    customDetails?: {
-        [propertyName: string]: string;
-    };
+    readonly lastUpdatedDateUTC?: Date;
     description?: string;
     displayName?: string;
-    entityMappings?: EntityMapping[];
-    eventGroupingSettings?: EventGroupingSettings;
-    readonly lastUpdatedDateUTC?: Date;
+    requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    status?: TemplateStatus;
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
-    requiredDataConnectors?: AlertRuleTemplateDataSource[];
     severity?: AlertSeverity;
-    status?: TemplateStatus;
-    tactics?: AttackTactic[];
-    techniques?: string[];
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
+    tactics?: AttackTactic[];
+    techniques?: string[];
     version?: string;
-}
+    eventGroupingSettings?: EventGroupingSettings;
+    customDetails?: {
+        [propertyName: string]: string;
+    };
+    entityMappings?: EntityMapping[];
+    alertDetailsOverride?: AlertDetailsOverride;
+};
 
 // @public
-export interface SecurityAlert extends Entity {
+export type SecurityAlert = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    readonly friendlyName?: string;
     readonly alertDisplayName?: string;
-    readonly alertLink?: string;
     readonly alertType?: string;
     readonly compromisedEntity?: string;
     readonly confidenceLevel?: ConfidenceLevel;
@@ -4349,15 +2116,13 @@ export interface SecurityAlert extends Entity {
     readonly confidenceScoreStatus?: ConfidenceScoreStatus;
     readonly description?: string;
     readonly endTimeUtc?: Date;
-    readonly friendlyName?: string;
     readonly intent?: KillChainIntent;
+    readonly providerAlertId?: string;
     readonly processingEndTime?: Date;
     readonly productComponentName?: string;
     readonly productName?: string;
     readonly productVersion?: string;
-    readonly providerAlertId?: string;
     readonly remediationSteps?: string[];
-    readonly resourceIdentifiers?: Record<string, unknown>[];
     severity?: AlertSeverity;
     readonly startTimeUtc?: Date;
     readonly status?: AlertStatus;
@@ -4365,12 +2130,13 @@ export interface SecurityAlert extends Entity {
     readonly tactics?: AttackTactic[];
     readonly timeGenerated?: Date;
     readonly vendorName?: string;
-}
+    readonly alertLink?: string;
+    readonly resourceIdentifiers?: Record<string, unknown>[];
+};
 
 // @public
-export interface SecurityAlertProperties extends EntityCommonProperties {
+export type SecurityAlertProperties = EntityCommonProperties & {
     readonly alertDisplayName?: string;
-    readonly alertLink?: string;
     readonly alertType?: string;
     readonly compromisedEntity?: string;
     readonly confidenceLevel?: ConfidenceLevel;
@@ -4380,13 +2146,12 @@ export interface SecurityAlertProperties extends EntityCommonProperties {
     readonly description?: string;
     readonly endTimeUtc?: Date;
     readonly intent?: KillChainIntent;
+    readonly providerAlertId?: string;
     readonly processingEndTime?: Date;
     readonly productComponentName?: string;
     readonly productName?: string;
     readonly productVersion?: string;
-    readonly providerAlertId?: string;
     readonly remediationSteps?: string[];
-    readonly resourceIdentifiers?: Record<string, unknown>[];
     severity?: AlertSeverity;
     readonly startTimeUtc?: Date;
     readonly status?: AlertStatus;
@@ -4394,7 +2159,9 @@ export interface SecurityAlertProperties extends EntityCommonProperties {
     readonly tactics?: AttackTactic[];
     readonly timeGenerated?: Date;
     readonly vendorName?: string;
-}
+    readonly alertLink?: string;
+    readonly resourceIdentifiers?: Record<string, unknown>[];
+};
 
 // @public
 export interface SecurityAlertPropertiesConfidenceReasonsItem {
@@ -4403,36 +2170,22 @@ export interface SecurityAlertPropertiesConfidenceReasonsItem {
 }
 
 // @public
-export interface SecurityAlertTimelineItem extends EntityTimelineItem {
-    alertType: string;
-    azureResourceId: string;
-    description?: string;
-    displayName: string;
-    endTimeUtc: Date;
-    kind: "SecurityAlert";
-    productName?: string;
-    severity: AlertSeverity;
-    startTimeUtc: Date;
-    timeGenerated: Date;
-}
-
-// @public
-export interface SecurityGroupEntity extends Entity {
+export type SecurityGroupEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly distinguishedName?: string;
     readonly friendlyName?: string;
+    readonly distinguishedName?: string;
     readonly objectGuid?: string;
     readonly sid?: string;
-}
+};
 
 // @public
-export interface SecurityGroupEntityProperties extends EntityCommonProperties {
+export type SecurityGroupEntityProperties = EntityCommonProperties & {
     readonly distinguishedName?: string;
     readonly objectGuid?: string;
     readonly sid?: string;
-}
+};
 
 // @public (undocumented)
 export class SecurityInsights extends coreClient.ServiceClient {
@@ -4450,29 +2203,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     automationRules: AutomationRules;
     // (undocumented)
-    bookmarkOperations: BookmarkOperations;
-    // (undocumented)
-    bookmarkRelations: BookmarkRelations;
-    // (undocumented)
     bookmarks: Bookmarks;
     // (undocumented)
     dataConnectors: DataConnectors;
-    // (undocumented)
-    dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
-    // (undocumented)
-    domainWhois: DomainWhois;
-    // (undocumented)
-    entities: Entities;
-    // (undocumented)
-    entitiesGetTimeline: EntitiesGetTimeline;
-    // (undocumented)
-    entitiesRelations: EntitiesRelations;
-    // (undocumented)
-    entityQueries: EntityQueries;
-    // (undocumented)
-    entityQueryTemplates: EntityQueryTemplates;
-    // (undocumented)
-    entityRelations: EntityRelations;
     // (undocumented)
     incidentComments: IncidentComments;
     // (undocumented)
@@ -4480,23 +2213,9 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     incidents: Incidents;
     // (undocumented)
-    iPGeodata: IPGeodata;
-    // (undocumented)
-    metadata: Metadata;
-    // (undocumented)
-    officeConsents: OfficeConsents;
-    // (undocumented)
     operations: Operations;
     // (undocumented)
-    productSettings: ProductSettings;
-    // (undocumented)
-    securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
-    // (undocumented)
     sentinelOnboardingStates: SentinelOnboardingStates;
-    // (undocumented)
-    sourceControlOperations: SourceControlOperations;
-    // (undocumented)
-    sourceControls: SourceControls;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -4519,72 +2238,9 @@ export interface SecurityInsightsOptionalParams extends coreClient.ServiceClient
 }
 
 // @public
-export interface SecurityMLAnalyticsSetting extends ResourceWithEtag {
-    kind: SecurityMLAnalyticsSettingsKind;
-}
-
-// @public
-export interface SecurityMLAnalyticsSettings {
-    createOrUpdate(resourceGroupName: string, workspaceName: string, settingsResourceName: string, securityMLAnalyticsSetting: SecurityMLAnalyticsSettingUnion, options?: SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams): Promise<SecurityMLAnalyticsSettingsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, settingsResourceName: string, options?: SecurityMLAnalyticsSettingsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, settingsResourceName: string, options?: SecurityMLAnalyticsSettingsGetOptionalParams): Promise<SecurityMLAnalyticsSettingsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: SecurityMLAnalyticsSettingsListOptionalParams): PagedAsyncIterableIterator<SecurityMLAnalyticsSettingUnion>;
-}
-
-// @public
-export interface SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityMLAnalyticsSettingsCreateOrUpdateResponse = SecurityMLAnalyticsSettingUnion;
-
-// @public
-export interface SecurityMLAnalyticsSettingsDataSource {
-    connectorId?: string;
-    dataTypes?: string[];
-}
-
-// @public
-export interface SecurityMLAnalyticsSettingsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SecurityMLAnalyticsSettingsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityMLAnalyticsSettingsGetResponse = SecurityMLAnalyticsSettingUnion;
-
-// @public
-export type SecurityMLAnalyticsSettingsKind = string;
-
-// @public
-export interface SecurityMLAnalyticsSettingsList {
-    readonly nextLink?: string;
-    value: SecurityMLAnalyticsSettingUnion[];
-}
-
-// @public
-export interface SecurityMLAnalyticsSettingsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityMLAnalyticsSettingsListNextResponse = SecurityMLAnalyticsSettingsList;
-
-// @public
-export interface SecurityMLAnalyticsSettingsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSettingsList;
-
-// @public (undocumented)
-export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
-
-// @public
-export interface SentinelOnboardingState extends ResourceWithEtag {
+export type SentinelOnboardingState = ResourceWithEtag & {
     customerManagedKey?: boolean;
-}
+};
 
 // @public
 export interface SentinelOnboardingStates {
@@ -4626,145 +2282,39 @@ export interface SentinelOnboardingStatesListOptionalParams extends coreClient.O
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
 
 // @public
-export type SettingKind = string;
+export type Source = string;
 
 // @public
-export interface SettingList {
-    value: SettingsUnion[];
-}
-
-// @public
-export interface Settings extends ResourceWithEtag {
-    kind: SettingKind;
-}
-
-// @public
-export type SettingsStatus = string;
-
-// @public (undocumented)
-export type SettingsUnion = Settings | Anomalies | EyesOn | EntityAnalytics | Ueba;
-
-// @public
-export type SettingType = string;
-
-// @public
-export interface SourceControl extends ResourceWithEtag {
-    contentTypes?: ContentType[];
-    description?: string;
-    displayName?: string;
-    idPropertiesId?: string;
-    lastDeploymentInfo?: DeploymentInfo;
-    repository?: Repository;
-    repositoryResourceInfo?: RepositoryResourceInfo;
-    repoType?: RepoType;
-    version?: Version;
-}
-
-// @public
-export interface SourceControlList {
-    readonly nextLink?: string;
-    value: SourceControl[];
-}
-
-// @public
-export interface SourceControlListRepositoriesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlListRepositoriesNextResponse = RepoList;
-
-// @public
-export interface SourceControlListRepositoriesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlListRepositoriesResponse = RepoList;
-
-// @public
-export interface SourceControlOperations {
-    listRepositories(resourceGroupName: string, workspaceName: string, repoType: RepoType, options?: SourceControlListRepositoriesOptionalParams): PagedAsyncIterableIterator<Repo>;
-}
-
-// @public
-export interface SourceControls {
-    create(resourceGroupName: string, workspaceName: string, sourceControlId: string, sourceControl: SourceControl, options?: SourceControlsCreateOptionalParams): Promise<SourceControlsCreateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, sourceControlId: string, options?: SourceControlsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, workspaceName: string, sourceControlId: string, options?: SourceControlsGetOptionalParams): Promise<SourceControlsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: SourceControlsListOptionalParams): PagedAsyncIterableIterator<SourceControl>;
-}
-
-// @public
-export interface SourceControlsCreateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlsCreateResponse = SourceControl;
-
-// @public
-export interface SourceControlsDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface SourceControlsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlsGetResponse = SourceControl;
-
-// @public
-export interface SourceControlsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlsListNextResponse = SourceControlList;
-
-// @public
-export interface SourceControlsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SourceControlsListResponse = SourceControlList;
-
-// @public
-export type SourceKind = string;
-
-// @public
-export type SourceType = string;
-
-// @public
-export interface SubmissionMailEntity extends Entity {
+export type SubmissionMailEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
     readonly networkMessageId?: string;
+    readonly submissionId?: string;
+    readonly submitter?: string;
+    readonly submissionDate?: Date;
+    readonly timestamp?: Date;
     readonly recipient?: string;
-    readonly reportType?: string;
     readonly sender?: string;
     readonly senderIp?: string;
     readonly subject?: string;
-    readonly submissionDate?: Date;
-    readonly submissionId?: string;
-    readonly submitter?: string;
-    readonly timestamp?: Date;
-}
+    readonly reportType?: string;
+};
 
 // @public
-export interface SubmissionMailEntityProperties extends EntityCommonProperties {
+export type SubmissionMailEntityProperties = EntityCommonProperties & {
     readonly networkMessageId?: string;
+    readonly submissionId?: string;
+    readonly submitter?: string;
+    readonly submissionDate?: Date;
+    readonly timestamp?: Date;
     readonly recipient?: string;
-    readonly reportType?: string;
     readonly sender?: string;
     readonly senderIp?: string;
     readonly subject?: string;
-    readonly submissionDate?: Date;
-    readonly submissionId?: string;
-    readonly submitter?: string;
-    readonly timestamp?: Date;
-}
-
-// @public
-export type SupportTier = string;
+    readonly reportType?: string;
+};
 
 // @public
 export interface SystemData {
@@ -4774,23 +2324,6 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-}
-
-// @public
-export interface TeamInformation {
-    readonly description?: string;
-    readonly name?: string;
-    readonly primaryChannelUrl?: string;
-    readonly teamCreationTimeUtc?: Date;
-    readonly teamId?: string;
-}
-
-// @public
-export interface TeamProperties {
-    groupIds?: string[];
-    memberIds?: string[];
-    teamDescription?: string;
-    teamName: string;
 }
 
 // @public
@@ -4804,37 +2337,6 @@ export interface ThreatIntelligence {
     readonly threatDescription?: string;
     readonly threatName?: string;
     readonly threatType?: string;
-}
-
-// @public
-export interface ThreatIntelligenceAlertRule extends AlertRule {
-    alertRuleTemplateName?: string;
-    readonly description?: string;
-    readonly displayName?: string;
-    enabled?: boolean;
-    readonly lastModifiedUtc?: Date;
-    readonly severity?: AlertSeverity;
-    readonly tactics?: AttackTactic[];
-    readonly techniques?: string[];
-}
-
-// @public
-export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
-    alertRulesCreatedByTemplateCount?: number;
-    readonly createdDateUTC?: Date;
-    description?: string;
-    displayName?: string;
-    readonly lastUpdatedDateUTC?: Date;
-    requiredDataConnectors?: AlertRuleTemplateDataSource[];
-    severity?: AlertSeverity;
-    status?: TemplateStatus;
-    tactics?: AttackTactic[];
-    techniques?: string[];
-}
-
-// @public
-export interface ThreatIntelligenceAlertRuleTemplateProperties extends AlertRuleTemplateWithMitreProperties {
-    severity: AlertSeverity;
 }
 
 // @public
@@ -4930,76 +2432,76 @@ export interface ThreatIntelligenceIndicatorMetricsListOptionalParams extends co
 export type ThreatIntelligenceIndicatorMetricsListResponse = ThreatIntelligenceMetricsList;
 
 // @public
-export interface ThreatIntelligenceIndicatorModel extends ThreatIntelligenceInformation {
+export type ThreatIntelligenceIndicatorModel = ThreatIntelligenceInformation & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    confidence?: number;
-    created?: string;
-    createdByRef?: string;
-    defanged?: boolean;
-    description?: string;
-    displayName?: string;
-    extensions?: {
-        [propertyName: string]: any;
-    };
-    externalId?: string;
-    externalLastUpdatedTimeUtc?: string;
-    externalReferences?: ThreatIntelligenceExternalReference[];
     readonly friendlyName?: string;
-    granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
-    indicatorTypes?: string[];
-    killChainPhases?: ThreatIntelligenceKillChainPhase[];
-    labels?: string[];
-    language?: string;
+    threatIntelligenceTags?: string[];
     lastUpdatedTimeUtc?: string;
-    modified?: string;
-    objectMarkingRefs?: string[];
-    parsedPattern?: ThreatIntelligenceParsedPattern[];
+    source?: string;
+    displayName?: string;
+    description?: string;
+    indicatorTypes?: string[];
     pattern?: string;
     patternType?: string;
     patternVersion?: string;
+    killChainPhases?: ThreatIntelligenceKillChainPhase[];
+    parsedPattern?: ThreatIntelligenceParsedPattern[];
+    externalId?: string;
+    createdByRef?: string;
+    defanged?: boolean;
+    externalLastUpdatedTimeUtc?: string;
+    externalReferences?: ThreatIntelligenceExternalReference[];
+    granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
+    labels?: string[];
     revoked?: boolean;
-    source?: string;
-    threatIntelligenceTags?: string[];
+    confidence?: number;
+    objectMarkingRefs?: string[];
+    language?: string;
     threatTypes?: string[];
     validFrom?: string;
     validUntil?: string;
-}
+    created?: string;
+    modified?: string;
+    extensions?: {
+        [propertyName: string]: any;
+    };
+};
 
 // @public
-export interface ThreatIntelligenceIndicatorProperties extends EntityCommonProperties {
-    confidence?: number;
-    created?: string;
-    createdByRef?: string;
-    defanged?: boolean;
-    description?: string;
-    displayName?: string;
-    extensions?: {
-        [propertyName: string]: any;
-    };
-    externalId?: string;
-    externalLastUpdatedTimeUtc?: string;
-    externalReferences?: ThreatIntelligenceExternalReference[];
-    granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
-    indicatorTypes?: string[];
-    killChainPhases?: ThreatIntelligenceKillChainPhase[];
-    labels?: string[];
-    language?: string;
+export type ThreatIntelligenceIndicatorProperties = EntityCommonProperties & {
+    threatIntelligenceTags?: string[];
     lastUpdatedTimeUtc?: string;
-    modified?: string;
-    objectMarkingRefs?: string[];
-    parsedPattern?: ThreatIntelligenceParsedPattern[];
+    source?: string;
+    displayName?: string;
+    description?: string;
+    indicatorTypes?: string[];
     pattern?: string;
     patternType?: string;
     patternVersion?: string;
+    killChainPhases?: ThreatIntelligenceKillChainPhase[];
+    parsedPattern?: ThreatIntelligenceParsedPattern[];
+    externalId?: string;
+    createdByRef?: string;
+    defanged?: boolean;
+    externalLastUpdatedTimeUtc?: string;
+    externalReferences?: ThreatIntelligenceExternalReference[];
+    granularMarkings?: ThreatIntelligenceGranularMarkingModel[];
+    labels?: string[];
     revoked?: boolean;
-    source?: string;
-    threatIntelligenceTags?: string[];
+    confidence?: number;
+    objectMarkingRefs?: string[];
+    language?: string;
     threatTypes?: string[];
     validFrom?: string;
     validUntil?: string;
-}
+    created?: string;
+    modified?: string;
+    extensions?: {
+        [propertyName: string]: any;
+    };
+};
 
 // @public
 export interface ThreatIntelligenceIndicatorQueryIndicatorsNextOptionalParams extends coreClient.OperationOptions {
@@ -5050,9 +2552,9 @@ export interface ThreatIntelligenceIndicatorsListOptionalParams extends coreClie
 export type ThreatIntelligenceIndicatorsListResponse = ThreatIntelligenceInformationList;
 
 // @public
-export interface ThreatIntelligenceInformation extends ResourceWithEtag {
-    kind: ThreatIntelligenceResourceKindEnum;
-}
+export type ThreatIntelligenceInformation = ResourceWithEtag & {
+    kind: ThreatIntelligenceResourceInnerKind;
+};
 
 // @public
 export interface ThreatIntelligenceInformationList {
@@ -5106,114 +2608,31 @@ export interface ThreatIntelligenceParsedPatternTypeValue {
 }
 
 // @public
-export type ThreatIntelligenceResourceKindEnum = string;
+export type ThreatIntelligenceResourceInnerKind = string;
 
 // @public
 export interface ThreatIntelligenceSortingCriteria {
     itemKey?: string;
-    sortOrder?: ThreatIntelligenceSortingCriteriaEnum;
+    sortOrder?: ThreatIntelligenceSortingOrder;
 }
 
 // @public
-export type ThreatIntelligenceSortingCriteriaEnum = string;
+export type ThreatIntelligenceSortingOrder = string;
 
 // @public
-export interface TICheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "ThreatIntelligence";
-    tenantId?: string;
-}
-
-// @public
-export interface TICheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface TIDataConnector extends DataConnector {
-    dataTypes?: TIDataConnectorDataTypes;
+export type TIDataConnector = DataConnector & {
     tenantId?: string;
     tipLookbackPeriod?: Date;
-}
+    dataTypes?: TIDataConnectorDataTypes;
+};
 
 // @public
 export interface TIDataConnectorDataTypes {
-    indicators: TIDataConnectorDataTypesIndicators;
+    indicators?: TIDataConnectorDataTypesIndicators;
 }
 
 // @public
-export interface TIDataConnectorDataTypesIndicators extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface TIDataConnectorProperties extends DataConnectorTenantId {
-    dataTypes: TIDataConnectorDataTypes;
-    tipLookbackPeriod?: Date;
-}
-
-// @public
-export interface TimelineAggregation {
-    count: number;
-    kind: EntityTimelineKind;
-}
-
-// @public
-export interface TimelineError {
-    errorMessage: string;
-    kind: EntityTimelineKind;
-    queryId?: string;
-}
-
-// @public
-export interface TimelineResultsMetadata {
-    aggregations: TimelineAggregation[];
-    errors?: TimelineError[];
-    totalCount: number;
-}
-
-// @public
-export interface TiTaxiiCheckRequirements extends DataConnectorsCheckRequirements {
-    kind: "ThreatIntelligenceTaxii";
-    tenantId?: string;
-}
-
-// @public
-export interface TiTaxiiCheckRequirementsProperties extends DataConnectorTenantId {
-}
-
-// @public
-export interface TiTaxiiDataConnector extends DataConnector {
-    collectionId?: string;
-    dataTypes?: TiTaxiiDataConnectorDataTypes;
-    friendlyName?: string;
-    password?: string;
-    pollingFrequency?: PollingFrequency;
-    taxiiLookbackPeriod?: Date;
-    taxiiServer?: string;
-    tenantId?: string;
-    userName?: string;
-    workspaceId?: string;
-}
-
-// @public
-export interface TiTaxiiDataConnectorDataTypes {
-    taxiiClient: TiTaxiiDataConnectorDataTypesTaxiiClient;
-}
-
-// @public
-export interface TiTaxiiDataConnectorDataTypesTaxiiClient extends DataConnectorDataTypeCommon {
-}
-
-// @public
-export interface TiTaxiiDataConnectorProperties extends DataConnectorTenantId {
-    collectionId?: string;
-    dataTypes: TiTaxiiDataConnectorDataTypes;
-    friendlyName?: string;
-    password?: string;
-    pollingFrequency: PollingFrequency | null;
-    taxiiLookbackPeriod?: Date;
-    taxiiServer?: string;
-    userName?: string;
-    workspaceId?: string;
-}
+export type TIDataConnectorDataTypesIndicators = DataConnectorDataTypeCommon & {};
 
 // @public
 export type TriggerOperator = "GreaterThan" | "LessThan" | "Equal" | "NotEqual";
@@ -5225,26 +2644,18 @@ export type TriggersOn = string;
 export type TriggersWhen = string;
 
 // @public
-export interface Ueba extends Settings {
-    dataSources?: UebaDataSources[];
-}
-
-// @public
-export type UebaDataSources = string;
-
-// @public
-export interface UrlEntity extends Entity {
+export type UrlEntity = Entity & {
     readonly additionalData?: {
         [propertyName: string]: Record<string, unknown>;
     };
     readonly friendlyName?: string;
     readonly url?: string;
-}
+};
 
 // @public
-export interface UrlEntityProperties extends EntityCommonProperties {
+export type UrlEntityProperties = EntityCommonProperties & {
     readonly url?: string;
-}
+};
 
 // @public
 export interface UserInfo {
@@ -5254,50 +2665,42 @@ export interface UserInfo {
 }
 
 // @public
-export type Version = string;
-
-// @public
-export interface Watchlist extends ResourceWithEtag {
-    contentType?: string;
-    created?: Date;
-    createdBy?: UserInfo;
-    defaultDuration?: string;
-    description?: string;
-    displayName?: string;
-    isDeleted?: boolean;
-    itemsSearchKey?: string;
-    labels?: string[];
-    numberOfLinesToSkip?: number;
-    provider?: string;
-    rawContent?: string;
-    source?: string;
-    sourceType?: SourceType;
-    tenantId?: string;
-    updated?: Date;
-    updatedBy?: UserInfo;
-    uploadStatus?: string;
-    watchlistAlias?: string;
+export type Watchlist = ResourceWithEtag & {
     watchlistId?: string;
+    displayName?: string;
+    provider?: string;
+    source?: Source;
+    created?: Date;
+    updated?: Date;
+    createdBy?: UserInfo;
+    updatedBy?: UserInfo;
+    description?: string;
     watchlistType?: string;
-}
+    watchlistAlias?: string;
+    isDeleted?: boolean;
+    labels?: string[];
+    defaultDuration?: string;
+    tenantId?: string;
+    numberOfLinesToSkip?: number;
+    rawContent?: string;
+    itemsSearchKey?: string;
+    contentType?: string;
+    uploadStatus?: string;
+};
 
 // @public
-export interface WatchlistItem extends ResourceWithEtag {
-    created?: Date;
-    createdBy?: UserInfo;
-    entityMapping?: {
-        [propertyName: string]: any;
-    };
-    isDeleted?: boolean;
-    itemsKeyValue?: {
-        [propertyName: string]: any;
-    };
-    tenantId?: string;
-    updated?: Date;
-    updatedBy?: UserInfo;
-    watchlistItemId?: string;
+export type WatchlistItem = ResourceWithEtag & {
     watchlistItemType?: string;
-}
+    watchlistItemId?: string;
+    tenantId?: string;
+    isDeleted?: boolean;
+    created?: Date;
+    updated?: Date;
+    createdBy?: UserInfo;
+    updatedBy?: UserInfo;
+    itemsKeyValue?: Record<string, unknown>;
+    entityMapping?: Record<string, unknown>;
+};
 
 // @public
 export interface WatchlistItemList {
@@ -5356,14 +2759,9 @@ export interface WatchlistList {
 // @public
 export interface Watchlists {
     createOrUpdate(resourceGroupName: string, workspaceName: string, watchlistAlias: string, watchlist: Watchlist, options?: WatchlistsCreateOrUpdateOptionalParams): Promise<WatchlistsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams): Promise<WatchlistsDeleteResponse>;
+    delete(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, workspaceName: string, watchlistAlias: string, options?: WatchlistsGetOptionalParams): Promise<WatchlistsGetResponse>;
     list(resourceGroupName: string, workspaceName: string, options?: WatchlistsListOptionalParams): PagedAsyncIterableIterator<Watchlist>;
-}
-
-// @public
-export interface WatchlistsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
 }
 
 // @public
@@ -5374,16 +2772,8 @@ export interface WatchlistsCreateOrUpdateOptionalParams extends coreClient.Opera
 export type WatchlistsCreateOrUpdateResponse = Watchlist;
 
 // @public
-export interface WatchlistsDeleteHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
 export interface WatchlistsDeleteOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export type WatchlistsDeleteResponse = WatchlistsDeleteHeaders;
 
 // @public
 export interface WatchlistsGetOptionalParams extends coreClient.OperationOptions {
@@ -5407,14 +2797,6 @@ export interface WatchlistsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type WatchlistsListResponse = WatchlistList;
-
-// @public
-export interface Webhook {
-    rotateWebhookSecret?: boolean;
-    webhookId?: string;
-    webhookSecretUpdateTime?: string;
-    webhookUrl?: string;
-}
 
 // (No @packageDocumentation comment for this package)
 
