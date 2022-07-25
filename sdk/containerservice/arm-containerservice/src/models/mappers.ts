@@ -2394,6 +2394,14 @@ export const ManagedClusterWorkloadAutoScalerProfile: coreClient.CompositeMapper
           name: "Composite",
           className: "ManagedClusterWorkloadAutoScalerProfileKeda"
         }
+      },
+      verticalPodAutoscaler: {
+        serializedName: "verticalPodAutoscaler",
+        type: {
+          name: "Composite",
+          className:
+            "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler"
+        }
       }
     }
   }
@@ -2409,6 +2417,39 @@ export const ManagedClusterWorkloadAutoScalerProfileKeda: coreClient.CompositeMa
         required: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler",
+    modelProperties: {
+      enabled: {
+        defaultValue: false,
+        serializedName: "enabled",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      controlledValues: {
+        defaultValue: "RequestsAndLimits",
+        serializedName: "controlledValues",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      updateMode: {
+        defaultValue: "Off",
+        serializedName: "updateMode",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }

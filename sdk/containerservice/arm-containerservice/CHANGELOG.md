@@ -1,6 +1,6 @@
 # Release History
     
-## 17.1.0-beta.1 (2022-07-25)
+## 17.1.0-beta.2 (2022-07-25)
     
 **Features**
 
@@ -11,16 +11,13 @@
   - Added operation group TrustedAccessRoles
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeys
   - Added operation ManagedClusters.beginRotateServiceAccountSigningKeysAndWait
-  - Added Interface AzureEntityResource
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
-  - Added Interface Fleet
   - Added Interface FleetCredentialResult
   - Added Interface FleetCredentialResults
   - Added Interface FleetHubProfile
   - Added Interface FleetListResult
-  - Added Interface FleetMember
   - Added Interface FleetMembersCreateOrUpdateOptionalParams
   - Added Interface FleetMembersDeleteOptionalParams
   - Added Interface FleetMembersGetOptionalParams
@@ -43,7 +40,6 @@
   - Added Interface ManagedClusterPropertiesForSnapshot
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
-  - Added Interface ManagedClusterSnapshot
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
   - Added Interface ManagedClusterSnapshotsDeleteOptionalParams
@@ -57,9 +53,9 @@
   - Added Interface ManagedClusterStorageProfileBlobCSIDriver
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
   - Added Interface TrustedAccessRole
-  - Added Interface TrustedAccessRoleBinding
   - Added Interface TrustedAccessRoleBindingListResult
   - Added Interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
   - Added Interface TrustedAccessRoleBindingsDeleteOptionalParams
@@ -70,6 +66,11 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias AgentPool
+  - Added Type Alias AzureEntityResource
+  - Added Type Alias ControlledValues
+  - Added Type Alias Fleet
+  - Added Type Alias FleetMember
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
   - Added Type Alias FleetMembersGetResponse
@@ -84,6 +85,12 @@
   - Added Type Alias FleetsListNextResponse
   - Added Type Alias FleetsListResponse
   - Added Type Alias FleetsUpdateResponse
+  - Added Type Alias MaintenanceConfiguration
+  - Added Type Alias ManagedCluster
+  - Added Type Alias ManagedClusterAccessProfile
+  - Added Type Alias ManagedClusterAddonProfileIdentity
+  - Added Type Alias ManagedClusterAgentPoolProfile
+  - Added Type Alias ManagedClusterSnapshot
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -92,6 +99,9 @@
   - Added Type Alias ManagedClusterSnapshotsListResponse
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
   - Added Type Alias NetworkPluginMode
+  - Added Type Alias Snapshot
+  - Added Type Alias TrackedResource
+  - Added Type Alias TrustedAccessRoleBinding
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
   - Added Type Alias TrustedAccessRoleBindingsGetResponse
@@ -99,16 +109,9 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
-  - Interface AgentPool has a new optional parameter capacityReservationGroupID
-  - Interface AgentPool has a new optional parameter enableCustomCATrust
-  - Interface AgentPool has a new optional parameter messageOfTheDay
+  - Added Type Alias UpdateMode
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
-  - Interface ManagedCluster has a new optional parameter creationData
-  - Interface ManagedCluster has a new optional parameter enableNamespaceResources
-  - Interface ManagedCluster has a new optional parameter ingressProfile
-  - Interface ManagedCluster has a new optional parameter oidcIssuerProfile
-  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
@@ -125,10 +128,12 @@
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Added Enum KnownControlledValues
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Added Enum KnownUpdateMode
   - Enum KnownOssku has a new value Windows2019
   - Enum KnownOssku has a new value Windows2022
   - Enum KnownSnapshotType has a new value ManagedCluster
