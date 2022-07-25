@@ -1117,6 +1117,60 @@ export const ServiceProviderParameterMetadataConstraints: coreClient.CompositeMa
   }
 };
 
+export const QnAMakerEndpointKeysRequestBody: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QnAMakerEndpointKeysRequestBody",
+    modelProperties: {
+      hostname: {
+        serializedName: "hostname",
+        type: {
+          name: "String"
+        }
+      },
+      authkey: {
+        serializedName: "authkey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QnAMakerEndpointKeysResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QnAMakerEndpointKeysResponse",
+    modelProperties: {
+      primaryEndpointKey: {
+        serializedName: "primaryEndpointKey",
+        type: {
+          name: "String"
+        }
+      },
+      secondaryEndpointKey: {
+        serializedName: "secondaryEndpointKey",
+        type: {
+          name: "String"
+        }
+      },
+      installedVersion: {
+        serializedName: "installedVersion",
+        type: {
+          name: "String"
+        }
+      },
+      lastStableVersion: {
+        serializedName: "lastStableVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ConnectionSettingProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1849,7 +1903,6 @@ export const SlackChannelProperties: coreClient.CompositeMapper = {
       },
       registerBeforeOAuthFlow: {
         serializedName: "registerBeforeOAuthFlow",
-        readOnly: true,
         type: {
           name: "Boolean"
         }

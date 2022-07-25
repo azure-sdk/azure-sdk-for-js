@@ -17,6 +17,7 @@ import {
   BotChannel as BotChannelMapper,
   SiteInfo as SiteInfoMapper,
   ConnectionSetting as ConnectionSettingMapper,
+  QnAMakerEndpointKeysRequestBody as QnAMakerEndpointKeysRequestBodyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -277,6 +278,11 @@ export const connectionName: OperationURLParameter = {
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectionSettingMapper
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: QnAMakerEndpointKeysRequestBodyMapper
 };
 
 export const operationResultId: OperationURLParameter = {

@@ -11,6 +11,7 @@ export * from "./channels";
 export * from "./directLine";
 export * from "./operations";
 export * from "./botConnection";
+export * from "./qnAMakerEndpointKeys";
 export * from "./hostSettings";
 export * from "./operationResults";
 export * from "./privateEndpointConnections";

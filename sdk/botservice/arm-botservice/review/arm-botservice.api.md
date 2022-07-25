@@ -50,6 +50,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    qnAMakerEndpointKeys: QnAMakerEndpointKeys;
+    // (undocumented)
     subscriptionId: string;
 }
 
@@ -847,6 +849,32 @@ export interface PrivateLinkServiceConnectionState {
 export type PublicNetworkAccess = string;
 
 // @public
+export interface QnAMakerEndpointKeys {
+    get(parameters: QnAMakerEndpointKeysRequestBody, options?: QnAMakerEndpointKeysGetOptionalParams): Promise<QnAMakerEndpointKeysGetResponse>;
+}
+
+// @public
+export interface QnAMakerEndpointKeysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QnAMakerEndpointKeysGetResponse = QnAMakerEndpointKeysResponse;
+
+// @public
+export interface QnAMakerEndpointKeysRequestBody {
+    authkey?: string;
+    hostname?: string;
+}
+
+// @public
+export interface QnAMakerEndpointKeysResponse {
+    installedVersion?: string;
+    lastStableVersion?: string;
+    primaryEndpointKey?: string;
+    secondaryEndpointKey?: string;
+}
+
+// @public
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 
 // @public
@@ -965,7 +993,7 @@ export interface SlackChannelProperties {
     landingPageUrl?: string;
     readonly lastSubmissionId?: string;
     readonly redirectAction?: string;
-    readonly registerBeforeOAuthFlow?: boolean;
+    registerBeforeOAuthFlow?: boolean;
     scopes?: string;
     signingSecret?: string;
     verificationToken?: string;

@@ -502,6 +502,26 @@ export interface ServiceProviderParameterMetadataConstraints {
   required?: boolean;
 }
 
+/** The request body for a request to Bot Service Management to list QnA Maker endpoint keys. */
+export interface QnAMakerEndpointKeysRequestBody {
+  /** the host name of the QnA Maker endpoint */
+  hostname?: string;
+  /** Subscription key which provides access to this API. */
+  authkey?: string;
+}
+
+/** Schema for EndpointKeys generate/refresh operations. */
+export interface QnAMakerEndpointKeysResponse {
+  /** Primary Access Key. */
+  primaryEndpointKey?: string;
+  /** Secondary Access Key. */
+  secondaryEndpointKey?: string;
+  /** Current version of runtime. */
+  installedVersion?: string;
+  /** Latest version of runtime. */
+  lastStableVersion?: string;
+}
+
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
   /** Id associated with the Connection Setting. */
@@ -779,11 +799,8 @@ export interface SlackChannelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSubmissionId?: string;
-  /**
-   * Whether to register the settings before OAuth validation is performed. Recommended to True.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registerBeforeOAuthFlow?: boolean;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean;
   /**
    * Whether this channel is validated for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1391,6 +1408,13 @@ export interface BotConnectionListByBotServiceNextOptionalParams
 
 /** Contains response data for the listByBotServiceNext operation. */
 export type BotConnectionListByBotServiceNextResponse = ConnectionSettingResponseList;
+
+/** Optional parameters. */
+export interface QnAMakerEndpointKeysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QnAMakerEndpointKeysGetResponse = QnAMakerEndpointKeysResponse;
 
 /** Optional parameters. */
 export interface HostSettingsGetOptionalParams
