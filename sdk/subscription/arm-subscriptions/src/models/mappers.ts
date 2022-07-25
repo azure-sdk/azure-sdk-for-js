@@ -181,7 +181,6 @@ export const SubscriptionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -232,6 +231,55 @@ export const TenantIdDescription: coreClient.CompositeMapper = {
       },
       tenantId: {
         serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantCategory: {
+        serializedName: "tenantCategory",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      country: {
+        serializedName: "country",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      domains: {
+        serializedName: "domains",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      defaultDomain: {
+        serializedName: "defaultDomain",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantType: {
+        serializedName: "tenantType",
         readOnly: true,
         type: {
           name: "String"

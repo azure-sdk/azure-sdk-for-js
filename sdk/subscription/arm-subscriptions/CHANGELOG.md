@@ -1,15 +1,17 @@
 # Release History
+    
+## 5.1.0 (2022-07-25)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface TenantIdDescription has a new optional parameter country
+  - Interface TenantIdDescription has a new optional parameter countryCode
+  - Interface TenantIdDescription has a new optional parameter defaultDomain
+  - Interface TenantIdDescription has a new optional parameter displayName
+  - Interface TenantIdDescription has a new optional parameter domains
+  - Interface TenantIdDescription has a new optional parameter tenantCategory
+  - Interface TenantIdDescription has a new optional parameter tenantType
+    
 ## 5.0.1 (2022-05-05)
 
 **Features**

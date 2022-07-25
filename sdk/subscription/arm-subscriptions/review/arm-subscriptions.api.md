@@ -396,7 +396,7 @@ export type SubscriptionEnableResponse = EnabledSubscriptionId;
 
 // @public
 export interface SubscriptionListResult {
-    nextLink: string;
+    nextLink?: string;
     value?: Subscription[];
 }
 
@@ -514,8 +514,15 @@ export interface SystemData {
 
 // @public
 export interface TenantIdDescription {
+    readonly country?: string;
+    readonly countryCode?: string;
+    readonly defaultDomain?: string;
+    readonly displayName?: string;
+    readonly domains?: string;
     readonly id?: string;
+    readonly tenantCategory?: string;
     readonly tenantId?: string;
+    readonly tenantType?: string;
 }
 
 // @public

@@ -100,7 +100,7 @@ export interface SubscriptionListResult {
   /** An array of subscriptions. */
   value?: Subscription[];
   /** The URL to get the next set of results. */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Tenant Ids information. */
@@ -123,6 +123,41 @@ export interface TenantIdDescription {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
+  /**
+   * The category of the tenant. Possible values are TenantCategoryHome,TenantCategoryProjectedBy,TenantCategoryManagedBy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantCategory?: string;
+  /**
+   * The country/region name of the address for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly country?: string;
+  /**
+   * The Country/region abbreviation for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly countryCode?: string;
+  /**
+   * The display name of the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * The list of domains for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly domains?: string;
+  /**
+   * The default domain for the tenant.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /**
+   * The tenant type. Only available for Home tenant category.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantType?: string;
 }
 
 /** The ID of the canceled subscription */
