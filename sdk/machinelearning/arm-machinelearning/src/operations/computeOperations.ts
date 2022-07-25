@@ -31,12 +31,16 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListNodesResponse,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams,
   ComputeListNextResponse,
   ComputeListNodesNextResponse
 } from "../models";
@@ -528,6 +532,33 @@ export class ComputeOperationsImpl implements ComputeOperations {
   }
 
   /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        computeName,
+        customServices,
+        options
+      },
+      updateCustomServicesOperationSpec
+    );
+  }
+
+  /**
    * Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -827,6 +858,27 @@ export class ComputeOperationsImpl implements ComputeOperations {
   }
 
   /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, parameters, options },
+      updateIdleShutdownSettingOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -1006,6 +1058,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateCustomServicesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/customServices",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.customServices,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listNodesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
@@ -1122,6 +1197,29 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.computeName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateIdleShutdownSettingOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateIdleShutdownSetting",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
