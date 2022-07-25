@@ -18,13 +18,15 @@ import {
   ContainerGroupsImpl,
   OperationsImpl,
   LocationImpl,
-  ContainersImpl
+  ContainersImpl,
+  SubnetServiceAssociationLinkImpl
 } from "./operations";
 import {
   ContainerGroups,
   Operations,
   Location,
-  Containers
+  Containers,
+  SubnetServiceAssociationLink
 } from "./operationsInterfaces";
 import { ContainerInstanceManagementClientOptionalParams } from "./models";
 
@@ -61,7 +63,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/8.2.1`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,34 +83,27 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
@@ -120,6 +115,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
     this.containers = new ContainersImpl(this);
+    this.subnetServiceAssociationLink = new SubnetServiceAssociationLinkImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -138,7 +136,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
+              return item.replace(/(?<==).*$/, apiVersion);
             } else {
               return item;
             }
@@ -155,4 +153,5 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   location: Location;
   containers: Containers;
+  subnetServiceAssociationLink: SubnetServiceAssociationLink;
 }
