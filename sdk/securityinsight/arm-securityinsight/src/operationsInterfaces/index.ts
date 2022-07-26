@@ -39,3 +39,5 @@ export * from "./watchlistItems";
 export * from "./dataConnectors";
 export * from "./dataConnectorsCheckRequirementsOperations";
 export * from "./operations";
+export * from "./queries";
+export * from "./editedQueries";
