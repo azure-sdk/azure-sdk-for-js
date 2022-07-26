@@ -8,5 +8,5 @@
 
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
-export { ServiceLinkerManagementClient } from "./serviceLinkerManagementClient";
+export { MicrosoftServiceLinker } from "./microsoftServiceLinker";
 export * from "./operationsInterfaces";
