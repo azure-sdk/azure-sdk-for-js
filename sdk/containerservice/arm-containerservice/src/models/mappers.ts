@@ -2131,6 +2131,13 @@ export const ManagedClusterSecurityProfile: coreClient.CompositeMapper = {
           className: "ManagedClusterSecurityProfileWorkloadIdentity"
         }
       },
+      imageCleaner: {
+        serializedName: "imageCleaner",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterSecurityProfileImageCleaner"
+        }
+      },
       nodeRestriction: {
         serializedName: "nodeRestriction",
         type: {
@@ -2222,6 +2229,27 @@ export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.Composite
         serializedName: "enabled",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterSecurityProfileImageCleaner: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterSecurityProfileImageCleaner",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      intervalHours: {
+        serializedName: "intervalHours",
+        type: {
+          name: "Number"
         }
       }
     }
