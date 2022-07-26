@@ -433,6 +433,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
+      location: ["options", "location"],
+      tags: ["options", "tags"],
       ingestionPolicy: ["options", "ingestionPolicy"],
       emissionPolicies: ["options", "emissionPolicies"]
     },

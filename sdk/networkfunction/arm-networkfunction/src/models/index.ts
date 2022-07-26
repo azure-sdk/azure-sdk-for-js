@@ -99,48 +99,6 @@ export interface EmissionPolicyDestination {
   destinationType?: DestinationType;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-}
-
-/** An azure resource object */
-export interface ProxyResource {
-  /**
-   * Azure resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Azure resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-}
-
-/** Resource reference properties. */
-export interface ResourceReference {
-  /**
-   * Resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
 /** Common resource representation. */
 export interface TrackedResource {
   /**
@@ -169,6 +127,29 @@ export interface TrackedResource {
   readonly systemData?: TrackedResourceSystemData;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+}
+
+/** Resource reference properties. */
+export interface ResourceReference {
+  /**
+   * Resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
 /** Tags object for patch operations. */
 export interface TagsObject {
   /** Resource tags. */
@@ -186,24 +167,32 @@ export interface CollectorPolicyListResult {
   readonly nextLink?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface CollectorPolicySystemData extends SystemData {}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface TrackedResourceSystemData extends SystemData {}
+/** An azure resource object */
+export interface ProxyResource {
+  /**
+   * Azure resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+}
 
 /** Collector policy resource. */
-export interface CollectorPolicy extends ProxyResource {
+export type CollectorPolicy = TrackedResource & {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: CollectorPolicySystemData;
   /** Ingestion policies. */
   ingestionPolicy?: IngestionPolicyPropertiesFormat;
   /** Emission policies. */
@@ -213,10 +202,10 @@ export interface CollectorPolicy extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-}
+};
 
 /** Azure Traffic Collector resource. */
-export interface AzureTrafficCollector extends TrackedResource {
+export type AzureTrafficCollector = TrackedResource & {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -231,11 +220,13 @@ export interface AzureTrafficCollector extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-}
+};
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export type TrackedResourceSystemData = SystemData & {};
 
 /** Known values of {@link IngestionType} that the service accepts. */
 export enum KnownIngestionType {
-  /** Ipfix */
   Ipfix = "IPFIX"
 }
 
@@ -250,7 +241,6 @@ export type IngestionType = string;
 
 /** Known values of {@link SourceType} that the service accepts. */
 export enum KnownSourceType {
-  /** Resource */
   Resource = "Resource"
 }
 
@@ -265,7 +255,6 @@ export type SourceType = string;
 
 /** Known values of {@link EmissionType} that the service accepts. */
 export enum KnownEmissionType {
-  /** Ipfix */
   Ipfix = "IPFIX"
 }
 
@@ -280,7 +269,6 @@ export type EmissionType = string;
 
 /** Known values of {@link DestinationType} that the service accepts. */
 export enum KnownDestinationType {
-  /** AzureMonitor */
   AzureMonitor = "AzureMonitor"
 }
 
@@ -295,13 +283,9 @@ export type DestinationType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
   Succeeded = "Succeeded",
-  /** Updating */
   Updating = "Updating",
-  /** Deleting */
   Deleting = "Deleting",
-  /** Failed */
   Failed = "Failed"
 }
 
@@ -319,13 +303,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
-  /** User */
   User = "User",
-  /** Application */
   Application = "Application",
-  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
   Key = "Key"
 }
 
@@ -340,6 +320,22 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link ApiVersionParameter} that the service accepts. */
+export enum KnownApiVersionParameter {
+  TwoThousandTwentyTwo0501 = "2022-05-01",
+  TwoThousandTwentyTwo0801 = "2022-08-01"
+}
+
+/**
+ * Defines values for ApiVersionParameter. \
+ * {@link KnownApiVersionParameter} can be used interchangeably with ApiVersionParameter,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2022-05-01** \
+ * **2022-08-01**
+ */
+export type ApiVersionParameter = string;
 
 /** Optional parameters. */
 export interface NetworkFunctionListOperationsOptionalParams
@@ -436,6 +432,10 @@ export type CollectorPoliciesGetResponse = CollectorPolicy;
 /** Optional parameters. */
 export interface CollectorPoliciesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** Resource location. */
+  location?: string;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
   /** Ingestion policies. */
   ingestionPolicy?: IngestionPolicyPropertiesFormat;
   /** Emission policies. */

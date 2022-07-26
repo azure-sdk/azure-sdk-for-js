@@ -11,12 +11,15 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export interface AzureTrafficCollector extends TrackedResource {
-    collectorPolicies?: CollectorPolicy[];
+export type ApiVersionParameter = string;
+
+// @public
+export type AzureTrafficCollector = TrackedResource & {
     readonly etag?: string;
-    readonly provisioningState?: ProvisioningState;
+    collectorPolicies?: CollectorPolicy[];
     virtualHub?: ResourceReference;
-}
+    readonly provisioningState?: ProvisioningState;
+};
 
 // @public (undocumented)
 export class AzureTrafficCollectorClient extends coreClient.ServiceClient {
@@ -162,7 +165,11 @@ export interface CollectorPolicies {
 export interface CollectorPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
+    location?: string;
     resumeFrom?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     updateIntervalInMs?: number;
 }
 
@@ -197,22 +204,17 @@ export interface CollectorPoliciesListOptionalParams extends coreClient.Operatio
 export type CollectorPoliciesListResponse = CollectorPolicyListResult;
 
 // @public
-export interface CollectorPolicy extends ProxyResource {
-    emissionPolicies?: EmissionPoliciesPropertiesFormat[];
+export type CollectorPolicy = TrackedResource & {
     readonly etag?: string;
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
+    emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: CollectorPolicySystemData;
-}
+};
 
 // @public
 export interface CollectorPolicyListResult {
     readonly nextLink?: string;
     value?: CollectorPolicy[];
-}
-
-// @public
-export interface CollectorPolicySystemData extends SystemData {
 }
 
 // @public
@@ -251,38 +253,58 @@ export interface IngestionSourcesPropertiesFormat {
 export type IngestionType = string;
 
 // @public
+export enum KnownApiVersionParameter {
+    // (undocumented)
+    TwoThousandTwentyTwo0501 = "2022-05-01",
+    // (undocumented)
+    TwoThousandTwentyTwo0801 = "2022-08-01"
+}
+
+// @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDestinationType {
+    // (undocumented)
     AzureMonitor = "AzureMonitor"
 }
 
 // @public
 export enum KnownEmissionType {
+    // (undocumented)
     Ipfix = "IPFIX"
 }
 
 // @public
 export enum KnownIngestionType {
+    // (undocumented)
     Ipfix = "IPFIX"
 }
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSourceType {
+    // (undocumented)
     Resource = "Resource"
 }
 
@@ -367,8 +389,7 @@ export interface TrackedResource {
 }
 
 // @public
-export interface TrackedResourceSystemData extends SystemData {
-}
+export type TrackedResourceSystemData = SystemData & {};
 
 // (No @packageDocumentation comment for this package)
 

@@ -44,7 +44,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -144,6 +144,16 @@ export const collectorPolicyName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const location1: OperationParameter = {
+  parameterPath: ["options", "location"],
+  mapper: CollectorPolicyMapper
+};
+
+export const tags1: OperationParameter = {
+  parameterPath: ["options", "tags"],
+  mapper: CollectorPolicyMapper
 };
 
 export const ingestionPolicy: OperationParameter = {
