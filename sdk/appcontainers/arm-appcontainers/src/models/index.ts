@@ -819,6 +819,50 @@ export interface Volume {
   storageName?: string;
 }
 
+/** Custom domain analysis. */
+export interface CustomHostnameAnalysisResult {
+  /**
+   * Host name that was analyzed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isHostnameAlreadyVerified?: boolean;
+  /**
+   * DNS verification test result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationTest?: DnsVerificationTestResult;
+  /**
+   * Raw failure information if DNS verification fails.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+  /**
+   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasConflictOnManagedEnvironment?: boolean;
+  /**
+   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conflictingContainerAppResourceId?: string;
+  /** CName records visible for this hostname. */
+  cNameRecords?: string[];
+  /** TXT records visible for this hostname. */
+  txtRecords?: string[];
+  /** A records visible for this hostname. */
+  aRecords?: string[];
+  /** Alternate CName records visible for this hostname. */
+  alternateCNameRecords?: string[];
+  /** Alternate TXT records visible for this hostname. */
+  alternateTxtRecords?: string[];
+}
+
 /** Container App Secrets Collection ARM resource. */
 export interface SecretsCollection {
   /** Collection of resources. */
@@ -945,7 +989,7 @@ export interface ManagedEnvironmentsCollection {
 
 /** Configuration properties for apps environment to join a Virtual Network */
 export interface VnetConfiguration {
-  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, must provide ControlPlaneSubnetResourceId and AppSubnetResourceId if enabling this property */
+  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property */
   internal?: boolean;
   /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
   infrastructureSubnetId?: string;
@@ -1158,50 +1202,6 @@ export type AuthConfig = ProxyResource & {
   login?: Login;
   /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
   httpSettings?: HttpSettings;
-};
-
-/** Custom domain analysis. */
-export type CustomHostnameAnalysisResult = ProxyResource & {
-  /**
-   * Host name that was analyzed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostName?: string;
-  /**
-   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isHostnameAlreadyVerified?: boolean;
-  /**
-   * DNS verification test result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationTest?: DnsVerificationTestResult;
-  /**
-   * Raw failure information if DNS verification fails.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
-  /**
-   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasConflictOnManagedEnvironment?: boolean;
-  /**
-   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly conflictingContainerAppResourceId?: string;
-  /** CName records visible for this hostname. */
-  cNameRecords?: string[];
-  /** TXT records visible for this hostname. */
-  txtRecords?: string[];
-  /** A records visible for this hostname. */
-  aRecords?: string[];
-  /** Alternate CName records visible for this hostname. */
-  alternateCNameRecords?: string[];
-  /** Alternate TXT records visible for this hostname. */
-  alternateTxtRecords?: string[];
 };
 
 /** Container App Revision. */
