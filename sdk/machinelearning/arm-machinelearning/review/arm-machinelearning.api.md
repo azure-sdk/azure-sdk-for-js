@@ -11,26 +11,26 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export interface AccountKeyDatastoreCredentials extends DatastoreCredentials {
+export type AccountKeyDatastoreCredentials = DatastoreCredentials & {
     credentialsType: "AccountKey";
     secrets: AccountKeyDatastoreSecrets;
-}
+};
 
 // @public
-export interface AccountKeyDatastoreSecrets extends DatastoreSecrets {
-    key?: string;
+export type AccountKeyDatastoreSecrets = DatastoreSecrets & {
     secretsType: "AccountKey";
-}
+    key?: string;
+};
 
 // @public
-export interface Aks extends Compute, AKSSchema {
+export type Aks = Compute & AKSSchema & {
     computeType: "AKS";
-}
+};
 
 // @public
-export interface AksComputeSecrets extends ComputeSecrets, AksComputeSecretsProperties {
+export type AksComputeSecrets = ComputeSecrets & AksComputeSecretsProperties & {
     computeType: "AKS";
-}
+};
 
 // @public
 export interface AksComputeSecretsProperties {
@@ -69,9 +69,9 @@ export interface AKSSchemaProperties {
 export type AllocationState = string;
 
 // @public
-export interface AmlCompute extends Compute, AmlComputeSchema {
+export type AmlCompute = Compute & AmlComputeSchema & {
     computeType: "AmlCompute";
-}
+};
 
 // @public
 export interface AmlComputeNodeInformation {
@@ -136,9 +136,9 @@ export interface AmlOperationListResult {
 }
 
 // @public
-export interface AmlToken extends IdentityConfiguration {
+export type AmlToken = IdentityConfiguration & {
     identityType: "AMLToken";
-}
+};
 
 // @public
 export interface AmlUserFeature {
@@ -151,17 +151,17 @@ export interface AmlUserFeature {
 export type ApplicationSharingPolicy = string;
 
 // @public (undocumented)
-export interface AssetBase extends ResourceBase {
+export type AssetBase = ResourceBase & {
     isAnonymous?: boolean;
     isArchived?: boolean;
-}
+};
 
 // @public (undocumented)
-export interface AssetContainer extends ResourceBase {
+export type AssetContainer = ResourceBase & {
     isArchived?: boolean;
     readonly latestVersion?: string;
     readonly nextVersion?: string;
-}
+};
 
 // @public
 export interface AssetJobInput {
@@ -190,6 +190,40 @@ export interface AssignedUser {
 }
 
 // @public
+export type AutoForecastHorizon = ForecastHorizon & {
+    mode: "Auto";
+};
+
+// @public
+export type AutoMLJob = JobBaseProperties & {
+    environmentId?: string;
+    environmentVariables?: {
+        [propertyName: string]: string | null;
+    };
+    outputs?: {
+        [propertyName: string]: JobOutputUnion | null;
+    };
+    resources?: JobResourceConfiguration;
+    taskDetails: AutoMLVerticalUnion;
+};
+
+// @public
+export interface AutoMLVertical {
+    logVerbosity?: LogVerbosity;
+    targetColumnName?: string;
+    taskType: "Classification" | "Forecasting" | "ImageClassification" | "ImageClassificationMultilabel" | "ImageInstanceSegmentation" | "ImageObjectDetection" | "Regression" | "TextClassification" | "TextClassificationMultilabel" | "TextNER";
+    trainingData: MLTableJobInput;
+}
+
+// @public (undocumented)
+export type AutoMLVerticalUnion = AutoMLVertical | Classification | Forecasting | ImageClassification | ImageClassificationMultilabel | ImageInstanceSegmentation | ImageObjectDetection | Regression | TextClassification | TextClassificationMultilabel | TextNer;
+
+// @public
+export type AutoNCrossValidations = NCrossValidations & {
+    mode: "Auto";
+};
+
+// @public
 export interface AutoPauseProperties {
     // (undocumented)
     delayInMinutes?: number;
@@ -210,38 +244,59 @@ export interface AutoScaleProperties {
     minNodeCount?: number;
 }
 
+// @public (undocumented)
+export type AutoSeasonality = Seasonality & {
+    mode: "Auto";
+};
+
+// @public (undocumented)
+export type AutoTargetLags = TargetLags & {
+    mode: "Auto";
+};
+
 // @public
-export interface AzureBlobDatastore extends DatastoreProperties {
+export type AutoTargetRollingWindowSize = TargetRollingWindowSize & {
+    mode: "Auto";
+};
+
+// @public
+export type AzureBlobDatastore = AzureDatastore & DatastoreProperties & {
     accountName?: string;
     containerName?: string;
     endpoint?: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
+};
 
 // @public
-export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
+export type AzureDataLakeGen1Datastore = AzureDatastore & DatastoreProperties & {
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
     storeName: string;
-}
+};
 
 // @public
-export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
+export type AzureDataLakeGen2Datastore = AzureDatastore & DatastoreProperties & {
     accountName: string;
     endpoint?: string;
     filesystem: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
+};
+
+// @public
+export interface AzureDatastore {
+    resourceGroup?: string;
+    subscriptionId?: string;
 }
 
 // @public
-export interface AzureFileDatastore extends DatastoreProperties {
+export type AzureFileDatastore = AzureDatastore & DatastoreProperties & {
     accountName: string;
     endpoint?: string;
     fileShareName: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
-}
+};
 
 // @public (undocumented)
 export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
@@ -277,6 +332,8 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
+    labelingJobs: LabelingJobs;
+    // (undocumented)
     modelContainers: ModelContainers;
     // (undocumented)
     modelVersions: ModelVersions;
@@ -292,6 +349,8 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     quotas: Quotas;
+    // (undocumented)
+    schedules: Schedules;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -314,22 +373,22 @@ export interface AzureMachineLearningWorkspacesOptionalParams extends coreClient
 }
 
 // @public
-export interface BanditPolicy extends EarlyTerminationPolicy {
+export type BanditPolicy = EarlyTerminationPolicy & {
     policyType: "Bandit";
     slackAmount?: number;
     slackFactor?: number;
-}
+};
 
 // @public (undocumented)
-export interface BatchDeployment extends TrackedResource {
+export type BatchDeployment = TrackedResource & {
     identity?: ManagedServiceIdentity;
     kind?: string;
     properties: BatchDeploymentProperties;
     sku?: Sku;
-}
+};
 
 // @public
-export interface BatchDeploymentProperties extends EndpointDeploymentPropertiesBase {
+export type BatchDeploymentProperties = EndpointDeploymentPropertiesBase & {
     compute?: string;
     errorThreshold?: number;
     loggingLevel?: BatchLoggingLevel;
@@ -339,9 +398,9 @@ export interface BatchDeploymentProperties extends EndpointDeploymentPropertiesB
     outputAction?: BatchOutputAction;
     outputFileName?: string;
     readonly provisioningState?: DeploymentProvisioningState;
-    resources?: ResourceConfiguration;
+    resources?: DeploymentResourceConfiguration;
     retrySettings?: BatchRetrySettings;
-}
+};
 
 // @public
 export interface BatchDeployments {
@@ -433,12 +492,12 @@ export interface BatchDeploymentTrackedResourceArmPaginatedResult {
 }
 
 // @public (undocumented)
-export interface BatchEndpoint extends TrackedResource {
+export type BatchEndpoint = TrackedResource & {
     identity?: ManagedServiceIdentity;
     kind?: string;
     properties: BatchEndpointProperties;
     sku?: Sku;
-}
+};
 
 // @public
 export interface BatchEndpointDefaults {
@@ -446,10 +505,10 @@ export interface BatchEndpointDefaults {
 }
 
 // @public
-export interface BatchEndpointProperties extends EndpointPropertiesBase {
+export type BatchEndpointProperties = EndpointPropertiesBase & {
     defaults?: BatchEndpointDefaults;
     readonly provisioningState?: EndpointProvisioningState;
-}
+};
 
 // @public
 export interface BatchEndpoints {
@@ -559,12 +618,22 @@ export interface BatchRetrySettings {
 }
 
 // @public
-export interface BayesianSamplingAlgorithm extends SamplingAlgorithm {
+export type BayesianSamplingAlgorithm = SamplingAlgorithm & {
     samplingAlgorithmType: "Bayesian";
-}
+};
 
 // @public
 export type BillingCurrency = string;
+
+// @public (undocumented)
+export interface BindOptions {
+    createHostPath?: boolean;
+    propagation?: string;
+    selinux?: string;
+}
+
+// @public
+export type BlockedTransformers = string;
 
 // @public
 export interface BuildContext {
@@ -576,21 +645,43 @@ export interface BuildContext {
 export type Caching = string;
 
 // @public
-export interface CertificateDatastoreCredentials extends DatastoreCredentials {
+export type CertificateDatastoreCredentials = DatastoreCredentials & {
+    credentialsType: "Certificate";
     authorityUrl?: string;
     clientId: string;
-    credentialsType: "Certificate";
     resourceUrl?: string;
     secrets: CertificateDatastoreSecrets;
     tenantId: string;
     thumbprint: string;
-}
+};
 
 // @public
-export interface CertificateDatastoreSecrets extends DatastoreSecrets {
-    certificate?: string;
+export type CertificateDatastoreSecrets = DatastoreSecrets & {
     secretsType: "Certificate";
-}
+    certificate?: string;
+};
+
+// @public
+export type Classification = TableVertical & AutoMLVertical & {
+    positiveLabel?: string;
+    primaryMetric?: ClassificationPrimaryMetrics;
+    trainingSettings?: ClassificationTrainingSettings;
+};
+
+// @public
+export type ClassificationModels = string;
+
+// @public
+export type ClassificationMultilabelPrimaryMetrics = string;
+
+// @public
+export type ClassificationPrimaryMetrics = string;
+
+// @public
+export type ClassificationTrainingSettings = TrainingSettings & {
+    allowedTrainingAlgorithms?: ClassificationModels[];
+    blockedTrainingAlgorithms?: ClassificationModels[];
+};
 
 // @public
 export type ClusterPurpose = string;
@@ -600,6 +691,13 @@ export interface ClusterUpdateParameters {
     properties?: ScaleSettingsInformation;
 }
 
+// @public (undocumented)
+export type CocoExportSummary = ExportSummary & {
+    format: "Coco";
+    readonly containerName?: string;
+    readonly snapshotPath?: string;
+};
+
 // @public
 export interface CodeConfiguration {
     codeId?: string;
@@ -607,13 +705,12 @@ export interface CodeConfiguration {
 }
 
 // @public
-export interface CodeContainer extends Resource {
+export type CodeContainer = Resource & {
     properties: CodeContainerProperties;
-}
+};
 
 // @public
-export interface CodeContainerProperties extends AssetContainer {
-}
+export type CodeContainerProperties = AssetContainer & {};
 
 // @public
 export interface CodeContainerResourceArmPaginatedResult {
@@ -664,14 +761,14 @@ export interface CodeContainersListOptionalParams extends coreClient.OperationOp
 export type CodeContainersListResponse = CodeContainerResourceArmPaginatedResult;
 
 // @public
-export interface CodeVersion extends Resource {
+export type CodeVersion = Resource & {
     properties: CodeVersionProperties;
-}
+};
 
 // @public
-export interface CodeVersionProperties extends AssetBase {
+export type CodeVersionProperties = AssetBase & {
     codeUri?: string;
-}
+};
 
 // @public
 export interface CodeVersionResourceArmPaginatedResult {
@@ -726,7 +823,13 @@ export interface CodeVersionsListOptionalParams extends coreClient.OperationOpti
 export type CodeVersionsListResponse = CodeVersionResourceArmPaginatedResult;
 
 // @public
-export interface CommandJob extends JobBaseProperties {
+export interface ColumnTransformer {
+    fields?: string[];
+    parameters?: Record<string, unknown>;
+}
+
+// @public
+export type CommandJob = JobBaseProperties & {
     codeId?: string;
     command: string;
     distribution?: DistributionConfigurationUnion;
@@ -742,22 +845,21 @@ export interface CommandJob extends JobBaseProperties {
         [propertyName: string]: JobOutputUnion | null;
     };
     readonly parameters?: Record<string, unknown>;
-    resources?: ResourceConfiguration;
-}
+    resources?: JobResourceConfiguration;
+};
 
 // @public
-export interface CommandJobLimits extends JobLimits {
+export type CommandJobLimits = JobLimits & {
     jobLimitsType: "Command";
-}
+};
 
 // @public
-export interface ComponentContainer extends Resource {
+export type ComponentContainer = Resource & {
     properties: ComponentContainerProperties;
-}
+};
 
 // @public
-export interface ComponentContainerProperties extends AssetContainer {
-}
+export type ComponentContainerProperties = AssetContainer & {};
 
 // @public
 export interface ComponentContainerResourceArmPaginatedResult {
@@ -810,14 +912,14 @@ export interface ComponentContainersListOptionalParams extends coreClient.Operat
 export type ComponentContainersListResponse = ComponentContainerResourceArmPaginatedResult;
 
 // @public
-export interface ComponentVersion extends Resource {
+export type ComponentVersion = Resource & {
     properties: ComponentVersionProperties;
-}
+};
 
 // @public
-export interface ComponentVersionProperties extends AssetBase {
+export type ComponentVersionProperties = AssetBase & {
     componentSpec?: Record<string, unknown>;
-}
+};
 
 // @public
 export interface ComponentVersionResourceArmPaginatedResult {
@@ -921,9 +1023,9 @@ export interface ComputeGetOptionalParams extends coreClient.OperationOptions {
 export type ComputeGetResponse = ComputeResource;
 
 // @public
-export interface ComputeInstance extends Compute, ComputeInstanceSchema {
+export type ComputeInstance = Compute & ComputeInstanceSchema & {
     computeType: "ComputeInstance";
-}
+};
 
 // @public
 export interface ComputeInstanceApplication {
@@ -1000,10 +1102,12 @@ export interface ComputeInstanceProperties {
     readonly connectivityEndpoints?: ComputeInstanceConnectivityEndpoints;
     readonly containers?: ComputeInstanceContainer[];
     readonly createdBy?: ComputeInstanceCreatedBy;
+    customServices?: CustomService[];
     readonly dataDisks?: ComputeInstanceDataDisk[];
     readonly dataMounts?: ComputeInstanceDataMount[];
     enableNodePublicIp?: boolean;
     readonly errors?: ErrorResponse[];
+    idleTimeBeforeShutdown?: string;
     readonly lastOperation?: ComputeInstanceLastOperation;
     personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
     readonly schedules?: ComputeSchedules;
@@ -1091,20 +1195,22 @@ export interface ComputeOperations {
     list(resourceGroupName: string, workspaceName: string, options?: ComputeListOptionalParams): PagedAsyncIterableIterator<ComputeResource>;
     listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListKeysOptionalParams): Promise<ComputeListKeysResponse>;
     listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListNodesOptionalParams): PagedAsyncIterableIterator<AmlComputeNodeInformation>;
+    updateCustomServices(resourceGroupName: string, workspaceName: string, computeName: string, customServices: CustomService[], options?: ComputeUpdateCustomServicesOptionalParams): Promise<void>;
+    updateIdleShutdownSetting(resourceGroupName: string, workspaceName: string, computeName: string, parameters: IdleShutdownSetting, options?: ComputeUpdateIdleShutdownSettingOptionalParams): Promise<void>;
 }
 
 // @public
 export type ComputePowerAction = string;
 
 // @public
-export interface ComputeResource extends Resource, ComputeResourceSchema {
+export type ComputeResource = Resource & ComputeResourceSchema & {
     identity?: ManagedServiceIdentity;
     location?: string;
-    sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };
-}
+    sku?: Sku;
+};
 
 // @public (undocumented)
 export interface ComputeResourceSchema {
@@ -1158,6 +1264,14 @@ export type ComputeType = string;
 export type ComputeUnion = Compute | Aks | Kubernetes | AmlCompute | ComputeInstance | VirtualMachine | HDInsight | DataFactory | Databricks | DataLakeAnalytics | SynapseSpark;
 
 // @public
+export interface ComputeUpdateCustomServicesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ComputeUpdateIdleShutdownSettingOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface ComputeUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1200,22 +1314,76 @@ export type CreatedByType = string;
 export type CredentialsType = string;
 
 // @public (undocumented)
-export interface CustomModelJobInput extends AssetJobInput, JobInput {
+export type CronTrigger = TriggerBase & {
+    triggerType: "Cron";
+    expression: string;
+};
+
+// @public (undocumented)
+export type CsvExportSummary = ExportSummary & {
+    format: "CSV";
+    readonly containerName?: string;
+    readonly snapshotPath?: string;
+};
+
+// @public
+export type CustomForecastHorizon = ForecastHorizon & {
+    mode: "Custom";
+    value: number;
+};
+
+// @public (undocumented)
+export type CustomModelJobInput = AssetJobInput & JobInput & {};
+
+// @public (undocumented)
+export type CustomModelJobOutput = AssetJobOutput & JobOutput & {};
+
+// @public
+export type CustomNCrossValidations = NCrossValidations & {
+    mode: "Custom";
+    value: number;
+};
+
+// @public (undocumented)
+export type CustomSeasonality = Seasonality & {
+    mode: "Custom";
+    value: number;
+};
+
+// @public
+export interface CustomService {
+    [property: string]: any;
+    docker?: Docker;
+    endpoints?: Endpoint[];
+    environmentVariables?: {
+        [propertyName: string]: EnvironmentVariable;
+    };
+    image?: Image_2;
+    name?: string;
+    volumes?: VolumeDefinition[];
 }
 
 // @public (undocumented)
-export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {
-}
+export type CustomTargetLags = TargetLags & {
+    mode: "Custom";
+    values: number[];
+};
+
+// @public (undocumented)
+export type CustomTargetRollingWindowSize = TargetRollingWindowSize & {
+    mode: "Custom";
+    value: number;
+};
 
 // @public
-export interface Databricks extends Compute, DatabricksSchema {
+export type Databricks = Compute & DatabricksSchema & {
     computeType: "Databricks";
-}
+};
 
 // @public
-export interface DatabricksComputeSecrets extends ComputeSecrets, DatabricksComputeSecretsProperties {
+export type DatabricksComputeSecrets = ComputeSecrets & DatabricksComputeSecretsProperties & {
     computeType: "Databricks";
-}
+};
 
 // @public
 export interface DatabricksComputeSecretsProperties {
@@ -1234,14 +1402,14 @@ export interface DatabricksSchema {
 }
 
 // @public
-export interface DataContainer extends Resource {
+export type DataContainer = Resource & {
     properties: DataContainerProperties;
-}
+};
 
 // @public
-export interface DataContainerProperties extends AssetContainer {
+export type DataContainerProperties = AssetContainer & {
     dataType: DataType;
-}
+};
 
 // @public
 export interface DataContainerResourceArmPaginatedResult {
@@ -1294,14 +1462,14 @@ export interface DataContainersListOptionalParams extends coreClient.OperationOp
 export type DataContainersListResponse = DataContainerResourceArmPaginatedResult;
 
 // @public
-export interface DataFactory extends Compute {
+export type DataFactory = Compute & {
     computeType: "DataFactory";
-}
+};
 
 // @public
-export interface DataLakeAnalytics extends Compute, DataLakeAnalyticsSchema {
+export type DataLakeAnalytics = Compute & DataLakeAnalyticsSchema & {
     computeType: "DataLakeAnalytics";
-}
+};
 
 // @public (undocumented)
 export interface DataLakeAnalyticsSchema {
@@ -1315,34 +1483,40 @@ export interface DataLakeAnalyticsSchemaProperties {
 }
 
 // @public
-export interface DataPathAssetReference extends AssetReferenceBase {
+export type DataPathAssetReference = AssetReferenceBase & {
+    referenceType: "DataPath";
     datastoreId?: string;
     path?: string;
-    referenceType: "DataPath";
-}
+};
+
+// @public (undocumented)
+export type DatasetExportSummary = ExportSummary & {
+    format: "Dataset";
+    readonly labeledAssetName?: string;
+};
 
 // @public
-export interface Datastore extends Resource {
+export type Datastore = Resource & {
     properties: DatastorePropertiesUnion;
-}
+};
 
 // @public
 export interface DatastoreCredentials {
-    credentialsType: "AccountKey" | "Certificate" | "None" | "Sas" | "ServicePrincipal";
+    credentialsType: "AccountKey" | "Certificate" | "KerberosKeytab" | "KerberosPassword" | "None" | "Sas" | "ServicePrincipal";
 }
 
 // @public (undocumented)
-export type DatastoreCredentialsUnion = DatastoreCredentials | AccountKeyDatastoreCredentials | CertificateDatastoreCredentials | NoneDatastoreCredentials | SasDatastoreCredentials | ServicePrincipalDatastoreCredentials;
+export type DatastoreCredentialsUnion = DatastoreCredentials | AccountKeyDatastoreCredentials | CertificateDatastoreCredentials | KerberosKeytabCredentials | KerberosPasswordCredentials | NoneDatastoreCredentials | SasDatastoreCredentials | ServicePrincipalDatastoreCredentials;
 
 // @public
-export interface DatastoreProperties extends ResourceBase {
+export type DatastoreProperties = ResourceBase & {
     credentials: DatastoreCredentialsUnion;
     datastoreType: DatastoreType;
     readonly isDefault?: boolean;
-}
+};
 
 // @public (undocumented)
-export type DatastorePropertiesUnion = DatastoreProperties | AzureBlobDatastore | AzureDataLakeGen1Datastore | AzureDataLakeGen2Datastore | AzureFileDatastore;
+export type DatastorePropertiesUnion = DatastoreProperties | AzureBlobDatastore | AzureDataLakeGen1Datastore | AzureDataLakeGen2Datastore | AzureFileDatastore | HdfsDatastore;
 
 // @public
 export interface DatastoreResourceArmPaginatedResult {
@@ -1373,11 +1547,11 @@ export interface DatastoresDeleteOptionalParams extends coreClient.OperationOpti
 
 // @public
 export interface DatastoreSecrets {
-    secretsType: "AccountKey" | "Certificate" | "Sas" | "ServicePrincipal";
+    secretsType: "AccountKey" | "Certificate" | "KerberosKeytab" | "KerberosPassword" | "Sas" | "ServicePrincipal";
 }
 
 // @public (undocumented)
-export type DatastoreSecretsUnion = DatastoreSecrets | AccountKeyDatastoreSecrets | CertificateDatastoreSecrets | SasDatastoreSecrets | ServicePrincipalDatastoreSecrets;
+export type DatastoreSecretsUnion = DatastoreSecrets | AccountKeyDatastoreSecrets | CertificateDatastoreSecrets | KerberosKeytabSecrets | KerberosPasswordSecrets | SasDatastoreSecrets | ServicePrincipalDatastoreSecrets;
 
 // @public
 export interface DatastoresGetOptionalParams extends coreClient.OperationOptions {
@@ -1428,15 +1602,15 @@ export type DatastoreType = string;
 export type DataType = string;
 
 // @public
-export interface DataVersionBase extends Resource {
+export type DataVersionBase = Resource & {
     properties: DataVersionBasePropertiesUnion;
-}
+};
 
 // @public
-export interface DataVersionBaseProperties extends AssetBase {
+export type DataVersionBaseProperties = AssetBase & {
     dataType: DataType;
     dataUri: string;
-}
+};
 
 // @public (undocumented)
 export type DataVersionBasePropertiesUnion = DataVersionBaseProperties | MLTableData | UriFileDataVersion | UriFolderDataVersion;
@@ -1498,9 +1672,9 @@ export interface DataVersionsListOptionalParams extends coreClient.OperationOpti
 export type DataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult;
 
 // @public (undocumented)
-export interface DefaultScaleSettings extends OnlineScaleSettings {
+export type DefaultScaleSettings = OnlineScaleSettings & {
     scaleType: "Default";
-}
+};
 
 // @public (undocumented)
 export interface DeploymentLogs {
@@ -1515,6 +1689,9 @@ export interface DeploymentLogsRequest {
 
 // @public
 export type DeploymentProvisioningState = string;
+
+// @public (undocumented)
+export type DeploymentResourceConfiguration = ResourceConfiguration & {};
 
 // @public (undocumented)
 export interface DiagnoseRequestProperties {
@@ -1601,6 +1778,12 @@ export type DistributionConfigurationUnion = DistributionConfiguration | Mpi | P
 // @public
 export type DistributionType = string;
 
+// @public (undocumented)
+export interface Docker {
+    [property: string]: any;
+    privileged?: boolean;
+}
+
 // @public
 export interface EarlyTerminationPolicy {
     delayEvaluation?: number;
@@ -1614,11 +1797,19 @@ export type EarlyTerminationPolicyType = string;
 // @public (undocumented)
 export type EarlyTerminationPolicyUnion = EarlyTerminationPolicy | BanditPolicy | MedianStoppingPolicy | TruncationSelectionPolicy;
 
+// @public
+export type EgressPublicNetworkAccessType = string;
+
 // @public (undocumented)
 export interface EncryptionKeyVaultProperties {
     identityClientId?: string;
     keyIdentifier: string;
     keyVaultArmId: string;
+}
+
+// @public (undocumented)
+export interface EncryptionKeyVaultUpdateProperties {
+    keyIdentifier: string;
 }
 
 // @public (undocumented)
@@ -1630,6 +1821,20 @@ export interface EncryptionProperty {
 
 // @public
 export type EncryptionStatus = string;
+
+// @public (undocumented)
+export interface EncryptionUpdateProperties {
+    keyVaultProperties: EncryptionKeyVaultUpdateProperties;
+}
+
+// @public (undocumented)
+export interface Endpoint {
+    hostIp?: string;
+    name?: string;
+    protocol?: Protocol;
+    published?: number;
+    target?: number;
+}
 
 // @public
 export interface EndpointAuthKeys {
@@ -1679,14 +1884,19 @@ export interface EndpointPropertiesBase {
 // @public
 export type EndpointProvisioningState = string;
 
-// @public
-export interface EnvironmentContainer extends Resource {
-    properties: EnvironmentContainerProperties;
-}
+// @public (undocumented)
+export type EndpointScheduleAction = ScheduleActionBase & {
+    actionType: "InvokeBatchEndpoint";
+    endpointInvocationDefinition: Record<string, unknown>;
+};
 
 // @public
-export interface EnvironmentContainerProperties extends AssetContainer {
-}
+export type EnvironmentContainer = Resource & {
+    properties: EnvironmentContainerProperties;
+};
+
+// @public
+export type EnvironmentContainerProperties = AssetContainer & {};
 
 // @public
 export interface EnvironmentContainerResourceArmPaginatedResult {
@@ -1741,20 +1951,30 @@ export type EnvironmentContainersListResponse = EnvironmentContainerResourceArmP
 // @public
 export type EnvironmentType = string;
 
-// @public
-export interface EnvironmentVersion extends Resource {
-    properties: EnvironmentVersionProperties;
+// @public (undocumented)
+export interface EnvironmentVariable {
+    [property: string]: any;
+    type?: EnvironmentVariableType;
+    value?: string;
 }
 
 // @public
-export interface EnvironmentVersionProperties extends AssetBase {
+export type EnvironmentVariableType = string;
+
+// @public
+export type EnvironmentVersion = Resource & {
+    properties: EnvironmentVersionProperties;
+};
+
+// @public
+export type EnvironmentVersionProperties = AssetBase & {
     build?: BuildContext;
     condaFile?: string;
     readonly environmentType?: EnvironmentType;
     image?: string;
     inferenceConfig?: InferenceContainerProperties;
     osType?: OperatingSystemType;
-}
+};
 
 // @public
 export interface EnvironmentVersionResourceArmPaginatedResult {
@@ -1844,10 +2064,36 @@ export interface EstimatedVMPrices {
     values: EstimatedVMPrice[];
 }
 
+// @public
+export type ExportFormatType = string;
+
+// @public (undocumented)
+export interface ExportSummary {
+    readonly endDateTime?: Date;
+    readonly exportedRowCount?: number;
+    format: "Coco" | "CSV" | "Dataset";
+    readonly labelingJobId?: string;
+    readonly startDateTime?: Date;
+}
+
+// @public (undocumented)
+export type ExportSummaryUnion = ExportSummary | CocoExportSummary | CsvExportSummary | DatasetExportSummary;
+
 // @public (undocumented)
 export interface ExternalFqdnResponse {
     // (undocumented)
     value?: FqdnEndpoints[];
+}
+
+// @public
+export type FeatureLags = string;
+
+// @public
+export type FeaturizationMode = string;
+
+// @public
+export interface FeaturizationSettings {
+    datasetLanguage?: string;
 }
 
 // @public (undocumented)
@@ -1856,6 +2102,53 @@ export interface FlavorData {
         [propertyName: string]: string | null;
     };
 }
+
+// @public
+export interface ForecastHorizon {
+    mode: "Auto" | "Custom";
+}
+
+// @public
+export type ForecastHorizonMode = string;
+
+// @public (undocumented)
+export type ForecastHorizonUnion = ForecastHorizon | AutoForecastHorizon | CustomForecastHorizon;
+
+// @public
+export type Forecasting = TableVertical & AutoMLVertical & {
+    forecastingSettings?: ForecastingSettings;
+    primaryMetric?: ForecastingPrimaryMetrics;
+    trainingSettings?: ForecastingTrainingSettings;
+};
+
+// @public
+export type ForecastingModels = string;
+
+// @public
+export type ForecastingPrimaryMetrics = string;
+
+// @public
+export interface ForecastingSettings {
+    countryOrRegionForHolidays?: string;
+    cvStepSize?: number;
+    featureLags?: FeatureLags;
+    forecastHorizon?: ForecastHorizonUnion;
+    frequency?: string;
+    seasonality?: SeasonalityUnion;
+    shortSeriesHandlingConfig?: ShortSeriesHandlingConfiguration;
+    targetAggregateFunction?: TargetAggregationFunction;
+    targetLags?: TargetLagsUnion;
+    targetRollingWindowSize?: TargetRollingWindowSizeUnion;
+    timeColumnName?: string;
+    timeSeriesIdColumnNames?: string[];
+    useStl?: UseStl;
+}
+
+// @public
+export type ForecastingTrainingSettings = TrainingSettings & {
+    allowedTrainingAlgorithms?: ForecastingModels[];
+    blockedTrainingAlgorithms?: ForecastingModels[];
+};
 
 // @public (undocumented)
 export interface FqdnEndpoint {
@@ -1889,14 +2182,21 @@ export interface FqdnEndpointsProperties {
 export type Goal = string;
 
 // @public
-export interface GridSamplingAlgorithm extends SamplingAlgorithm {
+export type GridSamplingAlgorithm = SamplingAlgorithm & {
     samplingAlgorithmType: "Grid";
-}
+};
+
+// @public (undocumented)
+export type HdfsDatastore = DatastoreProperties & {
+    hdfsServerCertificate?: string;
+    nameNodeAddress: string;
+    protocol?: string;
+};
 
 // @public
-export interface HDInsight extends Compute, HDInsightSchema {
+export type HDInsight = Compute & HDInsightSchema & {
     computeType: "HDInsight";
-}
+};
 
 // @public
 export interface HDInsightProperties {
@@ -1911,10 +2211,10 @@ export interface HDInsightSchema {
 }
 
 // @public
-export interface IdAssetReference extends AssetReferenceBase {
-    assetId: string;
+export type IdAssetReference = AssetReferenceBase & {
     referenceType: "Id";
-}
+    assetId: string;
+};
 
 // @public
 export interface IdentityConfiguration {
@@ -1932,6 +2232,207 @@ export interface IdentityForCmk {
     userAssignedIdentity?: string;
 }
 
+// @public
+export interface IdleShutdownSetting {
+    idleTimeBeforeShutdown?: string;
+}
+
+// @public (undocumented)
+interface Image_2 {
+    [property: string]: any;
+    reference?: string;
+    type?: ImageType;
+}
+export { Image_2 as Image }
+
+// @public
+export type ImageAnnotationType = string;
+
+// @public
+export type ImageClassification = ImageClassificationBase & AutoMLVertical & {
+    taskType: "ImageClassification";
+    primaryMetric?: ClassificationPrimaryMetrics;
+};
+
+// @public (undocumented)
+export type ImageClassificationBase = ImageVertical & {
+    modelSettings?: ImageModelSettingsClassification;
+    searchSpace?: ImageModelDistributionSettingsClassification[];
+};
+
+// @public
+export type ImageClassificationMultilabel = ImageClassificationBase & AutoMLVertical & {
+    taskType: "ImageClassificationMultilabel";
+    primaryMetric?: ClassificationMultilabelPrimaryMetrics;
+};
+
+// @public
+export type ImageInstanceSegmentation = ImageObjectDetectionBase & AutoMLVertical & {
+    taskType: "ImageInstanceSegmentation";
+    primaryMetric?: InstanceSegmentationPrimaryMetrics;
+};
+
+// @public
+export interface ImageLimitSettings {
+    maxConcurrentTrials?: number;
+    maxTrials?: number;
+    timeout?: string;
+}
+
+// @public
+export interface ImageModelDistributionSettings {
+    amsGradient?: string;
+    augmentations?: string;
+    beta1?: string;
+    beta2?: string;
+    distributed?: string;
+    earlyStopping?: string;
+    earlyStoppingDelay?: string;
+    earlyStoppingPatience?: string;
+    enableOnnxNormalization?: string;
+    evaluationFrequency?: string;
+    gradientAccumulationStep?: string;
+    layersToFreeze?: string;
+    learningRate?: string;
+    learningRateScheduler?: string;
+    modelName?: string;
+    momentum?: string;
+    nesterov?: string;
+    numberOfEpochs?: string;
+    numberOfWorkers?: string;
+    optimizer?: string;
+    randomSeed?: string;
+    stepLRGamma?: string;
+    stepLRStepSize?: string;
+    trainingBatchSize?: string;
+    validationBatchSize?: string;
+    warmupCosineLRCycles?: string;
+    warmupCosineLRWarmupEpochs?: string;
+    weightDecay?: string;
+}
+
+// @public
+export type ImageModelDistributionSettingsClassification = ImageModelDistributionSettings & {
+    trainingCropSize?: string;
+    validationCropSize?: string;
+    validationResizeSize?: string;
+    weightedLoss?: string;
+};
+
+// @public
+export type ImageModelDistributionSettingsObjectDetection = ImageModelDistributionSettings & {
+    boxDetectionsPerImage?: string;
+    boxScoreThreshold?: string;
+    imageSize?: string;
+    maxSize?: string;
+    minSize?: string;
+    modelSize?: string;
+    multiScale?: string;
+    nmsIouThreshold?: string;
+    tileGridSize?: string;
+    tileOverlapRatio?: string;
+    tilePredictionsNmsThreshold?: string;
+    validationIouThreshold?: string;
+    validationMetricType?: string;
+};
+
+// @public
+export interface ImageModelSettings {
+    advancedSettings?: string;
+    amsGradient?: boolean;
+    augmentations?: string;
+    beta1?: number;
+    beta2?: number;
+    checkpointFrequency?: number;
+    checkpointModel?: MLFlowModelJobInput;
+    checkpointRunId?: string;
+    distributed?: boolean;
+    earlyStopping?: boolean;
+    earlyStoppingDelay?: number;
+    earlyStoppingPatience?: number;
+    enableOnnxNormalization?: boolean;
+    evaluationFrequency?: number;
+    gradientAccumulationStep?: number;
+    layersToFreeze?: number;
+    learningRate?: number;
+    learningRateScheduler?: LearningRateScheduler;
+    modelName?: string;
+    momentum?: number;
+    nesterov?: boolean;
+    numberOfEpochs?: number;
+    numberOfWorkers?: number;
+    optimizer?: StochasticOptimizer;
+    randomSeed?: number;
+    stepLRGamma?: number;
+    stepLRStepSize?: number;
+    trainingBatchSize?: number;
+    validationBatchSize?: number;
+    warmupCosineLRCycles?: number;
+    warmupCosineLRWarmupEpochs?: number;
+    weightDecay?: number;
+}
+
+// @public
+export type ImageModelSettingsClassification = ImageModelSettings & {
+    trainingCropSize?: number;
+    validationCropSize?: number;
+    validationResizeSize?: number;
+    weightedLoss?: number;
+};
+
+// @public
+export type ImageModelSettingsObjectDetection = ImageModelSettings & {
+    boxDetectionsPerImage?: number;
+    boxScoreThreshold?: number;
+    imageSize?: number;
+    maxSize?: number;
+    minSize?: number;
+    modelSize?: ModelSize;
+    multiScale?: boolean;
+    nmsIouThreshold?: number;
+    tileGridSize?: string;
+    tileOverlapRatio?: number;
+    tilePredictionsNmsThreshold?: number;
+    validationIouThreshold?: number;
+    validationMetricType?: ValidationMetricType;
+};
+
+// @public
+export type ImageObjectDetection = ImageObjectDetectionBase & AutoMLVertical & {
+    taskType: "ImageObjectDetection";
+    primaryMetric?: ObjectDetectionPrimaryMetrics;
+};
+
+// @public (undocumented)
+export type ImageObjectDetectionBase = ImageVertical & {
+    modelSettings?: ImageModelSettingsObjectDetection;
+    searchSpace?: ImageModelDistributionSettingsObjectDetection[];
+};
+
+// @public
+export interface ImageSweepLimitSettings {
+    maxConcurrentTrials?: number;
+    maxTrials?: number;
+}
+
+// @public
+export interface ImageSweepSettings {
+    earlyTermination?: EarlyTerminationPolicyUnion;
+    limits: ImageSweepLimitSettings;
+    samplingAlgorithm: SamplingAlgorithmType;
+}
+
+// @public
+export type ImageType = string;
+
+// @public
+export interface ImageVertical {
+    limitSettings: ImageLimitSettings;
+    sweepSettings?: ImageSweepSettings;
+    validationData?: MLTableJobInput;
+    validationDataSize?: number;
+}
+
 // @public (undocumented)
 export interface InferenceContainerProperties {
     livenessRoute?: Route;
@@ -1941,6 +2442,9 @@ export interface InferenceContainerProperties {
 
 // @public
 export type InputDeliveryMode = string;
+
+// @public
+export type InstanceSegmentationPrimaryMetrics = string;
 
 // @public
 export interface InstanceTypeSchema {
@@ -1961,12 +2465,13 @@ export interface InstanceTypeSchemaResources {
 }
 
 // @public
-export interface JobBase extends Resource {
+export type JobBase = Resource & {
     properties: JobBasePropertiesUnion;
-}
+};
 
 // @public
-export interface JobBaseProperties extends ResourceBase {
+export type JobBaseProperties = ResourceBase & {
+    componentId?: string;
     computeId?: string;
     displayName?: string;
     experimentName?: string;
@@ -1977,10 +2482,10 @@ export interface JobBaseProperties extends ResourceBase {
         [propertyName: string]: JobService | null;
     };
     readonly status?: JobStatus;
-}
+};
 
 // @public (undocumented)
-export type JobBasePropertiesUnion = JobBaseProperties | CommandJob | PipelineJob | SweepJob;
+export type JobBasePropertiesUnion = JobBaseProperties | LabelingJobProperties | AutoMLJob | CommandJob | PipelineJob | SparkJob | SweepJob;
 
 // @public
 export interface JobBaseResourceArmPaginatedResult {
@@ -1991,14 +2496,14 @@ export interface JobBaseResourceArmPaginatedResult {
 // @public
 export interface JobInput {
     description?: string;
-    jobInputType: "custom_model" | "literal" | "mlflow_model" | "mltable" | "triton_model" | "uri_file" | "uri_folder";
+    jobInputType: "mltable" | "custom_model" | "mlflow_model" | "literal" | "triton_model" | "uri_file" | "uri_folder";
 }
 
 // @public
 export type JobInputType = string;
 
 // @public (undocumented)
-export type JobInputUnion = JobInput | CustomModelJobInput | LiteralJobInput | MLFlowModelJobInput | MLTableJobInput | TritonModelJobInput | UriFileJobInput | UriFolderJobInput;
+export type JobInputUnion = JobInput | MLTableJobInput | CustomModelJobInput | MLFlowModelJobInput | LiteralJobInput | TritonModelJobInput | UriFileJobInput | UriFolderJobInput;
 
 // @public (undocumented)
 export interface JobLimits {
@@ -2025,6 +2530,15 @@ export type JobOutputType = string;
 export type JobOutputUnion = JobOutput | CustomModelJobOutput | MLFlowModelJobOutput | MLTableJobOutput | TritonModelJobOutput | UriFileJobOutput | UriFolderJobOutput;
 
 // @public
+export type JobProvisioningState = string;
+
+// @public (undocumented)
+export type JobResourceConfiguration = ResourceConfiguration & {
+    dockerArgs?: string;
+    shmSize?: string;
+};
+
+// @public
 export interface Jobs {
     beginCancel(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginCancelAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: JobsCancelOptionalParams): Promise<void>;
@@ -2046,6 +2560,12 @@ export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public (undocumented)
+export type JobScheduleAction = ScheduleActionBase & {
+    actionType: "CreateJob";
+    jobDefinition: JobBasePropertiesUnion;
+};
 
 // @public
 export interface JobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2090,6 +2610,8 @@ export type JobsGetResponse = JobBase;
 export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
     jobType?: string;
     listViewType?: ListViewType;
+    scheduled?: boolean;
+    scheduleId?: string;
     skip?: string;
     tag?: string;
 }
@@ -2101,6 +2623,8 @@ export type JobsListNextResponse = JobBaseResourceArmPaginatedResult;
 export interface JobsListOptionalParams extends coreClient.OperationOptions {
     jobType?: string;
     listViewType?: ListViewType;
+    scheduled?: boolean;
+    scheduleId?: string;
     skip?: string;
     tag?: string;
 }
@@ -2114,275 +2638,600 @@ export type JobStatus = string;
 // @public
 export type JobType = string;
 
+// @public (undocumented)
+export interface KerberosCredentials {
+    kerberosKdcAddress: string;
+    kerberosPrincipal: string;
+    kerberosRealm: string;
+}
+
+// @public (undocumented)
+export type KerberosKeytabCredentials = KerberosCredentials & DatastoreCredentials & {
+    secrets: KerberosKeytabSecrets;
+};
+
+// @public (undocumented)
+export type KerberosKeytabSecrets = DatastoreSecrets & {
+    secretsType: "KerberosKeytab";
+    kerberosKeytab?: string;
+};
+
+// @public (undocumented)
+export type KerberosPasswordCredentials = KerberosCredentials & DatastoreCredentials & {
+    secrets: KerberosPasswordSecrets;
+};
+
+// @public (undocumented)
+export type KerberosPasswordSecrets = DatastoreSecrets & {
+    secretsType: "KerberosPassword";
+    kerberosPassword?: string;
+};
+
 // @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
 // @public
 export enum KnownAllocationState {
+    // (undocumented)
     Resizing = "Resizing",
+    // (undocumented)
     Steady = "Steady"
 }
 
 // @public
 export enum KnownApplicationSharingPolicy {
+    // (undocumented)
     Personal = "Personal",
+    // (undocumented)
     Shared = "Shared"
 }
 
 // @public
 export enum KnownAutosave {
+    // (undocumented)
     Local = "Local",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     Remote = "Remote"
 }
 
 // @public
 export enum KnownBatchLoggingLevel {
+    // (undocumented)
     Debug = "Debug",
+    // (undocumented)
     Info = "Info",
+    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownBatchOutputAction {
+    // (undocumented)
     AppendRow = "AppendRow",
+    // (undocumented)
     SummaryOnly = "SummaryOnly"
 }
 
 // @public
 export enum KnownBillingCurrency {
+    // (undocumented)
     USD = "USD"
 }
 
 // @public
+export enum KnownBlockedTransformers {
+    CatTargetEncoder = "CatTargetEncoder",
+    CountVectorizer = "CountVectorizer",
+    HashOneHotEncoder = "HashOneHotEncoder",
+    LabelEncoder = "LabelEncoder",
+    NaiveBayes = "NaiveBayes",
+    OneHotEncoder = "OneHotEncoder",
+    TextTargetEncoder = "TextTargetEncoder",
+    TfIdf = "TfIdf",
+    WoETargetEncoder = "WoETargetEncoder",
+    WordEmbedding = "WordEmbedding"
+}
+
+// @public
 export enum KnownCaching {
+    // (undocumented)
     None = "None",
+    // (undocumented)
     ReadOnly = "ReadOnly",
+    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
+export enum KnownClassificationModels {
+    BernoulliNaiveBayes = "BernoulliNaiveBayes",
+    DecisionTree = "DecisionTree",
+    ExtremeRandomTrees = "ExtremeRandomTrees",
+    GradientBoosting = "GradientBoosting",
+    KNN = "KNN",
+    LightGBM = "LightGBM",
+    LinearSVM = "LinearSVM",
+    LogisticRegression = "LogisticRegression",
+    MultinomialNaiveBayes = "MultinomialNaiveBayes",
+    RandomForest = "RandomForest",
+    SGD = "SGD",
+    SVM = "SVM",
+    XGBoostClassifier = "XGBoostClassifier"
+}
+
+// @public
+export enum KnownClassificationMultilabelPrimaryMetrics {
+    Accuracy = "Accuracy",
+    AUCWeighted = "AUCWeighted",
+    AveragePrecisionScoreWeighted = "AveragePrecisionScoreWeighted",
+    IOU = "IOU",
+    NormMacroRecall = "NormMacroRecall",
+    PrecisionScoreWeighted = "PrecisionScoreWeighted"
+}
+
+// @public
+export enum KnownClassificationPrimaryMetrics {
+    Accuracy = "Accuracy",
+    AUCWeighted = "AUCWeighted",
+    AveragePrecisionScoreWeighted = "AveragePrecisionScoreWeighted",
+    NormMacroRecall = "NormMacroRecall",
+    PrecisionScoreWeighted = "PrecisionScoreWeighted"
+}
+
+// @public
 export enum KnownClusterPurpose {
+    // (undocumented)
     DenseProd = "DenseProd",
+    // (undocumented)
     DevTest = "DevTest",
+    // (undocumented)
     FastProd = "FastProd"
 }
 
 // @public
 export enum KnownComputeInstanceAuthorizationType {
+    // (undocumented)
     Personal = "personal"
 }
 
 // @public
 export enum KnownComputeInstanceState {
+    // (undocumented)
     CreateFailed = "CreateFailed",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     JobRunning = "JobRunning",
+    // (undocumented)
     Restarting = "Restarting",
+    // (undocumented)
     Running = "Running",
+    // (undocumented)
     SettingUp = "SettingUp",
+    // (undocumented)
     SetupFailed = "SetupFailed",
+    // (undocumented)
     Starting = "Starting",
+    // (undocumented)
     Stopped = "Stopped",
+    // (undocumented)
     Stopping = "Stopping",
+    // (undocumented)
     Unknown = "Unknown",
+    // (undocumented)
     Unusable = "Unusable",
+    // (undocumented)
     UserSettingUp = "UserSettingUp",
+    // (undocumented)
     UserSetupFailed = "UserSetupFailed"
 }
 
 // @public
 export enum KnownComputePowerAction {
+    // (undocumented)
     Start = "Start",
+    // (undocumented)
     Stop = "Stop"
 }
 
 // @public
 export enum KnownComputeType {
+    // (undocumented)
     AKS = "AKS",
+    // (undocumented)
     AmlCompute = "AmlCompute",
+    // (undocumented)
     ComputeInstance = "ComputeInstance",
+    // (undocumented)
     Databricks = "Databricks",
+    // (undocumented)
     DataFactory = "DataFactory",
+    // (undocumented)
     DataLakeAnalytics = "DataLakeAnalytics",
+    // (undocumented)
     HDInsight = "HDInsight",
+    // (undocumented)
     Kubernetes = "Kubernetes",
+    // (undocumented)
     SynapseSpark = "SynapseSpark",
+    // (undocumented)
     VirtualMachine = "VirtualMachine"
 }
 
 // @public
 export enum KnownConnectionAuthType {
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PAT = "PAT",
+    // (undocumented)
     SAS = "SAS",
+    // (undocumented)
     UsernamePassword = "UsernamePassword"
 }
 
 // @public
 export enum KnownConnectionCategory {
+    // (undocumented)
     ContainerRegistry = "ContainerRegistry",
+    // (undocumented)
     Git = "Git",
+    // (undocumented)
     PythonFeed = "PythonFeed"
 }
 
 // @public
 export enum KnownContainerType {
+    // (undocumented)
     InferenceServer = "InferenceServer",
+    // (undocumented)
     StorageInitializer = "StorageInitializer"
 }
 
 // @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCredentialsType {
+    // (undocumented)
     AccountKey = "AccountKey",
+    // (undocumented)
     Certificate = "Certificate",
+    // (undocumented)
+    KerberosKeytab = "KerberosKeytab",
+    // (undocumented)
+    KerberosPassword = "KerberosPassword",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     Sas = "Sas",
+    // (undocumented)
     ServicePrincipal = "ServicePrincipal"
 }
 
 // @public
 export enum KnownDatastoreType {
+    // (undocumented)
     AzureBlob = "AzureBlob",
+    // (undocumented)
     AzureDataLakeGen1 = "AzureDataLakeGen1",
+    // (undocumented)
     AzureDataLakeGen2 = "AzureDataLakeGen2",
-    AzureFile = "AzureFile"
+    // (undocumented)
+    AzureFile = "AzureFile",
+    // (undocumented)
+    Hdfs = "Hdfs"
 }
 
 // @public
 export enum KnownDataType {
+    // (undocumented)
     Mltable = "mltable",
+    // (undocumented)
     UriFile = "uri_file",
+    // (undocumented)
     UriFolder = "uri_folder"
 }
 
 // @public
 export enum KnownDeploymentProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Scaling = "Scaling",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownDiagnoseResultLevel {
+    // (undocumented)
     Error = "Error",
+    // (undocumented)
     Information = "Information",
+    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownDistributionType {
+    // (undocumented)
     Mpi = "Mpi",
+    // (undocumented)
     PyTorch = "PyTorch",
+    // (undocumented)
     TensorFlow = "TensorFlow"
 }
 
 // @public
 export enum KnownEarlyTerminationPolicyType {
+    // (undocumented)
     Bandit = "Bandit",
+    // (undocumented)
     MedianStopping = "MedianStopping",
+    // (undocumented)
     TruncationSelection = "TruncationSelection"
 }
 
 // @public
-export enum KnownEncryptionStatus {
+export enum KnownEgressPublicNetworkAccessType {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEncryptionStatus {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEndpointAuthMode {
+    // (undocumented)
     AADToken = "AADToken",
+    // (undocumented)
     AMLToken = "AMLToken",
+    // (undocumented)
     Key = "Key"
 }
 
 // @public
 export enum KnownEndpointComputeType {
+    // (undocumented)
     AzureMLCompute = "AzureMLCompute",
+    // (undocumented)
     Kubernetes = "Kubernetes",
+    // (undocumented)
     Managed = "Managed"
 }
 
 // @public
 export enum KnownEndpointProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownEnvironmentType {
+    // (undocumented)
     Curated = "Curated",
+    // (undocumented)
     UserCreated = "UserCreated"
 }
 
 // @public
+export enum KnownEnvironmentVariableType {
+    // (undocumented)
+    Local = "local"
+}
+
+// @public
+export enum KnownExportFormatType {
+    // (undocumented)
+    Coco = "Coco",
+    // (undocumented)
+    CSV = "CSV",
+    // (undocumented)
+    Dataset = "Dataset"
+}
+
+// @public
+export enum KnownFeatureLags {
+    Auto = "Auto",
+    None = "None"
+}
+
+// @public
+export enum KnownFeaturizationMode {
+    Auto = "Auto",
+    Custom = "Custom",
+    Off = "Off"
+}
+
+// @public
+export enum KnownForecastHorizonMode {
+    Auto = "Auto",
+    Custom = "Custom"
+}
+
+// @public
+export enum KnownForecastingModels {
+    Arimax = "Arimax",
+    AutoArima = "AutoArima",
+    Average = "Average",
+    DecisionTree = "DecisionTree",
+    ElasticNet = "ElasticNet",
+    ExponentialSmoothing = "ExponentialSmoothing",
+    ExtremeRandomTrees = "ExtremeRandomTrees",
+    GradientBoosting = "GradientBoosting",
+    KNN = "KNN",
+    LassoLars = "LassoLars",
+    LightGBM = "LightGBM",
+    Naive = "Naive",
+    Prophet = "Prophet",
+    RandomForest = "RandomForest",
+    SeasonalAverage = "SeasonalAverage",
+    SeasonalNaive = "SeasonalNaive",
+    SGD = "SGD",
+    TCNForecaster = "TCNForecaster",
+    XGBoostRegressor = "XGBoostRegressor"
+}
+
+// @public
+export enum KnownForecastingPrimaryMetrics {
+    NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError",
+    NormalizedRootMeanSquaredError = "NormalizedRootMeanSquaredError",
+    R2Score = "R2Score",
+    SpearmanCorrelation = "SpearmanCorrelation"
+}
+
+// @public
 export enum KnownGoal {
+    // (undocumented)
     Maximize = "Maximize",
+    // (undocumented)
     Minimize = "Minimize"
 }
 
 // @public
 export enum KnownIdentityConfigurationType {
+    // (undocumented)
     AMLToken = "AMLToken",
+    // (undocumented)
     Managed = "Managed",
+    // (undocumented)
     UserIdentity = "UserIdentity"
 }
 
 // @public
+export enum KnownImageAnnotationType {
+    // (undocumented)
+    BoundingBox = "BoundingBox",
+    // (undocumented)
+    Classification = "Classification",
+    // (undocumented)
+    InstanceSegmentation = "InstanceSegmentation"
+}
+
+// @public
+export enum KnownImageType {
+    // (undocumented)
+    Azureml = "azureml",
+    // (undocumented)
+    Docker = "docker"
+}
+
+// @public
 export enum KnownInputDeliveryMode {
+    // (undocumented)
     Direct = "Direct",
+    // (undocumented)
     Download = "Download",
+    // (undocumented)
     EvalDownload = "EvalDownload",
+    // (undocumented)
     EvalMount = "EvalMount",
+    // (undocumented)
     ReadOnlyMount = "ReadOnlyMount",
+    // (undocumented)
     ReadWriteMount = "ReadWriteMount"
 }
 
 // @public
+export enum KnownInstanceSegmentationPrimaryMetrics {
+    MeanAveragePrecision = "MeanAveragePrecision"
+}
+
+// @public
 export enum KnownJobInputType {
+    // (undocumented)
     CustomModel = "custom_model",
+    // (undocumented)
     Literal = "literal",
+    // (undocumented)
     MlflowModel = "mlflow_model",
+    // (undocumented)
     Mltable = "mltable",
+    // (undocumented)
     TritonModel = "triton_model",
+    // (undocumented)
     UriFile = "uri_file",
+    // (undocumented)
     UriFolder = "uri_folder"
 }
 
 // @public
 export enum KnownJobLimitsType {
+    // (undocumented)
     Command = "Command",
+    // (undocumented)
     Sweep = "Sweep"
 }
 
 // @public
 export enum KnownJobOutputType {
+    // (undocumented)
     CustomModel = "custom_model",
+    // (undocumented)
     MlflowModel = "mlflow_model",
+    // (undocumented)
     Mltable = "mltable",
+    // (undocumented)
     TritonModel = "triton_model",
+    // (undocumented)
     UriFile = "uri_file",
+    // (undocumented)
     UriFolder = "uri_folder"
+}
+
+// @public
+export enum KnownJobProvisioningState {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2399,228 +3248,474 @@ export enum KnownJobStatus {
     Provisioning = "Provisioning",
     Queued = "Queued",
     Running = "Running",
+    Scheduled = "Scheduled",
     Starting = "Starting",
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownJobType {
+    // (undocumented)
+    AutoML = "AutoML",
+    // (undocumented)
     Command = "Command",
+    // (undocumented)
+    Labeling = "Labeling",
+    // (undocumented)
     Pipeline = "Pipeline",
+    // (undocumented)
+    Spark = "Spark",
+    // (undocumented)
     Sweep = "Sweep"
 }
 
 // @public
 export enum KnownKeyType {
+    // (undocumented)
     Primary = "Primary",
+    // (undocumented)
     Secondary = "Secondary"
 }
 
 // @public
+export enum KnownLearningRateScheduler {
+    None = "None",
+    Step = "Step",
+    WarmupCosine = "WarmupCosine"
+}
+
+// @public
 export enum KnownListViewType {
+    // (undocumented)
     ActiveOnly = "ActiveOnly",
+    // (undocumented)
     All = "All",
+    // (undocumented)
     ArchivedOnly = "ArchivedOnly"
 }
 
 // @public
 export enum KnownLoadBalancerType {
+    // (undocumented)
     InternalLoadBalancer = "InternalLoadBalancer",
+    // (undocumented)
     PublicIp = "PublicIp"
 }
 
 // @public
+export enum KnownLogVerbosity {
+    Critical = "Critical",
+    Debug = "Debug",
+    Error = "Error",
+    Info = "Info",
+    NotSet = "NotSet",
+    Warning = "Warning"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
+    // (undocumented)
     None = "None",
+    // (undocumented)
     SystemAssigned = "SystemAssigned",
+    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
+export enum KnownMediaType {
+    // (undocumented)
+    Image = "Image",
+    // (undocumented)
+    Text = "Text"
+}
+
+// @public
+export enum KnownMLAssistConfigurationType {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownModelSize {
+    ExtraLarge = "ExtraLarge",
+    Large = "Large",
+    Medium = "Medium",
+    None = "None",
+    Small = "Small"
+}
+
+// @public
 export enum KnownMountAction {
+    // (undocumented)
     Mount = "Mount",
+    // (undocumented)
     Unmount = "Unmount"
 }
 
 // @public
 export enum KnownMountState {
+    // (undocumented)
     Mounted = "Mounted",
+    // (undocumented)
     MountFailed = "MountFailed",
+    // (undocumented)
     MountRequested = "MountRequested",
+    // (undocumented)
     Unmounted = "Unmounted",
+    // (undocumented)
     UnmountFailed = "UnmountFailed",
+    // (undocumented)
     UnmountRequested = "UnmountRequested"
 }
 
 // @public
+export enum KnownNCrossValidationsMode {
+    Auto = "Auto",
+    Custom = "Custom"
+}
+
+// @public
 export enum KnownNetwork {
+    // (undocumented)
     Bridge = "Bridge",
+    // (undocumented)
     Host = "Host"
 }
 
 // @public
 export enum KnownNodeState {
+    // (undocumented)
     Idle = "idle",
+    // (undocumented)
     Leaving = "leaving",
+    // (undocumented)
     Preempted = "preempted",
+    // (undocumented)
     Preparing = "preparing",
+    // (undocumented)
     Running = "running",
+    // (undocumented)
     Unusable = "unusable"
 }
 
 // @public
+export enum KnownObjectDetectionPrimaryMetrics {
+    MeanAveragePrecision = "MeanAveragePrecision"
+}
+
+// @public
 export enum KnownOperatingSystemType {
+    // (undocumented)
     Linux = "Linux",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownOperationName {
+    // (undocumented)
     Create = "Create",
+    // (undocumented)
     Delete = "Delete",
+    // (undocumented)
     Reimage = "Reimage",
+    // (undocumented)
     Restart = "Restart",
+    // (undocumented)
     Start = "Start",
+    // (undocumented)
     Stop = "Stop"
 }
 
 // @public
 export enum KnownOperationStatus {
+    // (undocumented)
     CreateFailed = "CreateFailed",
+    // (undocumented)
     DeleteFailed = "DeleteFailed",
+    // (undocumented)
     InProgress = "InProgress",
+    // (undocumented)
     ReimageFailed = "ReimageFailed",
+    // (undocumented)
     RestartFailed = "RestartFailed",
+    // (undocumented)
     StartFailed = "StartFailed",
+    // (undocumented)
     StopFailed = "StopFailed",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownOperationTrigger {
+    // (undocumented)
     IdleShutdown = "IdleShutdown",
+    // (undocumented)
     Schedule = "Schedule",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownOrderString {
+    // (undocumented)
     CreatedAtAsc = "CreatedAtAsc",
+    // (undocumented)
     CreatedAtDesc = "CreatedAtDesc",
+    // (undocumented)
     UpdatedAtAsc = "UpdatedAtAsc",
+    // (undocumented)
     UpdatedAtDesc = "UpdatedAtDesc"
 }
 
 // @public
 export enum KnownOsType {
+    // (undocumented)
     Linux = "Linux",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownOutputDeliveryMode {
+    // (undocumented)
+    Direct = "Direct",
+    // (undocumented)
     ReadWriteMount = "ReadWriteMount",
+    // (undocumented)
     Upload = "Upload"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
+    // (undocumented)
     Approved = "Approved",
+    // (undocumented)
     Disconnected = "Disconnected",
+    // (undocumented)
     Pending = "Pending",
+    // (undocumented)
     Rejected = "Rejected",
+    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
+export enum KnownProtocol {
+    // (undocumented)
+    Http = "http",
+    // (undocumented)
+    Tcp = "tcp",
+    // (undocumented)
+    Udp = "udp"
+}
+
+// @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Unknown = "Unknown",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownProvisioningStatus {
+    // (undocumented)
     Completed = "Completed",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Provisioning = "Provisioning"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownPublicNetworkAccessType {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownQuotaUnit {
+    // (undocumented)
     Count = "Count"
 }
 
 // @public
 export enum KnownRandomSamplingAlgorithmRule {
+    // (undocumented)
     Random = "Random",
+    // (undocumented)
     Sobol = "Sobol"
 }
 
 // @public
+export enum KnownRecurrenceFrequency {
+    Day = "Day",
+    Hour = "Hour",
+    Minute = "Minute",
+    Month = "Month",
+    Week = "Week"
+}
+
+// @public
 export enum KnownReferenceType {
+    // (undocumented)
     DataPath = "DataPath",
+    // (undocumented)
     Id = "Id",
+    // (undocumented)
     OutputPath = "OutputPath"
 }
 
 // @public
+export enum KnownRegressionModels {
+    DecisionTree = "DecisionTree",
+    ElasticNet = "ElasticNet",
+    ExtremeRandomTrees = "ExtremeRandomTrees",
+    GradientBoosting = "GradientBoosting",
+    KNN = "KNN",
+    LassoLars = "LassoLars",
+    LightGBM = "LightGBM",
+    RandomForest = "RandomForest",
+    SGD = "SGD",
+    XGBoostRegressor = "XGBoostRegressor"
+}
+
+// @public
+export enum KnownRegressionPrimaryMetrics {
+    NormalizedMeanAbsoluteError = "NormalizedMeanAbsoluteError",
+    NormalizedRootMeanSquaredError = "NormalizedRootMeanSquaredError",
+    R2Score = "R2Score",
+    SpearmanCorrelation = "SpearmanCorrelation"
+}
+
+// @public
 export enum KnownRemoteLoginPortPublicAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled",
+    // (undocumented)
     NotSpecified = "NotSpecified"
 }
 
 // @public
 export enum KnownSamplingAlgorithmType {
+    // (undocumented)
     Bayesian = "Bayesian",
+    // (undocumented)
     Grid = "Grid",
+    // (undocumented)
     Random = "Random"
 }
 
 // @public
 export enum KnownScaleType {
+    // (undocumented)
     Default = "Default",
+    // (undocumented)
     TargetUtilization = "TargetUtilization"
 }
 
 // @public
+export enum KnownScheduleActionType {
+    // (undocumented)
+    CreateJob = "CreateJob",
+    // (undocumented)
+    InvokeBatchEndpoint = "InvokeBatchEndpoint"
+}
+
+// @public
 export enum KnownScheduleProvisioningState {
+    // (undocumented)
     Completed = "Completed",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Provisioning = "Provisioning"
 }
 
 // @public
+export enum KnownScheduleProvisioningStatus {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownScheduleStatus {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownSeasonalityMode {
+    Auto = "Auto",
+    Custom = "Custom"
+}
+
+// @public
 export enum KnownSecretsType {
+    // (undocumented)
     AccountKey = "AccountKey",
+    // (undocumented)
     Certificate = "Certificate",
+    // (undocumented)
+    KerberosKeytab = "KerberosKeytab",
+    // (undocumented)
+    KerberosPassword = "KerberosPassword",
+    // (undocumented)
     Sas = "Sas",
+    // (undocumented)
     ServicePrincipal = "ServicePrincipal"
 }
 
@@ -2632,6 +3727,14 @@ export enum KnownServiceDataAccessAuthIdentity {
 }
 
 // @public
+export enum KnownShortSeriesHandlingConfiguration {
+    Auto = "Auto",
+    Drop = "Drop",
+    None = "None",
+    Pad = "Pad"
+}
+
+// @public
 export enum KnownSkuScaleType {
     Automatic = "Automatic",
     Manual = "Manual",
@@ -2640,91 +3743,258 @@ export enum KnownSkuScaleType {
 
 // @public
 export enum KnownSourceType {
+    // (undocumented)
     Dataset = "Dataset",
+    // (undocumented)
     Datastore = "Datastore",
+    // (undocumented)
     URI = "URI"
 }
 
 // @public
+export enum KnownSparkJobEntryType {
+    // (undocumented)
+    SparkJobPythonEntry = "SparkJobPythonEntry",
+    // (undocumented)
+    SparkJobScalaEntry = "SparkJobScalaEntry"
+}
+
+// @public
 export enum KnownSshPublicAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSslConfigStatus {
+    // (undocumented)
     Auto = "Auto",
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownStackMetaLearnerType {
+    ElasticNet = "ElasticNet",
+    ElasticNetCV = "ElasticNetCV",
+    // (undocumented)
+    LightGBMClassifier = "LightGBMClassifier",
+    // (undocumented)
+    LightGBMRegressor = "LightGBMRegressor",
+    // (undocumented)
+    LinearRegression = "LinearRegression",
+    LogisticRegression = "LogisticRegression",
+    LogisticRegressionCV = "LogisticRegressionCV",
+    // (undocumented)
+    None = "None"
+}
+
+// @public
 export enum KnownStatus {
+    // (undocumented)
     Failure = "Failure",
+    // (undocumented)
     InvalidQuotaBelowClusterMinimum = "InvalidQuotaBelowClusterMinimum",
+    // (undocumented)
     InvalidQuotaExceedsSubscriptionLimit = "InvalidQuotaExceedsSubscriptionLimit",
+    // (undocumented)
     InvalidVMFamilyName = "InvalidVMFamilyName",
+    // (undocumented)
     OperationNotEnabledForRegion = "OperationNotEnabledForRegion",
+    // (undocumented)
     OperationNotSupportedForSku = "OperationNotSupportedForSku",
+    // (undocumented)
     Success = "Success",
+    // (undocumented)
     Undefined = "Undefined"
 }
 
 // @public
+export enum KnownStatusMessageLevel {
+    // (undocumented)
+    Error = "Error",
+    // (undocumented)
+    Information = "Information",
+    // (undocumented)
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownStochasticOptimizer {
+    Adam = "Adam",
+    Adamw = "Adamw",
+    None = "None",
+    Sgd = "Sgd"
+}
+
+// @public
 export enum KnownStorageAccountType {
+    // (undocumented)
     PremiumLRS = "Premium_LRS",
+    // (undocumented)
     StandardLRS = "Standard_LRS"
 }
 
 // @public
+export enum KnownTargetAggregationFunction {
+    // (undocumented)
+    Max = "Max",
+    // (undocumented)
+    Mean = "Mean",
+    // (undocumented)
+    Min = "Min",
+    None = "None",
+    // (undocumented)
+    Sum = "Sum"
+}
+
+// @public
+export enum KnownTargetLagsMode {
+    Auto = "Auto",
+    Custom = "Custom"
+}
+
+// @public
+export enum KnownTargetRollingWindowSizeMode {
+    Auto = "Auto",
+    Custom = "Custom"
+}
+
+// @public
+export enum KnownTaskType {
+    Classification = "Classification",
+    Forecasting = "Forecasting",
+    ImageClassification = "ImageClassification",
+    ImageClassificationMultilabel = "ImageClassificationMultilabel",
+    ImageInstanceSegmentation = "ImageInstanceSegmentation",
+    ImageObjectDetection = "ImageObjectDetection",
+    Regression = "Regression",
+    TextClassification = "TextClassification",
+    TextClassificationMultilabel = "TextClassificationMultilabel",
+    TextNER = "TextNER"
+}
+
+// @public
+export enum KnownTextAnnotationType {
+    // (undocumented)
+    Classification = "Classification",
+    // (undocumented)
+    NamedEntityRecognition = "NamedEntityRecognition"
+}
+
+// @public
+export enum KnownTriggerType {
+    // (undocumented)
+    Cron = "Cron",
+    // (undocumented)
+    Recurrence = "Recurrence"
+}
+
+// @public
 export enum KnownUnderlyingResourceAction {
+    // (undocumented)
     Delete = "Delete",
+    // (undocumented)
     Detach = "Detach"
 }
 
 // @public
 export enum KnownUnitOfMeasure {
+    // (undocumented)
     OneHour = "OneHour"
 }
 
 // @public
 export enum KnownUsageUnit {
+    // (undocumented)
     Count = "Count"
 }
 
 // @public
+export enum KnownUseStl {
+    None = "None",
+    // (undocumented)
+    Season = "Season",
+    // (undocumented)
+    SeasonTrend = "SeasonTrend"
+}
+
+// @public
+export enum KnownValidationMetricType {
+    Coco = "Coco",
+    CocoVoc = "CocoVoc",
+    None = "None",
+    Voc = "Voc"
+}
+
+// @public
 export enum KnownValueFormat {
+    // (undocumented)
     Json = "JSON"
 }
 
 // @public
 export enum KnownVMPriceOSType {
+    // (undocumented)
     Linux = "Linux",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownVmPriority {
+    // (undocumented)
     Dedicated = "Dedicated",
+    // (undocumented)
     LowPriority = "LowPriority"
 }
 
 // @public
 export enum KnownVMTier {
+    // (undocumented)
     LowPriority = "LowPriority",
+    // (undocumented)
     Spot = "Spot",
+    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export interface Kubernetes extends Compute, KubernetesSchema {
-    computeType: "Kubernetes";
+export enum KnownVolumeDefinitionType {
+    // (undocumented)
+    Bind = "bind",
+    // (undocumented)
+    Npipe = "npipe",
+    // (undocumented)
+    Tmpfs = "tmpfs",
+    // (undocumented)
+    Volume = "volume"
 }
 
 // @public
-export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
-    containerResourceRequirements?: ContainerResourceRequirements;
+export enum KnownWeekDay {
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
 }
+
+// @public
+export type Kubernetes = Compute & KubernetesSchema & {
+    computeType: "Kubernetes";
+};
+
+// @public
+export type KubernetesOnlineDeployment = OnlineDeploymentProperties & {
+    containerResourceRequirements?: ContainerResourceRequirements;
+};
 
 // @public
 export interface KubernetesProperties {
@@ -2744,6 +4014,175 @@ export interface KubernetesProperties {
 export interface KubernetesSchema {
     properties?: KubernetesProperties;
 }
+
+// @public
+export interface LabelCategory {
+    classes?: {
+        [propertyName: string]: LabelClass | null;
+    };
+    displayName?: string;
+    multiSelectEnabled?: boolean;
+}
+
+// @public
+export interface LabelClass {
+    displayName?: string;
+    subclasses?: {
+        [propertyName: string]: LabelClass | null;
+    };
+}
+
+// @public
+export interface LabelingDataConfiguration {
+    dataId?: string;
+    incrementalDataRefreshEnabled?: boolean;
+}
+
+// @public
+export type LabelingJob = Resource & {
+    properties: LabelingJobProperties;
+};
+
+// @public
+export type LabelingJobImageProperties = LabelingJobMediaProperties & {
+    mediaType: "Image";
+    annotationType?: ImageAnnotationType;
+};
+
+// @public
+export interface LabelingJobInstructions {
+    uri?: string;
+}
+
+// @public
+export interface LabelingJobMediaProperties {
+    mediaType: "Image" | "Text";
+}
+
+// @public (undocumented)
+export type LabelingJobMediaPropertiesUnion = LabelingJobMediaProperties | LabelingJobImageProperties | LabelingJobTextProperties;
+
+// @public
+export type LabelingJobProperties = JobBaseProperties & {
+    readonly createdDateTime?: Date;
+    dataConfiguration?: LabelingDataConfiguration;
+    jobInstructions?: LabelingJobInstructions;
+    labelCategories?: {
+        [propertyName: string]: LabelCategory | null;
+    };
+    labelingJobMediaProperties?: LabelingJobMediaPropertiesUnion;
+    mlAssistConfiguration?: MLAssistConfigurationUnion;
+    readonly progressMetrics?: ProgressMetrics;
+    readonly projectId?: string;
+    readonly provisioningState?: JobProvisioningState;
+    readonly statusMessages?: StatusMessage[];
+};
+
+// @public
+export interface LabelingJobResourceArmPaginatedResult {
+    nextLink?: string;
+    value?: LabelingJob[];
+}
+
+// @public
+export interface LabelingJobs {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, id: string, body: LabelingJob, options?: LabelingJobsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabelingJobsCreateOrUpdateResponse>, LabelingJobsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, id: string, body: LabelingJob, options?: LabelingJobsCreateOrUpdateOptionalParams): Promise<LabelingJobsCreateOrUpdateResponse>;
+    beginExportLabels(resourceGroupName: string, workspaceName: string, id: string, body: ExportSummaryUnion, options?: LabelingJobsExportLabelsOptionalParams): Promise<PollerLike<PollOperationState<LabelingJobsExportLabelsResponse>, LabelingJobsExportLabelsResponse>>;
+    beginExportLabelsAndWait(resourceGroupName: string, workspaceName: string, id: string, body: ExportSummaryUnion, options?: LabelingJobsExportLabelsOptionalParams): Promise<LabelingJobsExportLabelsResponse>;
+    beginResume(resourceGroupName: string, workspaceName: string, id: string, options?: LabelingJobsResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResumeAndWait(resourceGroupName: string, workspaceName: string, id: string, options?: LabelingJobsResumeOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, workspaceName: string, id: string, options?: LabelingJobsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, id: string, options?: LabelingJobsGetOptionalParams): Promise<LabelingJobsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: LabelingJobsListOptionalParams): PagedAsyncIterableIterator<LabelingJob>;
+    pause(resourceGroupName: string, workspaceName: string, id: string, options?: LabelingJobsPauseOptionalParams): Promise<void>;
+}
+
+// @public
+export interface LabelingJobsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface LabelingJobsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabelingJobsCreateOrUpdateResponse = LabelingJob;
+
+// @public
+export interface LabelingJobsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface LabelingJobsExportLabelsHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LabelingJobsExportLabelsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabelingJobsExportLabelsResponse = ExportSummaryUnion;
+
+// @public
+export interface LabelingJobsGetOptionalParams extends coreClient.OperationOptions {
+    includeJobInstructions?: boolean;
+    includeLabelCategories?: boolean;
+}
+
+// @public
+export type LabelingJobsGetResponse = LabelingJob;
+
+// @public
+export interface LabelingJobsListNextOptionalParams extends coreClient.OperationOptions {
+    count?: number;
+    skip?: string;
+}
+
+// @public
+export type LabelingJobsListNextResponse = LabelingJobResourceArmPaginatedResult;
+
+// @public
+export interface LabelingJobsListOptionalParams extends coreClient.OperationOptions {
+    count?: number;
+    skip?: string;
+}
+
+// @public
+export type LabelingJobsListResponse = LabelingJobResourceArmPaginatedResult;
+
+// @public
+export interface LabelingJobsPauseOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface LabelingJobsResumeHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface LabelingJobsResumeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabelingJobTextProperties = LabelingJobMediaProperties & {
+    mediaType: "Text";
+    annotationType?: TextAnnotationType;
+};
+
+// @public
+export type LearningRateScheduler = string;
 
 // @public
 export interface ListAmlUserFeatureResult {
@@ -2787,32 +4226,33 @@ export interface ListWorkspaceQuotas {
 }
 
 // @public
-export interface LiteralJobInput extends JobInput {
+export type LiteralJobInput = JobInput & {
     jobInputType: "literal";
     value: string;
-}
+};
 
 // @public
 export type LoadBalancerType = string;
 
 // @public
-export interface ManagedIdentity extends IdentityConfiguration {
-    clientId?: string;
-    identityType: "Managed";
-    objectId?: string;
-    resourceId?: string;
-}
-
-// @public (undocumented)
-export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
-    authType: "ManagedIdentity";
-    // (undocumented)
-    credentials?: WorkspaceConnectionManagedIdentity;
-}
+export type LogVerbosity = string;
 
 // @public
-export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
-}
+export type ManagedIdentity = IdentityConfiguration & {
+    identityType: "Managed";
+    clientId?: string;
+    objectId?: string;
+    resourceId?: string;
+};
+
+// @public (undocumented)
+export type ManagedIdentityAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
+    authType: "ManagedIdentity";
+    credentials?: WorkspaceConnectionManagedIdentity;
+};
+
+// @public
+export type ManagedOnlineDeployment = OnlineDeploymentProperties & {};
 
 // @public
 export interface ManagedServiceIdentity {
@@ -2828,39 +4268,60 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface MedianStoppingPolicy extends EarlyTerminationPolicy {
+export type MedianStoppingPolicy = EarlyTerminationPolicy & {
     policyType: "MedianStopping";
-}
+};
 
-// @public (undocumented)
-export interface MLFlowModelJobInput extends AssetJobInput, JobInput {
-}
+// @public
+export type MediaType = string;
 
-// @public (undocumented)
-export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {
+// @public
+export interface MLAssistConfiguration {
+    mlAssist: "Disabled" | "Enabled";
 }
 
 // @public
-export interface MLTableData extends DataVersionBaseProperties {
+export type MLAssistConfigurationDisabled = MLAssistConfiguration & {
+    mlAssist: "Disabled";
+};
+
+// @public
+export type MLAssistConfigurationEnabled = MLAssistConfiguration & {
+    mlAssist: "Enabled";
+    inferencingComputeBinding: string;
+    trainingComputeBinding: string;
+};
+
+// @public
+export type MLAssistConfigurationType = string;
+
+// @public (undocumented)
+export type MLAssistConfigurationUnion = MLAssistConfiguration | MLAssistConfigurationDisabled | MLAssistConfigurationEnabled;
+
+// @public (undocumented)
+export type MLFlowModelJobInput = AssetJobInput & JobInput & {};
+
+// @public (undocumented)
+export type MLFlowModelJobOutput = AssetJobOutput & JobOutput & {};
+
+// @public
+export type MLTableData = DataVersionBaseProperties & {
     referencedUris?: string[];
-}
+};
 
 // @public (undocumented)
-export interface MLTableJobInput extends AssetJobInput, JobInput {
-}
+export type MLTableJobInput = AssetJobInput & JobInput & {};
 
 // @public (undocumented)
-export interface MLTableJobOutput extends AssetJobOutput, JobOutput {
-}
+export type MLTableJobOutput = AssetJobOutput & JobOutput & {};
 
 // @public
-export interface ModelContainer extends Resource {
+export type ModelContainer = Resource & {
     properties: ModelContainerProperties;
-}
+};
 
 // @public (undocumented)
-export interface ModelContainerProperties extends AssetContainer {
-}
+export type ModelContainerProperties = AssetContainer & {};
 
 // @public
 export interface ModelContainerResourceArmPaginatedResult {
@@ -2915,19 +4376,22 @@ export interface ModelContainersListOptionalParams extends coreClient.OperationO
 export type ModelContainersListResponse = ModelContainerResourceArmPaginatedResult;
 
 // @public
-export interface ModelVersion extends Resource {
-    properties: ModelVersionProperties;
-}
+export type ModelSize = string;
 
 // @public
-export interface ModelVersionProperties extends AssetBase {
+export type ModelVersion = Resource & {
+    properties: ModelVersionProperties;
+};
+
+// @public
+export type ModelVersionProperties = AssetBase & {
     flavors?: {
         [propertyName: string]: FlavorData | null;
     };
     jobName?: string;
     modelType?: string;
     modelUri?: string;
-}
+};
 
 // @public
 export interface ModelVersionResourceArmPaginatedResult {
@@ -3002,13 +4466,41 @@ export type MountAction = string;
 export type MountState = string;
 
 // @public
-export interface Mpi extends DistributionConfiguration {
+export type Mpi = DistributionConfiguration & {
     distributionType: "Mpi";
     processCountPerInstance?: number;
+};
+
+// @public
+export interface NCrossValidations {
+    mode: "Auto" | "Custom";
 }
 
 // @public
+export type NCrossValidationsMode = string;
+
+// @public (undocumented)
+export type NCrossValidationsUnion = NCrossValidations | AutoNCrossValidations | CustomNCrossValidations;
+
+// @public
 export type Network = string;
+
+// @public
+export interface NlpVertical {
+    featurizationSettings?: NlpVerticalFeaturizationSettings;
+    limitSettings?: NlpVerticalLimitSettings;
+    validationData?: MLTableJobInput;
+}
+
+// @public (undocumented)
+export type NlpVerticalFeaturizationSettings = FeaturizationSettings & {};
+
+// @public
+export interface NlpVerticalLimitSettings {
+    maxConcurrentTrials?: number;
+    maxTrials?: number;
+    timeout?: string;
+}
 
 // @public
 export type NodeState = string;
@@ -3024,14 +4516,14 @@ export interface NodeStateCounts {
 }
 
 // @public (undocumented)
-export interface NoneAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
+export type NoneAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
     authType: "None";
-}
+};
 
 // @public
-export interface NoneDatastoreCredentials extends DatastoreCredentials {
+export type NoneDatastoreCredentials = DatastoreCredentials & {
     credentialsType: "None";
-}
+};
 
 // @public (undocumented)
 export interface NotebookAccessTokenResult {
@@ -3062,22 +4554,26 @@ export interface NotebookResourceInfo {
 }
 
 // @public
+export type ObjectDetectionPrimaryMetrics = string;
+
+// @public
 export interface Objective {
     goal: Goal;
     primaryMetric: string;
 }
 
 // @public (undocumented)
-export interface OnlineDeployment extends TrackedResource {
+export type OnlineDeployment = TrackedResource & {
     identity?: ManagedServiceIdentity;
     kind?: string;
     properties: OnlineDeploymentPropertiesUnion;
     sku?: Sku;
-}
+};
 
 // @public (undocumented)
-export interface OnlineDeploymentProperties extends EndpointDeploymentPropertiesBase {
+export type OnlineDeploymentProperties = EndpointDeploymentPropertiesBase & {
     appInsightsEnabled?: boolean;
+    egressPublicNetworkAccess?: EgressPublicNetworkAccessType;
     endpointComputeType: EndpointComputeType;
     instanceType?: string;
     livenessProbe?: ProbeSettings;
@@ -3087,7 +4583,7 @@ export interface OnlineDeploymentProperties extends EndpointDeploymentProperties
     readinessProbe?: ProbeSettings;
     requestSettings?: OnlineRequestSettings;
     scaleSettings?: OnlineScaleSettingsUnion;
-}
+};
 
 // @public (undocumented)
 export type OnlineDeploymentPropertiesUnion = OnlineDeploymentProperties | KubernetesOnlineDeployment | ManagedOnlineDeployment;
@@ -3209,21 +4705,25 @@ export interface OnlineDeploymentTrackedResourceArmPaginatedResult {
 }
 
 // @public (undocumented)
-export interface OnlineEndpoint extends TrackedResource {
+export type OnlineEndpoint = TrackedResource & {
     identity?: ManagedServiceIdentity;
     kind?: string;
     properties: OnlineEndpointProperties;
     sku?: Sku;
-}
+};
 
 // @public
-export interface OnlineEndpointProperties extends EndpointPropertiesBase {
+export type OnlineEndpointProperties = EndpointPropertiesBase & {
     compute?: string;
+    mirrorTraffic?: {
+        [propertyName: string]: number;
+    };
     readonly provisioningState?: EndpointProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccessType;
     traffic?: {
         [propertyName: string]: number;
     };
-}
+};
 
 // @public
 export interface OnlineEndpoints {
@@ -3401,11 +4901,11 @@ export type OsType = string;
 export type OutputDeliveryMode = string;
 
 // @public
-export interface OutputPathAssetReference extends AssetReferenceBase {
+export type OutputPathAssetReference = AssetReferenceBase & {
+    referenceType: "OutputPath";
     jobId?: string;
     path?: string;
-    referenceType: "OutputPath";
-}
+};
 
 // @public
 export interface PaginatedComputeResourcesList {
@@ -3442,14 +4942,14 @@ export interface PartialMinimalTrackedResource {
 }
 
 // @public
-export interface PartialMinimalTrackedResourceWithIdentity extends PartialMinimalTrackedResource {
+export type PartialMinimalTrackedResourceWithIdentity = PartialMinimalTrackedResource & {
     identity?: PartialManagedServiceIdentity;
-}
+};
 
 // @public
-export interface PartialMinimalTrackedResourceWithSku extends PartialMinimalTrackedResource {
+export type PartialMinimalTrackedResourceWithSku = PartialMinimalTrackedResource & {
     sku?: PartialSku;
-}
+};
 
 // @public
 export interface PartialSku {
@@ -3467,11 +4967,10 @@ export interface Password {
 }
 
 // @public (undocumented)
-export interface PATAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
+export type PATAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
     authType: "PAT";
-    // (undocumented)
     credentials?: WorkspaceConnectionPersonalAccessToken;
-}
+};
 
 // @public
 export interface PersonalComputeInstanceSettings {
@@ -3479,7 +4978,7 @@ export interface PersonalComputeInstanceSettings {
 }
 
 // @public
-export interface PipelineJob extends JobBaseProperties {
+export type PipelineJob = JobBaseProperties & {
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
     };
@@ -3490,7 +4989,8 @@ export interface PipelineJob extends JobBaseProperties {
         [propertyName: string]: JobOutputUnion | null;
     };
     settings?: Record<string, unknown>;
-}
+    sourceJobId?: string;
+};
 
 // @public
 export interface PrivateEndpoint {
@@ -3499,17 +4999,17 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
+export type PrivateEndpointConnection = Resource & {
     identity?: ManagedServiceIdentity;
     location?: string;
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-    sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };
-}
+    sku?: Sku;
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -3556,17 +5056,17 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
+export type PrivateLinkResource = Resource & {
     identity?: ManagedServiceIdentity;
     location?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-    sku?: Sku;
     tags?: {
         [propertyName: string]: string;
     };
-}
+    sku?: Sku;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+};
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -3602,6 +5102,17 @@ export interface ProbeSettings {
 }
 
 // @public
+export interface ProgressMetrics {
+    readonly completedDatapointCount?: number;
+    readonly incrementalDataLastRefreshDateTime?: Date;
+    readonly skippedDatapointCount?: number;
+    readonly totalDatapointCount?: number;
+}
+
+// @public
+export type Protocol = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -3611,10 +5122,13 @@ export type ProvisioningStatus = string;
 export type PublicNetworkAccess = string;
 
 // @public
-export interface PyTorch extends DistributionConfiguration {
+export type PublicNetworkAccessType = string;
+
+// @public
+export type PyTorch = DistributionConfiguration & {
     distributionType: "PyTorch";
     processCountPerInstance?: number;
-}
+};
 
 // @public
 export interface QuotaBaseProperties {
@@ -3661,14 +5175,32 @@ export interface QuotaUpdateParameters {
 }
 
 // @public
-export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
-    rule?: RandomSamplingAlgorithmRule;
+export type RandomSamplingAlgorithm = SamplingAlgorithm & {
     samplingAlgorithmType: "Random";
+    rule?: RandomSamplingAlgorithmRule;
     seed?: number;
-}
+};
 
 // @public
 export type RandomSamplingAlgorithmRule = string;
+
+// @public
+export type RecurrenceFrequency = string;
+
+// @public (undocumented)
+export interface RecurrenceSchedule {
+    hours: number[];
+    minutes: number[];
+    weekDays?: WeekDay[];
+}
+
+// @public (undocumented)
+export type RecurrenceTrigger = TriggerBase & {
+    triggerType: "Recurrence";
+    frequency: RecurrenceFrequency;
+    interval: number;
+    schedule: RecurrenceSchedule;
+};
 
 // @public
 export type ReferenceType = string;
@@ -3686,6 +5218,24 @@ export interface RegistryListCredentialsResult {
     passwords?: Password[];
     readonly username?: string;
 }
+
+// @public
+export type Regression = TableVertical & AutoMLVertical & {
+    primaryMetric?: RegressionPrimaryMetrics;
+    trainingSettings?: RegressionTrainingSettings;
+};
+
+// @public
+export type RegressionModels = string;
+
+// @public
+export type RegressionPrimaryMetrics = string;
+
+// @public
+export type RegressionTrainingSettings = TrainingSettings & {
+    allowedTrainingAlgorithms?: RegressionModels[];
+    blockedTrainingAlgorithms?: RegressionModels[];
+};
 
 // @public
 export type RemoteLoginPortPublicAccess = string;
@@ -3757,23 +5307,22 @@ export type SamplingAlgorithmType = string;
 export type SamplingAlgorithmUnion = SamplingAlgorithm | BayesianSamplingAlgorithm | GridSamplingAlgorithm | RandomSamplingAlgorithm;
 
 // @public (undocumented)
-export interface SASAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
+export type SASAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
     authType: "SAS";
-    // (undocumented)
     credentials?: WorkspaceConnectionSharedAccessSignature;
-}
+};
 
 // @public
-export interface SasDatastoreCredentials extends DatastoreCredentials {
+export type SasDatastoreCredentials = DatastoreCredentials & {
     credentialsType: "Sas";
     secrets: SasDatastoreSecrets;
-}
+};
 
 // @public
-export interface SasDatastoreSecrets extends DatastoreSecrets {
-    sasToken?: string;
+export type SasDatastoreSecrets = DatastoreSecrets & {
     secretsType: "Sas";
-}
+    sasToken?: string;
+};
 
 // @public
 export interface ScaleSettings {
@@ -3790,6 +5339,22 @@ export interface ScaleSettingsInformation {
 // @public
 export type ScaleType = string;
 
+// @public
+export type Schedule = Resource & {
+    properties: ScheduleProperties;
+};
+
+// @public (undocumented)
+export interface ScheduleActionBase {
+    actionType: "InvokeBatchEndpoint" | "CreateJob";
+}
+
+// @public (undocumented)
+export type ScheduleActionBaseUnion = ScheduleActionBase | EndpointScheduleAction | JobScheduleAction;
+
+// @public
+export type ScheduleActionType = string;
+
 // @public (undocumented)
 export interface ScheduleBase {
     // (undocumented)
@@ -3801,7 +5366,86 @@ export interface ScheduleBase {
 }
 
 // @public
+export type ScheduleProperties = ResourceBase & {
+    action: ScheduleActionBaseUnion;
+    displayName?: string;
+    isEnabled?: boolean;
+    readonly provisioningState?: ScheduleProvisioningStatus;
+    trigger: TriggerBaseUnion;
+};
+
+// @public
 export type ScheduleProvisioningState = string;
+
+// @public
+export type ScheduleProvisioningStatus = string;
+
+// @public
+export interface ScheduleResourceArmPaginatedResult {
+    nextLink?: string;
+    value?: Schedule[];
+}
+
+// @public
+export interface Schedules {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SchedulesCreateOrUpdateResponse>, SchedulesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, name: string, body: Schedule, options?: SchedulesCreateOrUpdateOptionalParams): Promise<SchedulesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, name: string, options?: SchedulesGetOptionalParams): Promise<SchedulesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: SchedulesListOptionalParams): PagedAsyncIterableIterator<Schedule>;
+}
+
+// @public
+export interface SchedulesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface SchedulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SchedulesCreateOrUpdateResponse = Schedule;
+
+// @public
+export interface SchedulesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+    xMsAsyncOperationTimeout?: string;
+}
+
+// @public
+export interface SchedulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchedulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SchedulesGetResponse = Schedule;
+
+// @public
+export interface SchedulesListNextOptionalParams extends coreClient.OperationOptions {
+    skip?: string;
+}
+
+// @public
+export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;
+
+// @public
+export interface SchedulesListOptionalParams extends coreClient.OperationOptions {
+    skip?: string;
+}
+
+// @public
+export type SchedulesListResponse = ScheduleResourceArmPaginatedResult;
 
 // @public
 export type ScheduleStatus = string;
@@ -3821,6 +5465,17 @@ export interface ScriptsToExecute {
 }
 
 // @public
+export interface Seasonality {
+    mode: "Auto" | "Custom";
+}
+
+// @public
+export type SeasonalityMode = string;
+
+// @public (undocumented)
+export type SeasonalityUnion = Seasonality | AutoSeasonality | CustomSeasonality;
+
+// @public
 export type SecretsType = string;
 
 // @public
@@ -3832,20 +5487,20 @@ export interface ServiceManagedResourcesSettings {
 }
 
 // @public
-export interface ServicePrincipalDatastoreCredentials extends DatastoreCredentials {
+export type ServicePrincipalDatastoreCredentials = DatastoreCredentials & {
+    credentialsType: "ServicePrincipal";
     authorityUrl?: string;
     clientId: string;
-    credentialsType: "ServicePrincipal";
     resourceUrl?: string;
     secrets: ServicePrincipalDatastoreSecrets;
     tenantId: string;
-}
+};
 
 // @public
-export interface ServicePrincipalDatastoreSecrets extends DatastoreSecrets {
-    clientSecret?: string;
+export type ServicePrincipalDatastoreSecrets = DatastoreSecrets & {
     secretsType: "ServicePrincipal";
-}
+    clientSecret?: string;
+};
 
 // @public
 export interface SetupScripts {
@@ -3860,6 +5515,9 @@ export interface SharedPrivateLinkResource {
     requestMessage?: string;
     status?: PrivateEndpointServiceConnectionStatus;
 }
+
+// @public
+export type ShortSeriesHandlingConfiguration = string;
 
 // @public
 export interface Sku {
@@ -3907,6 +5565,57 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export type SourceType = string;
 
 // @public
+export type SparkJob = JobBaseProperties & {
+    archives?: string[];
+    args?: string;
+    codeId: string;
+    conf?: {
+        [propertyName: string]: string | null;
+    };
+    entry: SparkJobEntryUnion;
+    environmentId?: string;
+    files?: string[];
+    inputs?: {
+        [propertyName: string]: JobInputUnion | null;
+    };
+    jars?: string[];
+    outputs?: {
+        [propertyName: string]: JobOutputUnion | null;
+    };
+    pyFiles?: string[];
+    resources?: SparkResourceConfiguration;
+};
+
+// @public
+export interface SparkJobEntry {
+    sparkJobEntryType: "SparkJobPythonEntry" | "SparkJobPythonEntry";
+}
+
+// @public
+export type SparkJobEntryType = string;
+
+// @public (undocumented)
+export type SparkJobEntryUnion = SparkJobEntry | SparkJobPythonEntry | SparkJobScalaEntry;
+
+// @public (undocumented)
+export type SparkJobPythonEntry = SparkJobEntry & {
+    sparkJobEntryType: "SparkJobPythonEntry";
+    file: string;
+};
+
+// @public (undocumented)
+export type SparkJobScalaEntry = SparkJobEntry & {
+    sparkJobEntryType: "SparkJobPythonEntry";
+    className: string;
+};
+
+// @public (undocumented)
+export interface SparkResourceConfiguration {
+    instanceType?: string;
+    runtimeVersion?: string;
+}
+
+// @public
 export type SshPublicAccess = string;
 
 // @public
@@ -3923,13 +5632,37 @@ export interface SslConfiguration {
 }
 
 // @public
+export interface StackEnsembleSettings {
+    stackMetaLearnerKWargs?: Record<string, unknown>;
+    stackMetaLearnerTrainPercentage?: number;
+    stackMetaLearnerType?: StackMetaLearnerType;
+}
+
+// @public
+export type StackMetaLearnerType = string;
+
+// @public
 export type Status = string;
+
+// @public
+export interface StatusMessage {
+    readonly code?: string;
+    readonly createdDateTime?: Date;
+    readonly level?: StatusMessageLevel;
+    readonly message?: string;
+}
+
+// @public
+export type StatusMessageLevel = string;
+
+// @public
+export type StochasticOptimizer = string;
 
 // @public
 export type StorageAccountType = string;
 
 // @public
-export interface SweepJob extends JobBaseProperties {
+export type SweepJob = JobBaseProperties & {
     earlyTermination?: EarlyTerminationPolicyUnion;
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
@@ -3942,22 +5675,21 @@ export interface SweepJob extends JobBaseProperties {
     samplingAlgorithm: SamplingAlgorithmUnion;
     searchSpace: Record<string, unknown>;
     trial: TrialComponent;
-}
+};
 
 // @public
-export interface SweepJobLimits extends JobLimits {
+export type SweepJobLimits = JobLimits & {
     jobLimitsType: "Sweep";
     maxConcurrentTrials?: number;
     maxTotalTrials?: number;
     trialTimeout?: string;
-}
+};
 
 // @public
-export interface SynapseSpark extends Compute {
+export type SynapseSpark = Compute & {
     computeType: "SynapseSpark";
-    // (undocumented)
     properties?: SynapseSparkProperties;
-}
+};
 
 // @public (undocumented)
 export interface SynapseSparkProperties {
@@ -3990,28 +5722,127 @@ export interface SystemService {
     readonly version?: string;
 }
 
+// @public
+export interface TableVertical {
+    cvSplitColumnNames?: string[];
+    featurizationSettings?: TableVerticalFeaturizationSettings;
+    limitSettings?: TableVerticalLimitSettings;
+    nCrossValidations?: NCrossValidationsUnion;
+    testData?: MLTableJobInput;
+    testDataSize?: number;
+    validationData?: MLTableJobInput;
+    validationDataSize?: number;
+    weightColumnName?: string;
+}
+
+// @public
+export type TableVerticalFeaturizationSettings = FeaturizationSettings & {
+    blockedTransformers?: BlockedTransformers[];
+    columnNameAndTypes?: {
+        [propertyName: string]: string | null;
+    };
+    enableDnnFeaturization?: boolean;
+    mode?: FeaturizationMode;
+    transformerParams?: {
+        [propertyName: string]: ColumnTransformer[] | null;
+    };
+};
+
+// @public
+export interface TableVerticalLimitSettings {
+    enableEarlyTermination?: boolean;
+    exitScore?: number;
+    maxConcurrentTrials?: number;
+    maxCoresPerTrial?: number;
+    maxTrials?: number;
+    timeout?: string;
+    trialTimeout?: string;
+}
+
+// @public
+export type TargetAggregationFunction = string;
+
+// @public
+export interface TargetLags {
+    mode: "Auto" | "Custom";
+}
+
+// @public
+export type TargetLagsMode = string;
+
 // @public (undocumented)
-export interface TargetUtilizationScaleSettings extends OnlineScaleSettings {
+export type TargetLagsUnion = TargetLags | AutoTargetLags | CustomTargetLags;
+
+// @public
+export interface TargetRollingWindowSize {
+    mode: "Auto" | "Custom";
+}
+
+// @public
+export type TargetRollingWindowSizeMode = string;
+
+// @public (undocumented)
+export type TargetRollingWindowSizeUnion = TargetRollingWindowSize | AutoTargetRollingWindowSize | CustomTargetRollingWindowSize;
+
+// @public (undocumented)
+export type TargetUtilizationScaleSettings = OnlineScaleSettings & {
+    scaleType: "TargetUtilization";
     maxInstances?: number;
     minInstances?: number;
     pollingInterval?: string;
-    scaleType: "TargetUtilization";
     targetUtilizationPercentage?: number;
-}
+};
 
 // @public
-export interface TensorFlow extends DistributionConfiguration {
+export type TaskType = string;
+
+// @public
+export type TensorFlow = DistributionConfiguration & {
     distributionType: "TensorFlow";
     parameterServerCount?: number;
     workerCount?: number;
+};
+
+// @public
+export type TextAnnotationType = string;
+
+// @public
+export type TextClassification = NlpVertical & AutoMLVertical & {
+    primaryMetric?: ClassificationPrimaryMetrics;
+};
+
+// @public
+export type TextClassificationMultilabel = NlpVertical & AutoMLVertical & {
+    readonly primaryMetric?: ClassificationMultilabelPrimaryMetrics;
+};
+
+// @public
+export type TextNer = NlpVertical & AutoMLVertical & {
+    readonly primaryMetric?: ClassificationPrimaryMetrics;
+};
+
+// @public (undocumented)
+export interface TmpfsOptions {
+    size?: number;
 }
 
 // @public
-export interface TrackedResource extends Resource {
-    location: string;
+export type TrackedResource = Resource & {
     tags?: {
         [propertyName: string]: string;
     };
+    location: string;
+};
+
+// @public
+export interface TrainingSettings {
+    enableDnnTraining?: boolean;
+    enableModelExplainability?: boolean;
+    enableOnnxCompatibleModels?: boolean;
+    enableStackEnsemble?: boolean;
+    enableVoteEnsemble?: boolean;
+    ensembleModelDownloadTimeout?: string;
+    stackEnsembleSettings?: StackEnsembleSettings;
 }
 
 // @public
@@ -4023,22 +5854,34 @@ export interface TrialComponent {
     environmentVariables?: {
         [propertyName: string]: string | null;
     };
-    resources?: ResourceConfiguration;
+    resources?: JobResourceConfiguration;
 }
 
 // @public (undocumented)
-export interface TritonModelJobInput extends AssetJobInput, JobInput {
+export interface TriggerBase {
+    endTime?: string;
+    startTime?: string;
+    timeZone?: string;
+    triggerType: "Cron" | "Recurrence";
 }
 
 // @public (undocumented)
-export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {
-}
+export type TriggerBaseUnion = TriggerBase | CronTrigger | RecurrenceTrigger;
 
 // @public
-export interface TruncationSelectionPolicy extends EarlyTerminationPolicy {
+export type TriggerType = string;
+
+// @public (undocumented)
+export type TritonModelJobInput = AssetJobInput & JobInput & {};
+
+// @public (undocumented)
+export type TritonModelJobOutput = AssetJobOutput & JobOutput & {};
+
+// @public
+export type TruncationSelectionPolicy = EarlyTerminationPolicy & {
     policyType: "TruncationSelection";
     truncationPercentage?: number;
-}
+};
 
 // @public
 export type UnderlyingResourceAction = string;
@@ -4062,28 +5905,22 @@ export interface UpdateWorkspaceQuotasResult {
 }
 
 // @public
-export interface UriFileDataVersion extends DataVersionBaseProperties {
-}
+export type UriFileDataVersion = DataVersionBaseProperties & {};
 
 // @public (undocumented)
-export interface UriFileJobInput extends AssetJobInput, JobInput {
-}
+export type UriFileJobInput = AssetJobInput & JobInput & {};
 
 // @public (undocumented)
-export interface UriFileJobOutput extends AssetJobOutput, JobOutput {
-}
+export type UriFileJobOutput = AssetJobOutput & JobOutput & {};
 
 // @public
-export interface UriFolderDataVersion extends DataVersionBaseProperties {
-}
+export type UriFolderDataVersion = DataVersionBaseProperties & {};
 
 // @public (undocumented)
-export interface UriFolderJobInput extends AssetJobInput, JobInput {
-}
+export type UriFolderJobInput = AssetJobInput & JobInput & {};
 
 // @public (undocumented)
-export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {
-}
+export type UriFolderJobOutput = AssetJobOutput & JobOutput & {};
 
 // @public
 export interface Usage {
@@ -4138,24 +5975,29 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface UserIdentity extends IdentityConfiguration {
+export type UserIdentity = IdentityConfiguration & {
     identityType: "UserIdentity";
-}
+};
 
 // @public (undocumented)
-export interface UsernamePasswordAuthTypeWorkspaceConnectionProperties extends WorkspaceConnectionPropertiesV2 {
+export type UsernamePasswordAuthTypeWorkspaceConnectionProperties = WorkspaceConnectionPropertiesV2 & {
     authType: "UsernamePassword";
-    // (undocumented)
     credentials?: WorkspaceConnectionUsernamePassword;
-}
+};
+
+// @public
+export type UseStl = string;
+
+// @public
+export type ValidationMetricType = string;
 
 // @public
 export type ValueFormat = string;
 
 // @public
-export interface VirtualMachine extends Compute, VirtualMachineSchema {
+export type VirtualMachine = Compute & VirtualMachineSchema & {
     computeType: "VirtualMachine";
-}
+};
 
 // @public
 export interface VirtualMachineImage {
@@ -4179,9 +6021,9 @@ export interface VirtualMachineSchemaProperties {
 }
 
 // @public
-export interface VirtualMachineSecrets extends ComputeSecrets, VirtualMachineSecretsSchema {
+export type VirtualMachineSecrets = ComputeSecrets & VirtualMachineSecretsSchema & {
     computeType: "VirtualMachine";
-}
+};
 
 // @public (undocumented)
 export interface VirtualMachineSecretsSchema {
@@ -4237,40 +6079,63 @@ export type VmPriority = string;
 // @public
 export type VMTier = string;
 
+// @public (undocumented)
+export interface VolumeDefinition {
+    bind?: BindOptions;
+    consistency?: string;
+    readOnly?: boolean;
+    source?: string;
+    target?: string;
+    tmpfs?: TmpfsOptions;
+    type?: VolumeDefinitionType;
+    volume?: VolumeOptions;
+}
+
 // @public
-export interface Workspace extends Resource {
-    allowPublicAccessWhenBehindVnet?: boolean;
-    applicationInsights?: string;
-    containerRegistry?: string;
-    description?: string;
-    discoveryUrl?: string;
-    encryption?: EncryptionProperty;
-    friendlyName?: string;
-    hbiWorkspace?: boolean;
+export type VolumeDefinitionType = string;
+
+// @public (undocumented)
+export interface VolumeOptions {
+    nocopy?: boolean;
+}
+
+// @public
+export type WeekDay = string;
+
+// @public
+export type Workspace = Resource & {
     identity?: ManagedServiceIdentity;
-    imageBuildCompute?: string;
-    keyVault?: string;
     location?: string;
-    readonly mlFlowTrackingUri?: string;
-    readonly notebookInfo?: NotebookResourceInfo;
-    primaryUserAssignedIdentity?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly privateLinkCount?: number;
-    readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccess;
-    serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
-    readonly serviceProvisionedResourceGroup?: string;
-    sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-    sku?: Sku;
-    storageAccount?: string;
-    readonly storageHnsEnabled?: boolean;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly tenantId?: string;
-    v1LegacyMode?: boolean;
+    sku?: Sku;
     readonly workspaceId?: string;
-}
+    description?: string;
+    friendlyName?: string;
+    keyVault?: string;
+    applicationInsights?: string;
+    containerRegistry?: string;
+    storageAccount?: string;
+    discoveryUrl?: string;
+    readonly provisioningState?: ProvisioningState;
+    encryption?: EncryptionProperty;
+    hbiWorkspace?: boolean;
+    readonly serviceProvisionedResourceGroup?: string;
+    readonly privateLinkCount?: number;
+    imageBuildCompute?: string;
+    allowPublicAccessWhenBehindVnet?: boolean;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    readonly notebookInfo?: NotebookResourceInfo;
+    serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+    primaryUserAssignedIdentity?: string;
+    readonly tenantId?: string;
+    readonly storageHnsEnabled?: boolean;
+    readonly mlFlowTrackingUri?: string;
+    v1LegacyMode?: boolean;
+};
 
 // @public (undocumented)
 export interface WorkspaceConnectionManagedIdentity {
@@ -4297,10 +6162,9 @@ export interface WorkspaceConnectionPropertiesV2 {
 }
 
 // @public (undocumented)
-export interface WorkspaceConnectionPropertiesV2BasicResource extends Resource {
-    // (undocumented)
+export type WorkspaceConnectionPropertiesV2BasicResource = Resource & {
     properties: WorkspaceConnectionPropertiesV2Union;
-}
+};
 
 // @public (undocumented)
 export interface WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult {
@@ -4557,6 +6421,7 @@ export interface WorkspaceUpdateParameters {
     applicationInsights?: string;
     containerRegistry?: string;
     description?: string;
+    encryption?: EncryptionUpdateProperties;
     friendlyName?: string;
     identity?: ManagedServiceIdentity;
     imageBuildCompute?: string;
