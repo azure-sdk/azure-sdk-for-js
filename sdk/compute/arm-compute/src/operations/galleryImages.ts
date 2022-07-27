@@ -26,6 +26,8 @@ import {
   GalleryImagesGetOptionalParams,
   GalleryImagesGetResponse,
   GalleryImagesDeleteOptionalParams,
+  GalleryImagesGetLatestVersionNameOptionalParams,
+  GalleryImagesGetLatestVersionNameResponse,
   GalleryImagesListByGalleryResponse,
   GalleryImagesListByGalleryNextResponse
 } from "../models";
@@ -443,6 +445,26 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
+   * Retrieves information about the latest image version in the Gallery Image.
+   * @param resourceGroupName The name of the resource group.
+   * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be
+   *                    retrieved.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param options The options parameters.
+   */
+  getLatestVersionName(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImagesGetLatestVersionNameOptionalParams
+  ): Promise<GalleryImagesGetLatestVersionNameResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryImageName, options },
+      getLatestVersionNameOperationSpec
+    );
+  }
+
+  /**
    * List gallery image definitions in a gallery.
    * @param resourceGroupName The name of the resource group.
    * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be
@@ -588,6 +610,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getLatestVersionNameOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/latestVersionName",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LatestGalleryImageVersion
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion3, Parameters.location2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

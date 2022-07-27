@@ -1079,7 +1079,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-03",
+    defaultValue: "2022-03-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1132,6 +1132,16 @@ export const galleryImageName: OperationURLParameter = {
 export const galleryImage1: OperationParameter = {
   parameterPath: "galleryImage",
   mapper: GalleryImageUpdateMapper
+};
+
+export const location2: OperationQueryParameter = {
+  parameterPath: ["options", "location"],
+  mapper: {
+    serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const galleryImageVersion: OperationParameter = {
