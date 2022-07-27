@@ -83,13 +83,11 @@ export interface AutoUpgradePolicyResource {
 }
 
 // @public
-export interface AzureBlobDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export type AzureBlobDataTransferDataSourceSink = DataTransferDataSourceSink & {
     component: "AzureBlobStorage";
-    // (undocumented)
     containerName: string;
-    // (undocumented)
     endpointUrl?: string;
-}
+};
 
 // @public
 export interface BackupInformation {
@@ -119,10 +117,9 @@ export type BackupPolicyType = string;
 export type BackupPolicyUnion = BackupPolicy | PeriodicModeBackupPolicy | ContinuousModeBackupPolicy;
 
 // @public
-export interface BackupResource extends ARMProxyResource {
-    // (undocumented)
+export type BackupResource = ARMProxyResource & {
     properties?: BackupResourceProperties;
-}
+};
 
 // @public (undocumented)
 export interface BackupResourceProperties {
@@ -320,26 +317,22 @@ export interface CassandraDataCentersUpdateOptionalParams extends coreClient.Ope
 export type CassandraDataCentersUpdateResponse = DataCenterResource;
 
 // @public
-export interface CassandraKeyspaceCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type CassandraKeyspaceCreateUpdateParameters = ARMResourceProperties & {
     resource: CassandraKeyspaceResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface CassandraKeyspaceGetPropertiesOptions extends OptionsResource {
-}
+export type CassandraKeyspaceGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface CassandraKeyspaceGetPropertiesResource extends CassandraKeyspaceResource, ExtendedResourceProperties {
-}
+export type CassandraKeyspaceGetPropertiesResource = CassandraKeyspaceResource & ExtendedResourceProperties & {};
 
 // @public
-export interface CassandraKeyspaceGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: CassandraKeyspaceGetPropertiesOptions;
-    // (undocumented)
+export type CassandraKeyspaceGetResults = ARMResourceProperties & {
     resource?: CassandraKeyspaceGetPropertiesResource;
-}
+    options?: CassandraKeyspaceGetPropertiesOptions;
+};
 
 // @public
 export interface CassandraKeyspaceListResult {
@@ -596,26 +589,22 @@ export interface CassandraSchema {
 }
 
 // @public
-export interface CassandraTableCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type CassandraTableCreateUpdateParameters = ARMResourceProperties & {
     resource: CassandraTableResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface CassandraTableGetPropertiesOptions extends OptionsResource {
-}
+export type CassandraTableGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface CassandraTableGetPropertiesResource extends CassandraTableResource, ExtendedResourceProperties {
-}
+export type CassandraTableGetPropertiesResource = CassandraTableResource & ExtendedResourceProperties & {};
 
 // @public
-export interface CassandraTableGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: CassandraTableGetPropertiesOptions;
-    // (undocumented)
+export type CassandraTableGetResults = ARMResourceProperties & {
     resource?: CassandraTableGetPropertiesResource;
-}
+    options?: CassandraTableGetPropertiesOptions;
+};
 
 // @public
 export interface CassandraTableListResult {
@@ -631,26 +620,22 @@ export interface CassandraTableResource {
 }
 
 // @public
-export interface CassandraViewCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type CassandraViewCreateUpdateParameters = ARMResourceProperties & {
     resource: CassandraViewResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface CassandraViewGetPropertiesOptions extends OptionsResource {
-}
+export type CassandraViewGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface CassandraViewGetPropertiesResource extends CassandraViewResource, ExtendedResourceProperties {
-}
+export type CassandraViewGetPropertiesResource = CassandraViewResource & ExtendedResourceProperties & {};
 
 // @public
-export interface CassandraViewGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: CassandraViewGetPropertiesOptions;
-    // (undocumented)
+export type CassandraViewGetResults = ARMResourceProperties & {
     resource?: CassandraViewGetPropertiesResource;
-}
+    options?: CassandraViewGetPropertiesOptions;
+};
 
 // @public
 export interface CassandraViewListResult {
@@ -682,14 +667,12 @@ export interface ClientEncryptionKeyCreateUpdateParameters {
 }
 
 // @public (undocumented)
-export interface ClientEncryptionKeyGetPropertiesResource extends ClientEncryptionKeyResource, ExtendedResourceProperties {
-}
+export type ClientEncryptionKeyGetPropertiesResource = ClientEncryptionKeyResource & ExtendedResourceProperties & {};
 
 // @public
-export interface ClientEncryptionKeyGetResults extends ARMProxyResource {
-    // (undocumented)
+export type ClientEncryptionKeyGetResults = ARMProxyResource & {
     resource?: ClientEncryptionKeyGetPropertiesResource;
-}
+};
 
 // @public
 export interface ClientEncryptionKeyResource {
@@ -722,9 +705,9 @@ export interface ClusterKey {
 }
 
 // @public
-export interface ClusterResource extends ManagedCassandraARMResourceProperties {
+export type ClusterResource = ManagedCassandraARMResourceProperties & {
     properties?: ClusterResourceProperties;
-}
+};
 
 // @public
 export interface ClusterResourceProperties {
@@ -931,10 +914,10 @@ export interface ContinuousBackupRestoreLocation {
 }
 
 // @public
-export interface ContinuousModeBackupPolicy extends BackupPolicy {
-    continuousModeProperties?: ContinuousModeProperties;
+export type ContinuousModeBackupPolicy = BackupPolicy & {
     type: "Continuous";
-}
+    continuousModeProperties?: ContinuousModeProperties;
+};
 
 // @public
 export interface ContinuousModeProperties {
@@ -954,13 +937,11 @@ export interface CorsPolicy {
 }
 
 // @public
-export interface CosmosCassandraDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export type CosmosCassandraDataTransferDataSourceSink = DataTransferDataSourceSink & {
     component: "CosmosDBCassandra";
-    // (undocumented)
     keyspaceName: string;
-    // (undocumented)
     tableName: string;
-}
+};
 
 // @public (undocumented)
 export class CosmosDBManagementClient extends coreClient.ServiceClient {
@@ -1059,21 +1040,19 @@ export interface CosmosDBManagementClientOptionalParams extends coreClient.Servi
 }
 
 // @public
-export interface CosmosSqlDataTransferDataSourceSink extends DataTransferDataSourceSink {
+export type CosmosSqlDataTransferDataSourceSink = DataTransferDataSourceSink & {
     component: "CosmosDBSql";
-    // (undocumented)
-    containerName: string;
-    // (undocumented)
     databaseName: string;
-}
+    containerName: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
-export interface CreateJobRequest extends ARMProxyResource {
+export type CreateJobRequest = ARMProxyResource & {
     properties: DataTransferJobProperties;
-}
+};
 
 // @public
 export type CreateMode = string;
@@ -1098,82 +1077,82 @@ export interface DatabaseAccountConnectionString {
 }
 
 // @public
-export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
-    analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
-    apiProperties?: ApiProperties;
-    backupPolicy?: BackupPolicyUnion;
-    capabilities?: Capability[];
-    capacity?: Capacity;
-    connectorOffer?: ConnectorOffer;
+export type DatabaseAccountCreateUpdateParameters = ARMResourceProperties & {
+    kind?: DatabaseAccountKind;
     consistencyPolicy?: ConsistencyPolicy;
-    cors?: CorsPolicy[];
-    createMode?: CreateMode;
+    locations: Location_2[];
     databaseAccountOfferType: "Standard";
-    defaultIdentity?: string;
-    diagnosticLogSettings?: DiagnosticLogSettings;
-    disableKeyBasedMetadataWriteAccess?: boolean;
-    disableLocalAuth?: boolean;
-    enableAnalyticalStorage?: boolean;
-    enableAutomaticFailover?: boolean;
-    enableCassandraConnector?: boolean;
-    enableFreeTier?: boolean;
-    enableMaterializedViews?: boolean;
-    enableMultipleWriteLocations?: boolean;
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
-    keysMetadata?: DatabaseAccountKeysMetadata;
+    enableAutomaticFailover?: boolean;
+    capabilities?: Capability[];
+    virtualNetworkRules?: VirtualNetworkRule[];
+    enableMultipleWriteLocations?: boolean;
+    enableCassandraConnector?: boolean;
+    connectorOffer?: ConnectorOffer;
+    disableKeyBasedMetadataWriteAccess?: boolean;
     keyVaultKeyUri?: string;
-    kind?: DatabaseAccountKind;
-    locations: Location_2[];
+    defaultIdentity?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    enableFreeTier?: boolean;
+    apiProperties?: ApiProperties;
+    enableAnalyticalStorage?: boolean;
+    analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+    createMode?: CreateMode;
+    backupPolicy?: BackupPolicyUnion;
+    cors?: CorsPolicy[];
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
-    publicNetworkAccess?: PublicNetworkAccess;
+    diagnosticLogSettings?: DiagnosticLogSettings;
+    disableLocalAuth?: boolean;
     restoreParameters?: RestoreParameters;
-    virtualNetworkRules?: VirtualNetworkRule[];
-}
+    capacity?: Capacity;
+    enableMaterializedViews?: boolean;
+    keysMetadata?: DatabaseAccountKeysMetadata;
+};
 
 // @public
-export interface DatabaseAccountGetResults extends ARMResourceProperties {
-    analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
-    apiProperties?: ApiProperties;
-    backupPolicy?: BackupPolicyUnion;
-    capabilities?: Capability[];
-    capacity?: Capacity;
-    connectorOffer?: ConnectorOffer;
-    consistencyPolicy?: ConsistencyPolicy;
-    cors?: CorsPolicy[];
-    createMode?: CreateMode;
-    readonly databaseAccountOfferType?: "Standard";
-    defaultIdentity?: string;
-    diagnosticLogSettings?: DiagnosticLogSettings;
-    disableKeyBasedMetadataWriteAccess?: boolean;
-    disableLocalAuth?: boolean;
+export type DatabaseAccountGetResults = ARMResourceProperties & {
+    kind?: DatabaseAccountKind;
+    readonly systemData?: SystemData;
+    readonly provisioningState?: string;
     readonly documentEndpoint?: string;
-    enableAnalyticalStorage?: boolean;
-    enableAutomaticFailover?: boolean;
-    enableCassandraConnector?: boolean;
-    enableFreeTier?: boolean;
-    enableMaterializedViews?: boolean;
-    enableMultipleWriteLocations?: boolean;
-    readonly failoverPolicies?: FailoverPolicy[];
-    readonly instanceId?: string;
+    readonly databaseAccountOfferType?: "Standard";
     ipRules?: IpAddressOrRange[];
     isVirtualNetworkFilterEnabled?: boolean;
-    keysMetadata?: DatabaseAccountKeysMetadata;
-    keyVaultKeyUri?: string;
-    kind?: DatabaseAccountKind;
+    enableAutomaticFailover?: boolean;
+    consistencyPolicy?: ConsistencyPolicy;
+    capabilities?: Capability[];
+    readonly writeLocations?: Location_2[];
+    readonly readLocations?: Location_2[];
     readonly locations?: Location_2[];
+    readonly failoverPolicies?: FailoverPolicy[];
+    virtualNetworkRules?: VirtualNetworkRule[];
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    enableMultipleWriteLocations?: boolean;
+    enableCassandraConnector?: boolean;
+    connectorOffer?: ConnectorOffer;
+    disableKeyBasedMetadataWriteAccess?: boolean;
+    keyVaultKeyUri?: string;
+    defaultIdentity?: string;
+    publicNetworkAccess?: PublicNetworkAccess;
+    enableFreeTier?: boolean;
+    apiProperties?: ApiProperties;
+    enableAnalyticalStorage?: boolean;
+    analyticalStorageConfiguration?: AnalyticalStorageConfiguration;
+    readonly instanceId?: string;
+    createMode?: CreateMode;
+    restoreParameters?: RestoreParameters;
+    backupPolicy?: BackupPolicyUnion;
+    cors?: CorsPolicy[];
     networkAclBypass?: NetworkAclBypass;
     networkAclBypassResourceIds?: string[];
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: string;
-    publicNetworkAccess?: PublicNetworkAccess;
-    readonly readLocations?: Location_2[];
-    restoreParameters?: RestoreParameters;
-    readonly systemData?: SystemData;
-    virtualNetworkRules?: VirtualNetworkRule[];
-    readonly writeLocations?: Location_2[];
-}
+    diagnosticLogSettings?: DiagnosticLogSettings;
+    disableLocalAuth?: boolean;
+    capacity?: Capacity;
+    enableMaterializedViews?: boolean;
+    keysMetadata?: DatabaseAccountKeysMetadata;
+};
 
 // @public
 export interface DatabaseAccountKeysMetadata {
@@ -1192,10 +1171,10 @@ export interface DatabaseAccountListConnectionStringsResult {
 }
 
 // @public
-export interface DatabaseAccountListKeysResult extends DatabaseAccountListReadOnlyKeysResult {
+export type DatabaseAccountListKeysResult = DatabaseAccountListReadOnlyKeysResult & {
     readonly primaryMasterKey?: string;
     readonly secondaryMasterKey?: string;
-}
+};
 
 // @public
 export interface DatabaseAccountListReadOnlyKeysResult {
@@ -1447,9 +1426,9 @@ export interface DatabaseRestoreResource {
 }
 
 // @public
-export interface DataCenterResource extends ARMProxyResource {
+export type DataCenterResource = ARMProxyResource & {
     properties?: DataCenterResourceProperties;
-}
+};
 
 // @public
 export interface DataCenterResourceProperties {
@@ -1486,17 +1465,17 @@ export interface DataTransferJobFeedResults {
 }
 
 // @public
-export interface DataTransferJobGetResults extends ARMProxyResource {
-    destination?: DataTransferDataSourceSinkUnion;
-    readonly error?: ErrorResponse;
+export type DataTransferJobGetResults = ARMProxyResource & {
     readonly jobName?: string;
-    readonly lastUpdatedUtcTime?: Date;
-    readonly processedCount?: number;
     source?: DataTransferDataSourceSinkUnion;
+    destination?: DataTransferDataSourceSinkUnion;
     readonly status?: string;
+    readonly processedCount?: number;
     readonly totalCount?: number;
+    readonly lastUpdatedUtcTime?: Date;
     workerCount?: number;
-}
+    readonly error?: ErrorResponse;
+};
 
 // @public
 export interface DataTransferJobProperties {
@@ -1571,8 +1550,7 @@ export interface DataTransferJobsResumeOptionalParams extends coreClient.Operati
 export type DataTransferJobsResumeResponse = DataTransferJobGetResults;
 
 // @public
-export interface DataTransferRegionalServiceResource extends RegionalServiceResource {
-}
+export type DataTransferRegionalServiceResource = RegionalServiceResource & {};
 
 // @public
 export interface DataTransferServiceResource {
@@ -1580,10 +1558,10 @@ export interface DataTransferServiceResource {
 }
 
 // @public
-export interface DataTransferServiceResourceProperties extends ServiceResourceProperties {
-    readonly locations?: DataTransferRegionalServiceResource[];
+export type DataTransferServiceResourceProperties = ServiceResourceProperties & {
     serviceType: "DataTransfer";
-}
+    readonly locations?: DataTransferRegionalServiceResource[];
+};
 
 // @public
 export type DataType = string;
@@ -1630,9 +1608,9 @@ export interface FailoverPolicy {
 }
 
 // @public
-export interface GraphAPIComputeRegionalServiceResource extends RegionalServiceResource {
+export type GraphAPIComputeRegionalServiceResource = RegionalServiceResource & {
     readonly graphApiComputeEndpoint?: string;
-}
+};
 
 // @public
 export interface GraphAPIComputeServiceResource {
@@ -1640,11 +1618,11 @@ export interface GraphAPIComputeServiceResource {
 }
 
 // @public
-export interface GraphAPIComputeServiceResourceProperties extends ServiceResourceProperties {
+export type GraphAPIComputeServiceResourceProperties = ServiceResourceProperties & {
+    serviceType: "GraphAPICompute";
     graphApiComputeEndpoint?: string;
     readonly locations?: GraphAPIComputeRegionalServiceResource[];
-    serviceType: "GraphAPICompute";
-}
+};
 
 // @public
 export interface GraphResource {
@@ -1652,26 +1630,22 @@ export interface GraphResource {
 }
 
 // @public
-export interface GraphResourceCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type GraphResourceCreateUpdateParameters = ARMResourceProperties & {
     resource: GraphResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface GraphResourceGetPropertiesOptions extends OptionsResource {
-}
+export type GraphResourceGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface GraphResourceGetPropertiesResource extends GraphResource {
-}
+export type GraphResourceGetPropertiesResource = GraphResource & {};
 
 // @public
-export interface GraphResourceGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: GraphResourceGetPropertiesOptions;
-    // (undocumented)
+export type GraphResourceGetResults = ARMResourceProperties & {
     resource?: GraphResourceGetPropertiesResource;
-}
+    options?: GraphResourceGetPropertiesOptions;
+};
 
 // @public
 export interface GraphResources {
@@ -1718,26 +1692,22 @@ export interface GraphResourcesListResult {
 }
 
 // @public
-export interface GremlinDatabaseCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type GremlinDatabaseCreateUpdateParameters = ARMResourceProperties & {
     resource: GremlinDatabaseResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface GremlinDatabaseGetPropertiesOptions extends OptionsResource {
-}
+export type GremlinDatabaseGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface GremlinDatabaseGetPropertiesResource extends GremlinDatabaseResource, ExtendedResourceProperties {
-}
+export type GremlinDatabaseGetPropertiesResource = GremlinDatabaseResource & ExtendedResourceProperties & {};
 
 // @public
-export interface GremlinDatabaseGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: GremlinDatabaseGetPropertiesOptions;
-    // (undocumented)
+export type GremlinDatabaseGetResults = ARMResourceProperties & {
     resource?: GremlinDatabaseGetPropertiesResource;
-}
+    options?: GremlinDatabaseGetPropertiesOptions;
+};
 
 // @public
 export interface GremlinDatabaseListResult {
@@ -1756,26 +1726,22 @@ export interface GremlinDatabaseRestoreResource {
 }
 
 // @public
-export interface GremlinGraphCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type GremlinGraphCreateUpdateParameters = ARMResourceProperties & {
     resource: GremlinGraphResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface GremlinGraphGetPropertiesOptions extends OptionsResource {
-}
+export type GremlinGraphGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface GremlinGraphGetPropertiesResource extends GremlinGraphResource, ExtendedResourceProperties {
-}
+export type GremlinGraphGetPropertiesResource = GremlinGraphResource & ExtendedResourceProperties & {};
 
 // @public
-export interface GremlinGraphGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: GremlinGraphGetPropertiesOptions;
-    // (undocumented)
+export type GremlinGraphGetResults = ARMResourceProperties & {
     resource?: GremlinGraphGetPropertiesResource;
-}
+    options?: GremlinGraphGetPropertiesOptions;
+};
 
 // @public
 export interface GremlinGraphListResult {
@@ -2007,284 +1973,417 @@ export interface KeyWrapMetadata {
 
 // @public
 export enum KnownAnalyticalStorageSchemaType {
+    // (undocumented)
     FullFidelity = "FullFidelity",
+    // (undocumented)
     WellDefined = "WellDefined"
 }
 
 // @public
 export enum KnownApiType {
+    // (undocumented)
     Cassandra = "Cassandra",
+    // (undocumented)
     Gremlin = "Gremlin",
+    // (undocumented)
     GremlinV2 = "GremlinV2",
+    // (undocumented)
     MongoDB = "MongoDB",
+    // (undocumented)
     Sql = "Sql",
+    // (undocumented)
     Table = "Table"
 }
 
 // @public
 export enum KnownAuthenticationMethod {
+    // (undocumented)
     Cassandra = "Cassandra",
+    // (undocumented)
     Ldap = "Ldap",
+    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownBackupPolicyMigrationStatus {
+    // (undocumented)
     Completed = "Completed",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     InProgress = "InProgress",
+    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownBackupPolicyType {
+    // (undocumented)
     Continuous = "Continuous",
+    // (undocumented)
     Periodic = "Periodic"
 }
 
 // @public
 export enum KnownBackupStorageRedundancy {
+    // (undocumented)
     Geo = "Geo",
+    // (undocumented)
     Local = "Local",
+    // (undocumented)
     Zone = "Zone"
 }
 
 // @public
 export enum KnownCompositePathSortOrder {
+    // (undocumented)
     Ascending = "ascending",
+    // (undocumented)
     Descending = "descending"
 }
 
 // @public
 export enum KnownConflictResolutionMode {
+    // (undocumented)
     Custom = "Custom",
+    // (undocumented)
     LastWriterWins = "LastWriterWins"
 }
 
 // @public
 export enum KnownConnectionState {
+    // (undocumented)
     DatacenterToDatacenterNetworkError = "DatacenterToDatacenterNetworkError",
+    // (undocumented)
     InternalError = "InternalError",
+    // (undocumented)
     InternalOperatorToDataCenterCertificateError = "InternalOperatorToDataCenterCertificateError",
+    // (undocumented)
     OK = "OK",
+    // (undocumented)
     OperatorToDataCenterNetworkError = "OperatorToDataCenterNetworkError",
+    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownConnectorOffer {
+    // (undocumented)
     Small = "Small"
 }
 
 // @public
 export enum KnownContinuousTier {
+    // (undocumented)
     Continuous30Days = "Continuous30Days",
+    // (undocumented)
     Continuous7Days = "Continuous7Days"
 }
 
 // @public
 export enum KnownCreatedByType {
+    // (undocumented)
     Application = "Application",
+    // (undocumented)
     Key = "Key",
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCreateMode {
+    // (undocumented)
     Default = "Default",
+    // (undocumented)
     Restore = "Restore"
 }
 
 // @public
 export enum KnownDatabaseAccountKind {
+    // (undocumented)
     GlobalDocumentDB = "GlobalDocumentDB",
+    // (undocumented)
     MongoDB = "MongoDB",
+    // (undocumented)
     Parse = "Parse"
 }
 
 // @public
 export enum KnownDataTransferComponent {
+    // (undocumented)
     AzureBlobStorage = "AzureBlobStorage",
+    // (undocumented)
     CosmosDBCassandra = "CosmosDBCassandra",
+    // (undocumented)
     CosmosDBSql = "CosmosDBSql"
 }
 
 // @public
 export enum KnownDataType {
+    // (undocumented)
     LineString = "LineString",
+    // (undocumented)
     MultiPolygon = "MultiPolygon",
+    // (undocumented)
     Number = "Number",
+    // (undocumented)
     Point = "Point",
+    // (undocumented)
     Polygon = "Polygon",
+    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownIndexingMode {
+    // (undocumented)
     Consistent = "consistent",
+    // (undocumented)
     Lazy = "lazy",
+    // (undocumented)
     None = "none"
 }
 
 // @public
 export enum KnownIndexKind {
+    // (undocumented)
     Hash = "Hash",
+    // (undocumented)
     Range = "Range",
+    // (undocumented)
     Spatial = "Spatial"
 }
 
 // @public
 export enum KnownKeyKind {
+    // (undocumented)
     Primary = "primary",
+    // (undocumented)
     PrimaryReadonly = "primaryReadonly",
+    // (undocumented)
     Secondary = "secondary",
+    // (undocumented)
     SecondaryReadonly = "secondaryReadonly"
 }
 
 // @public
 export enum KnownManagedCassandraProvisioningState {
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownManagedCassandraResourceIdentityType {
+    // (undocumented)
     None = "None",
+    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownNodeState {
+    // (undocumented)
     Joining = "Joining",
+    // (undocumented)
     Leaving = "Leaving",
+    // (undocumented)
     Moving = "Moving",
+    // (undocumented)
     Normal = "Normal",
+    // (undocumented)
     Stopped = "Stopped"
 }
 
 // @public
 export enum KnownNodeStatus {
+    // (undocumented)
     Down = "Down",
+    // (undocumented)
     Up = "Up"
 }
 
 // @public
 export enum KnownNotebookWorkspaceName {
+    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownOperationType {
+    // (undocumented)
     Create = "Create",
+    // (undocumented)
     Delete = "Delete",
+    // (undocumented)
+    Recreate = "Recreate",
+    // (undocumented)
     Replace = "Replace",
+    // (undocumented)
     SystemOperation = "SystemOperation"
 }
 
 // @public
 export enum KnownPartitionKind {
+    // (undocumented)
     Hash = "Hash",
+    // (undocumented)
     MultiHash = "MultiHash",
+    // (undocumented)
     Range = "Range"
 }
 
 // @public
 export enum KnownPrimaryAggregationType {
+    // (undocumented)
     Average = "Average",
+    // (undocumented)
     Last = "Last",
+    // (undocumented)
     Maximum = "Maximum",
+    // (undocumented)
     Minimum = "Minimum",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     Total = "Total"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRestoreMode {
+    // (undocumented)
     PointInTime = "PointInTime"
 }
 
 // @public
 export enum KnownServerVersion {
+    // (undocumented)
     Four0 = "4.0",
+    // (undocumented)
     Four2 = "4.2",
+    // (undocumented)
     Three2 = "3.2",
+    // (undocumented)
     Three6 = "3.6"
 }
 
 // @public
 export enum KnownServiceSize {
+    // (undocumented)
     CosmosD16S = "Cosmos.D16s",
+    // (undocumented)
     CosmosD4S = "Cosmos.D4s",
+    // (undocumented)
     CosmosD8S = "Cosmos.D8s"
 }
 
 // @public
 export enum KnownServiceStatus {
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Error = "Error",
+    // (undocumented)
     Running = "Running",
+    // (undocumented)
     Stopped = "Stopped",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServiceType {
+    // (undocumented)
     DataTransfer = "DataTransfer",
+    // (undocumented)
     GraphAPICompute = "GraphAPICompute",
+    // (undocumented)
     MaterializedViewsBuilder = "MaterializedViewsBuilder",
+    // (undocumented)
     SqlDedicatedGateway = "SqlDedicatedGateway"
 }
 
 // @public
 export enum KnownSpatialType {
+    // (undocumented)
     LineString = "LineString",
+    // (undocumented)
     MultiPolygon = "MultiPolygon",
+    // (undocumented)
     Point = "Point",
+    // (undocumented)
     Polygon = "Polygon"
 }
 
 // @public
 export enum KnownThroughputPolicyType {
+    // (undocumented)
     Custom = "custom",
+    // (undocumented)
     Equal = "equal",
+    // (undocumented)
     None = "none"
 }
 
 // @public
 export enum KnownTriggerOperation {
+    // (undocumented)
     All = "All",
+    // (undocumented)
     Create = "Create",
+    // (undocumented)
     Delete = "Delete",
+    // (undocumented)
     Replace = "Replace",
+    // (undocumented)
     Update = "Update"
 }
 
 // @public
 export enum KnownTriggerType {
+    // (undocumented)
     Post = "Post",
+    // (undocumented)
     Pre = "Pre"
 }
 
 // @public
 export enum KnownUnitType {
+    // (undocumented)
     Bytes = "Bytes",
+    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
+    // (undocumented)
     Count = "Count",
+    // (undocumented)
     CountPerSecond = "CountPerSecond",
+    // (undocumented)
     Milliseconds = "Milliseconds",
+    // (undocumented)
     Percent = "Percent",
+    // (undocumented)
     Seconds = "Seconds"
 }
 
@@ -2315,9 +2414,9 @@ interface Location_2 {
 export { Location_2 as Location }
 
 // @public
-export interface LocationGetResult extends ARMProxyResource {
+export type LocationGetResult = ARMProxyResource & {
     properties?: LocationProperties;
-}
+};
 
 // @public
 export interface LocationListResult {
@@ -2400,8 +2499,7 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
-export interface MaterializedViewsBuilderRegionalServiceResource extends RegionalServiceResource {
-}
+export type MaterializedViewsBuilderRegionalServiceResource = RegionalServiceResource & {};
 
 // @public
 export interface MaterializedViewsBuilderServiceResource {
@@ -2409,10 +2507,10 @@ export interface MaterializedViewsBuilderServiceResource {
 }
 
 // @public
-export interface MaterializedViewsBuilderServiceResourceProperties extends ServiceResourceProperties {
-    readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
+export type MaterializedViewsBuilderServiceResourceProperties = ServiceResourceProperties & {
     serviceType: "MaterializedViewsBuilder";
-}
+    readonly locations?: MaterializedViewsBuilderRegionalServiceResource[];
+};
 
 // @public
 export interface MergeParameters {
@@ -2471,26 +2569,22 @@ export interface MetricValue {
 }
 
 // @public
-export interface MongoDBCollectionCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type MongoDBCollectionCreateUpdateParameters = ARMResourceProperties & {
     resource: MongoDBCollectionResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface MongoDBCollectionGetPropertiesOptions extends OptionsResource {
-}
+export type MongoDBCollectionGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface MongoDBCollectionGetPropertiesResource extends MongoDBCollectionResource, ExtendedResourceProperties {
-}
+export type MongoDBCollectionGetPropertiesResource = MongoDBCollectionResource & ExtendedResourceProperties & {};
 
 // @public
-export interface MongoDBCollectionGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: MongoDBCollectionGetPropertiesOptions;
-    // (undocumented)
+export type MongoDBCollectionGetResults = ARMResourceProperties & {
     resource?: MongoDBCollectionGetPropertiesResource;
-}
+    options?: MongoDBCollectionGetPropertiesOptions;
+};
 
 // @public
 export interface MongoDBCollectionListResult {
@@ -2500,34 +2594,32 @@ export interface MongoDBCollectionListResult {
 // @public
 export interface MongoDBCollectionResource {
     analyticalStorageTtl?: number;
+    createMode?: CreateMode;
     id: string;
     indexes?: MongoIndex[];
+    restoreParameters?: ResourceRestoreParameters;
     shardKey?: {
         [propertyName: string]: string;
     };
 }
 
 // @public
-export interface MongoDBDatabaseCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type MongoDBDatabaseCreateUpdateParameters = ARMResourceProperties & {
     resource: MongoDBDatabaseResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface MongoDBDatabaseGetPropertiesOptions extends OptionsResource {
-}
+export type MongoDBDatabaseGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface MongoDBDatabaseGetPropertiesResource extends MongoDBDatabaseResource, ExtendedResourceProperties {
-}
+export type MongoDBDatabaseGetPropertiesResource = MongoDBDatabaseResource & ExtendedResourceProperties & {};
 
 // @public
-export interface MongoDBDatabaseGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: MongoDBDatabaseGetPropertiesOptions;
-    // (undocumented)
+export type MongoDBDatabaseGetResults = ARMResourceProperties & {
     resource?: MongoDBDatabaseGetPropertiesResource;
-}
+    options?: MongoDBDatabaseGetPropertiesOptions;
+};
 
 // @public
 export interface MongoDBDatabaseListResult {
@@ -2536,7 +2628,9 @@ export interface MongoDBDatabaseListResult {
 
 // @public
 export interface MongoDBDatabaseResource {
+    createMode?: CreateMode;
     id: string;
+    restoreParameters?: ResourceRestoreParameters;
 }
 
 // @public
@@ -2571,6 +2665,10 @@ export interface MongoDBResources {
     beginMongoDBContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBContainerRedistributeThroughputResponse>;
     beginMongoDBContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>>;
     beginMongoDBContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse>;
+    beginMongoDBDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>, MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>>;
+    beginMongoDBDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse>;
+    beginMongoDBDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>, MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>>;
+    beginMongoDBDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams): Promise<MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse>;
     beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesRetrieveContinuousBackupInformationResponse>, MongoDBResourcesRetrieveContinuousBackupInformationResponse>>;
     beginRetrieveContinuousBackupInformationAndWait(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, location: ContinuousBackupRestoreLocation, options?: MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams): Promise<MongoDBResourcesRetrieveContinuousBackupInformationResponse>;
     beginUpdateMongoDBCollectionThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams): Promise<PollerLike<PollOperationState<MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>, MongoDBResourcesUpdateMongoDBCollectionThroughputResponse>>;
@@ -2783,6 +2881,24 @@ export interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionO
 export type MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
+export interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
 export interface MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -2836,13 +2952,13 @@ export interface MongoRoleDefinitionCreateUpdateParameters {
 }
 
 // @public
-export interface MongoRoleDefinitionGetResults extends ARMProxyResource {
+export type MongoRoleDefinitionGetResults = ARMProxyResource & {
+    roleName?: string;
+    typePropertiesType?: MongoRoleDefinitionType;
     databaseName?: string;
     privileges?: Privilege[];
-    roleName?: string;
     roles?: Role[];
-    typePropertiesType?: MongoRoleDefinitionType;
-}
+};
 
 // @public
 export interface MongoRoleDefinitionListResult {
@@ -2863,14 +2979,14 @@ export interface MongoUserDefinitionCreateUpdateParameters {
 }
 
 // @public
-export interface MongoUserDefinitionGetResults extends ARMProxyResource {
-    customData?: string;
-    databaseName?: string;
-    mechanisms?: string;
-    password?: string;
-    roles?: Role[];
+export type MongoUserDefinitionGetResults = ARMProxyResource & {
     userName?: string;
-}
+    password?: string;
+    databaseName?: string;
+    customData?: string;
+    roles?: Role[];
+    mechanisms?: string;
+};
 
 // @public
 export interface MongoUserDefinitionListResult {
@@ -2887,10 +3003,10 @@ export type NodeState = string;
 export type NodeStatus = string;
 
 // @public
-export interface NotebookWorkspace extends ARMProxyResource {
+export type NotebookWorkspace = ARMProxyResource & {
     readonly notebookServerEndpoint?: string;
     readonly status?: string;
-}
+};
 
 // @public
 export interface NotebookWorkspaceConnectionInfoResult {
@@ -2899,8 +3015,7 @@ export interface NotebookWorkspaceConnectionInfoResult {
 }
 
 // @public
-export interface NotebookWorkspaceCreateUpdateParameters extends ARMProxyResource {
-}
+export type NotebookWorkspaceCreateUpdateParameters = ARMProxyResource & {};
 
 // @public
 export interface NotebookWorkspaceListResult {
@@ -3049,10 +3164,10 @@ export type PartitionKeyRangeIdRegionListMetricsResponse = PartitionMetricListRe
 export type PartitionKind = string;
 
 // @public
-export interface PartitionMetric extends Metric {
+export type PartitionMetric = Metric & {
     readonly partitionId?: string;
     readonly partitionKeyRangeId?: string;
-}
+};
 
 // @public
 export interface PartitionMetricListResult {
@@ -3060,10 +3175,10 @@ export interface PartitionMetricListResult {
 }
 
 // @public
-export interface PartitionUsage extends Usage {
+export type PartitionUsage = Usage & {
     readonly partitionId?: string;
     readonly partitionKeyRangeId?: string;
-}
+};
 
 // @public
 export interface PartitionUsagesResult {
@@ -3098,7 +3213,7 @@ export interface PercentileMetricListResult {
 }
 
 // @public
-export interface PercentileMetricValue extends MetricValue {
+export type PercentileMetricValue = MetricValue & {
     readonly p10?: number;
     readonly p25?: number;
     readonly p50?: number;
@@ -3106,7 +3221,7 @@ export interface PercentileMetricValue extends MetricValue {
     readonly p90?: number;
     readonly p95?: number;
     readonly p99?: number;
-}
+};
 
 // @public
 export interface PercentileSourceTarget {
@@ -3133,10 +3248,10 @@ export interface PercentileTargetListMetricsOptionalParams extends coreClient.Op
 export type PercentileTargetListMetricsResponse = PercentileMetricListResult;
 
 // @public
-export interface PeriodicModeBackupPolicy extends BackupPolicy {
-    periodicModeProperties?: PeriodicModeProperties;
+export type PeriodicModeBackupPolicy = BackupPolicy & {
     type: "Periodic";
-}
+    periodicModeProperties?: PeriodicModeProperties;
+};
 
 // @public
 export interface PeriodicModeProperties {
@@ -3179,24 +3294,23 @@ export interface PhysicalPartitionThroughputInfoResource {
 }
 
 // @public
-export interface PhysicalPartitionThroughputInfoResult extends ARMResourceProperties {
+export type PhysicalPartitionThroughputInfoResult = ARMResourceProperties & {
     resource?: PhysicalPartitionThroughputInfoResultPropertiesResource;
-}
+};
 
 // @public
-export interface PhysicalPartitionThroughputInfoResultPropertiesResource extends PhysicalPartitionThroughputInfoProperties {
-}
+export type PhysicalPartitionThroughputInfoResultPropertiesResource = PhysicalPartitionThroughputInfoProperties & {};
 
 // @public
 export type PrimaryAggregationType = string;
 
 // @public
-export interface PrivateEndpointConnection extends ProxyResource {
-    groupId?: string;
+export type PrivateEndpointConnection = ProxyResource & {
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+    groupId?: string;
     provisioningState?: string;
-}
+};
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -3248,11 +3362,11 @@ export interface PrivateEndpointProperty {
 }
 
 // @public
-export interface PrivateLinkResource extends ARMProxyResource {
+export type PrivateLinkResource = ARMProxyResource & {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
-}
+};
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -3299,16 +3413,15 @@ export interface PrivilegeResource {
 }
 
 // @public
-export interface ProxyResource extends Resource {
-}
+export type ProxyResource = Resource & {};
 
 // @public
 export type PublicNetworkAccess = string;
 
 // @public
-export interface RedistributeThroughputParameters extends ARMResourceProperties {
+export type RedistributeThroughputParameters = ARMResourceProperties & {
     resource: RedistributeThroughputPropertiesResource;
-}
+};
 
 // @public
 export interface RedistributeThroughputPropertiesResource {
@@ -3338,6 +3451,9 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned" | "None";
+
+// @public
+export type ResourceRestoreParameters = RestoreParametersBase & {};
 
 // @public
 export interface RestorableDatabaseAccountGetResult {
@@ -3611,9 +3727,9 @@ export interface RestorableSqlContainerPropertiesResource {
 }
 
 // @public
-export interface RestorableSqlContainerPropertiesResourceContainer extends SqlContainerResource, ExtendedResourceProperties {
+export type RestorableSqlContainerPropertiesResourceContainer = SqlContainerResource & ExtendedResourceProperties & {
     readonly self?: string;
-}
+};
 
 // @public
 export interface RestorableSqlContainers {
@@ -3654,11 +3770,11 @@ export interface RestorableSqlDatabasePropertiesResource {
 }
 
 // @public
-export interface RestorableSqlDatabasePropertiesResourceDatabase extends SqlDatabaseResource, ExtendedResourceProperties {
+export type RestorableSqlDatabasePropertiesResourceDatabase = SqlDatabaseResource & ExtendedResourceProperties & {
     readonly colls?: string;
-    readonly self?: string;
     readonly users?: string;
-}
+    readonly self?: string;
+};
 
 // @public
 export interface RestorableSqlDatabases {
@@ -3771,19 +3887,23 @@ export interface RestorableTablesListResult {
 export type RestoreMode = string;
 
 // @public
-export interface RestoreParameters {
+export type RestoreParameters = RestoreParametersBase & {
+    restoreMode?: RestoreMode;
     databasesToRestore?: DatabaseRestoreResource[];
     gremlinDatabasesToRestore?: GremlinDatabaseRestoreResource[];
-    restoreMode?: RestoreMode;
+    tablesToRestore?: string[];
+};
+
+// @public
+export interface RestoreParametersBase {
     restoreSource?: string;
     restoreTimestampInUtc?: Date;
-    tablesToRestore?: string[];
 }
 
 // @public
-export interface RetrieveThroughputParameters extends ARMResourceProperties {
+export type RetrieveThroughputParameters = ARMResourceProperties & {
     resource: RetrieveThroughputPropertiesResource;
-}
+};
 
 // @public
 export interface RetrieveThroughputPropertiesResource {
@@ -3847,9 +3967,9 @@ export interface ServiceListOptionalParams extends coreClient.OperationOptions {
 export type ServiceListResponse = ServiceResourceListResult;
 
 // @public
-export interface ServiceResource extends ARMProxyResource {
+export type ServiceResource = ARMProxyResource & {
     properties?: ServiceResourcePropertiesUnion;
-}
+};
 
 // @public
 export interface ServiceResourceCreateUpdateParameters {
@@ -3895,26 +4015,22 @@ export interface SpatialSpec {
 export type SpatialType = string;
 
 // @public
-export interface SqlContainerCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type SqlContainerCreateUpdateParameters = ARMResourceProperties & {
     resource: SqlContainerResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface SqlContainerGetPropertiesOptions extends OptionsResource {
-}
+export type SqlContainerGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface SqlContainerGetPropertiesResource extends SqlContainerResource, ExtendedResourceProperties {
-}
+export type SqlContainerGetPropertiesResource = SqlContainerResource & ExtendedResourceProperties & {};
 
 // @public
-export interface SqlContainerGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: SqlContainerGetPropertiesOptions;
-    // (undocumented)
+export type SqlContainerGetResults = ARMResourceProperties & {
     resource?: SqlContainerGetPropertiesResource;
-}
+    options?: SqlContainerGetPropertiesOptions;
+};
 
 // @public
 export interface SqlContainerListResult {
@@ -3926,36 +4042,35 @@ export interface SqlContainerResource {
     analyticalStorageTtl?: number;
     clientEncryptionPolicy?: ClientEncryptionPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
+    createMode?: CreateMode;
     defaultTtl?: number;
     id: string;
     indexingPolicy?: IndexingPolicy;
     partitionKey?: ContainerPartitionKey;
+    restoreParameters?: ResourceRestoreParameters;
     uniqueKeyPolicy?: UniqueKeyPolicy;
 }
 
 // @public
-export interface SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type SqlDatabaseCreateUpdateParameters = ARMResourceProperties & {
     resource: SqlDatabaseResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface SqlDatabaseGetPropertiesOptions extends OptionsResource {
-}
+export type SqlDatabaseGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface SqlDatabaseGetPropertiesResource extends SqlDatabaseResource, ExtendedResourceProperties {
+export type SqlDatabaseGetPropertiesResource = SqlDatabaseResource & ExtendedResourceProperties & {
     colls?: string;
     users?: string;
-}
+};
 
 // @public
-export interface SqlDatabaseGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: SqlDatabaseGetPropertiesOptions;
-    // (undocumented)
+export type SqlDatabaseGetResults = ARMResourceProperties & {
     resource?: SqlDatabaseGetPropertiesResource;
-}
+    options?: SqlDatabaseGetPropertiesOptions;
+};
 
 // @public
 export interface SqlDatabaseListResult {
@@ -3964,13 +4079,15 @@ export interface SqlDatabaseListResult {
 
 // @public
 export interface SqlDatabaseResource {
+    createMode?: CreateMode;
     id: string;
+    restoreParameters?: ResourceRestoreParameters;
 }
 
 // @public
-export interface SqlDedicatedGatewayRegionalServiceResource extends RegionalServiceResource {
+export type SqlDedicatedGatewayRegionalServiceResource = RegionalServiceResource & {
     readonly sqlDedicatedGatewayEndpoint?: string;
-}
+};
 
 // @public
 export interface SqlDedicatedGatewayServiceResource {
@@ -3978,11 +4095,11 @@ export interface SqlDedicatedGatewayServiceResource {
 }
 
 // @public
-export interface SqlDedicatedGatewayServiceResourceProperties extends ServiceResourceProperties {
-    readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
+export type SqlDedicatedGatewayServiceResourceProperties = ServiceResourceProperties & {
     serviceType: "SqlDedicatedGateway";
     sqlDedicatedGatewayEndpoint?: string;
-}
+    readonly locations?: SqlDedicatedGatewayRegionalServiceResource[];
+};
 
 // @public
 export interface SqlResources {
@@ -4032,6 +4149,10 @@ export interface SqlResources {
     beginSqlContainerRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse>;
     beginSqlContainerRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>, SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>>;
     beginSqlContainerRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse>;
+    beginSqlDatabaseRedistributeThroughput(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>, SqlResourcesSqlDatabaseRedistributeThroughputResponse>>;
+    beginSqlDatabaseRedistributeThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, redistributeThroughputParameters: RedistributeThroughputParameters, options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse>;
+    beginSqlDatabaseRetrieveThroughputDistribution(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>, SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>>;
+    beginSqlDatabaseRetrieveThroughputDistributionAndWait(resourceGroupName: string, accountName: string, databaseName: string, retrieveThroughputParameters: RetrieveThroughputParameters, options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>;
     beginUpdateSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesUpdateSqlContainerThroughputResponse>, SqlResourcesUpdateSqlContainerThroughputResponse>>;
     beginUpdateSqlContainerThroughputAndWait(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlContainerThroughputOptionalParams): Promise<SqlResourcesUpdateSqlContainerThroughputResponse>;
     beginUpdateSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, updateThroughputParameters: ThroughputSettingsUpdateParameters, options?: SqlResourcesUpdateSqlDatabaseThroughputOptionalParams): Promise<PollerLike<PollOperationState<SqlResourcesUpdateSqlDatabaseThroughputResponse>, SqlResourcesUpdateSqlDatabaseThroughputResponse>>;
@@ -4369,6 +4490,24 @@ export interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalP
 export type SqlResourcesSqlContainerRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
 
 // @public
+export interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlResourcesSqlDatabaseRedistributeThroughputResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
+export interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse = PhysicalPartitionThroughputInfoResult;
+
+// @public
 export interface SqlResourcesUpdateSqlContainerThroughputOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -4394,11 +4533,11 @@ export interface SqlRoleAssignmentCreateUpdateParameters {
 }
 
 // @public
-export interface SqlRoleAssignmentGetResults extends ARMProxyResource {
-    principalId?: string;
+export type SqlRoleAssignmentGetResults = ARMProxyResource & {
     roleDefinitionId?: string;
     scope?: string;
-}
+    principalId?: string;
+};
 
 // @public
 export interface SqlRoleAssignmentListResult {
@@ -4414,12 +4553,12 @@ export interface SqlRoleDefinitionCreateUpdateParameters {
 }
 
 // @public
-export interface SqlRoleDefinitionGetResults extends ARMProxyResource {
-    assignableScopes?: string[];
-    permissions?: Permission[];
+export type SqlRoleDefinitionGetResults = ARMProxyResource & {
     roleName?: string;
     typePropertiesType?: RoleDefinitionType;
-}
+    assignableScopes?: string[];
+    permissions?: Permission[];
+};
 
 // @public
 export interface SqlRoleDefinitionListResult {
@@ -4427,20 +4566,18 @@ export interface SqlRoleDefinitionListResult {
 }
 
 // @public
-export interface SqlStoredProcedureCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type SqlStoredProcedureCreateUpdateParameters = ARMResourceProperties & {
     resource: SqlStoredProcedureResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface SqlStoredProcedureGetPropertiesResource extends SqlStoredProcedureResource, ExtendedResourceProperties {
-}
+export type SqlStoredProcedureGetPropertiesResource = SqlStoredProcedureResource & ExtendedResourceProperties & {};
 
 // @public
-export interface SqlStoredProcedureGetResults extends ARMResourceProperties {
-    // (undocumented)
+export type SqlStoredProcedureGetResults = ARMResourceProperties & {
     resource?: SqlStoredProcedureGetPropertiesResource;
-}
+};
 
 // @public
 export interface SqlStoredProcedureListResult {
@@ -4454,20 +4591,18 @@ export interface SqlStoredProcedureResource {
 }
 
 // @public
-export interface SqlTriggerCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type SqlTriggerCreateUpdateParameters = ARMResourceProperties & {
     resource: SqlTriggerResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface SqlTriggerGetPropertiesResource extends SqlTriggerResource, ExtendedResourceProperties {
-}
+export type SqlTriggerGetPropertiesResource = SqlTriggerResource & ExtendedResourceProperties & {};
 
 // @public
-export interface SqlTriggerGetResults extends ARMResourceProperties {
-    // (undocumented)
+export type SqlTriggerGetResults = ARMResourceProperties & {
     resource?: SqlTriggerGetPropertiesResource;
-}
+};
 
 // @public
 export interface SqlTriggerListResult {
@@ -4483,20 +4618,18 @@ export interface SqlTriggerResource {
 }
 
 // @public
-export interface SqlUserDefinedFunctionCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type SqlUserDefinedFunctionCreateUpdateParameters = ARMResourceProperties & {
     resource: SqlUserDefinedFunctionResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface SqlUserDefinedFunctionGetPropertiesResource extends SqlUserDefinedFunctionResource, ExtendedResourceProperties {
-}
+export type SqlUserDefinedFunctionGetPropertiesResource = SqlUserDefinedFunctionResource & ExtendedResourceProperties & {};
 
 // @public
-export interface SqlUserDefinedFunctionGetResults extends ARMResourceProperties {
-    // (undocumented)
+export type SqlUserDefinedFunctionGetResults = ARMResourceProperties & {
     resource?: SqlUserDefinedFunctionGetPropertiesResource;
-}
+};
 
 // @public
 export interface SqlUserDefinedFunctionListResult {
@@ -4520,26 +4653,22 @@ export interface SystemData {
 }
 
 // @public
-export interface TableCreateUpdateParameters extends ARMResourceProperties {
-    options?: CreateUpdateOptions;
+export type TableCreateUpdateParameters = ARMResourceProperties & {
     resource: TableResource;
-}
+    options?: CreateUpdateOptions;
+};
 
 // @public (undocumented)
-export interface TableGetPropertiesOptions extends OptionsResource {
-}
+export type TableGetPropertiesOptions = OptionsResource & {};
 
 // @public (undocumented)
-export interface TableGetPropertiesResource extends TableResource, ExtendedResourceProperties {
-}
+export type TableGetPropertiesResource = TableResource & ExtendedResourceProperties & {};
 
 // @public
-export interface TableGetResults extends ARMResourceProperties {
-    // (undocumented)
-    options?: TableGetPropertiesOptions;
-    // (undocumented)
+export type TableGetResults = ARMResourceProperties & {
     resource?: TableGetPropertiesResource;
-}
+    options?: TableGetPropertiesOptions;
+};
 
 // @public
 export interface TableListResult {
@@ -4652,14 +4781,12 @@ export interface ThroughputPolicyResource {
 export type ThroughputPolicyType = string;
 
 // @public (undocumented)
-export interface ThroughputSettingsGetPropertiesResource extends ThroughputSettingsResource, ExtendedResourceProperties {
-}
+export type ThroughputSettingsGetPropertiesResource = ThroughputSettingsResource & ExtendedResourceProperties & {};
 
 // @public
-export interface ThroughputSettingsGetResults extends ARMResourceProperties {
-    // (undocumented)
+export type ThroughputSettingsGetResults = ARMResourceProperties & {
     resource?: ThroughputSettingsGetPropertiesResource;
-}
+};
 
 // @public
 export interface ThroughputSettingsResource {
@@ -4670,9 +4797,9 @@ export interface ThroughputSettingsResource {
 }
 
 // @public
-export interface ThroughputSettingsUpdateParameters extends ARMResourceProperties {
+export type ThroughputSettingsUpdateParameters = ARMResourceProperties & {
     resource: ThroughputSettingsResource;
-}
+};
 
 // @public
 export type TriggerOperation = string;
