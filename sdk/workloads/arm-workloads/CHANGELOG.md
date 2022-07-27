@@ -1,5 +1,46 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-07-27)
+    
+**Features**
+
+  - Added Type Alias DB2ProviderInstanceProperties
+  - Added Type Alias DeploymentConfiguration
+  - Added Type Alias DeploymentWithOSConfiguration
+  - Added Type Alias DiscoveryConfiguration
+  - Added Type Alias HanaDbProviderInstanceProperties
+  - Added Type Alias LinuxConfiguration
+  - Added Type Alias Monitor
+  - Added Type Alias MonitorPropertiesErrors
+  - Added Type Alias MsSqlServerProviderInstanceProperties
+  - Added Type Alias OperationsContent
+  - Added Type Alias OperationsDefinitionDisplay
+  - Added Type Alias PatchResourceRequestBodyIdentity
+  - Added Type Alias PhpWorkloadResource
+  - Added Type Alias PhpWorkloadResourceIdentity
+  - Added Type Alias PrometheusHaClusterProviderInstanceProperties
+  - Added Type Alias PrometheusOSProviderInstanceProperties
+  - Added Type Alias ProviderInstance
+  - Added Type Alias ProviderInstancePropertiesErrors
+  - Added Type Alias ProxyResource
+  - Added Type Alias SAPApplicationServerInstance
+  - Added Type Alias SAPCentralServerInstance
+  - Added Type Alias SAPDatabaseInstance
+  - Added Type Alias SAPInstallWithoutOSConfigSoftwareConfiguration
+  - Added Type Alias SapNetWeaverProviderInstanceProperties
+  - Added Type Alias SAPVirtualInstance
+  - Added Type Alias SearchProfile
+  - Added Type Alias ServiceInitiatedSoftwareConfiguration
+  - Added Type Alias SingleServerConfiguration
+  - Added Type Alias SingleServerRecommendationResult
+  - Added Type Alias ThreeTierConfiguration
+  - Added Type Alias ThreeTierRecommendationResult
+  - Added Type Alias TrackedResource
+  - Added Type Alias VmssNodesProfile
+  - Added Type Alias WindowsConfiguration
+  - Added Type Alias WordpressInstanceResource
+    
+    
 ## 1.0.0-beta.2 (2022-07-14)
     
 **Features**
