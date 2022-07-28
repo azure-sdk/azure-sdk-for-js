@@ -23,7 +23,7 @@ export interface Activity {
     dependsOn?: ActivityDependency[];
     description?: string;
     name: string;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
     userProperties?: UserProperty[];
 }
 
@@ -95,39 +95,39 @@ export interface AdditionalColumns {
 }
 
 // @public
-export interface AmazonMWSLinkedService extends LinkedService {
-    accessKeyId: any;
-    encryptedCredential?: any;
+export type AmazonMWSLinkedService = LinkedService & {
+    type: "AmazonMWS";
     endpoint: any;
     marketplaceID: any;
-    mwsAuthToken?: SecretBaseUnion;
-    secretKey?: SecretBaseUnion;
     sellerID: any;
-    type: "AmazonMWS";
+    mwsAuthToken?: SecretBaseUnion;
+    accessKeyId: any;
+    secretKey?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
-
-// @public
-export interface AmazonMWSObjectDataset extends Dataset {
-    tableName?: any;
-    type: "AmazonMWSObject";
-}
-
-// @public
-export interface AmazonMWSSource extends TabularSource {
-    query?: any;
-    type: "AmazonMWSSource";
-}
-
-// @public
-export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: any;
     encryptedCredential?: any;
-    password?: SecretBaseUnion;
+};
+
+// @public
+export type AmazonMWSObjectDataset = Dataset & {
+    type: "AmazonMWSObject";
+    tableName?: any;
+};
+
+// @public
+export type AmazonMWSSource = TabularSource & {
+    type: "AmazonMWSSource";
+    query?: any;
+};
+
+// @public
+export type AmazonRdsForOracleLinkedService = LinkedService & {
     type: "AmazonRdsForOracle";
-}
+    connectionString: any;
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
 export type AmazonRdsForOraclePartitionOption = string;
@@ -141,170 +141,170 @@ export interface AmazonRdsForOraclePartitionSettings {
 }
 
 // @public
-export interface AmazonRdsForOracleSource extends CopySource {
-    additionalColumns?: any;
+export type AmazonRdsForOracleSource = CopySource & {
+    type: "AmazonRdsForOracleSource";
     oracleReaderQuery?: any;
+    queryTimeout?: any;
     partitionOption?: any;
     partitionSettings?: AmazonRdsForOraclePartitionSettings;
-    queryTimeout?: any;
-    type: "AmazonRdsForOracleSource";
-}
+    additionalColumns?: any;
+};
 
 // @public
-export interface AmazonRdsForOracleTableDataset extends Dataset {
+export type AmazonRdsForOracleTableDataset = Dataset & {
+    type: "AmazonRdsForOracleTable";
     schemaTypePropertiesSchema?: any;
     table?: any;
-    type: "AmazonRdsForOracleTable";
-}
+};
 
 // @public
-export interface AmazonRdsForSqlServerLinkedService extends LinkedService {
-    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type AmazonRdsForSqlServerLinkedService = LinkedService & {
     type: "AmazonRdsForSqlServer";
+    connectionString: any;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+};
 
 // @public
-export interface AmazonRdsForSqlServerSource extends TabularSource {
-    partitionOption?: any;
-    partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: any;
+export type AmazonRdsForSqlServerSource = TabularSource & {
+    type: "AmazonRdsForSqlServerSource";
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
-    type: "AmazonRdsForSqlServerSource";
-}
+    produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
+};
 
 // @public
-export interface AmazonRdsForSqlServerTableDataset extends Dataset {
+export type AmazonRdsForSqlServerTableDataset = Dataset & {
+    type: "AmazonRdsForSqlServerTable";
     schemaTypePropertiesSchema?: any;
     table?: any;
-    type: "AmazonRdsForSqlServerTable";
-}
+};
 
 // @public
-export interface AmazonRedshiftLinkedService extends LinkedService {
-    database: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    server: any;
+export type AmazonRedshiftLinkedService = LinkedService & {
     type: "AmazonRedshift";
+    server: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    database: any;
+    port?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface AmazonRedshiftSource extends TabularSource {
+export type AmazonRedshiftSource = TabularSource & {
+    type: "AmazonRedshiftSource";
     query?: any;
     redshiftUnloadSettings?: RedshiftUnloadSettings;
-    type: "AmazonRedshiftSource";
-}
+};
 
 // @public
-export interface AmazonRedshiftTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type AmazonRedshiftTableDataset = Dataset & {
     type: "AmazonRedshiftTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface AmazonS3CompatibleLinkedService extends LinkedService {
+export type AmazonS3CompatibleLinkedService = LinkedService & {
+    type: "AmazonS3Compatible";
     accessKeyId?: any;
-    encryptedCredential?: any;
-    forcePathStyle?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
-    type: "AmazonS3Compatible";
-}
-
-// @public
-export interface AmazonS3CompatibleLocation extends DatasetLocation {
-    bucketName?: any;
-    type: "AmazonS3CompatibleLocation";
-    version?: any;
-}
-
-// @public
-export interface AmazonS3CompatibleReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
-    recursive?: any;
-    type: "AmazonS3CompatibleReadSettings";
-    wildcardFileName?: any;
-    wildcardFolderPath?: any;
-}
-
-// @public
-export interface AmazonS3Dataset extends Dataset {
-    bucketName: any;
-    compression?: DatasetCompression;
-    format?: DatasetStorageFormatUnion;
-    key?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    prefix?: any;
-    type: "AmazonS3Object";
-    version?: any;
-}
-
-// @public
-export interface AmazonS3LinkedService extends LinkedService {
-    accessKeyId?: any;
-    authenticationType?: any;
+    forcePathStyle?: any;
     encryptedCredential?: any;
+};
+
+// @public
+export type AmazonS3CompatibleLocation = DatasetLocation & {
+    type: "AmazonS3CompatibleLocation";
+    bucketName?: any;
+    version?: any;
+};
+
+// @public
+export type AmazonS3CompatibleReadSettings = StoreReadSettings & {
+    type: "AmazonS3CompatibleReadSettings";
+    recursive?: any;
+    wildcardFolderPath?: any;
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
+
+// @public
+export type AmazonS3Dataset = Dataset & {
+    type: "AmazonS3Object";
+    bucketName: any;
+    key?: any;
+    prefix?: any;
+    version?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompression;
+};
+
+// @public
+export type AmazonS3LinkedService = LinkedService & {
+    type: "AmazonS3";
+    authenticationType?: any;
+    accessKeyId?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
     sessionToken?: SecretBaseUnion;
-    type: "AmazonS3";
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface AmazonS3Location extends DatasetLocation {
-    bucketName?: any;
+export type AmazonS3Location = DatasetLocation & {
     type: "AmazonS3Location";
+    bucketName?: any;
     version?: any;
-}
+};
 
 // @public
-export interface AmazonS3ReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
-    recursive?: any;
+export type AmazonS3ReadSettings = StoreReadSettings & {
     type: "AmazonS3ReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
 
 // @public
-export interface AppendVariableActivity extends ControlActivity {
+export type AppendVariableActivity = ControlActivity & {
     type: "AppendVariable";
-    value?: any;
     variableName?: string;
-}
+    value?: any;
+};
 
 // @public
-export interface AppFiguresLinkedService extends LinkedService {
-    clientKey: SecretBaseUnion;
-    password: SecretBaseUnion;
+export type AppFiguresLinkedService = LinkedService & {
     type: "AppFigures";
     userName: any;
-}
+    password: SecretBaseUnion;
+    clientKey: SecretBaseUnion;
+};
 
 // @public
 export interface ArmIdWrapper {
@@ -312,542 +312,541 @@ export interface ArmIdWrapper {
 }
 
 // @public
-export interface AsanaLinkedService extends LinkedService {
+export type AsanaLinkedService = LinkedService & {
+    type: "Asana";
     apiToken: SecretBaseUnion;
     encryptedCredential?: any;
-    type: "Asana";
-}
+};
 
 // @public
 export type AvroCompressionCodec = string;
 
 // @public
-export interface AvroDataset extends Dataset {
-    avroCompressionCodec?: any;
-    // (undocumented)
-    avroCompressionLevel?: number;
-    location?: DatasetLocationUnion;
+export type AvroDataset = Dataset & {
     type: "Avro";
-}
+    location?: DatasetLocationUnion;
+    avroCompressionCodec?: any;
+    avroCompressionLevel?: number;
+};
 
 // @public
-export interface AvroFormat extends DatasetStorageFormat {
+export type AvroFormat = DatasetStorageFormat & {
     type: "AvroFormat";
-}
+};
 
 // @public
-export interface AvroSink extends CopySink {
-    formatSettings?: AvroWriteSettings;
-    storeSettings?: StoreWriteSettingsUnion;
+export type AvroSink = CopySink & {
     type: "AvroSink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: AvroWriteSettings;
+};
 
 // @public
-export interface AvroSource extends CopySource {
-    additionalColumns?: any;
-    storeSettings?: StoreReadSettingsUnion;
+export type AvroSource = CopySource & {
     type: "AvroSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: any;
+};
 
 // @public
-export interface AvroWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: any;
-    maxRowsPerFile?: any;
+export type AvroWriteSettings = FormatWriteSettings & {
+    type: "AvroWriteSettings";
     recordName?: string;
     recordNamespace?: string;
-    type: "AvroWriteSettings";
-}
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
+};
 
 // @public
-export interface AzPowerShellSetup extends CustomSetupBase {
+export type AzPowerShellSetup = CustomSetupBase & {
     type: "AzPowerShellSetup";
     version: string;
-}
+};
 
 // @public
-export interface AzureBatchLinkedService extends LinkedService {
-    accessKey?: SecretBaseUnion;
-    accountName: any;
-    batchUri: any;
-    credential?: CredentialReference;
-    encryptedCredential?: any;
-    linkedServiceName: LinkedServiceReference;
-    poolName: any;
+export type AzureBatchLinkedService = LinkedService & {
     type: "AzureBatch";
-}
-
-// @public
-export interface AzureBlobDataset extends Dataset {
-    compression?: DatasetCompression;
-    fileName?: any;
-    folderPath?: any;
-    format?: DatasetStorageFormatUnion;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    tableRootLocation?: any;
-    type: "AzureBlob";
-}
-
-// @public
-export interface AzureBlobFSDataset extends Dataset {
-    compression?: DatasetCompression;
-    fileName?: any;
-    folderPath?: any;
-    format?: DatasetStorageFormatUnion;
-    type: "AzureBlobFSFile";
-}
-
-// @public
-export interface AzureBlobFSLinkedService extends LinkedService {
-    accountKey?: any;
-    azureCloudType?: any;
-    credential?: CredentialReference;
+    accountName: any;
+    accessKey?: SecretBaseUnion;
+    batchUri: any;
+    poolName: any;
+    linkedServiceName: LinkedServiceReference;
     encryptedCredential?: any;
-    servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: any;
+    credential?: CredentialReference;
+};
+
+// @public
+export type AzureBlobDataset = Dataset & {
+    type: "AzureBlob";
+    folderPath?: any;
+    tableRootLocation?: any;
+    fileName?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompression;
+};
+
+// @public
+export type AzureBlobFSDataset = Dataset & {
+    type: "AzureBlobFSFile";
+    folderPath?: any;
+    fileName?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompression;
+};
+
+// @public
+export type AzureBlobFSLinkedService = LinkedService & {
+    type: "AzureBlobFS";
+    url: any;
+    accountKey?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
-    type: "AzureBlobFS";
-    url: any;
-}
+    azureCloudType?: any;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+};
 
 // @public
-export interface AzureBlobFSLocation extends DatasetLocation {
-    fileSystem?: any;
+export type AzureBlobFSLocation = DatasetLocation & {
     type: "AzureBlobFSLocation";
-}
+    fileSystem?: any;
+};
 
 // @public
-export interface AzureBlobFSReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    recursive?: any;
+export type AzureBlobFSReadSettings = StoreReadSettings & {
     type: "AzureBlobFSReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
 
 // @public
-export interface AzureBlobFSSink extends CopySink {
+export type AzureBlobFSSink = CopySink & {
+    type: "AzureBlobFSSink";
     copyBehavior?: any;
     metadata?: MetadataItem[];
-    type: "AzureBlobFSSink";
-}
+};
 
 // @public
-export interface AzureBlobFSSource extends CopySource {
-    recursive?: any;
-    skipHeaderLineCount?: any;
-    treatEmptyAsNull?: any;
+export type AzureBlobFSSource = CopySource & {
     type: "AzureBlobFSSource";
-}
+    treatEmptyAsNull?: any;
+    skipHeaderLineCount?: any;
+    recursive?: any;
+};
 
 // @public
-export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
-    blockSizeInMB?: any;
+export type AzureBlobFSWriteSettings = StoreWriteSettings & {
     type: "AzureBlobFSWriteSettings";
-}
+    blockSizeInMB?: any;
+};
 
 // @public
-export interface AzureBlobStorageLinkedService extends LinkedService {
-    accountKey?: AzureKeyVaultSecretReference;
-    accountKind?: string;
-    azureCloudType?: any;
+export type AzureBlobStorageLinkedService = LinkedService & {
+    type: "AzureBlobStorage";
     connectionString?: any;
-    credential?: CredentialReference;
-    encryptedCredential?: string;
-    sasToken?: AzureKeyVaultSecretReference;
+    accountKey?: AzureKeyVaultSecretReference;
     sasUri?: any;
+    sasToken?: AzureKeyVaultSecretReference;
     serviceEndpoint?: string;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
-    type: "AzureBlobStorage";
-}
+    azureCloudType?: any;
+    accountKind?: string;
+    encryptedCredential?: string;
+    credential?: CredentialReference;
+};
 
 // @public
-export interface AzureBlobStorageLocation extends DatasetLocation {
-    container?: any;
+export type AzureBlobStorageLocation = DatasetLocation & {
     type: "AzureBlobStorageLocation";
-}
+    container?: any;
+};
 
 // @public
-export interface AzureBlobStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
-    recursive?: any;
+export type AzureBlobStorageReadSettings = StoreReadSettings & {
     type: "AzureBlobStorageReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
 
 // @public
-export interface AzureBlobStorageWriteSettings extends StoreWriteSettings {
-    blockSizeInMB?: any;
+export type AzureBlobStorageWriteSettings = StoreWriteSettings & {
     type: "AzureBlobStorageWriteSettings";
-}
+    blockSizeInMB?: any;
+};
 
 // @public
-export interface AzureDatabricksDeltaLakeDataset extends Dataset {
-    database?: any;
-    table?: any;
+export type AzureDatabricksDeltaLakeDataset = Dataset & {
     type: "AzureDatabricksDeltaLakeDataset";
-}
+    table?: any;
+    database?: any;
+};
 
 // @public
-export interface AzureDatabricksDeltaLakeExportCommand extends ExportSettings {
-    dateFormat?: any;
-    timestampFormat?: any;
+export type AzureDatabricksDeltaLakeExportCommand = ExportSettings & {
     type: "AzureDatabricksDeltaLakeExportCommand";
-}
-
-// @public
-export interface AzureDatabricksDeltaLakeImportCommand extends ImportSettings {
     dateFormat?: any;
     timestampFormat?: any;
-    type: "AzureDatabricksDeltaLakeImportCommand";
-}
+};
 
 // @public
-export interface AzureDatabricksDeltaLakeLinkedService extends LinkedService {
+export type AzureDatabricksDeltaLakeImportCommand = ImportSettings & {
+    type: "AzureDatabricksDeltaLakeImportCommand";
+    dateFormat?: any;
+    timestampFormat?: any;
+};
+
+// @public
+export type AzureDatabricksDeltaLakeLinkedService = LinkedService & {
+    type: "AzureDatabricksDeltaLake";
+    domain: any;
     accessToken?: SecretBaseUnion;
     clusterId?: any;
-    credential?: CredentialReference;
-    domain: any;
     encryptedCredential?: any;
-    type: "AzureDatabricksDeltaLake";
+    credential?: CredentialReference;
     workspaceResourceId?: any;
-}
+};
 
 // @public
-export interface AzureDatabricksDeltaLakeSink extends CopySink {
-    importSettings?: AzureDatabricksDeltaLakeImportCommand;
-    preCopyScript?: any;
+export type AzureDatabricksDeltaLakeSink = CopySink & {
     type: "AzureDatabricksDeltaLakeSink";
-}
+    preCopyScript?: any;
+    importSettings?: AzureDatabricksDeltaLakeImportCommand;
+};
 
 // @public
-export interface AzureDatabricksDeltaLakeSource extends CopySource {
-    exportSettings?: AzureDatabricksDeltaLakeExportCommand;
-    query?: any;
+export type AzureDatabricksDeltaLakeSource = CopySource & {
     type: "AzureDatabricksDeltaLakeSource";
-}
+    query?: any;
+    exportSettings?: AzureDatabricksDeltaLakeExportCommand;
+};
 
 // @public
-export interface AzureDatabricksLinkedService extends LinkedService {
+export type AzureDatabricksLinkedService = LinkedService & {
+    type: "AzureDatabricks";
+    domain: any;
     accessToken?: SecretBaseUnion;
     authentication?: any;
-    credential?: CredentialReference;
-    domain: any;
-    encryptedCredential?: any;
+    workspaceResourceId?: any;
     existingClusterId?: any;
     instancePoolId?: any;
-    newClusterCustomTags?: {
-        [propertyName: string]: any;
-    };
-    newClusterDriverNodeType?: any;
-    newClusterEnableElasticDisk?: any;
-    newClusterInitScripts?: any;
-    newClusterLogDestination?: any;
-    newClusterNodeType?: any;
+    newClusterVersion?: any;
     newClusterNumOfWorker?: any;
+    newClusterNodeType?: any;
     newClusterSparkConf?: {
         [propertyName: string]: any;
     };
     newClusterSparkEnvVars?: {
         [propertyName: string]: any;
     };
-    newClusterVersion?: any;
+    newClusterCustomTags?: {
+        [propertyName: string]: any;
+    };
+    newClusterLogDestination?: any;
+    newClusterDriverNodeType?: any;
+    newClusterInitScripts?: any;
+    newClusterEnableElasticDisk?: any;
+    encryptedCredential?: any;
     policyId?: any;
-    type: "AzureDatabricks";
-    workspaceResourceId?: any;
-}
+    credential?: CredentialReference;
+};
 
 // @public
-export interface AzureDataExplorerCommandActivity extends ExecutionActivity {
+export type AzureDataExplorerCommandActivity = ExecutionActivity & {
+    type: "AzureDataExplorerCommand";
     command: any;
     commandTimeout?: any;
-    type: "AzureDataExplorerCommand";
-}
+};
 
 // @public
-export interface AzureDataExplorerLinkedService extends LinkedService {
-    credential?: CredentialReference;
-    database: any;
+export type AzureDataExplorerLinkedService = LinkedService & {
+    type: "AzureDataExplorer";
     endpoint: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
+    database: any;
     tenant?: any;
-    type: "AzureDataExplorer";
-}
+    credential?: CredentialReference;
+};
 
 // @public
-export interface AzureDataExplorerSink extends CopySink {
-    flushImmediately?: any;
-    ingestionMappingAsJson?: any;
-    ingestionMappingName?: any;
+export type AzureDataExplorerSink = CopySink & {
     type: "AzureDataExplorerSink";
-}
+    ingestionMappingName?: any;
+    ingestionMappingAsJson?: any;
+    flushImmediately?: any;
+};
 
 // @public
-export interface AzureDataExplorerSource extends CopySource {
-    additionalColumns?: any;
-    noTruncation?: any;
-    query: any;
-    queryTimeout?: any;
+export type AzureDataExplorerSource = CopySource & {
     type: "AzureDataExplorerSource";
-}
+    query: any;
+    noTruncation?: any;
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface AzureDataExplorerTableDataset extends Dataset {
-    table?: any;
+export type AzureDataExplorerTableDataset = Dataset & {
     type: "AzureDataExplorerTable";
-}
+    table?: any;
+};
 
 // @public
-export interface AzureDataLakeAnalyticsLinkedService extends LinkedService {
+export type AzureDataLakeAnalyticsLinkedService = LinkedService & {
+    type: "AzureDataLakeAnalytics";
     accountName: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant: any;
+    subscriptionId?: any;
+    resourceGroupName?: any;
     dataLakeAnalyticsUri?: any;
     encryptedCredential?: any;
-    resourceGroupName?: any;
-    servicePrincipalId?: any;
-    servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId?: any;
-    tenant: any;
-    type: "AzureDataLakeAnalytics";
-}
+};
 
 // @public
-export interface AzureDataLakeStoreDataset extends Dataset {
-    compression?: DatasetCompression;
-    fileName?: any;
-    folderPath?: any;
-    format?: DatasetStorageFormatUnion;
+export type AzureDataLakeStoreDataset = Dataset & {
     type: "AzureDataLakeStoreFile";
-}
+    folderPath?: any;
+    fileName?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompression;
+};
 
 // @public
-export interface AzureDataLakeStoreLinkedService extends LinkedService {
-    accountName?: any;
-    azureCloudType?: any;
-    credential?: CredentialReference;
+export type AzureDataLakeStoreLinkedService = LinkedService & {
+    type: "AzureDataLakeStore";
     dataLakeStoreUri: any;
-    encryptedCredential?: any;
-    resourceGroupName?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId?: any;
     tenant?: any;
-    type: "AzureDataLakeStore";
-}
+    azureCloudType?: any;
+    accountName?: any;
+    subscriptionId?: any;
+    resourceGroupName?: any;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
+};
 
 // @public
-export interface AzureDataLakeStoreLocation extends DatasetLocation {
+export type AzureDataLakeStoreLocation = DatasetLocation & {
     type: "AzureDataLakeStoreLocation";
-}
+};
 
 // @public
-export interface AzureDataLakeStoreReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+export type AzureDataLakeStoreReadSettings = StoreReadSettings & {
+    type: "AzureDataLakeStoreReadSettings";
+    recursive?: any;
+    wildcardFolderPath?: any;
+    wildcardFileName?: any;
     fileListPath?: any;
     listAfter?: any;
     listBefore?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
+    enablePartitionDiscovery?: boolean;
     partitionRootPath?: any;
-    recursive?: any;
-    type: "AzureDataLakeStoreReadSettings";
-    wildcardFileName?: any;
-    wildcardFolderPath?: any;
-}
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
 
 // @public
-export interface AzureDataLakeStoreSink extends CopySink {
+export type AzureDataLakeStoreSink = CopySink & {
+    type: "AzureDataLakeStoreSink";
     copyBehavior?: any;
     enableAdlsSingleFileParallel?: any;
-    type: "AzureDataLakeStoreSink";
-}
+};
 
 // @public
-export interface AzureDataLakeStoreSource extends CopySource {
-    recursive?: any;
+export type AzureDataLakeStoreSource = CopySource & {
     type: "AzureDataLakeStoreSource";
-}
-
-// @public
-export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
-    expiryDateTime?: any;
-    type: "AzureDataLakeStoreWriteSettings";
-}
-
-// @public
-export interface AzureFileStorageLinkedService extends LinkedService {
-    accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: any;
-    encryptedCredential?: any;
-    fileShare?: any;
-    host?: any;
-    password?: SecretBaseUnion;
-    sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: any;
-    snapshot?: any;
-    type: "AzureFileStorage";
-    userId?: any;
-}
-
-// @public
-export interface AzureFileStorageLocation extends DatasetLocation {
-    type: "AzureFileStorageLocation";
-}
-
-// @public
-export interface AzureFileStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
     recursive?: any;
+};
+
+// @public
+export type AzureDataLakeStoreWriteSettings = StoreWriteSettings & {
+    type: "AzureDataLakeStoreWriteSettings";
+    expiryDateTime?: any;
+};
+
+// @public
+export type AzureFileStorageLinkedService = LinkedService & {
+    type: "AzureFileStorage";
+    host?: any;
+    userId?: any;
+    password?: SecretBaseUnion;
+    connectionString?: any;
+    accountKey?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    sasToken?: AzureKeyVaultSecretReference;
+    fileShare?: any;
+    snapshot?: any;
+    encryptedCredential?: any;
+};
+
+// @public
+export type AzureFileStorageLocation = DatasetLocation & {
+    type: "AzureFileStorageLocation";
+};
+
+// @public
+export type AzureFileStorageReadSettings = StoreReadSettings & {
     type: "AzureFileStorageReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
 
 // @public
-export interface AzureFileStorageWriteSettings extends StoreWriteSettings {
+export type AzureFileStorageWriteSettings = StoreWriteSettings & {
     type: "AzureFileStorageWriteSettings";
-}
+};
 
 // @public
-export interface AzureFunctionActivity extends ExecutionActivity {
-    body?: any;
+export type AzureFunctionActivity = ExecutionActivity & {
+    type: "AzureFunctionActivity";
+    method: AzureFunctionActivityMethod;
     functionName: any;
     headers?: any;
-    method: AzureFunctionActivityMethod;
-    type: "AzureFunctionActivity";
-}
+    body?: any;
+};
 
 // @public
 export type AzureFunctionActivityMethod = string;
 
 // @public
-export interface AzureFunctionLinkedService extends LinkedService {
-    authentication?: any;
-    credential?: CredentialReference;
-    encryptedCredential?: any;
+export type AzureFunctionLinkedService = LinkedService & {
+    type: "AzureFunction";
     functionAppUrl: any;
     functionKey?: SecretBaseUnion;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
     resourceId?: any;
-    type: "AzureFunction";
-}
+    authentication?: any;
+};
 
 // @public
-export interface AzureKeyVaultLinkedService extends LinkedService {
+export type AzureKeyVaultLinkedService = LinkedService & {
+    type: "AzureKeyVault";
     baseUrl: any;
     credential?: CredentialReference;
-    type: "AzureKeyVault";
-}
+};
 
 // @public
-export interface AzureKeyVaultSecretReference extends SecretBase {
+export type AzureKeyVaultSecretReference = SecretBase & {
+    type: "AzureKeyVaultSecret";
+    store: LinkedServiceReference;
     secretName: any;
     secretVersion?: any;
-    store: LinkedServiceReference;
-    type: "AzureKeyVaultSecret";
-}
+};
 
 // @public
-export interface AzureMariaDBLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
+export type AzureMariaDBLinkedService = LinkedService & {
     type: "AzureMariaDB";
-}
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface AzureMariaDBSource extends TabularSource {
-    query?: any;
+export type AzureMariaDBSource = TabularSource & {
     type: "AzureMariaDBSource";
-}
+    query?: any;
+};
 
 // @public
-export interface AzureMariaDBTableDataset extends Dataset {
-    tableName?: any;
+export type AzureMariaDBTableDataset = Dataset & {
     type: "AzureMariaDBTable";
-}
+    tableName?: any;
+};
 
 // @public
-export interface AzureMLBatchExecutionActivity extends ExecutionActivity {
+export type AzureMLBatchExecutionActivity = ExecutionActivity & {
+    type: "AzureMLBatchExecution";
     globalParameters?: {
         [propertyName: string]: any;
-    };
-    type: "AzureMLBatchExecution";
-    webServiceInputs?: {
-        [propertyName: string]: AzureMLWebServiceFile;
     };
     webServiceOutputs?: {
         [propertyName: string]: AzureMLWebServiceFile;
     };
-}
+    webServiceInputs?: {
+        [propertyName: string]: AzureMLWebServiceFile;
+    };
+};
 
 // @public
-export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
-    continueOnStepFailure?: any;
-    dataPathAssignments?: any;
-    experimentName?: any;
-    mlParentRunId?: any;
-    mlPipelineEndpointId?: any;
-    mlPipelineId?: any;
-    mlPipelineParameters?: any;
+export type AzureMLExecutePipelineActivity = ExecutionActivity & {
     type: "AzureMLExecutePipeline";
+    mlPipelineId?: any;
+    mlPipelineEndpointId?: any;
     version?: any;
-}
+    experimentName?: any;
+    mlPipelineParameters?: any;
+    dataPathAssignments?: any;
+    mlParentRunId?: any;
+    continueOnStepFailure?: any;
+};
 
 // @public
-export interface AzureMLLinkedService extends LinkedService {
-    apiKey: SecretBaseUnion;
-    authentication?: any;
-    encryptedCredential?: any;
-    mlEndpoint: any;
-    servicePrincipalId?: any;
-    servicePrincipalKey?: SecretBaseUnion;
-    tenant?: any;
+export type AzureMLLinkedService = LinkedService & {
     type: "AzureML";
+    mlEndpoint: any;
+    apiKey: SecretBaseUnion;
     updateResourceEndpoint?: any;
-}
-
-// @public
-export interface AzureMLServiceLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    mlWorkspaceName: any;
-    resourceGroupName: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    subscriptionId: any;
     tenant?: any;
-    type: "AzureMLService";
-}
+    encryptedCredential?: any;
+    authentication?: any;
+};
 
 // @public
-export interface AzureMLUpdateResourceActivity extends ExecutionActivity {
-    trainedModelFilePath: any;
-    trainedModelLinkedServiceName: LinkedServiceReference;
-    trainedModelName: any;
+export type AzureMLServiceLinkedService = LinkedService & {
+    type: "AzureMLService";
+    subscriptionId: any;
+    resourceGroupName: any;
+    mlWorkspaceName: any;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    encryptedCredential?: any;
+};
+
+// @public
+export type AzureMLUpdateResourceActivity = ExecutionActivity & {
     type: "AzureMLUpdateResource";
-}
+    trainedModelName: any;
+    trainedModelLinkedServiceName: LinkedServiceReference;
+    trainedModelFilePath: any;
+};
 
 // @public
 export interface AzureMLWebServiceFile {
@@ -856,324 +855,340 @@ export interface AzureMLWebServiceFile {
 }
 
 // @public
-export interface AzureMySqlLinkedService extends LinkedService {
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
+export type AzureMySqlLinkedService = LinkedService & {
     type: "AzureMySql";
-}
-
-// @public
-export interface AzureMySqlSink extends CopySink {
-    preCopyScript?: any;
-    type: "AzureMySqlSink";
-}
-
-// @public
-export interface AzureMySqlSource extends TabularSource {
-    query?: any;
-    type: "AzureMySqlSource";
-}
-
-// @public
-export interface AzureMySqlTableDataset extends Dataset {
-    table?: any;
-    tableName?: any;
-    type: "AzureMySqlTable";
-}
-
-// @public
-export interface AzurePostgreSqlLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: any;
+    connectionString: any;
     password?: AzureKeyVaultSecretReference;
-    type: "AzurePostgreSql";
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface AzurePostgreSqlSink extends CopySink {
+export type AzureMySqlSink = CopySink & {
+    type: "AzureMySqlSink";
     preCopyScript?: any;
-    type: "AzurePostgreSqlSink";
-}
+};
 
 // @public
-export interface AzurePostgreSqlSource extends TabularSource {
+export type AzureMySqlSource = TabularSource & {
+    type: "AzureMySqlSource";
     query?: any;
-    type: "AzurePostgreSqlSource";
-}
+};
 
 // @public
-export interface AzurePostgreSqlTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
+export type AzureMySqlTableDataset = Dataset & {
+    type: "AzureMySqlTable";
     tableName?: any;
+    table?: any;
+};
+
+// @public
+export type AzurePostgreSqlLinkedService = LinkedService & {
+    type: "AzurePostgreSql";
+    connectionString?: any;
+    password?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
+
+// @public
+export type AzurePostgreSqlSink = CopySink & {
+    type: "AzurePostgreSqlSink";
+    preCopyScript?: any;
+};
+
+// @public
+export type AzurePostgreSqlSource = TabularSource & {
+    type: "AzurePostgreSqlSource";
+    query?: any;
+};
+
+// @public
+export type AzurePostgreSqlTableDataset = Dataset & {
     type: "AzurePostgreSqlTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface AzureQueueSink extends CopySink {
+export type AzureQueueSink = CopySink & {
     type: "AzureQueueSink";
-}
+};
 
 // @public
-export interface AzureSearchIndexDataset extends Dataset {
-    indexName: any;
+export type AzureSearchIndexDataset = Dataset & {
     type: "AzureSearchIndex";
-}
+    indexName: any;
+};
 
 // @public
-export interface AzureSearchIndexSink extends CopySink {
+export type AzureSearchIndexSink = CopySink & {
     type: "AzureSearchIndexSink";
     writeBehavior?: AzureSearchIndexWriteBehaviorType;
-}
+};
 
 // @public
 export type AzureSearchIndexWriteBehaviorType = string;
 
 // @public
-export interface AzureSearchLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    key?: SecretBaseUnion;
+export type AzureSearchLinkedService = LinkedService & {
     type: "AzureSearch";
     url: any;
-}
+    key?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface AzureSqlDatabaseLinkedService extends LinkedService {
-    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    azureCloudType?: any;
-    connectionString: any;
-    credential?: CredentialReference;
-    encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
-    servicePrincipalId?: any;
-    servicePrincipalKey?: SecretBaseUnion;
-    tenant?: any;
+export type AzureSqlDatabaseLinkedService = LinkedService & {
     type: "AzureSqlDatabase";
-}
-
-// @public
-export interface AzureSqlDWLinkedService extends LinkedService {
-    azureCloudType?: any;
     connectionString: any;
-    credential?: CredentialReference;
-    encryptedCredential?: any;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
-    type: "AzureSqlDW";
-}
-
-// @public
-export interface AzureSqlDWTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
-    type: "AzureSqlDWTable";
-}
-
-// @public
-export interface AzureSqlMILinkedService extends LinkedService {
+    azureCloudType?: any;
+    encryptedCredential?: any;
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    azureCloudType?: any;
-    connectionString: any;
     credential?: CredentialReference;
-    encryptedCredential?: any;
+};
+
+// @public
+export type AzureSqlDWLinkedService = LinkedService & {
+    type: "AzureSqlDW";
+    connectionString: any;
     password?: AzureKeyVaultSecretReference;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
-    type: "AzureSqlMI";
-}
+    azureCloudType?: any;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
+};
 
 // @public
-export interface AzureSqlMITableDataset extends Dataset {
+export type AzureSqlDWTableDataset = Dataset & {
+    type: "AzureSqlDWTable";
+    tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
-    tableName?: any;
-    type: "AzureSqlMITable";
-}
+};
 
 // @public
-export interface AzureSqlSink extends CopySink {
-    preCopyScript?: any;
+export type AzureSqlMILinkedService = LinkedService & {
+    type: "AzureSqlMI";
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
+    servicePrincipalId?: any;
+    servicePrincipalKey?: SecretBaseUnion;
+    tenant?: any;
+    azureCloudType?: any;
+    encryptedCredential?: any;
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+    credential?: CredentialReference;
+};
+
+// @public
+export type AzureSqlMITableDataset = Dataset & {
+    type: "AzureSqlMITable";
+    tableName?: any;
+    schemaTypePropertiesSchema?: any;
+    table?: any;
+};
+
+// @public
+export type AzureSqlSink = CopySink & {
+    type: "AzureSqlSink";
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    sqlWriterUseTableLock?: any;
+    preCopyScript?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
-    type: "AzureSqlSink";
-    upsertSettings?: SqlUpsertSettings;
+    sqlWriterUseTableLock?: any;
     writeBehavior?: any;
-}
+    upsertSettings?: SqlUpsertSettings;
+};
 
 // @public
-export interface AzureSqlSource extends TabularSource {
-    partitionOption?: any;
-    partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: any;
+export type AzureSqlSource = TabularSource & {
+    type: "AzureSqlSource";
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
-    type: "AzureSqlSource";
-}
+    produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
+};
 
 // @public
-export interface AzureSqlTableDataset extends Dataset {
+export type AzureSqlTableDataset = Dataset & {
+    type: "AzureSqlTable";
+    tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
-    tableName?: any;
-    type: "AzureSqlTable";
-}
+};
 
 // @public
-export interface AzureStorageLinkedService extends LinkedService {
-    accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: any;
-    encryptedCredential?: string;
-    sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: any;
+export type AzureStorageLinkedService = LinkedService & {
     type: "AzureStorage";
-}
+    connectionString?: any;
+    accountKey?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    sasToken?: AzureKeyVaultSecretReference;
+    encryptedCredential?: string;
+};
 
 // @public
-export interface AzureTableDataset extends Dataset {
-    tableName: any;
+export type AzureSynapseArtifactsLinkedService = LinkedService & {
+    type: "AzureSynapseArtifacts";
+    endpoint: any;
+    authentication?: any;
+};
+
+// @public
+export type AzureTableDataset = Dataset & {
     type: "AzureTable";
-}
+    tableName: any;
+};
 
 // @public
-export interface AzureTableSink extends CopySink {
+export type AzureTableSink = CopySink & {
+    type: "AzureTableSink";
     azureTableDefaultPartitionKeyValue?: any;
-    azureTableInsertType?: any;
     azureTablePartitionKeyName?: any;
     azureTableRowKeyName?: any;
-    type: "AzureTableSink";
-}
+    azureTableInsertType?: any;
+};
 
 // @public
-export interface AzureTableSource extends TabularSource {
-    azureTableSourceIgnoreTableNotFound?: any;
-    azureTableSourceQuery?: any;
+export type AzureTableSource = TabularSource & {
     type: "AzureTableSource";
-}
+    azureTableSourceQuery?: any;
+    azureTableSourceIgnoreTableNotFound?: any;
+};
 
 // @public
-export interface AzureTableStorageLinkedService extends LinkedService {
-    accountKey?: AzureKeyVaultSecretReference;
-    connectionString?: any;
-    encryptedCredential?: string;
-    sasToken?: AzureKeyVaultSecretReference;
-    sasUri?: any;
+export type AzureTableStorageLinkedService = LinkedService & {
     type: "AzureTableStorage";
+    connectionString?: any;
+    accountKey?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+    sasToken?: AzureKeyVaultSecretReference;
+    encryptedCredential?: string;
+};
+
+// @public
+export interface BigDataPoolParametrizationReference {
+    referenceName: any;
+    type: BigDataPoolReferenceType;
 }
 
 // @public
-export interface BinaryDataset extends Dataset {
-    compression?: DatasetCompression;
-    location?: DatasetLocationUnion;
+export type BigDataPoolReferenceType = string;
+
+// @public
+export type BinaryDataset = Dataset & {
     type: "Binary";
-}
+    location?: DatasetLocationUnion;
+    compression?: DatasetCompression;
+};
 
 // @public
-export interface BinaryReadSettings extends FormatReadSettings {
-    compressionProperties?: CompressionReadSettingsUnion;
+export type BinaryReadSettings = FormatReadSettings & {
     type: "BinaryReadSettings";
-}
+    compressionProperties?: CompressionReadSettingsUnion;
+};
 
 // @public
-export interface BinarySink extends CopySink {
-    storeSettings?: StoreWriteSettingsUnion;
+export type BinarySink = CopySink & {
     type: "BinarySink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+};
 
 // @public
-export interface BinarySource extends CopySource {
-    formatSettings?: BinaryReadSettings;
-    storeSettings?: StoreReadSettingsUnion;
+export type BinarySource = CopySource & {
     type: "BinarySource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: BinaryReadSettings;
+};
 
 // @public
-export interface BlobEventsTrigger extends MultiplePipelineTrigger {
+export type BlobEventsTrigger = MultiplePipelineTrigger & {
+    type: "BlobEventsTrigger";
     blobPathBeginsWith?: string;
     blobPathEndsWith?: string;
-    events: BlobEventTypes[];
     ignoreEmptyBlobs?: boolean;
+    events: BlobEventTypes[];
     scope: string;
-    type: "BlobEventsTrigger";
-}
+};
 
 // @public
 export type BlobEventTypes = string;
 
 // @public
-export interface BlobSink extends CopySink {
-    blobWriterAddHeader?: any;
-    blobWriterDateTimeFormat?: any;
+export type BlobSink = CopySink & {
+    type: "BlobSink";
     blobWriterOverwriteFiles?: any;
+    blobWriterDateTimeFormat?: any;
+    blobWriterAddHeader?: any;
     copyBehavior?: any;
     metadata?: MetadataItem[];
-    type: "BlobSink";
-}
+};
 
 // @public
-export interface BlobSource extends CopySource {
-    recursive?: any;
-    skipHeaderLineCount?: any;
-    treatEmptyAsNull?: any;
+export type BlobSource = CopySource & {
     type: "BlobSource";
-}
+    treatEmptyAsNull?: any;
+    skipHeaderLineCount?: any;
+    recursive?: any;
+};
 
 // @public
-export interface BlobTrigger extends MultiplePipelineTrigger {
-    folderPath: string;
-    linkedService: LinkedServiceReference;
-    maxConcurrency: number;
+export type BlobTrigger = MultiplePipelineTrigger & {
     type: "BlobTrigger";
-}
+    folderPath: string;
+    maxConcurrency: number;
+    linkedService: LinkedServiceReference;
+};
 
 // @public
-export interface CassandraLinkedService extends LinkedService {
-    authenticationType?: any;
-    encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
-    port?: any;
+export type CassandraLinkedService = LinkedService & {
     type: "Cassandra";
+    host: any;
+    authenticationType?: any;
+    port?: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface CassandraSource extends TabularSource {
-    consistencyLevel?: CassandraSourceReadConsistencyLevels;
-    query?: any;
+export type CassandraSource = TabularSource & {
     type: "CassandraSource";
-}
+    query?: any;
+    consistencyLevel?: CassandraSourceReadConsistencyLevels;
+};
 
 // @public
 export type CassandraSourceReadConsistencyLevels = string;
 
 // @public
-export interface CassandraTableDataset extends Dataset {
-    keyspace?: any;
-    tableName?: any;
+export type CassandraTableDataset = Dataset & {
     type: "CassandraTable";
-}
+    tableName?: any;
+    keyspace?: any;
+};
 
 // @public
-export interface ChainingTrigger extends Trigger {
-    dependsOn: PipelineReference[];
-    pipeline: TriggerPipelineReference;
-    runDimension: string;
+export type ChainingTrigger = Trigger & {
     type: "ChainingTrigger";
-}
+    pipeline: TriggerPipelineReference;
+    dependsOn: PipelineReference[];
+    runDimension: string;
+};
 
 // @public
 export interface CloudError {
@@ -1184,12 +1199,12 @@ export interface CloudError {
 }
 
 // @public
-export interface CmdkeySetup extends CustomSetupBase {
-    password: SecretBaseUnion;
-    targetName: any;
+export type CmdkeySetup = CustomSetupBase & {
     type: "CmdkeySetup";
+    targetName: any;
     userName: any;
-}
+    password: SecretBaseUnion;
+};
 
 // @public
 export interface CMKIdentityDefinition {
@@ -1197,49 +1212,49 @@ export interface CMKIdentityDefinition {
 }
 
 // @public
-export interface CommonDataServiceForAppsEntityDataset extends Dataset {
-    entityName?: any;
+export type CommonDataServiceForAppsEntityDataset = Dataset & {
     type: "CommonDataServiceForAppsEntity";
-}
+    entityName?: any;
+};
 
 // @public
-export interface CommonDataServiceForAppsLinkedService extends LinkedService {
-    authenticationType: any;
-    deploymentType: any;
-    encryptedCredential?: any;
-    hostName?: any;
-    organizationName?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: any;
-    servicePrincipalId?: any;
-    serviceUri?: any;
+export type CommonDataServiceForAppsLinkedService = LinkedService & {
     type: "CommonDataServiceForApps";
+    deploymentType: any;
+    hostName?: any;
+    port?: any;
+    serviceUri?: any;
+    organizationName?: any;
+    authenticationType: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface CommonDataServiceForAppsSink extends CopySink {
-    alternateKeyName?: any;
-    ignoreNullValues?: any;
+export type CommonDataServiceForAppsSink = CopySink & {
     type: "CommonDataServiceForAppsSink";
     writeBehavior: DynamicsSinkWriteBehavior;
-}
+    ignoreNullValues?: any;
+    alternateKeyName?: any;
+};
 
 // @public
-export interface CommonDataServiceForAppsSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type CommonDataServiceForAppsSource = CopySource & {
     type: "CommonDataServiceForAppsSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface ComponentSetup extends CustomSetupBase {
+export type ComponentSetup = CustomSetupBase & {
+    type: "ComponentSetup";
     componentName: string;
     licenseKey?: SecretBaseUnion;
-    type: "ComponentSetup";
-}
+};
 
 // @public
 export type CompressionCodec = string;
@@ -1254,29 +1269,29 @@ export interface CompressionReadSettings {
 export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings;
 
 // @public
-export interface ConcurLinkedService extends LinkedService {
-    clientId: any;
-    connectionProperties?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type ConcurLinkedService = LinkedService & {
     type: "Concur";
+    connectionProperties?: any;
+    clientId: any;
+    username: any;
+    password?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-    username: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface ConcurObjectDataset extends Dataset {
-    tableName?: any;
+export type ConcurObjectDataset = Dataset & {
     type: "ConcurObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface ConcurSource extends TabularSource {
-    query?: any;
+export type ConcurSource = TabularSource & {
     type: "ConcurSource";
-}
+    query?: any;
+};
 
 // @public
 export interface ConnectionStateProperties {
@@ -1286,34 +1301,34 @@ export interface ConnectionStateProperties {
 }
 
 // @public
-export interface ControlActivity extends Activity {
+export type ControlActivity = Activity & {
     type: "Container" | "ExecutePipeline" | "IfCondition" | "Switch" | "ForEach" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "SetVariable" | "AppendVariable" | "WebHook";
-}
+};
 
 // @public (undocumented)
 export type ControlActivityUnion = ControlActivity | ExecutePipelineActivity | IfConditionActivity | SwitchActivity | ForEachActivity | WaitActivity | FailActivity | UntilActivity | ValidationActivity | FilterActivity | SetVariableActivity | AppendVariableActivity | WebHookActivity;
 
 // @public
-export interface CopyActivity extends ExecutionActivity {
+export type CopyActivity = ExecutionActivity & {
+    type: "Copy";
+    inputs?: DatasetReference[];
+    outputs?: DatasetReference[];
+    source: CopySourceUnion;
+    sink: CopySinkUnion;
+    translator?: any;
+    enableStaging?: any;
+    stagingSettings?: StagingSettings;
+    parallelCopies?: any;
     dataIntegrationUnits?: any;
     enableSkipIncompatibleRow?: any;
-    enableStaging?: any;
-    inputs?: DatasetReference[];
-    logSettings?: LogSettings;
-    logStorageSettings?: LogStorageSettings;
-    outputs?: DatasetReference[];
-    parallelCopies?: any;
-    preserve?: any[];
-    preserveRules?: any[];
     redirectIncompatibleRowSettings?: RedirectIncompatibleRowSettings;
-    sink: CopySinkUnion;
-    skipErrorFile?: SkipErrorFile;
-    source: CopySourceUnion;
-    stagingSettings?: StagingSettings;
-    translator?: any;
-    type: "Copy";
+    logStorageSettings?: LogStorageSettings;
+    logSettings?: LogSettings;
+    preserveRules?: any[];
+    preserve?: any[];
     validateDataConsistency?: any;
-}
+    skipErrorFile?: SkipErrorFile;
+};
 
 // @public
 export interface CopyActivityLogSettings {
@@ -1365,96 +1380,96 @@ export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
 export type CosmosDbConnectionMode = string;
 
 // @public
-export interface CosmosDbLinkedService extends LinkedService {
+export type CosmosDbLinkedService = LinkedService & {
+    type: "CosmosDb";
+    connectionString?: any;
     accountEndpoint?: any;
+    database?: any;
     accountKey?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
+    servicePrincipalCredential?: SecretBaseUnion;
+    tenant?: any;
     azureCloudType?: any;
     connectionMode?: CosmosDbConnectionMode;
-    connectionString?: any;
-    credential?: CredentialReference;
-    database?: any;
     encryptedCredential?: any;
-    servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
-    servicePrincipalId?: any;
-    tenant?: any;
-    type: "CosmosDb";
-}
+    credential?: CredentialReference;
+};
 
 // @public
-export interface CosmosDbMongoDbApiCollectionDataset extends Dataset {
-    collection: any;
+export type CosmosDbMongoDbApiCollectionDataset = Dataset & {
     type: "CosmosDbMongoDbApiCollection";
-}
+    collection: any;
+};
 
 // @public
-export interface CosmosDbMongoDbApiLinkedService extends LinkedService {
+export type CosmosDbMongoDbApiLinkedService = LinkedService & {
+    type: "CosmosDbMongoDbApi";
+    isServerVersionAbove32?: any;
     connectionString: any;
     database: any;
-    isServerVersionAbove32?: any;
-    type: "CosmosDbMongoDbApi";
-}
+};
 
 // @public
-export interface CosmosDbMongoDbApiSink extends CopySink {
+export type CosmosDbMongoDbApiSink = CopySink & {
     type: "CosmosDbMongoDbApiSink";
     writeBehavior?: any;
-}
+};
 
 // @public
-export interface CosmosDbMongoDbApiSource extends CopySource {
-    additionalColumns?: any;
-    batchSize?: any;
-    cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: any;
-    queryTimeout?: any;
+export type CosmosDbMongoDbApiSource = CopySource & {
     type: "CosmosDbMongoDbApiSource";
-}
+    filter?: any;
+    cursorMethods?: MongoDbCursorMethodsProperties;
+    batchSize?: any;
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public
 export type CosmosDbServicePrincipalCredentialType = string;
 
 // @public
-export interface CosmosDbSqlApiCollectionDataset extends Dataset {
-    collectionName: any;
+export type CosmosDbSqlApiCollectionDataset = Dataset & {
     type: "CosmosDbSqlApiCollection";
-}
+    collectionName: any;
+};
 
 // @public
-export interface CosmosDbSqlApiSink extends CopySink {
+export type CosmosDbSqlApiSink = CopySink & {
     type: "CosmosDbSqlApiSink";
     writeBehavior?: any;
-}
+};
 
 // @public
-export interface CosmosDbSqlApiSource extends CopySource {
-    additionalColumns?: any;
-    detectDatetime?: any;
+export type CosmosDbSqlApiSource = CopySource & {
+    type: "CosmosDbSqlApiSource";
+    query?: any;
     pageSize?: any;
     preferredRegions?: any;
-    query?: any;
-    type: "CosmosDbSqlApiSource";
-}
+    detectDatetime?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface CouchbaseLinkedService extends LinkedService {
+export type CouchbaseLinkedService = LinkedService & {
+    type: "Couchbase";
     connectionString?: any;
     credString?: AzureKeyVaultSecretReference;
     encryptedCredential?: any;
-    type: "Couchbase";
-}
+};
 
 // @public
-export interface CouchbaseSource extends TabularSource {
-    query?: any;
+export type CouchbaseSource = TabularSource & {
     type: "CouchbaseSource";
-}
+    query?: any;
+};
 
 // @public
-export interface CouchbaseTableDataset extends Dataset {
-    tableName?: any;
+export type CouchbaseTableDataset = Dataset & {
     type: "CouchbaseTable";
-}
+    tableName?: any;
+};
 
 // @public
 export interface CreateDataFlowDebugSessionRequest {
@@ -1503,26 +1518,26 @@ export interface CredentialReference {
 export type CredentialReferenceType = string;
 
 // @public
-export interface CredentialResource extends SubResource {
+export type CredentialResource = SubResource & {
     properties: CredentialUnion;
-}
+};
 
 // @public (undocumented)
 export type CredentialUnion = Credential_2 | ServicePrincipalCredential | ManagedIdentityCredential;
 
 // @public
-export interface CustomActivity extends ExecutionActivity {
-    autoUserSpecification?: any;
+export type CustomActivity = ExecutionActivity & {
+    type: "Custom";
     command: any;
+    resourceLinkedService?: LinkedServiceReference;
+    folderPath?: any;
+    referenceObjects?: CustomActivityReferenceObject;
     extendedProperties?: {
         [propertyName: string]: any;
     };
-    folderPath?: any;
-    referenceObjects?: CustomActivityReferenceObject;
-    resourceLinkedService?: LinkedServiceReference;
     retentionTimeInDays?: any;
-    type: "Custom";
-}
+    autoUserSpecification?: any;
+};
 
 // @public
 export interface CustomActivityReferenceObject {
@@ -1531,25 +1546,25 @@ export interface CustomActivityReferenceObject {
 }
 
 // @public
-export interface CustomDataset extends Dataset {
+export type CustomDataset = Dataset & {
     type: "CustomDataset";
     typeProperties?: any;
-}
+};
 
 // @public
-export interface CustomDataSourceLinkedService extends LinkedService {
+export type CustomDataSourceLinkedService = LinkedService & {
     type: "CustomDataSource";
     typeProperties: any;
-}
+};
 
 // @public
-export interface CustomEventsTrigger extends MultiplePipelineTrigger {
-    events: any[];
-    scope: string;
+export type CustomEventsTrigger = MultiplePipelineTrigger & {
+    type: "CustomEventsTrigger";
     subjectBeginsWith?: string;
     subjectEndsWith?: string;
-    type: "CustomEventsTrigger";
-}
+    events: any[];
+    scope: string;
+};
 
 // @public
 export interface CustomSetupBase {
@@ -1560,36 +1575,36 @@ export interface CustomSetupBase {
 export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup | AzPowerShellSetup;
 
 // @public
-export interface DatabricksNotebookActivity extends ExecutionActivity {
+export type DatabricksNotebookActivity = ExecutionActivity & {
+    type: "DatabricksNotebook";
+    notebookPath: any;
     baseParameters?: {
         [propertyName: string]: any;
     };
     libraries?: {
         [propertyName: string]: any;
     }[];
-    notebookPath: any;
-    type: "DatabricksNotebook";
-}
+};
 
 // @public
-export interface DatabricksSparkJarActivity extends ExecutionActivity {
-    libraries?: {
-        [propertyName: string]: any;
-    }[];
+export type DatabricksSparkJarActivity = ExecutionActivity & {
+    type: "DatabricksSparkJar";
     mainClassName: any;
     parameters?: any[];
-    type: "DatabricksSparkJar";
-}
-
-// @public
-export interface DatabricksSparkPythonActivity extends ExecutionActivity {
     libraries?: {
         [propertyName: string]: any;
     }[];
-    parameters?: any[];
-    pythonFile: any;
+};
+
+// @public
+export type DatabricksSparkPythonActivity = ExecutionActivity & {
     type: "DatabricksSparkPython";
-}
+    pythonFile: any;
+    parameters?: any[];
+    libraries?: {
+        [propertyName: string]: any;
+    }[];
+};
 
 // @public (undocumented)
 export class DataFactoryManagementClient extends coreClient.ServiceClient {
@@ -1708,9 +1723,9 @@ export interface DataFlowDebugPackageDebugSettings {
 }
 
 // @public
-export interface DataFlowDebugResource extends SubResourceDebugResource {
+export type DataFlowDebugResource = SubResourceDebugResource & {
     properties: DataFlowUnion;
-}
+};
 
 // @public
 export interface DataFlowDebugSession {
@@ -1816,9 +1831,9 @@ export interface DataFlowReference {
 export type DataFlowReferenceType = string;
 
 // @public
-export interface DataFlowResource extends SubResource {
+export type DataFlowResource = SubResource & {
     properties: DataFlowUnion;
-}
+};
 
 // @public
 export interface DataFlows {
@@ -1849,10 +1864,10 @@ export interface DataFlowsGetOptionalParams extends coreClient.OperationOptions 
 export type DataFlowsGetResponse = DataFlowResource;
 
 // @public
-export interface DataFlowSink extends Transformation {
-    rejectedDataLinkedService?: LinkedServiceReference;
+export type DataFlowSink = Transformation & {
     schemaLinkedService?: LinkedServiceReference;
-}
+    rejectedDataLinkedService?: LinkedServiceReference;
+};
 
 // @public
 export interface DataFlowsListByFactoryNextOptionalParams extends coreClient.OperationOptions {
@@ -1869,9 +1884,9 @@ export interface DataFlowsListByFactoryOptionalParams extends coreClient.Operati
 export type DataFlowsListByFactoryResponse = DataFlowListResponse;
 
 // @public
-export interface DataFlowSource extends Transformation {
+export type DataFlowSource = Transformation & {
     schemaLinkedService?: LinkedServiceReference;
-}
+};
 
 // @public
 export interface DataFlowSourceSetting {
@@ -1890,18 +1905,18 @@ export interface DataFlowStagingInfo {
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet | WranglingDataFlow;
 
 // @public
-export interface DataLakeAnalyticsUsqlActivity extends ExecutionActivity {
-    compilationMode?: any;
+export type DataLakeAnalyticsUsqlActivity = ExecutionActivity & {
+    type: "DataLakeAnalyticsU-SQL";
+    scriptPath: any;
+    scriptLinkedService: LinkedServiceReference;
     degreeOfParallelism?: any;
+    priority?: any;
     parameters?: {
         [propertyName: string]: any;
     };
-    priority?: any;
     runtimeVersion?: any;
-    scriptLinkedService: LinkedServiceReference;
-    scriptPath: any;
-    type: "DataLakeAnalyticsU-SQL";
-}
+    compilationMode?: any;
+};
 
 // @public
 export interface Dataset {
@@ -1935,9 +1950,9 @@ export interface DatasetDataElement {
 }
 
 // @public
-export interface DatasetDebugResource extends SubResourceDebugResource {
+export type DatasetDebugResource = SubResourceDebugResource & {
     properties: DatasetUnion;
-}
+};
 
 // @public
 export interface DatasetFolder {
@@ -1971,9 +1986,9 @@ export interface DatasetReference {
 }
 
 // @public
-export interface DatasetResource extends SubResource {
+export type DatasetResource = SubResource & {
     properties: DatasetUnion;
-}
+};
 
 // @public
 export interface Datasets {
@@ -2039,11 +2054,11 @@ export type DatasetStorageFormatUnion = DatasetStorageFormat | TextFormat | Json
 export type DatasetUnion = Dataset | AmazonS3Dataset | AvroDataset | ExcelDataset | ParquetDataset | DelimitedTextDataset | JsonDataset | XmlDataset | OrcDataset | BinaryDataset | AzureBlobDataset | AzureTableDataset | AzureSqlTableDataset | AzureSqlMITableDataset | AzureSqlDWTableDataset | CassandraTableDataset | CustomDataset | CosmosDbSqlApiCollectionDataset | DocumentDbCollectionDataset | DynamicsEntityDataset | DynamicsCrmEntityDataset | CommonDataServiceForAppsEntityDataset | AzureDataLakeStoreDataset | AzureBlobFSDataset | Office365Dataset | FileShareDataset | MongoDbCollectionDataset | MongoDbAtlasCollectionDataset | MongoDbV2CollectionDataset | CosmosDbMongoDbApiCollectionDataset | ODataResourceDataset | OracleTableDataset | AmazonRdsForOracleTableDataset | TeradataTableDataset | AzureMySqlTableDataset | AmazonRedshiftTableDataset | Db2TableDataset | RelationalTableDataset | InformixTableDataset | OdbcTableDataset | MySqlTableDataset | PostgreSqlTableDataset | MicrosoftAccessTableDataset | SalesforceObjectDataset | SalesforceServiceCloudObjectDataset | SybaseTableDataset | SapBwCubeDataset | SapCloudForCustomerResourceDataset | SapEccResourceDataset | SapHanaTableDataset | SapOpenHubTableDataset | SqlServerTableDataset | AmazonRdsForSqlServerTableDataset | RestResourceDataset | SapTableResourceDataset | SapOdpResourceDataset | WebTableDataset | AzureSearchIndexDataset | HttpDataset | AmazonMWSObjectDataset | AzurePostgreSqlTableDataset | ConcurObjectDataset | CouchbaseTableDataset | DrillTableDataset | EloquaObjectDataset | GoogleBigQueryObjectDataset | GreenplumTableDataset | HBaseObjectDataset | HiveObjectDataset | HubspotObjectDataset | ImpalaObjectDataset | JiraObjectDataset | MagentoObjectDataset | MariaDBTableDataset | AzureMariaDBTableDataset | MarketoObjectDataset | PaypalObjectDataset | PhoenixObjectDataset | PrestoObjectDataset | QuickBooksObjectDataset | ServiceNowObjectDataset | ShopifyObjectDataset | SparkObjectDataset | SquareObjectDataset | XeroObjectDataset | ZohoObjectDataset | NetezzaTableDataset | VerticaTableDataset | SalesforceMarketingCloudObjectDataset | ResponsysObjectDataset | DynamicsAXResourceDataset | OracleServiceCloudObjectDataset | AzureDataExplorerTableDataset | GoogleAdWordsObjectDataset | SnowflakeDataset | SharePointOnlineListResourceDataset | AzureDatabricksDeltaLakeDataset;
 
 // @public
-export interface DataworldLinkedService extends LinkedService {
+export type DataworldLinkedService = LinkedService & {
+    type: "Dataworld";
     apiToken: SecretBaseUnion;
     encryptedCredential?: any;
-    type: "Dataworld";
-}
+};
 
 // @public
 export type DayOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
@@ -2055,43 +2070,43 @@ export type DaysOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursd
 export type Db2AuthenticationType = string;
 
 // @public
-export interface Db2LinkedService extends LinkedService {
-    authenticationType?: Db2AuthenticationType;
-    certificateCommonName?: any;
-    connectionString?: any;
-    database?: any;
-    encryptedCredential?: any;
-    packageCollection?: any;
-    password?: SecretBaseUnion;
-    server?: any;
+export type Db2LinkedService = LinkedService & {
     type: "Db2";
+    connectionString?: any;
+    server?: any;
+    database?: any;
+    authenticationType?: Db2AuthenticationType;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    packageCollection?: any;
+    certificateCommonName?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface Db2Source extends TabularSource {
-    query?: any;
+export type Db2Source = TabularSource & {
     type: "Db2Source";
-}
+    query?: any;
+};
 
 // @public
-export interface Db2TableDataset extends Dataset {
+export type Db2TableDataset = Dataset & {
+    type: "Db2Table";
+    tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
-    tableName?: any;
-    type: "Db2Table";
-}
+};
 
 // @public
-export interface DeleteActivity extends ExecutionActivity {
-    dataset: DatasetReference;
+export type DeleteActivity = ExecutionActivity & {
+    type: "Delete";
+    recursive?: any;
+    maxConcurrentConnections?: number;
     enableLogging?: any;
     logStorageSettings?: LogStorageSettings;
-    maxConcurrentConnections?: number;
-    recursive?: any;
+    dataset: DatasetReference;
     storeSettings?: StoreReadSettingsUnion;
-    type: "Delete";
-}
+};
 
 // @public
 export interface DeleteDataFlowDebugSessionRequest {
@@ -2099,50 +2114,50 @@ export interface DeleteDataFlowDebugSessionRequest {
 }
 
 // @public
-export interface DelimitedTextDataset extends Dataset {
+export type DelimitedTextDataset = Dataset & {
+    type: "DelimitedText";
+    location?: DatasetLocationUnion;
     columnDelimiter?: any;
+    rowDelimiter?: any;
+    encodingName?: any;
     compressionCodec?: any;
     compressionLevel?: any;
-    encodingName?: any;
+    quoteChar?: any;
     escapeChar?: any;
     firstRowAsHeader?: any;
-    location?: DatasetLocationUnion;
     nullValue?: any;
-    quoteChar?: any;
-    rowDelimiter?: any;
-    type: "DelimitedText";
-}
+};
 
 // @public
-export interface DelimitedTextReadSettings extends FormatReadSettings {
-    compressionProperties?: CompressionReadSettingsUnion;
-    skipLineCount?: any;
+export type DelimitedTextReadSettings = FormatReadSettings & {
     type: "DelimitedTextReadSettings";
-}
+    skipLineCount?: any;
+    compressionProperties?: CompressionReadSettingsUnion;
+};
 
 // @public
-export interface DelimitedTextSink extends CopySink {
-    formatSettings?: DelimitedTextWriteSettings;
-    storeSettings?: StoreWriteSettingsUnion;
+export type DelimitedTextSink = CopySink & {
     type: "DelimitedTextSink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: DelimitedTextWriteSettings;
+};
 
 // @public
-export interface DelimitedTextSource extends CopySource {
-    additionalColumns?: any;
-    formatSettings?: DelimitedTextReadSettings;
-    storeSettings?: StoreReadSettingsUnion;
+export type DelimitedTextSource = CopySource & {
     type: "DelimitedTextSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: DelimitedTextReadSettings;
+    additionalColumns?: any;
+};
 
 // @public
-export interface DelimitedTextWriteSettings extends FormatWriteSettings {
-    fileExtension: any;
-    fileNamePrefix?: any;
-    maxRowsPerFile?: any;
-    quoteAllText?: any;
+export type DelimitedTextWriteSettings = FormatWriteSettings & {
     type: "DelimitedTextWriteSettings";
-}
+    quoteAllText?: any;
+    fileExtension: any;
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
+};
 
 // @public
 export type DependencyCondition = string;
@@ -2163,48 +2178,48 @@ export interface DistcpSettings {
 }
 
 // @public
-export interface DocumentDbCollectionDataset extends Dataset {
-    collectionName: any;
+export type DocumentDbCollectionDataset = Dataset & {
     type: "DocumentDbCollection";
-}
+    collectionName: any;
+};
 
 // @public
-export interface DocumentDbCollectionSink extends CopySink {
-    nestingSeparator?: any;
+export type DocumentDbCollectionSink = CopySink & {
     type: "DocumentDbCollectionSink";
-    writeBehavior?: any;
-}
-
-// @public
-export interface DocumentDbCollectionSource extends CopySource {
-    additionalColumns?: any;
     nestingSeparator?: any;
-    query?: any;
-    queryTimeout?: any;
+    writeBehavior?: any;
+};
+
+// @public
+export type DocumentDbCollectionSource = CopySource & {
     type: "DocumentDbCollectionSource";
-}
-
-// @public
-export interface DrillLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
-    type: "Drill";
-}
-
-// @public
-export interface DrillSource extends TabularSource {
     query?: any;
-    type: "DrillSource";
-}
+    nestingSeparator?: any;
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface DrillTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type DrillLinkedService = LinkedService & {
+    type: "Drill";
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
+
+// @public
+export type DrillSource = TabularSource & {
+    type: "DrillSource";
+    query?: any;
+};
+
+// @public
+export type DrillTableDataset = Dataset & {
     type: "DrillTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
 export interface DWCopyCommandDefaultValue {
@@ -2224,135 +2239,135 @@ export interface DWCopyCommandSettings {
 export type DynamicsAuthenticationType = string;
 
 // @public
-export interface DynamicsAXLinkedService extends LinkedService {
-    aadResourceId: any;
-    encryptedCredential?: any;
+export type DynamicsAXLinkedService = LinkedService & {
+    type: "DynamicsAX";
+    url: any;
     servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
     tenant: any;
-    type: "DynamicsAX";
-    url: any;
-}
-
-// @public
-export interface DynamicsAXResourceDataset extends Dataset {
-    path: any;
-    type: "DynamicsAXResource";
-}
-
-// @public
-export interface DynamicsAXSource extends TabularSource {
-    httpRequestTimeout?: any;
-    query?: any;
-    type: "DynamicsAXSource";
-}
-
-// @public
-export interface DynamicsCrmEntityDataset extends Dataset {
-    entityName?: any;
-    type: "DynamicsCrmEntity";
-}
-
-// @public
-export interface DynamicsCrmLinkedService extends LinkedService {
-    authenticationType: any;
-    deploymentType: any;
+    aadResourceId: any;
     encryptedCredential?: any;
-    hostName?: any;
-    organizationName?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: any;
-    servicePrincipalId?: any;
-    serviceUri?: any;
-    type: "DynamicsCrm";
-    username?: any;
-}
+};
 
 // @public
-export interface DynamicsCrmSink extends CopySink {
-    alternateKeyName?: any;
-    ignoreNullValues?: any;
+export type DynamicsAXResourceDataset = Dataset & {
+    type: "DynamicsAXResource";
+    path: any;
+};
+
+// @public
+export type DynamicsAXSource = TabularSource & {
+    type: "DynamicsAXSource";
+    query?: any;
+    httpRequestTimeout?: any;
+};
+
+// @public
+export type DynamicsCrmEntityDataset = Dataset & {
+    type: "DynamicsCrmEntity";
+    entityName?: any;
+};
+
+// @public
+export type DynamicsCrmLinkedService = LinkedService & {
+    type: "DynamicsCrm";
+    deploymentType: any;
+    hostName?: any;
+    port?: any;
+    serviceUri?: any;
+    organizationName?: any;
+    authenticationType: any;
+    username?: any;
+    password?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
+
+// @public
+export type DynamicsCrmSink = CopySink & {
     type: "DynamicsCrmSink";
     writeBehavior: DynamicsSinkWriteBehavior;
-}
+    ignoreNullValues?: any;
+    alternateKeyName?: any;
+};
 
 // @public
-export interface DynamicsCrmSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type DynamicsCrmSource = CopySource & {
     type: "DynamicsCrmSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
 export type DynamicsDeploymentType = string;
 
 // @public
-export interface DynamicsEntityDataset extends Dataset {
-    entityName?: any;
+export type DynamicsEntityDataset = Dataset & {
     type: "DynamicsEntity";
-}
+    entityName?: any;
+};
 
 // @public
-export interface DynamicsLinkedService extends LinkedService {
-    authenticationType: any;
-    credential?: CredentialReference;
-    deploymentType: any;
-    encryptedCredential?: any;
-    hostName?: any;
-    organizationName?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    servicePrincipalCredential?: SecretBaseUnion;
-    servicePrincipalCredentialType?: any;
-    servicePrincipalId?: any;
-    serviceUri?: any;
+export type DynamicsLinkedService = LinkedService & {
     type: "Dynamics";
+    deploymentType: any;
+    hostName?: any;
+    port?: any;
+    serviceUri?: any;
+    organizationName?: any;
+    authenticationType: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    servicePrincipalId?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalCredential?: SecretBaseUnion;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
+};
 
 // @public
-export interface DynamicsSink extends CopySink {
-    alternateKeyName?: any;
-    ignoreNullValues?: any;
+export type DynamicsSink = CopySink & {
     type: "DynamicsSink";
     writeBehavior: DynamicsSinkWriteBehavior;
-}
+    ignoreNullValues?: any;
+    alternateKeyName?: any;
+};
 
 // @public
 export type DynamicsSinkWriteBehavior = string;
 
 // @public
-export interface DynamicsSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type DynamicsSource = CopySource & {
     type: "DynamicsSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface EloquaLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    endpoint: any;
-    password?: SecretBaseUnion;
+export type EloquaLinkedService = LinkedService & {
     type: "Eloqua";
+    endpoint: any;
+    username: any;
+    password?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-    username: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface EloquaObjectDataset extends Dataset {
-    tableName?: any;
+export type EloquaObjectDataset = Dataset & {
     type: "EloquaObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface EloquaSource extends TabularSource {
-    query?: any;
+export type EloquaSource = TabularSource & {
     type: "EloquaSource";
-}
+    query?: any;
+};
 
 // @public
 export interface EncryptionConfiguration {
@@ -2369,46 +2384,46 @@ export interface EntityReference {
 }
 
 // @public
-export interface EnvironmentVariableSetup extends CustomSetupBase {
+export type EnvironmentVariableSetup = CustomSetupBase & {
     type: "EnvironmentVariableSetup";
     variableName: string;
     variableValue: string;
-}
+};
 
 // @public
 export type EventSubscriptionStatus = string;
 
 // @public
-export interface ExcelDataset extends Dataset {
-    compression?: DatasetCompression;
-    firstRowAsHeader?: any;
-    location?: DatasetLocationUnion;
-    nullValue?: any;
-    range?: any;
-    sheetIndex?: any;
-    sheetName?: any;
+export type ExcelDataset = Dataset & {
     type: "Excel";
-}
+    location?: DatasetLocationUnion;
+    sheetName?: any;
+    sheetIndex?: any;
+    range?: any;
+    firstRowAsHeader?: any;
+    compression?: DatasetCompression;
+    nullValue?: any;
+};
 
 // @public
-export interface ExcelSource extends CopySource {
-    additionalColumns?: any;
-    storeSettings?: StoreReadSettingsUnion;
+export type ExcelSource = CopySource & {
     type: "ExcelSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: any;
+};
 
 // @public
-export interface ExecuteDataFlowActivity extends ExecutionActivity {
-    compute?: ExecuteDataFlowActivityTypePropertiesCompute;
-    continueOnError?: any;
+export type ExecuteDataFlowActivity = ExecutionActivity & {
+    type: "ExecuteDataFlow";
     dataFlow: DataFlowReference;
+    staging?: DataFlowStagingInfo;
     integrationRuntime?: IntegrationRuntimeReference;
+    compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    traceLevel?: any;
+    continueOnError?: any;
     runConcurrently?: any;
     sourceStagingConcurrency?: any;
-    staging?: DataFlowStagingInfo;
-    traceLevel?: any;
-    type: "ExecuteDataFlow";
-}
+};
 
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
@@ -2429,15 +2444,15 @@ export interface ExecuteDataFlowActivityTypePropertiesCompute {
 }
 
 // @public
-export interface ExecutePipelineActivity extends ControlActivity {
+export type ExecutePipelineActivity = ControlActivity & {
+    type: "ExecutePipeline";
+    policy?: ExecutePipelineActivityPolicy;
+    pipeline: PipelineReference;
     parameters?: {
         [propertyName: string]: any;
     };
-    pipeline: PipelineReference;
-    policy?: ExecutePipelineActivityPolicy;
-    type: "ExecutePipeline";
     waitOnCompletion?: boolean;
-}
+};
 
 // @public
 export interface ExecutePipelineActivityPolicy {
@@ -2446,26 +2461,25 @@ export interface ExecutePipelineActivityPolicy {
 }
 
 // @public
-export interface ExecutePowerQueryActivityTypeProperties extends ExecuteDataFlowActivityTypeProperties {
-    queries?: PowerQuerySinkMapping[];
+export type ExecutePowerQueryActivityTypeProperties = ExecuteDataFlowActivityTypeProperties & {
     sinks?: {
         [propertyName: string]: PowerQuerySink;
     };
-}
+    queries?: PowerQuerySinkMapping[];
+};
 
 // @public
-export interface ExecuteSsisPackageActivity extends ExecutionActivity {
-    connectVia: IntegrationRuntimeReference;
+export type ExecuteSsisPackageActivity = ExecutionActivity & {
+    type: "ExecuteSSISPackage";
+    packageLocation: SsisPackageLocation;
+    runtime?: any;
+    loggingLevel?: any;
     environmentPath?: any;
     executionCredential?: SsisExecutionCredential;
-    loggingLevel?: any;
-    logLocation?: SsisLogLocation;
-    packageConnectionManagers?: {
-        [propertyName: string]: {
-            [propertyName: string]: SsisExecutionParameter;
-        };
+    connectVia: IntegrationRuntimeReference;
+    projectParameters?: {
+        [propertyName: string]: SsisExecutionParameter;
     };
-    packageLocation: SsisPackageLocation;
     packageParameters?: {
         [propertyName: string]: SsisExecutionParameter;
     };
@@ -2474,43 +2488,44 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
             [propertyName: string]: SsisExecutionParameter;
         };
     };
-    projectParameters?: {
-        [propertyName: string]: SsisExecutionParameter;
+    packageConnectionManagers?: {
+        [propertyName: string]: {
+            [propertyName: string]: SsisExecutionParameter;
+        };
     };
     propertyOverrides?: {
         [propertyName: string]: SsisPropertyOverride;
     };
-    runtime?: any;
-    type: "ExecuteSSISPackage";
-}
+    logLocation?: SsisLogLocation;
+};
 
 // @public
-export interface ExecuteWranglingDataflowActivity extends Activity {
-    compute?: ExecuteDataFlowActivityTypePropertiesCompute;
-    continueOnError?: any;
-    dataFlow: DataFlowReference;
-    integrationRuntime?: IntegrationRuntimeReference;
+export type ExecuteWranglingDataflowActivity = Activity & {
+    type: "ExecuteWranglingDataflow";
     policy?: ActivityPolicy;
-    queries?: PowerQuerySinkMapping[];
+    dataFlow: DataFlowReference;
+    staging?: DataFlowStagingInfo;
+    integrationRuntime?: IntegrationRuntimeReference;
+    compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    traceLevel?: any;
+    continueOnError?: any;
     runConcurrently?: any;
+    sourceStagingConcurrency?: any;
     sinks?: {
         [propertyName: string]: PowerQuerySink;
     };
-    sourceStagingConcurrency?: any;
-    staging?: DataFlowStagingInfo;
-    traceLevel?: any;
-    type: "ExecuteWranglingDataflow";
-}
+    queries?: PowerQuerySinkMapping[];
+};
 
 // @public
-export interface ExecutionActivity extends Activity {
+export type ExecutionActivity = Activity & {
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script";
-}
+};
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity;
+export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
 
 // @public
 export interface ExportSettings {
@@ -2667,28 +2682,28 @@ export interface FactoriesUpdateOptionalParams extends coreClient.OperationOptio
 export type FactoriesUpdateResponse = Factory;
 
 // @public
-export interface Factory extends Resource {
+export type Factory = Resource & {
     [property: string]: any;
+    identity?: FactoryIdentity;
+    readonly provisioningState?: string;
     readonly createTime?: Date;
-    encryption?: EncryptionConfiguration;
+    readonly version?: string;
+    purviewConfiguration?: PurviewConfiguration;
+    repoConfiguration?: FactoryRepoConfigurationUnion;
     globalParameters?: {
         [propertyName: string]: GlobalParameterSpecification;
     };
-    identity?: FactoryIdentity;
-    readonly provisioningState?: string;
+    encryption?: EncryptionConfiguration;
     publicNetworkAccess?: PublicNetworkAccess;
-    purviewConfiguration?: PurviewConfiguration;
-    repoConfiguration?: FactoryRepoConfigurationUnion;
-    readonly version?: string;
-}
+};
 
 // @public
-export interface FactoryGitHubConfiguration extends FactoryRepoConfiguration {
+export type FactoryGitHubConfiguration = FactoryRepoConfiguration & {
+    type: "FactoryGitHubConfiguration";
+    hostName?: string;
     clientId?: string;
     clientSecret?: GitHubClientSecret;
-    hostName?: string;
-    type: "FactoryGitHubConfiguration";
-}
+};
 
 // @public
 export interface FactoryIdentity {
@@ -2738,103 +2753,103 @@ export interface FactoryUpdateParameters {
 }
 
 // @public
-export interface FactoryVstsConfiguration extends FactoryRepoConfiguration {
+export type FactoryVstsConfiguration = FactoryRepoConfiguration & {
+    type: "FactoryVSTSConfiguration";
     projectName: string;
     tenantId?: string;
-    type: "FactoryVSTSConfiguration";
-}
+};
 
 // @public
-export interface FailActivity extends ControlActivity {
-    errorCode: any;
-    message: any;
+export type FailActivity = ControlActivity & {
     type: "Fail";
-}
+    message: any;
+    errorCode: any;
+};
 
 // @public
-export interface FileServerLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
+export type FileServerLinkedService = LinkedService & {
     type: "FileServer";
+    host: any;
     userId?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface FileServerLocation extends DatasetLocation {
+export type FileServerLocation = DatasetLocation & {
     type: "FileServerLocation";
-}
+};
 
 // @public
-export interface FileServerReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileFilter?: any;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    recursive?: any;
+export type FileServerReadSettings = StoreReadSettings & {
     type: "FileServerReadSettings";
-    wildcardFileName?: any;
-    wildcardFolderPath?: any;
-}
-
-// @public
-export interface FileServerWriteSettings extends StoreWriteSettings {
-    type: "FileServerWriteSettings";
-}
-
-// @public
-export interface FileShareDataset extends Dataset {
-    compression?: DatasetCompression;
-    fileFilter?: any;
-    fileName?: any;
-    folderPath?: any;
-    format?: DatasetStorageFormatUnion;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    type: "FileShare";
-}
-
-// @public
-export interface FileSystemSink extends CopySink {
-    copyBehavior?: any;
-    type: "FileSystemSink";
-}
-
-// @public
-export interface FileSystemSource extends CopySource {
-    additionalColumns?: any;
     recursive?: any;
+    wildcardFolderPath?: any;
+    wildcardFileName?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    fileFilter?: any;
+};
+
+// @public
+export type FileServerWriteSettings = StoreWriteSettings & {
+    type: "FileServerWriteSettings";
+};
+
+// @public
+export type FileShareDataset = Dataset & {
+    type: "FileShare";
+    folderPath?: any;
+    fileName?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    format?: DatasetStorageFormatUnion;
+    fileFilter?: any;
+    compression?: DatasetCompression;
+};
+
+// @public
+export type FileSystemSink = CopySink & {
+    type: "FileSystemSink";
+    copyBehavior?: any;
+};
+
+// @public
+export type FileSystemSource = CopySource & {
     type: "FileSystemSource";
-}
+    recursive?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface FilterActivity extends ControlActivity {
-    condition: Expression;
-    items: Expression;
+export type FilterActivity = ControlActivity & {
     type: "Filter";
-}
+    items: Expression;
+    condition: Expression;
+};
 
 // @public
-export interface Flowlet extends DataFlow {
+export type Flowlet = DataFlow & {
+    type: "Flowlet";
+    sources?: DataFlowSource[];
+    sinks?: DataFlowSink[];
+    transformations?: Transformation[];
     script?: string;
     scriptLines?: string[];
-    sinks?: DataFlowSink[];
-    sources?: DataFlowSource[];
-    transformations?: Transformation[];
-    type: "Flowlet";
-}
+};
 
 // @public
-export interface ForEachActivity extends ControlActivity {
-    activities: ActivityUnion[];
-    batchCount?: number;
-    isSequential?: boolean;
-    items: Expression;
+export type ForEachActivity = ControlActivity & {
     type: "ForEach";
-}
+    isSequential?: boolean;
+    batchCount?: number;
+    items: Expression;
+    activities: ActivityUnion[];
+};
 
 // @public
 export interface FormatReadSettings {
@@ -2858,36 +2873,36 @@ export type FormatWriteSettingsUnion = FormatWriteSettings | AvroWriteSettings |
 export type FtpAuthenticationType = string;
 
 // @public
-export interface FtpReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    partitionRootPath?: any;
-    recursive?: any;
+export type FtpReadSettings = StoreReadSettings & {
     type: "FtpReadSettings";
-    useBinaryTransfer?: boolean;
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    fileListPath?: any;
+    useBinaryTransfer?: boolean;
+    disableChunking?: any;
+};
 
 // @public
-export interface FtpServerLinkedService extends LinkedService {
-    authenticationType?: FtpAuthenticationType;
-    enableServerCertificateValidation?: any;
-    enableSsl?: any;
-    encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
-    port?: any;
+export type FtpServerLinkedService = LinkedService & {
     type: "FtpServer";
+    host: any;
+    port?: any;
+    authenticationType?: FtpAuthenticationType;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+    enableSsl?: any;
+    enableServerCertificateValidation?: any;
+};
 
 // @public
-export interface FtpServerLocation extends DatasetLocation {
+export type FtpServerLocation = DatasetLocation & {
     type: "FtpServerLocation";
-}
+};
 
 // @public
 export interface GetDataFactoryOperationStatusResponse {
@@ -2896,13 +2911,13 @@ export interface GetDataFactoryOperationStatusResponse {
 }
 
 // @public
-export interface GetMetadataActivity extends ExecutionActivity {
+export type GetMetadataActivity = ExecutionActivity & {
+    type: "GetMetadata";
     dataset: DatasetReference;
     fieldList?: any[];
-    formatSettings?: FormatReadSettingsUnion;
     storeSettings?: StoreReadSettingsUnion;
-    type: "GetMetadata";
-}
+    formatSettings?: FormatReadSettingsUnion;
+};
 
 // @public
 export interface GetSsisObjectMetadataRequest {
@@ -2935,11 +2950,11 @@ export interface GlobalParameterListResponse {
 }
 
 // @public
-export interface GlobalParameterResource extends SubResource {
+export type GlobalParameterResource = SubResource & {
     properties: {
         [propertyName: string]: GlobalParameterSpecification;
     };
-}
+};
 
 // @public
 export interface GlobalParameters {
@@ -2994,188 +3009,188 @@ export type GlobalParameterType = string;
 export type GoogleAdWordsAuthenticationType = string;
 
 // @public
-export interface GoogleAdWordsLinkedService extends LinkedService {
-    authenticationType?: GoogleAdWordsAuthenticationType;
+export type GoogleAdWordsLinkedService = LinkedService & {
+    type: "GoogleAdWords";
+    connectionProperties?: any;
     clientCustomerID?: any;
+    developerToken?: SecretBaseUnion;
+    authenticationType?: GoogleAdWordsAuthenticationType;
+    refreshToken?: SecretBaseUnion;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
-    connectionProperties?: any;
-    developerToken?: SecretBaseUnion;
     email?: any;
-    encryptedCredential?: any;
     keyFilePath?: any;
-    refreshToken?: SecretBaseUnion;
     trustedCertPath?: any;
-    type: "GoogleAdWords";
     useSystemTrustStore?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface GoogleAdWordsObjectDataset extends Dataset {
-    tableName?: any;
+export type GoogleAdWordsObjectDataset = Dataset & {
     type: "GoogleAdWordsObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface GoogleAdWordsSource extends TabularSource {
-    query?: any;
+export type GoogleAdWordsSource = TabularSource & {
     type: "GoogleAdWordsSource";
-}
+    query?: any;
+};
 
 // @public
 export type GoogleBigQueryAuthenticationType = string;
 
 // @public
-export interface GoogleBigQueryLinkedService extends LinkedService {
+export type GoogleBigQueryLinkedService = LinkedService & {
+    type: "GoogleBigQuery";
+    project: any;
     additionalProjects?: any;
+    requestGoogleDriveScope?: any;
     authenticationType: GoogleBigQueryAuthenticationType;
+    refreshToken?: SecretBaseUnion;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
     email?: any;
-    encryptedCredential?: any;
     keyFilePath?: any;
-    project: any;
-    refreshToken?: SecretBaseUnion;
-    requestGoogleDriveScope?: any;
     trustedCertPath?: any;
-    type: "GoogleBigQuery";
     useSystemTrustStore?: any;
-}
-
-// @public
-export interface GoogleBigQueryObjectDataset extends Dataset {
-    dataset?: any;
-    table?: any;
-    tableName?: any;
-    type: "GoogleBigQueryObject";
-}
-
-// @public
-export interface GoogleBigQuerySource extends TabularSource {
-    query?: any;
-    type: "GoogleBigQuerySource";
-}
-
-// @public
-export interface GoogleCloudStorageLinkedService extends LinkedService {
-    accessKeyId?: any;
     encryptedCredential?: any;
+};
+
+// @public
+export type GoogleBigQueryObjectDataset = Dataset & {
+    type: "GoogleBigQueryObject";
+    tableName?: any;
+    table?: any;
+    dataset?: any;
+};
+
+// @public
+export type GoogleBigQuerySource = TabularSource & {
+    type: "GoogleBigQuerySource";
+    query?: any;
+};
+
+// @public
+export type GoogleCloudStorageLinkedService = LinkedService & {
+    type: "GoogleCloudStorage";
+    accessKeyId?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
-    type: "GoogleCloudStorage";
-}
-
-// @public
-export interface GoogleCloudStorageLocation extends DatasetLocation {
-    bucketName?: any;
-    type: "GoogleCloudStorageLocation";
-    version?: any;
-}
-
-// @public
-export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
-    recursive?: any;
-    type: "GoogleCloudStorageReadSettings";
-    wildcardFileName?: any;
-    wildcardFolderPath?: any;
-}
-
-// @public
-export interface GreenplumLinkedService extends LinkedService {
-    connectionString?: any;
     encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
+};
+
+// @public
+export type GoogleCloudStorageLocation = DatasetLocation & {
+    type: "GoogleCloudStorageLocation";
+    bucketName?: any;
+    version?: any;
+};
+
+// @public
+export type GoogleCloudStorageReadSettings = StoreReadSettings & {
+    type: "GoogleCloudStorageReadSettings";
+    recursive?: any;
+    wildcardFolderPath?: any;
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
+
+// @public
+export type GreenplumLinkedService = LinkedService & {
     type: "Greenplum";
-}
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface GreenplumSource extends TabularSource {
-    query?: any;
+export type GreenplumSource = TabularSource & {
     type: "GreenplumSource";
-}
+    query?: any;
+};
 
 // @public
-export interface GreenplumTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type GreenplumTableDataset = Dataset & {
     type: "GreenplumTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
 export type HBaseAuthenticationType = string;
 
 // @public
-export interface HBaseLinkedService extends LinkedService {
+export type HBaseLinkedService = LinkedService & {
+    type: "HBase";
+    host: any;
+    port?: any;
+    httpPath?: any;
+    authenticationType: HBaseAuthenticationType;
+    username?: any;
+    password?: SecretBaseUnion;
+    enableSsl?: any;
+    trustedCertPath?: any;
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
-    authenticationType: HBaseAuthenticationType;
-    enableSsl?: any;
     encryptedCredential?: any;
-    host: any;
-    httpPath?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    trustedCertPath?: any;
-    type: "HBase";
-    username?: any;
-}
+};
 
 // @public
-export interface HBaseObjectDataset extends Dataset {
-    tableName?: any;
+export type HBaseObjectDataset = Dataset & {
     type: "HBaseObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface HBaseSource extends TabularSource {
-    query?: any;
+export type HBaseSource = TabularSource & {
     type: "HBaseSource";
-}
+    query?: any;
+};
 
 // @public
-export interface HdfsLinkedService extends LinkedService {
-    authenticationType?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type HdfsLinkedService = LinkedService & {
     type: "Hdfs";
     url: any;
+    authenticationType?: any;
+    encryptedCredential?: any;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+};
 
 // @public
-export interface HdfsLocation extends DatasetLocation {
+export type HdfsLocation = DatasetLocation & {
     type: "HdfsLocation";
-}
+};
 
 // @public
-export interface HdfsReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    distcpSettings?: DistcpSettings;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    recursive?: any;
+export type HdfsReadSettings = StoreReadSettings & {
     type: "HdfsReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    distcpSettings?: DistcpSettings;
+    deleteFilesAfterCompletion?: any;
+};
 
 // @public
-export interface HdfsSource extends CopySource {
-    distcpSettings?: DistcpSettings;
-    recursive?: any;
+export type HdfsSource = CopySource & {
     type: "HdfsSource";
-}
+    recursive?: any;
+    distcpSettings?: DistcpSettings;
+};
 
 // @public
 export type HdiNodeTypes = string;
@@ -3184,175 +3199,175 @@ export type HdiNodeTypes = string;
 export type HDInsightActivityDebugInfoOption = string;
 
 // @public
-export interface HDInsightHiveActivity extends ExecutionActivity {
-    arguments?: any[];
-    defines?: {
-        [propertyName: string]: any;
-    };
-    getDebugInfo?: HDInsightActivityDebugInfoOption;
-    queryTimeout?: number;
-    scriptLinkedService?: LinkedServiceReference;
-    scriptPath?: any;
-    storageLinkedServices?: LinkedServiceReference[];
+export type HDInsightHiveActivity = ExecutionActivity & {
     type: "HDInsightHive";
-    variables?: any[];
-}
-
-// @public
-export interface HDInsightLinkedService extends LinkedService {
-    clusterUri: any;
-    encryptedCredential?: any;
-    fileSystem?: any;
-    hcatalogLinkedServiceName?: LinkedServiceReference;
-    isEspEnabled?: any;
-    linkedServiceName?: LinkedServiceReference;
-    password?: SecretBaseUnion;
-    type: "HDInsight";
-    userName?: any;
-}
-
-// @public
-export interface HDInsightMapReduceActivity extends ExecutionActivity {
+    storageLinkedServices?: LinkedServiceReference[];
     arguments?: any[];
-    className: any;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    scriptPath?: any;
+    scriptLinkedService?: LinkedServiceReference;
     defines?: {
         [propertyName: string]: any;
     };
-    getDebugInfo?: HDInsightActivityDebugInfoOption;
-    jarFilePath: any;
-    jarLibs?: any[];
-    jarLinkedService?: LinkedServiceReference;
-    storageLinkedServices?: LinkedServiceReference[];
-    type: "HDInsightMapReduce";
-}
+    variables?: any[];
+    queryTimeout?: number;
+};
 
 // @public
-export interface HDInsightOnDemandLinkedService extends LinkedService {
-    additionalLinkedServiceNames?: LinkedServiceReference[];
-    clusterNamePrefix?: any;
-    clusterPassword?: SecretBaseUnion;
-    clusterResourceGroup: any;
-    clusterSize: any;
-    clusterSshPassword?: SecretBaseUnion;
-    clusterSshUserName?: any;
-    clusterType?: any;
-    clusterUserName?: any;
-    coreConfiguration?: any;
-    credential?: CredentialReference;
-    dataNodeSize?: any;
-    encryptedCredential?: any;
-    hBaseConfiguration?: any;
+export type HDInsightLinkedService = LinkedService & {
+    type: "HDInsight";
+    clusterUri: any;
+    userName?: any;
+    password?: SecretBaseUnion;
+    linkedServiceName?: LinkedServiceReference;
     hcatalogLinkedServiceName?: LinkedServiceReference;
-    hdfsConfiguration?: any;
-    headNodeSize?: any;
-    hiveConfiguration?: any;
-    hostSubscriptionId: any;
+    encryptedCredential?: any;
+    isEspEnabled?: any;
+    fileSystem?: any;
+};
+
+// @public
+export type HDInsightMapReduceActivity = ExecutionActivity & {
+    type: "HDInsightMapReduce";
+    storageLinkedServices?: LinkedServiceReference[];
+    arguments?: any[];
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    className: any;
+    jarFilePath: any;
+    jarLinkedService?: LinkedServiceReference;
+    jarLibs?: any[];
+    defines?: {
+        [propertyName: string]: any;
+    };
+};
+
+// @public
+export type HDInsightOnDemandLinkedService = LinkedService & {
+    type: "HDInsightOnDemand";
+    clusterSize: any;
+    timeToLive: any;
+    version: any;
     linkedServiceName: LinkedServiceReference;
-    mapReduceConfiguration?: any;
-    oozieConfiguration?: any;
-    scriptActions?: ScriptAction[];
+    hostSubscriptionId: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
-    sparkVersion?: any;
-    stormConfiguration?: any;
-    subnetName?: any;
     tenant: any;
-    timeToLive: any;
-    type: "HDInsightOnDemand";
-    version: any;
-    virtualNetworkId?: any;
+    clusterResourceGroup: any;
+    clusterNamePrefix?: any;
+    clusterUserName?: any;
+    clusterPassword?: SecretBaseUnion;
+    clusterSshUserName?: any;
+    clusterSshPassword?: SecretBaseUnion;
+    additionalLinkedServiceNames?: LinkedServiceReference[];
+    hcatalogLinkedServiceName?: LinkedServiceReference;
+    clusterType?: any;
+    sparkVersion?: any;
+    coreConfiguration?: any;
+    hBaseConfiguration?: any;
+    hdfsConfiguration?: any;
+    hiveConfiguration?: any;
+    mapReduceConfiguration?: any;
+    oozieConfiguration?: any;
+    stormConfiguration?: any;
     yarnConfiguration?: any;
+    encryptedCredential?: any;
+    headNodeSize?: any;
+    dataNodeSize?: any;
     zookeeperNodeSize?: any;
-}
+    scriptActions?: ScriptAction[];
+    virtualNetworkId?: any;
+    subnetName?: any;
+    credential?: CredentialReference;
+};
 
 // @public
-export interface HDInsightPigActivity extends ExecutionActivity {
+export type HDInsightPigActivity = ExecutionActivity & {
+    type: "HDInsightPig";
+    storageLinkedServices?: LinkedServiceReference[];
     arguments?: any;
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    scriptPath?: any;
+    scriptLinkedService?: LinkedServiceReference;
     defines?: {
         [propertyName: string]: any;
     };
-    getDebugInfo?: HDInsightActivityDebugInfoOption;
-    scriptLinkedService?: LinkedServiceReference;
-    scriptPath?: any;
-    storageLinkedServices?: LinkedServiceReference[];
-    type: "HDInsightPig";
-}
+};
 
 // @public
-export interface HDInsightSparkActivity extends ExecutionActivity {
-    arguments?: any[];
-    className?: string;
-    entryFilePath: any;
-    getDebugInfo?: HDInsightActivityDebugInfoOption;
-    proxyUser?: any;
+export type HDInsightSparkActivity = ExecutionActivity & {
+    type: "HDInsightSpark";
     rootPath: any;
+    entryFilePath: any;
+    arguments?: any[];
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    sparkJobLinkedService?: LinkedServiceReference;
+    className?: string;
+    proxyUser?: any;
     sparkConfig?: {
         [propertyName: string]: any;
     };
-    sparkJobLinkedService?: LinkedServiceReference;
-    type: "HDInsightSpark";
-}
+};
 
 // @public
-export interface HDInsightStreamingActivity extends ExecutionActivity {
+export type HDInsightStreamingActivity = ExecutionActivity & {
+    type: "HDInsightStreaming";
+    storageLinkedServices?: LinkedServiceReference[];
     arguments?: any[];
+    getDebugInfo?: HDInsightActivityDebugInfoOption;
+    mapper: any;
+    reducer: any;
+    input: any;
+    output: any;
+    filePaths: any[];
+    fileLinkedService?: LinkedServiceReference;
     combiner?: any;
     commandEnvironment?: any[];
     defines?: {
         [propertyName: string]: any;
     };
-    fileLinkedService?: LinkedServiceReference;
-    filePaths: any[];
-    getDebugInfo?: HDInsightActivityDebugInfoOption;
-    input: any;
-    mapper: any;
-    output: any;
-    reducer: any;
-    storageLinkedServices?: LinkedServiceReference[];
-    type: "HDInsightStreaming";
-}
+};
 
 // @public
 export type HiveAuthenticationType = string;
 
 // @public
-export interface HiveLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: any;
-    allowSelfSignedServerCert?: any;
-    authenticationType: HiveAuthenticationType;
-    enableSsl?: any;
-    encryptedCredential?: any;
+export type HiveLinkedService = LinkedService & {
+    type: "Hive";
     host: any;
-    httpPath?: any;
-    password?: SecretBaseUnion;
     port?: any;
     serverType?: HiveServerType;
-    serviceDiscoveryMode?: any;
     thriftTransportProtocol?: HiveThriftTransportProtocol;
-    trustedCertPath?: any;
-    type: "Hive";
+    authenticationType: HiveAuthenticationType;
+    serviceDiscoveryMode?: any;
+    zooKeeperNameSpace?: any;
     useNativeQuery?: any;
     username?: any;
+    password?: SecretBaseUnion;
+    httpPath?: any;
+    enableSsl?: any;
+    trustedCertPath?: any;
     useSystemTrustStore?: any;
-    zooKeeperNameSpace?: any;
-}
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface HiveObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type HiveObjectDataset = Dataset & {
     type: "HiveObject";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
 export type HiveServerType = string;
 
 // @public
-export interface HiveSource extends TabularSource {
-    query?: any;
+export type HiveSource = TabularSource & {
     type: "HiveSource";
-}
+    query?: any;
+};
 
 // @public
 export type HiveThriftTransportProtocol = string;
@@ -3361,118 +3376,118 @@ export type HiveThriftTransportProtocol = string;
 export type HttpAuthenticationType = string;
 
 // @public
-export interface HttpDataset extends Dataset {
-    additionalHeaders?: any;
-    compression?: DatasetCompression;
-    format?: DatasetStorageFormatUnion;
-    relativeUrl?: any;
-    requestBody?: any;
-    requestMethod?: any;
+export type HttpDataset = Dataset & {
     type: "HttpFile";
-}
+    relativeUrl?: any;
+    requestMethod?: any;
+    requestBody?: any;
+    additionalHeaders?: any;
+    format?: DatasetStorageFormatUnion;
+    compression?: DatasetCompression;
+};
 
 // @public
-export interface HttpLinkedService extends LinkedService {
-    authenticationType?: HttpAuthenticationType;
-    authHeaders?: any;
-    certThumbprint?: any;
-    embeddedCertData?: any;
-    enableServerCertificateValidation?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type HttpLinkedService = LinkedService & {
     type: "HttpServer";
     url: any;
+    authenticationType?: HttpAuthenticationType;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    authHeaders?: any;
+    embeddedCertData?: any;
+    certThumbprint?: any;
+    encryptedCredential?: any;
+    enableServerCertificateValidation?: any;
+};
 
 // @public
-export interface HttpReadSettings extends StoreReadSettings {
+export type HttpReadSettings = StoreReadSettings & {
+    type: "HttpReadSettings";
+    requestMethod?: any;
+    requestBody?: any;
     additionalHeaders?: any;
+    requestTimeout?: any;
     enablePartitionDiscovery?: boolean;
     partitionRootPath?: any;
-    requestBody?: any;
-    requestMethod?: any;
-    requestTimeout?: any;
-    type: "HttpReadSettings";
-}
+};
 
 // @public
-export interface HttpServerLocation extends DatasetLocation {
-    relativeUrl?: any;
+export type HttpServerLocation = DatasetLocation & {
     type: "HttpServerLocation";
-}
+    relativeUrl?: any;
+};
 
 // @public
-export interface HttpSource extends CopySource {
-    httpRequestTimeout?: any;
+export type HttpSource = CopySource & {
     type: "HttpSource";
-}
+    httpRequestTimeout?: any;
+};
 
 // @public
-export interface HubspotLinkedService extends LinkedService {
-    accessToken?: SecretBaseUnion;
+export type HubspotLinkedService = LinkedService & {
+    type: "Hubspot";
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
+    accessToken?: SecretBaseUnion;
     refreshToken?: SecretBaseUnion;
-    type: "Hubspot";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface HubspotObjectDataset extends Dataset {
-    tableName?: any;
+export type HubspotObjectDataset = Dataset & {
     type: "HubspotObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface HubspotSource extends TabularSource {
-    query?: any;
+export type HubspotSource = TabularSource & {
     type: "HubspotSource";
-}
+    query?: any;
+};
 
 // @public
-export interface IfConditionActivity extends ControlActivity {
-    expression: Expression;
-    ifFalseActivities?: ActivityUnion[];
-    ifTrueActivities?: ActivityUnion[];
+export type IfConditionActivity = ControlActivity & {
     type: "IfCondition";
-}
+    expression: Expression;
+    ifTrueActivities?: ActivityUnion[];
+    ifFalseActivities?: ActivityUnion[];
+};
 
 // @public
 export type ImpalaAuthenticationType = string;
 
 // @public
-export interface ImpalaLinkedService extends LinkedService {
+export type ImpalaLinkedService = LinkedService & {
+    type: "Impala";
+    host: any;
+    port?: any;
+    authenticationType: ImpalaAuthenticationType;
+    username?: any;
+    password?: SecretBaseUnion;
+    enableSsl?: any;
+    trustedCertPath?: any;
+    useSystemTrustStore?: any;
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
-    authenticationType: ImpalaAuthenticationType;
-    enableSsl?: any;
     encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    trustedCertPath?: any;
-    type: "Impala";
-    username?: any;
-    useSystemTrustStore?: any;
-}
+};
 
 // @public
-export interface ImpalaObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type ImpalaObjectDataset = Dataset & {
     type: "ImpalaObject";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface ImpalaSource extends TabularSource {
-    query?: any;
+export type ImpalaSource = TabularSource & {
     type: "ImpalaSource";
-}
+    query?: any;
+};
 
 // @public
 export interface ImportSettings {
@@ -3484,33 +3499,33 @@ export interface ImportSettings {
 export type ImportSettingsUnion = ImportSettings | AzureDatabricksDeltaLakeImportCommand | SnowflakeImportCopyCommand;
 
 // @public
-export interface InformixLinkedService extends LinkedService {
-    authenticationType?: any;
-    connectionString: any;
-    credential?: SecretBaseUnion;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type InformixLinkedService = LinkedService & {
     type: "Informix";
+    connectionString: any;
+    authenticationType?: any;
+    credential?: SecretBaseUnion;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface InformixSink extends CopySink {
-    preCopyScript?: any;
+export type InformixSink = CopySink & {
     type: "InformixSink";
-}
+    preCopyScript?: any;
+};
 
 // @public
-export interface InformixSource extends TabularSource {
-    query?: any;
+export type InformixSource = TabularSource & {
     type: "InformixSource";
-}
+    query?: any;
+};
 
 // @public
-export interface InformixTableDataset extends Dataset {
-    tableName?: any;
+export type InformixTableDataset = Dataset & {
     type: "InformixTable";
-}
+    tableName?: any;
+};
 
 // @public
 export interface IntegrationRuntime {
@@ -3581,9 +3596,9 @@ export interface IntegrationRuntimeDataProxyProperties {
 }
 
 // @public
-export interface IntegrationRuntimeDebugResource extends SubResourceDebugResource {
+export type IntegrationRuntimeDebugResource = SubResourceDebugResource & {
     properties: IntegrationRuntimeUnion;
-}
+};
 
 // @public
 export type IntegrationRuntimeEdition = string;
@@ -3721,9 +3736,9 @@ export interface IntegrationRuntimeRegenerateKeyParameters {
 }
 
 // @public
-export interface IntegrationRuntimeResource extends SubResource {
+export type IntegrationRuntimeResource = SubResource & {
     properties: IntegrationRuntimeUnion;
-}
+};
 
 // @public
 export interface IntegrationRuntimes {
@@ -3936,842 +3951,1232 @@ export interface IntegrationRuntimeVNetProperties {
 }
 
 // @public
-export interface JiraLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
-    port?: any;
+export type JiraLinkedService = LinkedService & {
     type: "Jira";
+    host: any;
+    port?: any;
+    username: any;
+    password?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-    username: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface JiraObjectDataset extends Dataset {
-    tableName?: any;
+export type JiraObjectDataset = Dataset & {
     type: "JiraObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface JiraSource extends TabularSource {
-    query?: any;
+export type JiraSource = TabularSource & {
     type: "JiraSource";
-}
+    query?: any;
+};
 
 // @public
-export interface JsonDataset extends Dataset {
-    compression?: DatasetCompression;
-    encodingName?: any;
-    location?: DatasetLocationUnion;
+export type JsonDataset = Dataset & {
     type: "Json";
-}
+    location?: DatasetLocationUnion;
+    encodingName?: any;
+    compression?: DatasetCompression;
+};
 
 // @public
-export interface JsonFormat extends DatasetStorageFormat {
-    encodingName?: any;
+export type JsonFormat = DatasetStorageFormat & {
+    type: "JsonFormat";
     filePattern?: any;
+    nestingSeparator?: any;
+    encodingName?: any;
     jsonNodeReference?: any;
     jsonPathDefinition?: any;
-    nestingSeparator?: any;
-    type: "JsonFormat";
-}
+};
 
 // @public
 export type JsonFormatFilePattern = string;
 
 // @public
-export interface JsonReadSettings extends FormatReadSettings {
-    compressionProperties?: CompressionReadSettingsUnion;
+export type JsonReadSettings = FormatReadSettings & {
     type: "JsonReadSettings";
-}
+    compressionProperties?: CompressionReadSettingsUnion;
+};
 
 // @public
-export interface JsonSink extends CopySink {
-    formatSettings?: JsonWriteSettings;
-    storeSettings?: StoreWriteSettingsUnion;
+export type JsonSink = CopySink & {
     type: "JsonSink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: JsonWriteSettings;
+};
 
 // @public
-export interface JsonSource extends CopySource {
-    additionalColumns?: any;
-    formatSettings?: JsonReadSettings;
-    storeSettings?: StoreReadSettingsUnion;
+export type JsonSource = CopySource & {
     type: "JsonSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: JsonReadSettings;
+    additionalColumns?: any;
+};
 
 // @public
 export type JsonWriteFilePattern = string;
 
 // @public
-export interface JsonWriteSettings extends FormatWriteSettings {
-    filePattern?: any;
+export type JsonWriteSettings = FormatWriteSettings & {
     type: "JsonWriteSettings";
-}
+    filePattern?: any;
+};
 
 // @public
 export enum KnownAmazonRdsForOraclePartitionOption {
+    // (undocumented)
     DynamicRange = "DynamicRange",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
 }
 
 // @public
 export enum KnownAvroCompressionCodec {
+    // (undocumented)
     Bzip2 = "bzip2",
+    // (undocumented)
     Deflate = "deflate",
+    // (undocumented)
     None = "none",
+    // (undocumented)
     Snappy = "snappy",
+    // (undocumented)
     Xz = "xz"
 }
 
 // @public
 export enum KnownAzureFunctionActivityMethod {
+    // (undocumented)
     Delete = "DELETE",
+    // (undocumented)
     GET = "GET",
+    // (undocumented)
     Head = "HEAD",
+    // (undocumented)
     Options = "OPTIONS",
+    // (undocumented)
     Post = "POST",
+    // (undocumented)
     PUT = "PUT",
+    // (undocumented)
     Trace = "TRACE"
 }
 
 // @public
 export enum KnownAzureSearchIndexWriteBehaviorType {
+    // (undocumented)
     Merge = "Merge",
+    // (undocumented)
     Upload = "Upload"
 }
 
 // @public
+export enum KnownBigDataPoolReferenceType {
+    // (undocumented)
+    BigDataPoolReference = "BigDataPoolReference"
+}
+
+// @public
 export enum KnownBlobEventTypes {
+    // (undocumented)
     MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
+    // (undocumented)
     MicrosoftStorageBlobDeleted = "Microsoft.Storage.BlobDeleted"
 }
 
 // @public
 export enum KnownCassandraSourceReadConsistencyLevels {
+    // (undocumented)
     ALL = "ALL",
+    // (undocumented)
     EachQuorum = "EACH_QUORUM",
+    // (undocumented)
     LocalONE = "LOCAL_ONE",
+    // (undocumented)
     LocalQuorum = "LOCAL_QUORUM",
+    // (undocumented)
     LocalSerial = "LOCAL_SERIAL",
+    // (undocumented)
     ONE = "ONE",
+    // (undocumented)
     Quorum = "QUORUM",
+    // (undocumented)
     Serial = "SERIAL",
+    // (undocumented)
     Three = "THREE",
+    // (undocumented)
     TWO = "TWO"
 }
 
 // @public
 export enum KnownCompressionCodec {
+    // (undocumented)
     Bzip2 = "bzip2",
+    // (undocumented)
     Deflate = "deflate",
+    // (undocumented)
     Gzip = "gzip",
+    // (undocumented)
     Lz4 = "lz4",
+    // (undocumented)
     Lzo = "lzo",
+    // (undocumented)
     None = "none",
+    // (undocumented)
     Snappy = "snappy",
+    // (undocumented)
     Tar = "tar",
+    // (undocumented)
     TarGZip = "tarGZip",
+    // (undocumented)
     ZipDeflate = "zipDeflate"
 }
 
 // @public
 export enum KnownCopyBehaviorType {
+    // (undocumented)
     FlattenHierarchy = "FlattenHierarchy",
+    // (undocumented)
     MergeFiles = "MergeFiles",
+    // (undocumented)
     PreserveHierarchy = "PreserveHierarchy"
 }
 
 // @public
 export enum KnownCosmosDbConnectionMode {
+    // (undocumented)
     Direct = "Direct",
+    // (undocumented)
     Gateway = "Gateway"
 }
 
 // @public
 export enum KnownCosmosDbServicePrincipalCredentialType {
+    // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
+    // (undocumented)
     ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
 export enum KnownCredentialReferenceType {
+    // (undocumented)
     CredentialReference = "CredentialReference"
 }
 
 // @public
 export enum KnownDataFlowComputeType {
+    // (undocumented)
     ComputeOptimized = "ComputeOptimized",
+    // (undocumented)
     General = "General",
+    // (undocumented)
     MemoryOptimized = "MemoryOptimized"
 }
 
 // @public
 export enum KnownDataFlowDebugCommandType {
+    // (undocumented)
     ExecuteExpressionQuery = "executeExpressionQuery",
+    // (undocumented)
     ExecutePreviewQuery = "executePreviewQuery",
+    // (undocumented)
     ExecuteStatisticsQuery = "executeStatisticsQuery"
 }
 
 // @public
 export enum KnownDataFlowReferenceType {
+    // (undocumented)
     DataFlowReference = "DataFlowReference"
 }
 
 // @public
 export enum KnownDatasetCompressionLevel {
+    // (undocumented)
     Fastest = "Fastest",
+    // (undocumented)
     Optimal = "Optimal"
 }
 
 // @public
 export enum KnownDb2AuthenticationType {
+    // (undocumented)
     Basic = "Basic"
 }
 
 // @public
 export enum KnownDependencyCondition {
+    // (undocumented)
     Completed = "Completed",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Skipped = "Skipped",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownDynamicsAuthenticationType {
+    // (undocumented)
     AADServicePrincipal = "AADServicePrincipal",
+    // (undocumented)
     Ifd = "Ifd",
+    // (undocumented)
     Office365 = "Office365"
 }
 
 // @public
 export enum KnownDynamicsDeploymentType {
+    // (undocumented)
     Online = "Online",
+    // (undocumented)
     OnPremisesWithIfd = "OnPremisesWithIfd"
 }
 
 // @public
 export enum KnownDynamicsSinkWriteBehavior {
+    // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
 export enum KnownEventSubscriptionStatus {
+    // (undocumented)
     Deprovisioning = "Deprovisioning",
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled",
+    // (undocumented)
     Provisioning = "Provisioning",
+    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownFactoryIdentityType {
+    // (undocumented)
     SystemAssigned = "SystemAssigned",
+    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownFtpAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic"
 }
 
 // @public
 export enum KnownGlobalParameterType {
+    // (undocumented)
     Array = "Array",
+    // (undocumented)
     Bool = "Bool",
+    // (undocumented)
     Float = "Float",
+    // (undocumented)
     Int = "Int",
+    // (undocumented)
     Object = "Object",
+    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownGoogleAdWordsAuthenticationType {
+    // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
+    // (undocumented)
     UserAuthentication = "UserAuthentication"
 }
 
 // @public
 export enum KnownGoogleBigQueryAuthenticationType {
+    // (undocumented)
     ServiceAuthentication = "ServiceAuthentication",
+    // (undocumented)
     UserAuthentication = "UserAuthentication"
 }
 
 // @public
 export enum KnownHBaseAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic"
 }
 
 // @public
 export enum KnownHdiNodeTypes {
+    // (undocumented)
     Headnode = "Headnode",
+    // (undocumented)
     Workernode = "Workernode",
+    // (undocumented)
     Zookeeper = "Zookeeper"
 }
 
 // @public
 export enum KnownHDInsightActivityDebugInfoOption {
+    // (undocumented)
     Always = "Always",
+    // (undocumented)
     Failure = "Failure",
+    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownHiveAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Username = "Username",
+    // (undocumented)
     UsernameAndPassword = "UsernameAndPassword",
+    // (undocumented)
     WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
 // @public
 export enum KnownHiveServerType {
+    // (undocumented)
     HiveServer1 = "HiveServer1",
+    // (undocumented)
     HiveServer2 = "HiveServer2",
+    // (undocumented)
     HiveThriftServer = "HiveThriftServer"
 }
 
 // @public
 export enum KnownHiveThriftTransportProtocol {
+    // (undocumented)
     Binary = "Binary",
+    // (undocumented)
     Http = "HTTP ",
+    // (undocumented)
     Sasl = "SASL"
 }
 
 // @public
 export enum KnownHttpAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     ClientCertificate = "ClientCertificate",
+    // (undocumented)
     Digest = "Digest",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownImpalaAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     SaslUsername = "SASLUsername",
+    // (undocumented)
     UsernameAndPassword = "UsernameAndPassword"
 }
 
 // @public
 export enum KnownIntegrationRuntimeAuthKeyName {
+    // (undocumented)
     AuthKey1 = "authKey1",
+    // (undocumented)
     AuthKey2 = "authKey2"
 }
 
 // @public
 export enum KnownIntegrationRuntimeAutoUpdate {
+    // (undocumented)
     Off = "Off",
+    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownIntegrationRuntimeEdition {
+    // (undocumented)
     Enterprise = "Enterprise",
+    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownIntegrationRuntimeEntityReferenceType {
+    // (undocumented)
     IntegrationRuntimeReference = "IntegrationRuntimeReference",
+    // (undocumented)
     LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
 export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
+    // (undocumented)
     NotEncrypted = "NotEncrypted",
+    // (undocumented)
     NotSet = "NotSet",
+    // (undocumented)
     SslEncrypted = "SslEncrypted"
 }
 
 // @public
 export enum KnownIntegrationRuntimeLicenseType {
+    // (undocumented)
     BasePrice = "BasePrice",
+    // (undocumented)
     LicenseIncluded = "LicenseIncluded"
 }
 
 // @public
 export enum KnownIntegrationRuntimeSsisCatalogPricingTier {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Premium = "Premium",
+    // (undocumented)
     PremiumRS = "PremiumRS",
+    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownIntegrationRuntimeState {
+    // (undocumented)
     AccessDenied = "AccessDenied",
+    // (undocumented)
     Initial = "Initial",
+    // (undocumented)
     Limited = "Limited",
+    // (undocumented)
     NeedRegistration = "NeedRegistration",
+    // (undocumented)
     Offline = "Offline",
+    // (undocumented)
     Online = "Online",
+    // (undocumented)
     Started = "Started",
+    // (undocumented)
     Starting = "Starting",
+    // (undocumented)
     Stopped = "Stopped",
+    // (undocumented)
     Stopping = "Stopping"
 }
 
 // @public
 export enum KnownIntegrationRuntimeType {
+    // (undocumented)
     Managed = "Managed",
+    // (undocumented)
     SelfHosted = "SelfHosted"
 }
 
 // @public
 export enum KnownIntegrationRuntimeUpdateResult {
+    // (undocumented)
     Fail = "Fail",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     Succeed = "Succeed"
 }
 
 // @public
 export enum KnownJsonFormatFilePattern {
+    // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
+    // (undocumented)
     SetOfObjects = "setOfObjects"
 }
 
 // @public
 export enum KnownJsonWriteFilePattern {
+    // (undocumented)
     ArrayOfObjects = "arrayOfObjects",
+    // (undocumented)
     SetOfObjects = "setOfObjects"
 }
 
 // @public
 export enum KnownManagedIntegrationRuntimeNodeStatus {
+    // (undocumented)
     Available = "Available",
+    // (undocumented)
     Recycling = "Recycling",
+    // (undocumented)
     Starting = "Starting",
+    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownManagedVirtualNetworkReferenceType {
+    // (undocumented)
     ManagedVirtualNetworkReference = "ManagedVirtualNetworkReference"
 }
 
 // @public
 export enum KnownMongoDbAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic"
 }
 
 // @public
 export enum KnownNetezzaPartitionOption {
+    // (undocumented)
     DataSlice = "DataSlice",
+    // (undocumented)
     DynamicRange = "DynamicRange",
+    // (undocumented)
     None = "None"
 }
 
 // @public
+export enum KnownNotebookParameterType {
+    // (undocumented)
+    Bool = "bool",
+    // (undocumented)
+    Float = "float",
+    // (undocumented)
+    Int = "int",
+    // (undocumented)
+    String = "string"
+}
+
+// @public
+export enum KnownNotebookReferenceType {
+    // (undocumented)
+    NotebookReference = "NotebookReference"
+}
+
+// @public
 export enum KnownODataAadServicePrincipalCredentialType {
+    // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
+    // (undocumented)
     ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
 export enum KnownODataAuthenticationType {
+    // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     ManagedServiceIdentity = "ManagedServiceIdentity",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownOraclePartitionOption {
+    // (undocumented)
     DynamicRange = "DynamicRange",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
 }
 
 // @public
 export enum KnownOrcCompressionCodec {
+    // (undocumented)
     Lzo = "lzo",
+    // (undocumented)
     None = "none",
+    // (undocumented)
     Snappy = "snappy",
+    // (undocumented)
     Zlib = "zlib"
 }
 
 // @public
 export enum KnownParameterType {
+    // (undocumented)
     Array = "Array",
+    // (undocumented)
     Bool = "Bool",
+    // (undocumented)
     Float = "Float",
+    // (undocumented)
     Int = "Int",
+    // (undocumented)
     Object = "Object",
+    // (undocumented)
     SecureString = "SecureString",
+    // (undocumented)
     String = "String"
 }
 
 // @public
+export enum KnownParquetCompressionCodecEnum {
+    // (undocumented)
+    Gzip = "gzip",
+    // (undocumented)
+    Lzo = "lzo",
+    // (undocumented)
+    None = "none",
+    // (undocumented)
+    Snappy = "snappy"
+}
+
+// @public
 export enum KnownPhoenixAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     UsernameAndPassword = "UsernameAndPassword",
+    // (undocumented)
     WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
 // @public
 export enum KnownPolybaseSettingsRejectType {
+    // (undocumented)
     Percentage = "percentage",
+    // (undocumented)
     Value = "value"
 }
 
 // @public
 export enum KnownPrestoAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Ldap = "LDAP"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownRecurrenceFrequency {
+    // (undocumented)
     Day = "Day",
+    // (undocumented)
     Hour = "Hour",
+    // (undocumented)
     Minute = "Minute",
+    // (undocumented)
     Month = "Month",
+    // (undocumented)
     NotSpecified = "NotSpecified",
+    // (undocumented)
     Week = "Week",
+    // (undocumented)
     Year = "Year"
 }
 
 // @public
 export enum KnownRestServiceAuthenticationType {
+    // (undocumented)
     AadServicePrincipal = "AadServicePrincipal",
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     ManagedServiceIdentity = "ManagedServiceIdentity",
+    // (undocumented)
     OAuth2ClientCredential = "OAuth2ClientCredential"
 }
 
 // @public
 export enum KnownRunQueryFilterOperand {
+    // (undocumented)
     ActivityName = "ActivityName",
+    // (undocumented)
     ActivityRunEnd = "ActivityRunEnd",
+    // (undocumented)
     ActivityRunStart = "ActivityRunStart",
+    // (undocumented)
     ActivityType = "ActivityType",
+    // (undocumented)
     LatestOnly = "LatestOnly",
+    // (undocumented)
     PipelineName = "PipelineName",
+    // (undocumented)
     RunEnd = "RunEnd",
+    // (undocumented)
     RunGroupId = "RunGroupId",
+    // (undocumented)
     RunStart = "RunStart",
+    // (undocumented)
     Status = "Status",
+    // (undocumented)
     TriggerName = "TriggerName",
+    // (undocumented)
     TriggerRunTimestamp = "TriggerRunTimestamp"
 }
 
 // @public
 export enum KnownRunQueryFilterOperator {
+    // (undocumented)
     Equals = "Equals",
+    // (undocumented)
     In = "In",
+    // (undocumented)
     NotEquals = "NotEquals",
+    // (undocumented)
     NotIn = "NotIn"
 }
 
 // @public
 export enum KnownRunQueryOrder {
+    // (undocumented)
     ASC = "ASC",
+    // (undocumented)
     Desc = "DESC"
 }
 
 // @public
 export enum KnownRunQueryOrderByField {
+    // (undocumented)
     ActivityName = "ActivityName",
+    // (undocumented)
     ActivityRunEnd = "ActivityRunEnd",
+    // (undocumented)
     ActivityRunStart = "ActivityRunStart",
+    // (undocumented)
     PipelineName = "PipelineName",
+    // (undocumented)
     RunEnd = "RunEnd",
+    // (undocumented)
     RunStart = "RunStart",
+    // (undocumented)
     Status = "Status",
+    // (undocumented)
     TriggerName = "TriggerName",
+    // (undocumented)
     TriggerRunTimestamp = "TriggerRunTimestamp"
 }
 
 // @public
 export enum KnownSalesforceSinkWriteBehavior {
+    // (undocumented)
     Insert = "Insert",
+    // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
 export enum KnownSalesforceSourceReadBehavior {
+    // (undocumented)
     Query = "Query",
+    // (undocumented)
     QueryAll = "QueryAll"
 }
 
 // @public
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
+    // (undocumented)
     Insert = "Insert",
+    // (undocumented)
     Update = "Update"
 }
 
 // @public
 export enum KnownSapHanaAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownSapHanaPartitionOption {
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
+    // (undocumented)
     SapHanaDynamicRange = "SapHanaDynamicRange"
 }
 
 // @public
 export enum KnownSapTablePartitionOption {
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PartitionOnCalendarDate = "PartitionOnCalendarDate",
+    // (undocumented)
     PartitionOnCalendarMonth = "PartitionOnCalendarMonth",
+    // (undocumented)
     PartitionOnCalendarYear = "PartitionOnCalendarYear",
+    // (undocumented)
     PartitionOnInt = "PartitionOnInt",
+    // (undocumented)
     PartitionOnTime = "PartitionOnTime"
 }
 
 // @public
 export enum KnownScriptActivityLogDestination {
+    // (undocumented)
     ActivityOutput = "ActivityOutput",
+    // (undocumented)
     ExternalStore = "ExternalStore"
 }
 
 // @public
 export enum KnownScriptActivityParameterDirection {
+    // (undocumented)
     Input = "Input",
+    // (undocumented)
     InputOutput = "InputOutput",
+    // (undocumented)
     Output = "Output"
 }
 
 // @public
 export enum KnownScriptActivityParameterType {
+    // (undocumented)
     Boolean = "Boolean",
+    // (undocumented)
     DateTime = "DateTime",
+    // (undocumented)
     DateTimeOffset = "DateTimeOffset",
+    // (undocumented)
     Decimal = "Decimal",
+    // (undocumented)
     Double = "Double",
+    // (undocumented)
     Guid = "Guid",
+    // (undocumented)
     Int16 = "Int16",
+    // (undocumented)
     Int32 = "Int32",
+    // (undocumented)
     Int64 = "Int64",
+    // (undocumented)
     Single = "Single",
+    // (undocumented)
     String = "String",
+    // (undocumented)
     Timespan = "Timespan"
 }
 
 // @public
 export enum KnownScriptType {
+    // (undocumented)
     NonQuery = "NonQuery",
+    // (undocumented)
     Query = "Query"
 }
 
 // @public
 export enum KnownSelfHostedIntegrationRuntimeNodeStatus {
+    // (undocumented)
     InitializeFailed = "InitializeFailed",
+    // (undocumented)
     Initializing = "Initializing",
+    // (undocumented)
     Limited = "Limited",
+    // (undocumented)
     NeedRegistration = "NeedRegistration",
+    // (undocumented)
     Offline = "Offline",
+    // (undocumented)
     Online = "Online",
+    // (undocumented)
     Upgrading = "Upgrading"
 }
 
 // @public
 export enum KnownServiceNowAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     OAuth2 = "OAuth2"
 }
 
 // @public
 export enum KnownServicePrincipalCredentialType {
+    // (undocumented)
     ServicePrincipalCert = "ServicePrincipalCert",
+    // (undocumented)
     ServicePrincipalKey = "ServicePrincipalKey"
 }
 
 // @public
 export enum KnownSftpAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     MultiFactor = "MultiFactor",
+    // (undocumented)
     SshPublicKey = "SshPublicKey"
 }
 
 // @public
 export enum KnownSparkAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Username = "Username",
+    // (undocumented)
     UsernameAndPassword = "UsernameAndPassword",
+    // (undocumented)
     WindowsAzureHDInsightService = "WindowsAzureHDInsightService"
 }
 
 // @public
+export enum KnownSparkJobReferenceType {
+    // (undocumented)
+    SparkJobDefinitionReference = "SparkJobDefinitionReference"
+}
+
+// @public
 export enum KnownSparkServerType {
+    // (undocumented)
     SharkServer = "SharkServer",
+    // (undocumented)
     SharkServer2 = "SharkServer2",
+    // (undocumented)
     SparkThriftServer = "SparkThriftServer"
 }
 
 // @public
 export enum KnownSparkThriftTransportProtocol {
+    // (undocumented)
     Binary = "Binary",
+    // (undocumented)
     Http = "HTTP ",
+    // (undocumented)
     Sasl = "SASL"
 }
 
 // @public
 export enum KnownSqlAlwaysEncryptedAkvAuthType {
+    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
     ServicePrincipal = "ServicePrincipal",
+    // (undocumented)
     UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
 }
 
 // @public
 export enum KnownSqlDWWriteBehaviorEnum {
+    // (undocumented)
     Insert = "Insert",
+    // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
 export enum KnownSqlPartitionOption {
+    // (undocumented)
     DynamicRange = "DynamicRange",
+    // (undocumented)
     None = "None",
+    // (undocumented)
     PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable"
 }
 
 // @public
 export enum KnownSqlWriteBehaviorEnum {
+    // (undocumented)
     Insert = "Insert",
+    // (undocumented)
     StoredProcedure = "StoredProcedure",
+    // (undocumented)
     Upsert = "Upsert"
 }
 
 // @public
 export enum KnownSsisLogLocationType {
+    // (undocumented)
     File = "File"
 }
 
 // @public
 export enum KnownSsisObjectMetadataType {
+    // (undocumented)
     Environment = "Environment",
+    // (undocumented)
     Folder = "Folder",
+    // (undocumented)
     Package = "Package",
+    // (undocumented)
     Project = "Project"
 }
 
 // @public
 export enum KnownSsisPackageLocationType {
+    // (undocumented)
     File = "File",
+    // (undocumented)
     InlinePackage = "InlinePackage",
+    // (undocumented)
     PackageStore = "PackageStore",
+    // (undocumented)
     Ssisdb = "SSISDB"
 }
 
 // @public
 export enum KnownStoredProcedureParameterType {
+    // (undocumented)
     Boolean = "Boolean",
+    // (undocumented)
     Date = "Date",
+    // (undocumented)
     Decimal = "Decimal",
+    // (undocumented)
     Guid = "Guid",
+    // (undocumented)
     Int = "Int",
+    // (undocumented)
     Int64 = "Int64",
+    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownSybaseAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownTeamDeskAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Token = "Token"
 }
 
 // @public
 export enum KnownTeradataAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownTeradataPartitionOption {
+    // (undocumented)
     DynamicRange = "DynamicRange",
+    // (undocumented)
     Hash = "Hash",
+    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownTriggerReferenceType {
+    // (undocumented)
     TriggerReference = "TriggerReference"
 }
 
 // @public
 export enum KnownTriggerRunStatus {
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     Inprogress = "Inprogress",
+    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownTriggerRuntimeState {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Started = "Started",
+    // (undocumented)
     Stopped = "Stopped"
 }
 
 // @public
 export enum KnownTumblingWindowFrequency {
+    // (undocumented)
     Hour = "Hour",
+    // (undocumented)
     Minute = "Minute",
+    // (undocumented)
     Month = "Month"
 }
 
 // @public
 export enum KnownType {
+    // (undocumented)
     LinkedServiceReference = "LinkedServiceReference"
 }
 
 // @public
 export enum KnownVariableType {
+    // (undocumented)
     Array = "Array",
+    // (undocumented)
     Bool = "Bool",
+    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownWebActivityMethod {
+    // (undocumented)
     Delete = "DELETE",
+    // (undocumented)
     GET = "GET",
+    // (undocumented)
     Post = "POST",
+    // (undocumented)
     PUT = "PUT"
 }
 
 // @public
 export enum KnownWebAuthenticationType {
+    // (undocumented)
     Anonymous = "Anonymous",
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     ClientCertificate = "ClientCertificate"
 }
 
 // @public
 export enum KnownWebHookActivityMethod {
+    // (undocumented)
     Post = "POST"
 }
 
 // @public
 export enum KnownZendeskAuthenticationType {
+    // (undocumented)
     Basic = "Basic",
+    // (undocumented)
     Token = "Token"
 }
 
@@ -4785,17 +5190,17 @@ export interface LinkedIntegrationRuntime {
 }
 
 // @public
-export interface LinkedIntegrationRuntimeKeyAuthorization extends LinkedIntegrationRuntimeType {
+export type LinkedIntegrationRuntimeKeyAuthorization = LinkedIntegrationRuntimeType & {
     authorizationType: "Key";
     key: SecureString;
-}
+};
 
 // @public
-export interface LinkedIntegrationRuntimeRbacAuthorization extends LinkedIntegrationRuntimeType {
+export type LinkedIntegrationRuntimeRbacAuthorization = LinkedIntegrationRuntimeType & {
     authorizationType: "RBAC";
-    credential?: CredentialReference;
     resourceId: string;
-}
+    credential?: CredentialReference;
+};
 
 // @public
 export interface LinkedIntegrationRuntimeRequest {
@@ -4819,13 +5224,13 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList" | "AzureSynapseArtifacts";
 }
 
 // @public
-export interface LinkedServiceDebugResource extends SubResourceDebugResource {
+export type LinkedServiceDebugResource = SubResourceDebugResource & {
     properties: LinkedServiceUnion;
-}
+};
 
 // @public
 export interface LinkedServiceListResponse {
@@ -4843,9 +5248,9 @@ export interface LinkedServiceReference {
 }
 
 // @public
-export interface LinkedServiceResource extends SubResource {
+export type LinkedServiceResource = SubResource & {
     properties: LinkedServiceUnion;
-}
+};
 
 // @public
 export interface LinkedServices {
@@ -4890,7 +5295,7 @@ export interface LinkedServicesListByFactoryOptionalParams extends coreClient.Op
 export type LinkedServicesListByFactoryResponse = LinkedServiceListResponse;
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | AmazonS3CompatibleLinkedService | OracleCloudStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService;
 
 // @public
 export interface LogLocationSettings {
@@ -4915,51 +5320,51 @@ export interface LogStorageSettings {
 }
 
 // @public
-export interface LookupActivity extends ExecutionActivity {
+export type LookupActivity = ExecutionActivity & {
+    type: "Lookup";
+    source: CopySourceUnion;
     dataset: DatasetReference;
     firstRowOnly?: any;
-    source: CopySourceUnion;
-    type: "Lookup";
-}
+};
 
 // @public
-export interface MagentoLinkedService extends LinkedService {
-    accessToken?: SecretBaseUnion;
-    encryptedCredential?: any;
-    host: any;
+export type MagentoLinkedService = LinkedService & {
     type: "Magento";
+    host: any;
+    accessToken?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface MagentoObjectDataset extends Dataset {
-    tableName?: any;
+export type MagentoObjectDataset = Dataset & {
     type: "MagentoObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface MagentoSource extends TabularSource {
-    query?: any;
+export type MagentoSource = TabularSource & {
     type: "MagentoSource";
-}
+    query?: any;
+};
 
 // @public
-export interface ManagedIdentityCredential extends Credential_2 {
-    resourceId?: string;
+export type ManagedIdentityCredential = Credential_2 & {
     type: "ManagedIdentity";
-}
+    resourceId?: string;
+};
 
 // @public
-export interface ManagedIntegrationRuntime extends IntegrationRuntime {
-    computeProperties?: IntegrationRuntimeComputeProperties;
-    customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
-    managedVirtualNetwork?: ManagedVirtualNetworkReference;
-    ssisProperties?: IntegrationRuntimeSsisProperties;
-    readonly state?: IntegrationRuntimeState;
+export type ManagedIntegrationRuntime = IntegrationRuntime & {
     type: "Managed";
-}
+    readonly state?: IntegrationRuntimeState;
+    managedVirtualNetwork?: ManagedVirtualNetworkReference;
+    computeProperties?: IntegrationRuntimeComputeProperties;
+    ssisProperties?: IntegrationRuntimeSsisProperties;
+    customerVirtualNetwork?: IntegrationRuntimeCustomerVirtualNetwork;
+};
 
 // @public
 export interface ManagedIntegrationRuntimeError {
@@ -4993,13 +5398,13 @@ export interface ManagedIntegrationRuntimeOperationResult {
 }
 
 // @public
-export interface ManagedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
+export type ManagedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
+    type: "Managed";
     readonly createTime?: Date;
-    readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
     readonly nodes?: ManagedIntegrationRuntimeNode[];
     readonly otherErrors?: ManagedIntegrationRuntimeError[];
-    type: "Managed";
-}
+    readonly lastOperation?: ManagedIntegrationRuntimeOperationResult;
+};
 
 // @public
 export interface ManagedPrivateEndpoint {
@@ -5019,9 +5424,9 @@ export interface ManagedPrivateEndpointListResponse {
 }
 
 // @public
-export interface ManagedPrivateEndpointResource extends SubResource {
+export type ManagedPrivateEndpointResource = SubResource & {
     properties: ManagedPrivateEndpoint;
-}
+};
 
 // @public
 export interface ManagedPrivateEndpoints {
@@ -5088,9 +5493,9 @@ export interface ManagedVirtualNetworkReference {
 export type ManagedVirtualNetworkReferenceType = string;
 
 // @public
-export interface ManagedVirtualNetworkResource extends SubResource {
+export type ManagedVirtualNetworkResource = SubResource & {
     properties: ManagedVirtualNetwork;
-}
+};
 
 // @public
 export interface ManagedVirtualNetworks {
@@ -5130,58 +5535,58 @@ export interface ManagedVirtualNetworksListByFactoryOptionalParams extends coreC
 export type ManagedVirtualNetworksListByFactoryResponse = ManagedVirtualNetworkListResponse;
 
 // @public
-export interface MappingDataFlow extends DataFlow {
+export type MappingDataFlow = DataFlow & {
+    type: "MappingDataFlow";
+    sources?: DataFlowSource[];
+    sinks?: DataFlowSink[];
+    transformations?: Transformation[];
     script?: string;
     scriptLines?: string[];
-    sinks?: DataFlowSink[];
-    sources?: DataFlowSource[];
-    transformations?: Transformation[];
-    type: "MappingDataFlow";
-}
+};
 
 // @public
-export interface MariaDBLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
+export type MariaDBLinkedService = LinkedService & {
     type: "MariaDB";
-}
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface MariaDBSource extends TabularSource {
-    query?: any;
+export type MariaDBSource = TabularSource & {
     type: "MariaDBSource";
-}
+    query?: any;
+};
 
 // @public
-export interface MariaDBTableDataset extends Dataset {
-    tableName?: any;
+export type MariaDBTableDataset = Dataset & {
     type: "MariaDBTable";
-}
+    tableName?: any;
+};
 
 // @public
-export interface MarketoLinkedService extends LinkedService {
+export type MarketoLinkedService = LinkedService & {
+    type: "Marketo";
+    endpoint: any;
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
-    endpoint: any;
-    type: "Marketo";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface MarketoObjectDataset extends Dataset {
-    tableName?: any;
+export type MarketoObjectDataset = Dataset & {
     type: "MarketoObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface MarketoSource extends TabularSource {
-    query?: any;
+export type MarketoSource = TabularSource & {
     type: "MarketoSource";
-}
+    query?: any;
+};
 
 // @public
 export interface MetadataItem {
@@ -5190,72 +5595,72 @@ export interface MetadataItem {
 }
 
 // @public
-export interface MicrosoftAccessLinkedService extends LinkedService {
-    authenticationType?: any;
-    connectionString: any;
-    credential?: SecretBaseUnion;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type MicrosoftAccessLinkedService = LinkedService & {
     type: "MicrosoftAccess";
+    connectionString: any;
+    authenticationType?: any;
+    credential?: SecretBaseUnion;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface MicrosoftAccessSink extends CopySink {
-    preCopyScript?: any;
+export type MicrosoftAccessSink = CopySink & {
     type: "MicrosoftAccessSink";
-}
+    preCopyScript?: any;
+};
 
 // @public
-export interface MicrosoftAccessSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type MicrosoftAccessSource = CopySource & {
     type: "MicrosoftAccessSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface MicrosoftAccessTableDataset extends Dataset {
-    tableName?: any;
+export type MicrosoftAccessTableDataset = Dataset & {
     type: "MicrosoftAccessTable";
-}
+    tableName?: any;
+};
 
 // @public
-export interface MongoDbAtlasCollectionDataset extends Dataset {
-    collection: any;
+export type MongoDbAtlasCollectionDataset = Dataset & {
     type: "MongoDbAtlasCollection";
-}
+    collection: any;
+};
 
 // @public
-export interface MongoDbAtlasLinkedService extends LinkedService {
+export type MongoDbAtlasLinkedService = LinkedService & {
+    type: "MongoDbAtlas";
     connectionString: any;
     database: any;
-    type: "MongoDbAtlas";
-}
+};
 
 // @public
-export interface MongoDbAtlasSink extends CopySink {
+export type MongoDbAtlasSink = CopySink & {
     type: "MongoDbAtlasSink";
     writeBehavior?: any;
-}
+};
 
 // @public
-export interface MongoDbAtlasSource extends CopySource {
-    additionalColumns?: any;
-    batchSize?: any;
-    cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: any;
-    queryTimeout?: any;
+export type MongoDbAtlasSource = CopySource & {
     type: "MongoDbAtlasSource";
-}
+    filter?: any;
+    cursorMethods?: MongoDbCursorMethodsProperties;
+    batchSize?: any;
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public
 export type MongoDbAuthenticationType = string;
 
 // @public
-export interface MongoDbCollectionDataset extends Dataset {
-    collectionName: any;
+export type MongoDbCollectionDataset = Dataset & {
     type: "MongoDbCollection";
-}
+    collectionName: any;
+};
 
 // @public
 export interface MongoDbCursorMethodsProperties {
@@ -5267,92 +5672,92 @@ export interface MongoDbCursorMethodsProperties {
 }
 
 // @public
-export interface MongoDbLinkedService extends LinkedService {
-    allowSelfSignedServerCert?: any;
-    authenticationType?: MongoDbAuthenticationType;
-    authSource?: any;
-    databaseName: any;
-    enableSsl?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    server: any;
+export type MongoDbLinkedService = LinkedService & {
     type: "MongoDb";
+    server: any;
+    authenticationType?: MongoDbAuthenticationType;
+    databaseName: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    authSource?: any;
+    port?: any;
+    enableSsl?: any;
+    allowSelfSignedServerCert?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface MongoDbSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type MongoDbSource = CopySource & {
     type: "MongoDbSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface MongoDbV2CollectionDataset extends Dataset {
-    collection: any;
+export type MongoDbV2CollectionDataset = Dataset & {
     type: "MongoDbV2Collection";
-}
+    collection: any;
+};
 
 // @public
-export interface MongoDbV2LinkedService extends LinkedService {
+export type MongoDbV2LinkedService = LinkedService & {
+    type: "MongoDbV2";
     connectionString: any;
     database: any;
-    type: "MongoDbV2";
-}
+};
 
 // @public
-export interface MongoDbV2Sink extends CopySink {
+export type MongoDbV2Sink = CopySink & {
     type: "MongoDbV2Sink";
     writeBehavior?: any;
-}
+};
 
 // @public
-export interface MongoDbV2Source extends CopySource {
-    additionalColumns?: any;
-    batchSize?: any;
-    cursorMethods?: MongoDbCursorMethodsProperties;
-    filter?: any;
-    queryTimeout?: any;
+export type MongoDbV2Source = CopySource & {
     type: "MongoDbV2Source";
-}
+    filter?: any;
+    cursorMethods?: MongoDbCursorMethodsProperties;
+    batchSize?: any;
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface MultiplePipelineTrigger extends Trigger {
-    pipelines?: TriggerPipelineReference[];
+export type MultiplePipelineTrigger = Trigger & {
     type: "MultiplePipelineTrigger" | "ScheduleTrigger" | "BlobTrigger" | "BlobEventsTrigger" | "CustomEventsTrigger";
-}
+    pipelines?: TriggerPipelineReference[];
+};
 
 // @public (undocumented)
 export type MultiplePipelineTriggerUnion = MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger;
 
 // @public
-export interface MySqlLinkedService extends LinkedService {
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
+export type MySqlLinkedService = LinkedService & {
     type: "MySql";
-}
-
-// @public
-export interface MySqlSource extends TabularSource {
-    query?: any;
-    type: "MySqlSource";
-}
-
-// @public
-export interface MySqlTableDataset extends Dataset {
-    tableName?: any;
-    type: "MySqlTable";
-}
-
-// @public
-export interface NetezzaLinkedService extends LinkedService {
-    connectionString?: any;
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
     encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
+};
+
+// @public
+export type MySqlSource = TabularSource & {
+    type: "MySqlSource";
+    query?: any;
+};
+
+// @public
+export type MySqlTableDataset = Dataset & {
+    type: "MySqlTable";
+    tableName?: any;
+};
+
+// @public
+export type NetezzaLinkedService = LinkedService & {
     type: "Netezza";
-}
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
 export type NetezzaPartitionOption = string;
@@ -5365,20 +5770,32 @@ export interface NetezzaPartitionSettings {
 }
 
 // @public
-export interface NetezzaSource extends TabularSource {
+export type NetezzaSource = TabularSource & {
+    type: "NetezzaSource";
+    query?: any;
     partitionOption?: any;
     partitionSettings?: NetezzaPartitionSettings;
-    query?: any;
-    type: "NetezzaSource";
+};
+
+// @public
+export type NetezzaTableDataset = Dataset & {
+    type: "NetezzaTable";
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
+
+// @public
+export interface NotebookParameter {
+    type?: NotebookParameterType;
+    value?: any;
 }
 
 // @public
-export interface NetezzaTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
-    type: "NetezzaTable";
-}
+export type NotebookParameterType = string;
+
+// @public
+export type NotebookReferenceType = string;
 
 // @public
 export type ODataAadServicePrincipalCredentialType = string;
@@ -5387,94 +5804,94 @@ export type ODataAadServicePrincipalCredentialType = string;
 export type ODataAuthenticationType = string;
 
 // @public
-export interface ODataLinkedService extends LinkedService {
-    aadResourceId?: any;
-    aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
-    authenticationType?: ODataAuthenticationType;
-    authHeaders?: any;
-    azureCloudType?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    servicePrincipalEmbeddedCert?: SecretBaseUnion;
-    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
-    servicePrincipalId?: any;
-    servicePrincipalKey?: SecretBaseUnion;
-    tenant?: any;
+export type ODataLinkedService = LinkedService & {
     type: "OData";
     url: any;
+    authenticationType?: ODataAuthenticationType;
     userName?: any;
-}
-
-// @public
-export interface ODataResourceDataset extends Dataset {
-    path?: any;
-    type: "ODataResource";
-}
-
-// @public
-export interface ODataSource extends CopySource {
-    additionalColumns?: any;
-    httpRequestTimeout?: any;
-    query?: any;
-    type: "ODataSource";
-}
-
-// @public
-export interface OdbcLinkedService extends LinkedService {
-    authenticationType?: any;
-    connectionString: any;
-    credential?: SecretBaseUnion;
-    encryptedCredential?: any;
     password?: SecretBaseUnion;
-    type: "Odbc";
-    userName?: any;
-}
-
-// @public
-export interface OdbcSink extends CopySink {
-    preCopyScript?: any;
-    type: "OdbcSink";
-}
-
-// @public
-export interface OdbcSource extends TabularSource {
-    query?: any;
-    type: "OdbcSource";
-}
-
-// @public
-export interface OdbcTableDataset extends Dataset {
-    tableName?: any;
-    type: "OdbcTable";
-}
-
-// @public
-export interface Office365Dataset extends Dataset {
-    predicate?: any;
-    tableName: any;
-    type: "Office365Table";
-}
-
-// @public
-export interface Office365LinkedService extends LinkedService {
+    authHeaders?: any;
+    tenant?: any;
+    servicePrincipalId?: any;
+    azureCloudType?: any;
+    aadResourceId?: any;
+    aadServicePrincipalCredentialType?: ODataAadServicePrincipalCredentialType;
+    servicePrincipalKey?: SecretBaseUnion;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
     encryptedCredential?: any;
+};
+
+// @public
+export type ODataResourceDataset = Dataset & {
+    type: "ODataResource";
+    path?: any;
+};
+
+// @public
+export type ODataSource = CopySource & {
+    type: "ODataSource";
+    query?: any;
+    httpRequestTimeout?: any;
+    additionalColumns?: any;
+};
+
+// @public
+export type OdbcLinkedService = LinkedService & {
+    type: "Odbc";
+    connectionString: any;
+    authenticationType?: any;
+    credential?: SecretBaseUnion;
+    userName?: any;
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
+
+// @public
+export type OdbcSink = CopySink & {
+    type: "OdbcSink";
+    preCopyScript?: any;
+};
+
+// @public
+export type OdbcSource = TabularSource & {
+    type: "OdbcSource";
+    query?: any;
+};
+
+// @public
+export type OdbcTableDataset = Dataset & {
+    type: "OdbcTable";
+    tableName?: any;
+};
+
+// @public
+export type Office365Dataset = Dataset & {
+    type: "Office365Table";
+    tableName: any;
+    predicate?: any;
+};
+
+// @public
+export type Office365LinkedService = LinkedService & {
+    type: "Office365";
     office365TenantId: any;
+    servicePrincipalTenantId: any;
     servicePrincipalId: any;
     servicePrincipalKey: SecretBaseUnion;
-    servicePrincipalTenantId: any;
-    type: "Office365";
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface Office365Source extends CopySource {
+export type Office365Source = CopySource & {
+    type: "Office365Source";
     allowedGroups?: any;
+    userScopeFilterUri?: any;
     dateFilterColumn?: any;
+    startTime?: any;
     endTime?: any;
     outputColumns?: any;
-    startTime?: any;
-    type: "Office365Source";
-    userScopeFilterUri?: any;
-}
+};
 
 // @public
 export interface Operation {
@@ -5558,43 +5975,43 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResponse;
 
 // @public
-export interface OracleCloudStorageLinkedService extends LinkedService {
+export type OracleCloudStorageLinkedService = LinkedService & {
+    type: "OracleCloudStorage";
     accessKeyId?: any;
-    encryptedCredential?: any;
     secretAccessKey?: SecretBaseUnion;
     serviceUrl?: any;
-    type: "OracleCloudStorage";
-}
-
-// @public
-export interface OracleCloudStorageLocation extends DatasetLocation {
-    bucketName?: any;
-    type: "OracleCloudStorageLocation";
-    version?: any;
-}
-
-// @public
-export interface OracleCloudStorageReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    prefix?: any;
-    recursive?: any;
-    type: "OracleCloudStorageReadSettings";
-    wildcardFileName?: any;
-    wildcardFolderPath?: any;
-}
-
-// @public
-export interface OracleLinkedService extends LinkedService {
-    connectionString: any;
     encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
+};
+
+// @public
+export type OracleCloudStorageLocation = DatasetLocation & {
+    type: "OracleCloudStorageLocation";
+    bucketName?: any;
+    version?: any;
+};
+
+// @public
+export type OracleCloudStorageReadSettings = StoreReadSettings & {
+    type: "OracleCloudStorageReadSettings";
+    recursive?: any;
+    wildcardFolderPath?: any;
+    wildcardFileName?: any;
+    prefix?: any;
+    fileListPath?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+};
+
+// @public
+export type OracleLinkedService = LinkedService & {
     type: "Oracle";
-}
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
 export type OraclePartitionOption = string;
@@ -5608,88 +6025,88 @@ export interface OraclePartitionSettings {
 }
 
 // @public
-export interface OracleServiceCloudLinkedService extends LinkedService {
-    encryptedCredential?: any;
-    host: any;
-    password: SecretBaseUnion;
+export type OracleServiceCloudLinkedService = LinkedService & {
     type: "OracleServiceCloud";
+    host: any;
+    username: any;
+    password: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-    username: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface OracleServiceCloudObjectDataset extends Dataset {
-    tableName?: any;
+export type OracleServiceCloudObjectDataset = Dataset & {
     type: "OracleServiceCloudObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface OracleServiceCloudSource extends TabularSource {
-    query?: any;
+export type OracleServiceCloudSource = TabularSource & {
     type: "OracleServiceCloudSource";
-}
+    query?: any;
+};
 
 // @public
-export interface OracleSink extends CopySink {
-    preCopyScript?: any;
+export type OracleSink = CopySink & {
     type: "OracleSink";
-}
+    preCopyScript?: any;
+};
 
 // @public
-export interface OracleSource extends CopySource {
-    additionalColumns?: any;
+export type OracleSource = CopySource & {
+    type: "OracleSource";
     oracleReaderQuery?: any;
+    queryTimeout?: any;
     partitionOption?: any;
     partitionSettings?: OraclePartitionSettings;
-    queryTimeout?: any;
-    type: "OracleSource";
-}
+    additionalColumns?: any;
+};
 
 // @public
-export interface OracleTableDataset extends Dataset {
+export type OracleTableDataset = Dataset & {
+    type: "OracleTable";
+    tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
-    tableName?: any;
-    type: "OracleTable";
-}
+};
 
 // @public
 export type OrcCompressionCodec = string;
 
 // @public
-export interface OrcDataset extends Dataset {
+export type OrcDataset = Dataset & {
+    type: "Orc";
     location?: DatasetLocationUnion;
     orcCompressionCodec?: any;
-    type: "Orc";
-}
+};
 
 // @public
-export interface OrcFormat extends DatasetStorageFormat {
+export type OrcFormat = DatasetStorageFormat & {
     type: "OrcFormat";
-}
+};
 
 // @public
-export interface OrcSink extends CopySink {
-    formatSettings?: OrcWriteSettings;
-    storeSettings?: StoreWriteSettingsUnion;
+export type OrcSink = CopySink & {
     type: "OrcSink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: OrcWriteSettings;
+};
 
 // @public
-export interface OrcSource extends CopySource {
-    additionalColumns?: any;
-    storeSettings?: StoreReadSettingsUnion;
+export type OrcSource = CopySource & {
     type: "OrcSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: any;
+};
 
 // @public
-export interface OrcWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: any;
-    maxRowsPerFile?: any;
+export type OrcWriteSettings = FormatWriteSettings & {
     type: "OrcWriteSettings";
-}
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
+};
 
 // @public
 export interface PackageStore {
@@ -5707,95 +6124,98 @@ export interface ParameterSpecification {
 export type ParameterType = string;
 
 // @public
-export interface ParquetDataset extends Dataset {
-    compressionCodec?: any;
-    location?: DatasetLocationUnion;
+export type ParquetCompressionCodecEnum = string;
+
+// @public
+export type ParquetDataset = Dataset & {
     type: "Parquet";
-}
+    location?: DatasetLocationUnion;
+    compressionCodec?: any;
+};
 
 // @public
-export interface ParquetFormat extends DatasetStorageFormat {
+export type ParquetFormat = DatasetStorageFormat & {
     type: "ParquetFormat";
-}
+};
 
 // @public
-export interface ParquetSink extends CopySink {
-    formatSettings?: ParquetWriteSettings;
-    storeSettings?: StoreWriteSettingsUnion;
+export type ParquetSink = CopySink & {
     type: "ParquetSink";
-}
+    storeSettings?: StoreWriteSettingsUnion;
+    formatSettings?: ParquetWriteSettings;
+};
 
 // @public
-export interface ParquetSource extends CopySource {
-    additionalColumns?: any;
-    storeSettings?: StoreReadSettingsUnion;
+export type ParquetSource = CopySource & {
     type: "ParquetSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    additionalColumns?: any;
+};
 
 // @public
-export interface ParquetWriteSettings extends FormatWriteSettings {
-    fileNamePrefix?: any;
-    maxRowsPerFile?: any;
+export type ParquetWriteSettings = FormatWriteSettings & {
     type: "ParquetWriteSettings";
-}
+    maxRowsPerFile?: any;
+    fileNamePrefix?: any;
+};
 
 // @public
-export interface PaypalLinkedService extends LinkedService {
+export type PaypalLinkedService = LinkedService & {
+    type: "Paypal";
+    host: any;
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
-    host: any;
-    type: "Paypal";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface PaypalObjectDataset extends Dataset {
-    tableName?: any;
+export type PaypalObjectDataset = Dataset & {
     type: "PaypalObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface PaypalSource extends TabularSource {
-    query?: any;
+export type PaypalSource = TabularSource & {
     type: "PaypalSource";
-}
+    query?: any;
+};
 
 // @public
 export type PhoenixAuthenticationType = string;
 
 // @public
-export interface PhoenixLinkedService extends LinkedService {
+export type PhoenixLinkedService = LinkedService & {
+    type: "Phoenix";
+    host: any;
+    port?: any;
+    httpPath?: any;
+    authenticationType: PhoenixAuthenticationType;
+    username?: any;
+    password?: SecretBaseUnion;
+    enableSsl?: any;
+    trustedCertPath?: any;
+    useSystemTrustStore?: any;
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
-    authenticationType: PhoenixAuthenticationType;
-    enableSsl?: any;
     encryptedCredential?: any;
-    host: any;
-    httpPath?: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    trustedCertPath?: any;
-    type: "Phoenix";
-    username?: any;
-    useSystemTrustStore?: any;
-}
+};
 
 // @public
-export interface PhoenixObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type PhoenixObjectDataset = Dataset & {
     type: "PhoenixObject";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface PhoenixSource extends TabularSource {
-    query?: any;
+export type PhoenixSource = TabularSource & {
     type: "PhoenixSource";
-}
+    query?: any;
+};
 
 // @public
 export interface PipelineElapsedTimeMetricPolicy {
@@ -5826,24 +6246,24 @@ export interface PipelineReference {
 }
 
 // @public
-export interface PipelineResource extends SubResource {
+export type PipelineResource = SubResource & {
     [property: string]: any;
-    activities?: ActivityUnion[];
-    annotations?: any[];
-    concurrency?: number;
     description?: string;
-    folder?: PipelineFolder;
+    activities?: ActivityUnion[];
     parameters?: {
         [propertyName: string]: ParameterSpecification;
-    };
-    policy?: PipelinePolicy;
-    runDimensions?: {
-        [propertyName: string]: any;
     };
     variables?: {
         [propertyName: string]: VariableSpecification;
     };
-}
+    concurrency?: number;
+    annotations?: any[];
+    runDimensions?: {
+        [propertyName: string]: any;
+    };
+    folder?: PipelineFolder;
+    policy?: PipelinePolicy;
+};
 
 // @public
 export interface PipelineRun {
@@ -5978,31 +6398,31 @@ export interface PolybaseSettings {
 export type PolybaseSettingsRejectType = string;
 
 // @public
-export interface PostgreSqlLinkedService extends LinkedService {
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
+export type PostgreSqlLinkedService = LinkedService & {
     type: "PostgreSql";
-}
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface PostgreSqlSource extends TabularSource {
-    query?: any;
+export type PostgreSqlSource = TabularSource & {
     type: "PostgreSqlSource";
-}
+    query?: any;
+};
 
 // @public
-export interface PostgreSqlTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type PostgreSqlTableDataset = Dataset & {
     type: "PostgreSqlTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface PowerQuerySink extends DataFlowSink {
+export type PowerQuerySink = DataFlowSink & {
     script?: string;
-}
+};
 
 // @public
 export interface PowerQuerySinkMapping {
@@ -6011,45 +6431,45 @@ export interface PowerQuerySinkMapping {
 }
 
 // @public
-export interface PowerQuerySource extends DataFlowSource {
+export type PowerQuerySource = DataFlowSource & {
     script?: string;
-}
+};
 
 // @public
 export type PrestoAuthenticationType = string;
 
 // @public
-export interface PrestoLinkedService extends LinkedService {
+export type PrestoLinkedService = LinkedService & {
+    type: "Presto";
+    host: any;
+    serverVersion: any;
+    catalog: any;
+    port?: any;
+    authenticationType: PrestoAuthenticationType;
+    username?: any;
+    password?: SecretBaseUnion;
+    enableSsl?: any;
+    trustedCertPath?: any;
+    useSystemTrustStore?: any;
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
-    authenticationType: PrestoAuthenticationType;
-    catalog: any;
-    enableSsl?: any;
-    encryptedCredential?: any;
-    host: any;
-    password?: SecretBaseUnion;
-    port?: any;
-    serverVersion: any;
     timeZoneID?: any;
-    trustedCertPath?: any;
-    type: "Presto";
-    username?: any;
-    useSystemTrustStore?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface PrestoObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type PrestoObjectDataset = Dataset & {
     type: "PrestoObject";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface PrestoSource extends TabularSource {
-    query?: any;
+export type PrestoSource = TabularSource & {
     type: "PrestoSource";
-}
+    query?: any;
+};
 
 // @public
 export interface PrivateEndpoint {
@@ -6090,9 +6510,9 @@ export interface PrivateEndpointConnectionListResponse {
 }
 
 // @public
-export interface PrivateEndpointConnectionResource extends SubResource {
+export type PrivateEndpointConnectionResource = SubResource & {
     properties?: RemotePrivateEndpointConnection;
-}
+};
 
 // @public
 export interface PrivateEndPointConnections {
@@ -6120,9 +6540,9 @@ export interface PrivateLinkConnectionApprovalRequest {
 }
 
 // @public
-export interface PrivateLinkConnectionApprovalRequestResource extends SubResource {
+export type PrivateLinkConnectionApprovalRequestResource = SubResource & {
     properties?: PrivateLinkConnectionApprovalRequest;
-}
+};
 
 // @public
 export interface PrivateLinkConnectionState {
@@ -6132,9 +6552,9 @@ export interface PrivateLinkConnectionState {
 }
 
 // @public
-export interface PrivateLinkResource extends SubResource {
+export type PrivateLinkResource = SubResource & {
     properties?: PrivateLinkResourceProperties;
-}
+};
 
 // @public
 export interface PrivateLinkResourceProperties {
@@ -6176,38 +6596,38 @@ export interface QueryDataFlowDebugSessionsResponse {
 }
 
 // @public
-export interface QuickbaseLinkedService extends LinkedService {
-    encryptedCredential?: any;
+export type QuickbaseLinkedService = LinkedService & {
     type: "Quickbase";
     url: any;
     userToken: SecretBaseUnion;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface QuickBooksLinkedService extends LinkedService {
-    accessToken?: SecretBaseUnion;
-    accessTokenSecret?: SecretBaseUnion;
-    companyId?: any;
+export type QuickBooksLinkedService = LinkedService & {
+    type: "QuickBooks";
     connectionProperties?: any;
+    endpoint?: any;
+    companyId?: any;
     consumerKey?: any;
     consumerSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
-    endpoint?: any;
-    type: "QuickBooks";
+    accessToken?: SecretBaseUnion;
+    accessTokenSecret?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface QuickBooksObjectDataset extends Dataset {
-    tableName?: any;
+export type QuickBooksObjectDataset = Dataset & {
     type: "QuickBooksObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface QuickBooksSource extends TabularSource {
-    query?: any;
+export type QuickBooksSource = TabularSource & {
     type: "QuickBooksSource";
-}
+    query?: any;
+};
 
 // @public
 export type RecurrenceFrequency = string;
@@ -6243,17 +6663,17 @@ export interface RedshiftUnloadSettings {
 }
 
 // @public
-export interface RelationalSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
+export type RelationalSource = CopySource & {
     type: "RelationalSource";
-}
+    query?: any;
+    additionalColumns?: any;
+};
 
 // @public
-export interface RelationalTableDataset extends Dataset {
-    tableName?: any;
+export type RelationalTableDataset = Dataset & {
     type: "RelationalTable";
-}
+    tableName?: any;
+};
 
 // @public
 export interface RemotePrivateEndpointConnection {
@@ -6263,13 +6683,13 @@ export interface RemotePrivateEndpointConnection {
 }
 
 // @public
-export interface RerunTumblingWindowTrigger extends Trigger {
-    parentTrigger: any;
-    requestedEndTime: Date;
-    requestedStartTime: Date;
-    rerunConcurrency: number;
+export type RerunTumblingWindowTrigger = Trigger & {
     type: "RerunTumblingWindowTrigger";
-}
+    parentTrigger: any;
+    requestedStartTime: Date;
+    requestedEndTime: Date;
+    rerunConcurrency: number;
+};
 
 // @public
 export interface Resource {
@@ -6284,86 +6704,86 @@ export interface Resource {
 }
 
 // @public
-export interface ResponsysLinkedService extends LinkedService {
+export type ResponsysLinkedService = LinkedService & {
+    type: "Responsys";
+    endpoint: any;
     clientId: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
-    endpoint: any;
-    type: "Responsys";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface ResponsysObjectDataset extends Dataset {
-    tableName?: any;
+export type ResponsysObjectDataset = Dataset & {
     type: "ResponsysObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface ResponsysSource extends TabularSource {
-    query?: any;
+export type ResponsysSource = TabularSource & {
     type: "ResponsysSource";
-}
+    query?: any;
+};
 
 // @public
-export interface RestResourceDataset extends Dataset {
+export type RestResourceDataset = Dataset & {
+    type: "RestResource";
+    relativeUrl?: any;
+    requestMethod?: any;
+    requestBody?: any;
     additionalHeaders?: any;
     paginationRules?: any;
-    relativeUrl?: any;
-    requestBody?: any;
-    requestMethod?: any;
-    type: "RestResource";
-}
+};
 
 // @public
 export type RestServiceAuthenticationType = string;
 
 // @public
-export interface RestServiceLinkedService extends LinkedService {
-    aadResourceId?: any;
-    authenticationType: RestServiceAuthenticationType;
-    authHeaders?: any;
-    azureCloudType?: any;
-    clientId?: any;
-    clientSecret?: SecretBaseUnion;
-    credential?: CredentialReference;
+export type RestServiceLinkedService = LinkedService & {
+    type: "RestService";
+    url: any;
     enableServerCertificateValidation?: any;
-    encryptedCredential?: any;
+    authenticationType: RestServiceAuthenticationType;
+    userName?: any;
     password?: SecretBaseUnion;
-    resource?: any;
-    scope?: any;
+    authHeaders?: any;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
+    azureCloudType?: any;
+    aadResourceId?: any;
+    encryptedCredential?: any;
+    credential?: CredentialReference;
+    clientId?: any;
+    clientSecret?: SecretBaseUnion;
     tokenEndpoint?: any;
-    type: "RestService";
-    url: any;
-    userName?: any;
-}
+    resource?: any;
+    scope?: any;
+};
 
 // @public
-export interface RestSink extends CopySink {
-    additionalHeaders?: any;
-    httpCompressionType?: any;
-    httpRequestTimeout?: any;
-    requestInterval?: any;
-    requestMethod?: any;
+export type RestSink = CopySink & {
     type: "RestSink";
-}
-
-// @public
-export interface RestSource extends CopySource {
-    additionalColumns?: any;
+    requestMethod?: any;
     additionalHeaders?: any;
     httpRequestTimeout?: any;
-    paginationRules?: any;
-    requestBody?: any;
     requestInterval?: any;
-    requestMethod?: any;
+    httpCompressionType?: any;
+};
+
+// @public
+export type RestSource = CopySource & {
     type: "RestSource";
-}
+    requestMethod?: any;
+    requestBody?: any;
+    additionalHeaders?: any;
+    paginationRules?: any;
+    httpRequestTimeout?: any;
+    requestInterval?: any;
+    additionalColumns?: any;
+};
 
 // @public
 export interface RetryPolicy {
@@ -6406,190 +6826,190 @@ export interface RunQueryOrderBy {
 export type RunQueryOrderByField = string;
 
 // @public
-export interface SalesforceLinkedService extends LinkedService {
-    apiVersion?: any;
-    encryptedCredential?: any;
+export type SalesforceLinkedService = LinkedService & {
+    type: "Salesforce";
     environmentUrl?: any;
+    username?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
-    type: "Salesforce";
-    username?: any;
-}
+    apiVersion?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SalesforceMarketingCloudLinkedService extends LinkedService {
+export type SalesforceMarketingCloudLinkedService = LinkedService & {
+    type: "SalesforceMarketingCloud";
+    connectionProperties?: any;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
-    connectionProperties?: any;
-    encryptedCredential?: any;
-    type: "SalesforceMarketingCloud";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
-
-// @public
-export interface SalesforceMarketingCloudObjectDataset extends Dataset {
-    tableName?: any;
-    type: "SalesforceMarketingCloudObject";
-}
-
-// @public
-export interface SalesforceMarketingCloudSource extends TabularSource {
-    query?: any;
-    type: "SalesforceMarketingCloudSource";
-}
-
-// @public
-export interface SalesforceObjectDataset extends Dataset {
-    objectApiName?: any;
-    type: "SalesforceObject";
-}
-
-// @public
-export interface SalesforceServiceCloudLinkedService extends LinkedService {
-    apiVersion?: any;
     encryptedCredential?: any;
+};
+
+// @public
+export type SalesforceMarketingCloudObjectDataset = Dataset & {
+    type: "SalesforceMarketingCloudObject";
+    tableName?: any;
+};
+
+// @public
+export type SalesforceMarketingCloudSource = TabularSource & {
+    type: "SalesforceMarketingCloudSource";
+    query?: any;
+};
+
+// @public
+export type SalesforceObjectDataset = Dataset & {
+    type: "SalesforceObject";
+    objectApiName?: any;
+};
+
+// @public
+export type SalesforceServiceCloudLinkedService = LinkedService & {
+    type: "SalesforceServiceCloud";
     environmentUrl?: any;
-    extendedProperties?: any;
+    username?: any;
     password?: SecretBaseUnion;
     securityToken?: SecretBaseUnion;
-    type: "SalesforceServiceCloud";
-    username?: any;
-}
+    apiVersion?: any;
+    extendedProperties?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SalesforceServiceCloudObjectDataset extends Dataset {
-    objectApiName?: any;
+export type SalesforceServiceCloudObjectDataset = Dataset & {
     type: "SalesforceServiceCloudObject";
-}
+    objectApiName?: any;
+};
 
 // @public
-export interface SalesforceServiceCloudSink extends CopySink {
-    externalIdFieldName?: any;
-    ignoreNullValues?: any;
+export type SalesforceServiceCloudSink = CopySink & {
     type: "SalesforceServiceCloudSink";
     writeBehavior?: SalesforceSinkWriteBehavior;
-}
-
-// @public
-export interface SalesforceServiceCloudSource extends CopySource {
-    additionalColumns?: any;
-    query?: any;
-    readBehavior?: SalesforceSourceReadBehavior;
-    type: "SalesforceServiceCloudSource";
-}
-
-// @public
-export interface SalesforceSink extends CopySink {
     externalIdFieldName?: any;
     ignoreNullValues?: any;
+};
+
+// @public
+export type SalesforceServiceCloudSource = CopySource & {
+    type: "SalesforceServiceCloudSource";
+    query?: any;
+    readBehavior?: SalesforceSourceReadBehavior;
+    additionalColumns?: any;
+};
+
+// @public
+export type SalesforceSink = CopySink & {
     type: "SalesforceSink";
     writeBehavior?: SalesforceSinkWriteBehavior;
-}
+    externalIdFieldName?: any;
+    ignoreNullValues?: any;
+};
 
 // @public
 export type SalesforceSinkWriteBehavior = string;
 
 // @public
-export interface SalesforceSource extends TabularSource {
+export type SalesforceSource = TabularSource & {
+    type: "SalesforceSource";
     query?: any;
     readBehavior?: SalesforceSourceReadBehavior;
-    type: "SalesforceSource";
-}
+};
 
 // @public
 export type SalesforceSourceReadBehavior = string;
 
 // @public
-export interface SapBwCubeDataset extends Dataset {
+export type SapBwCubeDataset = Dataset & {
     type: "SapBwCube";
-}
+};
 
 // @public
-export interface SapBWLinkedService extends LinkedService {
-    clientId: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type SapBWLinkedService = LinkedService & {
+    type: "SapBW";
     server: any;
     systemNumber: any;
-    type: "SapBW";
+    clientId: any;
     userName?: any;
-}
-
-// @public
-export interface SapBwSource extends TabularSource {
-    query?: any;
-    type: "SapBwSource";
-}
-
-// @public
-export interface SapCloudForCustomerLinkedService extends LinkedService {
-    encryptedCredential?: any;
     password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
+
+// @public
+export type SapBwSource = TabularSource & {
+    type: "SapBwSource";
+    query?: any;
+};
+
+// @public
+export type SapCloudForCustomerLinkedService = LinkedService & {
     type: "SapCloudForCustomer";
     url: any;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SapCloudForCustomerResourceDataset extends Dataset {
-    path: any;
+export type SapCloudForCustomerResourceDataset = Dataset & {
     type: "SapCloudForCustomerResource";
-}
+    path: any;
+};
 
 // @public
-export interface SapCloudForCustomerSink extends CopySink {
-    httpRequestTimeout?: any;
+export type SapCloudForCustomerSink = CopySink & {
     type: "SapCloudForCustomerSink";
     writeBehavior?: SapCloudForCustomerSinkWriteBehavior;
-}
+    httpRequestTimeout?: any;
+};
 
 // @public
 export type SapCloudForCustomerSinkWriteBehavior = string;
 
 // @public
-export interface SapCloudForCustomerSource extends TabularSource {
-    httpRequestTimeout?: any;
-    query?: any;
+export type SapCloudForCustomerSource = TabularSource & {
     type: "SapCloudForCustomerSource";
-}
+    query?: any;
+    httpRequestTimeout?: any;
+};
 
 // @public
-export interface SapEccLinkedService extends LinkedService {
-    encryptedCredential?: string;
-    password?: SecretBaseUnion;
+export type SapEccLinkedService = LinkedService & {
     type: "SapEcc";
     url: string;
     username?: string;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: string;
+};
 
 // @public
-export interface SapEccResourceDataset extends Dataset {
-    path: any;
+export type SapEccResourceDataset = Dataset & {
     type: "SapEccResource";
-}
+    path: any;
+};
 
 // @public
-export interface SapEccSource extends TabularSource {
-    httpRequestTimeout?: any;
-    query?: any;
+export type SapEccSource = TabularSource & {
     type: "SapEccSource";
-}
+    query?: any;
+    httpRequestTimeout?: any;
+};
 
 // @public
 export type SapHanaAuthenticationType = string;
 
 // @public
-export interface SapHanaLinkedService extends LinkedService {
-    authenticationType?: SapHanaAuthenticationType;
-    connectionString?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    server?: any;
+export type SapHanaLinkedService = LinkedService & {
     type: "SapHana";
+    connectionString?: any;
+    server?: any;
+    authenticationType?: SapHanaAuthenticationType;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
 export type SapHanaPartitionOption = string;
@@ -6600,113 +7020,113 @@ export interface SapHanaPartitionSettings {
 }
 
 // @public
-export interface SapHanaSource extends TabularSource {
+export type SapHanaSource = TabularSource & {
+    type: "SapHanaSource";
+    query?: any;
     packetSize?: any;
     partitionOption?: any;
     partitionSettings?: SapHanaPartitionSettings;
-    query?: any;
-    type: "SapHanaSource";
-}
+};
 
 // @public
-export interface SapHanaTableDataset extends Dataset {
+export type SapHanaTableDataset = Dataset & {
+    type: "SapHanaTable";
     schemaTypePropertiesSchema?: any;
     table?: any;
-    type: "SapHanaTable";
-}
+};
 
 // @public
-export interface SapOdpLinkedService extends LinkedService {
+export type SapOdpLinkedService = LinkedService & {
+    type: "SapOdp";
+    server?: any;
+    systemNumber?: any;
     clientId?: any;
-    encryptedCredential?: any;
     language?: any;
-    logonGroup?: any;
+    systemId?: any;
+    userName?: any;
+    password?: SecretBaseUnion;
     messageServer?: any;
     messageServerService?: any;
-    password?: SecretBaseUnion;
-    server?: any;
-    sncLibraryPath?: any;
     sncMode?: any;
     sncMyName?: any;
     sncPartnerName?: any;
+    sncLibraryPath?: any;
     sncQop?: any;
-    subscriberName?: any;
-    systemId?: any;
-    systemNumber?: any;
-    type: "SapOdp";
-    userName?: any;
     x509CertificatePath?: any;
-}
+    logonGroup?: any;
+    subscriberName?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SapOdpResourceDataset extends Dataset {
+export type SapOdpResourceDataset = Dataset & {
+    type: "SapOdpResource";
     context: any;
     objectName: any;
-    type: "SapOdpResource";
-}
+};
 
 // @public
-export interface SapOdpSource extends TabularSource {
-    extractionMode?: any;
-    projection?: any;
-    selection?: any;
-    subscriberProcess?: any;
+export type SapOdpSource = TabularSource & {
     type: "SapOdpSource";
-}
+    extractionMode?: any;
+    subscriberProcess?: any;
+    selection?: any;
+    projection?: any;
+};
 
 // @public
-export interface SapOpenHubLinkedService extends LinkedService {
+export type SapOpenHubLinkedService = LinkedService & {
+    type: "SapOpenHub";
+    server?: any;
+    systemNumber?: any;
     clientId?: any;
-    encryptedCredential?: any;
     language?: any;
-    logonGroup?: any;
+    systemId?: any;
+    userName?: any;
+    password?: SecretBaseUnion;
     messageServer?: any;
     messageServerService?: any;
-    password?: SecretBaseUnion;
-    server?: any;
-    systemId?: any;
-    systemNumber?: any;
-    type: "SapOpenHub";
-    userName?: any;
-}
+    logonGroup?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SapOpenHubSource extends TabularSource {
+export type SapOpenHubSource = TabularSource & {
+    type: "SapOpenHubSource";
+    excludeLastRequest?: any;
     baseRequestId?: any;
     customRfcReadTableFunctionModule?: any;
-    excludeLastRequest?: any;
     sapDataColumnDelimiter?: any;
-    type: "SapOpenHubSource";
-}
+};
 
 // @public
-export interface SapOpenHubTableDataset extends Dataset {
-    baseRequestId?: any;
-    excludeLastRequest?: any;
-    openHubDestinationName: any;
+export type SapOpenHubTableDataset = Dataset & {
     type: "SapOpenHubTable";
-}
+    openHubDestinationName: any;
+    excludeLastRequest?: any;
+    baseRequestId?: any;
+};
 
 // @public
-export interface SapTableLinkedService extends LinkedService {
+export type SapTableLinkedService = LinkedService & {
+    type: "SapTable";
+    server?: any;
+    systemNumber?: any;
     clientId?: any;
-    encryptedCredential?: any;
     language?: any;
-    logonGroup?: any;
+    systemId?: any;
+    userName?: any;
+    password?: SecretBaseUnion;
     messageServer?: any;
     messageServerService?: any;
-    password?: SecretBaseUnion;
-    server?: any;
-    sncLibraryPath?: any;
     sncMode?: any;
     sncMyName?: any;
     sncPartnerName?: any;
+    sncLibraryPath?: any;
     sncQop?: any;
-    systemId?: any;
-    systemNumber?: any;
-    type: "SapTable";
-    userName?: any;
-}
+    logonGroup?: any;
+    encryptedCredential?: any;
+};
 
 // @public
 export type SapTablePartitionOption = string;
@@ -6720,30 +7140,30 @@ export interface SapTablePartitionSettings {
 }
 
 // @public
-export interface SapTableResourceDataset extends Dataset {
-    tableName: any;
+export type SapTableResourceDataset = Dataset & {
     type: "SapTableResource";
-}
+    tableName: any;
+};
 
 // @public
-export interface SapTableSource extends TabularSource {
-    batchSize?: any;
-    customRfcReadTableFunctionModule?: any;
-    partitionOption?: any;
-    partitionSettings?: SapTablePartitionSettings;
-    rfcTableFields?: any;
-    rfcTableOptions?: any;
+export type SapTableSource = TabularSource & {
+    type: "SapTableSource";
     rowCount?: any;
     rowSkips?: any;
+    rfcTableFields?: any;
+    rfcTableOptions?: any;
+    batchSize?: any;
+    customRfcReadTableFunctionModule?: any;
     sapDataColumnDelimiter?: any;
-    type: "SapTableSource";
-}
+    partitionOption?: any;
+    partitionSettings?: SapTablePartitionSettings;
+};
 
 // @public
-export interface ScheduleTrigger extends MultiplePipelineTrigger {
-    recurrence: ScheduleTriggerRecurrence;
+export type ScheduleTrigger = MultiplePipelineTrigger & {
     type: "ScheduleTrigger";
-}
+    recurrence: ScheduleTriggerRecurrence;
+};
 
 // @public
 export interface ScheduleTriggerRecurrence {
@@ -6765,11 +7185,11 @@ export interface ScriptAction {
 }
 
 // @public
-export interface ScriptActivity extends ExecutionActivity {
-    logSettings?: ScriptActivityTypePropertiesLogSettings;
-    scripts?: ScriptActivityScriptBlock[];
+export type ScriptActivity = ExecutionActivity & {
     type: "Script";
-}
+    scripts?: ScriptActivityScriptBlock[];
+    logSettings?: ScriptActivityTypePropertiesLogSettings;
+};
 
 // @public
 export type ScriptActivityLogDestination = string;
@@ -6814,23 +7234,23 @@ export interface SecretBase {
 export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 
 // @public
-export interface SecureString extends SecretBase {
+export type SecureString = SecretBase & {
     type: "SecureString";
     value: string;
-}
+};
 
 // @public
-export interface SelfDependencyTumblingWindowTriggerReference extends DependencyReference {
+export type SelfDependencyTumblingWindowTriggerReference = DependencyReference & {
+    type: "SelfDependencyTumblingWindowTriggerReference";
     offset: string;
     size?: string;
-    type: "SelfDependencyTumblingWindowTriggerReference";
-}
+};
 
 // @public
-export interface SelfHostedIntegrationRuntime extends IntegrationRuntime {
-    linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+export type SelfHostedIntegrationRuntime = IntegrationRuntime & {
     type: "SelfHosted";
-}
+    linkedInfo?: LinkedIntegrationRuntimeTypeUnion;
+};
 
 // @public
 export interface SelfHostedIntegrationRuntimeNode {
@@ -6861,167 +7281,167 @@ export interface SelfHostedIntegrationRuntimeNode {
 export type SelfHostedIntegrationRuntimeNodeStatus = string;
 
 // @public
-export interface SelfHostedIntegrationRuntimeStatus extends IntegrationRuntimeStatus {
-    readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
-    readonly autoUpdateETA?: Date;
+export type SelfHostedIntegrationRuntimeStatus = IntegrationRuntimeStatus & {
+    type: "SelfHosted";
+    readonly createTime?: Date;
+    readonly taskQueueId?: string;
+    readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
+    readonly version?: string;
+    nodes?: SelfHostedIntegrationRuntimeNode[];
+    readonly scheduledUpdateDate?: Date;
+    readonly updateDelayOffset?: string;
+    readonly localTimeZoneOffset?: string;
     readonly capabilities?: {
         [propertyName: string]: string;
     };
-    readonly createTime?: Date;
-    readonly internalChannelEncryption?: IntegrationRuntimeInternalChannelEncryptionMode;
-    readonly latestVersion?: string;
-    links?: LinkedIntegrationRuntime[];
-    readonly localTimeZoneOffset?: string;
-    nodes?: SelfHostedIntegrationRuntimeNode[];
-    readonly pushedVersion?: string;
-    readonly scheduledUpdateDate?: Date;
     readonly serviceUrls?: string[];
-    readonly taskQueueId?: string;
-    type: "SelfHosted";
-    readonly updateDelayOffset?: string;
-    readonly version?: string;
+    readonly autoUpdate?: IntegrationRuntimeAutoUpdate;
     readonly versionStatus?: string;
-}
+    links?: LinkedIntegrationRuntime[];
+    readonly pushedVersion?: string;
+    readonly latestVersion?: string;
+    readonly autoUpdateETA?: Date;
+};
 
 // @public
 export type ServiceNowAuthenticationType = string;
 
 // @public
-export interface ServiceNowLinkedService extends LinkedService {
+export type ServiceNowLinkedService = LinkedService & {
+    type: "ServiceNow";
+    endpoint: any;
     authenticationType: ServiceNowAuthenticationType;
+    username?: any;
+    password?: SecretBaseUnion;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
-    encryptedCredential?: any;
-    endpoint: any;
-    password?: SecretBaseUnion;
-    type: "ServiceNow";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-    username?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface ServiceNowObjectDataset extends Dataset {
-    tableName?: any;
+export type ServiceNowObjectDataset = Dataset & {
     type: "ServiceNowObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface ServiceNowSource extends TabularSource {
-    query?: any;
+export type ServiceNowSource = TabularSource & {
     type: "ServiceNowSource";
-}
+    query?: any;
+};
 
 // @public
-export interface ServicePrincipalCredential extends Credential_2 {
+export type ServicePrincipalCredential = Credential_2 & {
+    type: "ServicePrincipal";
     servicePrincipalId?: any;
     servicePrincipalKey?: AzureKeyVaultSecretReference;
     tenant?: any;
-    type: "ServicePrincipal";
-}
+};
 
 // @public
 export type ServicePrincipalCredentialType = string;
 
 // @public
-export interface SetVariableActivity extends ControlActivity {
+export type SetVariableActivity = ControlActivity & {
     type: "SetVariable";
-    value?: any;
     variableName?: string;
-}
+    value?: any;
+};
 
 // @public
 export type SftpAuthenticationType = string;
 
 // @public
-export interface SftpLocation extends DatasetLocation {
+export type SftpLocation = DatasetLocation & {
     type: "SftpLocation";
-}
+};
 
 // @public
-export interface SftpReadSettings extends StoreReadSettings {
-    deleteFilesAfterCompletion?: any;
-    disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
-    fileListPath?: any;
-    modifiedDatetimeEnd?: any;
-    modifiedDatetimeStart?: any;
-    partitionRootPath?: any;
-    recursive?: any;
+export type SftpReadSettings = StoreReadSettings & {
     type: "SftpReadSettings";
-    wildcardFileName?: any;
+    recursive?: any;
     wildcardFolderPath?: any;
-}
+    wildcardFileName?: any;
+    enablePartitionDiscovery?: boolean;
+    partitionRootPath?: any;
+    fileListPath?: any;
+    deleteFilesAfterCompletion?: any;
+    modifiedDatetimeStart?: any;
+    modifiedDatetimeEnd?: any;
+    disableChunking?: any;
+};
 
 // @public
-export interface SftpServerLinkedService extends LinkedService {
-    authenticationType?: SftpAuthenticationType;
-    encryptedCredential?: any;
-    host: any;
-    hostKeyFingerprint?: any;
-    passPhrase?: SecretBaseUnion;
-    password?: SecretBaseUnion;
-    port?: any;
-    privateKeyContent?: SecretBaseUnion;
-    privateKeyPath?: any;
-    skipHostKeyValidation?: any;
+export type SftpServerLinkedService = LinkedService & {
     type: "Sftp";
+    host: any;
+    port?: any;
+    authenticationType?: SftpAuthenticationType;
     userName?: any;
-}
-
-// @public
-export interface SftpWriteSettings extends StoreWriteSettings {
-    operationTimeout?: any;
-    type: "SftpWriteSettings";
-    useTempFileRename?: any;
-}
-
-// @public
-export interface SharePointOnlineListLinkedService extends LinkedService {
+    password?: SecretBaseUnion;
     encryptedCredential?: any;
-    servicePrincipalId: any;
-    servicePrincipalKey: SecretBaseUnion;
+    privateKeyPath?: any;
+    privateKeyContent?: SecretBaseUnion;
+    passPhrase?: SecretBaseUnion;
+    skipHostKeyValidation?: any;
+    hostKeyFingerprint?: any;
+};
+
+// @public
+export type SftpWriteSettings = StoreWriteSettings & {
+    type: "SftpWriteSettings";
+    operationTimeout?: any;
+    useTempFileRename?: any;
+};
+
+// @public
+export type SharePointOnlineListLinkedService = LinkedService & {
+    type: "SharePointOnlineList";
     siteUrl: any;
     tenantId: any;
-    type: "SharePointOnlineList";
-}
-
-// @public
-export interface SharePointOnlineListResourceDataset extends Dataset {
-    listName?: any;
-    type: "SharePointOnlineListResource";
-}
-
-// @public
-export interface SharePointOnlineListSource extends CopySource {
-    httpRequestTimeout?: any;
-    query?: any;
-    type: "SharePointOnlineListSource";
-}
-
-// @public
-export interface ShopifyLinkedService extends LinkedService {
-    accessToken?: SecretBaseUnion;
+    servicePrincipalId: any;
+    servicePrincipalKey: SecretBaseUnion;
     encryptedCredential?: any;
-    host: any;
+};
+
+// @public
+export type SharePointOnlineListResourceDataset = Dataset & {
+    type: "SharePointOnlineListResource";
+    listName?: any;
+};
+
+// @public
+export type SharePointOnlineListSource = CopySource & {
+    type: "SharePointOnlineListSource";
+    query?: any;
+    httpRequestTimeout?: any;
+};
+
+// @public
+export type ShopifyLinkedService = LinkedService & {
     type: "Shopify";
+    host: any;
+    accessToken?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface ShopifyObjectDataset extends Dataset {
-    tableName?: any;
+export type ShopifyObjectDataset = Dataset & {
     type: "ShopifyObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface ShopifySource extends TabularSource {
-    query?: any;
+export type ShopifySource = TabularSource & {
     type: "ShopifySource";
-}
+    query?: any;
+};
 
 // @public
 export interface SkipErrorFile {
@@ -7030,101 +7450,104 @@ export interface SkipErrorFile {
 }
 
 // @public
-export interface SmartsheetLinkedService extends LinkedService {
+export type SmartsheetLinkedService = LinkedService & {
+    type: "Smartsheet";
     apiToken: SecretBaseUnion;
     encryptedCredential?: any;
-    type: "Smartsheet";
-}
+};
 
 // @public
-export interface SnowflakeDataset extends Dataset {
+export type SnowflakeDataset = Dataset & {
+    type: "SnowflakeTable";
     schemaTypePropertiesSchema?: any;
     table?: any;
-    type: "SnowflakeTable";
-}
+};
 
 // @public
-export interface SnowflakeExportCopyCommand extends ExportSettings {
-    additionalCopyOptions?: {
-        [propertyName: string]: any;
-    };
-    additionalFormatOptions?: {
-        [propertyName: string]: any;
-    };
+export type SnowflakeExportCopyCommand = ExportSettings & {
     type: "SnowflakeExportCopyCommand";
-}
-
-// @public
-export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalCopyOptions?: {
         [propertyName: string]: any;
     };
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+};
+
+// @public
+export type SnowflakeImportCopyCommand = ImportSettings & {
     type: "SnowflakeImportCopyCommand";
-}
+    additionalCopyOptions?: {
+        [propertyName: string]: any;
+    };
+    additionalFormatOptions?: {
+        [propertyName: string]: any;
+    };
+};
 
 // @public
-export interface SnowflakeLinkedService extends LinkedService {
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: AzureKeyVaultSecretReference;
+export type SnowflakeLinkedService = LinkedService & {
     type: "Snowflake";
-}
+    connectionString: any;
+    password?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SnowflakeSink extends CopySink {
-    importSettings?: SnowflakeImportCopyCommand;
-    preCopyScript?: any;
+export type SnowflakeSink = CopySink & {
     type: "SnowflakeSink";
-}
+    preCopyScript?: any;
+    importSettings?: SnowflakeImportCopyCommand;
+};
 
 // @public
-export interface SnowflakeSource extends CopySource {
-    exportSettings?: SnowflakeExportCopyCommand;
-    query?: any;
+export type SnowflakeSource = CopySource & {
     type: "SnowflakeSource";
-}
+    query?: any;
+    exportSettings?: SnowflakeExportCopyCommand;
+};
 
 // @public
 export type SparkAuthenticationType = string;
 
 // @public
-export interface SparkLinkedService extends LinkedService {
-    allowHostNameCNMismatch?: any;
-    allowSelfSignedServerCert?: any;
-    authenticationType: SparkAuthenticationType;
-    enableSsl?: any;
-    encryptedCredential?: any;
+export type SparkJobReferenceType = string;
+
+// @public
+export type SparkLinkedService = LinkedService & {
+    type: "Spark";
     host: any;
-    httpPath?: any;
-    password?: SecretBaseUnion;
     port: any;
     serverType?: SparkServerType;
     thriftTransportProtocol?: SparkThriftTransportProtocol;
-    trustedCertPath?: any;
-    type: "Spark";
+    authenticationType: SparkAuthenticationType;
     username?: any;
+    password?: SecretBaseUnion;
+    httpPath?: any;
+    enableSsl?: any;
+    trustedCertPath?: any;
     useSystemTrustStore?: any;
-}
+    allowHostNameCNMismatch?: any;
+    allowSelfSignedServerCert?: any;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SparkObjectDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type SparkObjectDataset = Dataset & {
     type: "SparkObject";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
 export type SparkServerType = string;
 
 // @public
-export interface SparkSource extends TabularSource {
-    query?: any;
+export type SparkSource = TabularSource & {
     type: "SparkSource";
-}
+    query?: any;
+};
 
 // @public
 export type SparkThriftTransportProtocol = string;
@@ -7141,28 +7564,28 @@ export interface SqlAlwaysEncryptedProperties {
 }
 
 // @public
-export interface SqlDWSink extends CopySink {
-    allowCopyCommand?: any;
-    allowPolyBase?: any;
-    copyCommandSettings?: DWCopyCommandSettings;
-    polyBaseSettings?: PolybaseSettings;
-    preCopyScript?: any;
-    sqlWriterUseTableLock?: any;
-    tableOption?: any;
+export type SqlDWSink = CopySink & {
     type: "SqlDWSink";
-    upsertSettings?: SqlDWUpsertSettings;
+    preCopyScript?: any;
+    allowPolyBase?: any;
+    polyBaseSettings?: PolybaseSettings;
+    allowCopyCommand?: any;
+    copyCommandSettings?: DWCopyCommandSettings;
+    tableOption?: any;
+    sqlWriterUseTableLock?: any;
     writeBehavior?: any;
-}
+    upsertSettings?: SqlDWUpsertSettings;
+};
 
 // @public
-export interface SqlDWSource extends TabularSource {
-    partitionOption?: any;
-    partitionSettings?: SqlPartitionSettings;
+export type SqlDWSource = TabularSource & {
+    type: "SqlDWSource";
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: any;
-    type: "SqlDWSource";
-}
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
+};
 
 // @public
 export interface SqlDWUpsertSettings {
@@ -7174,33 +7597,33 @@ export interface SqlDWUpsertSettings {
 export type SqlDWWriteBehaviorEnum = string;
 
 // @public
-export interface SqlMISink extends CopySink {
-    preCopyScript?: any;
+export type SqlMISink = CopySink & {
+    type: "SqlMISink";
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    sqlWriterUseTableLock?: any;
+    preCopyScript?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
-    type: "SqlMISink";
-    upsertSettings?: SqlUpsertSettings;
+    sqlWriterUseTableLock?: any;
     writeBehavior?: any;
-}
+    upsertSettings?: SqlUpsertSettings;
+};
 
 // @public
-export interface SqlMISource extends TabularSource {
-    partitionOption?: any;
-    partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: any;
+export type SqlMISource = TabularSource & {
+    type: "SqlMISource";
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
-    type: "SqlMISource";
-}
+    produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
+};
 
 // @public
 export type SqlPartitionOption = string;
@@ -7213,87 +7636,87 @@ export interface SqlPartitionSettings {
 }
 
 // @public
-export interface SqlServerLinkedService extends LinkedService {
-    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
-    connectionString: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type SqlServerLinkedService = LinkedService & {
     type: "SqlServer";
+    connectionString: any;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+    alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
+};
 
 // @public
-export interface SqlServerSink extends CopySink {
-    preCopyScript?: any;
+export type SqlServerSink = CopySink & {
+    type: "SqlServerSink";
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    sqlWriterUseTableLock?: any;
+    preCopyScript?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
-    type: "SqlServerSink";
-    upsertSettings?: SqlUpsertSettings;
+    sqlWriterUseTableLock?: any;
     writeBehavior?: any;
-}
+    upsertSettings?: SqlUpsertSettings;
+};
 
 // @public
-export interface SqlServerSource extends TabularSource {
-    partitionOption?: any;
-    partitionSettings?: SqlPartitionSettings;
-    produceAdditionalTypes?: any;
+export type SqlServerSource = TabularSource & {
+    type: "SqlServerSource";
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
-    type: "SqlServerSource";
-}
+    produceAdditionalTypes?: any;
+    partitionOption?: any;
+    partitionSettings?: SqlPartitionSettings;
+};
 
 // @public
-export interface SqlServerStoredProcedureActivity extends ExecutionActivity {
+export type SqlServerStoredProcedureActivity = ExecutionActivity & {
+    type: "SqlServerStoredProcedure";
     storedProcedureName: any;
     storedProcedureParameters?: any;
-    type: "SqlServerStoredProcedure";
-}
+};
 
 // @public
-export interface SqlServerTableDataset extends Dataset {
+export type SqlServerTableDataset = Dataset & {
+    type: "SqlServerTable";
+    tableName?: any;
     schemaTypePropertiesSchema?: any;
     table?: any;
-    tableName?: any;
-    type: "SqlServerTable";
-}
+};
 
 // @public
-export interface SqlSink extends CopySink {
-    preCopyScript?: any;
+export type SqlSink = CopySink & {
+    type: "SqlSink";
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    sqlWriterUseTableLock?: any;
+    preCopyScript?: any;
     storedProcedureParameters?: {
         [propertyName: string]: StoredProcedureParameter;
     };
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
-    type: "SqlSink";
-    upsertSettings?: SqlUpsertSettings;
+    sqlWriterUseTableLock?: any;
     writeBehavior?: any;
-}
+    upsertSettings?: SqlUpsertSettings;
+};
 
 // @public
-export interface SqlSource extends TabularSource {
+export type SqlSource = TabularSource & {
+    type: "SqlSource";
+    sqlReaderQuery?: any;
+    sqlReaderStoredProcedureName?: any;
+    storedProcedureParameters?: {
+        [propertyName: string]: StoredProcedureParameter;
+    };
     isolationLevel?: any;
     partitionOption?: any;
     partitionSettings?: SqlPartitionSettings;
-    sqlReaderQuery?: any;
-    sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
-    type: "SqlSource";
-}
+};
 
 // @public
 export interface SqlUpsertSettings {
@@ -7306,30 +7729,30 @@ export interface SqlUpsertSettings {
 export type SqlWriteBehaviorEnum = string;
 
 // @public
-export interface SquareLinkedService extends LinkedService {
+export type SquareLinkedService = LinkedService & {
+    type: "Square";
+    connectionProperties?: any;
+    host?: any;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
-    connectionProperties?: any;
-    encryptedCredential?: any;
-    host?: any;
     redirectUri?: any;
-    type: "Square";
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SquareObjectDataset extends Dataset {
-    tableName?: any;
+export type SquareObjectDataset = Dataset & {
     type: "SquareObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface SquareSource extends TabularSource {
-    query?: any;
+export type SquareSource = TabularSource & {
     type: "SquareSource";
-}
+    query?: any;
+};
 
 // @public
 export interface SsisAccessCredential {
@@ -7347,11 +7770,11 @@ export interface SsisChildPackage {
 }
 
 // @public
-export interface SsisEnvironment extends SsisObjectMetadata {
-    folderId?: number;
+export type SsisEnvironment = SsisObjectMetadata & {
     type: "Environment";
+    folderId?: number;
     variables?: SsisVariable[];
-}
+};
 
 // @public
 export interface SsisEnvironmentReference {
@@ -7374,9 +7797,9 @@ export interface SsisExecutionParameter {
 }
 
 // @public
-export interface SsisFolder extends SsisObjectMetadata {
+export type SsisFolder = SsisObjectMetadata & {
     type: "Folder";
-}
+};
 
 // @public
 export interface SsisLogLocation {
@@ -7418,13 +7841,13 @@ export type SsisObjectMetadataType = string;
 export type SsisObjectMetadataUnion = SsisObjectMetadata | SsisFolder | SsisProject | SsisPackage | SsisEnvironment;
 
 // @public
-export interface SsisPackage extends SsisObjectMetadata {
-    folderId?: number;
-    parameters?: SsisParameter[];
-    projectId?: number;
-    projectVersion?: number;
+export type SsisPackage = SsisObjectMetadata & {
     type: "Package";
-}
+    folderId?: number;
+    projectVersion?: number;
+    projectId?: number;
+    parameters?: SsisParameter[];
+};
 
 // @public
 export interface SsisPackageLocation {
@@ -7460,13 +7883,13 @@ export interface SsisParameter {
 }
 
 // @public
-export interface SsisProject extends SsisObjectMetadata {
-    environmentRefs?: SsisEnvironmentReference[];
-    folderId?: number;
-    parameters?: SsisParameter[];
+export type SsisProject = SsisObjectMetadata & {
     type: "Project";
+    folderId?: number;
     version?: number;
-}
+    environmentRefs?: SsisEnvironmentReference[];
+    parameters?: SsisParameter[];
+};
 
 // @public
 export interface SsisPropertyOverride {
@@ -7539,12 +7962,12 @@ export interface SubResourceDebugResource {
 }
 
 // @public
-export interface SwitchActivity extends ControlActivity {
+export type SwitchActivity = ControlActivity & {
+    type: "Switch";
+    on: Expression;
     cases?: SwitchCase[];
     defaultActivities?: ActivityUnion[];
-    on: Expression;
-    type: "Switch";
-}
+};
 
 // @public
 export interface SwitchCase {
@@ -7556,90 +7979,131 @@ export interface SwitchCase {
 export type SybaseAuthenticationType = string;
 
 // @public
-export interface SybaseLinkedService extends LinkedService {
-    authenticationType?: SybaseAuthenticationType;
-    database: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    schema?: any;
-    server: any;
+export type SybaseLinkedService = LinkedService & {
     type: "Sybase";
+    server: any;
+    database: any;
+    schema?: any;
+    authenticationType?: SybaseAuthenticationType;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface SybaseSource extends TabularSource {
-    query?: any;
+export type SybaseSource = TabularSource & {
     type: "SybaseSource";
-}
+    query?: any;
+};
 
 // @public
-export interface SybaseTableDataset extends Dataset {
-    tableName?: any;
+export type SybaseTableDataset = Dataset & {
     type: "SybaseTable";
+    tableName?: any;
+};
+
+// @public
+export type SynapseNotebookActivity = ExecutionActivity & {
+    type: "SynapseNotebook";
+    notebook: SynapseNotebookReference;
+    sparkPool?: BigDataPoolParametrizationReference;
+    parameters?: {
+        [propertyName: string]: NotebookParameter;
+    };
+    executorSize?: any;
+    conf?: any;
+    driverSize?: any;
+    numExecutors?: number;
+};
+
+// @public
+export interface SynapseNotebookReference {
+    referenceName: any;
+    type: NotebookReferenceType;
 }
 
 // @public
-export interface TabularSource extends CopySource {
-    additionalColumns?: any;
-    queryTimeout?: any;
-    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
+export type SynapseSparkJobDefinitionActivity = ExecutionActivity & {
+    type: "SparkJob";
+    sparkJob: SynapseSparkJobReference;
+    arguments?: any[];
+    file?: any;
+    className?: any;
+    files?: any[];
+    targetBigDataPool?: BigDataPoolParametrizationReference;
+    executorSize?: any;
+    conf?: any;
+    driverSize?: any;
+    numExecutors?: number;
+};
+
+// @public
+export interface SynapseSparkJobReference {
+    referenceName: string;
+    type: SparkJobReferenceType;
 }
+
+// @public
+export type TabularSource = CopySource & {
+    type: "TabularSource" | "AzureTableSource" | "InformixSource" | "Db2Source" | "OdbcSource" | "MySqlSource" | "PostgreSqlSource" | "SybaseSource" | "SapBwSource" | "SalesforceSource" | "SapCloudForCustomerSource" | "SapEccSource" | "SapHanaSource" | "SapOpenHubSource" | "SapOdpSource" | "SapTableSource" | "SqlSource" | "SqlServerSource" | "AmazonRdsForSqlServerSource" | "AzureSqlSource" | "SqlMISource" | "SqlDWSource" | "AzureMySqlSource" | "TeradataSource" | "CassandraSource" | "AmazonMWSSource" | "AzurePostgreSqlSource" | "ConcurSource" | "CouchbaseSource" | "DrillSource" | "EloquaSource" | "GoogleBigQuerySource" | "GreenplumSource" | "HBaseSource" | "HiveSource" | "HubspotSource" | "ImpalaSource" | "JiraSource" | "MagentoSource" | "MariaDBSource" | "AzureMariaDBSource" | "MarketoSource" | "PaypalSource" | "PhoenixSource" | "PrestoSource" | "QuickBooksSource" | "ServiceNowSource" | "ShopifySource" | "SparkSource" | "SquareSource" | "XeroSource" | "ZohoSource" | "NetezzaSource" | "VerticaSource" | "SalesforceMarketingCloudSource" | "ResponsysSource" | "DynamicsAXSource" | "OracleServiceCloudSource" | "GoogleAdWordsSource" | "AmazonRedshiftSource";
+    queryTimeout?: any;
+    additionalColumns?: any;
+};
 
 // @public (undocumented)
 export type TabularSourceUnion = TabularSource | AzureTableSource | InformixSource | Db2Source | OdbcSource | MySqlSource | PostgreSqlSource | SybaseSource | SapBwSource | SalesforceSource | SapCloudForCustomerSource | SapEccSource | SapHanaSource | SapOpenHubSource | SapOdpSource | SapTableSource | SqlSource | SqlServerSource | AmazonRdsForSqlServerSource | AzureSqlSource | SqlMISource | SqlDWSource | AzureMySqlSource | TeradataSource | CassandraSource | AmazonMWSSource | AzurePostgreSqlSource | ConcurSource | CouchbaseSource | DrillSource | EloquaSource | GoogleBigQuerySource | GreenplumSource | HBaseSource | HiveSource | HubspotSource | ImpalaSource | JiraSource | MagentoSource | MariaDBSource | AzureMariaDBSource | MarketoSource | PaypalSource | PhoenixSource | PrestoSource | QuickBooksSource | ServiceNowSource | ShopifySource | SparkSource | SquareSource | XeroSource | ZohoSource | NetezzaSource | VerticaSource | SalesforceMarketingCloudSource | ResponsysSource | DynamicsAXSource | OracleServiceCloudSource | GoogleAdWordsSource | AmazonRedshiftSource;
 
 // @public
-export interface TabularTranslator extends CopyTranslator {
-    collectionReference?: any;
+export type TabularTranslator = CopyTranslator & {
+    type: "TabularTranslator";
     columnMappings?: any;
+    schemaMapping?: any;
+    collectionReference?: any;
     mapComplexValuesToString?: any;
     mappings?: any;
-    schemaMapping?: any;
-    type: "TabularTranslator";
     typeConversion?: any;
     typeConversionSettings?: TypeConversionSettings;
-}
+};
 
 // @public
-export interface TarGZipReadSettings extends CompressionReadSettings {
-    preserveCompressionFileNameAsFolder?: any;
+export type TarGZipReadSettings = CompressionReadSettings & {
     type: "TarGZipReadSettings";
-}
+    preserveCompressionFileNameAsFolder?: any;
+};
 
 // @public
-export interface TarReadSettings extends CompressionReadSettings {
-    preserveCompressionFileNameAsFolder?: any;
+export type TarReadSettings = CompressionReadSettings & {
     type: "TarReadSettings";
-}
+    preserveCompressionFileNameAsFolder?: any;
+};
 
 // @public
 export type TeamDeskAuthenticationType = string;
 
 // @public
-export interface TeamDeskLinkedService extends LinkedService {
-    apiToken?: SecretBaseUnion;
-    authenticationType: TeamDeskAuthenticationType;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type TeamDeskLinkedService = LinkedService & {
     type: "TeamDesk";
+    authenticationType: TeamDeskAuthenticationType;
     url: any;
     userName?: any;
-}
+    password?: SecretBaseUnion;
+    apiToken?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
 export type TeradataAuthenticationType = string;
 
 // @public
-export interface TeradataLinkedService extends LinkedService {
-    authenticationType?: TeradataAuthenticationType;
-    connectionString?: any;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
-    server?: any;
+export type TeradataLinkedService = LinkedService & {
     type: "Teradata";
+    connectionString?: any;
+    server?: any;
+    authenticationType?: TeradataAuthenticationType;
     username?: any;
-}
+    password?: SecretBaseUnion;
+    encryptedCredential?: any;
+};
 
 // @public
 export type TeradataPartitionOption = string;
@@ -7652,33 +8116,33 @@ export interface TeradataPartitionSettings {
 }
 
 // @public
-export interface TeradataSource extends TabularSource {
+export type TeradataSource = TabularSource & {
+    type: "TeradataSource";
+    query?: any;
     partitionOption?: any;
     partitionSettings?: TeradataPartitionSettings;
-    query?: any;
-    type: "TeradataSource";
-}
+};
 
 // @public
-export interface TeradataTableDataset extends Dataset {
+export type TeradataTableDataset = Dataset & {
+    type: "TeradataTable";
     database?: any;
     table?: any;
-    type: "TeradataTable";
-}
+};
 
 // @public
-export interface TextFormat extends DatasetStorageFormat {
-    columnDelimiter?: any;
-    encodingName?: any;
-    escapeChar?: any;
-    firstRowAsHeader?: any;
-    nullValue?: any;
-    quoteChar?: any;
-    rowDelimiter?: any;
-    skipLineCount?: any;
-    treatEmptyAsNull?: any;
+export type TextFormat = DatasetStorageFormat & {
     type: "TextFormat";
-}
+    columnDelimiter?: any;
+    rowDelimiter?: any;
+    escapeChar?: any;
+    quoteChar?: any;
+    nullValue?: any;
+    encodingName?: any;
+    treatEmptyAsNull?: any;
+    skipLineCount?: any;
+    firstRowAsHeader?: any;
+};
 
 // @public
 export interface Transformation {
@@ -7699,10 +8163,10 @@ export interface Trigger {
 }
 
 // @public
-export interface TriggerDependencyReference extends DependencyReference {
-    referenceTrigger: TriggerReference;
+export type TriggerDependencyReference = DependencyReference & {
     type: "TriggerDependencyReference" | "TumblingWindowTriggerDependencyReference";
-}
+    referenceTrigger: TriggerReference;
+};
 
 // @public (undocumented)
 export type TriggerDependencyReferenceUnion = TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
@@ -7743,9 +8207,9 @@ export interface TriggerReference {
 export type TriggerReferenceType = string;
 
 // @public
-export interface TriggerResource extends SubResource {
+export type TriggerResource = SubResource & {
     properties: TriggerUnion;
-}
+};
 
 // @public
 export interface TriggerRun {
@@ -7913,32 +8377,32 @@ export type TriggerUnion = Trigger | MultiplePipelineTriggerUnion | TumblingWind
 export type TumblingWindowFrequency = string;
 
 // @public
-export interface TumblingWindowTrigger extends Trigger {
-    delay?: any;
-    dependsOn?: DependencyReferenceUnion[];
-    endTime?: Date;
+export type TumblingWindowTrigger = Trigger & {
+    type: "TumblingWindowTrigger";
+    pipeline: TriggerPipelineReference;
     frequency: TumblingWindowFrequency;
     interval: number;
-    maxConcurrency: number;
-    pipeline: TriggerPipelineReference;
-    retryPolicy?: RetryPolicy;
     startTime: Date;
-    type: "TumblingWindowTrigger";
-}
+    endTime?: Date;
+    delay?: any;
+    maxConcurrency: number;
+    retryPolicy?: RetryPolicy;
+    dependsOn?: DependencyReferenceUnion[];
+};
 
 // @public
-export interface TumblingWindowTriggerDependencyReference extends TriggerDependencyReference {
+export type TumblingWindowTriggerDependencyReference = TriggerDependencyReference & {
+    type: "TumblingWindowTriggerDependencyReference";
     offset?: string;
     size?: string;
-    type: "TumblingWindowTriggerDependencyReference";
-}
+};
 
 // @public
-export interface TwilioLinkedService extends LinkedService {
-    password: SecretBaseUnion;
+export type TwilioLinkedService = LinkedService & {
     type: "Twilio";
     userName: any;
-}
+    password: SecretBaseUnion;
+};
 
 // @public
 export type Type = string;
@@ -7954,12 +8418,12 @@ export interface TypeConversionSettings {
 }
 
 // @public
-export interface UntilActivity extends ControlActivity {
-    activities: ActivityUnion[];
+export type UntilActivity = ControlActivity & {
+    type: "Until";
     expression: Expression;
     timeout?: any;
-    type: "Until";
-}
+    activities: ActivityUnion[];
+};
 
 // @public
 export interface UpdateIntegrationRuntimeNodeRequest {
@@ -7988,14 +8452,14 @@ export interface UserProperty {
 }
 
 // @public
-export interface ValidationActivity extends ControlActivity {
+export type ValidationActivity = ControlActivity & {
+    type: "Validation";
+    timeout?: any;
+    sleep?: any;
+    minimumSize?: any;
     childItems?: any;
     dataset: DatasetReference;
-    minimumSize?: any;
-    sleep?: any;
-    timeout?: any;
-    type: "Validation";
-}
+};
 
 // @public
 export interface VariableSpecification {
@@ -8007,46 +8471,46 @@ export interface VariableSpecification {
 export type VariableType = string;
 
 // @public
-export interface VerticaLinkedService extends LinkedService {
-    connectionString?: any;
-    encryptedCredential?: any;
-    pwd?: AzureKeyVaultSecretReference;
+export type VerticaLinkedService = LinkedService & {
     type: "Vertica";
-}
+    connectionString?: any;
+    pwd?: AzureKeyVaultSecretReference;
+    encryptedCredential?: any;
+};
 
 // @public
-export interface VerticaSource extends TabularSource {
-    query?: any;
+export type VerticaSource = TabularSource & {
     type: "VerticaSource";
-}
+    query?: any;
+};
 
 // @public
-export interface VerticaTableDataset extends Dataset {
-    schemaTypePropertiesSchema?: any;
-    table?: any;
-    tableName?: any;
+export type VerticaTableDataset = Dataset & {
     type: "VerticaTable";
-}
+    tableName?: any;
+    table?: any;
+    schemaTypePropertiesSchema?: any;
+};
 
 // @public
-export interface WaitActivity extends ControlActivity {
+export type WaitActivity = ControlActivity & {
     type: "Wait";
     waitTimeInSeconds: any;
-}
+};
 
 // @public
-export interface WebActivity extends ExecutionActivity {
-    authentication?: WebActivityAuthentication;
-    body?: any;
-    connectVia?: IntegrationRuntimeReference;
-    datasets?: DatasetReference[];
-    disableCertValidation?: boolean;
-    headers?: any;
-    linkedServices?: LinkedServiceReference[];
-    method: WebActivityMethod;
+export type WebActivity = ExecutionActivity & {
     type: "WebActivity";
+    method: WebActivityMethod;
     url: any;
-}
+    headers?: any;
+    body?: any;
+    authentication?: WebActivityAuthentication;
+    disableCertValidation?: boolean;
+    datasets?: DatasetReference[];
+    linkedServices?: LinkedServiceReference[];
+    connectVia?: IntegrationRuntimeReference;
+};
 
 // @public
 export interface WebActivityAuthentication {
@@ -8063,47 +8527,47 @@ export interface WebActivityAuthentication {
 export type WebActivityMethod = string;
 
 // @public
-export interface WebAnonymousAuthentication extends WebLinkedServiceTypeProperties {
+export type WebAnonymousAuthentication = WebLinkedServiceTypeProperties & {
     authenticationType: "Anonymous";
-}
+};
 
 // @public
 export type WebAuthenticationType = string;
 
 // @public
-export interface WebBasicAuthentication extends WebLinkedServiceTypeProperties {
+export type WebBasicAuthentication = WebLinkedServiceTypeProperties & {
     authenticationType: "Basic";
-    password: SecretBaseUnion;
     username: any;
-}
-
-// @public
-export interface WebClientCertificateAuthentication extends WebLinkedServiceTypeProperties {
-    authenticationType: "ClientCertificate";
     password: SecretBaseUnion;
-    pfx: SecretBaseUnion;
-}
+};
 
 // @public
-export interface WebHookActivity extends ControlActivity {
-    authentication?: WebActivityAuthentication;
-    body?: any;
-    headers?: any;
-    method: WebHookActivityMethod;
-    reportStatusOnCallBack?: any;
-    timeout?: string;
+export type WebClientCertificateAuthentication = WebLinkedServiceTypeProperties & {
+    authenticationType: "ClientCertificate";
+    pfx: SecretBaseUnion;
+    password: SecretBaseUnion;
+};
+
+// @public
+export type WebHookActivity = ControlActivity & {
     type: "WebHook";
+    method: WebHookActivityMethod;
     url: any;
-}
+    timeout?: string;
+    headers?: any;
+    body?: any;
+    authentication?: WebActivityAuthentication;
+    reportStatusOnCallBack?: any;
+};
 
 // @public
 export type WebHookActivityMethod = string;
 
 // @public
-export interface WebLinkedService extends LinkedService {
+export type WebLinkedService = LinkedService & {
     type: "Web";
     typeProperties: WebLinkedServiceTypePropertiesUnion;
-}
+};
 
 // @public
 export interface WebLinkedServiceTypeProperties {
@@ -8115,121 +8579,121 @@ export interface WebLinkedServiceTypeProperties {
 export type WebLinkedServiceTypePropertiesUnion = WebLinkedServiceTypeProperties | WebAnonymousAuthentication | WebBasicAuthentication | WebClientCertificateAuthentication;
 
 // @public
-export interface WebSource extends CopySource {
-    additionalColumns?: any;
+export type WebSource = CopySource & {
     type: "WebSource";
-}
+    additionalColumns?: any;
+};
 
 // @public
-export interface WebTableDataset extends Dataset {
+export type WebTableDataset = Dataset & {
+    type: "WebTable";
     index: any;
     path?: any;
-    type: "WebTable";
-}
+};
 
 // @public
-export interface WranglingDataFlow extends DataFlow {
-    documentLocale?: string;
-    script?: string;
-    sources?: PowerQuerySource[];
+export type WranglingDataFlow = DataFlow & {
     type: "WranglingDataFlow";
-}
+    sources?: PowerQuerySource[];
+    script?: string;
+    documentLocale?: string;
+};
 
 // @public
-export interface XeroLinkedService extends LinkedService {
-    connectionProperties?: any;
-    consumerKey?: SecretBaseUnion;
-    encryptedCredential?: any;
-    host?: any;
-    privateKey?: SecretBaseUnion;
+export type XeroLinkedService = LinkedService & {
     type: "Xero";
+    connectionProperties?: any;
+    host?: any;
+    consumerKey?: SecretBaseUnion;
+    privateKey?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface XeroObjectDataset extends Dataset {
-    tableName?: any;
+export type XeroObjectDataset = Dataset & {
     type: "XeroObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface XeroSource extends TabularSource {
-    query?: any;
+export type XeroSource = TabularSource & {
     type: "XeroSource";
-}
+    query?: any;
+};
 
 // @public
-export interface XmlDataset extends Dataset {
-    compression?: DatasetCompression;
-    encodingName?: any;
-    location?: DatasetLocationUnion;
-    nullValue?: any;
+export type XmlDataset = Dataset & {
     type: "Xml";
-}
+    location?: DatasetLocationUnion;
+    encodingName?: any;
+    nullValue?: any;
+    compression?: DatasetCompression;
+};
 
 // @public
-export interface XmlReadSettings extends FormatReadSettings {
-    compressionProperties?: CompressionReadSettingsUnion;
-    detectDataType?: any;
-    namespacePrefixes?: any;
-    namespaces?: any;
+export type XmlReadSettings = FormatReadSettings & {
     type: "XmlReadSettings";
+    compressionProperties?: CompressionReadSettingsUnion;
     validationMode?: any;
-}
+    detectDataType?: any;
+    namespaces?: any;
+    namespacePrefixes?: any;
+};
 
 // @public
-export interface XmlSource extends CopySource {
-    additionalColumns?: any;
-    formatSettings?: XmlReadSettings;
-    storeSettings?: StoreReadSettingsUnion;
+export type XmlSource = CopySource & {
     type: "XmlSource";
-}
+    storeSettings?: StoreReadSettingsUnion;
+    formatSettings?: XmlReadSettings;
+    additionalColumns?: any;
+};
 
 // @public
 export type ZendeskAuthenticationType = string;
 
 // @public
-export interface ZendeskLinkedService extends LinkedService {
-    apiToken?: SecretBaseUnion;
-    authenticationType: ZendeskAuthenticationType;
-    encryptedCredential?: any;
-    password?: SecretBaseUnion;
+export type ZendeskLinkedService = LinkedService & {
     type: "Zendesk";
+    authenticationType: ZendeskAuthenticationType;
     url: any;
     userName?: any;
-}
-
-// @public
-export interface ZipDeflateReadSettings extends CompressionReadSettings {
-    preserveZipFileNameAsFolder?: any;
-    type: "ZipDeflateReadSettings";
-}
-
-// @public
-export interface ZohoLinkedService extends LinkedService {
-    accessToken?: SecretBaseUnion;
-    connectionProperties?: any;
+    password?: SecretBaseUnion;
+    apiToken?: SecretBaseUnion;
     encryptedCredential?: any;
-    endpoint?: any;
+};
+
+// @public
+export type ZipDeflateReadSettings = CompressionReadSettings & {
+    type: "ZipDeflateReadSettings";
+    preserveZipFileNameAsFolder?: any;
+};
+
+// @public
+export type ZohoLinkedService = LinkedService & {
     type: "Zoho";
+    connectionProperties?: any;
+    endpoint?: any;
+    accessToken?: SecretBaseUnion;
     useEncryptedEndpoints?: any;
     useHostVerification?: any;
     usePeerVerification?: any;
-}
+    encryptedCredential?: any;
+};
 
 // @public
-export interface ZohoObjectDataset extends Dataset {
-    tableName?: any;
+export type ZohoObjectDataset = Dataset & {
     type: "ZohoObject";
-}
+    tableName?: any;
+};
 
 // @public
-export interface ZohoSource extends TabularSource {
-    query?: any;
+export type ZohoSource = TabularSource & {
     type: "ZohoSource";
-}
+    query?: any;
+};
 
 // (No @packageDocumentation comment for this package)
 
