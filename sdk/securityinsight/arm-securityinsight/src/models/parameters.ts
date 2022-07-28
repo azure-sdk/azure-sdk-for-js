@@ -39,7 +39,9 @@ import {
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
+  Query as QueryMapper,
+  EditedQuery as EditedQueryMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -69,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -647,4 +649,36 @@ export const connectBody: OperationParameter = {
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
   mapper: DataConnectorsCheckRequirementsMapper
+};
+
+export const queryId: OperationURLParameter = {
+  parameterPath: "queryId",
+  mapper: {
+    serializedName: "queryId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const query: OperationParameter = {
+  parameterPath: "query",
+  mapper: QueryMapper
+};
+
+export const editedQueryId: OperationURLParameter = {
+  parameterPath: "editedQueryId",
+  mapper: {
+    serializedName: "editedQueryId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const editedQuery: OperationParameter = {
+  parameterPath: "editedQuery",
+  mapper: EditedQueryMapper
 };
