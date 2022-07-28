@@ -1,0 +1,8 @@
+{
+  "commit": "f6b5568d0a449e0df87028547227f4ca8948dc05",
+  "readme": "specification/automanage/resource-manager/readme.md",
+  "autorest_command": "",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",
+  "release_tool": "@azure-tools/js-sdk-release-tools@2.4.1",
+  "use": "@autorest/typescript@6.0.0-alpha.19.20220425.1"
+}
