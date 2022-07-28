@@ -636,19 +636,34 @@ export interface CustomDomain {
 }
 
 // @public
-export type CustomHostnameAnalysisResult = ProxyResource & {
-    readonly hostName?: string;
-    readonly isHostnameAlreadyVerified?: boolean;
-    readonly customDomainVerificationTest?: DnsVerificationTestResult;
-    readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
-    readonly hasConflictOnManagedEnvironment?: boolean;
-    readonly conflictingContainerAppResourceId?: string;
-    cNameRecords?: string[];
-    txtRecords?: string[];
-    aRecords?: string[];
+export interface CustomHostnameAnalysisResult {
     alternateCNameRecords?: string[];
     alternateTxtRecords?: string[];
-};
+    aRecords?: string[];
+    cNameRecords?: string[];
+    readonly conflictingContainerAppResourceId?: string;
+    readonly customDomainVerificationFailureInfo?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo;
+    readonly customDomainVerificationTest?: DnsVerificationTestResult;
+    readonly hasConflictOnManagedEnvironment?: boolean;
+    readonly hostName?: string;
+    readonly isHostnameAlreadyVerified?: boolean;
+    txtRecords?: string[];
+}
+
+// @public
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo {
+    readonly code?: string;
+    details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
+}
 
 // @public
 export interface CustomOpenIdConnectProvider {
