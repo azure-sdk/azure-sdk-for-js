@@ -29,7 +29,6 @@ import {
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
   SentinelOnboardingState as SentinelOnboardingStateMapper,
-  SecurityMLAnalyticsSetting as SecurityMLAnalyticsSettingMapper,
   Settings as SettingsMapper,
   SourceControl as SourceControlMapper,
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
@@ -69,7 +68,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -501,20 +500,14 @@ export const sentinelOnboardingStateParameter: OperationParameter = {
   mapper: SentinelOnboardingStateMapper
 };
 
-export const settingsResourceName: OperationURLParameter = {
-  parameterPath: "settingsResourceName",
+export const sections: OperationQueryParameter = {
+  parameterPath: ["options", "sections"],
   mapper: {
-    serializedName: "settingsResourceName",
-    required: true,
+    serializedName: "sections",
     type: {
       name: "String"
     }
   }
-};
-
-export const securityMLAnalyticsSetting: OperationParameter = {
-  parameterPath: "securityMLAnalyticsSetting",
-  mapper: SecurityMLAnalyticsSettingMapper
 };
 
 export const settingsName: OperationURLParameter = {
