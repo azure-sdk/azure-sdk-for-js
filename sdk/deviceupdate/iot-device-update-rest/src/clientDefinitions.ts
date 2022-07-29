@@ -51,7 +51,7 @@ import {
   DeviceManagementGetLogCollectionParameters,
   DeviceManagementListLogCollectionsParameters,
   DeviceManagementGetLogCollectionDetailedStatusParameters,
-  DeviceManagementListDeviceHealthParameters,
+  DeviceManagementListDeviceHealthParameters
 } from "./parameters";
 import {
   DeviceUpdateListUpdates200Response,
@@ -157,7 +157,7 @@ import {
   DeviceManagementGetLogCollectionDetailedStatus200Response,
   DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
   DeviceManagementListDeviceHealth200Response,
-  DeviceManagementListDeviceHealthdefaultResponse,
+  DeviceManagementListDeviceHealthdefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -165,7 +165,9 @@ export interface DeviceUpdateListUpdates {
   /** Get a list of all updates that have been imported to Device Update for IoT Hub. */
   get(
     options?: DeviceUpdateListUpdatesParameters
-  ): StreamableMethod<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
+  ): StreamableMethod<
+    DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse
+  >;
 }
 
 export interface DeviceUpdateImportUpdate {
@@ -173,7 +175,8 @@ export interface DeviceUpdateImportUpdate {
   post(
     options: DeviceUpdateImportUpdateParameters
   ): StreamableMethod<
-    DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdate202Response
+    | DeviceUpdateImportUpdatedefaultResponse
   >;
 }
 
@@ -190,7 +193,8 @@ export interface DeviceUpdateGetUpdate {
   delete(
     options?: DeviceUpdateDeleteUpdateParameters
   ): StreamableMethod<
-    DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse
+    | DeviceUpdateDeleteUpdate202Response
+    | DeviceUpdateDeleteUpdatedefaultResponse
   >;
 }
 
@@ -199,7 +203,8 @@ export interface DeviceUpdateListProviders {
   get(
     options?: DeviceUpdateListProvidersParameters
   ): StreamableMethod<
-    DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse
+    | DeviceUpdateListProviders200Response
+    | DeviceUpdateListProvidersdefaultResponse
   >;
 }
 
@@ -207,7 +212,9 @@ export interface DeviceUpdateListNames {
   /** Get a list of all update names that match the specified provider. */
   get(
     options?: DeviceUpdateListNamesParameters
-  ): StreamableMethod<DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse>;
+  ): StreamableMethod<
+    DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse
+  >;
 }
 
 export interface DeviceUpdateListVersions {
@@ -215,7 +222,8 @@ export interface DeviceUpdateListVersions {
   get(
     options?: DeviceUpdateListVersionsParameters
   ): StreamableMethod<
-    DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse
+    | DeviceUpdateListVersions200Response
+    | DeviceUpdateListVersionsdefaultResponse
   >;
 }
 
@@ -223,7 +231,9 @@ export interface DeviceUpdateListFiles {
   /** Get a list of all update file identifiers for the specified version. */
   get(
     options?: DeviceUpdateListFilesParameters
-  ): StreamableMethod<DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse>;
+  ): StreamableMethod<
+    DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse
+  >;
 }
 
 export interface DeviceUpdateGetFile {
@@ -242,7 +252,8 @@ export interface DeviceUpdateListOperations {
   get(
     options?: DeviceUpdateListOperationsParameters
   ): StreamableMethod<
-    DeviceUpdateListOperations200Response | DeviceUpdateListOperationsdefaultResponse
+    | DeviceUpdateListOperations200Response
+    | DeviceUpdateListOperationsdefaultResponse
   >;
 }
 
@@ -262,7 +273,8 @@ export interface DeviceManagementListDeviceClasses {
   get(
     options?: DeviceManagementListDeviceClassesParameters
   ): StreamableMethod<
-    DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesdefaultResponse
+    | DeviceManagementListDeviceClasses200Response
+    | DeviceManagementListDeviceClassesdefaultResponse
   >;
 }
 
@@ -271,19 +283,22 @@ export interface DeviceManagementGetDeviceClass {
   get(
     options?: DeviceManagementGetDeviceClassParameters
   ): StreamableMethod<
-    DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse
+    | DeviceManagementGetDeviceClass200Response
+    | DeviceManagementGetDeviceClassdefaultResponse
   >;
   /** Update device class details. */
   patch(
     options: DeviceManagementUpdateDeviceClassParameters
   ): StreamableMethod<
-    DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassdefaultResponse
+    | DeviceManagementUpdateDeviceClass200Response
+    | DeviceManagementUpdateDeviceClassdefaultResponse
   >;
   /** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
   delete(
     options?: DeviceManagementDeleteDeviceClassParameters
   ): StreamableMethod<
-    DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassdefaultResponse
+    | DeviceManagementDeleteDeviceClass204Response
+    | DeviceManagementDeleteDeviceClassdefaultResponse
   >;
 }
 
@@ -302,7 +317,8 @@ export interface DeviceManagementListDevices {
   get(
     options?: DeviceManagementListDevicesParameters
   ): StreamableMethod<
-    DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse
+    | DeviceManagementListDevices200Response
+    | DeviceManagementListDevicesdefaultResponse
   >;
 }
 
@@ -311,7 +327,8 @@ export interface DeviceManagementImportDevices {
   post(
     options: DeviceManagementImportDevicesParameters
   ): StreamableMethod<
-    DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse
+    | DeviceManagementImportDevices202Response
+    | DeviceManagementImportDevicesdefaultResponse
   >;
 }
 
@@ -320,7 +337,8 @@ export interface DeviceManagementGetDevice {
   get(
     options?: DeviceManagementGetDeviceParameters
   ): StreamableMethod<
-    DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse
+    | DeviceManagementGetDevice200Response
+    | DeviceManagementGetDevicedefaultResponse
   >;
 }
 
@@ -329,7 +347,8 @@ export interface DeviceManagementGetDeviceModule {
   get(
     options?: DeviceManagementGetDeviceModuleParameters
   ): StreamableMethod<
-    DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuledefaultResponse
+    | DeviceManagementGetDeviceModule200Response
+    | DeviceManagementGetDeviceModuledefaultResponse
   >;
 }
 
@@ -348,7 +367,8 @@ export interface DeviceManagementListGroups {
   get(
     options?: DeviceManagementListGroupsParameters
   ): StreamableMethod<
-    DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse
+    | DeviceManagementListGroups200Response
+    | DeviceManagementListGroupsdefaultResponse
   >;
 }
 
@@ -357,13 +377,15 @@ export interface DeviceManagementGetGroup {
   get(
     options?: DeviceManagementGetGroupParameters
   ): StreamableMethod<
-    DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse
+    | DeviceManagementGetGroup200Response
+    | DeviceManagementGetGroupdefaultResponse
   >;
   /** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
   delete(
     options?: DeviceManagementDeleteGroupParameters
   ): StreamableMethod<
-    DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse
+    | DeviceManagementDeleteGroup204Response
+    | DeviceManagementDeleteGroupdefaultResponse
   >;
 }
 
@@ -402,7 +424,8 @@ export interface DeviceManagementGetDeployment {
   get(
     options?: DeviceManagementGetDeploymentParameters
   ): StreamableMethod<
-    DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse
+    | DeviceManagementGetDeployment200Response
+    | DeviceManagementGetDeploymentdefaultResponse
   >;
   /** Creates or updates a deployment. */
   put(
@@ -415,7 +438,8 @@ export interface DeviceManagementGetDeployment {
   delete(
     options?: DeviceManagementDeleteDeploymentParameters
   ): StreamableMethod<
-    DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse
+    | DeviceManagementDeleteDeployment204Response
+    | DeviceManagementDeleteDeploymentdefaultResponse
   >;
 }
 
@@ -508,7 +532,8 @@ export interface DeviceManagementStopDeployment {
   post(
     options?: DeviceManagementStopDeploymentParameters
   ): StreamableMethod<
-    DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse
+    | DeviceManagementStopDeployment200Response
+    | DeviceManagementStopDeploymentdefaultResponse
   >;
 }
 
@@ -517,7 +542,8 @@ export interface DeviceManagementRetryDeployment {
   post(
     options?: DeviceManagementRetryDeploymentParameters
   ): StreamableMethod<
-    DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse
+    | DeviceManagementRetryDeployment200Response
+    | DeviceManagementRetryDeploymentdefaultResponse
   >;
 }
 
@@ -557,7 +583,8 @@ export interface DeviceManagementListOperations {
   get(
     options?: DeviceManagementListOperationsParameters
   ): StreamableMethod<
-    DeviceManagementListOperations200Response | DeviceManagementListOperationsdefaultResponse
+    | DeviceManagementListOperations200Response
+    | DeviceManagementListOperationsdefaultResponse
   >;
 }
 
@@ -573,7 +600,8 @@ export interface DeviceManagementStartLogCollection {
   get(
     options?: DeviceManagementGetLogCollectionParameters
   ): StreamableMethod<
-    DeviceManagementGetLogCollection200Response | DeviceManagementGetLogCollectiondefaultResponse
+    | DeviceManagementGetLogCollection200Response
+    | DeviceManagementGetLogCollectiondefaultResponse
   >;
 }
 
@@ -602,15 +630,22 @@ export interface DeviceManagementListDeviceHealth {
   get(
     options: DeviceManagementListDeviceHealthParameters
   ): StreamableMethod<
-    DeviceManagementListDeviceHealth200Response | DeviceManagementListDeviceHealthdefaultResponse
+    | DeviceManagementListDeviceHealth200Response
+    | DeviceManagementListDeviceHealthdefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/deviceUpdate/\{instanceId\}/updates' has methods for the following verbs: get */
-  (path: "/deviceUpdate/{instanceId}/updates", instanceId: string): DeviceUpdateListUpdates;
+  (
+    path: "/deviceUpdate/{instanceId}/updates",
+    instanceId: string
+  ): DeviceUpdateListUpdates;
   /** Resource for '/deviceUpdate/\{instanceId\}/updates:import' has methods for the following verbs: post */
-  (path: "/deviceUpdate/{instanceId}/updates:import", instanceId: string): DeviceUpdateImportUpdate;
+  (
+    path: "/deviceUpdate/{instanceId}/updates:import",
+    instanceId: string
+  ): DeviceUpdateImportUpdate;
   /** Resource for '/deviceUpdate/\{instanceId\}/updates/providers/\{provider\}/names/\{name\}/versions/\{version\}' has methods for the following verbs: get, delete */
   (
     path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
