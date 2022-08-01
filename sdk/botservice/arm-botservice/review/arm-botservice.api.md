@@ -11,10 +11,10 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AlexaChannel = Channel & {
+export interface AlexaChannel extends Channel {
     channelName: "AlexaChannel";
     properties?: AlexaChannelProperties;
-};
+}
 
 // @public
 export interface AlexaChannelProperties {
@@ -40,6 +40,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     // (undocumented)
     directLine: DirectLine;
     // (undocumented)
+    email: Email;
+    // (undocumented)
     hostSettings: HostSettings;
     // (undocumented)
     operationResults: OperationResults;
@@ -49,6 +51,8 @@ export class AzureBotService extends coreClient.ServiceClient {
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
+    // (undocumented)
+    qnAMakerEndpointKeys: QnAMakerEndpointKeys;
     // (undocumented)
     subscriptionId: string;
 }
@@ -61,14 +65,14 @@ export interface AzureBotServiceOptionalParams extends coreClient.ServiceClientO
 }
 
 // @public
-export type Bot = Resource & {
+export interface Bot extends Resource {
     properties?: BotProperties;
-};
+}
 
 // @public
-export type BotChannel = Resource & {
+export interface BotChannel extends Resource {
     properties?: ChannelUnion;
-};
+}
 
 // @public
 export interface BotConnection {
@@ -150,7 +154,7 @@ export interface BotProperties {
     disableLocalAuth?: boolean;
     displayName: string;
     readonly enabledChannels?: string[];
-    endpoint: string;
+    endpoint: string | null;
     readonly endpointVersion?: string;
     iconUrl?: string;
     isCmekEnabled?: boolean;
@@ -174,6 +178,7 @@ export interface BotProperties {
     publishingCredentials?: string;
     schemaTransformationVersion?: string;
     storageResourceId?: string;
+    tenantId?: string;
 }
 
 // @public
@@ -263,14 +268,14 @@ export type BotsUpdateResponse = Bot;
 
 // @public
 export interface Channel {
-    channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel";
+    channelName: "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "OutlookChannel" | "MsTeamsChannel" | "SkypeChannel" | "KikChannel" | "WebChatChannel" | "DirectLineChannel" | "TelegramChannel" | "SmsChannel" | "SlackChannel" | "LineChannel" | "DirectLineSpeechChannel";
     etag?: string;
     location?: string;
     readonly provisioningState?: string;
 }
 
 // @public
-export type ChannelName = "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "KikChannel" | "TelegramChannel" | "SlackChannel" | "MsTeamsChannel" | "SkypeChannel" | "WebChatChannel" | "DirectLineChannel" | "SmsChannel" | "LineChannel" | "DirectLineSpeechChannel" | "OutlookChannel";
+export type ChannelName = "AlexaChannel" | "FacebookChannel" | "EmailChannel" | "KikChannel" | "TelegramChannel" | "SlackChannel" | "MsTeamsChannel" | "SkypeChannel" | "WebChatChannel" | "DirectLineChannel" | "SmsChannel" | "LineChannel" | "DirectLineSpeechChannel" | "OutlookChannel" | "Omnichannel" | "TelephonyChannel";
 
 // @public
 export interface ChannelResponseList {
@@ -306,8 +311,8 @@ export interface ChannelSettings {
     channelDisplayName?: string;
     channelId?: string;
     disableLocalAuth?: boolean;
-    extensionKey1?: string;
-    extensionKey2?: string;
+    readonly extensionKey1?: string;
+    readonly extensionKey2?: string;
     isEnabled?: boolean;
     sites?: Site[];
 }
@@ -356,7 +361,7 @@ export interface ChannelsUpdateOptionalParams extends coreClient.OperationOption
 export type ChannelsUpdateResponse = BotChannel;
 
 // @public (undocumented)
-export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel;
+export type ChannelUnion = Channel | AlexaChannel | FacebookChannel | EmailChannel | OutlookChannel | MsTeamsChannel | SkypeChannel | KikChannel | WebChatChannel | DirectLineChannel | TelegramChannel | SmsChannel | SlackChannel | LineChannel | DirectLineSpeechChannel;
 
 // @public
 export interface CheckNameAvailabilityRequestBody {
@@ -376,9 +381,9 @@ export interface ConnectionItemName {
 }
 
 // @public
-export type ConnectionSetting = Resource & {
+export interface ConnectionSetting extends Resource {
     properties?: ConnectionSettingProperties;
-};
+}
 
 // @public
 export interface ConnectionSettingParameter {
@@ -407,19 +412,33 @@ export interface ConnectionSettingResponseList {
 }
 
 // @public
+export interface CreateEmailSignInUrlResponse {
+    readonly id?: string;
+    location?: string;
+    properties?: CreateEmailSignInUrlResponseProperties;
+}
+
+// @public
+export interface CreateEmailSignInUrlResponseProperties {
+    url?: string;
+}
+
+// @public
 export interface DirectLine {
     regenerateKeys(resourceGroupName: string, resourceName: string, channelName: RegenerateKeysChannelName, parameters: SiteInfo, options?: DirectLineRegenerateKeysOptionalParams): Promise<DirectLineRegenerateKeysResponse>;
 }
 
 // @public
-export type DirectLineChannel = Channel & {
+export interface DirectLineChannel extends Channel {
     channelName: "DirectLineChannel";
     properties?: DirectLineChannelProperties;
-};
+}
 
 // @public
 export interface DirectLineChannelProperties {
     directLineEmbedCode?: string;
+    readonly extensionKey1?: string;
+    readonly extensionKey2?: string;
     sites?: DirectLineSite[];
 }
 
@@ -431,29 +450,20 @@ export interface DirectLineRegenerateKeysOptionalParams extends coreClient.Opera
 export type DirectLineRegenerateKeysResponse = BotChannel;
 
 // @public
-export interface DirectLineSite {
-    isBlockUserUploadEnabled?: boolean;
-    isEnabled: boolean;
-    isSecureSiteEnabled?: boolean;
-    isV1Enabled: boolean;
-    isV3Enabled: boolean;
-    readonly key?: string;
-    readonly key2?: string;
-    readonly siteId?: string;
-    siteName: string;
-    trustedOrigins?: string[];
+export interface DirectLineSite extends Site {
 }
 
 // @public
-export type DirectLineSpeechChannel = Channel & {
+export interface DirectLineSpeechChannel extends Channel {
     channelName: "DirectLineSpeechChannel";
     properties?: DirectLineSpeechChannelProperties;
-};
+}
 
 // @public
 export interface DirectLineSpeechChannelProperties {
-    cognitiveServiceRegion: string;
-    cognitiveServiceSubscriptionKey: string;
+    cognitiveServiceRegion?: string;
+    cognitiveServiceResourceId?: string;
+    cognitiveServiceSubscriptionKey?: string;
     customSpeechModelId?: string;
     customVoiceDeploymentId?: string;
     isDefaultBotForCogSvcAccount?: boolean;
@@ -461,17 +471,34 @@ export interface DirectLineSpeechChannelProperties {
 }
 
 // @public
-export type EmailChannel = Channel & {
+export interface Email {
+    createSignInUrl(resourceGroupName: string, resourceName: string, options?: EmailCreateSignInUrlOptionalParams): Promise<EmailCreateSignInUrlResponse>;
+}
+
+// @public
+export interface EmailChannel extends Channel {
     channelName: "EmailChannel";
     properties?: EmailChannelProperties;
-};
+}
+
+// @public
+export type EmailChannelAuthMethod = 0 | 1;
 
 // @public
 export interface EmailChannelProperties {
+    authMethod?: EmailChannelAuthMethod;
     emailAddress: string;
     isEnabled: boolean;
+    magicCode?: string;
     password?: string;
 }
+
+// @public
+export interface EmailCreateSignInUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
 
 // @public
 export interface ErrorBody {
@@ -485,10 +512,10 @@ export interface ErrorModel {
 }
 
 // @public
-export type FacebookChannel = Channel & {
+export interface FacebookChannel extends Channel {
     channelName: "FacebookChannel";
     properties?: FacebookChannelProperties;
-};
+}
 
 // @public
 export interface FacebookChannelProperties {
@@ -534,10 +561,10 @@ export interface HostSettingsResponse {
 export type Key = "key1" | "key2";
 
 // @public
-export type KikChannel = Channel & {
+export interface KikChannel extends Channel {
     channelName: "KikChannel";
     properties?: KikChannelProperties;
-};
+}
 
 // @public
 export interface KikChannelProperties {
@@ -552,93 +579,67 @@ export type Kind = string;
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Azurebot = "azurebot",
-    // (undocumented)
     Bot = "bot",
-    // (undocumented)
     Designer = "designer",
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     Sdk = "sdk"
 }
 
 // @public
 export enum KnownMsaAppType {
-    // (undocumented)
     MultiTenant = "MultiTenant",
-    // (undocumented)
     SingleTenant = "SingleTenant",
-    // (undocumented)
     UserAssignedMSI = "UserAssignedMSI"
 }
 
 // @public
 export enum KnownOperationResultStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Requested = "Requested",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     F0 = "F0",
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type LineChannel = Channel & {
+export interface LineChannel extends Channel {
     channelName: "LineChannel";
     properties?: LineChannelProperties;
-};
+}
 
 // @public
 export interface LineChannelProperties {
@@ -655,27 +656,27 @@ export interface LineRegistration {
 }
 
 // @public
-export type ListChannelWithKeysResponse = BotChannel & {
+export interface ListChannelWithKeysResponse extends BotChannel {
+    changedTime?: string;
+    entityTag?: string;
+    provisioningState?: string;
     resource?: ChannelUnion;
     setting?: ChannelSettings;
-    provisioningState?: string;
-    entityTag?: string;
-    changedTime?: string;
-};
+}
 
 // @public
 export type MsaAppType = string;
 
 // @public
-export type MsTeamsChannel = Channel & {
+export interface MsTeamsChannel extends Channel {
     channelName: "MsTeamsChannel";
     properties?: MsTeamsChannelProperties;
-};
+}
 
 // @public
 export interface MsTeamsChannelProperties {
     acceptedTerms?: boolean;
-    callingWebHook?: string;
+    callingWebhook?: string;
     deploymentEnvironment?: string;
     enableCalling?: boolean;
     incomingCallRoute?: string;
@@ -750,16 +751,21 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationEntityListResult;
 
 // @public
+export interface OutlookChannel extends Channel {
+    channelName: "OutlookChannel";
+}
+
+// @public
 export interface PrivateEndpoint {
     readonly id?: string;
 }
 
 // @public
-export type PrivateEndpointConnection = PrivateLinkResourceBase & {
+export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -806,11 +812,11 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = PrivateLinkResourceBase & {
+export interface PrivateLinkResource extends PrivateLinkResourceBase {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceBase {
@@ -845,6 +851,32 @@ export interface PrivateLinkServiceConnectionState {
 
 // @public
 export type PublicNetworkAccess = string;
+
+// @public
+export interface QnAMakerEndpointKeys {
+    get(parameters: QnAMakerEndpointKeysRequestBody, options?: QnAMakerEndpointKeysGetOptionalParams): Promise<QnAMakerEndpointKeysGetResponse>;
+}
+
+// @public
+export interface QnAMakerEndpointKeysGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QnAMakerEndpointKeysGetResponse = QnAMakerEndpointKeysResponse;
+
+// @public
+export interface QnAMakerEndpointKeysRequestBody {
+    authkey?: string;
+    hostname?: string;
+}
+
+// @public
+export interface QnAMakerEndpointKeysResponse {
+    installedVersion?: string;
+    lastStableVersion?: string;
+    primaryEndpointKey?: string;
+    secondaryEndpointKey?: string;
+}
 
 // @public
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
@@ -907,10 +939,25 @@ export interface ServiceProviderResponseList {
 }
 
 // @public
-export type Site = WebChatSite & DirectLineSite & {
-    isTokenEnabled?: boolean;
+export interface Site {
+    appId?: string;
     eTag?: string;
-};
+    isBlockUserUploadEnabled?: boolean;
+    isDetailedLoggingEnabled?: boolean;
+    isEnabled: boolean;
+    isEndpointParametersEnabled?: boolean;
+    isNoStorageEnabled?: boolean;
+    isSecureSiteEnabled?: boolean;
+    readonly isTokenEnabled?: boolean;
+    isV1Enabled?: boolean;
+    isV3Enabled?: boolean;
+    isWebchatPreviewEnabled?: boolean;
+    readonly key?: string;
+    readonly key2?: string;
+    readonly siteId?: string;
+    siteName: string;
+    trustedOrigins?: string[];
+}
 
 // @public
 export interface SiteInfo {
@@ -931,10 +978,10 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export type SkypeChannel = Channel & {
+export interface SkypeChannel extends Channel {
     channelName: "SkypeChannel";
     properties?: SkypeChannelProperties;
-};
+}
 
 // @public
 export interface SkypeChannelProperties {
@@ -951,10 +998,10 @@ export interface SkypeChannelProperties {
 }
 
 // @public
-export type SlackChannel = Channel & {
+export interface SlackChannel extends Channel {
     channelName: "SlackChannel";
     properties?: SlackChannelProperties;
-};
+}
 
 // @public
 export interface SlackChannelProperties {
@@ -965,17 +1012,17 @@ export interface SlackChannelProperties {
     landingPageUrl?: string;
     readonly lastSubmissionId?: string;
     readonly redirectAction?: string;
-    readonly registerBeforeOAuthFlow?: boolean;
+    registerBeforeOAuthFlow?: boolean;
     scopes?: string;
     signingSecret?: string;
     verificationToken?: string;
 }
 
 // @public
-export type SmsChannel = Channel & {
+export interface SmsChannel extends Channel {
     channelName: "SmsChannel";
     properties?: SmsChannelProperties;
-};
+}
 
 // @public
 export interface SmsChannelProperties {
@@ -987,10 +1034,10 @@ export interface SmsChannelProperties {
 }
 
 // @public
-export type TelegramChannel = Channel & {
+export interface TelegramChannel extends Channel {
     channelName: "TelegramChannel";
     properties?: TelegramChannelProperties;
-};
+}
 
 // @public
 export interface TelegramChannelProperties {
@@ -1000,10 +1047,10 @@ export interface TelegramChannelProperties {
 }
 
 // @public
-export type WebChatChannel = Channel & {
+export interface WebChatChannel extends Channel {
     channelName: "WebChatChannel";
     properties?: WebChatChannelProperties;
-};
+}
 
 // @public
 export interface WebChatChannelProperties {
@@ -1012,13 +1059,7 @@ export interface WebChatChannelProperties {
 }
 
 // @public
-export interface WebChatSite {
-    isEnabled: boolean;
-    isWebchatPreviewEnabled: boolean;
-    readonly key?: string;
-    readonly key2?: string;
-    readonly siteId?: string;
-    siteName: string;
+export interface WebChatSite extends Site {
 }
 
 // (No @packageDocumentation comment for this package)
