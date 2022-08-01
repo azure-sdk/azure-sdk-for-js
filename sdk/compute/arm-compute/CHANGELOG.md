@@ -1,15 +1,55 @@
 # Release History
+    
+## 20.0.0 (2022-08-01)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
+  - Added Type Alias GalleryApplicationVersionPropertiesProvisioningState
+  - Added Type Alias GalleryImagePropertiesProvisioningState
+  - Added Type Alias GalleryImageVersionPropertiesProvisioningState
+  - Added Type Alias GalleryPropertiesProvisioningState
+  - Interface RestorePointSourceMetadata has a new optional parameter userData
+  - Added Enum KnownGalleryApplicationVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryImagePropertiesProvisioningState
+  - Added Enum KnownGalleryImageVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryPropertiesProvisioningState
+  - Enum KnownSharingProfileGroupTypes has a new value Community
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation CommunityGalleryImages.list
+  - Removed operation CommunityGalleryImageVersions.list
+  - Interface CloudService no longer has parameter systemData
+  - Interface CloudServiceNetworkProfile no longer has parameter slotType
+  - Interface CommunityGalleryImage no longer has parameter architecture
+  - Interface CommunityGalleryImage no longer has parameter eula
+  - Interface CommunityGalleryImage no longer has parameter privacyStatementUri
+  - Interface CommunityGalleryImageVersion no longer has parameter excludeFromLatest
+  - Interface CommunityGalleryImageVersion no longer has parameter storageProfile
+  - Interface DiskEncryptionSet no longer has parameter federatedClientId
+  - Interface DiskEncryptionSetUpdate no longer has parameter federatedClientId
+  - Interface DiskRestorePoint no longer has parameter securityProfile
+  - Interface EncryptionSetIdentity no longer has parameter userAssignedIdentities
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter advancedSettings
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter settings
+  - Interface ImageDiskReference no longer has parameter communityGalleryImageId
+  - Interface ImageDiskReference no longer has parameter sharedGalleryImageId
+  - Interface SharedGalleryImage no longer has parameter architecture
+  - Interface SharedGalleryImageVersion no longer has parameter excludeFromLatest
+  - Interface SharedGalleryImageVersion no longer has parameter storageProfile
+  - Interface Snapshot no longer has parameter copyCompletionError
+  - Parameter id of interface ImageDiskReference is now required
+  - Removed Enum KnownCloudServiceSlotType
+  - Removed Enum KnownCopyCompletionErrorReason
+  - Removed Enum KnownGalleryProvisioningState
+  - Removed Enum KnownSharedGalleryHostCaching
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value SystemAssignedUserAssigned
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value UserAssigned
+  - Enum KnownDiskStorageAccountTypes no longer has value PremiumV2LRS
+  - Enum KnownGallerySharingPermissionTypes no longer has value Community
+  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**

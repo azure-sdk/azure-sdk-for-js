@@ -36,12 +36,12 @@ import {
   LogAnalyticsImpl,
   VirtualMachineRunCommandsImpl,
   VirtualMachineScaleSetVMRunCommandsImpl,
-  DisksImpl,
-  DiskAccessesImpl,
-  DiskEncryptionSetsImpl,
-  DiskRestorePointOperationsImpl,
-  SnapshotsImpl,
   ResourceSkusImpl,
+  DisksImpl,
+  SnapshotsImpl,
+  DiskEncryptionSetsImpl,
+  DiskAccessesImpl,
+  DiskRestorePointOperationsImpl,
   GalleriesImpl,
   GalleryImagesImpl,
   GalleryImageVersionsImpl,
@@ -87,12 +87,12 @@ import {
   LogAnalytics,
   VirtualMachineRunCommands,
   VirtualMachineScaleSetVMRunCommands,
-  Disks,
-  DiskAccesses,
-  DiskEncryptionSets,
-  DiskRestorePointOperations,
-  Snapshots,
   ResourceSkus,
+  Disks,
+  Snapshots,
+  DiskEncryptionSets,
+  DiskAccesses,
+  DiskRestorePointOperations,
   Galleries,
   GalleryImages,
   GalleryImageVersions,
@@ -145,12 +145,15 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-compute/19.1.1`;
+    const packageDetails = `azsdk-js-arm-compute/20.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -227,12 +230,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     this.virtualMachineScaleSetVMRunCommands = new VirtualMachineScaleSetVMRunCommandsImpl(
       this
     );
-    this.disks = new DisksImpl(this);
-    this.diskAccesses = new DiskAccessesImpl(this);
-    this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
-    this.diskRestorePointOperations = new DiskRestorePointOperationsImpl(this);
-    this.snapshots = new SnapshotsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
+    this.disks = new DisksImpl(this);
+    this.snapshots = new SnapshotsImpl(this);
+    this.diskEncryptionSets = new DiskEncryptionSetsImpl(this);
+    this.diskAccesses = new DiskAccessesImpl(this);
+    this.diskRestorePointOperations = new DiskRestorePointOperationsImpl(this);
     this.galleries = new GalleriesImpl(this);
     this.galleryImages = new GalleryImagesImpl(this);
     this.galleryImageVersions = new GalleryImageVersionsImpl(this);
@@ -282,12 +285,12 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
   logAnalytics: LogAnalytics;
   virtualMachineRunCommands: VirtualMachineRunCommands;
   virtualMachineScaleSetVMRunCommands: VirtualMachineScaleSetVMRunCommands;
-  disks: Disks;
-  diskAccesses: DiskAccesses;
-  diskEncryptionSets: DiskEncryptionSets;
-  diskRestorePointOperations: DiskRestorePointOperations;
-  snapshots: Snapshots;
   resourceSkus: ResourceSkus;
+  disks: Disks;
+  snapshots: Snapshots;
+  diskEncryptionSets: DiskEncryptionSets;
+  diskAccesses: DiskAccesses;
+  diskRestorePointOperations: DiskRestorePointOperations;
   galleries: Galleries;
   galleryImages: GalleryImages;
   galleryImageVersions: GalleryImageVersions;

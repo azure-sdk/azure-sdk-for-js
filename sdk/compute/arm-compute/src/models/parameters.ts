@@ -59,13 +59,13 @@ import {
   Disk as DiskMapper,
   DiskUpdate as DiskUpdateMapper,
   GrantAccessData as GrantAccessDataMapper,
+  Snapshot as SnapshotMapper,
+  SnapshotUpdate as SnapshotUpdateMapper,
+  DiskEncryptionSet as DiskEncryptionSetMapper,
+  DiskEncryptionSetUpdate as DiskEncryptionSetUpdateMapper,
   DiskAccess as DiskAccessMapper,
   DiskAccessUpdate as DiskAccessUpdateMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-  DiskEncryptionSet as DiskEncryptionSetMapper,
-  DiskEncryptionSetUpdate as DiskEncryptionSetUpdateMapper,
-  Snapshot as SnapshotMapper,
-  SnapshotUpdate as SnapshotUpdateMapper,
   Gallery as GalleryMapper,
   GalleryUpdate as GalleryUpdateMapper,
   GalleryImage as GalleryImageMapper,
@@ -110,7 +110,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -899,6 +899,28 @@ export const runCommand1: OperationParameter = {
   mapper: VirtualMachineRunCommandUpdateMapper
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-07-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const includeExtendedLocations: OperationQueryParameter = {
+  parameterPath: ["options", "includeExtendedLocations"],
+  mapper: {
+    serializedName: "includeExtendedLocations",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const disk: OperationParameter = {
   parameterPath: "disk",
   mapper: DiskMapper
@@ -915,10 +937,10 @@ export const diskName: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-02",
+    defaultValue: "2021-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -935,6 +957,48 @@ export const disk1: OperationParameter = {
 export const grantAccessData: OperationParameter = {
   parameterPath: "grantAccessData",
   mapper: GrantAccessDataMapper
+};
+
+export const snapshot: OperationParameter = {
+  parameterPath: "snapshot",
+  mapper: SnapshotMapper
+};
+
+export const snapshotName: OperationURLParameter = {
+  parameterPath: "snapshotName",
+  mapper: {
+    serializedName: "snapshotName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const snapshot1: OperationParameter = {
+  parameterPath: "snapshot",
+  mapper: SnapshotUpdateMapper
+};
+
+export const diskEncryptionSet: OperationParameter = {
+  parameterPath: "diskEncryptionSet",
+  mapper: DiskEncryptionSetMapper
+};
+
+export const diskEncryptionSetName: OperationURLParameter = {
+  parameterPath: "diskEncryptionSetName",
+  mapper: {
+    serializedName: "diskEncryptionSetName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const diskEncryptionSet1: OperationParameter = {
+  parameterPath: "diskEncryptionSet",
+  mapper: DiskEncryptionSetUpdateMapper
 };
 
 export const diskAccess: OperationParameter = {
@@ -974,27 +1038,6 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const diskEncryptionSet: OperationParameter = {
-  parameterPath: "diskEncryptionSet",
-  mapper: DiskEncryptionSetMapper
-};
-
-export const diskEncryptionSetName: OperationURLParameter = {
-  parameterPath: "diskEncryptionSetName",
-  mapper: {
-    serializedName: "diskEncryptionSetName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const diskEncryptionSet1: OperationParameter = {
-  parameterPath: "diskEncryptionSet",
-  mapper: DiskEncryptionSetUpdateMapper
-};
-
 export const vmRestorePointName: OperationURLParameter = {
   parameterPath: "vmRestorePointName",
   mapper: {
@@ -1011,49 +1054,6 @@ export const diskRestorePointName: OperationURLParameter = {
   mapper: {
     serializedName: "diskRestorePointName",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const snapshot: OperationParameter = {
-  parameterPath: "snapshot",
-  mapper: SnapshotMapper
-};
-
-export const snapshotName: OperationURLParameter = {
-  parameterPath: "snapshotName",
-  mapper: {
-    serializedName: "snapshotName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const snapshot1: OperationParameter = {
-  parameterPath: "snapshot",
-  mapper: SnapshotUpdateMapper
-};
-
-export const apiVersion2: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-07-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const includeExtendedLocations: OperationQueryParameter = {
-  parameterPath: ["options", "includeExtendedLocations"],
-  mapper: {
-    serializedName: "includeExtendedLocations",
     type: {
       name: "String"
     }
@@ -1079,7 +1079,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-03",
+    defaultValue: "2021-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1269,7 +1269,7 @@ export const cloudServiceName: OperationURLParameter = {
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-04",
+    defaultValue: "2021-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
