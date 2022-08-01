@@ -6,29 +6,29 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedEnvironmentsStorages } from "../operationsInterfaces";
+import { ConnectedEnvironmentsStorages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
-  ManagedEnvironmentsStoragesListOptionalParams,
-  ManagedEnvironmentsStoragesListResponse,
-  ManagedEnvironmentsStoragesGetOptionalParams,
-  ManagedEnvironmentsStoragesGetResponse,
-  ManagedEnvironmentStorage,
-  ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams,
-  ManagedEnvironmentsStoragesCreateOrUpdateResponse,
-  ManagedEnvironmentsStoragesDeleteOptionalParams
+  ConnectedEnvironmentsStoragesListOptionalParams,
+  ConnectedEnvironmentsStoragesListResponse,
+  ConnectedEnvironmentsStoragesGetOptionalParams,
+  ConnectedEnvironmentsStoragesGetResponse,
+  ConnectedEnvironmentStorage,
+  ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsStoragesCreateOrUpdateResponse,
+  ConnectedEnvironmentsStoragesDeleteOptionalParams
 } from "../models";
 
-/** Class containing ManagedEnvironmentsStorages operations. */
-export class ManagedEnvironmentsStoragesImpl
-  implements ManagedEnvironmentsStorages {
+/** Class containing ConnectedEnvironmentsStorages operations. */
+export class ConnectedEnvironmentsStoragesImpl
+  implements ConnectedEnvironmentsStorages {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ManagedEnvironmentsStorages class.
+   * Initialize a new instance of the class ConnectedEnvironmentsStorages class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -36,60 +36,60 @@ export class ManagedEnvironmentsStoragesImpl
   }
 
   /**
-   * Get all storages for a managedEnvironment.
+   * Get all storages for a connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Environment.
+   * @param connectedEnvironmentName Name of the Environment.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: ManagedEnvironmentsStoragesListOptionalParams
-  ): Promise<ManagedEnvironmentsStoragesListResponse> {
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsStoragesListOptionalParams
+  ): Promise<ConnectedEnvironmentsStoragesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, options },
+      { resourceGroupName, connectedEnvironmentName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get storage for a managedEnvironment.
+   * Get storage for a connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Environment.
+   * @param connectedEnvironmentName Name of the Environment.
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesGetOptionalParams
-  ): Promise<ManagedEnvironmentsStoragesGetResponse> {
+    options?: ConnectedEnvironmentsStoragesGetOptionalParams
+  ): Promise<ConnectedEnvironmentsStoragesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, storageName, options },
+      { resourceGroupName, connectedEnvironmentName, storageName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update storage for a managedEnvironment.
+   * Create or update storage for a connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Environment.
+   * @param connectedEnvironmentName Name of the Environment.
    * @param storageName Name of the storage.
    * @param storageEnvelope Configuration details of storage.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     storageName: string,
-    storageEnvelope: ManagedEnvironmentStorage,
-    options?: ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
-  ): Promise<ManagedEnvironmentsStoragesCreateOrUpdateResponse> {
+    storageEnvelope: ConnectedEnvironmentStorage,
+    options?: ConnectedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsStoragesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        environmentName,
+        connectedEnvironmentName,
         storageName,
         storageEnvelope,
         options
@@ -99,20 +99,20 @@ export class ManagedEnvironmentsStoragesImpl
   }
 
   /**
-   * Delete storage for a managedEnvironment.
+   * Delete storage for a connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Environment.
+   * @param connectedEnvironmentName Name of the Environment.
    * @param storageName Name of the storage.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     storageName: string,
-    options?: ManagedEnvironmentsStoragesDeleteOptionalParams
+    options?: ConnectedEnvironmentsStoragesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, storageName, options },
+      { resourceGroupName, connectedEnvironmentName, storageName, options },
       deleteOperationSpec
     );
   }
@@ -122,11 +122,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/storages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStoragesCollection
+      bodyMapper: Mappers.ConnectedEnvironmentStoragesCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -137,18 +137,18 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/storages/{storageName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStorage
+      bodyMapper: Mappers.ConnectedEnvironmentStorage
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -159,32 +159,32 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/storages/{storageName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedEnvironmentStorage
+      bodyMapper: Mappers.ConnectedEnvironmentStorage
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.storageEnvelope,
+  requestBody: Parameters.storageEnvelope1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -192,7 +192,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/storages/{storageName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/storages/{storageName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -206,8 +206,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName,
-    Parameters.storageName
+    Parameters.storageName,
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
