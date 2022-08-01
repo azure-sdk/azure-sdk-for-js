@@ -175,6 +175,17 @@ export const OperationResourceMetricSpecification: coreClient.CompositeMapper = 
           name: "String"
         }
       },
+      supportedAggregationTypes: {
+        serializedName: "supportedAggregationTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       fillGapWithZero: {
         serializedName: "fillGapWithZero",
         type: {
@@ -277,8 +288,8 @@ export const StorageSyncApiError: coreClient.CompositeMapper = {
           className: "StorageSyncErrorDetails"
         }
       },
-      innerError: {
-        serializedName: "innerError",
+      innererror: {
+        serializedName: "innererror",
         type: {
           name: "Composite",
           className: "StorageSyncInnerErrorDetails"
@@ -457,6 +468,80 @@ export const StorageSyncServiceCreateParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identityType: {
+        serializedName: "properties.identityType",
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
       }
     }
   }
@@ -530,6 +615,58 @@ export const Resource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -549,6 +686,18 @@ export const StorageSyncServiceUpdateParameters: coreClient.CompositeMapper = {
       },
       incomingTrafficPolicy: {
         serializedName: "properties.incomingTrafficPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      identityType: {
+        serializedName: "properties.identityType",
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
         type: {
           name: "String"
         }
@@ -1507,6 +1656,13 @@ export const ServerEndpointCloudTieringStatus: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CloudTieringDatePolicyStatus"
         }
+      },
+      lowDiskMode: {
+        serializedName: "lowDiskMode",
+        type: {
+          name: "Composite",
+          className: "CloudTieringLowDiskMode"
+        }
       }
     }
   }
@@ -1746,6 +1902,29 @@ export const CloudTieringDatePolicyStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const CloudTieringLowDiskMode: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudTieringLowDiskMode",
+    modelProperties: {
+      lastUpdatedTimestamp: {
+        serializedName: "lastUpdatedTimestamp",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      state: {
+        serializedName: "state",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2311,6 +2490,27 @@ export const StorageSyncService: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      identityType: {
+        serializedName: "properties.identityType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "properties.identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
         readOnly: true,
@@ -2505,6 +2705,7 @@ export const ServerEndpointCreateParameters: coreClient.CompositeMapper = {
         }
       },
       tierFilesOlderThanDays: {
+        defaultValue: 0,
         constraints: {
           InclusiveMaximum: 2147483647,
           InclusiveMinimum: 0
@@ -2854,6 +3055,20 @@ export const RegisteredServer: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identityType: {
+        serializedName: "properties.identityType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2915,6 +3130,44 @@ export const RegisteredServerCreateParameters: coreClient.CompositeMapper = {
       },
       friendlyName: {
         serializedName: "properties.friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      identityType: {
+        serializedName: "properties.identityType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegisteredServerUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegisteredServerUpdateParameters",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      identityType: {
+        serializedName: "properties.identityType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identityId: {
+        serializedName: "properties.identityId",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -3771,6 +4024,27 @@ export const RegisteredServersCreateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RegisteredServersCreateHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsCorrelationRequestId: {
+        serializedName: "x-ms-correlation-request-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegisteredServersUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegisteredServersUpdateHeaders",
     modelProperties: {
       xMsRequestId: {
         serializedName: "x-ms-request-id",
