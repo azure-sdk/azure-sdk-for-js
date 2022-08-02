@@ -3926,7 +3926,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220801
+      typescript: 4.8.0-dev.20220802
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8697,8 +8697,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220801:
-    resolution: {integrity: sha512-idPY4geCSbS6npeHcr4m4nITkxz0/w4LmLSAao0UGvaWoHGFfkThJZhCXWFAx9TxQV1zZUWgXmngJBjfTm3otw==}
+  /typescript/4.8.0-dev.20220802:
+    resolution: {integrity: sha512-xMw8U8T1pIm07TgNJnK88EvkcsbWiyefGwLh6JsK0HD5wb00Oqw7pjHOhvyB2YHiUw4mKJQkiRUoPvQ55ZcZOQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10709,7 +10709,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-FsOYCoGtxS508nCllNNxx0rF6cpj84LnPQF2kf/FsOC5+CiQbATbEjjVj2w4rPRh4xMG01OzcjMUmPaC2JlJnQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-Kezc5Lr6tAeoG6juYIniTTmFDiG6rmRlB2i5tqsFxhfiR63uEjbm3HJaqAUUfPaer4UTOh1HNeIPDtj9N1I6Gw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10728,7 +10728,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
