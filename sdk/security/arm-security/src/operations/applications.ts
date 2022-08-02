@@ -7,28 +7,26 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SecureScores } from "../operationsInterfaces";
+import { Applications } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityCenter } from "../securityCenter";
 import {
-  SecureScoreItem,
-  SecureScoresListNextOptionalParams,
-  SecureScoresListOptionalParams,
-  SecureScoresListResponse,
-  SecureScoresGetOptionalParams,
-  SecureScoresGetResponse,
-  SecureScoresListNextResponse
+  Application,
+  ApplicationsListNextOptionalParams,
+  ApplicationsListOptionalParams,
+  ApplicationsListResponse,
+  ApplicationsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing SecureScores operations. */
-export class SecureScoresImpl implements SecureScores {
+/** Class containing Applications operations. */
+export class ApplicationsImpl implements Applications {
   private readonly client: SecurityCenter;
 
   /**
-   * Initialize a new instance of the class SecureScores class.
+   * Initialize a new instance of the class Applications class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityCenter) {
@@ -36,12 +34,12 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   /**
-   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
+   * Get a list of all relevant applications over a subscription level scope
    * @param options The options parameters.
    */
   public list(
-    options?: SecureScoresListOptionalParams
-  ): PagedAsyncIterableIterator<SecureScoreItem> {
+    options?: ApplicationsListOptionalParams
+  ): PagedAsyncIterableIterator<Application> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -57,8 +55,8 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   private async *listPagingPage(
-    options?: SecureScoresListOptionalParams
-  ): AsyncIterableIterator<SecureScoreItem[]> {
+    options?: ApplicationsListOptionalParams
+  ): AsyncIterableIterator<Application[]> {
     let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -70,38 +68,21 @@ export class SecureScoresImpl implements SecureScores {
   }
 
   private async *listPagingAll(
-    options?: SecureScoresListOptionalParams
-  ): AsyncIterableIterator<SecureScoreItem> {
+    options?: ApplicationsListOptionalParams
+  ): AsyncIterableIterator<Application> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
+   * Get a list of all relevant applications over a subscription level scope
    * @param options The options parameters.
    */
   private _list(
-    options?: SecureScoresListOptionalParams
-  ): Promise<SecureScoresListResponse> {
+    options?: ApplicationsListOptionalParams
+  ): Promise<ApplicationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope.
-   * For the ASC Default initiative, use 'ascScore'.
-   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in the
-   *                        sample request below.
-   * @param options The options parameters.
-   */
-  get(
-    secureScoreName: string,
-    options?: SecureScoresGetOptionalParams
-  ): Promise<SecureScoresGetResponse> {
-    return this.client.sendOperationRequest(
-      { secureScoreName, options },
-      getOperationSpec
-    );
   }
 
   /**
@@ -111,8 +92,8 @@ export class SecureScoresImpl implements SecureScores {
    */
   private _listNext(
     nextLink: string,
-    options?: SecureScoresListNextOptionalParams
-  ): Promise<SecureScoresListNextResponse> {
+    options?: ApplicationsListNextOptionalParams
+  ): Promise<ApplicationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listNextOperationSpec
@@ -124,39 +105,18 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores",
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecureScoresList
+      bodyMapper: Mappers.ApplicationsList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/secureScores/{secureScoreName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecureScoreItem
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.secureScoreName
-  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -165,13 +125,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecureScoresList
+      bodyMapper: Mappers.ApplicationsList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
