@@ -4068,6 +4068,12 @@ export interface Plan {
 }
 
 // @public
+export interface PriorityMixPolicy {
+    baseRegularPriorityCount?: number;
+    regularPriorityPercentageAboveBase?: number;
+}
+
+// @public
 export interface PrivateEndpoint {
     readonly id?: string;
 }
@@ -4992,7 +4998,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -6213,6 +6219,7 @@ export interface VirtualMachineScaleSet extends Resource {
     overprovision?: boolean;
     plan?: Plan;
     platformFaultDomainCount?: number;
+    priorityMixPolicy?: PriorityMixPolicy;
     readonly provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     scaleInPolicy?: ScaleInPolicy;

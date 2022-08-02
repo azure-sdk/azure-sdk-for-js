@@ -1,15 +1,13 @@
 # Release History
+    
+## 19.2.0 (2022-08-02)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface PriorityMixPolicy
+  - Interface VirtualMachineScaleSet has a new optional parameter priorityMixPolicy
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
