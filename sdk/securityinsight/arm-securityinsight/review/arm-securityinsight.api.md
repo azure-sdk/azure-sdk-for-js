@@ -1272,6 +1272,62 @@ export interface Dynamics365DataConnectorProperties extends DataConnectorTenantI
 }
 
 // @public
+export interface EditedQueries {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, queryId: string, editedQueryId: string, editedQuery: EditedQuery, options?: EditedQueriesCreateOrUpdateOptionalParams): Promise<EditedQueriesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, queryId: string, editedQueryId: string, options?: EditedQueriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, queryId: string, editedQueryId: string, options?: EditedQueriesGetOptionalParams): Promise<EditedQueriesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, queryId: string, options?: EditedQueriesListOptionalParams): PagedAsyncIterableIterator<EditedQuery>;
+}
+
+// @public
+export interface EditedQueriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EditedQueriesCreateOrUpdateResponse = EditedQuery;
+
+// @public
+export interface EditedQueriesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface EditedQueriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EditedQueriesGetResponse = EditedQuery;
+
+// @public
+export interface EditedQueriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EditedQueriesListNextResponse = EditedQueryList;
+
+// @public
+export interface EditedQueriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EditedQueriesListResponse = EditedQueryList;
+
+// @public
+export interface EditedQuery extends ResourceWithEtag {
+    correlationId?: string;
+    documentType?: string;
+    editedQueryId?: string;
+    executionResult?: string;
+    kustoQueryLanguage?: string;
+    queryId?: string;
+}
+
+// @public
+export interface EditedQueryList {
+    readonly nextLink?: string;
+    value: EditedQuery[];
+}
+
+// @public
 export type ElevationToken = "Default" | "Full" | "Limited";
 
 // @public
@@ -3354,7 +3410,7 @@ export interface MalwareEntityProperties extends EntityCommonProperties {
 // @public (undocumented)
 export interface ManualTriggerRequestBody {
     // (undocumented)
-    logicAppsResourceId?: string;
+    logicAppsResourceId: string;
     // (undocumented)
     tenantId?: string;
 }
@@ -4115,6 +4171,56 @@ export interface PropertyConditionProperties extends AutomationRuleCondition {
 export type ProviderName = string;
 
 // @public
+export interface Queries {
+    createOrUpdate(resourceGroupName: string, workspaceName: string, queryId: string, query: Query, options?: QueriesCreateOrUpdateOptionalParams): Promise<QueriesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, workspaceName: string, queryId: string, options?: QueriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, queryId: string, options?: QueriesGetOptionalParams): Promise<QueriesGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: QueriesListOptionalParams): PagedAsyncIterableIterator<Query>;
+}
+
+// @public
+export interface QueriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesCreateOrUpdateResponse = Query;
+
+// @public
+export interface QueriesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface QueriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesGetResponse = Query;
+
+// @public
+export interface QueriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesListNextResponse = QueryList;
+
+// @public
+export interface QueriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QueriesListResponse = QueryList;
+
+// @public
+export interface Query extends ResourceWithEtag {
+    correlationId?: string;
+    documentType?: string;
+    executionResult?: string;
+    kustoQueryLanguage?: string;
+    naturalLanguage?: string;
+    queryId?: string;
+}
+
+// @public
 export interface QueryBasedAlertRuleTemplateProperties {
     alertDetailsOverride?: AlertDetailsOverride;
     customDetails?: {
@@ -4124,6 +4230,12 @@ export interface QueryBasedAlertRuleTemplateProperties {
     query?: string;
     severity?: AlertSeverity;
     version?: string;
+}
+
+// @public
+export interface QueryList {
+    readonly nextLink?: string;
+    value: Query[];
 }
 
 // @public
@@ -4462,6 +4574,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     domainWhois: DomainWhois;
     // (undocumented)
+    editedQueries: EditedQueries;
+    // (undocumented)
     entities: Entities;
     // (undocumented)
     entitiesGetTimeline: EntitiesGetTimeline;
@@ -4489,6 +4603,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     operations: Operations;
     // (undocumented)
     productSettings: ProductSettings;
+    // (undocumented)
+    queries: Queries;
     // (undocumented)
     securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
     // (undocumented)

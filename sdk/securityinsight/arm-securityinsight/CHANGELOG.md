@@ -1,15 +1,41 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-02)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation group EditedQueries
+  - Added operation group Queries
+  - Added Interface EditedQueriesCreateOrUpdateOptionalParams
+  - Added Interface EditedQueriesDeleteOptionalParams
+  - Added Interface EditedQueriesGetOptionalParams
+  - Added Interface EditedQueriesListNextOptionalParams
+  - Added Interface EditedQueriesListOptionalParams
+  - Added Interface EditedQuery
+  - Added Interface EditedQueryList
+  - Added Interface QueriesCreateOrUpdateOptionalParams
+  - Added Interface QueriesDeleteOptionalParams
+  - Added Interface QueriesGetOptionalParams
+  - Added Interface QueriesListNextOptionalParams
+  - Added Interface QueriesListOptionalParams
+  - Added Interface Query
+  - Added Interface QueryList
+  - Added Type Alias EditedQueriesCreateOrUpdateResponse
+  - Added Type Alias EditedQueriesGetResponse
+  - Added Type Alias EditedQueriesListNextResponse
+  - Added Type Alias EditedQueriesListResponse
+  - Added Type Alias QueriesCreateOrUpdateResponse
+  - Added Type Alias QueriesGetResponse
+  - Added Type Alias QueriesListNextResponse
+  - Added Type Alias QueriesListResponse
+  - Class SecurityInsights has a new parameter editedQueries
+  - Class SecurityInsights has a new parameter queries
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter logicAppsResourceId of interface ManualTriggerRequestBody is now required
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**

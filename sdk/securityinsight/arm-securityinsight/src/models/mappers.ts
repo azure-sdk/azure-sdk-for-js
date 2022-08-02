@@ -405,6 +405,7 @@ export const ManualTriggerRequestBody: coreClient.CompositeMapper = {
       },
       logicAppsResourceId: {
         serializedName: "logicAppsResourceId",
+        required: true,
         type: {
           name: "String"
         }
@@ -3576,6 +3577,64 @@ export const OperationDisplay: coreClient.CompositeMapper = {
         serializedName: "resource",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const QueryList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Query"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EditedQueryList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EditedQueryList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EditedQuery"
+            }
+          }
         }
       }
     }
@@ -10803,6 +10862,98 @@ export const DataConnector: coreClient.CompositeMapper = {
       kind: {
         serializedName: "kind",
         required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Query: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Query",
+    modelProperties: {
+      ...ResourceWithEtag.type.modelProperties,
+      queryId: {
+        serializedName: "properties.queryId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "properties.correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      naturalLanguage: {
+        serializedName: "properties.naturalLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      kustoQueryLanguage: {
+        serializedName: "properties.kustoQueryLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      documentType: {
+        serializedName: "properties.documentType",
+        type: {
+          name: "String"
+        }
+      },
+      executionResult: {
+        serializedName: "properties.executionResult",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EditedQuery: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EditedQuery",
+    modelProperties: {
+      ...ResourceWithEtag.type.modelProperties,
+      queryId: {
+        serializedName: "properties.queryId",
+        type: {
+          name: "String"
+        }
+      },
+      editedQueryId: {
+        serializedName: "properties.editedQueryId",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "properties.correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      kustoQueryLanguage: {
+        serializedName: "properties.kustoQueryLanguage",
+        type: {
+          name: "String"
+        }
+      },
+      documentType: {
+        serializedName: "properties.documentType",
+        type: {
+          name: "String"
+        }
+      },
+      executionResult: {
+        serializedName: "properties.executionResult",
         type: {
           name: "String"
         }

@@ -271,7 +271,7 @@ export interface AutomationRulesList {
 
 export interface ManualTriggerRequestBody {
   tenantId?: string;
-  logicAppsResourceId?: string;
+  logicAppsResourceId: string;
 }
 
 /** List all the bookmarks. */
@@ -1380,6 +1380,28 @@ export interface OperationDisplay {
   provider?: string;
   /** Resource name */
   resource?: string;
+}
+
+/** List all the queries. */
+export interface QueryList {
+  /**
+   * URL to fetch the next set of queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of queries. */
+  value: Query[];
+}
+
+/** List all the Edited Queries. */
+export interface EditedQueryList {
+  /**
+   * URL to fetch the next set of edited queries.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of edited queries. */
+  value: EditedQuery[];
 }
 
 /** alert rule template data sources */
@@ -4227,6 +4249,38 @@ export interface WatchlistItem extends ResourceWithEtag {
 export interface DataConnector extends ResourceWithEtag {
   /** The data connector kind */
   kind: DataConnectorKind;
+}
+
+/** Represents a Query in Azure Security Insights. */
+export interface Query extends ResourceWithEtag {
+  /** The id (a Guid) of the query */
+  queryId?: string;
+  /** The id (a Guid) of the correlationId */
+  correlationId?: string;
+  /** The natural language */
+  naturalLanguage?: string;
+  /** the kusto query for a natural language */
+  kustoQueryLanguage?: string;
+  /** A type of the document (is 'assistedQuery') */
+  documentType?: string;
+  /** The result of the execution to get kusto query from  natural language input */
+  executionResult?: string;
+}
+
+/** Represents a Edited Query in Azure Security Insights. */
+export interface EditedQuery extends ResourceWithEtag {
+  /** The id (a Guid) of the query */
+  queryId?: string;
+  /** The id (a Guid) of the edited query */
+  editedQueryId?: string;
+  /** The id (a Guid) of the correlationId */
+  correlationId?: string;
+  /** the kusto query for a natural language */
+  kustoQueryLanguage?: string;
+  /** A type of the document (is 'assistedQuery') */
+  documentType?: string;
+  /** The result of the execution to get kusto query from  natural language input */
+  executionResult?: string;
 }
 
 /** Represents MLBehaviorAnalytics alert rule template. */
@@ -9354,6 +9408,69 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationsList;
+
+/** Optional parameters. */
+export interface QueriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QueriesListResponse = QueryList;
+
+/** Optional parameters. */
+export interface QueriesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QueriesGetResponse = Query;
+
+/** Optional parameters. */
+export interface QueriesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface QueriesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type QueriesCreateOrUpdateResponse = Query;
+
+/** Optional parameters. */
+export interface QueriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QueriesListNextResponse = QueryList;
+
+/** Optional parameters. */
+export interface EditedQueriesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type EditedQueriesListResponse = EditedQueryList;
+
+/** Optional parameters. */
+export interface EditedQueriesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EditedQueriesGetResponse = EditedQuery;
+
+/** Optional parameters. */
+export interface EditedQueriesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EditedQueriesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EditedQueriesCreateOrUpdateResponse = EditedQuery;
+
+/** Optional parameters. */
+export interface EditedQueriesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EditedQueriesListNextResponse = EditedQueryList;
 
 /** Optional parameters. */
 export interface SecurityInsightsOptionalParams
