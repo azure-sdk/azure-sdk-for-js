@@ -164,18 +164,44 @@ export interface SuppressionContractListResult {
   value?: SuppressionContract[];
 }
 
+/** Parameters for predict recommendation. */
+export interface PredictionRequest {
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** Extended properties are arguments specific for each prediction type. */
+  extendedProperties?: Record<string, unknown>;
+}
+
+/** Response used by predictions. */
+export interface PredictionResponse {
+  /** Extended properties */
+  extendedProperties?: Record<string, unknown>;
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** The category of the recommendation. */
+  category?: Category;
+  /** The business impact of the recommendation. */
+  impact?: Impact;
+  /** The resource type identified by Advisor. */
+  impactedField?: string;
+  /** The most recent time that Advisor checked the validity of the recommendation. */
+  lastUpdated?: Date;
+  /** A summary of the recommendation. */
+  shortDescription?: ShortDescription;
+}
+
 /** The Advisor configuration data structure. */
-export type ConfigData = Resource & {
+export interface ConfigData extends Resource {
   /** Exclude the resource from Advisor evaluations. Valid values: False (default) or True. */
   exclude?: boolean;
   /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
   lowCpuThreshold?: CpuThreshold;
   /** Advisor digest configuration. Valid only for subscriptions */
   digests?: DigestConfig[];
-};
+}
 
 /** Advisor Recommendation. */
-export type ResourceRecommendationBase = Resource & {
+export interface ResourceRecommendationBase extends Resource {
   /** The category of the recommendation. */
   category?: Category;
   /** The business impact of the recommendation. */
@@ -216,10 +242,10 @@ export type ResourceRecommendationBase = Resource & {
   exposedMetadataProperties?: {
     [propertyName: string]: Record<string, unknown>;
   };
-};
+}
 
 /** The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule. */
-export type SuppressionContract = Resource & {
+export interface SuppressionContract extends Resource {
   /** The GUID of the suppression. */
   suppressionId?: string;
   /** The duration for which the suppression is valid. */
@@ -229,7 +255,7 @@ export type SuppressionContract = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly expirationTimeStamp?: Date;
-};
+}
 
 /** Defines headers for Recommendations_generate operation. */
 export interface RecommendationsGenerateHeaders {
@@ -241,6 +267,7 @@ export interface RecommendationsGenerateHeaders {
 
 /** Known values of {@link Scenario} that the service accepts. */
 export enum KnownScenario {
+  /** Alerts */
   Alerts = "Alerts"
 }
 
@@ -255,9 +282,13 @@ export type Scenario = string;
 
 /** Known values of {@link CpuThreshold} that the service accepts. */
 export enum KnownCpuThreshold {
+  /** Five */
   Five = "5",
+  /** Ten */
   Ten = "10",
+  /** Fifteen */
   Fifteen = "15",
+  /** Twenty */
   Twenty = "20"
 }
 
@@ -275,10 +306,15 @@ export type CpuThreshold = string;
 
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
+  /** HighAvailability */
   HighAvailability = "HighAvailability",
+  /** Security */
   Security = "Security",
+  /** Performance */
   Performance = "Performance",
+  /** Cost */
   Cost = "Cost",
+  /** OperationalExcellence */
   OperationalExcellence = "OperationalExcellence"
 }
 
@@ -297,7 +333,9 @@ export type Category = string;
 
 /** Known values of {@link DigestConfigState} that the service accepts. */
 export enum KnownDigestConfigState {
+  /** Active */
   Active = "Active",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -313,6 +351,7 @@ export type DigestConfigState = string;
 
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
+  /** Default */
   Default = "default"
 }
 
@@ -327,8 +366,11 @@ export type ConfigurationName = string;
 
 /** Known values of {@link Impact} that the service accepts. */
 export enum KnownImpact {
+  /** High */
   High = "High",
+  /** Medium */
   Medium = "Medium",
+  /** Low */
   Low = "Low"
 }
 
@@ -345,8 +387,11 @@ export type Impact = string;
 
 /** Known values of {@link Risk} that the service accepts. */
 export enum KnownRisk {
+  /** Error */
   Error = "Error",
+  /** Warning */
   Warning = "Warning",
+  /** None */
   None = "None"
 }
 
@@ -360,6 +405,21 @@ export enum KnownRisk {
  * **None**
  */
 export type Risk = string;
+
+/** Known values of {@link PredictionType} that the service accepts. */
+export enum KnownPredictionType {
+  /** PredictiveRightsizing */
+  PredictiveRightsizing = "PredictiveRightsizing"
+}
+
+/**
+ * Defines values for PredictionType. \
+ * {@link KnownPredictionType} can be used interchangeably with PredictionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PredictiveRightsizing**
+ */
+export type PredictionType = string;
 
 /** Optional parameters. */
 export interface RecommendationMetadataGetOptionalParams
@@ -518,6 +578,12 @@ export interface SuppressionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;
+
+/** Optional parameters. */
+export interface PredictOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the predict operation. */
+export type PredictResponse = PredictionResponse;
 
 /** Optional parameters. */
 export interface AdvisorManagementClientOptionalParams

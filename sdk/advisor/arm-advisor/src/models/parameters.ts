@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   ConfigData as ConfigDataMapper,
-  SuppressionContract as SuppressionContractMapper
+  SuppressionContract as SuppressionContractMapper,
+  PredictionRequest as PredictionRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -191,4 +192,9 @@ export const recommendationId: OperationURLParameter = {
 export const suppressionContract: OperationParameter = {
   parameterPath: "suppressionContract",
   mapper: SuppressionContractMapper
+};
+
+export const predictionRequest: OperationParameter = {
+  parameterPath: "predictionRequest",
+  mapper: PredictionRequestMapper
 };
