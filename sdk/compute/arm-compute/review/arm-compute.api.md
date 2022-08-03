@@ -3232,8 +3232,7 @@ export enum KnownOrchestrationMode {
 
 // @public
 export enum KnownOrchestrationServiceNames {
-    AutomaticRepairs = "AutomaticRepairs",
-    DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
+    AutomaticRepairs = "AutomaticRepairs"
 }
 
 // @public
@@ -4992,7 +4991,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5601,7 +5600,7 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -5731,7 +5730,7 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -6248,7 +6247,7 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6336,7 +6335,7 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6936,7 +6935,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     instanceView?: VirtualMachineExtensionInstanceView;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -7016,7 +7015,7 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;

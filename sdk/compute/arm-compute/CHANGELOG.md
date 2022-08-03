@@ -1,15 +1,12 @@
 # Release History
+    
+## 20.0.0 (2022-08-03)
+    
+**Breaking Changes**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
