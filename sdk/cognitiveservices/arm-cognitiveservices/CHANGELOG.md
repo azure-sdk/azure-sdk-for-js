@@ -1,5 +1,19 @@
 # Release History
     
+## 7.3.0 (2022-08-03)
+    
+**Features**
+
+  - Added Interface Account
+  - Added Interface AccountModel
+  - Added Interface AzureEntityResource
+  - Added Interface CommitmentPlan
+  - Added Interface Deployment
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+    
+    
 ## 7.2.0 (2022-06-10)
     
 **Features**
