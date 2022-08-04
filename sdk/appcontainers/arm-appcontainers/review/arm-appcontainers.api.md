@@ -279,7 +279,7 @@ export interface ContainerApp extends TrackedResource {
     readonly latestRevisionFqdn?: string;
     readonly latestRevisionName?: string;
     managedEnvironmentId?: string;
-    readonly outboundIpAddresses?: string[];
+    readonly outboundIPAddresses?: string[];
     readonly provisioningState?: ContainerAppProvisioningState;
     template?: Template;
 }
@@ -636,7 +636,7 @@ export interface CustomDomain {
 }
 
 // @public
-export interface CustomHostnameAnalysisResult {
+export interface CustomHostnameAnalysisResult extends ProxyResource {
     alternateCNameRecords?: string[];
     alternateTxtRecords?: string[];
     aRecords?: string[];

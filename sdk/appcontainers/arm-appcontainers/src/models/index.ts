@@ -819,50 +819,6 @@ export interface Volume {
   storageName?: string;
 }
 
-/** Custom domain analysis. */
-export interface CustomHostnameAnalysisResult {
-  /**
-   * Host name that was analyzed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostName?: string;
-  /**
-   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isHostnameAlreadyVerified?: boolean;
-  /**
-   * DNS verification test result.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationTest?: DnsVerificationTestResult;
-  /**
-   * Raw failure information if DNS verification fails.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
-  /**
-   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hasConflictOnManagedEnvironment?: boolean;
-  /**
-   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly conflictingContainerAppResourceId?: string;
-  /** CName records visible for this hostname. */
-  cNameRecords?: string[];
-  /** TXT records visible for this hostname. */
-  txtRecords?: string[];
-  /** A records visible for this hostname. */
-  aRecords?: string[];
-  /** Alternate CName records visible for this hostname. */
-  alternateCNameRecords?: string[];
-  /** Alternate TXT records visible for this hostname. */
-  alternateTxtRecords?: string[];
-}
-
 /** Container App Secrets Collection ARM resource. */
 export interface SecretsCollection {
   /** Collection of resources. */
@@ -1204,6 +1160,50 @@ export interface AuthConfig extends ProxyResource {
   httpSettings?: HttpSettings;
 }
 
+/** Custom domain analysis. */
+export interface CustomHostnameAnalysisResult extends ProxyResource {
+  /**
+   * Host name that was analyzed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostName?: string;
+  /**
+   * <code>true</code> if hostname is already verified; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isHostnameAlreadyVerified?: boolean;
+  /**
+   * DNS verification test result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationTest?: DnsVerificationTestResult;
+  /**
+   * Raw failure information if DNS verification fails.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+  /**
+   * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hasConflictOnManagedEnvironment?: boolean;
+  /**
+   * Name of the conflicting Container App on the Managed Environment if it's within the same subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly conflictingContainerAppResourceId?: string;
+  /** CName records visible for this hostname. */
+  cNameRecords?: string[];
+  /** TXT records visible for this hostname. */
+  txtRecords?: string[];
+  /** A records visible for this hostname. */
+  aRecords?: string[];
+  /** Alternate CName records visible for this hostname. */
+  alternateCNameRecords?: string[];
+  /** Alternate TXT records visible for this hostname. */
+  alternateTxtRecords?: string[];
+}
+
 /** Container App Revision. */
 export interface Revision extends ProxyResource {
   /**
@@ -1344,7 +1344,7 @@ export interface ContainerApp extends TrackedResource {
    * Outbound IP Addresses for container app.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly outboundIpAddresses?: string[];
+  readonly outboundIPAddresses?: string[];
 }
 
 /** An environment for hosting container apps */
