@@ -3974,7 +3974,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220803
+      typescript: 4.8.0-dev.20220804
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8863,8 +8863,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220803:
-    resolution: {integrity: sha512-kSQ2BkI4A0i81bjz+X+ibWVlC/DiImiNzJkz8tOj3U3hSgtgBTWw0a2YnVVHvyVdw7R59qDjE/sjX/3p8zY7xg==}
+  /typescript/4.8.0-dev.20220804:
+    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10324,7 +10324,7 @@ packages:
     dev: false
 
   file:projects/arm-automanage.tgz:
-    resolution: {integrity: sha512-IqdKA2yoAZLl7nhBtmevoGW3e3bAJe0fSppmtZQe8FeqvFBS3Osp3wisHvgNYbYKlhGs0530fHWCHNkdddLZlQ==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-/BCqOd4HuA3lHSJ73K+Hde+FuYj66OieX269FsZRC/NOa00PYPeJxhIg4WZqMNNMccb9ZE4P4yJ1ldf2Hu3Z6Q==, tarball: file:projects/arm-automanage.tgz}
     name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
@@ -10343,7 +10343,7 @@ packages:
       rollup: 2.77.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'

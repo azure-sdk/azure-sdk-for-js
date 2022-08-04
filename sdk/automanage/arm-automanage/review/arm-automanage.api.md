@@ -58,6 +58,7 @@ export interface BestPractice {
     configuration?: Record<string, unknown>;
     readonly id?: string;
     readonly name?: string;
+    overrides?: Record<string, unknown>[];
     readonly systemData?: SystemData;
     readonly type?: string;
 }
@@ -115,7 +116,6 @@ export interface ConfigurationProfile extends TrackedResource {
 
 // @public
 export interface ConfigurationProfileAssignment extends ProxyResource {
-    readonly managedBy?: string;
     properties?: ConfigurationProfileAssignmentProperties;
     readonly systemData?: SystemData;
 }
@@ -128,6 +128,9 @@ export interface ConfigurationProfileAssignmentList {
 // @public
 export interface ConfigurationProfileAssignmentProperties {
     configurationProfile?: string;
+    profileOverrides?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
     readonly status?: string;
     readonly targetId?: string;
 }
@@ -255,6 +258,7 @@ export interface ConfigurationProfileList {
 // @public
 export interface ConfigurationProfileProperties {
     configuration?: Record<string, unknown>;
+    overrides?: Record<string, unknown>[];
 }
 
 // @public

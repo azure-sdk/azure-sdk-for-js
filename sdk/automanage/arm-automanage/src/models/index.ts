@@ -32,12 +32,16 @@ export interface BestPractice {
   readonly systemData?: SystemData;
   /** configuration dictionary of the configuration profile. */
   configuration?: Record<string, unknown>;
+  /** overrides of the configuration profile. */
+  overrides?: Record<string, unknown>[];
 }
 
 /** Automanage configuration profile properties. */
 export interface ConfigurationProfileProperties {
   /** configuration dictionary of the configuration profile. */
   configuration?: Record<string, unknown>;
+  /** overrides of the configuration profile. */
+  overrides?: Record<string, unknown>[];
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -156,6 +160,8 @@ export interface ConfigurationProfileAssignmentProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
+  /** The profileOverrides setting for the configuration profile assignment. */
+  profileOverrides?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** The response of the list configuration profile assignment operation. */
@@ -301,11 +307,6 @@ export interface ConfigurationProfile extends TrackedResource {
 export interface ConfigurationProfileAssignment extends ProxyResource {
   /** Properties of the configuration profile assignment. */
   properties?: ConfigurationProfileAssignmentProperties;
-  /**
-   * Azure resource id. Indicates if this resource is managed by another Azure resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly managedBy?: string;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.

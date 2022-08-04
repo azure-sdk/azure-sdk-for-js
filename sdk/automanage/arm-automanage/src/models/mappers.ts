@@ -47,6 +47,18 @@ export const BestPractice: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "any" } }
         }
+      },
+      overrides: {
+        serializedName: "properties.overrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
+        }
       }
     }
   }
@@ -62,6 +74,18 @@ export const ConfigurationProfileProperties: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      overrides: {
+        serializedName: "overrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
         }
       }
     }
@@ -320,6 +344,15 @@ export const ConfigurationProfileAssignmentProperties: coreClient.CompositeMappe
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      profileOverrides: {
+        serializedName: "profileOverrides",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       }
     }
@@ -629,13 +662,6 @@ export const ConfigurationProfileAssignment: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ConfigurationProfileAssignmentProperties"
-        }
-      },
-      managedBy: {
-        serializedName: "managedBy",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       },
       systemData: {
