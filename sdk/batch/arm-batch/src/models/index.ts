@@ -743,7 +743,7 @@ export interface NetworkSecurityGroupRule {
 export interface PublicIPAddressConfiguration {
   /** The default value is BatchManaged */
   provision?: IPAddressProvisioningType;
-  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
+  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
   ipAddressIds?: string[];
 }
 
@@ -887,7 +887,7 @@ export interface ApplicationPackageReference {
 export interface ResizeOperationStatus {
   /** The desired number of dedicated compute nodes in the pool. */
   targetDedicatedNodes?: number;
-  /** The desired number of Spot/low-priority compute nodes in the pool. */
+  /** The desired number of low-priority compute nodes in the pool. */
   targetLowPriorityNodes?: number;
   /** The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
   resizeTimeout?: string;
@@ -1226,7 +1226,7 @@ export interface Pool extends ProxyResource {
    */
   readonly currentDedicatedNodes?: number;
   /**
-   * The number of Spot/low-priority compute nodes currently in the pool.
+   * The number of low-priority compute nodes currently in the pool.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentLowPriorityNodes?: number;
