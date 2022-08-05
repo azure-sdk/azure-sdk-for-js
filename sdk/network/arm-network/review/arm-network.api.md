@@ -21,6 +21,9 @@ export interface AadAuthenticationParameters {
 export type Access = string;
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface ActiveBaseSecurityAdminRule {
     commitTime?: Date;
     configurationDescription?: string;
@@ -3775,6 +3778,7 @@ export type ExpressRouteCircuitsUpdateTagsResponse = ExpressRouteCircuit;
 export interface ExpressRouteConnection extends SubResource {
     authorizationKey?: string;
     enableInternetSecurity?: boolean;
+    enablePrivateLinkFastPath?: boolean;
     expressRouteCircuitPeering?: ExpressRouteCircuitPeeringId;
     expressRouteGatewayBypass?: boolean;
     name: string;
@@ -4120,6 +4124,7 @@ export type ExpressRouteGatewaysUpdateTagsResponse = ExpressRouteGateway;
 // @public
 export interface ExpressRouteLink extends SubResource {
     adminState?: ExpressRouteLinkAdminState;
+    readonly coloLocation?: string;
     readonly connectorType?: ExpressRouteLinkConnectorType;
     readonly etag?: string;
     readonly interfaceName?: string;
@@ -4194,6 +4199,7 @@ export type ExpressRoutePeeringType = string;
 export interface ExpressRoutePort extends Resource {
     readonly allocationDate?: string;
     bandwidthInGbps?: number;
+    billingType?: ExpressRoutePortsBillingType;
     readonly circuits?: SubResource[];
     encapsulation?: ExpressRoutePortsEncapsulation;
     readonly etag?: string;
@@ -4291,6 +4297,9 @@ export interface ExpressRoutePorts {
     listByResourceGroup(resourceGroupName: string, options?: ExpressRoutePortsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ExpressRoutePort>;
     updateTags(resourceGroupName: string, expressRoutePortName: string, parameters: TagsObject, options?: ExpressRoutePortsUpdateTagsOptionalParams): Promise<ExpressRoutePortsUpdateTagsResponse>;
 }
+
+// @public
+export type ExpressRoutePortsBillingType = string;
 
 // @public
 export interface ExpressRoutePortsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -5722,6 +5731,14 @@ export enum KnownAccess {
 }
 
 // @public
+export enum KnownActionType {
+    Allow = "Allow",
+    AnomalyScoring = "AnomalyScoring",
+    Block = "Block",
+    Log = "Log"
+}
+
+// @public
 export enum KnownAddressPrefixType {
     IPPrefix = "IPPrefix",
     ServiceTag = "ServiceTag"
@@ -6242,6 +6259,12 @@ export enum KnownExpressRoutePortAuthorizationUseStatus {
 }
 
 // @public
+export enum KnownExpressRoutePortsBillingType {
+    MeteredData = "MeteredData",
+    UnlimitedData = "UnlimitedData"
+}
+
+// @public
 export enum KnownExpressRoutePortsEncapsulation {
     Dot1Q = "Dot1Q",
     QinQ = "QinQ"
@@ -6507,7 +6530,8 @@ export enum KnownLoadDistribution {
 
 // @public
 export enum KnownManagedRuleEnabledState {
-    Disabled = "Disabled"
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -7730,6 +7754,7 @@ export interface ManagedRuleGroupOverride {
 
 // @public
 export interface ManagedRuleOverride {
+    action?: ActionType;
     ruleId: string;
     state?: ManagedRuleEnabledState;
 }
@@ -8119,6 +8144,7 @@ export interface NetworkIntentPolicyConfiguration {
 // @public
 export interface NetworkInterface extends Resource {
     auxiliaryMode?: NetworkInterfaceAuxiliaryMode;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: NetworkInterfaceDnsSettings;
     readonly dscpConfiguration?: SubResource;
     enableAcceleratedNetworking?: boolean;
@@ -8737,6 +8763,8 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     supportedSecurityProviders(resourceGroupName: string, virtualWANName: string, options?: SupportedSecurityProvidersOptionalParams): Promise<SupportedSecurityProvidersResponse>;
     // (undocumented)
     usages: Usages;
+    // (undocumented)
+    vipSwap: VipSwap;
     // (undocumented)
     virtualApplianceSites: VirtualApplianceSites;
     // (undocumented)
@@ -11993,6 +12021,9 @@ export interface Sku {
 }
 
 // @public
+export type SlotType = "Production" | "Staging";
+
+// @public
 export interface StaticMember extends ChildResource {
     readonly provisioningState?: ProvisioningState;
     readonly region?: string;
@@ -12215,6 +12246,25 @@ export interface SupportedSecurityProvidersOptionalParams extends coreClient.Ope
 export type SupportedSecurityProvidersResponse = VirtualWanSecurityProviders;
 
 // @public
+export interface SwapResource {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SwapResourceProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface SwapResourceListResult {
+    // (undocumented)
+    value?: SwapResource[];
+}
+
+// @public
+export interface SwapResourceProperties {
+    slotType?: SlotType;
+}
+
+// @public
 export type SyncRemoteAddressSpace = string;
 
 // @public
@@ -12402,6 +12452,34 @@ export interface VerificationIPFlowResult {
     access?: Access;
     ruleName?: string;
 }
+
+// @public
+export interface VipSwap {
+    beginCreate(groupName: string, resourceName: string, parameters: SwapResource, options?: VipSwapCreateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginCreateAndWait(groupName: string, resourceName: string, parameters: SwapResource, options?: VipSwapCreateOptionalParams): Promise<void>;
+    get(groupName: string, resourceName: string, options?: VipSwapGetOptionalParams): Promise<VipSwapGetResponse>;
+    list(groupName: string, resourceName: string, options?: VipSwapListOptionalParams): Promise<VipSwapListResponse>;
+}
+
+// @public
+export interface VipSwapCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VipSwapGetResponse = SwapResource;
+
+// @public
+export interface VipSwapListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VipSwapListResponse = SwapResourceListResult;
 
 // @public
 export interface VirtualApplianceNicProperties {
@@ -12875,6 +12953,7 @@ export interface VirtualNetworkGateway extends Resource {
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
     sku?: VirtualNetworkGatewaySku;
+    virtualNetworkGatewayPolicyGroups?: VirtualNetworkGatewayPolicyGroup[];
     vNetExtendedLocationResourceId?: string;
     vpnClientConfiguration?: VpnClientConfiguration;
     vpnGatewayGeneration?: VpnGatewayGeneration;
@@ -12892,6 +12971,7 @@ export interface VirtualNetworkGatewayConnection extends Resource {
     readonly egressBytesTransferred?: number;
     egressNatRules?: SubResource[];
     enableBgp?: boolean;
+    enablePrivateLinkFastPath?: boolean;
     readonly etag?: string;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: GatewayCustomBgpIpAddressIpConfiguration[];
@@ -12921,6 +13001,7 @@ export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
     connectionType: VirtualNetworkGatewayConnectionType;
     readonly egressBytesTransferred?: number;
     enableBgp?: boolean;
+    enablePrivateLinkFastPath?: boolean;
     readonly etag?: string;
     expressRouteGatewayBypass?: boolean;
     gatewayCustomBgpIpAddresses?: GatewayCustomBgpIpAddressIpConfiguration[];
@@ -13173,6 +13254,24 @@ export interface VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptiona
 
 // @public
 export type VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse = ListVirtualNetworkGatewayNatRulesResult;
+
+// @public
+export interface VirtualNetworkGatewayPolicyGroup extends SubResource {
+    readonly etag?: string;
+    isDefault?: boolean;
+    name?: string;
+    policyMembers?: VirtualNetworkGatewayPolicyGroupMember[];
+    priority?: number;
+    readonly provisioningState?: ProvisioningState;
+    readonly vngClientConnectionConfigurations?: SubResource[];
+}
+
+// @public
+export interface VirtualNetworkGatewayPolicyGroupMember {
+    attributeType?: VpnPolicyMemberAttributeType;
+    attributeValue?: string;
+    name?: string;
+}
 
 // @public
 export interface VirtualNetworkGateways {
@@ -13995,6 +14094,15 @@ export interface VnetRoute {
 }
 
 // @public
+export interface VngClientConnectionConfiguration extends SubResource {
+    readonly etag?: string;
+    name?: string;
+    readonly provisioningState?: ProvisioningState;
+    virtualNetworkGatewayPolicyGroups?: SubResource[];
+    vpnClientAddressPool?: AddressSpace;
+}
+
+// @public
 export type VpnAuthenticationType = string;
 
 // @public
@@ -14005,6 +14113,7 @@ export interface VpnClientConfiguration {
     radiusServerAddress?: string;
     radiusServers?: RadiusServer[];
     radiusServerSecret?: string;
+    vngClientConnectionConfigurations?: VngClientConnectionConfiguration[];
     vpnAuthenticationTypes?: VpnAuthenticationType[];
     vpnClientAddressPool?: AddressSpace;
     vpnClientIpsecPolicies?: IpsecPolicy[];

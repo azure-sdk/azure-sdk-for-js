@@ -1,5 +1,39 @@
 # Release History
     
+## 29.1.0 (2022-08-05)
+    
+**Features**
+
+  - Added operation group VipSwap
+  - Added Interface SwapResource
+  - Added Interface SwapResourceListResult
+  - Added Interface SwapResourceProperties
+  - Added Interface VipSwapCreateOptionalParams
+  - Added Interface VipSwapGetOptionalParams
+  - Added Interface VipSwapListOptionalParams
+  - Added Interface VirtualNetworkGatewayPolicyGroup
+  - Added Interface VirtualNetworkGatewayPolicyGroupMember
+  - Added Interface VngClientConnectionConfiguration
+  - Added Type Alias ActionType
+  - Added Type Alias ExpressRoutePortsBillingType
+  - Added Type Alias SlotType
+  - Added Type Alias VipSwapGetResponse
+  - Added Type Alias VipSwapListResponse
+  - Interface ExpressRouteConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface ExpressRouteLink has a new optional parameter coloLocation
+  - Interface ExpressRoutePort has a new optional parameter billingType
+  - Interface ManagedRuleOverride has a new optional parameter action
+  - Interface NetworkInterface has a new optional parameter disableTcpStateTracking
+  - Interface VirtualNetworkGateway has a new optional parameter virtualNetworkGatewayPolicyGroups
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface VirtualNetworkGatewayConnectionListEntity has a new optional parameter enablePrivateLinkFastPath
+  - Interface VpnClientConfiguration has a new optional parameter vngClientConnectionConfigurations
+  - Class NetworkManagementClient has a new parameter vipSwap
+  - Added Enum KnownActionType
+  - Added Enum KnownExpressRoutePortsBillingType
+  - Enum KnownManagedRuleEnabledState has a new value Enabled
+    
+    
 ## 29.0.0 (2022-08-02)
     
 **Features**
