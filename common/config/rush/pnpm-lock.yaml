@@ -76,6 +76,7 @@ specifiers:
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:./projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:./projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -375,6 +376,7 @@ dependencies:
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -3971,7 +3973,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220804
+      typescript: 4.8.0-dev.20220805
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8860,8 +8862,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220804:
-    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
+  /typescript/4.8.0-dev.20220805:
+    resolution: {integrity: sha512-br4hTSU5UU+VnCdEDXgv4jeQduwNxNiYv30KW4cXU7W3fCxB8/UDd2OCqciN8H5pF//Lzo0clJBFHXbhrLx3eA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11704,6 +11706,34 @@ packages:
     name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-elasticsan.tgz:
+    resolution: {integrity: sha512-o95lkBRFQwzfWa1x4dF9/ylrJHGroJag3nTZ2C0Fevr0d1NagpMjYcOcMSoK1YI7Ii2AiAfabB51gVOS9dsYnQ==, tarball: file:projects/arm-elasticsan.tgz}
+    name: '@rush-temp/arm-elasticsan'
+    version: 0.0.0
+    dependencies:
+      '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.0
