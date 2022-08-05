@@ -1,15 +1,17 @@
 # Release History
+    
+## 19.2.0 (2022-08-05)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CreationData has a new optional parameter performancePlus
+  - Interface Disk has a new optional parameter burstingEnabledTime
+  - Interface Disk has a new optional parameter optimizedForFrequentAttach
+  - Interface DiskUpdate has a new optional parameter optimizedForFrequentAttach
+  - Interface Snapshot has a new optional parameter incrementalSnapshotFamilyId
+  - Interface SupportedCapabilities has a new optional parameter diskControllerTypes
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
