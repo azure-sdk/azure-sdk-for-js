@@ -36,10 +36,12 @@ import {
   EnvironmentContainersImpl,
   EnvironmentVersionsImpl,
   JobsImpl,
+  LabelingJobsImpl,
   ModelContainersImpl,
   ModelVersionsImpl,
   OnlineEndpointsImpl,
   OnlineDeploymentsImpl,
+  SchedulesImpl,
   WorkspaceFeaturesImpl
 } from "./operations";
 import {
@@ -64,10 +66,12 @@ import {
   EnvironmentContainers,
   EnvironmentVersions,
   Jobs,
+  LabelingJobs,
   ModelContainers,
   ModelVersions,
   OnlineEndpoints,
   OnlineDeployments,
+  Schedules,
   WorkspaceFeatures
 } from "./operationsInterfaces";
 import { AzureMachineLearningWorkspacesOptionalParams } from "./models";
@@ -104,7 +108,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/1.0.1`;
+    const packageDetails = `azsdk-js-arm-machinelearning/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -151,7 +155,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-06-01-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
@@ -173,10 +177,12 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.environmentContainers = new EnvironmentContainersImpl(this);
     this.environmentVersions = new EnvironmentVersionsImpl(this);
     this.jobs = new JobsImpl(this);
+    this.labelingJobs = new LabelingJobsImpl(this);
     this.modelContainers = new ModelContainersImpl(this);
     this.modelVersions = new ModelVersionsImpl(this);
     this.onlineEndpoints = new OnlineEndpointsImpl(this);
     this.onlineDeployments = new OnlineDeploymentsImpl(this);
+    this.schedules = new SchedulesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -230,9 +236,11 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   environmentContainers: EnvironmentContainers;
   environmentVersions: EnvironmentVersions;
   jobs: Jobs;
+  labelingJobs: LabelingJobs;
   modelContainers: ModelContainers;
   modelVersions: ModelVersions;
   onlineEndpoints: OnlineEndpoints;
   onlineDeployments: OnlineDeployments;
+  schedules: Schedules;
   workspaceFeatures: WorkspaceFeatures;
 }
