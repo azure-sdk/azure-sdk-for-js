@@ -24,6 +24,8 @@ import {
   EnableMigrationInput as EnableMigrationInputMapper,
   UpdateMigrationItemInput as UpdateMigrationItemInputMapper,
   MigrateInput as MigrateInputMapper,
+  PauseReplicationInput as PauseReplicationInputMapper,
+  ResumeReplicationInput as ResumeReplicationInputMapper,
   ResyncInput as ResyncInputMapper,
   TestMigrateInput as TestMigrateInputMapper,
   TestMigrateCleanupInput as TestMigrateCleanupInputMapper,
@@ -90,7 +92,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2022-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -353,6 +355,16 @@ export const input4: OperationParameter = {
 export const migrateInput: OperationParameter = {
   parameterPath: "migrateInput",
   mapper: MigrateInputMapper
+};
+
+export const pauseReplicationInput: OperationParameter = {
+  parameterPath: "pauseReplicationInput",
+  mapper: PauseReplicationInputMapper
+};
+
+export const resumeReplicationInput: OperationParameter = {
+  parameterPath: "resumeReplicationInput",
+  mapper: ResumeReplicationInputMapper
 };
 
 export const input5: OperationParameter = {
