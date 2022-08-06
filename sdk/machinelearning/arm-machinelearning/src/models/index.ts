@@ -1779,6 +1779,14 @@ export interface ComputeInstanceSshSettings {
   readonly sshPort?: number;
   /** Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH key pairs. */
   adminPublicKey?: string;
+  /** List of keys (with friendly names) authorized for SSH. If specified, the value of 'adminPublicKey' is ignored. */
+  adminPublicKeys?: { [propertyName: string]: SshPublicKeyReference };
+}
+
+export interface SshPublicKeyReference {
+  source?: string;
+  /** SSH public key data as string (local) */
+  data?: string;
 }
 
 /** Defines all connectivity endpoints and properties for an ComputeInstance. */

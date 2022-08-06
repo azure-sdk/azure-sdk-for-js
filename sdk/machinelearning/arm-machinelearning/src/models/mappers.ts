@@ -4467,6 +4467,38 @@ export const ComputeInstanceSshSettings: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      adminPublicKeys: {
+        serializedName: "adminPublicKeys",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "SshPublicKeyReference" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SshPublicKeyReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SshPublicKeyReference",
+    modelProperties: {
+      source: {
+        defaultValue: "local",
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "String"
+        }
       }
     }
   }

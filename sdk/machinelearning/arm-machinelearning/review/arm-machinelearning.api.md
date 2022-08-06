@@ -1023,6 +1023,9 @@ export interface ComputeInstanceSchema {
 // @public
 export interface ComputeInstanceSshSettings {
     adminPublicKey?: string;
+    adminPublicKeys?: {
+        [propertyName: string]: SshPublicKeyReference;
+    };
     readonly adminUserName?: string;
     readonly sshPort?: number;
     sshPublicAccess?: SshPublicAccess;
@@ -3908,6 +3911,13 @@ export type SourceType = string;
 
 // @public
 export type SshPublicAccess = string;
+
+// @public (undocumented)
+export interface SshPublicKeyReference {
+    data?: string;
+    // (undocumented)
+    source?: string;
+}
 
 // @public
 export type SslConfigStatus = string;
