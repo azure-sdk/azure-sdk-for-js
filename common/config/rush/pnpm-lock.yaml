@@ -3971,7 +3971,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220804
+      typescript: 4.8.0-dev.20220807
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8867,8 +8867,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.8.0-dev.20220804:
-    resolution: {integrity: sha512-N5tKzl5WE31E6YHL3nlYls2zCxkCfax3gb3zKKcrRJXEzfPRFodE0xzkIgGJIshTLQnF/uwiN2Nc8TG50aE9Hg==}
+  /typescript/4.8.0-dev.20220807:
+    resolution: {integrity: sha512-IKavUdg6DoklEaP1ikTPRa4i+BgFgWqt0IqttrDGADpSoqwvMlVFo8A24996T58PZI/GGKT5j3og/dLPo/oIPg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14618,7 +14618,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-qXc+jbFl0URqwvs20FspkLpjT3zkit3DWKeT6z160ikIgL/ZINacoWYQnNyn8hYC5vYgeOIf8H5XHDzhmwrbqg==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-EaSZN9D/9GVNcnkBrUVHHcNf5+wxojadKaglU6BbOLZoFx52Xyh8ESThrUmfjEXZzjrd9P6ilbVWQKyZZBM12g==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -14630,6 +14630,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14641,7 +14643,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
