@@ -2577,6 +2577,13 @@ export const InfrastructureConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isRestrictedUse: {
+        defaultValue: false,
+        serializedName: "isRestrictedUse",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -4397,6 +4404,12 @@ export const Monitor: coreClient.CompositeMapper = {
       },
       routingPreference: {
         serializedName: "properties.routingPreference",
+        type: {
+          name: "String"
+        }
+      },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
         type: {
           name: "String"
         }

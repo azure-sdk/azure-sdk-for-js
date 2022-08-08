@@ -279,6 +279,7 @@ export interface ImageReference {
 export interface InfrastructureConfiguration {
     appResourceGroup: string;
     deploymentType: "SingleServer" | "ThreeTier";
+    isRestrictedUse?: boolean;
 }
 
 // @public (undocumented)
@@ -650,6 +651,7 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    zoneRedundancyPreference?: string;
 }
 
 // @public

@@ -1052,6 +1052,8 @@ export interface InfrastructureConfiguration {
   deploymentType: "SingleServer" | "ThreeTier";
   /** The application resource group where SAP system resources will be deployed. */
   appResourceGroup: string;
+  /** A boolean, if true, specifies that the user is aware about the given infrastructure configuration to be restricted. */
+  isRestrictedUse?: boolean;
 }
 
 /** Gets or sets the central server configuration. */
@@ -1780,6 +1782,8 @@ export interface Monitor extends TrackedResource {
   appLocation?: string;
   /** Sets the routing preference of the SAP monitor. By default only RFC1918 traffic is routed to the customer VNET. */
   routingPreference?: RoutingPreference;
+  /** Sets the preference for zone redundancy on resources created for the SAP monitor. By default resources will be created which do not support zone redundancy. */
+  zoneRedundancyPreference?: string;
   /** Managed resource group configuration */
   managedResourceGroupConfiguration?: ManagedRGConfiguration;
   /** The ARM ID of the Log Analytics Workspace that is used for SAP monitoring. */
