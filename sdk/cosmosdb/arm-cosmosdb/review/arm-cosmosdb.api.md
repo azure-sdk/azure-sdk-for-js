@@ -2400,6 +2400,12 @@ export interface ManagedServiceIdentity {
 }
 
 // @public
+export interface MaterializedViewDefinition {
+    definition: string;
+    sourceCollectionId: string;
+}
+
+// @public
 export interface MaterializedViewsBuilderRegionalServiceResource extends RegionalServiceResource {
 }
 
@@ -3929,6 +3935,7 @@ export interface SqlContainerResource {
     defaultTtl?: number;
     id: string;
     indexingPolicy?: IndexingPolicy;
+    materializedViewDefinition?: MaterializedViewDefinition;
     partitionKey?: ContainerPartitionKey;
     uniqueKeyPolicy?: UniqueKeyPolicy;
 }

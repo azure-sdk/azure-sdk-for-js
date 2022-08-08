@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.3 (2022-07-22)
+    
+## 16.0.0-beta.4 (2022-08-08)
     
 **Features**
 
@@ -127,6 +117,7 @@
   - Added Interface GremlinResourcesRetrieveContinuousBackupInformationOptionalParams
   - Added Interface KeyWrapMetadata
   - Added Interface ListBackups
+  - Added Interface MaterializedViewDefinition
   - Added Interface MergeParameters
   - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
@@ -250,6 +241,7 @@
   - Interface RestoreParameters has a new optional parameter gremlinDatabasesToRestore
   - Interface RestoreParameters has a new optional parameter tablesToRestore
   - Interface SqlContainerResource has a new optional parameter clientEncryptionPolicy
+  - Interface SqlContainerResource has a new optional parameter materializedViewDefinition
   - Class CosmosDBManagementClient has a new parameter dataTransferJobs
   - Class CosmosDBManagementClient has a new parameter graphResources
   - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases

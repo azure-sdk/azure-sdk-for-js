@@ -921,6 +921,8 @@ export interface SqlContainerResource {
   clientEncryptionPolicy?: ClientEncryptionPolicy;
   /** Analytical TTL. */
   analyticalStorageTtl?: number;
+  /** The configuration for defining Materialized View. This should be specified for creating a Materialized View container. */
+  materializedViewDefinition?: MaterializedViewDefinition;
 }
 
 /** Cosmos DB indexing policy */
@@ -1031,6 +1033,14 @@ export interface ClientEncryptionIncludedPath {
   encryptionType: string;
   /** The encryption algorithm which will be used. Eg - AEAD_AES_256_CBC_HMAC_SHA256. */
   encryptionAlgorithm: string;
+}
+
+/** Materialized View definition for the container. */
+export interface MaterializedViewDefinition {
+  /** Name of the Cosmos DB SQL source container */
+  sourceCollectionId: string;
+  /** Definition of the Cosmos DB SQL Materialized view */
+  definition: string;
 }
 
 /** The properties of an Azure Cosmos DB merge operations */

@@ -2170,6 +2170,13 @@ export const SqlContainerResource: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      materializedViewDefinition: {
+        serializedName: "materializedViewDefinition",
+        type: {
+          name: "Composite",
+          className: "MaterializedViewDefinition"
+        }
       }
     }
   }
@@ -2538,6 +2545,29 @@ export const ClientEncryptionIncludedPath: coreClient.CompositeMapper = {
       },
       encryptionAlgorithm: {
         serializedName: "encryptionAlgorithm",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MaterializedViewDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MaterializedViewDefinition",
+    modelProperties: {
+      sourceCollectionId: {
+        serializedName: "sourceCollectionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      definition: {
+        serializedName: "definition",
         required: true,
         type: {
           name: "String"
