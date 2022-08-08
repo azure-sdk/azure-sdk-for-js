@@ -18,11 +18,11 @@ import {
   ExtendedServerBlobAuditingPolicy,
   ExtendedServerBlobAuditingPoliciesListByServerNextOptionalParams,
   ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
+  ExtendedServerBlobAuditingPoliciesListByServerResponse,
   ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ExtendedServerBlobAuditingPoliciesGetResponse,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
-  ExtendedServerBlobAuditingPoliciesListByServerResponse,
   ExtendedServerBlobAuditingPoliciesListByServerNextResponse
 } from "../models";
 
@@ -110,6 +110,24 @@ export class ExtendedServerBlobAuditingPoliciesImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Lists extended auditing settings of a server.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param options The options parameters.
+   */
+  private _listByServer(
+    resourceGroupName: string,
+    serverName: string,
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+  ): Promise<ExtendedServerBlobAuditingPoliciesListByServerResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, options },
+      listByServerOperationSpec
+    );
   }
 
   /**
@@ -227,24 +245,6 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   }
 
   /**
-   * Lists extended auditing settings of a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param options The options parameters.
-   */
-  private _listByServer(
-    resourceGroupName: string,
-    serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
-  ): Promise<ExtendedServerBlobAuditingPoliciesListByServerResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, options },
-      listByServerOperationSpec
-    );
-  }
-
-  /**
    * ListByServerNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -267,6 +267,26 @@ export class ExtendedServerBlobAuditingPoliciesImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByServerOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion6],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings/{blobAuditingPolicyName}",
@@ -277,7 +297,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -307,8 +327,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters13,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters90,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -320,26 +340,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listByServerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/extendedAuditingSettings",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ExtendedServerBlobAuditingPolicyListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const listByServerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -349,7 +349,7 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
