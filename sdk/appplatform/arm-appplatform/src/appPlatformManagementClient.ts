@@ -8,6 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ServicesImpl,
@@ -21,12 +26,18 @@ import {
   MonitoringSettingsImpl,
   AppsImpl,
   BindingsImpl,
+  StoragesImpl,
   CertificatesImpl,
   CustomDomainsImpl,
   DeploymentsImpl,
   OperationsImpl,
   RuntimeVersionsImpl,
-  SkusImpl
+  SkusImpl,
+  GatewaysImpl,
+  GatewayRouteConfigsImpl,
+  GatewayCustomDomainsImpl,
+  ApiPortalsImpl,
+  ApiPortalCustomDomainsImpl
 } from "./operations";
 import {
   Services,
@@ -40,12 +51,18 @@ import {
   MonitoringSettings,
   Apps,
   Bindings,
+  Storages,
   Certificates,
   CustomDomains,
   Deployments,
   Operations,
   RuntimeVersions,
-  Skus
+  Skus,
+  Gateways,
+  GatewayRouteConfigs,
+  GatewayCustomDomains,
+  ApiPortals,
+  ApiPortalCustomDomains
 } from "./operationsInterfaces";
 import { AppPlatformManagementClientOptionalParams } from "./models";
 
@@ -82,7 +99,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appplatform/2.0.1`;
+    const packageDetails = `azsdk-js-arm-appplatform/2.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -129,7 +146,7 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01";
+    this.apiVersion = options.apiVersion || "2022-05-01-preview";
     this.services = new ServicesImpl(this);
     this.configServers = new ConfigServersImpl(this);
     this.configurationServices = new ConfigurationServicesImpl(this);
@@ -141,12 +158,47 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     this.monitoringSettings = new MonitoringSettingsImpl(this);
     this.apps = new AppsImpl(this);
     this.bindings = new BindingsImpl(this);
+    this.storages = new StoragesImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.customDomains = new CustomDomainsImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.operations = new OperationsImpl(this);
     this.runtimeVersions = new RuntimeVersionsImpl(this);
     this.skus = new SkusImpl(this);
+    this.gateways = new GatewaysImpl(this);
+    this.gatewayRouteConfigs = new GatewayRouteConfigsImpl(this);
+    this.gatewayCustomDomains = new GatewayCustomDomainsImpl(this);
+    this.apiPortals = new ApiPortalsImpl(this);
+    this.apiPortalCustomDomains = new ApiPortalCustomDomainsImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   services: Services;
@@ -160,10 +212,16 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
   monitoringSettings: MonitoringSettings;
   apps: Apps;
   bindings: Bindings;
+  storages: Storages;
   certificates: Certificates;
   customDomains: CustomDomains;
   deployments: Deployments;
   operations: Operations;
   runtimeVersions: RuntimeVersions;
   skus: Skus;
+  gateways: Gateways;
+  gatewayRouteConfigs: GatewayRouteConfigs;
+  gatewayCustomDomains: GatewayCustomDomains;
+  apiPortals: ApiPortals;
+  apiPortalCustomDomains: ApiPortalCustomDomains;
 }
