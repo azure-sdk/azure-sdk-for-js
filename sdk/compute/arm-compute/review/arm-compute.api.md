@@ -4624,6 +4624,7 @@ export interface RestorePointSourceMetadata {
     osProfile?: OSProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: RestorePointSourceVMStorageProfile;
+    userData?: string;
     vmId?: string;
 }
 
@@ -4992,7 +4993,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }

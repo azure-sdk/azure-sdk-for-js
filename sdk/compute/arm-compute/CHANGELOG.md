@@ -1,15 +1,12 @@
 # Release History
+    
+## 19.2.0 (2022-08-09)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface RestorePointSourceMetadata has a new optional parameter userData
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
