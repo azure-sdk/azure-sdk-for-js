@@ -51,6 +51,249 @@ export interface ComputeOperationValue {
   readonly provider?: string;
 }
 
+export interface SubResource {
+  /** Resource Id */
+  id?: string;
+}
+
+/** Instance view status. */
+export interface InstanceViewStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: StatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
+}
+
+/** Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name. */
+export interface Sku {
+  /** The sku name. */
+  name?: string;
+  /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
+  tier?: string;
+  /** Specifies the number of virtual machines in the scale set. */
+  capacity?: number;
+}
+
+/** The Resource model definition. */
+export interface Resource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The Update Resource model definition. */
+export interface UpdateResource {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The List Availability Set operation response. */
+export interface AvailabilitySetListResult {
+  /** The list of availability sets */
+  value: AvailabilitySet[];
+  /** The URI to fetch the next page of AvailabilitySets. Call ListNext() with this URI to fetch the next page of AvailabilitySets. */
+  nextLink?: string;
+}
+
+/** The List Virtual Machine operation response. */
+export interface VirtualMachineSizeListResult {
+  /** The list of virtual machine sizes. */
+  value?: VirtualMachineSize[];
+}
+
+/** Describes the properties of a VM size. */
+export interface VirtualMachineSize {
+  /** The name of the virtual machine size. */
+  name?: string;
+  /** The number of cores supported by the virtual machine size. For Constrained vCPU capable VM sizes, this number represents the total vCPUs of quota that the VM uses. For accurate vCPU count, please refer to https://docs.microsoft.com/azure/virtual-machines/constrained-vcpu or https://docs.microsoft.com/rest/api/compute/resourceskus/list */
+  numberOfCores?: number;
+  /** The OS disk size, in MB, allowed by the virtual machine size. */
+  osDiskSizeInMB?: number;
+  /** The resource disk size, in MB, allowed by the virtual machine size. */
+  resourceDiskSizeInMB?: number;
+  /** The amount of memory, in MB, supported by the virtual machine size. */
+  memoryInMB?: number;
+  /** The maximum number of data disks that can be attached to the virtual machine size. */
+  maxDataDiskCount?: number;
+}
+
+/** The List Proximity Placement Group operation response. */
+export interface ProximityPlacementGroupListResult {
+  /** The list of proximity placement groups */
+  value: ProximityPlacementGroup[];
+  /** The URI to fetch the next page of proximity placement groups. */
+  nextLink?: string;
+}
+
+export interface SubResourceReadOnly {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+export interface DedicatedHostGroupInstanceView {
+  /** List of instance view of the dedicated hosts under the dedicated host group. */
+  hosts?: DedicatedHostInstanceViewWithName[];
+}
+
+/** The instance view of a dedicated host. */
+export interface DedicatedHostInstanceView {
+  /**
+   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assetId?: string;
+  /** Unutilized capacity of the dedicated host. */
+  availableCapacity?: DedicatedHostAvailableCapacity;
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** Dedicated host unutilized capacity. */
+export interface DedicatedHostAvailableCapacity {
+  /** The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host. */
+  allocatableVMs?: DedicatedHostAllocatableVM[];
+}
+
+/** Represents the dedicated host unutilized capacity in terms of a specific VM size. */
+export interface DedicatedHostAllocatableVM {
+  /** VM size in terms of which the unutilized capacity is represented. */
+  vmSize?: string;
+  /** Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity. */
+  count?: number;
+}
+
+/** The List Dedicated Host Group with resource group response. */
+export interface DedicatedHostGroupListResult {
+  /** The list of dedicated host groups */
+  value: DedicatedHostGroup[];
+  /** The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to fetch the next page of Dedicated Host Groups. */
+  nextLink?: string;
+}
+
+/** The list dedicated host operation response. */
+export interface DedicatedHostListResult {
+  /** The list of dedicated hosts */
+  value: DedicatedHost[];
+  /** The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts. */
+  nextLink?: string;
+}
+
+/** The list SSH public keys operation response. */
+export interface SshPublicKeysGroupListResult {
+  /** The list of SSH public keys */
+  value: SshPublicKeyResource[];
+  /** The URI to fetch the next page of SSH public keys. Call ListNext() with this URI to fetch the next page of SSH public keys. */
+  nextLink?: string;
+}
+
+/** Response from generation of an SSH key pair. */
+export interface SshPublicKeyGenerateKeyPairResult {
+  /** Private key portion of the key pair used to authenticate to a virtual machine through ssh. The private key is returned in RFC3447 format and should be treated as a secret. */
+  privateKey: string;
+  /** Public key portion of the key pair used to authenticate to a virtual machine through ssh. The public key is in ssh-rsa format. */
+  publicKey: string;
+  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{SshPublicKeyName} */
+  id: string;
+}
+
+/** The instance view of a virtual machine extension. */
+export interface VirtualMachineExtensionInstanceView {
+  /** The virtual machine extension name. */
+  name?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** The resource status information. */
+  substatuses?: InstanceViewStatus[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** The List Extension operation response */
+export interface VirtualMachineExtensionsListResult {
+  /** The list of extensions */
+  value?: VirtualMachineExtension[];
+}
+
+/** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
+export interface PurchasePlan {
+  /** The publisher ID. */
+  publisher: string;
+  /** The plan ID. */
+  name: string;
+  /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
+  product: string;
+}
+
+/** Contains the os disk image information. */
+export interface OSDiskImage {
+  /** The operating system of the osDiskImage. */
+  operatingSystem: OperatingSystemTypes;
+}
+
+/** Contains the data disk images information. */
+export interface DataDiskImage {
+  /**
+   * Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lun?: number;
+}
+
+/** Describes automatic OS upgrade properties on the image. */
+export interface AutomaticOSUpgradeProperties {
+  /** Specifies whether automatic OS upgrade is supported on the image. */
+  automaticOSUpgradeSupported: boolean;
+}
+
+/** Specifies the disallowed configuration for a virtual machine image. */
+export interface DisallowedConfiguration {
+  /** VM disk types which are disallowed. */
+  vmDiskType?: VmDiskTypes;
+}
+
+/** Specifies additional capabilities supported by the image */
+export interface VirtualMachineImageFeature {
+  /** The name of the feature. */
+  name?: string;
+  /** The corresponding value for the feature. */
+  value?: string;
+}
+
+/** The complex type of the extended location. */
+export interface ExtendedLocation {
+  /** The name of the extended location. */
+  name?: string;
+  /** The type of the extended location. */
+  type?: ExtendedLocationTypes;
+}
+
 /** An error response from the Compute service. */
 export interface CloudError {
   /** Api error. */
@@ -118,43 +361,11 @@ export interface UsageName {
 }
 
 /** The List Virtual Machine operation response. */
-export interface VirtualMachineSizeListResult {
-  /** The list of virtual machine sizes. */
-  value?: VirtualMachineSize[];
-}
-
-/** Describes the properties of a VM size. */
-export interface VirtualMachineSize {
-  /** The name of the virtual machine size. */
-  name?: string;
-  /** The number of cores supported by the virtual machine size. For Constrained vCPU capable VM sizes, this number represents the total vCPUs of quota that the VM uses. For accurate vCPU count, please refer to https://docs.microsoft.com/azure/virtual-machines/constrained-vcpu or https://docs.microsoft.com/rest/api/compute/resourceskus/list */
-  numberOfCores?: number;
-  /** The OS disk size, in MB, allowed by the virtual machine size. */
-  osDiskSizeInMB?: number;
-  /** The resource disk size, in MB, allowed by the virtual machine size. */
-  resourceDiskSizeInMB?: number;
-  /** The amount of memory, in MB, supported by the virtual machine size. */
-  memoryInMB?: number;
-  /** The maximum number of data disks that can be attached to the virtual machine size. */
-  maxDataDiskCount?: number;
-}
-
-/** The List Virtual Machine operation response. */
-export interface VirtualMachineScaleSetListResult {
-  /** The list of virtual machine scale sets. */
-  value: VirtualMachineScaleSet[];
-  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of VMSS. */
+export interface VirtualMachineListResult {
+  /** The list of virtual machines. */
+  value: VirtualMachine[];
+  /** The URI to fetch the next page of VMs. Call ListNext() with this URI to fetch the next page of Virtual Machines. */
   nextLink?: string;
-}
-
-/** Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is currently on, you need to deallocate the VMs in the scale set before you modify the SKU name. */
-export interface Sku {
-  /** The sku name. */
-  name?: string;
-  /** Specifies the tier of virtual machines in a scale set.<br /><br /> Possible Values:<br /><br /> **Standard**<br /><br /> **Basic** */
-  tier?: string;
-  /** Specifies the number of virtual machines in the scale set. */
-  capacity?: number;
 }
 
 /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
@@ -169,104 +380,166 @@ export interface Plan {
   promotionCode?: string;
 }
 
-/** Describes an upgrade policy - automatic, manual, or rolling. */
-export interface UpgradePolicy {
-  /** Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time. */
-  mode?: UpgradeMode;
-  /** The configuration parameters used while performing a rolling upgrade. */
-  rollingUpgradePolicy?: RollingUpgradePolicy;
-  /** Configuration parameters used for performing automatic OS Upgrade. */
-  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+/** Specifies the hardware settings for the virtual machine. */
+export interface HardwareProfile {
+  /** Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set. */
+  vmSize?: VirtualMachineSizeTypes;
+  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-07-01. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
+  vmSizeProperties?: VMSizeProperties;
 }
 
-/** The configuration parameters used while performing a rolling upgrade. */
-export interface RollingUpgradePolicy {
-  /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%. */
-  maxBatchInstancePercent?: number;
-  /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%. */
-  maxUnhealthyInstancePercent?: number;
-  /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%. */
-  maxUnhealthyUpgradedInstancePercent?: number;
-  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S). */
-  pauseTimeBetweenBatches?: string;
-  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. */
-  enableCrossZoneUpgrade?: boolean;
-  /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
-  prioritizeUnhealthyInstances?: boolean;
+/** Specifies VM Size Property settings on the virtual machine. */
+export interface VMSizeProperties {
+  /** Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) . */
+  vCPUsAvailable?: number;
+  /** Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled. */
+  vCPUsPerCore?: number;
 }
 
-/** The configuration parameters used for performing automatic OS upgrade. */
-export interface AutomaticOSUpgradePolicy {
-  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. Default value is false. <br><br> If this is set to true for Windows based scale sets, [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet) is automatically set to false and cannot be set to true. */
-  enableAutomaticOSUpgrade?: boolean;
-  /** Whether OS image rollback feature should be disabled. Default value is false. */
-  disableAutomaticRollback?: boolean;
-  /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Default value is false. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
-  useRollingUpgradePolicy?: boolean;
+/** Specifies the storage settings for the virtual machine disks. */
+export interface StorageProfile {
+  /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
+  imageReference?: ImageReference;
+  /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  osDisk?: OSDisk;
+  /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  dataDisks?: DataDisk[];
 }
 
-/** Specifies the configuration parameters for automatic repairs on the virtual machine scale set. */
-export interface AutomaticRepairsPolicy {
-  /** Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false. */
+/** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+export interface OSDisk {
+  /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  osType?: OperatingSystemTypes;
+  /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
+  encryptionSettings?: DiskEncryptionSettings;
+  /** The disk name. */
+  name?: string;
+  /** The virtual hard disk. */
+  vhd?: VirtualHardDisk;
+  /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
+  image?: VirtualHardDisk;
+  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage. */
+  caching?: CachingTypes;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
+  diffDiskSettings?: DiffDiskSettings;
+  /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
+  createOption: DiskCreateOptionTypes;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 GB */
+  diskSizeGB?: number;
+  /** The managed disk parameters. */
+  managedDisk?: ManagedDiskParameters;
+  /** Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for ephemeral OS Disk. */
+  deleteOption?: DiskDeleteOptionTypes;
+}
+
+/** Describes a Encryption Settings for a Disk */
+export interface DiskEncryptionSettings {
+  /** Specifies the location of the disk encryption key, which is a Key Vault Secret. */
+  diskEncryptionKey?: KeyVaultSecretReference;
+  /** Specifies the location of the key encryption key in Key Vault. */
+  keyEncryptionKey?: KeyVaultKeyReference;
+  /** Specifies whether disk encryption should be enabled on the virtual machine. */
   enabled?: boolean;
-  /** The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 10 minutes (PT10M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M). */
-  gracePeriod?: string;
-  /** Type of repair action (replace, restart, reimage) that will be used for repairing unhealthy virtual machines in the scale set. Default value is replace. */
-  repairAction?: RepairAction;
 }
 
-/** Describes a virtual machine scale set virtual machine profile. */
-export interface VirtualMachineScaleSetVMProfile {
-  /** Specifies the operating system settings for the virtual machines in the scale set. */
-  osProfile?: VirtualMachineScaleSetOSProfile;
-  /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: VirtualMachineScaleSetStorageProfile;
-  /** Specifies properties of the network interfaces of the virtual machines in the scale set. */
-  networkProfile?: VirtualMachineScaleSetNetworkProfile;
-  /** Specifies the Security related profile settings for the virtual machines in the scale set. */
-  securityProfile?: SecurityProfile;
-  /** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  /** Specifies a collection of settings for extensions installed on virtual machines in the scale set. */
-  extensionProfile?: VirtualMachineScaleSetExtensionProfile;
-  /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
-  /** Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview */
-  priority?: VirtualMachinePriorityTypes;
-  /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
-  evictionPolicy?: VirtualMachineEvictionPolicyTypes;
-  /** Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
-  /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
-  /** UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
-  userData?: string;
-  /** Specifies the capacity reservation related details of a scale set. <br><br>Minimum api-version: 2021-04-01. */
-  capacityReservation?: CapacityReservationProfile;
-  /** Specifies the gallery applications that should be made available to the VM/VMSS */
-  applicationProfile?: ApplicationProfile;
-  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01. */
-  hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+/** Describes a reference to Key Vault Secret */
+export interface KeyVaultSecretReference {
+  /** The URL referencing a secret in a Key Vault. */
+  secretUrl: string;
+  /** The relative URL of the Key Vault containing the secret. */
+  sourceVault: SubResource;
 }
 
-/** Describes a virtual machine scale set OS profile. */
-export interface VirtualMachineScaleSetOSProfile {
-  /** Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long. */
-  computerNamePrefix?: string;
-  /** Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters */
+/** Describes a reference to Key Vault Key */
+export interface KeyVaultKeyReference {
+  /** The URL referencing a key encryption key in Key Vault. */
+  keyUrl: string;
+  /** The relative URL of the Key Vault containing the key. */
+  sourceVault: SubResource;
+}
+
+/** Describes the uri of a disk. */
+export interface VirtualHardDisk {
+  /** Specifies the virtual hard disk's uri. */
+  uri?: string;
+}
+
+/** Describes the parameters of ephemeral disk settings that can be specified for operating system disk. <br><br> NOTE: The ephemeral disk settings can only be specified for managed disk. */
+export interface DiffDiskSettings {
+  /** Specifies the ephemeral disk settings for operating system disk. */
+  option?: DiffDiskOptions;
+  /** Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are: <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. */
+  placement?: DiffDiskPlacement;
+}
+
+/** Describes a data disk. */
+export interface DataDisk {
+  /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
+  lun: number;
+  /** The disk name. */
+  name?: string;
+  /** The virtual hard disk. */
+  vhd?: VirtualHardDisk;
+  /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
+  image?: VirtualHardDisk;
+  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
+  caching?: CachingTypes;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
+  createOption: DiskCreateOptionTypes;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 GB */
+  diskSizeGB?: number;
+  /** The managed disk parameters. */
+  managedDisk?: ManagedDiskParameters;
+  /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
+  toBeDetached?: boolean;
+  /**
+   * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskIopsReadWrite?: number;
+  /**
+   * Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diskMBpsReadWrite?: number;
+  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br> detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
+  detachOption?: DiskDetachOptionTypes;
+  /** Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach** */
+  deleteOption?: DiskDeleteOptionTypes;
+}
+
+/** Enables or disables a capability on the virtual machine or virtual machine scale set. */
+export interface AdditionalCapabilities {
+  /** The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled. */
+  ultraSSDEnabled?: boolean;
+  /** The flag that enables or disables hibernation capability on the VM. */
+  hibernationEnabled?: boolean;
+}
+
+/** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
+export interface OSProfile {
+  /** Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules). */
+  computerName?: string;
+  /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
   adminUsername?: string;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
   adminPassword?: string;
-  /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
+  /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData property** <br><br> This property cannot be updated after the VM is created. <br><br> customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/) <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
   customData?: string;
   /** Specifies Windows operating system settings on the virtual machine. */
   windowsConfiguration?: WindowsConfiguration;
   /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
   linuxConfiguration?: LinuxConfiguration;
-  /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
+  /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   secrets?: VaultSecretGroup[];
-  /** Specifies whether extension operations should be allowed on the virtual machine scale set. <br><br>This may only be set to False when no extensions are present on the virtual machine scale set. */
+  /** Specifies whether extension operations should be allowed on the virtual machine. <br><br>This may only be set to False when no extensions are present on the virtual machine. */
   allowExtensionOperations?: boolean;
+  /** Specifies whether the guest provision signal is required to infer provision success of the virtual machine.  **Note: This property is for private testing only, and all customers must not set the property to false.** */
+  requireGuestProvisionSignal?: boolean;
 }
 
 /** Specifies Windows operating system settings on the virtual machine. */
@@ -305,14 +578,6 @@ export interface PatchSettings {
   enableHotpatching?: boolean;
   /** Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
   assessmentMode?: WindowsPatchAssessmentMode;
-  /** Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows. */
-  automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
-}
-
-/** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings. */
-export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
-  /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
-  rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 /** Describes Windows Remote Management configuration of the VM */
@@ -361,14 +626,6 @@ export interface LinuxPatchSettings {
   patchMode?: LinuxVMGuestPatchMode;
   /** Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. */
   assessmentMode?: LinuxPatchAssessmentMode;
-  /** Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux. */
-  automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
-}
-
-/** Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings. */
-export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
-  /** Specifies the reboot setting for all AutomaticByPlatform patch installation operations. */
-  rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 /** Describes a set of certificates which are all in the same Key Vault. */
@@ -379,1070 +636,12 @@ export interface VaultSecretGroup {
   vaultCertificates?: VaultCertificate[];
 }
 
-export interface SubResource {
-  /** Resource Id */
-  id?: string;
-}
-
 /** Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM. */
 export interface VaultCertificate {
   /** This is the URL of a certificate that has been uploaded to Key Vault as a secret. For adding a secret to the Key Vault, see [Add a key or secret to the key vault](https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add). In this case, your certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded in UTF-8: <br><br> {<br>  "data":"<Base64-encoded-certificate>",<br>  "dataType":"pfx",<br>  "password":"<pfx-file-password>"<br>} <br> To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
   certificateUrl?: string;
   /** For Windows VMs, specifies the certificate store on the Virtual Machine to which the certificate should be added. The specified certificate store is implicitly in the LocalMachine account. <br><br>For Linux VMs, the certificate file is placed under the /var/lib/waagent directory, with the file name &lt;UppercaseThumbprint&gt;.crt for the X509 certificate file and &lt;UppercaseThumbprint&gt;.prv for private key. Both of these files are .pem formatted. */
   certificateStore?: string;
-}
-
-/** Describes a virtual machine scale set storage profile. */
-export interface VirtualMachineScaleSetStorageProfile {
-  /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
-  /** Specifies information about the operating system disk used by the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: VirtualMachineScaleSetOSDisk;
-  /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: VirtualMachineScaleSetDataDisk[];
-}
-
-/** Describes a virtual machine scale set operating system disk. */
-export interface VirtualMachineScaleSetOSDisk {
-  /** The disk name. */
-  name?: string;
-  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
-  caching?: CachingTypes;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
-  /** Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
-  createOption: DiskCreateOptionTypes;
-  /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
-  diffDiskSettings?: DiffDiskSettings;
-  /** Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
-  osType?: OperatingSystemTypes;
-  /** Specifies information about the unmanaged user image to base the scale set on. */
-  image?: VirtualHardDisk;
-  /** Specifies the container urls that are used to store operating system disks for the scale set. */
-  vhdContainers?: string[];
-  /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
-  /** Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes;
-}
-
-/** Describes the parameters of ephemeral disk settings that can be specified for operating system disk. <br><br> NOTE: The ephemeral disk settings can only be specified for managed disk. */
-export interface DiffDiskSettings {
-  /** Specifies the ephemeral disk settings for operating system disk. */
-  option?: DiffDiskOptions;
-  /** Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are: <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size documentation for Windows VM at https://docs.microsoft.com/azure/virtual-machines/windows/sizes and Linux VM at https://docs.microsoft.com/azure/virtual-machines/linux/sizes to check which VM sizes exposes a cache disk. */
-  placement?: DiffDiskPlacement;
-}
-
-/** Describes the uri of a disk. */
-export interface VirtualHardDisk {
-  /** Specifies the virtual hard disk's uri. */
-  uri?: string;
-}
-
-/** Describes the parameters of a ScaleSet managed disk. */
-export interface VirtualMachineScaleSetManagedDiskParameters {
-  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes;
-  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-  /** Specifies the security profile for the managed disk. */
-  securityProfile?: VMDiskSecurityProfile;
-}
-
-/** Specifies the security profile settings for the managed disk. <br><br> NOTE: It can only be set for Confidential VMs */
-export interface VMDiskSecurityProfile {
-  /** Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs. */
-  securityEncryptionType?: SecurityEncryptionTypes;
-  /** Specifies the customer managed disk encryption set resource id for the managed disk that is used for Customer Managed Key encrypted ConfidentialVM OS Disk and VMGuest blob. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-}
-
-/** Describes a virtual machine scale set data disk. */
-export interface VirtualMachineScaleSetDataDisk {
-  /** The disk name. */
-  name?: string;
-  /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun: number;
-  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
-  caching?: CachingTypes;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
-  /** The create option. */
-  createOption: DiskCreateOptionTypes;
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
-  /** Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
-  diskIopsReadWrite?: number;
-  /** Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
-  diskMBpsReadWrite?: number;
-  /** Specifies whether data disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only).<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when the VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VMSS Flex VM is deleted.<br><br> The default value is set to **Delete**. */
-  deleteOption?: DiskDeleteOptionTypes;
-}
-
-/** Describes a virtual machine scale set network profile. */
-export interface VirtualMachineScaleSetNetworkProfile {
-  /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
-  healthProbe?: ApiEntityReference;
-  /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
-  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
-  networkApiVersion?: NetworkApiVersion;
-}
-
-/** The API entity reference. */
-export interface ApiEntityReference {
-  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
-  id?: string;
-}
-
-/** Describes a virtual machines scale sets network configuration's DNS settings. */
-export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
-  /** List of DNS servers IP addresses */
-  dnsServers?: string[];
-}
-
-/** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
-export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
-  /** The publicIP address configuration name. */
-  name: string;
-  /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
-  sku?: PublicIPAddressSku;
-  /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
-  /** The dns settings to be applied on the publicIP addresses . */
-  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
-  /** The list of IP tags associated with the public IP address. */
-  ipTags?: VirtualMachineScaleSetIpTag[];
-  /** The PublicIPPrefix from which to allocate publicIP addresses. */
-  publicIPPrefix?: SubResource;
-  /** Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
-  publicIPAddressVersion?: IPVersion;
-  /** Specify what happens to the public IP when the VM is deleted */
-  deleteOption?: DeleteOptions;
-}
-
-/** Describes a virtual machines scale sets network configuration's DNS settings. */
-export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
-  /** The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
-  domainNameLabel: string;
-}
-
-/** Contains the IP tag associated with the public IP address. */
-export interface VirtualMachineScaleSetIpTag {
-  /** IP tag type. Example: FirstPartyUsage. */
-  ipTagType?: string;
-  /** IP tag associated with the public IP. Example: SQL, Storage etc. */
-  tag?: string;
-}
-
-/** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
-export interface PublicIPAddressSku {
-  /** Specify public IP sku name */
-  name?: PublicIPAddressSkuName;
-  /** Specify public IP sku tier */
-  tier?: PublicIPAddressSkuTier;
-}
-
-/** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
-export interface SecurityProfile {
-  /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
-  uefiSettings?: UefiSettings;
-  /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host will be disabled unless this property is set to true for the resource. */
-  encryptionAtHost?: boolean;
-  /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set. */
-  securityType?: SecurityTypes;
-}
-
-/** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
-export interface UefiSettings {
-  /** Specifies whether secure boot should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
-  secureBootEnabled?: boolean;
-  /** Specifies whether vTPM should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
-  vTpmEnabled?: boolean;
-}
-
-/** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
-export interface DiagnosticsProfile {
-  /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br>**NOTE**: If storageUri is being specified then ensure that the storage account is in the same region and subscription as the VM. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
-  bootDiagnostics?: BootDiagnostics;
-}
-
-/** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
-export interface BootDiagnostics {
-  /** Whether boot diagnostics should be enabled on the Virtual Machine. */
-  enabled?: boolean;
-  /** Uri of the storage account to use for placing the console output and screenshot. <br><br>If storageUri is not specified while enabling boot diagnostics, managed storage will be used. */
-  storageUri?: string;
-}
-
-/** Describes a virtual machine scale set extension profile. */
-export interface VirtualMachineScaleSetExtensionProfile {
-  /** The virtual machine scale set child extension resources. */
-  extensions?: VirtualMachineScaleSetExtension[];
-  /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01 */
-  extensionsTimeBudget?: string;
-}
-
-export interface SubResourceReadOnly {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** Specifies the billing related details of a Azure Spot VM or VMSS. <br><br>Minimum api-version: 2019-03-01. */
-export interface BillingProfile {
-  /** Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. <br><br> This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current Azure Spot price. <br><br> The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. <br><br> Possible values are: <br><br> - Any decimal value greater than zero. Example: 0.01538 <br><br> -1 – indicates default price to be up-to on-demand. <br><br> You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. <br><br>Minimum api-version: 2019-03-01. */
-  maxPrice?: number;
-}
-
-export interface ScheduledEventsProfile {
-  /** Specifies Terminate Scheduled Event related configurations. */
-  terminateNotificationProfile?: TerminateNotificationProfile;
-}
-
-export interface TerminateNotificationProfile {
-  /** Configurable length of time a Virtual Machine being deleted will have to potentially approve the Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601 format, the default value is 5 minutes (PT5M) */
-  notBeforeTimeout?: string;
-  /** Specifies whether the Terminate Scheduled event is enabled or disabled. */
-  enable?: boolean;
-}
-
-/** The parameters of a capacity reservation Profile. */
-export interface CapacityReservationProfile {
-  /** Specifies the capacity reservation group resource id that should be used for allocating the virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to https://aka.ms/CapacityReservation for more details. */
-  capacityReservationGroup?: SubResource;
-}
-
-/** Contains the list of gallery applications that should be made available to the VM/VMSS */
-export interface ApplicationProfile {
-  /** Specifies the gallery applications that should be made available to the VM/VMSS */
-  galleryApplications?: VMGalleryApplication[];
-}
-
-/** Specifies the required information to reference a compute gallery application version */
-export interface VMGalleryApplication {
-  /** Optional, Specifies a passthrough value for more generic context. */
-  tags?: string;
-  /** Optional, Specifies the order in which the packages have to be installed */
-  order?: number;
-  /** Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version} */
-  packageReferenceId: string;
-  /** Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided */
-  configurationReference?: string;
-  /** Optional, If true, any failure for any operation in the VmApplication will fail the deployment */
-  treatFailureAsDeploymentFailure?: boolean;
-  /** If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS */
-  enableAutomaticUpgrade?: boolean;
-}
-
-/** Specifies the hardware settings for the virtual machine scale set. */
-export interface VirtualMachineScaleSetHardwareProfile {
-  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
-  vmSizeProperties?: VMSizeProperties;
-}
-
-/** Specifies VM Size Property settings on the virtual machine. */
-export interface VMSizeProperties {
-  /** Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) . */
-  vCPUsAvailable?: number;
-  /** Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled. */
-  vCPUsPerCore?: number;
-}
-
-/** Enables or disables a capability on the virtual machine or virtual machine scale set. */
-export interface AdditionalCapabilities {
-  /** The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS. Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled. */
-  ultraSSDEnabled?: boolean;
-  /** The flag that enables or disables hibernation capability on the VM. */
-  hibernationEnabled?: boolean;
-}
-
-/** Describes a scale-in policy for a virtual machine scale set. */
-export interface ScaleInPolicy {
-  /** The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM** When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal. <br><br> */
-  rules?: VirtualMachineScaleSetScaleInRules[];
-  /** This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview) */
-  forceDeletion?: boolean;
-}
-
-/** Specifies the Spot-Try-Restore properties for the virtual machine scale set. <br><br> With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
-export interface SpotRestorePolicy {
-  /** Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints */
-  enabled?: boolean;
-  /** Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances */
-  restoreTimeout?: string;
-}
-
-/** Identity for the virtual machine scale set. */
-export interface VirtualMachineScaleSetIdentity {
-  /**
-   * The principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentitiesValue;
-  };
-}
-
-export interface UserAssignedIdentitiesValue {
-  /**
-   * The principal id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** The complex type of the extended location. */
-export interface ExtendedLocation {
-  /** The name of the extended location. */
-  name?: string;
-  /** The type of the extended location. */
-  type?: ExtendedLocationTypes;
-}
-
-/** The Resource model definition. */
-export interface Resource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Describes a virtual machine scale set virtual machine profile. */
-export interface VirtualMachineScaleSetUpdateVMProfile {
-  /** The virtual machine scale set OS profile. */
-  osProfile?: VirtualMachineScaleSetUpdateOSProfile;
-  /** The virtual machine scale set storage profile. */
-  storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
-  /** The virtual machine scale set network profile. */
-  networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
-  /** The virtual machine scale set Security profile */
-  securityProfile?: SecurityProfile;
-  /** The virtual machine scale set diagnostics profile. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  /** The virtual machine scale set extension profile. */
-  extensionProfile?: VirtualMachineScaleSetExtensionProfile;
-  /** The license type, which is for bring your own license scenario. */
-  licenseType?: string;
-  /** Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version: 2019-03-01. */
-  billingProfile?: BillingProfile;
-  /** Specifies Scheduled Event related configurations. */
-  scheduledEventsProfile?: ScheduledEventsProfile;
-  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
-  userData?: string;
-}
-
-/** Describes a virtual machine scale set OS profile. */
-export interface VirtualMachineScaleSetUpdateOSProfile {
-  /** A base-64 encoded string of custom data. */
-  customData?: string;
-  /** The Windows Configuration of the OS profile. */
-  windowsConfiguration?: WindowsConfiguration;
-  /** The Linux Configuration of the OS profile. */
-  linuxConfiguration?: LinuxConfiguration;
-  /** The List of certificates for addition to the VM. */
-  secrets?: VaultSecretGroup[];
-}
-
-/** Describes a virtual machine scale set storage profile. */
-export interface VirtualMachineScaleSetUpdateStorageProfile {
-  /** The image reference. */
-  imageReference?: ImageReference;
-  /** The OS disk. */
-  osDisk?: VirtualMachineScaleSetUpdateOSDisk;
-  /** The data disks. */
-  dataDisks?: VirtualMachineScaleSetDataDisk[];
-}
-
-/** Describes virtual machine scale set operating system disk Update Object. This should be used for Updating VMSS OS Disk. */
-export interface VirtualMachineScaleSetUpdateOSDisk {
-  /** The caching type. */
-  caching?: CachingTypes;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
-  /** Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist. */
-  image?: VirtualHardDisk;
-  /** The list of virtual hard disk container uris. */
-  vhdContainers?: string[];
-  /** The managed disk parameters. */
-  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
-  /** Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes;
-}
-
-/** Describes a virtual machine scale set network profile. */
-export interface VirtualMachineScaleSetUpdateNetworkProfile {
-  /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
-  healthProbe?: ApiEntityReference;
-  /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
-  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
-  networkApiVersion?: NetworkApiVersion;
-}
-
-/** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
-export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
-  /** The publicIP address configuration name. */
-  name?: string;
-  /** The idle timeout of the public IP address. */
-  idleTimeoutInMinutes?: number;
-  /** The dns settings to be applied on the publicIP addresses . */
-  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
-  /** The PublicIPPrefix from which to allocate publicIP addresses. */
-  publicIPPrefix?: SubResource;
-  /** Specify what happens to the public IP when the VM is deleted */
-  deleteOption?: DeleteOptions;
-}
-
-/** The Update Resource model definition. */
-export interface UpdateResource {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Specifies a list of virtual machine instance IDs from the VM scale set. */
-export interface VirtualMachineScaleSetVMInstanceIDs {
-  /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
-  instanceIds?: string[];
-}
-
-/** Specifies a list of virtual machine instance IDs from the VM scale set. */
-export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
-  /** The virtual machine scale set instance ids. */
-  instanceIds: string[];
-}
-
-/** The instance view of a virtual machine scale set. */
-export interface VirtualMachineScaleSetInstanceView {
-  /**
-   * The instance view status summary for the virtual machine scale set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummary;
-  /**
-   * The extensions information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly extensions?: VirtualMachineScaleSetVMExtensionsSummary[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-  /**
-   * The orchestration services information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly orchestrationServices?: OrchestrationServiceSummary[];
-}
-
-/** Instance view statuses summary for virtual machines of a virtual machine scale set. */
-export interface VirtualMachineScaleSetInstanceViewStatusesSummary {
-  /**
-   * The extensions information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusesSummary?: VirtualMachineStatusCodeCount[];
-}
-
-/** The status code and count of the virtual machine scale set instance view status summary. */
-export interface VirtualMachineStatusCodeCount {
-  /**
-   * The instance view status code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The number of instances having a particular status code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly count?: number;
-}
-
-/** Extensions summary for virtual machines of a virtual machine scale set. */
-export interface VirtualMachineScaleSetVMExtensionsSummary {
-  /**
-   * The extension name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The extensions information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusesSummary?: VirtualMachineStatusCodeCount[];
-}
-
-/** Instance view status. */
-export interface InstanceViewStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: StatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
-}
-
-/** Summary for an orchestration service of a virtual machine scale set. */
-export interface OrchestrationServiceSummary {
-  /**
-   * The name of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceName?: OrchestrationServiceNames;
-  /**
-   * The current state of the service.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serviceState?: OrchestrationServiceState;
-}
-
-/** The List VM scale set extension operation response. */
-export interface VirtualMachineScaleSetExtensionListResult {
-  /** The list of VM scale set extensions. */
-  value: VirtualMachineScaleSetExtension[];
-  /** The uri to fetch the next page of VM scale set extensions. Call ListNext() with this to fetch the next page of VM scale set extensions. */
-  nextLink?: string;
-}
-
-/** The List Virtual Machine operation response. */
-export interface VirtualMachineScaleSetListWithLinkResult {
-  /** The list of virtual machine scale sets. */
-  value: VirtualMachineScaleSet[];
-  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of Virtual Machine Scale Sets. */
-  nextLink?: string;
-}
-
-/** The Virtual Machine Scale Set List Skus operation response. */
-export interface VirtualMachineScaleSetListSkusResult {
-  /** The list of skus available for the virtual machine scale set. */
-  value: VirtualMachineScaleSetSku[];
-  /** The uri to fetch the next page of Virtual Machine Scale Set Skus. Call ListNext() with this to fetch the next page of VMSS Skus. */
-  nextLink?: string;
-}
-
-/** Describes an available virtual machine scale set sku. */
-export interface VirtualMachineScaleSetSku {
-  /**
-   * The type of resource the sku applies to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * The Sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sku?: Sku;
-  /**
-   * Specifies the number of virtual machines in the scale set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly capacity?: VirtualMachineScaleSetSkuCapacity;
-}
-
-/** Describes scaling information of a sku. */
-export interface VirtualMachineScaleSetSkuCapacity {
-  /**
-   * The minimum capacity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly minimum?: number;
-  /**
-   * The maximum capacity that can be set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maximum?: number;
-  /**
-   * The default capacity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultCapacity?: number;
-  /**
-   * The scale type applicable to the sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly scaleType?: VirtualMachineScaleSetSkuScaleType;
-}
-
-/** List of Virtual Machine Scale Set OS Upgrade History operation response. */
-export interface VirtualMachineScaleSetListOSUpgradeHistory {
-  /** The list of OS upgrades performed on the virtual machine scale set. */
-  value: UpgradeOperationHistoricalStatusInfo[];
-  /** The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the next page of history of upgrades. */
-  nextLink?: string;
-}
-
-/** Virtual Machine Scale Set OS Upgrade History operation response. */
-export interface UpgradeOperationHistoricalStatusInfo {
-  /**
-   * Information about the properties of the upgrade operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly properties?: UpgradeOperationHistoricalStatusInfoProperties;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Resource location
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-}
-
-/** Describes each OS upgrade on the Virtual Machine Scale Set. */
-export interface UpgradeOperationHistoricalStatusInfoProperties {
-  /**
-   * Information about the overall status of the upgrade operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runningStatus?: UpgradeOperationHistoryStatus;
-  /**
-   * Counts of the VMs in each state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly progress?: RollingUpgradeProgressInfo;
-  /**
-   * Error Details for this upgrade if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ApiError;
-  /**
-   * Invoker of the Upgrade Operation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startedBy?: UpgradeOperationInvoker;
-  /**
-   * Image Reference details
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetImageReference?: ImageReference;
-  /**
-   * Information about OS rollback if performed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rollbackInfo?: RollbackStatusInfo;
-}
-
-/** Information about the current running state of the overall upgrade. */
-export interface UpgradeOperationHistoryStatus {
-  /**
-   * Code indicating the current status of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: UpgradeState;
-  /**
-   * Start time of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * End time of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endTime?: Date;
-}
-
-/** Information about the number of virtual machine instances in each upgrade state. */
-export interface RollingUpgradeProgressInfo {
-  /**
-   * The number of instances that have been successfully upgraded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly successfulInstanceCount?: number;
-  /**
-   * The number of instances that have failed to be upgraded successfully.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedInstanceCount?: number;
-  /**
-   * The number of instances that are currently being upgraded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inProgressInstanceCount?: number;
-  /**
-   * The number of instances that have not yet begun to be upgraded.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly pendingInstanceCount?: number;
-}
-
-/** Information about rollback on failed VM instances after a OS Upgrade operation. */
-export interface RollbackStatusInfo {
-  /**
-   * The number of instances which have been successfully rolled back.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly successfullyRolledbackInstanceCount?: number;
-  /**
-   * The number of instances which failed to rollback.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedRolledbackInstanceCount?: number;
-  /**
-   * Error details if OS rollback failed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly rollbackError?: ApiError;
-}
-
-/** Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will always be reimaged */
-export interface VirtualMachineReimageParameters {
-  /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
-  tempDisk?: boolean;
-}
-
-/** Information about the current running state of the overall upgrade. */
-export interface RollingUpgradeRunningStatus {
-  /**
-   * Code indicating the current status of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: RollingUpgradeStatusCode;
-  /**
-   * Start time of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * The last action performed on the rolling upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastAction?: RollingUpgradeActionType;
-  /**
-   * Last action time of the upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastActionTime?: Date;
-}
-
-/** Response after calling a manual recovery walk */
-export interface RecoveryWalkResponse {
-  /**
-   * Whether the recovery walk was performed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly walkPerformed?: boolean;
-  /**
-   * The next update domain that needs to be walked. Null means walk spanning all update domains has been completed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextPlatformUpdateDomain?: number;
-}
-
-export interface VMScaleSetConvertToSinglePlacementGroupInput {
-  /** Id of the placement group in which you want future virtual machine instances to be placed. To query placement group Id, please use Virtual Machine Scale Set VMs - Get API. If not provided, the platform will choose one with maximum number of virtual machine instances. */
-  activePlacementGroupId?: string;
-}
-
-/** The input for OrchestrationServiceState */
-export interface OrchestrationServiceStateInput {
-  /** The name of the service. */
-  serviceName: OrchestrationServiceNames;
-  /** The action to be performed. */
-  action: OrchestrationServiceStateAction;
-}
-
-/** The instance view of a virtual machine extension. */
-export interface VirtualMachineExtensionInstanceView {
-  /** The virtual machine extension name. */
-  name?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The resource status information. */
-  substatuses?: InstanceViewStatus[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** The List VMSS VM Extension operation response */
-export interface VirtualMachineScaleSetVMExtensionsListResult {
-  /** The list of VMSS VM extensions */
-  value?: VirtualMachineScaleSetVMExtension[];
-}
-
-/** The instance view of a virtual machine scale set VM. */
-export interface VirtualMachineScaleSetVMInstanceView {
-  /** The Update Domain count. */
-  platformUpdateDomain?: number;
-  /** The Fault Domain count. */
-  platformFaultDomain?: number;
-  /** The Remote desktop certificate thumbprint. */
-  rdpThumbPrint?: string;
-  /** The VM Agent running on the virtual machine. */
-  vmAgent?: VirtualMachineAgentInstanceView;
-  /** The Maintenance Operation status on the virtual machine. */
-  maintenanceRedeployStatus?: MaintenanceRedeployStatus;
-  /** The disks information. */
-  disks?: DiskInstanceView[];
-  /** The extensions information. */
-  extensions?: VirtualMachineExtensionInstanceView[];
-  /**
-   * The health status for the VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmHealth?: VirtualMachineHealthStatus;
-  /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
-  bootDiagnostics?: BootDiagnosticsInstanceView;
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-  /**
-   * Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. <br><br>Minimum api-version: 2020-06-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignedHost?: string;
-  /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
-  placementGroupId?: string;
-}
-
-/** The instance view of the VM Agent running on the virtual machine. */
-export interface VirtualMachineAgentInstanceView {
-  /** The VM Agent full version. */
-  vmAgentVersion?: string;
-  /** The virtual machine extension handler instance view. */
-  extensionHandlers?: VirtualMachineExtensionHandlerInstanceView[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** The instance view of a virtual machine extension handler. */
-export interface VirtualMachineExtensionHandlerInstanceView {
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  type?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** The extension handler status. */
-  status?: InstanceViewStatus;
-}
-
-/** Maintenance Operation Status. */
-export interface MaintenanceRedeployStatus {
-  /** True, if customer is allowed to perform Maintenance. */
-  isCustomerInitiatedMaintenanceAllowed?: boolean;
-  /** Start Time for the Pre Maintenance Window. */
-  preMaintenanceWindowStartTime?: Date;
-  /** End Time for the Pre Maintenance Window. */
-  preMaintenanceWindowEndTime?: Date;
-  /** Start Time for the Maintenance Window. */
-  maintenanceWindowStartTime?: Date;
-  /** End Time for the Maintenance Window. */
-  maintenanceWindowEndTime?: Date;
-  /** The Last Maintenance Operation Result Code. */
-  lastOperationResultCode?: MaintenanceOperationResultCodeTypes;
-  /** Message returned for the last Maintenance Operation. */
-  lastOperationMessage?: string;
-}
-
-/** The instance view of the disk. */
-export interface DiskInstanceView {
-  /** The disk name. */
-  name?: string;
-  /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
-  encryptionSettings?: DiskEncryptionSettings[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** Describes a Encryption Settings for a Disk */
-export interface DiskEncryptionSettings {
-  /** Specifies the location of the disk encryption key, which is a Key Vault Secret. */
-  diskEncryptionKey?: KeyVaultSecretReference;
-  /** Specifies the location of the key encryption key in Key Vault. */
-  keyEncryptionKey?: KeyVaultKeyReference;
-  /** Specifies whether disk encryption should be enabled on the virtual machine. */
-  enabled?: boolean;
-}
-
-/** Describes a reference to Key Vault Secret */
-export interface KeyVaultSecretReference {
-  /** The URL referencing a secret in a Key Vault. */
-  secretUrl: string;
-  /** The relative URL of the Key Vault containing the secret. */
-  sourceVault: SubResource;
-}
-
-/** Describes a reference to Key Vault Key */
-export interface KeyVaultKeyReference {
-  /** The URL referencing a key encryption key in Key Vault. */
-  keyUrl: string;
-  /** The relative URL of the Key Vault containing the key. */
-  sourceVault: SubResource;
-}
-
-/** The health status of the VM. */
-export interface VirtualMachineHealthStatus {
-  /**
-   * The health status information for the VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: InstanceViewStatus;
-}
-
-/** The instance view of a virtual machine boot diagnostics. */
-export interface BootDiagnosticsInstanceView {
-  /**
-   * The console screenshot blob URI. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly consoleScreenshotBlobUri?: string;
-  /**
-   * The serial console log blob Uri. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serialConsoleLogBlobUri?: string;
-  /**
-   * The boot diagnostics status information for the VM. <br><br> NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: InstanceViewStatus;
-}
-
-/** Specifies the hardware settings for the virtual machine. */
-export interface HardwareProfile {
-  /** Specifies the size of the virtual machine. <br><br> The enum data type is currently deprecated and will be removed by December 23rd 2023. <br><br> Recommended way to get the list of available sizes is using these APIs: <br><br> [List all available virtual machine sizes in an availability set](https://docs.microsoft.com/rest/api/compute/availabilitysets/listavailablesizes) <br><br> [List all available virtual machine sizes in a region]( https://docs.microsoft.com/rest/api/compute/resourceskus/list) <br><br> [List all available virtual machine sizes for resizing](https://docs.microsoft.com/rest/api/compute/virtualmachines/listavailablesizes). For more information about virtual machine sizes, see [Sizes for virtual machines](https://docs.microsoft.com/azure/virtual-machines/sizes). <br><br> The available VM sizes depend on region and availability set. */
-  vmSize?: VirtualMachineSizeTypes;
-  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-07-01. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
-  vmSizeProperties?: VMSizeProperties;
-}
-
-/** Specifies the storage settings for the virtual machine disks. */
-export interface StorageProfile {
-  /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
-  imageReference?: ImageReference;
-  /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: OSDisk;
-  /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: DataDisk[];
-}
-
-/** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-export interface OSDisk {
-  /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
-  osType?: OperatingSystemTypes;
-  /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
-  encryptionSettings?: DiskEncryptionSettings;
-  /** The disk name. */
-  name?: string;
-  /** The virtual hard disk. */
-  vhd?: VirtualHardDisk;
-  /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
-  image?: VirtualHardDisk;
-  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage. */
-  caching?: CachingTypes;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
-  /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
-  diffDiskSettings?: DiffDiskSettings;
-  /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
-  createOption: DiskCreateOptionTypes;
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** The managed disk parameters. */
-  managedDisk?: ManagedDiskParameters;
-  /** Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for ephemeral OS Disk. */
-  deleteOption?: DiskDeleteOptionTypes;
-}
-
-/** Describes a data disk. */
-export interface DataDisk {
-  /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun: number;
-  /** The disk name. */
-  name?: string;
-  /** The virtual hard disk. */
-  vhd?: VirtualHardDisk;
-  /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
-  image?: VirtualHardDisk;
-  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
-  caching?: CachingTypes;
-  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
-  writeAcceleratorEnabled?: boolean;
-  /** Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
-  createOption: DiskCreateOptionTypes;
-  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** The managed disk parameters. */
-  managedDisk?: ManagedDiskParameters;
-  /** Specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset */
-  toBeDetached?: boolean;
-  /**
-   * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly diskIopsReadWrite?: number;
-  /**
-   * Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly diskMBpsReadWrite?: number;
-  /** Specifies the detach behavior to be used while detaching a disk or which is already in the process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br> detachOption: **ForceDetach** is applicable only for managed data disks. If a previous detachment attempt of the data disk did not complete due to an unexpected failure from the virtual machine and the disk is still not released then use force-detach as a last resort option to detach the disk forcibly from the VM. All writes might not have been flushed when using this detach behavior. <br><br> This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'. */
-  detachOption?: DiskDetachOptionTypes;
-  /** Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach** */
-  deleteOption?: DiskDeleteOptionTypes;
-}
-
-/** Specifies the operating system settings for the virtual machine. Some of the settings cannot be changed once VM is provisioned. */
-export interface OSProfile {
-  /** Specifies the host OS name of the virtual machine. <br><br> This name cannot be updated after the VM is created. <br><br> **Max-length (Windows):** 15 characters <br><br> **Max-length (Linux):** 64 characters. <br><br> For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/azure-resource-manager/management/resource-name-rules). */
-  computerName?: string;
-  /** Specifies the name of the administrator account. <br><br> This property cannot be updated after the VM is created. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters. */
-  adminUsername?: string;
-  /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
-  adminPassword?: string;
-  /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> **Note: Do not pass any secrets or passwords in customData property** <br><br> This property cannot be updated after the VM is created. <br><br> customData is passed to the VM to be saved as a file, for more information see [Custom Data on Azure VMs](https://azure.microsoft.com/blog/custom-data-and-cloud-init-on-windows-azure/) <br><br> For using cloud-init for your Linux VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
-  customData?: string;
-  /** Specifies Windows operating system settings on the virtual machine. */
-  windowsConfiguration?: WindowsConfiguration;
-  /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
-  linuxConfiguration?: LinuxConfiguration;
-  /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
-  secrets?: VaultSecretGroup[];
-  /** Specifies whether extension operations should be allowed on the virtual machine. <br><br>This may only be set to False when no extensions are present on the virtual machine. */
-  allowExtensionOperations?: boolean;
-  /** Optional property which must either be set to True or omitted. */
-  requireGuestProvisionSignal?: boolean;
 }
 
 /** Specifies the network interfaces or the networking configuration of the virtual machine. */
@@ -1508,7 +707,7 @@ export interface VirtualMachineNetworkInterfaceIPConfiguration {
 export interface VirtualMachinePublicIPAddressConfiguration {
   /** The publicIP address configuration name. */
   name: string;
-  /** Describes the public IP Sku. It can only be set with OrchestrationMode as Flexible. */
+  /** Describes the public IP Sku */
   sku?: PublicIPAddressSku;
   /** The idle timeout of the public IP address. */
   idleTimeoutInMinutes?: number;
@@ -1540,97 +739,50 @@ export interface VirtualMachineIpTag {
   tag?: string;
 }
 
-/** Describes a virtual machine scale set VM network profile. */
-export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
-  /** The list of network configurations. */
-  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+/** Describes the public IP Sku */
+export interface PublicIPAddressSku {
+  /** Specify public IP sku name */
+  name?: PublicIPAddressSkuName;
+  /** Specify public IP sku tier */
+  tier?: PublicIPAddressSkuTier;
 }
 
-/** The protection policy of a virtual machine scale set VM. */
-export interface VirtualMachineScaleSetVMProtectionPolicy {
-  /** Indicates that the virtual machine scale set VM shouldn't be considered for deletion during a scale-in operation. */
-  protectFromScaleIn?: boolean;
-  /** Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM. */
-  protectFromScaleSetActions?: boolean;
+/** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
+export interface SecurityProfile {
+  /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
+  uefiSettings?: UefiSettings;
+  /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host will be disabled unless this property is set to true for the resource. */
+  encryptionAtHost?: boolean;
+  /** Specifies the SecurityType of the virtual machine. It is set as TrustedLaunch to enable UefiSettings. <br><br> Default: UefiSettings will not be enabled unless this property is set as TrustedLaunch. */
+  securityType?: SecurityTypes;
 }
 
-/** The Resource model definition with location property as optional. */
-export interface ResourceWithOptionalLocation {
-  /** Resource location */
-  location?: string;
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+/** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
+export interface UefiSettings {
+  /** Specifies whether secure boot should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
+  secureBootEnabled?: boolean;
+  /** Specifies whether vTPM should be enabled on the virtual machine. <br><br>Minimum api-version: 2020-12-01 */
+  vTpmEnabled?: boolean;
 }
 
-/** Identity for the virtual machine. */
-export interface VirtualMachineIdentity {
-  /**
-   * The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
-  type?: ResourceIdentityType;
-  /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentitiesValue;
-  };
+/** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
+export interface DiagnosticsProfile {
+  /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
+  bootDiagnostics?: BootDiagnostics;
 }
 
-/** The List Virtual Machine Scale Set VMs operation response. */
-export interface VirtualMachineScaleSetVMListResult {
-  /** The list of virtual machine scale sets VMs. */
-  value: VirtualMachineScaleSetVM[];
-  /** The uri to fetch the next page of Virtual Machine Scale Set VMs. Call ListNext() with this to fetch the next page of VMSS VMs */
-  nextLink?: string;
+/** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
+export interface BootDiagnostics {
+  /** Whether boot diagnostics should be enabled on the Virtual Machine. */
+  enabled?: boolean;
+  /** Uri of the storage account to use for placing the console output and screenshot. <br><br>If storageUri is not specified while enabling boot diagnostics, managed storage will be used. */
+  storageUri?: string;
 }
 
-/** The SAS URIs of the console screenshot and serial log blobs. */
-export interface RetrieveBootDiagnosticsDataResult {
-  /**
-   * The console screenshot blob URI
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly consoleScreenshotBlobUri?: string;
-  /**
-   * The serial console log blob URI.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serialConsoleLogBlobUri?: string;
-}
-
-/** The List Extension operation response */
-export interface VirtualMachineExtensionsListResult {
-  /** The list of extensions */
-  value?: VirtualMachineExtension[];
-}
-
-/** The List Virtual Machine operation response. */
-export interface VirtualMachineListResult {
-  /** The list of virtual machines. */
-  value: VirtualMachine[];
-  /** The URI to fetch the next page of VMs. Call ListNext() with this URI to fetch the next page of Virtual Machines. */
-  nextLink?: string;
+/** Specifies the billing related details of a Azure Spot VM or VMSS. <br><br>Minimum api-version: 2019-03-01. */
+export interface BillingProfile {
+  /** Specifies the maximum price you are willing to pay for a Azure Spot VM/VMSS. This price is in US Dollars. <br><br> This price will be compared with the current Azure Spot price for the VM size. Also, the prices are compared at the time of create/update of Azure Spot VM/VMSS and the operation will only succeed if  the maxPrice is greater than the current Azure Spot price. <br><br> The maxPrice will also be used for evicting a Azure Spot VM/VMSS if the current Azure Spot price goes beyond the maxPrice after creation of VM/VMSS. <br><br> Possible values are: <br><br> - Any decimal value greater than zero. Example: 0.01538 <br><br> -1 – indicates default price to be up-to on-demand. <br><br> You can set the maxPrice to -1 to indicate that the Azure Spot VM/VMSS should not be evicted for price reasons. Also, the default max price is -1 if it is not provided by you. <br><br>Minimum api-version: 2019-03-01. */
+  maxPrice?: number;
 }
 
 /** The instance view of a virtual machine. */
@@ -1673,6 +825,82 @@ export interface VirtualMachineInstanceView {
   statuses?: InstanceViewStatus[];
   /** [Preview Feature] The status of virtual machine patch operations. */
   patchStatus?: VirtualMachinePatchStatus;
+}
+
+/** The instance view of the VM Agent running on the virtual machine. */
+export interface VirtualMachineAgentInstanceView {
+  /** The VM Agent full version. */
+  vmAgentVersion?: string;
+  /** The virtual machine extension handler instance view. */
+  extensionHandlers?: VirtualMachineExtensionHandlerInstanceView[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** The instance view of a virtual machine extension handler. */
+export interface VirtualMachineExtensionHandlerInstanceView {
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  type?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** The extension handler status. */
+  status?: InstanceViewStatus;
+}
+
+/** Maintenance Operation Status. */
+export interface MaintenanceRedeployStatus {
+  /** True, if customer is allowed to perform Maintenance. */
+  isCustomerInitiatedMaintenanceAllowed?: boolean;
+  /** Start Time for the Pre Maintenance Window. */
+  preMaintenanceWindowStartTime?: Date;
+  /** End Time for the Pre Maintenance Window. */
+  preMaintenanceWindowEndTime?: Date;
+  /** Start Time for the Maintenance Window. */
+  maintenanceWindowStartTime?: Date;
+  /** End Time for the Maintenance Window. */
+  maintenanceWindowEndTime?: Date;
+  /** The Last Maintenance Operation Result Code. */
+  lastOperationResultCode?: MaintenanceOperationResultCodeTypes;
+  /** Message returned for the last Maintenance Operation. */
+  lastOperationMessage?: string;
+}
+
+/** The instance view of the disk. */
+export interface DiskInstanceView {
+  /** The disk name. */
+  name?: string;
+  /** Specifies the encryption settings for the OS Disk. <br><br> Minimum api-version: 2015-06-15 */
+  encryptionSettings?: DiskEncryptionSettings[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** The health status of the VM. */
+export interface VirtualMachineHealthStatus {
+  /**
+   * The health status information for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: InstanceViewStatus;
+}
+
+/** The instance view of a virtual machine boot diagnostics. */
+export interface BootDiagnosticsInstanceView {
+  /**
+   * The console screenshot blob URI. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly consoleScreenshotBlobUri?: string;
+  /**
+   * The serial console log blob Uri. <br><br>NOTE: This will **not** be set if boot diagnostics is currently enabled with managed storage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serialConsoleLogBlobUri?: string;
+  /**
+   * The boot diagnostics status information for the VM. <br><br> NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: InstanceViewStatus;
 }
 
 /** The status of virtual machine patch operations. */
@@ -1791,6 +1019,388 @@ export interface LastPatchInstallationSummary {
   readonly error?: ApiError;
 }
 
+export interface ScheduledEventsProfile {
+  /** Specifies Terminate Scheduled Event related configurations. */
+  terminateNotificationProfile?: TerminateNotificationProfile;
+}
+
+export interface TerminateNotificationProfile {
+  /** Configurable length of time a Virtual Machine being deleted will have to potentially approve the Terminate Scheduled Event before the event is auto approved (timed out). The configuration must be specified in ISO 8601 format, the default value is 5 minutes (PT5M) */
+  notBeforeTimeout?: string;
+  /** Specifies whether the Terminate Scheduled event is enabled or disabled. */
+  enable?: boolean;
+}
+
+/** The parameters of a capacity reservation Profile. */
+export interface CapacityReservationProfile {
+  /** Specifies the capacity reservation group resource id that should be used for allocating the virtual machine or scaleset vm instances provided enough capacity has been reserved. Please refer to https://aka.ms/CapacityReservation for more details. */
+  capacityReservationGroup?: SubResource;
+}
+
+/** Contains the list of gallery applications that should be made available to the VM/VMSS */
+export interface ApplicationProfile {
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  galleryApplications?: VMGalleryApplication[];
+}
+
+/** Specifies the required information to reference a compute gallery application version */
+export interface VMGalleryApplication {
+  /** Optional, Specifies a passthrough value for more generic context. */
+  tags?: string;
+  /** Optional, Specifies the order in which the packages have to be installed */
+  order?: number;
+  /** Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version} */
+  packageReferenceId: string;
+  /** Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided */
+  configurationReference?: string;
+}
+
+/** Identity for the virtual machine. */
+export interface VirtualMachineIdentity {
+  /**
+   * The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentitiesValue;
+  };
+}
+
+export interface UserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The List Virtual Machine operation response. */
+export interface VirtualMachineScaleSetListResult {
+  /** The list of virtual machine scale sets. */
+  value: VirtualMachineScaleSet[];
+  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of VMSS. */
+  nextLink?: string;
+}
+
+/** Describes an upgrade policy - automatic, manual, or rolling. */
+export interface UpgradePolicy {
+  /** Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are  automatically updated at the same time. */
+  mode?: UpgradeMode;
+  /** The configuration parameters used while performing a rolling upgrade. */
+  rollingUpgradePolicy?: RollingUpgradePolicy;
+  /** Configuration parameters used for performing automatic OS Upgrade. */
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+}
+
+/** The configuration parameters used while performing a rolling upgrade. */
+export interface RollingUpgradePolicy {
+  /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The default value for this parameter is 20%. */
+  maxBatchInstancePercent?: number;
+  /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The default value for this parameter is 20%. */
+  maxUnhealthyInstancePercent?: number;
+  /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The default value for this parameter is 20%. */
+  maxUnhealthyUpgradedInstancePercent?: number;
+  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format. The default value is 0 seconds (PT0S). */
+  pauseTimeBetweenBatches?: string;
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. */
+  enableCrossZoneUpgrade?: boolean;
+  /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
+  prioritizeUnhealthyInstances?: boolean;
+}
+
+/** The configuration parameters used for performing automatic OS upgrade. */
+export interface AutomaticOSUpgradePolicy {
+  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. Default value is false. <br><br> If this is set to true for Windows based scale sets, [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet) is automatically set to false and cannot be set to true. */
+  enableAutomaticOSUpgrade?: boolean;
+  /** Whether OS image rollback feature should be disabled. Default value is false. */
+  disableAutomaticRollback?: boolean;
+}
+
+/** Specifies the configuration parameters for automatic repairs on the virtual machine scale set. */
+export interface AutomaticRepairsPolicy {
+  /** Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is false. */
+  enabled?: boolean;
+  /** The amount of time for which automatic repairs are suspended due to a state change on VM. The grace time starts after the state change has completed. This helps avoid premature or accidental repairs. The time duration should be specified in ISO 8601 format. The minimum allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum allowed grace period is 90 minutes (PT90M). */
+  gracePeriod?: string;
+}
+
+/** Describes a virtual machine scale set virtual machine profile. */
+export interface VirtualMachineScaleSetVMProfile {
+  /** Specifies the operating system settings for the virtual machines in the scale set. */
+  osProfile?: VirtualMachineScaleSetOSProfile;
+  /** Specifies the storage settings for the virtual machine disks. */
+  storageProfile?: VirtualMachineScaleSetStorageProfile;
+  /** Specifies properties of the network interfaces of the virtual machines in the scale set. */
+  networkProfile?: VirtualMachineScaleSetNetworkProfile;
+  /** Specifies the Security related profile settings for the virtual machines in the scale set. */
+  securityProfile?: SecurityProfile;
+  /** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /** Specifies a collection of settings for extensions installed on virtual machines in the scale set. */
+  extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+  /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
+  licenseType?: string;
+  /** Specifies the priority for the virtual machines in the scale set. <br><br>Minimum api-version: 2017-10-30-preview */
+  priority?: VirtualMachinePriorityTypes;
+  /** Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set. <br><br>For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and 'Delete' are supported and the minimum api-version is 2017-10-30-preview. */
+  evictionPolicy?: VirtualMachineEvictionPolicyTypes;
+  /** Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version: 2019-03-01. */
+  billingProfile?: BillingProfile;
+  /** Specifies Scheduled Event related configurations. */
+  scheduledEventsProfile?: ScheduledEventsProfile;
+  /** UserData for the virtual machines in the scale set, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
+  userData?: string;
+  /** Specifies the capacity reservation related details of a scale set. <br><br>Minimum api-version: 2021-04-01. */
+  capacityReservation?: CapacityReservationProfile;
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  applicationProfile?: ApplicationProfile;
+}
+
+/** Describes a virtual machine scale set OS profile. */
+export interface VirtualMachineScaleSetOSProfile {
+  /** Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name prefixes must be 1 to 15 characters long. */
+  computerNamePrefix?: string;
+  /** Specifies the name of the administrator account. <br><br> **Windows-only restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length (Linux):** 1  character <br><br> **Max-length (Linux):** 64 characters <br><br> **Max-length (Windows):** 20 characters */
+  adminUsername?: string;
+  /** Specifies the password of the administrator account. <br><br> **Minimum-length (Windows):** 8 characters <br><br> **Minimum-length (Linux):** 6 characters <br><br> **Max-length (Windows):** 123 characters <br><br> **Max-length (Linux):** 72 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" <br><br> For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp) <br><br> For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess Extension](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/troubleshoot-ssh-connection) */
+  adminPassword?: string;
+  /** Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes. <br><br> For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during creation](https://docs.microsoft.com/azure/virtual-machines/linux/using-cloud-init) */
+  customData?: string;
+  /** Specifies Windows operating system settings on the virtual machine. */
+  windowsConfiguration?: WindowsConfiguration;
+  /** Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
+  linuxConfiguration?: LinuxConfiguration;
+  /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
+  secrets?: VaultSecretGroup[];
+}
+
+/** Describes a virtual machine scale set storage profile. */
+export interface VirtualMachineScaleSetStorageProfile {
+  /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. */
+  imageReference?: ImageReference;
+  /** Specifies information about the operating system disk used by the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  osDisk?: VirtualMachineScaleSetOSDisk;
+  /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  dataDisks?: VirtualMachineScaleSetDataDisk[];
+}
+
+/** Describes a virtual machine scale set operating system disk. */
+export interface VirtualMachineScaleSetOSDisk {
+  /** The disk name. */
+  name?: string;
+  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
+  caching?: CachingTypes;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. */
+  createOption: DiskCreateOptionTypes;
+  /** Specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set. */
+  diffDiskSettings?: DiffDiskSettings;
+  /** Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  diskSizeGB?: number;
+  /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
+  osType?: OperatingSystemTypes;
+  /** Specifies information about the unmanaged user image to base the scale set on. */
+  image?: VirtualHardDisk;
+  /** Specifies the container urls that are used to store operating system disks for the scale set. */
+  vhdContainers?: string[];
+  /** The managed disk parameters. */
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+}
+
+/** Describes the parameters of a ScaleSet managed disk. */
+export interface VirtualMachineScaleSetManagedDiskParameters {
+  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
+  storageAccountType?: StorageAccountTypes;
+  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/** Describes a virtual machine scale set data disk. */
+export interface VirtualMachineScaleSetDataDisk {
+  /** The disk name. */
+  name?: string;
+  /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
+  lun: number;
+  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
+  caching?: CachingTypes;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** The create option. */
+  createOption: DiskCreateOptionTypes;
+  /** Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023 GB */
+  diskSizeGB?: number;
+  /** The managed disk parameters. */
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
+  /** Specifies the Read-Write IOPS for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
+  diskIopsReadWrite?: number;
+  /** Specifies the bandwidth in MB per second for the managed disk. Should be used only when StorageAccountType is UltraSSD_LRS. If not specified, a default value would be assigned based on diskSizeGB. */
+  diskMBpsReadWrite?: number;
+}
+
+/** Describes a virtual machine scale set network profile. */
+export interface VirtualMachineScaleSetNetworkProfile {
+  /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
+  healthProbe?: ApiEntityReference;
+  /** The list of network configurations. */
+  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
+  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
+  networkApiVersion?: NetworkApiVersion;
+}
+
+/** The API entity reference. */
+export interface ApiEntityReference {
+  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
+  id?: string;
+}
+
+/** Describes a virtual machines scale sets network configuration's DNS settings. */
+export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
+  /** List of DNS servers IP addresses */
+  dnsServers?: string[];
+}
+
+/** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
+export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
+  /** The publicIP address configuration name. */
+  name: string;
+  /** Describes the public IP Sku */
+  sku?: PublicIPAddressSku;
+  /** The idle timeout of the public IP address. */
+  idleTimeoutInMinutes?: number;
+  /** The dns settings to be applied on the publicIP addresses . */
+  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+  /** The list of IP tags associated with the public IP address. */
+  ipTags?: VirtualMachineScaleSetIpTag[];
+  /** The PublicIPPrefix from which to allocate publicIP addresses. */
+  publicIPPrefix?: SubResource;
+  /** Available from Api-Version 2019-07-01 onwards, it represents whether the specific ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and 'IPv6'. */
+  publicIPAddressVersion?: IPVersion;
+  /** Specify what happens to the public IP when the VM is deleted */
+  deleteOption?: DeleteOptions;
+}
+
+/** Describes a virtual machines scale sets network configuration's DNS settings. */
+export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
+  /** The Domain name label.The concatenation of the domain name label and vm index will be the domain name labels of the PublicIPAddress resources that will be created */
+  domainNameLabel: string;
+}
+
+/** Contains the IP tag associated with the public IP address. */
+export interface VirtualMachineScaleSetIpTag {
+  /** IP tag type. Example: FirstPartyUsage. */
+  ipTagType?: string;
+  /** IP tag associated with the public IP. Example: SQL, Storage etc. */
+  tag?: string;
+}
+
+/** Describes a virtual machine scale set extension profile. */
+export interface VirtualMachineScaleSetExtensionProfile {
+  /** The virtual machine scale set child extension resources. */
+  extensions?: VirtualMachineScaleSetExtension[];
+  /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01 */
+  extensionsTimeBudget?: string;
+}
+
+/** Describes a scale-in policy for a virtual machine scale set. */
+export interface ScaleInPolicy {
+  /** The rules to be followed when scaling-in a virtual machine scale set. <br><br> Possible values are: <br><br> **Default** When a virtual machine scale set is scaled in, the scale set will first be balanced across zones if it is a zonal scale set. Then, it will be balanced across Fault Domains as far as possible. Within each Fault Domain, the virtual machines chosen for removal will be the newest ones that are not protected from scale-in. <br><br> **OldestVM** When a virtual machine scale set is being scaled-in, the oldest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the oldest virtual machines that are not protected will be chosen for removal. <br><br> **NewestVM** When a virtual machine scale set is being scaled-in, the newest virtual machines that are not protected from scale-in will be chosen for removal. For zonal virtual machine scale sets, the scale set will first be balanced across zones. Within each zone, the newest virtual machines that are not protected will be chosen for removal. <br><br> */
+  rules?: VirtualMachineScaleSetScaleInRules[];
+  /** This property allows you to specify if virtual machines chosen for removal have to be force deleted when a virtual machine scale set is being scaled-in.(Feature in Preview) */
+  forceDeletion?: boolean;
+}
+
+/** Specifies the Spot-Try-Restore properties for the virtual machine scale set. <br><br> With this property customer can enable or disable automatic restore of the evicted Spot VMSS VM instances opportunistically based on capacity availability and pricing constraint. */
+export interface SpotRestorePolicy {
+  /** Enables the Spot-Try-Restore feature where evicted VMSS SPOT instances will be tried to be restored opportunistically based on capacity availability and pricing constraints */
+  enabled?: boolean;
+  /** Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances */
+  restoreTimeout?: string;
+}
+
+/** Identity for the virtual machine scale set. */
+export interface VirtualMachineScaleSetIdentity {
+  /**
+   * The principal id of virtual machine scale set identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the virtual machine scale set. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the virtual machine scale set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: {
+    [propertyName: string]: VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
+  };
+}
+
+export interface VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue {
+  /**
+   * The principal id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client id of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Describes a storage profile. */
+export interface ImageStorageProfile {
+  /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  osDisk?: ImageOSDisk;
+  /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
+  dataDisks?: ImageDataDisk[];
+  /** Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS). */
+  zoneResilient?: boolean;
+}
+
+/** Describes a image disk. */
+export interface ImageDisk {
+  /** The snapshot. */
+  snapshot?: SubResource;
+  /** The managedDisk. */
+  managedDisk?: SubResource;
+  /** The Virtual Hard Disk. */
+  blobUri?: string;
+  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
+  caching?: CachingTypes;
+  /** Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
+  diskSizeGB?: number;
+  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
+  storageAccountType?: StorageAccountTypes;
+  /** Specifies the customer managed disk encryption set resource id for the managed image disk. */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/** The List Image operation response. */
+export interface ImageListResult {
+  /** The list of Images. */
+  value: Image[];
+  /** The uri to fetch the next page of Images. Call ListNext() with this to fetch the next page of Images. */
+  nextLink?: string;
+}
+
 /** Capture Virtual Machine parameters. */
 export interface VirtualMachineCaptureParameters {
   /** The captured virtual hard disk's name prefix. */
@@ -1799,6 +1409,179 @@ export interface VirtualMachineCaptureParameters {
   destinationContainerName: string;
   /** Specifies whether to overwrite the destination virtual hard disk, in case of conflict. */
   overwriteVhds: boolean;
+}
+
+/** The properties of the source resource that this restore point collection is created from. */
+export interface RestorePointCollectionSourceProperties {
+  /**
+   * Location of the source resource used to create this restore point collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /** Resource Id of the source resource used to create this restore point collection */
+  id?: string;
+}
+
+/** Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation. */
+export interface RestorePointSourceMetadata {
+  /** Gets the hardware profile. */
+  hardwareProfile?: HardwareProfile;
+  /** Gets the storage profile. */
+  storageProfile?: RestorePointSourceVMStorageProfile;
+  /** Gets the OS profile. */
+  osProfile?: OSProfile;
+  /** Gets the diagnostics profile. */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /** Gets the license type, which is for bring your own license scenario. */
+  licenseType?: string;
+  /** Gets the virtual machine unique id. */
+  vmId?: string;
+  /** Gets the security profile. */
+  securityProfile?: SecurityProfile;
+  /** Location of the VM from which the restore point was created. */
+  location?: string;
+}
+
+/** Describes the storage profile. */
+export interface RestorePointSourceVMStorageProfile {
+  /** Gets the OS disk of the VM captured at the time of the restore point creation. */
+  osDisk?: RestorePointSourceVmosDisk;
+  /** Gets the data disks of the VM captured at the time of the restore point creation. */
+  dataDisks?: RestorePointSourceVMDataDisk[];
+}
+
+/** Describes an Operating System disk. */
+export interface RestorePointSourceVmosDisk {
+  /** Gets the Operating System type. */
+  osType?: OperatingSystemType;
+  /** Gets the disk encryption settings. */
+  encryptionSettings?: DiskEncryptionSettings;
+  /** Gets the disk name. */
+  name?: string;
+  /** Gets the caching type. */
+  caching?: CachingTypes;
+  /** Gets the disk size in GB. */
+  diskSizeGB?: number;
+  /** Gets the managed disk details */
+  managedDisk?: ManagedDiskParameters;
+  /** Gets the disk restore point Id. */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/** Describes a data disk. */
+export interface RestorePointSourceVMDataDisk {
+  /** Gets the logical unit number. */
+  lun?: number;
+  /** Gets the disk name. */
+  name?: string;
+  /** Gets the caching type. */
+  caching?: CachingTypes;
+  /** Gets the initial disk size in GB for blank data disks, and the new desired size for existing OS and Data disks. */
+  diskSizeGB?: number;
+  /** Gets the managed disk details */
+  managedDisk?: ManagedDiskParameters;
+  /** Gets the disk restore point Id. */
+  diskRestorePoint?: ApiEntityReference;
+}
+
+/** Restore Point Provisioning details. */
+export interface RestorePointProvisioningDetails {
+  /** Gets the creation time of the restore point. */
+  creationTime?: Date;
+  /** Gets the total size of the data in all the disks which are part of the restore point. */
+  totalUsedSizeInBytes?: number;
+  /** Gets the status of the Create restore point operation. */
+  statusCode?: number;
+  /** Gets the status message of the Create restore point operation. */
+  statusMessage?: string;
+}
+
+/** The resource model definition for an Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The List restore point collection operation response. */
+export interface RestorePointCollectionListResult {
+  /** Gets the list of restore point collections. */
+  value?: RestorePointCollection[];
+  /** The uri to fetch the next page of RestorePointCollections. Call ListNext() with this to fetch the next page of RestorePointCollections */
+  nextLink?: string;
+}
+
+export interface CapacityReservationGroupInstanceView {
+  /**
+   * List of instance view of the capacity reservations under the capacity reservation group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+}
+
+/** The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
+export interface CapacityReservationInstanceView {
+  /** Unutilized capacity of the capacity reservation. */
+  utilizationInfo?: CapacityReservationUtilization;
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+}
+
+/** Represents the capacity reservation utilization in terms of resources allocated. */
+export interface CapacityReservationUtilization {
+  /**
+   * A list of all virtual machines resource ids allocated against the capacity reservation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachinesAllocated?: SubResourceReadOnly[];
+}
+
+/** The List capacity reservation group with resource group response. */
+export interface CapacityReservationGroupListResult {
+  /** The list of capacity reservation groups */
+  value: CapacityReservationGroup[];
+  /** The URI to fetch the next page of capacity reservation groups. Call ListNext() with this URI to fetch the next page of capacity reservation groups. */
+  nextLink?: string;
+}
+
+/** The list capacity reservation operation response. */
+export interface CapacityReservationListResult {
+  /** The list of capacity reservations */
+  value: CapacityReservation[];
+  /** The URI to fetch the next page of capacity reservations. Call ListNext() with this URI to fetch the next page of capacity reservations. */
+  nextLink?: string;
+}
+
+/** Parameters for Reimaging Virtual Machine. NOTE: Virtual Machine OS disk will always be reimaged */
+export interface VirtualMachineReimageParameters {
+  /** Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk. */
+  tempDisk?: boolean;
+}
+
+/** The SAS URIs of the console screenshot and serial log blobs. */
+export interface RetrieveBootDiagnosticsDataResult {
+  /**
+   * The console screenshot blob URI
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly consoleScreenshotBlobUri?: string;
+  /**
+   * The serial console log blob URI.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serialConsoleLogBlobUri?: string;
 }
 
 /** Describes the properties of an AssessPatches result. */
@@ -2035,351 +1818,474 @@ export interface PatchInstallationDetail {
   readonly installationState?: PatchInstallationState;
 }
 
-/** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
-export interface PurchasePlan {
-  /** The publisher ID. */
-  publisher: string;
-  /** The plan ID. */
-  name: string;
-  /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
-  product: string;
-}
-
-/** Contains the os disk image information. */
-export interface OSDiskImage {
-  /** The operating system of the osDiskImage. */
-  operatingSystem: OperatingSystemTypes;
-}
-
-/** Contains the data disk images information. */
-export interface DataDiskImage {
-  /**
-   * Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lun?: number;
-}
-
-/** Describes automatic OS upgrade properties on the image. */
-export interface AutomaticOSUpgradeProperties {
-  /** Specifies whether automatic OS upgrade is supported on the image. */
-  automaticOSUpgradeSupported: boolean;
-}
-
-/** Specifies the disallowed configuration for a virtual machine image. */
-export interface DisallowedConfiguration {
-  /** VM disk types which are disallowed. */
-  vmDiskType?: VmDiskTypes;
-}
-
-/** Specifies additional capabilities supported by the image */
-export interface VirtualMachineImageFeature {
-  /** The name of the feature. */
-  name?: string;
-  /** The corresponding value for the feature. */
-  value?: string;
-}
-
-/** The List VmImages in EdgeZone operation response. */
-export interface VmImagesInEdgeZoneListResult {
-  /** The list of VMImages in EdgeZone */
-  value?: VirtualMachineImageResource[];
-  /** The URI to fetch the next page of VMImages in EdgeZone. Call ListNext() with this URI to fetch the next page of VmImages. */
-  nextLink?: string;
-}
-
-/** The List Availability Set operation response. */
-export interface AvailabilitySetListResult {
-  /** The list of availability sets */
-  value: AvailabilitySet[];
-  /** The URI to fetch the next page of AvailabilitySets. Call ListNext() with this URI to fetch the next page of AvailabilitySets. */
-  nextLink?: string;
-}
-
-/** Specifies the user intent of the proximity placement group. */
-export interface ProximityPlacementGroupPropertiesIntent {
-  /** Specifies possible sizes of virtual machines that can be created in the proximity placement group. */
-  vmSizes?: string[];
-}
-
-/** The List Proximity Placement Group operation response. */
-export interface ProximityPlacementGroupListResult {
-  /** The list of proximity placement groups */
-  value: ProximityPlacementGroup[];
-  /** The URI to fetch the next page of proximity placement groups. */
-  nextLink?: string;
-}
-
-export interface DedicatedHostGroupInstanceView {
-  /** List of instance view of the dedicated hosts under the dedicated host group. */
-  hosts?: DedicatedHostInstanceViewWithName[];
-}
-
-/** The instance view of a dedicated host. */
-export interface DedicatedHostInstanceView {
-  /**
-   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assetId?: string;
-  /** Unutilized capacity of the dedicated host. */
-  availableCapacity?: DedicatedHostAvailableCapacity;
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
-}
-
-/** Dedicated host unutilized capacity. */
-export interface DedicatedHostAvailableCapacity {
-  /** The unutilized capacity of the dedicated host represented in terms of each VM size that is allowed to be deployed to the dedicated host. */
-  allocatableVMs?: DedicatedHostAllocatableVM[];
-}
-
-/** Represents the dedicated host unutilized capacity in terms of a specific VM size. */
-export interface DedicatedHostAllocatableVM {
-  /** VM size in terms of which the unutilized capacity is represented. */
-  vmSize?: string;
-  /** Maximum number of VMs of size vmSize that can fit in the dedicated host's remaining capacity. */
-  count?: number;
-}
-
-/** Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01. */
-export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
-  /** The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. <br><br>NOTE: The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. <br><br>Minimum api-version: 2022-03-01. */
-  ultraSSDEnabled?: boolean;
-}
-
-/** The List Dedicated Host Group with resource group response. */
-export interface DedicatedHostGroupListResult {
-  /** The list of dedicated host groups */
-  value: DedicatedHostGroup[];
-  /** The URI to fetch the next page of Dedicated Host Groups. Call ListNext() with this URI to fetch the next page of Dedicated Host Groups. */
-  nextLink?: string;
-}
-
-/** The list dedicated host operation response. */
-export interface DedicatedHostListResult {
-  /** The list of dedicated hosts */
-  value: DedicatedHost[];
-  /** The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts. */
-  nextLink?: string;
-}
-
-/** The list SSH public keys operation response. */
-export interface SshPublicKeysGroupListResult {
-  /** The list of SSH public keys */
-  value: SshPublicKeyResource[];
-  /** The URI to fetch the next page of SSH public keys. Call ListNext() with this URI to fetch the next page of SSH public keys. */
-  nextLink?: string;
-}
-
-/** Response from generation of an SSH key pair. */
-export interface SshPublicKeyGenerateKeyPairResult {
-  /** Private key portion of the key pair used to authenticate to a virtual machine through ssh. The private key is returned in RFC3447 format and should be treated as a secret. */
-  privateKey: string;
-  /** Public key portion of the key pair used to authenticate to a virtual machine through ssh. The public key is in ssh-rsa format. */
-  publicKey: string;
-  /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{SshPublicKeyName} */
-  id: string;
-}
-
-/** Describes a storage profile. */
-export interface ImageStorageProfile {
-  /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  osDisk?: ImageOSDisk;
-  /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
-  dataDisks?: ImageDataDisk[];
-  /** Specifies whether an image is zone resilient or not. Default is false. Zone resilient images can be created only in regions that provide Zone Redundant Storage (ZRS). */
-  zoneResilient?: boolean;
-}
-
-/** Describes a image disk. */
-export interface ImageDisk {
-  /** The snapshot. */
-  snapshot?: SubResource;
-  /** The managedDisk. */
-  managedDisk?: SubResource;
-  /** The Virtual Hard Disk. */
-  blobUri?: string;
-  /** Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage** */
-  caching?: CachingTypes;
-  /** Specifies the size of empty data disks in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
-  diskSizeGB?: number;
-  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes;
-  /** Specifies the customer managed disk encryption set resource id for the managed image disk. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-}
-
-/** The List Image operation response. */
-export interface ImageListResult {
-  /** The list of Images. */
-  value: Image[];
-  /** The uri to fetch the next page of Images. Call ListNext() with this to fetch the next page of Images. */
-  nextLink?: string;
-}
-
-/** The properties of the source resource that this restore point collection is created from. */
-export interface RestorePointCollectionSourceProperties {
-  /**
-   * Location of the source resource used to create this restore point collection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /** Resource Id of the source resource used to create this restore point collection */
-  id?: string;
-}
-
-/** Describes the properties of the Virtual Machine for which the restore point was created. The properties provided are a subset and the snapshot of the overall Virtual Machine properties captured at the time of the restore point creation. */
-export interface RestorePointSourceMetadata {
-  /** Gets the hardware profile. */
-  hardwareProfile?: HardwareProfile;
-  /** Gets the storage profile. */
-  storageProfile?: RestorePointSourceVMStorageProfile;
-  /** Gets the OS profile. */
-  osProfile?: OSProfile;
-  /** Gets the diagnostics profile. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  /** Gets the license type, which is for bring your own license scenario. */
-  licenseType?: string;
-  /** Gets the virtual machine unique id. */
-  vmId?: string;
-  /** Gets the security profile. */
+/** Describes a virtual machine scale set virtual machine profile. */
+export interface VirtualMachineScaleSetUpdateVMProfile {
+  /** The virtual machine scale set OS profile. */
+  osProfile?: VirtualMachineScaleSetUpdateOSProfile;
+  /** The virtual machine scale set storage profile. */
+  storageProfile?: VirtualMachineScaleSetUpdateStorageProfile;
+  /** The virtual machine scale set network profile. */
+  networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  /** The virtual machine scale set Security profile */
   securityProfile?: SecurityProfile;
-  /** Location of the VM from which the restore point was created. */
-  location?: string;
+  /** The virtual machine scale set diagnostics profile. */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /** The virtual machine scale set extension profile. */
+  extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+  /** The license type, which is for bring your own license scenario. */
+  licenseType?: string;
+  /** Specifies the billing related details of a Azure Spot VMSS. <br><br>Minimum api-version: 2019-03-01. */
+  billingProfile?: BillingProfile;
+  /** Specifies Scheduled Event related configurations. */
+  scheduledEventsProfile?: ScheduledEventsProfile;
+  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
+  userData?: string;
 }
 
-/** Describes the storage profile. */
-export interface RestorePointSourceVMStorageProfile {
-  /** Gets the OS disk of the VM captured at the time of the restore point creation. */
-  osDisk?: RestorePointSourceVmosDisk;
-  /** Gets the data disks of the VM captured at the time of the restore point creation. */
-  dataDisks?: RestorePointSourceVMDataDisk[];
+/** Describes a virtual machine scale set OS profile. */
+export interface VirtualMachineScaleSetUpdateOSProfile {
+  /** A base-64 encoded string of custom data. */
+  customData?: string;
+  /** The Windows Configuration of the OS profile. */
+  windowsConfiguration?: WindowsConfiguration;
+  /** The Linux Configuration of the OS profile. */
+  linuxConfiguration?: LinuxConfiguration;
+  /** The List of certificates for addition to the VM. */
+  secrets?: VaultSecretGroup[];
 }
 
-/** Describes an Operating System disk. */
-export interface RestorePointSourceVmosDisk {
-  /** Gets the Operating System type. */
-  osType?: OperatingSystemType;
-  /** Gets the disk encryption settings. */
-  encryptionSettings?: DiskEncryptionSettings;
-  /** Gets the disk name. */
-  name?: string;
-  /** Gets the caching type. */
+/** Describes a virtual machine scale set storage profile. */
+export interface VirtualMachineScaleSetUpdateStorageProfile {
+  /** The image reference. */
+  imageReference?: ImageReference;
+  /** The OS disk. */
+  osDisk?: VirtualMachineScaleSetUpdateOSDisk;
+  /** The data disks. */
+  dataDisks?: VirtualMachineScaleSetDataDisk[];
+}
+
+/** Describes virtual machine scale set operating system disk Update Object. This should be used for Updating VMSS OS Disk. */
+export interface VirtualMachineScaleSetUpdateOSDisk {
+  /** The caching type. */
   caching?: CachingTypes;
-  /** Gets the disk size in GB. */
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
+  /** Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB */
   diskSizeGB?: number;
-  /** Gets the managed disk details */
-  managedDisk?: ManagedDiskParameters;
-  /** Gets the disk restore point Id. */
-  diskRestorePoint?: ApiEntityReference;
+  /** The Source User Image VirtualHardDisk. This VirtualHardDisk will be copied before using it to attach to the Virtual Machine. If SourceImage is provided, the destination VirtualHardDisk should not exist. */
+  image?: VirtualHardDisk;
+  /** The list of virtual hard disk container uris. */
+  vhdContainers?: string[];
+  /** The managed disk parameters. */
+  managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
 }
 
-/** Describes a data disk. */
-export interface RestorePointSourceVMDataDisk {
-  /** Gets the logical unit number. */
-  lun?: number;
-  /** Gets the disk name. */
+/** Describes a virtual machine scale set network profile. */
+export interface VirtualMachineScaleSetUpdateNetworkProfile {
+  /** A reference to a load balancer probe used to determine the health of an instance in the virtual machine scale set. The reference will be in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/probes/{probeName}'. */
+  healthProbe?: ApiEntityReference;
+  /** The list of network configurations. */
+  networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
+  /** specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible' */
+  networkApiVersion?: NetworkApiVersion;
+}
+
+/** Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration */
+export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
+  /** The publicIP address configuration name. */
   name?: string;
-  /** Gets the caching type. */
-  caching?: CachingTypes;
-  /** Gets the initial disk size in GB for blank data disks, and the new desired size for existing OS and Data disks. */
-  diskSizeGB?: number;
-  /** Gets the managed disk details */
-  managedDisk?: ManagedDiskParameters;
-  /** Gets the disk restore point Id. */
-  diskRestorePoint?: ApiEntityReference;
+  /** The idle timeout of the public IP address. */
+  idleTimeoutInMinutes?: number;
+  /** The dns settings to be applied on the publicIP addresses . */
+  dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
+  /** Specify what happens to the public IP when the VM is deleted */
+  deleteOption?: DeleteOptions;
 }
 
-/** The instance view of a restore point. */
-export interface RestorePointInstanceView {
-  /** The disk restore points information. */
-  diskRestorePoints?: DiskRestorePointInstanceView[];
-  /** The resource status information. */
-  statuses?: InstanceViewStatus[];
+/** Specifies a list of virtual machine instance IDs from the VM scale set. */
+export interface VirtualMachineScaleSetVMInstanceIDs {
+  /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
+  instanceIds?: string[];
 }
 
-/** The instance view of a disk restore point. */
-export interface DiskRestorePointInstanceView {
-  /** Disk restore point Id. */
-  id?: string;
-  /** The disk restore point replication status information. */
-  replicationStatus?: DiskRestorePointReplicationStatus;
+/** Specifies a list of virtual machine instance IDs from the VM scale set. */
+export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
+  /** The virtual machine scale set instance ids. */
+  instanceIds: string[];
 }
 
-/** The instance view of a disk restore point. */
-export interface DiskRestorePointReplicationStatus {
-  /** The resource status information. */
-  status?: InstanceViewStatus;
-  /** Replication completion percentage. */
-  completionPercent?: number;
-}
-
-/** The resource model definition for an Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource {
+/** The instance view of a virtual machine scale set. */
+export interface VirtualMachineScaleSetInstanceView {
   /**
-   * Resource Id
+   * The instance view status summary for the virtual machine scale set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummary;
   /**
-   * Resource name
+   * The extensions information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensions?: VirtualMachineScaleSetVMExtensionsSummary[];
+  /** The resource status information. */
+  statuses?: InstanceViewStatus[];
+  /**
+   * The orchestration services information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly orchestrationServices?: OrchestrationServiceSummary[];
+}
+
+/** Instance view statuses summary for virtual machines of a virtual machine scale set. */
+export interface VirtualMachineScaleSetInstanceViewStatusesSummary {
+  /**
+   * The extensions information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusesSummary?: VirtualMachineStatusCodeCount[];
+}
+
+/** The status code and count of the virtual machine scale set instance view status summary. */
+export interface VirtualMachineStatusCodeCount {
+  /**
+   * The instance view status code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The number of instances having a particular status code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly count?: number;
+}
+
+/** Extensions summary for virtual machines of a virtual machine scale set. */
+export interface VirtualMachineScaleSetVMExtensionsSummary {
+  /**
+   * The extension name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * The extensions information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusesSummary?: VirtualMachineStatusCodeCount[];
+}
+
+/** Summary for an orchestration service of a virtual machine scale set. */
+export interface OrchestrationServiceSummary {
+  /**
+   * The name of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceName?: OrchestrationServiceNames;
+  /**
+   * The current state of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceState?: OrchestrationServiceState;
+}
+
+/** The List VM scale set extension operation response. */
+export interface VirtualMachineScaleSetExtensionListResult {
+  /** The list of VM scale set extensions. */
+  value: VirtualMachineScaleSetExtension[];
+  /** The uri to fetch the next page of VM scale set extensions. Call ListNext() with this to fetch the next page of VM scale set extensions. */
+  nextLink?: string;
+}
+
+/** The List Virtual Machine operation response. */
+export interface VirtualMachineScaleSetListWithLinkResult {
+  /** The list of virtual machine scale sets. */
+  value: VirtualMachineScaleSet[];
+  /** The uri to fetch the next page of Virtual Machine Scale Sets. Call ListNext() with this to fetch the next page of Virtual Machine Scale Sets. */
+  nextLink?: string;
+}
+
+/** The Virtual Machine Scale Set List Skus operation response. */
+export interface VirtualMachineScaleSetListSkusResult {
+  /** The list of skus available for the virtual machine scale set. */
+  value: VirtualMachineScaleSetSku[];
+  /** The uri to fetch the next page of Virtual Machine Scale Set Skus. Call ListNext() with this to fetch the next page of VMSS Skus. */
+  nextLink?: string;
+}
+
+/** Describes an available virtual machine scale set sku. */
+export interface VirtualMachineScaleSetSku {
+  /**
+   * The type of resource the sku applies to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The Sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: Sku;
+  /**
+   * Specifies the number of virtual machines in the scale set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacity?: VirtualMachineScaleSetSkuCapacity;
+}
+
+/** Describes scaling information of a sku. */
+export interface VirtualMachineScaleSetSkuCapacity {
+  /**
+   * The minimum capacity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minimum?: number;
+  /**
+   * The maximum capacity that can be set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximum?: number;
+  /**
+   * The default capacity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultCapacity?: number;
+  /**
+   * The scale type applicable to the sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scaleType?: VirtualMachineScaleSetSkuScaleType;
+}
+
+/** List of Virtual Machine Scale Set OS Upgrade History operation response. */
+export interface VirtualMachineScaleSetListOSUpgradeHistory {
+  /** The list of OS upgrades performed on the virtual machine scale set. */
+  value: UpgradeOperationHistoricalStatusInfo[];
+  /** The uri to fetch the next page of OS Upgrade History. Call ListNext() with this to fetch the next page of history of upgrades. */
+  nextLink?: string;
+}
+
+/** Virtual Machine Scale Set OS Upgrade History operation response. */
+export interface UpgradeOperationHistoricalStatusInfo {
+  /**
+   * Information about the properties of the upgrade operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: UpgradeOperationHistoricalStatusInfoProperties;
   /**
    * Resource type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-}
-
-/** The List restore point collection operation response. */
-export interface RestorePointCollectionListResult {
-  /** Gets the list of restore point collections. */
-  value?: RestorePointCollection[];
-  /** The uri to fetch the next page of RestorePointCollections. Call ListNext() with this to fetch the next page of RestorePointCollections */
-  nextLink?: string;
-}
-
-export interface CapacityReservationGroupInstanceView {
   /**
-   * List of instance view of the capacity reservations under the capacity reservation group.
+   * Resource location
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+  readonly location?: string;
 }
 
-/** The instance view of a capacity reservation that provides as snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
-export interface CapacityReservationInstanceView {
-  /** Unutilized capacity of the capacity reservation. */
-  utilizationInfo?: CapacityReservationUtilization;
+/** Describes each OS upgrade on the Virtual Machine Scale Set. */
+export interface UpgradeOperationHistoricalStatusInfoProperties {
+  /**
+   * Information about the overall status of the upgrade operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runningStatus?: UpgradeOperationHistoryStatus;
+  /**
+   * Counts of the VMs in each state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progress?: RollingUpgradeProgressInfo;
+  /**
+   * Error Details for this upgrade if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ApiError;
+  /**
+   * Invoker of the Upgrade Operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startedBy?: UpgradeOperationInvoker;
+  /**
+   * Image Reference details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetImageReference?: ImageReference;
+  /**
+   * Information about OS rollback if performed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rollbackInfo?: RollbackStatusInfo;
+}
+
+/** Information about the current running state of the overall upgrade. */
+export interface UpgradeOperationHistoryStatus {
+  /**
+   * Code indicating the current status of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: UpgradeState;
+  /**
+   * Start time of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * End time of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: Date;
+}
+
+/** Information about the number of virtual machine instances in each upgrade state. */
+export interface RollingUpgradeProgressInfo {
+  /**
+   * The number of instances that have been successfully upgraded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly successfulInstanceCount?: number;
+  /**
+   * The number of instances that have failed to be upgraded successfully.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedInstanceCount?: number;
+  /**
+   * The number of instances that are currently being upgraded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inProgressInstanceCount?: number;
+  /**
+   * The number of instances that have not yet begun to be upgraded.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pendingInstanceCount?: number;
+}
+
+/** Information about rollback on failed VM instances after a OS Upgrade operation. */
+export interface RollbackStatusInfo {
+  /**
+   * The number of instances which have been successfully rolled back.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly successfullyRolledbackInstanceCount?: number;
+  /**
+   * The number of instances which failed to rollback.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedRolledbackInstanceCount?: number;
+  /**
+   * Error details if OS rollback failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rollbackError?: ApiError;
+}
+
+/** Information about the current running state of the overall upgrade. */
+export interface RollingUpgradeRunningStatus {
+  /**
+   * Code indicating the current status of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: RollingUpgradeStatusCode;
+  /**
+   * Start time of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * The last action performed on the rolling upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastAction?: RollingUpgradeActionType;
+  /**
+   * Last action time of the upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastActionTime?: Date;
+}
+
+/** Response after calling a manual recovery walk */
+export interface RecoveryWalkResponse {
+  /**
+   * Whether the recovery walk was performed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly walkPerformed?: boolean;
+  /**
+   * The next update domain that needs to be walked. Null means walk spanning all update domains has been completed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextPlatformUpdateDomain?: number;
+}
+
+export interface VMScaleSetConvertToSinglePlacementGroupInput {
+  /** Id of the placement group in which you want future virtual machine instances to be placed. To query placement group Id, please use Virtual Machine Scale Set VMs - Get API. If not provided, the platform will choose one with maximum number of virtual machine instances. */
+  activePlacementGroupId?: string;
+}
+
+/** The input for OrchestrationServiceState */
+export interface OrchestrationServiceStateInput {
+  /** The name of the service. */
+  serviceName: OrchestrationServiceNames;
+  /** The action to be performed. */
+  action: OrchestrationServiceStateAction;
+}
+
+/** The List VMSS VM Extension operation response */
+export interface VirtualMachineScaleSetVMExtensionsListResult {
+  /** The list of VMSS VM extensions */
+  value?: VirtualMachineScaleSetVMExtension[];
+}
+
+/** The instance view of a virtual machine scale set VM. */
+export interface VirtualMachineScaleSetVMInstanceView {
+  /** The Update Domain count. */
+  platformUpdateDomain?: number;
+  /** The Fault Domain count. */
+  platformFaultDomain?: number;
+  /** The Remote desktop certificate thumbprint. */
+  rdpThumbPrint?: string;
+  /** The VM Agent running on the virtual machine. */
+  vmAgent?: VirtualMachineAgentInstanceView;
+  /** The Maintenance Operation status on the virtual machine. */
+  maintenanceRedeployStatus?: MaintenanceRedeployStatus;
+  /** The disks information. */
+  disks?: DiskInstanceView[];
+  /** The extensions information. */
+  extensions?: VirtualMachineExtensionInstanceView[];
+  /**
+   * The health status for the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmHealth?: VirtualMachineHealthStatus;
+  /** Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to diagnose VM status. <br><br> You can easily view the output of your console log. <br><br> Azure also enables you to see a screenshot of the VM from the hypervisor. */
+  bootDiagnostics?: BootDiagnosticsInstanceView;
   /** The resource status information. */
   statuses?: InstanceViewStatus[];
-}
-
-/** Represents the capacity reservation utilization in terms of resources allocated. */
-export interface CapacityReservationUtilization {
   /**
-   * A list of all virtual machines resource ids allocated against the capacity reservation.
+   * Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement, when the virtual machine is associated with a dedicated host group that has automatic placement enabled. <br><br>Minimum api-version: 2020-06-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly virtualMachinesAllocated?: SubResourceReadOnly[];
+  readonly assignedHost?: string;
+  /** The placement group in which the VM is running. If the VM is deallocated it will not have a placementGroupId. */
+  placementGroupId?: string;
 }
 
-/** The List capacity reservation group with resource group response. */
-export interface CapacityReservationGroupListResult {
-  /** The list of capacity reservation groups */
-  value: CapacityReservationGroup[];
-  /** The URI to fetch the next page of capacity reservation groups. Call ListNext() with this URI to fetch the next page of capacity reservation groups. */
-  nextLink?: string;
+/** Describes a virtual machine scale set VM network profile. */
+export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
+  /** The list of network configurations. */
+  networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
 }
 
-/** The list capacity reservation operation response. */
-export interface CapacityReservationListResult {
-  /** The list of capacity reservations */
-  value: CapacityReservation[];
-  /** The URI to fetch the next page of capacity reservations. Call ListNext() with this URI to fetch the next page of capacity reservations. */
+/** The protection policy of a virtual machine scale set VM. */
+export interface VirtualMachineScaleSetVMProtectionPolicy {
+  /** Indicates that the virtual machine scale set VM shouldn't be considered for deletion during a scale-in operation. */
+  protectFromScaleIn?: boolean;
+  /** Indicates that model updates or actions (including scale-in) initiated on the virtual machine scale set should not be applied to the virtual machine scale set VM. */
+  protectFromScaleSetActions?: boolean;
+}
+
+/** The List Virtual Machine Scale Set VMs operation response. */
+export interface VirtualMachineScaleSetVMListResult {
+  /** The list of virtual machine scale sets VMs. */
+  value: VirtualMachineScaleSetVM[];
+  /** The uri to fetch the next page of Virtual Machine Scale Set VMs. Call ListNext() with this to fetch the next page of VMSS VMs */
   nextLink?: string;
 }
 
@@ -2513,477 +2419,6 @@ export interface VirtualMachineRunCommandsListResult {
   /** The list of run commands */
   value: VirtualMachineRunCommand[];
   /** The uri to fetch the next page of run commands. */
-  nextLink?: string;
-}
-
-/** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, or PremiumV2_LRS. */
-export interface DiskSku {
-  /** The sku name. */
-  name?: DiskStorageAccountTypes;
-  /**
-   * The sku tier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tier?: string;
-}
-
-/** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
-export interface PurchasePlanAutoGenerated {
-  /** The plan ID. */
-  name: string;
-  /** The publisher ID. */
-  publisher: string;
-  /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
-  product: string;
-  /** The Offer Promotion Code. */
-  promotionCode?: string;
-}
-
-/** List of supported capabilities persisted on the disk resource for VM use. */
-export interface SupportedCapabilities {
-  /** True if the image from which the OS disk is created supports accelerated networking. */
-  acceleratedNetwork?: boolean;
-  /** CPU architecture supported by an OS disk. */
-  architecture?: Architecture;
-}
-
-/** Data used when creating a disk. */
-export interface CreationData {
-  /** This enumerates the possible sources of a disk's creation. */
-  createOption: DiskCreateOption;
-  /** Required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk. */
-  storageAccountId?: string;
-  /** Disk source information for PIR or user images. */
-  imageReference?: ImageDiskReference;
-  /** Required if creating from a Gallery Image. The id/sharedGalleryImageId/communityGalleryImageId of the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk. */
-  galleryImageReference?: ImageDiskReference;
-  /** If createOption is Import, this is the URI of a blob to be imported into a managed disk. */
-  sourceUri?: string;
-  /** If createOption is Copy, this is the ARM id of the source snapshot or disk. */
-  sourceResourceId?: string;
-  /**
-   * If this field is set, this is the unique id identifying the source of this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceUniqueId?: string;
-  /** If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer). */
-  uploadSizeBytes?: number;
-  /** Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default. */
-  logicalSectorSize?: number;
-  /** If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state. */
-  securityDataUri?: string;
-}
-
-/** The source image used for creating the disk. */
-export interface ImageDiskReference {
-  /** A relative uri containing either a Platform Image Repository, user image, or Azure Compute Gallery image reference. */
-  id?: string;
-  /** A relative uri containing a direct shared Azure Compute Gallery image reference. */
-  sharedGalleryImageId?: string;
-  /** A relative uri containing a community Azure Compute Gallery image reference. */
-  communityGalleryImageId?: string;
-  /** If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null. */
-  lun?: number;
-}
-
-/** Encryption settings for disk or snapshot */
-export interface EncryptionSettingsCollection {
-  /** Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged. */
-  enabled: boolean;
-  /** A collection of encryption settings, one for each disk volume. */
-  encryptionSettings?: EncryptionSettingsElement[];
-  /** Describes what type of encryption is used for the disks. Once this field is set, it cannot be overwritten. '1.0' corresponds to Azure Disk Encryption with AAD app.'1.1' corresponds to Azure Disk Encryption. */
-  encryptionSettingsVersion?: string;
-}
-
-/** Encryption settings for one disk volume. */
-export interface EncryptionSettingsElement {
-  /** Key Vault Secret Url and vault id of the disk encryption key */
-  diskEncryptionKey?: KeyVaultAndSecretReference;
-  /** Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when provided is used to unwrap the disk encryption key. */
-  keyEncryptionKey?: KeyVaultAndKeyReference;
-}
-
-/** Key Vault Secret Url and vault id of the encryption key */
-export interface KeyVaultAndSecretReference {
-  /** Resource id of the KeyVault containing the key or secret */
-  sourceVault: SourceVault;
-  /** Url pointing to a key or secret in KeyVault */
-  secretUrl: string;
-}
-
-/** The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName} */
-export interface SourceVault {
-  /** Resource Id */
-  id?: string;
-}
-
-/** Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey */
-export interface KeyVaultAndKeyReference {
-  /** Resource id of the KeyVault containing the key or secret */
-  sourceVault: SourceVault;
-  /** Url pointing to a key or secret in KeyVault */
-  keyUrl: string;
-}
-
-/** Encryption at rest settings for disk or snapshot */
-export interface Encryption {
-  /** ResourceId of the disk encryption set to use for enabling encryption at rest. */
-  diskEncryptionSetId?: string;
-  /** The type of key used to encrypt the data of the disk. */
-  type?: EncryptionType;
-}
-
-export interface ShareInfoElement {
-  /**
-   * A relative URI containing the ID of the VM that has the disk attached.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmUri?: string;
-}
-
-/** Properties of the disk for which update is pending. */
-export interface PropertyUpdatesInProgress {
-  /** The target performance tier of the disk if a tier change operation is in progress. */
-  targetTier?: string;
-}
-
-/** Contains the security related information for the resource. */
-export interface DiskSecurityProfile {
-  /** Specifies the SecurityType of the VM. Applicable for OS disks only. */
-  securityType?: DiskSecurityTypes;
-  /** ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key */
-  secureVMDiskEncryptionSetId?: string;
-}
-
-/** Disk update resource. */
-export interface DiskUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, or PremiumV2_LRS. */
-  sku?: DiskSku;
-  /** the Operating System type. */
-  osType?: OperatingSystemTypes;
-  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
-  diskSizeGB?: number;
-  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
-  encryptionSettingsCollection?: EncryptionSettingsCollection;
-  /** The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. */
-  diskIopsReadWrite?: number;
-  /** The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
-  diskMBpsReadWrite?: number;
-  /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
-  diskIopsReadOnly?: number;
-  /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
-  diskMBpsReadOnly?: number;
-  /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. */
-  maxShares?: number;
-  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
-  encryption?: Encryption;
-  /** Policy for accessing the disk via network. */
-  networkAccessPolicy?: NetworkAccessPolicy;
-  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
-  diskAccessId?: string;
-  /** Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
-  tier?: string;
-  /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
-  burstingEnabled?: boolean;
-  /** Purchase plan information to be added on the OS disk */
-  purchasePlan?: PurchasePlanAutoGenerated;
-  /** List of supported capabilities to be added on the OS disk. */
-  supportedCapabilities?: SupportedCapabilities;
-  /**
-   * Properties of the disk for which update is pending.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
-  /** Indicates the OS on a disk supports hibernation. */
-  supportsHibernation?: boolean;
-  /** Policy for controlling export on the disk. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
-  dataAccessAuthMode?: DataAccessAuthMode;
-}
-
-/** The List Disks operation response. */
-export interface DiskList {
-  /** A list of disks. */
-  value: Disk[];
-  /** The uri to fetch the next page of disks. Call ListNext() with this to fetch the next page of disks. */
-  nextLink?: string;
-}
-
-/** Data used for requesting a SAS. */
-export interface GrantAccessData {
-  access: AccessLevel;
-  /** Time duration in seconds until the SAS access expires. */
-  durationInSeconds: number;
-  /** Set this flag to true to get additional SAS for VM guest state */
-  getSecureVMGuestStateSAS?: boolean;
-}
-
-/** A disk access SAS uri. */
-export interface AccessUri {
-  /**
-   * A SAS uri for accessing a disk.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly accessSAS?: string;
-  /**
-   * A SAS uri for accessing a VM guest state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly securityDataAccessSAS?: string;
-}
-
-/** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection {
-  /**
-   * private endpoint connection Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * private endpoint connection name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * private endpoint connection type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The resource of private end point.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between DiskAccess and Virtual Network. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
-/** Used for updating a disk access resource. */
-export interface DiskAccessUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-}
-
-/** The List disk access operation response. */
-export interface DiskAccessList {
-  /** A list of disk access resources. */
-  value: DiskAccess[];
-  /** The uri to fetch the next page of disk access resources. Call ListNext() with this to fetch the next page of disk access resources. */
-  nextLink?: string;
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-}
-
-/** A private link resource */
-export interface PrivateLinkResource {
-  /**
-   * private link resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * private link resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * private link resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-/** A list of private link resources */
-export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
-  /** The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots. */
-  nextLink?: string;
-}
-
-/** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
-export interface EncryptionSetIdentity {
-  /** The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. */
-  type?: DiskEncryptionSetIdentityType;
-  /**
-   * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The list of user identities associated with the disk encryption set. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentitiesValue;
-  };
-}
-
-/** Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots */
-export interface KeyForDiskEncryptionSet {
-  /** Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription. */
-  sourceVault?: SourceVault;
-  /** Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value. */
-  keyUrl: string;
-}
-
-/** disk encryption set update resource. */
-export interface DiskEncryptionSetUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
-  identity?: EncryptionSetIdentity;
-  /** The type of key used to encrypt the data of the disk. */
-  encryptionType?: DiskEncryptionSetType;
-  /** Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots */
-  activeKey?: KeyForDiskEncryptionSet;
-  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
-  rotationToLatestKeyVersionEnabled?: boolean;
-  /** Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property. */
-  federatedClientId?: string;
-}
-
-/** The List disk encryption set operation response. */
-export interface DiskEncryptionSetList {
-  /** A list of disk encryption sets. */
-  value: DiskEncryptionSet[];
-  /** The uri to fetch the next page of disk encryption sets. Call ListNext() with this to fetch the next page of disk encryption sets. */
-  nextLink?: string;
-}
-
-/** The List resources which are encrypted with the disk encryption set. */
-export interface ResourceUriList {
-  /** A list of IDs or Owner IDs of resources which are encrypted with the disk encryption set. */
-  value: string[];
-  /** The uri to fetch the next page of encrypted resources. Call ListNext() with this to fetch the next page of encrypted resources. */
-  nextLink?: string;
-}
-
-/** The ProxyOnly Resource model definition. */
-export interface ProxyOnlyResource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
-/** The List Disk Restore Points operation response. */
-export interface DiskRestorePointList {
-  /** A list of disk restore points. */
-  value: DiskRestorePoint[];
-  /** The uri to fetch the next page of disk restore points. Call ListNext() with this to fetch the next page of disk restore points. */
-  nextLink?: string;
-}
-
-/** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
-export interface SnapshotSku {
-  /** The sku name. */
-  name?: SnapshotStorageAccountTypes;
-  /**
-   * The sku tier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tier?: string;
-}
-
-/** Indicates the error details if the background copy of a resource created via the CopyStart operation fails. */
-export interface CopyCompletionError {
-  /** Indicates the error code if the background copy of a resource created via the CopyStart operation fails. */
-  errorCode: CopyCompletionErrorReason;
-  /** Indicates the error message if the background copy of a resource created via the CopyStart operation fails. */
-  errorMessage: string;
-}
-
-/** Snapshot update resource. */
-export interface SnapshotUpdate {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
-  sku?: SnapshotSku;
-  /** the Operating System type. */
-  osType?: OperatingSystemTypes;
-  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
-  diskSizeGB?: number;
-  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
-  encryptionSettingsCollection?: EncryptionSettingsCollection;
-  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
-  encryption?: Encryption;
-  /** Policy for accessing the disk via network. */
-  networkAccessPolicy?: NetworkAccessPolicy;
-  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
-  diskAccessId?: string;
-  /** Indicates the OS on a snapshot supports hibernation. */
-  supportsHibernation?: boolean;
-  /** Policy for controlling export on the disk. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
-  dataAccessAuthMode?: DataAccessAuthMode;
-  /** List of supported capabilities for the image from which the OS disk was created. */
-  supportedCapabilities?: SupportedCapabilities;
-}
-
-/** The List Snapshots operation response. */
-export interface SnapshotList {
-  /** A list of snapshots. */
-  value: Snapshot[];
-  /** The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots. */
   nextLink?: string;
 }
 
@@ -3202,6 +2637,440 @@ export interface ResourceSkuRestrictionInfo {
   readonly zones?: string[];
 }
 
+/** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, or StandardSSD_ZRS. */
+export interface DiskSku {
+  /** The sku name. */
+  name?: DiskStorageAccountTypes;
+  /**
+   * The sku tier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+}
+
+/** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
+export interface PurchasePlanAutoGenerated {
+  /** The plan ID. */
+  name: string;
+  /** The publisher ID. */
+  publisher: string;
+  /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
+  product: string;
+  /** The Offer Promotion Code. */
+  promotionCode?: string;
+}
+
+/** List of supported capabilities (like accelerated networking) persisted on the disk resource for VM use. */
+export interface SupportedCapabilities {
+  /** True if the image from which the OS disk is created supports accelerated networking. */
+  acceleratedNetwork?: boolean;
+}
+
+/** Data used when creating a disk. */
+export interface CreationData {
+  /** This enumerates the possible sources of a disk's creation. */
+  createOption: DiskCreateOption;
+  /** Required if createOption is Import. The Azure Resource Manager identifier of the storage account containing the blob to import as a disk. */
+  storageAccountId?: string;
+  /** Disk source information. */
+  imageReference?: ImageDiskReference;
+  /** Required if creating from a Gallery Image. The id of the ImageDiskReference will be the ARM id of the shared galley image version from which to create a disk. */
+  galleryImageReference?: ImageDiskReference;
+  /** If createOption is Import, this is the URI of a blob to be imported into a managed disk. */
+  sourceUri?: string;
+  /** If createOption is Copy, this is the ARM id of the source snapshot or disk. */
+  sourceResourceId?: string;
+  /**
+   * If this field is set, this is the unique id identifying the source of this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceUniqueId?: string;
+  /** If createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer). */
+  uploadSizeBytes?: number;
+  /** Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default. */
+  logicalSectorSize?: number;
+}
+
+/** The source image used for creating the disk. */
+export interface ImageDiskReference {
+  /** A relative uri containing either a Platform Image Repository or user image reference. */
+  id: string;
+  /** If the disk is created from an image's data disk, this is an index that indicates which of the data disks in the image to use. For OS disks, this field is null. */
+  lun?: number;
+}
+
+/** Encryption settings for disk or snapshot */
+export interface EncryptionSettingsCollection {
+  /** Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set this flag to false and remove DiskEncryptionKey and KeyEncryptionKey to disable encryption. If EncryptionSettings is null in the request object, the existing settings remain unchanged. */
+  enabled: boolean;
+  /** A collection of encryption settings, one for each disk volume. */
+  encryptionSettings?: EncryptionSettingsElement[];
+  /** Describes what type of encryption is used for the disks. Once this field is set, it cannot be overwritten. '1.0' corresponds to Azure Disk Encryption with AAD app.'1.1' corresponds to Azure Disk Encryption. */
+  encryptionSettingsVersion?: string;
+}
+
+/** Encryption settings for one disk volume. */
+export interface EncryptionSettingsElement {
+  /** Key Vault Secret Url and vault id of the disk encryption key */
+  diskEncryptionKey?: KeyVaultAndSecretReference;
+  /** Key Vault Key Url and vault id of the key encryption key. KeyEncryptionKey is optional and when provided is used to unwrap the disk encryption key. */
+  keyEncryptionKey?: KeyVaultAndKeyReference;
+}
+
+/** Key Vault Secret Url and vault id of the encryption key */
+export interface KeyVaultAndSecretReference {
+  /** Resource id of the KeyVault containing the key or secret */
+  sourceVault: SourceVault;
+  /** Url pointing to a key or secret in KeyVault */
+  secretUrl: string;
+}
+
+/** The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName} */
+export interface SourceVault {
+  /** Resource Id */
+  id?: string;
+}
+
+/** Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey */
+export interface KeyVaultAndKeyReference {
+  /** Resource id of the KeyVault containing the key or secret */
+  sourceVault: SourceVault;
+  /** Url pointing to a key or secret in KeyVault */
+  keyUrl: string;
+}
+
+/** Encryption at rest settings for disk or snapshot */
+export interface Encryption {
+  /** ResourceId of the disk encryption set to use for enabling encryption at rest. */
+  diskEncryptionSetId?: string;
+  /** The type of key used to encrypt the data of the disk. */
+  type?: EncryptionType;
+}
+
+export interface ShareInfoElement {
+  /**
+   * A relative URI containing the ID of the VM that has the disk attached.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmUri?: string;
+}
+
+/** Properties of the disk for which update is pending. */
+export interface PropertyUpdatesInProgress {
+  /** The target performance tier of the disk if a tier change operation is in progress. */
+  targetTier?: string;
+}
+
+/** Contains the security related information for the resource. */
+export interface DiskSecurityProfile {
+  /** Specifies the SecurityType of the VM. Applicable for OS disks only. */
+  securityType?: DiskSecurityTypes;
+}
+
+/** Disk update resource. */
+export interface DiskUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, or StandardSSD_ZRS. */
+  sku?: DiskSku;
+  /** the Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** The number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadWrite?: number;
+  /** The bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadWrite?: number;
+  /** The total number of IOPS that will be allowed across all VMs mounting the shared disk as ReadOnly. One operation can transfer between 4k and 256k bytes. */
+  diskIopsReadOnly?: number;
+  /** The total throughput (MBps) that will be allowed across all VMs mounting the shared disk as ReadOnly. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. */
+  diskMBpsReadOnly?: number;
+  /** The maximum number of VMs that can attach to the disk at the same time. Value greater than one indicates a disk that can be mounted on multiple VMs at the same time. */
+  maxShares?: number;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Performance tier of the disk (e.g, P4, S10) as described here: https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks. */
+  tier?: string;
+  /** Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is disabled by default. Does not apply to Ultra disks. */
+  burstingEnabled?: boolean;
+  /** Purchase plan information to be added on the OS disk */
+  purchasePlan?: PurchasePlanAutoGenerated;
+  /** List of supported capabilities (like accelerated networking) to be added on the OS disk. */
+  supportedCapabilities?: SupportedCapabilities;
+  /**
+   * Properties of the disk for which update is pending.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+  /** Indicates the OS on a disk supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+/** The List Disks operation response. */
+export interface DiskList {
+  /** A list of disks. */
+  value: Disk[];
+  /** The uri to fetch the next page of disks. Call ListNext() with this to fetch the next page of disks. */
+  nextLink?: string;
+}
+
+/** Data used for requesting a SAS. */
+export interface GrantAccessData {
+  access: AccessLevel;
+  /** Time duration in seconds until the SAS access expires. */
+  durationInSeconds: number;
+}
+
+/** A disk access SAS uri. */
+export interface AccessUri {
+  /**
+   * A SAS uri for accessing a disk.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly accessSAS?: string;
+}
+
+/** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
+export interface SnapshotSku {
+  /** The sku name. */
+  name?: SnapshotStorageAccountTypes;
+  /**
+   * The sku tier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+}
+
+/** Snapshot update resource. */
+export interface SnapshotUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
+  sku?: SnapshotSku;
+  /** the Operating System type. */
+  osType?: OperatingSystemTypes;
+  /** If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size. */
+  diskSizeGB?: number;
+  /** Encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot. */
+  encryptionSettingsCollection?: EncryptionSettingsCollection;
+  /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
+  encryption?: Encryption;
+  /** Policy for accessing the disk via network. */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /** ARM id of the DiskAccess resource for using private endpoints on disks. */
+  diskAccessId?: string;
+  /** Indicates the OS on a snapshot supports hibernation. */
+  supportsHibernation?: boolean;
+  /** Policy for controlling export on the disk. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+/** The List Snapshots operation response. */
+export interface SnapshotList {
+  /** A list of snapshots. */
+  value: Snapshot[];
+  /** The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots. */
+  nextLink?: string;
+}
+
+/** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
+export interface EncryptionSetIdentity {
+  /** The type of Managed Identity used by the DiskEncryptionSet. Only SystemAssigned is supported for new creations. Disk Encryption Sets can be updated with Identity type None during migration of subscription to a new Azure Active Directory tenant; it will cause the encrypted resources to lose access to the keys. */
+  type?: DiskEncryptionSetIdentityType;
+  /**
+   * The object id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-identity-principal-id header in the PUT request if the resource has a systemAssigned(implicit) identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the Managed Identity Resource. This will be sent to the RP from ARM via the x-ms-client-tenant-id header in the PUT request if the resource has a systemAssigned(implicit) identity
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+}
+
+/** Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots */
+export interface KeyForDiskEncryptionSet {
+  /** Resource id of the KeyVault containing the key or secret. This property is optional and cannot be used if the KeyVault subscription is not the same as the Disk Encryption Set subscription. */
+  sourceVault?: SourceVault;
+  /** Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required regardless of rotationToLatestKeyVersionEnabled value. */
+  keyUrl: string;
+}
+
+/** disk encryption set update resource. */
+export interface DiskEncryptionSetUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
+  identity?: EncryptionSetIdentity;
+  /** The type of key used to encrypt the data of the disk. */
+  encryptionType?: DiskEncryptionSetType;
+  /** Key Vault Key Url to be used for server side encryption of Managed Disks and Snapshots */
+  activeKey?: KeyForDiskEncryptionSet;
+  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+}
+
+/** The List disk encryption set operation response. */
+export interface DiskEncryptionSetList {
+  /** A list of disk encryption sets. */
+  value: DiskEncryptionSet[];
+  /** The uri to fetch the next page of disk encryption sets. Call ListNext() with this to fetch the next page of disk encryption sets. */
+  nextLink?: string;
+}
+
+/** The List resources which are encrypted with the disk encryption set. */
+export interface ResourceUriList {
+  /** A list of IDs or Owner IDs of resources which are encrypted with the disk encryption set. */
+  value: string[];
+  /** The uri to fetch the next page of encrypted resources. Call ListNext() with this to fetch the next page of encrypted resources. */
+  nextLink?: string;
+}
+
+/** The Private Endpoint Connection resource. */
+export interface PrivateEndpointConnection {
+  /**
+   * private endpoint connection Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * private endpoint connection name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * private endpoint connection type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The resource of private end point.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between DiskAccess and Virtual Network. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Used for updating a disk access resource. */
+export interface DiskAccessUpdate {
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The List disk access operation response. */
+export interface DiskAccessList {
+  /** A list of disk access resources. */
+  value: DiskAccess[];
+  /** The uri to fetch the next page of disk access resources. Call ListNext() with this to fetch the next page of disk access resources. */
+  nextLink?: string;
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** A private link resource */
+export interface PrivateLinkResource {
+  /**
+   * private link resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * private link resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * private link resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+/** A list of private link resources */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+  /** The uri to fetch the next page of snapshots. Call ListNext() with this to fetch the next page of snapshots. */
+  nextLink?: string;
+}
+
+/** The ProxyOnly Resource model definition. */
+export interface ProxyOnlyResource {
+  /**
+   * Resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** The List Disk Restore Points operation response. */
+export interface DiskRestorePointList {
+  /** A list of disk restore points. */
+  value: DiskRestorePoint[];
+  /** The uri to fetch the next page of disk restore points. Call ListNext() with this to fetch the next page of disk restore points. */
+  nextLink?: string;
+}
+
 /** Describes the gallery unique name. */
 export interface GalleryIdentifier {
   /**
@@ -3213,15 +3082,13 @@ export interface GalleryIdentifier {
 
 /** Profile for gallery sharing to subscription or tenant */
 export interface SharingProfile {
-  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** <br><br> **Community** */
+  /** This property allows you to specify the permission of sharing gallery. <br><br> Possible values are: <br><br> **Private** <br><br> **Groups** */
   permissions?: GallerySharingPermissionTypes;
   /**
    * A list of sharing profile groups.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly groups?: SharingProfileGroup[];
-  /** Information of community gallery if current gallery is shared to community. */
-  communityGalleryInfo?: any;
 }
 
 /** Group of the gallery sharing profile */
@@ -3236,30 +3103,6 @@ export interface SharingProfileGroup {
 export interface SoftDeletePolicy {
   /** Enables soft-deletion for resources in this gallery, allowing them to be recovered within retention time. */
   isSoftDeleteEnabled?: boolean;
-}
-
-/** Sharing status of current gallery. */
-export interface SharingStatus {
-  /**
-   * Aggregated sharing state of current gallery.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly aggregatedState?: SharingState;
-  /** Summary of all regional sharing status. */
-  summary?: RegionalSharingStatus[];
-}
-
-/** Gallery regional sharing status */
-export interface RegionalSharingStatus {
-  /** Region name */
-  region?: string;
-  /**
-   * Gallery sharing state in current region
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: SharingState;
-  /** Details of gallery regional sharing failure. */
-  details?: string;
 }
 
 /** The Update Resource model definition. */
@@ -3352,8 +3195,6 @@ export interface GalleryArtifactPublishingProfileBase {
   storageAccountType?: StorageAccountType;
   /** Optional parameter which specifies the mode to be used for replication. This property is not updatable. */
   replicationMode?: ReplicationMode;
-  /** The target extended locations where the Image Version is going to be replicated to. This property is updatable. */
-  targetExtendedLocations?: GalleryTargetExtendedLocation[];
 }
 
 /** Describes the target region information. */
@@ -3376,38 +3217,10 @@ export interface EncryptionImages {
   dataDiskImages?: DataDiskImageEncryption[];
 }
 
-/** Contains security profile for an OS disk image. */
-export interface OSDiskImageSecurityProfile {
-  /** confidential VM encryption types */
-  confidentialVMEncryptionType?: ConfidentialVMEncryptionType;
-  /** secure VM disk encryption set id */
-  secureVMDiskEncryptionSetId?: string;
-}
-
 /** This is the disk image encryption base class. */
 export interface DiskImageEncryption {
   /** A relative URI containing the resource ID of the disk encryption set. */
   diskEncryptionSetId?: string;
-}
-
-export interface GalleryTargetExtendedLocation {
-  /** The name of the region. */
-  name?: string;
-  /** The name of the extended location. */
-  extendedLocation?: GalleryExtendedLocation;
-  /** The number of replicas of the Image Version to be created per extended location. This property is updatable. */
-  extendedLocationReplicaCount?: number;
-  /** Specifies the storage account type to be used to store the image. This property is not updatable. */
-  storageAccountType?: StorageAccountType;
-  /** Optional. Allows users to provide customer managed keys for encrypting the OS and data disks in the gallery artifact. */
-  encryption?: EncryptionImages;
-}
-
-/** The name of the extended location. */
-export interface GalleryExtendedLocation {
-  name?: string;
-  /** It is type of the extended location. */
-  type?: GalleryExtendedLocationType;
 }
 
 /** This is the storage profile of a Gallery Image Version. */
@@ -3496,14 +3309,6 @@ export interface UserArtifactManage {
   update?: string;
 }
 
-/** Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set. */
-export interface UserArtifactSettings {
-  /** Optional. The name to assign the downloaded package file on the VM. This is limited to 4096 characters. If not specified, the package file will be named the same as the Gallery Application name. */
-  packageFileName?: string;
-  /** Optional. The name to assign the downloaded config file on the VM. This is limited to 4096 characters. If not specified, the config file will be named the Gallery Application name appended with "_config". */
-  configFileName?: string;
-}
-
 /** The List Galleries operation response. */
 export interface GalleryList {
   /** A list of galleries. */
@@ -3590,63 +3395,6 @@ export interface SharedGalleryImageVersionList {
   nextLink?: string;
 }
 
-/** This is the storage profile of a Gallery Image Version. */
-export interface SharedGalleryImageVersionStorageProfile {
-  /** This is the OS disk image. */
-  osDiskImage?: SharedGalleryOSDiskImage;
-  /** A list of data disk images. */
-  dataDiskImages?: SharedGalleryDataDiskImage[];
-}
-
-/** This is the disk image base class. */
-export interface SharedGalleryDiskImage {
-  /**
-   * This property indicates the size of the VHD to be created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly diskSizeGB?: number;
-  /** The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite' */
-  hostCaching?: SharedGalleryHostCaching;
-}
-
-/** Base information about the community gallery resource in pir. */
-export interface PirCommunityGalleryResource {
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource location
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly location?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The unique id of this community gallery. */
-  uniqueId?: string;
-}
-
-/** The List Community Gallery Images operation response. */
-export interface CommunityGalleryImageList {
-  /** A list of community gallery images. */
-  value: CommunityGalleryImage[];
-  /** The uri to fetch the next page of community gallery images. Call ListNext() with this to fetch the next page of community gallery images. */
-  nextLink?: string;
-}
-
-/** The List Community Gallery Image versions operation response. */
-export interface CommunityGalleryImageVersionList {
-  /** A list of community gallery image versions. */
-  value: CommunityGalleryImageVersion[];
-  /** The uri to fetch the next page of community gallery image versions. Call ListNext() with this to fetch the next page of community gallery image versions. */
-  nextLink?: string;
-}
-
-/** Describes the cloud service role instance. */
 export interface RoleInstance {
   /**
    * Resource Id
@@ -3673,13 +3421,10 @@ export interface RoleInstance {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tags?: { [propertyName: string]: string };
-  /** The role instance SKU. */
   sku?: InstanceSku;
-  /** Role instance properties. */
   properties?: RoleInstanceProperties;
 }
 
-/** The role instance SKU. */
 export interface InstanceSku {
   /**
    * The sku name.
@@ -3693,7 +3438,6 @@ export interface InstanceSku {
   readonly tier?: string;
 }
 
-/** Role instance properties. */
 export interface RoleInstanceProperties {
   /** Describes the network profile for the role instance. */
   networkProfile?: RoleInstanceNetworkProfile;
@@ -3757,11 +3501,8 @@ export interface ResourceInstanceViewStatus {
   level?: StatusLevelTypes;
 }
 
-/** The list operation result. */
 export interface RoleInstanceListResult {
-  /** The list of resources. */
   value: RoleInstance[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -3789,7 +3530,6 @@ export interface CloudServiceRole {
   readonly location?: string;
   /** Describes the cloud service role sku. */
   sku?: CloudServiceRoleSku;
-  /** The cloud service role properties. */
   properties?: CloudServiceRoleProperties;
 }
 
@@ -3803,7 +3543,6 @@ export interface CloudServiceRoleSku {
   capacity?: number;
 }
 
-/** The cloud service role properties. */
 export interface CloudServiceRoleProperties {
   /**
    * Specifies the ID which uniquely identifies a cloud service role.
@@ -3812,11 +3551,8 @@ export interface CloudServiceRoleProperties {
   readonly uniqueId?: string;
 }
 
-/** The list operation result. */
 export interface CloudServiceRoleListResult {
-  /** The list of resources. */
   value: CloudServiceRole[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -3843,8 +3579,6 @@ export interface CloudService {
   tags?: { [propertyName: string]: string };
   /** Cloud service properties */
   properties?: CloudServiceProperties;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
 }
 
 /** Cloud service properties */
@@ -3935,12 +3669,6 @@ export interface CloudServiceVaultCertificate {
 export interface CloudServiceNetworkProfile {
   /** List of Load balancer configurations. Cloud service can have up to two load balancer configurations, corresponding to a Public Load Balancer and an Internal Load Balancer. */
   loadBalancerConfigurations?: LoadBalancerConfiguration[];
-  /**
-   * Slot type for the cloud service.
-   * Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
-   * If not specified, the default value is Production.
-   */
-  slotType?: CloudServiceSlotType;
   /** The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown. */
   swappableCloudService?: SubResource;
 }
@@ -3955,13 +3683,11 @@ export interface LoadBalancerConfiguration {
   properties: LoadBalancerConfigurationProperties;
 }
 
-/** Describes the properties of the load balancer configuration. */
 export interface LoadBalancerConfigurationProperties {
   /** Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration. */
   frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
 }
 
-/** Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration. */
 export interface LoadBalancerFrontendIPConfiguration {
   /** The name of the resource that is unique within the set of frontend IP configurations used by the load balancer. This name can be used to access the resource. */
   name: string;
@@ -4004,10 +3730,9 @@ export interface CloudServiceExtensionProperties {
   /** Explicitly specify whether platform can automatically upgrade typeHandlerVersion to higher minor versions when they become available. */
   autoUpgradeMinorVersion?: boolean;
   /** Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension. */
-  settings?: any;
+  settings?: string;
   /** Protected settings for the extension which are encrypted before sent to the role instance. */
-  protectedSettings?: any;
-  /** Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance. */
+  protectedSettings?: string;
   protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
   /**
    * Tag to force apply the provided public and protected settings.
@@ -4026,26 +3751,9 @@ export interface CloudServiceExtensionProperties {
   rolesAppliedTo?: string[];
 }
 
-/** Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance. */
 export interface CloudServiceVaultAndSecretReference {
-  /** The ARM Resource ID of the Key Vault */
   sourceVault?: SubResource;
-  /** Secret URL which contains the protected settings of the extension */
   secretUrl?: string;
-}
-
-/** The system meta data relating to this resource. */
-export interface SystemData {
-  /**
-   * Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdAt?: Date;
-  /**
-   * Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedAt?: Date;
 }
 
 export interface CloudServiceUpdate {
@@ -4073,14 +3781,10 @@ export interface CloudServiceInstanceView {
 
 /** Instance view statuses. */
 export interface InstanceViewStatusesSummary {
-  /**
-   * The summary.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly statusesSummary?: StatusCodeCount[];
 }
 
-/** The status code and count of the cloud service instance view statuses */
 export interface StatusCodeCount {
   /**
    * The instance view status code
@@ -4094,11 +3798,8 @@ export interface StatusCodeCount {
   readonly count?: number;
 }
 
-/** The list operation result. */
 export interface CloudServiceListResult {
-  /** The list of resources. */
   value: CloudService[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4122,11 +3823,8 @@ export interface UpdateDomain {
   readonly name?: string;
 }
 
-/** The list operation result. */
 export interface UpdateDomainListResult {
-  /** The list of resources. */
   value: UpdateDomain[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4190,11 +3888,8 @@ export interface OSVersionProperties {
   readonly isActive?: boolean;
 }
 
-/** The list operation result. */
 export interface OSVersionListResult {
-  /** The list of resources. */
   value: OSVersion[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
 }
 
@@ -4267,34 +3962,9 @@ export interface OSVersionPropertiesBase {
   readonly isActive?: boolean;
 }
 
-/** The list operation result. */
 export interface OSFamilyListResult {
-  /** The list of resources. */
   value: OSFamily[];
-  /** The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources. */
   nextLink?: string;
-}
-
-/** Information of community gallery if current gallery is shared to community */
-export interface CommunityGalleryInfo {
-  /** The link to the publisher website. Visible to all users. */
-  publisherUri?: string;
-  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
-  publisherContact?: string;
-  /** End-user license agreement for community gallery image. */
-  eula?: string;
-  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
-  publicNamePrefix?: string;
-  /**
-   * Contains info about whether community gallery sharing is enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly communityGalleryEnabled?: boolean;
-  /**
-   * Community gallery public name list.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNames?: string[];
 }
 
 /** The source image from which the Image Version is going to be created. */
@@ -4309,6 +3979,23 @@ export interface ManagedArtifact {
   id: string;
 }
 
+export interface SubResourceWithColocationStatus extends SubResource {
+  /** Describes colocation status of a resource in the Proximity Placement Group. */
+  colocationStatus?: InstanceViewStatus;
+}
+
+/** Virtual machine image resource information. */
+export interface VirtualMachineImageResource extends SubResource {
+  /** The name of the resource. */
+  name: string;
+  /** The supported Azure location of the resource. */
+  location: string;
+  /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
+  tags?: { [propertyName: string]: string };
+  /** The extended location of the Virtual Machine. */
+  extendedLocation?: ExtendedLocation;
+}
+
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
 export interface ImageReference extends SubResource {
   /** The image publisher. */
@@ -4317,7 +4004,7 @@ export interface ImageReference extends SubResource {
   offer?: string;
   /** The image SKU. */
   sku?: string;
-  /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. Please do not use field 'version' for gallery image deployment, gallery image should always use 'id' field for deployment, to use 'latest' version of gallery image, just set '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageName}' in the 'id' field without version input. */
+  /** Specifies the version of the platform image or marketplace image used to create the virtual machine. The allowed formats are Major.Minor.Build or 'latest'. Major, Minor, and Build are decimal numbers. Specify 'latest' to use the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically update after deploy time even if a new version becomes available. */
   version?: string;
   /**
    * Specifies in decimal numbers, the version of platform image or marketplace image used to create the virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
@@ -4326,12 +4013,26 @@ export interface ImageReference extends SubResource {
   readonly exactVersion?: string;
   /** Specified the shared gallery image unique id for vm deployment. This can be fetched from shared gallery image GET call. */
   sharedGalleryImageId?: string;
-  /** Specified the community gallery image unique id for vm deployment. This can be fetched from community gallery image GET call. */
-  communityGalleryImageId?: string;
 }
 
 /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
 export interface DiskEncryptionSetParameters extends SubResource {}
+
+/** The parameters of a managed disk. */
+export interface ManagedDiskParameters extends SubResource {
+  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
+  storageAccountType?: StorageAccountTypes;
+  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
+  diskEncryptionSet?: DiskEncryptionSetParameters;
+}
+
+/** Describes a network interface reference. */
+export interface NetworkInterfaceReference extends SubResource {
+  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
+  primary?: boolean;
+  /** Specify what happens to the network interface when the VM is deleted */
+  deleteOption?: DeleteOptions;
+}
 
 /** Describes a virtual machine scale set network profile's IP configuration. */
 export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
@@ -4376,6 +4077,30 @@ export interface VirtualMachineScaleSetNetworkConfiguration
   enableIPForwarding?: boolean;
   /** Specify what happens to the network interface when the VM is deleted */
   deleteOption?: DeleteOptions;
+}
+
+/** Output of virtual machine capture operation. */
+export interface VirtualMachineCaptureResult extends SubResource {
+  /**
+   * the schema of the captured virtual machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly schema?: string;
+  /**
+   * the version of the content
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly contentVersion?: string;
+  /**
+   * parameters of the captured virtual machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly parameters?: Record<string, unknown>;
+  /**
+   * a list of resource items of the captured virtual machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: Record<string, unknown>[];
 }
 
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
@@ -4424,157 +4149,127 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration
   deleteOption?: DeleteOptions;
 }
 
-/** The parameters of a managed disk. */
-export interface ManagedDiskParameters extends SubResource {
-  /** Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
-  storageAccountType?: StorageAccountTypes;
-  /** Specifies the customer managed disk encryption set resource id for the managed disk. */
-  diskEncryptionSet?: DiskEncryptionSetParameters;
-  /** Specifies the security profile for the managed disk. */
-  securityProfile?: VMDiskSecurityProfile;
-}
-
-/** Describes a network interface reference. */
-export interface NetworkInterfaceReference extends SubResource {
-  /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
-  primary?: boolean;
-  /** Specify what happens to the network interface when the VM is deleted */
-  deleteOption?: DeleteOptions;
-}
-
-/** Output of virtual machine capture operation. */
-export interface VirtualMachineCaptureResult extends SubResource {
+/** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
+export interface AvailabilitySet extends Resource {
+  /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
+  sku?: Sku;
+  /** Update Domain count. */
+  platformUpdateDomainCount?: number;
+  /** Fault Domain count. */
+  platformFaultDomainCount?: number;
+  /** A list of references to all virtual machines in the availability set. */
+  virtualMachines?: SubResource[];
+  /** Specifies information about the proximity placement group that the availability set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
+  proximityPlacementGroup?: SubResource;
   /**
-   * the schema of the captured virtual machine
+   * The resource status information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly schema?: string;
-  /**
-   * the version of the content
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly contentVersion?: string;
-  /**
-   * parameters of the captured virtual machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly parameters?: any;
-  /**
-   * a list of resource items of the captured virtual machine
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: any[];
+  readonly statuses?: InstanceViewStatus[];
 }
 
-/** Virtual machine image resource information. */
-export interface VirtualMachineImageResource extends SubResource {
-  /** The name of the resource. */
-  name: string;
-  /** The supported Azure location of the resource. */
-  location: string;
-  /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-  tags?: { [propertyName: string]: string };
-  /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
-}
-
-export interface SubResourceWithColocationStatus extends SubResource {
-  /** Describes colocation status of a resource in the Proximity Placement Group. */
+/** Specifies information about the proximity placement group. */
+export interface ProximityPlacementGroup extends Resource {
+  /** Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use. */
+  proximityPlacementGroupType?: ProximityPlacementGroupType;
+  /**
+   * A list of references to all virtual machines in the proximity placement group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachines?: SubResourceWithColocationStatus[];
+  /**
+   * A list of references to all virtual machine scale sets in the proximity placement group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
+  /**
+   * A list of references to all availability sets in the proximity placement group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilitySets?: SubResourceWithColocationStatus[];
+  /** Describes colocation status of the Proximity Placement Group. */
   colocationStatus?: InstanceViewStatus;
 }
 
-/** Describes a Virtual Machine Scale Set Extension. */
-export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
-  /** The name of the extension. */
-  name?: string;
+/** Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group. */
+export interface DedicatedHostGroup extends Resource {
+  /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
+  zones?: string[];
+  /** Number of fault domains that the host group can span. */
+  platformFaultDomainCount?: number;
   /**
-   * Resource type
+   * A list of references to all dedicated hosts in the dedicated host group.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
-  /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: DedicatedHostGroupInstanceView;
+  /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
+  supportAutomaticPlacement?: boolean;
+}
+
+/** Specifies information about the Dedicated host. */
+export interface DedicatedHost extends Resource {
+  /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
+  sku: Sku;
+  /** Fault domain of the dedicated host within a dedicated host group. */
+  platformFaultDomain?: number;
+  /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None** */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningTime?: Date;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: string[];
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  /**
+   * The dedicated host instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
 }
 
-/** Describes a Virtual Machine Scale Set Extension. */
-export interface VirtualMachineScaleSetExtensionUpdate
-  extends SubResourceReadOnly {
-  /**
-   * The name of the extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: string[];
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+/** Specifies information about the SSH public key. */
+export interface SshPublicKeyResource extends Resource {
+  /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
+  publicKey?: string;
 }
 
-/** Describes a VMSS VM Extension. */
-export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
-  /**
-   * The name of the extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** Describes a Virtual Machine Extension Image. */
+export interface VirtualMachineExtensionImage extends Resource {
+  /** The operating system this extension supports. */
+  operatingSystem?: string;
+  /** The type of role (IaaS or PaaS) this extension supports. */
+  computeRole?: string;
+  /** The schema defined by publisher, where extension consumers should provide settings in a matching schema. */
+  handlerSchema?: string;
+  /** Whether the extension can be used on xRP VMScaleSets. By default existing extensions are usable on scalesets, but there might be cases where a publisher wants to explicitly indicate the extension is only enabled for CRP VMs but not VMSS. */
+  vmScaleSetEnabled?: boolean;
+  /** Whether the handler can support multiple extensions. */
+  supportsMultipleExtensions?: boolean;
+}
+
+/** Describes a Virtual Machine Extension. */
+export interface VirtualMachineExtension extends Resource {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
@@ -4588,9 +4283,9 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4600,201 +4295,6 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   instanceView?: VirtualMachineExtensionInstanceView;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
-}
-
-/** Describes a VMSS VM Extension. */
-export interface VirtualMachineScaleSetVMExtensionUpdate
-  extends SubResourceReadOnly {
-  /**
-   * The name of the extension.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
-  /** The name of the extension handler publisher. */
-  publisher?: string;
-  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
-  typePropertiesType?: string;
-  /** Specifies the version of the script handler. */
-  typeHandlerVersion?: string;
-  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
-  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
-  /** Json formatted public settings for the extension. */
-  settings?: any;
-  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
-  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
-  suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
-}
-
-/** Describes a Virtual Machine Scale Set. */
-export interface VirtualMachineScaleSet extends Resource {
-  /** The virtual machine scale set sku. */
-  sku?: Sku;
-  /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
-  /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
-  /** The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set */
-  zones?: string[];
-  /** The extended location of the Virtual Machine Scale Set. */
-  extendedLocation?: ExtendedLocation;
-  /** The upgrade policy. */
-  upgradePolicy?: UpgradePolicy;
-  /** Policy for automatic repairs. */
-  automaticRepairsPolicy?: AutomaticRepairsPolicy;
-  /** The virtual machine profile. */
-  virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
-  overprovision?: boolean;
-  /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
-  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
-  /**
-   * Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly uniqueId?: string;
-  /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
-  singlePlacementGroup?: boolean;
-  /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
-  zoneBalance?: boolean;
-  /** Fault Domain count for each placement group. */
-  platformFaultDomainCount?: number;
-  /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
-  proximityPlacementGroup?: SubResource;
-  /** Specifies information about the dedicated host group that the virtual machine scale set resides in. <br><br>Minimum api-version: 2020-06-01. */
-  hostGroup?: SubResource;
-  /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
-  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
-  scaleInPolicy?: ScaleInPolicy;
-  /** Specifies the orchestration mode for the virtual machine scale set. */
-  orchestrationMode?: OrchestrationMode;
-  /** Specifies the Spot Restore properties for the virtual machine scale set. */
-  spotRestorePolicy?: SpotRestorePolicy;
-  /**
-   * Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-}
-
-/** The status of the latest virtual machine scale set rolling upgrade. */
-export interface RollingUpgradeStatusInfo extends Resource {
-  /**
-   * The rolling upgrade policies applied for this upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly policy?: RollingUpgradePolicy;
-  /**
-   * Information about the current running state of the overall upgrade.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly runningStatus?: RollingUpgradeRunningStatus;
-  /**
-   * Information about the number of virtual machine instances in each upgrade state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly progress?: RollingUpgradeProgressInfo;
-  /**
-   * Error details for this upgrade, if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ApiError;
-}
-
-/** Describes a virtual machine scale set virtual machine. */
-export interface VirtualMachineScaleSetVM extends Resource {
-  /**
-   * The virtual machine instance ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceId?: string;
-  /**
-   * The virtual machine SKU.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sku?: Sku;
-  /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
-  plan?: Plan;
-  /**
-   * The virtual machine child extension resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: VirtualMachineExtension[];
-  /**
-   * The virtual machine zones.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly zones?: string[];
-  /** The identity of the virtual machine, if configured. */
-  identity?: VirtualMachineIdentity;
-  /**
-   * Specifies whether the latest model has been applied to the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestModelApplied?: boolean;
-  /**
-   * Azure VM unique ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmId?: string;
-  /**
-   * The virtual machine instance view.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
-  /** Specifies the hardware settings for the virtual machine. */
-  hardwareProfile?: HardwareProfile;
-  /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: StorageProfile;
-  /** Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
-  /** Specifies the operating system settings for the virtual machine. */
-  osProfile?: OSProfile;
-  /** Specifies the Security related profile settings for the virtual machine. */
-  securityProfile?: SecurityProfile;
-  /** Specifies the network interfaces of the virtual machine. */
-  networkProfile?: NetworkProfile;
-  /** Specifies the network profile configuration of the virtual machine. */
-  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
-  /** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
-  diagnosticsProfile?: DiagnosticsProfile;
-  /** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
-  availabilitySet?: SubResource;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
-  licenseType?: string;
-  /**
-   * Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly modelDefinitionApplied?: string;
-  /** Specifies the protection policy of the virtual machine. */
-  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
-  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
-  userData?: string;
 }
 
 /** Describes a Virtual Machine. */
@@ -4871,141 +4371,58 @@ export interface VirtualMachine extends Resource {
   capacityReservation?: CapacityReservationProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
-  /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
 }
 
-/** Describes a Virtual Machine Extension Image. */
-export interface VirtualMachineExtensionImage extends Resource {
-  /** The operating system this extension supports. */
-  operatingSystem?: string;
-  /** The type of role (IaaS or PaaS) this extension supports. */
-  computeRole?: string;
-  /** The schema defined by publisher, where extension consumers should provide settings in a matching schema. */
-  handlerSchema?: string;
-  /** Whether the extension can be used on xRP VMScaleSets. By default existing extensions are usable on scalesets, but there might be cases where a publisher wants to explicitly indicate the extension is only enabled for CRP VMs but not VMSS. */
-  vmScaleSetEnabled?: boolean;
-  /** Whether the handler can support multiple extensions. */
-  supportsMultipleExtensions?: boolean;
-}
-
-/** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
-export interface AvailabilitySet extends Resource {
-  /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
+/** Describes a Virtual Machine Scale Set. */
+export interface VirtualMachineScaleSet extends Resource {
+  /** The virtual machine scale set sku. */
   sku?: Sku;
-  /** Update Domain count. */
-  platformUpdateDomainCount?: number;
-  /** Fault Domain count. */
-  platformFaultDomainCount?: number;
-  /** A list of references to all virtual machines in the availability set. */
-  virtualMachines?: SubResource[];
-  /** Specifies information about the proximity placement group that the availability set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
-  proximityPlacementGroup?: SubResource;
-  /**
-   * The resource status information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statuses?: InstanceViewStatus[];
-}
-
-/** Specifies information about the proximity placement group. */
-export interface ProximityPlacementGroup extends Resource {
-  /** Specifies the Availability Zone where virtual machine, virtual machine scale set or availability set associated with the  proximity placement group can be created. */
+  /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
+  plan?: Plan;
+  /** The identity of the virtual machine scale set, if configured. */
+  identity?: VirtualMachineScaleSetIdentity;
+  /** The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set */
   zones?: string[];
-  /** Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use. */
-  proximityPlacementGroupType?: ProximityPlacementGroupType;
-  /**
-   * A list of references to all virtual machines in the proximity placement group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachines?: SubResourceWithColocationStatus[];
-  /**
-   * A list of references to all virtual machine scale sets in the proximity placement group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
-  /**
-   * A list of references to all availability sets in the proximity placement group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly availabilitySets?: SubResourceWithColocationStatus[];
-  /** Describes colocation status of the Proximity Placement Group. */
-  colocationStatus?: InstanceViewStatus;
-  /** Specifies the user intent of the proximity placement group. */
-  intent?: ProximityPlacementGroupPropertiesIntent;
-}
-
-/** Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group. */
-export interface DedicatedHostGroup extends Resource {
-  /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
-  zones?: string[];
-  /** Number of fault domains that the host group can span. */
-  platformFaultDomainCount?: number;
-  /**
-   * A list of references to all dedicated hosts in the dedicated host group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hosts?: SubResourceReadOnly[];
-  /**
-   * The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: DedicatedHostGroupInstanceView;
-  /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
-  supportAutomaticPlacement?: boolean;
-  /** Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01. */
-  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
-}
-
-/** Specifies information about the Dedicated host. */
-export interface DedicatedHost extends Resource {
-  /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
-  sku: Sku;
-  /** Fault domain of the dedicated host within a dedicated host group. */
-  platformFaultDomain?: number;
-  /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
-  autoReplaceOnFailure?: boolean;
-  /**
-   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostId?: string;
-  /**
-   * A list of references to all virtual machines in the Dedicated Host.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachines?: SubResourceReadOnly[];
-  /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None** */
-  licenseType?: DedicatedHostLicenseTypes;
-  /**
-   * The date when the host was first provisioned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningTime?: Date;
+  /** The extended location of the Virtual Machine Scale Set. */
+  extendedLocation?: ExtendedLocation;
+  /** The upgrade policy. */
+  upgradePolicy?: UpgradePolicy;
+  /** Policy for automatic repairs. */
+  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  /** The virtual machine profile. */
+  virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
+  /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
+  overprovision?: boolean;
+  /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /**
-   * The dedicated host instance view.
+   * Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly instanceView?: DedicatedHostInstanceView;
-  /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-}
-
-/** Specifies information about the SSH public key. */
-export interface SshPublicKeyResource extends Resource {
-  /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
-  publicKey?: string;
+  readonly uniqueId?: string;
+  /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
+  singlePlacementGroup?: boolean;
+  /** Whether to force strictly even Virtual Machine distribution cross x-zones in case there is zone outage. zoneBalance property can only be set if the zones property of the scale set contains more than one zone. If there are no zones or only one zone specified, then zoneBalance property should not be set. */
+  zoneBalance?: boolean;
+  /** Fault Domain count for each placement group. */
+  platformFaultDomainCount?: number;
+  /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
+  proximityPlacementGroup?: SubResource;
+  /** Specifies information about the dedicated host group that the virtual machine scale set resides in. <br><br>Minimum api-version: 2020-06-01. */
+  hostGroup?: SubResource;
+  /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
+  additionalCapabilities?: AdditionalCapabilities;
+  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies the orchestration mode for the virtual machine scale set. */
+  orchestrationMode?: OrchestrationMode;
+  /** Specifies the Spot Restore properties for the virtual machine scale set. */
+  spotRestorePolicy?: SpotRestorePolicy;
 }
 
 /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
@@ -5098,11 +4515,105 @@ export interface CapacityReservation extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationInstanceView;
+}
+
+/** The status of the latest virtual machine scale set rolling upgrade. */
+export interface RollingUpgradeStatusInfo extends Resource {
   /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * The rolling upgrade policies applied for this upgrade.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly timeCreated?: Date;
+  readonly policy?: RollingUpgradePolicy;
+  /**
+   * Information about the current running state of the overall upgrade.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runningStatus?: RollingUpgradeRunningStatus;
+  /**
+   * Information about the number of virtual machine instances in each upgrade state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly progress?: RollingUpgradeProgressInfo;
+  /**
+   * Error details for this upgrade, if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ApiError;
+}
+
+/** Describes a virtual machine scale set virtual machine. */
+export interface VirtualMachineScaleSetVM extends Resource {
+  /**
+   * The virtual machine instance ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceId?: string;
+  /**
+   * The virtual machine SKU.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: Sku;
+  /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
+  plan?: Plan;
+  /**
+   * The virtual machine child extension resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: VirtualMachineExtension[];
+  /**
+   * The virtual machine zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zones?: string[];
+  /**
+   * Specifies whether the latest model has been applied to the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestModelApplied?: boolean;
+  /**
+   * Azure VM unique ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmId?: string;
+  /**
+   * The virtual machine instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
+  /** Specifies the hardware settings for the virtual machine. */
+  hardwareProfile?: HardwareProfile;
+  /** Specifies the storage settings for the virtual machine disks. */
+  storageProfile?: StorageProfile;
+  /** Specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
+  additionalCapabilities?: AdditionalCapabilities;
+  /** Specifies the operating system settings for the virtual machine. */
+  osProfile?: OSProfile;
+  /** Specifies the Security related profile settings for the virtual machine. */
+  securityProfile?: SecurityProfile;
+  /** Specifies the network interfaces of the virtual machine. */
+  networkProfile?: NetworkProfile;
+  /** Specifies the network profile configuration of the virtual machine. */
+  networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
+  /** Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15. */
+  diagnosticsProfile?: DiagnosticsProfile;
+  /** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Availability sets overview](https://docs.microsoft.com/azure/virtual-machines/availability-set-overview). <br><br> For more information on Azure planned maintenance, see [Maintenance and updates for Virtual Machines in Azure](https://docs.microsoft.com/azure/virtual-machines/maintenance-and-updates) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
+  availabilitySet?: SubResource;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Specifies that the image or disk that is being used was licensed on-premises. <br><br> Possible values for Windows Server operating system are: <br><br> Windows_Client <br><br> Windows_Server <br><br> Possible values for Linux Server operating system are: <br><br> RHEL_BYOS (for RHEL) <br><br> SLES_BYOS (for SUSE) <br><br> For more information, see [Azure Hybrid Use Benefit for Windows Server](https://docs.microsoft.com/azure/virtual-machines/windows/hybrid-use-benefit-licensing) <br><br> [Azure Hybrid Use Benefit for Linux Server](https://docs.microsoft.com/azure/virtual-machines/linux/azure-hybrid-benefit-linux) <br><br> Minimum api-version: 2015-06-15 */
+  licenseType?: string;
+  /**
+   * Specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modelDefinitionApplied?: string;
+  /** Specifies the protection policy of the virtual machine. */
+  protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
+  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
+  userData?: string;
 }
 
 /** Describes a Virtual Machine run command. */
@@ -5149,7 +4660,7 @@ export interface Disk extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly managedByExtended?: string[];
-  /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, StandardSSD_ZRS, or PremiumV2_LRS. */
+  /** The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS, Premium_ZRS, or StandardSSD_ZRS. */
   sku?: DiskSku;
   /** The Logical zone list for Disk. */
   zones?: string[];
@@ -5232,63 +4743,6 @@ export interface Disk extends Resource {
   completionPercent?: number;
   /** Policy for controlling export on the disk. */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
-  dataAccessAuthMode?: DataAccessAuthMode;
-}
-
-/** disk access resource. */
-export interface DiskAccess extends Resource {
-  /** The extended location where the disk access will be created. Extended location cannot be changed. */
-  extendedLocation?: ExtendedLocation;
-  /**
-   * A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The disk access resource provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The time when the disk access was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-}
-
-/** disk encryption set resource. */
-export interface DiskEncryptionSet extends Resource {
-  /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
-  identity?: EncryptionSetIdentity;
-  /** The type of key used to encrypt the data of the disk. */
-  encryptionType?: DiskEncryptionSetType;
-  /** The key vault key which is currently used by this disk encryption set. */
-  activeKey?: KeyForDiskEncryptionSet;
-  /**
-   * A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly previousKeys?: KeyForDiskEncryptionSet[];
-  /**
-   * The disk encryption set provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
-  rotationToLatestKeyVersionEnabled?: boolean;
-  /**
-   * The time when the active key of this disk encryption set was updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastKeyRotationTimestamp?: Date;
-  /**
-   * The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly autoKeyRotationError?: ApiError;
-  /** Multi-tenant application client id to access key vault in a different tenant. Setting the value to 'None' will clear the property. */
-  federatedClientId?: string;
 }
 
 /** Snapshot resource. */
@@ -5313,7 +4767,7 @@ export interface Snapshot extends Resource {
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the image from which the source disk for the snapshot was originally created. */
   purchasePlan?: PurchasePlanAutoGenerated;
-  /** List of supported capabilities for the image from which the source disk from the snapshot was originally created. */
+  /** List of supported capabilities (like Accelerated Networking) for the image from which the source disk from the snapshot was originally created. */
   supportedCapabilities?: SupportedCapabilities;
   /** Disk source information. CreationData information cannot be changed after the disk has been created. */
   creationData?: CreationData;
@@ -5349,18 +4803,65 @@ export interface Snapshot extends Resource {
   networkAccessPolicy?: NetworkAccessPolicy;
   /** ARM id of the DiskAccess resource for using private endpoints on disks. */
   diskAccessId?: string;
-  /** Contains the security related information for the resource. */
-  securityProfile?: DiskSecurityProfile;
   /** Indicates the OS on a snapshot supports hibernation. */
   supportsHibernation?: boolean;
   /** Policy for controlling export on the disk. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Percentage complete for the background copy when a resource is created via the CopyStart operation. */
   completionPercent?: number;
-  /** Indicates the error details if the background copy of a resource created via the CopyStart operation fails. */
-  copyCompletionError?: CopyCompletionError;
-  /** Additional authentication requirements when exporting or uploading to a disk or snapshot. */
-  dataAccessAuthMode?: DataAccessAuthMode;
+}
+
+/** disk encryption set resource. */
+export interface DiskEncryptionSet extends Resource {
+  /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
+  identity?: EncryptionSetIdentity;
+  /** The type of key used to encrypt the data of the disk. */
+  encryptionType?: DiskEncryptionSetType;
+  /** The key vault key which is currently used by this disk encryption set. */
+  activeKey?: KeyForDiskEncryptionSet;
+  /**
+   * A readonly collection of key vault keys previously used by this disk encryption set while a key rotation is in progress. It will be empty if there is no ongoing key rotation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly previousKeys?: KeyForDiskEncryptionSet[];
+  /**
+   * The disk encryption set provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Set this flag to true to enable auto-updating of this disk encryption set to the latest key version. */
+  rotationToLatestKeyVersionEnabled?: boolean;
+  /**
+   * The time when the active key of this disk encryption set was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastKeyRotationTimestamp?: Date;
+  /**
+   * The error that was encountered during auto-key rotation. If an error is present, then auto-key rotation will not be attempted until the error on this disk encryption set is fixed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly autoKeyRotationError?: ApiError;
+}
+
+/** disk access resource. */
+export interface DiskAccess extends Resource {
+  /** The extended location where the disk access will be created. Extended location cannot be changed. */
+  extendedLocation?: ExtendedLocation;
+  /**
+   * A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The disk access resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The time when the disk access was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeCreated?: Date;
 }
 
 /** Specifies information about the Shared Image Gallery that you want to create or update. */
@@ -5373,16 +4874,11 @@ export interface Gallery extends Resource {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryPropertiesProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
   /** Contains information about the soft deletion policy of the gallery. */
   softDeletePolicy?: SoftDeletePolicy;
-  /**
-   * Sharing status of current gallery.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sharingStatus?: SharingStatus;
 }
 
 /** Specifies information about the gallery image definition that you want to create or update. */
@@ -5415,11 +4911,9 @@ export interface GalleryImage extends Resource {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryImagePropertiesProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
-  architecture?: Architecture;
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -5430,7 +4924,7 @@ export interface GalleryImageVersion extends Resource {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
   /**
@@ -5464,7 +4958,7 @@ export interface GalleryApplicationVersion extends Resource {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5472,32 +4966,87 @@ export interface GalleryApplicationVersion extends Resource {
   readonly replicationStatus?: ReplicationStatus;
 }
 
-/** Describes a Virtual Machine Scale Set. */
-export interface VirtualMachineScaleSetUpdate extends UpdateResource {
-  /** The virtual machine scale set sku. */
+/** Specifies information about the availability set that the virtual machine should be assigned to. Only tags may be updated. */
+export interface AvailabilitySetUpdate extends UpdateResource {
+  /** Sku of the availability set */
   sku?: Sku;
-  /** The purchase plan when deploying a virtual machine scale set from VM Marketplace images. */
-  plan?: Plan;
-  /** The identity of the virtual machine scale set, if configured. */
-  identity?: VirtualMachineScaleSetIdentity;
-  /** The upgrade policy. */
-  upgradePolicy?: UpgradePolicy;
-  /** Policy for automatic repairs. */
-  automaticRepairsPolicy?: AutomaticRepairsPolicy;
-  /** The virtual machine profile. */
-  virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
-  /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
-  overprovision?: boolean;
-  /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
-  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
-  /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
-  singlePlacementGroup?: boolean;
-  /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
-  additionalCapabilities?: AdditionalCapabilities;
-  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
-  scaleInPolicy?: ScaleInPolicy;
-  /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
+  /** Update Domain count. */
+  platformUpdateDomainCount?: number;
+  /** Fault Domain count. */
+  platformFaultDomainCount?: number;
+  /** A list of references to all virtual machines in the availability set. */
+  virtualMachines?: SubResource[];
+  /** Specifies information about the proximity placement group that the availability set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
   proximityPlacementGroup?: SubResource;
+  /**
+   * The resource status information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statuses?: InstanceViewStatus[];
+}
+
+/** Specifies information about the proximity placement group. */
+export interface ProximityPlacementGroupUpdate extends UpdateResource {}
+
+/** Specifies information about the dedicated host group that the dedicated host should be assigned to. Only tags may be updated. */
+export interface DedicatedHostGroupUpdate extends UpdateResource {
+  /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
+  zones?: string[];
+  /** Number of fault domains that the host group can span. */
+  platformFaultDomainCount?: number;
+  /**
+   * A list of references to all dedicated hosts in the dedicated host group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hosts?: SubResourceReadOnly[];
+  /**
+   * The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: DedicatedHostGroupInstanceView;
+  /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
+  supportAutomaticPlacement?: boolean;
+}
+
+/** Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType may be updated. */
+export interface DedicatedHostUpdate extends UpdateResource {
+  /** Fault domain of the dedicated host within a dedicated host group. */
+  platformFaultDomain?: number;
+  /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
+  autoReplaceOnFailure?: boolean;
+  /**
+   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostId?: string;
+  /**
+   * A list of references to all virtual machines in the Dedicated Host.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachines?: SubResourceReadOnly[];
+  /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None** */
+  licenseType?: DedicatedHostLicenseTypes;
+  /**
+   * The date when the host was first provisioned.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningTime?: Date;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The dedicated host instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: DedicatedHostInstanceView;
+}
+
+/** Specifies information about the SSH public key. */
+export interface SshPublicKeyUpdateResource extends UpdateResource {
+  /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
+  publicKey?: string;
 }
 
 /** Describes a Virtual Machine Extension. */
@@ -5515,13 +5064,26 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+}
+
+/** The source user image virtual hard disk. Only tags may be updated. */
+export interface ImageUpdate extends UpdateResource {
+  /** The source virtual machine from which Image is created. */
+  sourceVirtualMachine?: SubResource;
+  /** Specifies the storage settings for the virtual machine disks. */
+  storageProfile?: ImageStorageProfile;
+  /**
+   * The provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. */
+  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /** Describes a Virtual Machine Update. */
@@ -5591,116 +5153,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
   capacityReservation?: CapacityReservationProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
-  /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-}
-
-/** Specifies information about the availability set that the virtual machine should be assigned to. Only tags may be updated. */
-export interface AvailabilitySetUpdate extends UpdateResource {
-  /** Sku of the availability set */
-  sku?: Sku;
-  /** Update Domain count. */
-  platformUpdateDomainCount?: number;
-  /** Fault Domain count. */
-  platformFaultDomainCount?: number;
-  /** A list of references to all virtual machines in the availability set. */
-  virtualMachines?: SubResource[];
-  /** Specifies information about the proximity placement group that the availability set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
-  proximityPlacementGroup?: SubResource;
-  /**
-   * The resource status information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statuses?: InstanceViewStatus[];
-}
-
-/** Specifies information about the proximity placement group. */
-export interface ProximityPlacementGroupUpdate extends UpdateResource {}
-
-/** Specifies information about the dedicated host group that the dedicated host should be assigned to. Only tags may be updated. */
-export interface DedicatedHostGroupUpdate extends UpdateResource {
-  /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
-  zones?: string[];
-  /** Number of fault domains that the host group can span. */
-  platformFaultDomainCount?: number;
-  /**
-   * A list of references to all dedicated hosts in the dedicated host group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hosts?: SubResourceReadOnly[];
-  /**
-   * The dedicated host group instance view, which has the list of instance view of the dedicated hosts under the dedicated host group.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: DedicatedHostGroupInstanceView;
-  /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
-  supportAutomaticPlacement?: boolean;
-  /** Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01. */
-  additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
-}
-
-/** Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType may be updated. */
-export interface DedicatedHostUpdate extends UpdateResource {
-  /** Fault domain of the dedicated host within a dedicated host group. */
-  platformFaultDomain?: number;
-  /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
-  autoReplaceOnFailure?: boolean;
-  /**
-   * A unique id generated and assigned to the dedicated host by the platform. <br><br> Does not change throughout the lifetime of the host.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly hostId?: string;
-  /**
-   * A list of references to all virtual machines in the Dedicated Host.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly virtualMachines?: SubResourceReadOnly[];
-  /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. <br><br> Possible values are: <br><br> **None** <br><br> **Windows_Server_Hybrid** <br><br> **Windows_Server_Perpetual** <br><br> Default: **None** */
-  licenseType?: DedicatedHostLicenseTypes;
-  /**
-   * The date when the host was first provisioned.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningTime?: Date;
-  /**
-   * The provisioning state, which only appears in the response.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The dedicated host instance view.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceView?: DedicatedHostInstanceView;
-  /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-}
-
-/** Specifies information about the SSH public key. */
-export interface SshPublicKeyUpdateResource extends UpdateResource {
-  /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
-  publicKey?: string;
-}
-
-/** The source user image virtual hard disk. Only tags may be updated. */
-export interface ImageUpdate extends UpdateResource {
-  /** The source virtual machine from which Image is created. */
-  sourceVirtualMachine?: SubResource;
-  /** Specifies the storage settings for the virtual machine disks. */
-  storageProfile?: ImageStorageProfile;
-  /**
-   * The provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /** Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API Version 2019-03-01 if the image source is a blob, then we need the user to specify the value, if the source is managed resource like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed resource. */
-  hyperVGeneration?: HyperVGenerationTypes;
 }
 
 /** Update Restore Point collection parameters. */
@@ -5772,11 +5224,34 @@ export interface CapacityReservationUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationInstanceView;
-  /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
+}
+
+/** Describes a Virtual Machine Scale Set. */
+export interface VirtualMachineScaleSetUpdate extends UpdateResource {
+  /** The virtual machine scale set sku. */
+  sku?: Sku;
+  /** The purchase plan when deploying a virtual machine scale set from VM Marketplace images. */
+  plan?: Plan;
+  /** The identity of the virtual machine scale set, if configured. */
+  identity?: VirtualMachineScaleSetIdentity;
+  /** The upgrade policy. */
+  upgradePolicy?: UpgradePolicy;
+  /** Policy for automatic repairs. */
+  automaticRepairsPolicy?: AutomaticRepairsPolicy;
+  /** The virtual machine profile. */
+  virtualMachineProfile?: VirtualMachineScaleSetUpdateVMProfile;
+  /** Specifies whether the Virtual Machine Scale Set should be overprovisioned. */
+  overprovision?: boolean;
+  /** When Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs. */
+  doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+  /** When true this limits the scale set to a single placement group, of max size 100 virtual machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may not be modified to true. */
+  singlePlacementGroup?: boolean;
+  /** Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type. */
+  additionalCapabilities?: AdditionalCapabilities;
+  /** Specifies the policies applied when scaling in Virtual Machines in the Virtual Machine Scale Set. */
+  scaleInPolicy?: ScaleInPolicy;
+  /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
+  proximityPlacementGroup?: SubResource;
 }
 
 /** Describes a Virtual Machine run command. */
@@ -5811,12 +5286,94 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
   readonly instanceView?: VirtualMachineRunCommandInstanceView;
 }
 
-/** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export interface VirtualMachineScaleSetVMReimageParameters
-  extends VirtualMachineReimageParameters {}
+/** Describes a Virtual Machine Scale Set Extension. */
+export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
+  /** The name of the extension. */
+  name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: Record<string, unknown>;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: Record<string, unknown>;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
+}
 
-/** Describes a Virtual Machine Extension. */
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+/** Describes a Virtual Machine Scale Set Extension. */
+export interface VirtualMachineScaleSetExtensionUpdate
+  extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: Record<string, unknown>;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: Record<string, unknown>;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /** Collection of extension names after which this extension needs to be provisioned. */
+  provisionAfterExtensions?: string[];
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
+}
+
+/** Describes a VMSS VM Extension. */
+export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
@@ -5830,9 +5387,9 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5842,8 +5399,39 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   instanceView?: VirtualMachineExtensionInstanceView;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
-  /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+}
+
+/** Describes a VMSS VM Extension. */
+export interface VirtualMachineScaleSetVMExtensionUpdate
+  extends SubResourceReadOnly {
+  /**
+   * The name of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** How the extension handler should be forced to update even if the extension configuration has not changed. */
+  forceUpdateTag?: string;
+  /** The name of the extension handler publisher. */
+  publisher?: string;
+  /** Specifies the type of the extension; an example is "CustomScriptExtension". */
+  typePropertiesType?: string;
+  /** Specifies the version of the script handler. */
+  typeHandlerVersion?: string;
+  /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
+  autoUpgradeMinorVersion?: boolean;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
+  enableAutomaticUpgrade?: boolean;
+  /** Json formatted public settings for the extension. */
+  settings?: Record<string, unknown>;
+  /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
+  protectedSettings?: Record<string, unknown>;
+  /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
+  suppressFailures?: boolean;
 }
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
@@ -5884,17 +5472,16 @@ export interface RestorePoint extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /** ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details. */
-  consistencyMode?: ConsistencyModeTypes;
-  /** Gets the creation time of the restore point. */
-  timeCreated?: Date;
-  /** Resource Id of the source restore point from which a copy needs to be created. */
-  sourceRestorePoint?: ApiEntityReference;
   /**
-   * The restore point instance view.
+   * Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly instanceView?: RestorePointInstanceView;
+  readonly consistencyMode?: ConsistencyModeTypes;
+  /**
+   * Gets the provisioning details set by the server during Create restore point operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningDetails?: RestorePointProvisioningDetails;
 }
 
 /** The instance view of a capacity reservation that includes the name of the capacity reservation. It is used for the response to the instance view of a capacity reservation group. */
@@ -5906,6 +5493,10 @@ export interface CapacityReservationInstanceViewWithName
    */
   readonly name?: string;
 }
+
+/** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
+export interface VirtualMachineScaleSetVMReimageParameters
+  extends VirtualMachineReimageParameters {}
 
 /** Api request input for LogAnalytics getRequestRateByInterval Api. */
 export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
@@ -5932,7 +5523,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
    */
   readonly timeCreated?: Date;
   /**
-   * arm id of source disk or source disk restore point.
+   * arm id of source disk
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sourceResourceId?: string;
@@ -5945,7 +5536,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
   hyperVGeneration?: HyperVGeneration;
   /** Purchase plan information for the the image from which the OS disk was created. */
   purchasePlan?: PurchasePlanAutoGenerated;
-  /** List of supported capabilities for the image from which the OS disk was created. */
+  /** List of supported capabilities (like accelerated networking) for the image from which the OS disk was created. */
   supportedCapabilities?: SupportedCapabilities;
   /**
    * id of the backing snapshot's MIS family
@@ -5970,20 +5561,8 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
   publicNetworkAccess?: PublicNetworkAccess;
   /** ARM id of the DiskAccess resource for using private endpoints on disks. */
   diskAccessId?: string;
-  /** Percentage complete for the background copy of disk restore point when source resource is from a different region. */
+  /** Percentage complete for the background copy when a resource is created via the CopyStart operation. */
   completionPercent?: number;
-  /**
-   * Replication state of disk restore point when source resource is from a different region.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationState?: string;
-  /**
-   * Location of source disk or source disk restore point when source resource is from a different region.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceResourceLocation?: string;
-  /** Contains the security related information for the resource. */
-  securityProfile?: DiskSecurityProfile;
 }
 
 /** Specifies information about the Shared Image Gallery that you want to update. */
@@ -5996,16 +5575,11 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryPropertiesProvisioningState;
   /** Profile for gallery sharing to subscription or tenant */
   sharingProfile?: SharingProfile;
   /** Contains information about the soft deletion policy of the gallery. */
   softDeletePolicy?: SoftDeletePolicy;
-  /**
-   * Sharing status of current gallery.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sharingStatus?: SharingStatus;
 }
 
 /** Specifies information about the gallery image definition that you want to update. */
@@ -6038,11 +5612,9 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryImagePropertiesProvisioningState;
   /** A list of gallery image features. */
   features?: GalleryImageFeature[];
-  /** The architecture of the image. Applicable to OS disks only. */
-  architecture?: Architecture;
 }
 
 /** Specifies information about the gallery image version that you want to update. */
@@ -6053,7 +5625,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
   /** This is the storage profile of a Gallery Image Version. */
   storageProfile?: GalleryImageVersionStorageProfile;
   /**
@@ -6088,7 +5660,7 @@ export interface GalleryApplicationVersionUpdate
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: GalleryProvisioningState;
+  readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
   /**
    * This is the replication status of the gallery image version.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6106,19 +5678,12 @@ export interface GalleryApplicationVersionPublishingProfile
   /** The source image from which the Image Version is going to be created. */
   source: UserArtifactSource;
   manageActions?: UserArtifactManage;
-  /** Additional settings for the VM app that contains the target package and config file name when it is deployed to target VM or VM scale set. */
-  settings?: UserArtifactSettings;
-  /** Optional. Additional settings to pass to the vm-application-manager extension. For advanced use only. */
-  advancedSettings?: { [propertyName: string]: string };
   /** Optional. Whether or not this application reports health. */
   enableHealthCheck?: boolean;
 }
 
 /** Contains encryption settings for an OS disk image. */
-export interface OSDiskImageEncryption extends DiskImageEncryption {
-  /** This property specifies the security profile of an OS disk image. */
-  securityProfile?: OSDiskImageSecurityProfile;
-}
+export interface OSDiskImageEncryption extends DiskImageEncryption {}
 
 /** Contains encryption settings for a data disk image. */
 export interface DataDiskImageEncryption extends DiskImageEncryption {
@@ -6141,59 +5706,6 @@ export interface PirSharedGalleryResource extends PirResource {
   uniqueId?: string;
 }
 
-/** This is the OS disk image. */
-export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {}
-
-/** This is the data disk image. */
-export interface SharedGalleryDataDiskImage extends SharedGalleryDiskImage {
-  /** This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine. */
-  lun: number;
-}
-
-/** Specifies information about the Community Gallery that you want to create or update. */
-export interface CommunityGallery extends PirCommunityGalleryResource {}
-
-/** Specifies information about the gallery image definition that you want to create or update. */
-export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-  /** This property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
-  osType?: OperatingSystemTypes;
-  /** This property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. */
-  osState?: OperatingSystemStateTypes;
-  /** The end of life date of the gallery image definition. This property can be used for decommissioning purposes. This property is updatable. */
-  endOfLifeDate?: Date;
-  /** This is the gallery image definition identifier. */
-  identifier?: GalleryImageIdentifier;
-  /** The properties describe the recommended machine configuration for this Image Definition. These properties are updatable. */
-  recommended?: RecommendedMachineConfiguration;
-  /** Describes the disallowed disk types. */
-  disallowed?: Disallowed;
-  /** The hypervisor generation of the Virtual Machine. Applicable to OS disks only. */
-  hyperVGeneration?: HyperVGeneration;
-  /** A list of gallery image features. */
-  features?: GalleryImageFeature[];
-  /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
-  purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
-  architecture?: Architecture;
-  /** Privacy statement uri for the current community gallery image. */
-  privacyStatementUri?: string;
-  /** End-user license agreement for the current community gallery image. */
-  eula?: string;
-}
-
-/** Specifies information about the gallery image version that you want to create or update. */
-export interface CommunityGalleryImageVersion
-  extends PirCommunityGalleryResource {
-  /** The published date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable. */
-  publishedDate?: Date;
-  /** The end of life date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable. */
-  endOfLifeDate?: Date;
-  /** If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version. */
-  excludeFromLatest?: boolean;
-  /** Describes the storage profile of the image version. */
-  storageProfile?: SharedGalleryImageVersionStorageProfile;
-}
-
 /** Describes a Virtual Machine Image. */
 export interface VirtualMachineImage extends VirtualMachineImageResource {
   /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
@@ -6208,8 +5720,6 @@ export interface VirtualMachineImage extends VirtualMachineImageResource {
   /** Specifies disallowed configuration for the VirtualMachine created from the image */
   disallowed?: DisallowedConfiguration;
   features?: VirtualMachineImageFeature[];
-  /** Specifies the Architecture Type */
-  architecture?: ArchitectureTypes;
 }
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
@@ -6242,8 +5752,6 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
   features?: GalleryImageFeature[];
   /** Describes the gallery image definition purchase plan. This is used by marketplace images. */
   purchasePlan?: ImagePurchasePlan;
-  /** The architecture of the image. Applicable to OS disks only. */
-  architecture?: Architecture;
 }
 
 /** Specifies information about the gallery image version that you want to create or update. */
@@ -6252,461 +5760,61 @@ export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
   publishedDate?: Date;
   /** The end of life date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable. */
   endOfLifeDate?: Date;
-  /** If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version. */
-  excludeFromLatest?: boolean;
-  /** Describes the storage profile of the image version. */
-  storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
 
-/** Known values of {@link RepairAction} that the service accepts. */
-export enum KnownRepairAction {
-  /** Replace */
-  Replace = "Replace",
-  /** Restart */
-  Restart = "Restart",
-  /** Reimage */
-  Reimage = "Reimage"
-}
-
-/**
- * Defines values for RepairAction. \
- * {@link KnownRepairAction} can be used interchangeably with RepairAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Replace** \
- * **Restart** \
- * **Reimage**
- */
-export type RepairAction = string;
-
-/** Known values of {@link WindowsVMGuestPatchMode} that the service accepts. */
-export enum KnownWindowsVMGuestPatchMode {
-  /** Manual */
-  Manual = "Manual",
-  /** AutomaticByOS */
-  AutomaticByOS = "AutomaticByOS",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
-}
-
-/**
- * Defines values for WindowsVMGuestPatchMode. \
- * {@link KnownWindowsVMGuestPatchMode} can be used interchangeably with WindowsVMGuestPatchMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Manual** \
- * **AutomaticByOS** \
- * **AutomaticByPlatform**
- */
-export type WindowsVMGuestPatchMode = string;
-
-/** Known values of {@link WindowsPatchAssessmentMode} that the service accepts. */
-export enum KnownWindowsPatchAssessmentMode {
-  /** ImageDefault */
-  ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
-}
-
-/**
- * Defines values for WindowsPatchAssessmentMode. \
- * {@link KnownWindowsPatchAssessmentMode} can be used interchangeably with WindowsPatchAssessmentMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
- */
-export type WindowsPatchAssessmentMode = string;
-
-/** Known values of {@link WindowsVMGuestPatchAutomaticByPlatformRebootSetting} that the service accepts. */
-export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** IfRequired */
-  IfRequired = "IfRequired",
-  /** Never */
-  Never = "Never",
-  /** Always */
-  Always = "Always"
-}
-
-/**
- * Defines values for WindowsVMGuestPatchAutomaticByPlatformRebootSetting. \
- * {@link KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting} can be used interchangeably with WindowsVMGuestPatchAutomaticByPlatformRebootSetting,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **IfRequired** \
- * **Never** \
- * **Always**
- */
-export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-/** Known values of {@link LinuxVMGuestPatchMode} that the service accepts. */
-export enum KnownLinuxVMGuestPatchMode {
-  /** ImageDefault */
-  ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
-}
-
-/**
- * Defines values for LinuxVMGuestPatchMode. \
- * {@link KnownLinuxVMGuestPatchMode} can be used interchangeably with LinuxVMGuestPatchMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
- */
-export type LinuxVMGuestPatchMode = string;
-
-/** Known values of {@link LinuxPatchAssessmentMode} that the service accepts. */
-export enum KnownLinuxPatchAssessmentMode {
-  /** ImageDefault */
-  ImageDefault = "ImageDefault",
-  /** AutomaticByPlatform */
-  AutomaticByPlatform = "AutomaticByPlatform"
-}
-
-/**
- * Defines values for LinuxPatchAssessmentMode. \
- * {@link KnownLinuxPatchAssessmentMode} can be used interchangeably with LinuxPatchAssessmentMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ImageDefault** \
- * **AutomaticByPlatform**
- */
-export type LinuxPatchAssessmentMode = string;
-
-/** Known values of {@link LinuxVMGuestPatchAutomaticByPlatformRebootSetting} that the service accepts. */
-export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
-  /** Unknown */
-  Unknown = "Unknown",
-  /** IfRequired */
-  IfRequired = "IfRequired",
-  /** Never */
-  Never = "Never",
-  /** Always */
-  Always = "Always"
-}
-
-/**
- * Defines values for LinuxVMGuestPatchAutomaticByPlatformRebootSetting. \
- * {@link KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting} can be used interchangeably with LinuxVMGuestPatchAutomaticByPlatformRebootSetting,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown** \
- * **IfRequired** \
- * **Never** \
- * **Always**
- */
-export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-/** Known values of {@link DiskCreateOptionTypes} that the service accepts. */
-export enum KnownDiskCreateOptionTypes {
-  /** FromImage */
-  FromImage = "FromImage",
-  /** Empty */
-  Empty = "Empty",
-  /** Attach */
-  Attach = "Attach"
-}
-
-/**
- * Defines values for DiskCreateOptionTypes. \
- * {@link KnownDiskCreateOptionTypes} can be used interchangeably with DiskCreateOptionTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FromImage** \
- * **Empty** \
- * **Attach**
- */
-export type DiskCreateOptionTypes = string;
-
-/** Known values of {@link DiffDiskOptions} that the service accepts. */
-export enum KnownDiffDiskOptions {
-  /** Local */
-  Local = "Local"
-}
-
-/**
- * Defines values for DiffDiskOptions. \
- * {@link KnownDiffDiskOptions} can be used interchangeably with DiffDiskOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Local**
- */
-export type DiffDiskOptions = string;
-
-/** Known values of {@link DiffDiskPlacement} that the service accepts. */
-export enum KnownDiffDiskPlacement {
-  /** CacheDisk */
-  CacheDisk = "CacheDisk",
-  /** ResourceDisk */
-  ResourceDisk = "ResourceDisk"
-}
-
-/**
- * Defines values for DiffDiskPlacement. \
- * {@link KnownDiffDiskPlacement} can be used interchangeably with DiffDiskPlacement,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CacheDisk** \
- * **ResourceDisk**
- */
-export type DiffDiskPlacement = string;
-
-/** Known values of {@link StorageAccountTypes} that the service accepts. */
-export enum KnownStorageAccountTypes {
-  /** StandardLRS */
-  StandardLRS = "Standard_LRS",
-  /** PremiumLRS */
-  PremiumLRS = "Premium_LRS",
-  /** StandardSSDLRS */
-  StandardSSDLRS = "StandardSSD_LRS",
-  /** UltraSSDLRS */
-  UltraSSDLRS = "UltraSSD_LRS",
-  /** PremiumZRS */
-  PremiumZRS = "Premium_ZRS",
-  /** StandardSSDZRS */
-  StandardSSDZRS = "StandardSSD_ZRS",
-  /** PremiumV2LRS */
-  PremiumV2LRS = "PremiumV2_LRS"
-}
-
-/**
- * Defines values for StorageAccountTypes. \
- * {@link KnownStorageAccountTypes} can be used interchangeably with StorageAccountTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS** \
- * **Premium_LRS** \
- * **StandardSSD_LRS** \
- * **UltraSSD_LRS** \
- * **Premium_ZRS** \
- * **StandardSSD_ZRS** \
- * **PremiumV2_LRS**
- */
-export type StorageAccountTypes = string;
-
-/** Known values of {@link SecurityEncryptionTypes} that the service accepts. */
-export enum KnownSecurityEncryptionTypes {
-  /** VMGuestStateOnly */
-  VMGuestStateOnly = "VMGuestStateOnly",
-  /** DiskWithVMGuestState */
-  DiskWithVMGuestState = "DiskWithVMGuestState"
-}
-
-/**
- * Defines values for SecurityEncryptionTypes. \
- * {@link KnownSecurityEncryptionTypes} can be used interchangeably with SecurityEncryptionTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **VMGuestStateOnly** \
- * **DiskWithVMGuestState**
- */
-export type SecurityEncryptionTypes = string;
-
-/** Known values of {@link DiskDeleteOptionTypes} that the service accepts. */
-export enum KnownDiskDeleteOptionTypes {
-  /** Delete */
-  Delete = "Delete",
-  /** Detach */
-  Detach = "Detach"
-}
-
-/**
- * Defines values for DiskDeleteOptionTypes. \
- * {@link KnownDiskDeleteOptionTypes} can be used interchangeably with DiskDeleteOptionTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Delete** \
- * **Detach**
- */
-export type DiskDeleteOptionTypes = string;
-
-/** Known values of {@link IPVersion} that the service accepts. */
-export enum KnownIPVersion {
-  /** IPv4 */
-  IPv4 = "IPv4",
-  /** IPv6 */
-  IPv6 = "IPv6"
-}
-
-/**
- * Defines values for IPVersion. \
- * {@link KnownIPVersion} can be used interchangeably with IPVersion,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IPv4** \
- * **IPv6**
- */
-export type IPVersion = string;
-
-/** Known values of {@link DeleteOptions} that the service accepts. */
-export enum KnownDeleteOptions {
-  /** Delete */
-  Delete = "Delete",
-  /** Detach */
-  Detach = "Detach"
-}
-
-/**
- * Defines values for DeleteOptions. \
- * {@link KnownDeleteOptions} can be used interchangeably with DeleteOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Delete** \
- * **Detach**
- */
-export type DeleteOptions = string;
-
-/** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
-export enum KnownPublicIPAddressSkuName {
-  /** Basic */
-  Basic = "Basic",
+/** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
+export enum KnownProximityPlacementGroupType {
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Ultra */
+  Ultra = "Ultra"
 }
 
 /**
- * Defines values for PublicIPAddressSkuName. \
- * {@link KnownPublicIPAddressSkuName} can be used interchangeably with PublicIPAddressSkuName,
+ * Defines values for ProximityPlacementGroupType. \
+ * {@link KnownProximityPlacementGroupType} can be used interchangeably with ProximityPlacementGroupType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Ultra**
  */
-export type PublicIPAddressSkuName = string;
+export type ProximityPlacementGroupType = string;
 
-/** Known values of {@link PublicIPAddressSkuTier} that the service accepts. */
-export enum KnownPublicIPAddressSkuTier {
-  /** Regional */
-  Regional = "Regional",
-  /** Global */
-  Global = "Global"
+/** Known values of {@link HyperVGenerationTypes} that the service accepts. */
+export enum KnownHyperVGenerationTypes {
+  /** V1 */
+  V1 = "V1",
+  /** V2 */
+  V2 = "V2"
 }
 
 /**
- * Defines values for PublicIPAddressSkuTier. \
- * {@link KnownPublicIPAddressSkuTier} can be used interchangeably with PublicIPAddressSkuTier,
+ * Defines values for HyperVGenerationTypes. \
+ * {@link KnownHyperVGenerationTypes} can be used interchangeably with HyperVGenerationTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Regional** \
- * **Global**
+ * **V1** \
+ * **V2**
  */
-export type PublicIPAddressSkuTier = string;
+export type HyperVGenerationTypes = string;
 
-/** Known values of {@link NetworkApiVersion} that the service accepts. */
-export enum KnownNetworkApiVersion {
-  /** TwoThousandTwenty1101 */
-  TwoThousandTwenty1101 = "2020-11-01"
+/** Known values of {@link VmDiskTypes} that the service accepts. */
+export enum KnownVmDiskTypes {
+  /** None */
+  None = "None",
+  /** Unmanaged */
+  Unmanaged = "Unmanaged"
 }
 
 /**
- * Defines values for NetworkApiVersion. \
- * {@link KnownNetworkApiVersion} can be used interchangeably with NetworkApiVersion,
+ * Defines values for VmDiskTypes. \
+ * {@link KnownVmDiskTypes} can be used interchangeably with VmDiskTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2020-11-01**
+ * **None** \
+ * **Unmanaged**
  */
-export type NetworkApiVersion = string;
-
-/** Known values of {@link SecurityTypes} that the service accepts. */
-export enum KnownSecurityTypes {
-  /** TrustedLaunch */
-  TrustedLaunch = "TrustedLaunch",
-  /** ConfidentialVM */
-  ConfidentialVM = "ConfidentialVM"
-}
-
-/**
- * Defines values for SecurityTypes. \
- * {@link KnownSecurityTypes} can be used interchangeably with SecurityTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **TrustedLaunch** \
- * **ConfidentialVM**
- */
-export type SecurityTypes = string;
-
-/** Known values of {@link VirtualMachinePriorityTypes} that the service accepts. */
-export enum KnownVirtualMachinePriorityTypes {
-  /** Regular */
-  Regular = "Regular",
-  /** Low */
-  Low = "Low",
-  /** Spot */
-  Spot = "Spot"
-}
-
-/**
- * Defines values for VirtualMachinePriorityTypes. \
- * {@link KnownVirtualMachinePriorityTypes} can be used interchangeably with VirtualMachinePriorityTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Regular** \
- * **Low** \
- * **Spot**
- */
-export type VirtualMachinePriorityTypes = string;
-
-/** Known values of {@link VirtualMachineEvictionPolicyTypes} that the service accepts. */
-export enum KnownVirtualMachineEvictionPolicyTypes {
-  /** Deallocate */
-  Deallocate = "Deallocate",
-  /** Delete */
-  Delete = "Delete"
-}
-
-/**
- * Defines values for VirtualMachineEvictionPolicyTypes. \
- * {@link KnownVirtualMachineEvictionPolicyTypes} can be used interchangeably with VirtualMachineEvictionPolicyTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Deallocate** \
- * **Delete**
- */
-export type VirtualMachineEvictionPolicyTypes = string;
-
-/** Known values of {@link VirtualMachineScaleSetScaleInRules} that the service accepts. */
-export enum KnownVirtualMachineScaleSetScaleInRules {
-  /** Default */
-  Default = "Default",
-  /** OldestVM */
-  OldestVM = "OldestVM",
-  /** NewestVM */
-  NewestVM = "NewestVM"
-}
-
-/**
- * Defines values for VirtualMachineScaleSetScaleInRules. \
- * {@link KnownVirtualMachineScaleSetScaleInRules} can be used interchangeably with VirtualMachineScaleSetScaleInRules,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Default** \
- * **OldestVM** \
- * **NewestVM**
- */
-export type VirtualMachineScaleSetScaleInRules = string;
-
-/** Known values of {@link OrchestrationMode} that the service accepts. */
-export enum KnownOrchestrationMode {
-  /** Uniform */
-  Uniform = "Uniform",
-  /** Flexible */
-  Flexible = "Flexible"
-}
-
-/**
- * Defines values for OrchestrationMode. \
- * {@link KnownOrchestrationMode} can be used interchangeably with OrchestrationMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Uniform** \
- * **Flexible**
- */
-export type OrchestrationMode = string;
+export type VmDiskTypes = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
@@ -6722,78 +5830,6 @@ export enum KnownExtendedLocationTypes {
  * **EdgeZone**
  */
 export type ExtendedLocationTypes = string;
-
-/** Known values of {@link ExpandTypesForGetVMScaleSets} that the service accepts. */
-export enum KnownExpandTypesForGetVMScaleSets {
-  /** UserData */
-  UserData = "userData"
-}
-
-/**
- * Defines values for ExpandTypesForGetVMScaleSets. \
- * {@link KnownExpandTypesForGetVMScaleSets} can be used interchangeably with ExpandTypesForGetVMScaleSets,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **userData**
- */
-export type ExpandTypesForGetVMScaleSets = string;
-
-/** Known values of {@link OrchestrationServiceNames} that the service accepts. */
-export enum KnownOrchestrationServiceNames {
-  /** AutomaticRepairs */
-  AutomaticRepairs = "AutomaticRepairs",
-  /** DummyOrchestrationServiceName */
-  DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
-}
-
-/**
- * Defines values for OrchestrationServiceNames. \
- * {@link KnownOrchestrationServiceNames} can be used interchangeably with OrchestrationServiceNames,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AutomaticRepairs** \
- * **DummyOrchestrationServiceName**
- */
-export type OrchestrationServiceNames = string;
-
-/** Known values of {@link OrchestrationServiceState} that the service accepts. */
-export enum KnownOrchestrationServiceState {
-  /** NotRunning */
-  NotRunning = "NotRunning",
-  /** Running */
-  Running = "Running",
-  /** Suspended */
-  Suspended = "Suspended"
-}
-
-/**
- * Defines values for OrchestrationServiceState. \
- * {@link KnownOrchestrationServiceState} can be used interchangeably with OrchestrationServiceState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NotRunning** \
- * **Running** \
- * **Suspended**
- */
-export type OrchestrationServiceState = string;
-
-/** Known values of {@link OrchestrationServiceStateAction} that the service accepts. */
-export enum KnownOrchestrationServiceStateAction {
-  /** Resume */
-  Resume = "Resume",
-  /** Suspend */
-  Suspend = "Suspend"
-}
-
-/**
- * Defines values for OrchestrationServiceStateAction. \
- * {@link KnownOrchestrationServiceStateAction} can be used interchangeably with OrchestrationServiceStateAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Resume** \
- * **Suspend**
- */
-export type OrchestrationServiceStateAction = string;
 
 /** Known values of {@link VirtualMachineSizeTypes} that the service accepts. */
 export enum KnownVirtualMachineSizeTypes {
@@ -7305,6 +6341,108 @@ export enum KnownVirtualMachineSizeTypes {
  */
 export type VirtualMachineSizeTypes = string;
 
+/** Known values of {@link DiffDiskOptions} that the service accepts. */
+export enum KnownDiffDiskOptions {
+  /** Local */
+  Local = "Local"
+}
+
+/**
+ * Defines values for DiffDiskOptions. \
+ * {@link KnownDiffDiskOptions} can be used interchangeably with DiffDiskOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Local**
+ */
+export type DiffDiskOptions = string;
+
+/** Known values of {@link DiffDiskPlacement} that the service accepts. */
+export enum KnownDiffDiskPlacement {
+  /** CacheDisk */
+  CacheDisk = "CacheDisk",
+  /** ResourceDisk */
+  ResourceDisk = "ResourceDisk"
+}
+
+/**
+ * Defines values for DiffDiskPlacement. \
+ * {@link KnownDiffDiskPlacement} can be used interchangeably with DiffDiskPlacement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CacheDisk** \
+ * **ResourceDisk**
+ */
+export type DiffDiskPlacement = string;
+
+/** Known values of {@link DiskCreateOptionTypes} that the service accepts. */
+export enum KnownDiskCreateOptionTypes {
+  /** FromImage */
+  FromImage = "FromImage",
+  /** Empty */
+  Empty = "Empty",
+  /** Attach */
+  Attach = "Attach"
+}
+
+/**
+ * Defines values for DiskCreateOptionTypes. \
+ * {@link KnownDiskCreateOptionTypes} can be used interchangeably with DiskCreateOptionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FromImage** \
+ * **Empty** \
+ * **Attach**
+ */
+export type DiskCreateOptionTypes = string;
+
+/** Known values of {@link StorageAccountTypes} that the service accepts. */
+export enum KnownStorageAccountTypes {
+  /** StandardLRS */
+  StandardLRS = "Standard_LRS",
+  /** PremiumLRS */
+  PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
+  StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSDLRS */
+  UltraSSDLRS = "UltraSSD_LRS",
+  /** PremiumZRS */
+  PremiumZRS = "Premium_ZRS",
+  /** StandardSSDZRS */
+  StandardSSDZRS = "StandardSSD_ZRS"
+}
+
+/**
+ * Defines values for StorageAccountTypes. \
+ * {@link KnownStorageAccountTypes} can be used interchangeably with StorageAccountTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS** \
+ * **Premium_LRS** \
+ * **StandardSSD_LRS** \
+ * **UltraSSD_LRS** \
+ * **Premium_ZRS** \
+ * **StandardSSD_ZRS**
+ */
+export type StorageAccountTypes = string;
+
+/** Known values of {@link DiskDeleteOptionTypes} that the service accepts. */
+export enum KnownDiskDeleteOptionTypes {
+  /** Delete */
+  Delete = "Delete",
+  /** Detach */
+  Detach = "Detach"
+}
+
+/**
+ * Defines values for DiskDeleteOptionTypes. \
+ * {@link KnownDiskDeleteOptionTypes} can be used interchangeably with DiskDeleteOptionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delete** \
+ * **Detach**
+ */
+export type DiskDeleteOptionTypes = string;
+
 /** Known values of {@link DiskDetachOptionTypes} that the service accepts. */
 export enum KnownDiskDetachOptionTypes {
   /** ForceDetach */
@@ -7319,6 +6457,114 @@ export enum KnownDiskDetachOptionTypes {
  * **ForceDetach**
  */
 export type DiskDetachOptionTypes = string;
+
+/** Known values of {@link WindowsVMGuestPatchMode} that the service accepts. */
+export enum KnownWindowsVMGuestPatchMode {
+  /** Manual */
+  Manual = "Manual",
+  /** AutomaticByOS */
+  AutomaticByOS = "AutomaticByOS",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform"
+}
+
+/**
+ * Defines values for WindowsVMGuestPatchMode. \
+ * {@link KnownWindowsVMGuestPatchMode} can be used interchangeably with WindowsVMGuestPatchMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manual** \
+ * **AutomaticByOS** \
+ * **AutomaticByPlatform**
+ */
+export type WindowsVMGuestPatchMode = string;
+
+/** Known values of {@link WindowsPatchAssessmentMode} that the service accepts. */
+export enum KnownWindowsPatchAssessmentMode {
+  /** ImageDefault */
+  ImageDefault = "ImageDefault",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform"
+}
+
+/**
+ * Defines values for WindowsPatchAssessmentMode. \
+ * {@link KnownWindowsPatchAssessmentMode} can be used interchangeably with WindowsPatchAssessmentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform**
+ */
+export type WindowsPatchAssessmentMode = string;
+
+/** Known values of {@link LinuxVMGuestPatchMode} that the service accepts. */
+export enum KnownLinuxVMGuestPatchMode {
+  /** ImageDefault */
+  ImageDefault = "ImageDefault",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform"
+}
+
+/**
+ * Defines values for LinuxVMGuestPatchMode. \
+ * {@link KnownLinuxVMGuestPatchMode} can be used interchangeably with LinuxVMGuestPatchMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform**
+ */
+export type LinuxVMGuestPatchMode = string;
+
+/** Known values of {@link LinuxPatchAssessmentMode} that the service accepts. */
+export enum KnownLinuxPatchAssessmentMode {
+  /** ImageDefault */
+  ImageDefault = "ImageDefault",
+  /** AutomaticByPlatform */
+  AutomaticByPlatform = "AutomaticByPlatform"
+}
+
+/**
+ * Defines values for LinuxPatchAssessmentMode. \
+ * {@link KnownLinuxPatchAssessmentMode} can be used interchangeably with LinuxPatchAssessmentMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform**
+ */
+export type LinuxPatchAssessmentMode = string;
+
+/** Known values of {@link DeleteOptions} that the service accepts. */
+export enum KnownDeleteOptions {
+  /** Delete */
+  Delete = "Delete",
+  /** Detach */
+  Detach = "Detach"
+}
+
+/**
+ * Defines values for DeleteOptions. \
+ * {@link KnownDeleteOptions} can be used interchangeably with DeleteOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delete** \
+ * **Detach**
+ */
+export type DeleteOptions = string;
+
+/** Known values of {@link NetworkApiVersion} that the service accepts. */
+export enum KnownNetworkApiVersion {
+  /** TwoThousandTwenty1101 */
+  TwoThousandTwenty1101 = "2020-11-01"
+}
+
+/**
+ * Defines values for NetworkApiVersion. \
+ * {@link KnownNetworkApiVersion} can be used interchangeably with NetworkApiVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2020-11-01**
+ */
+export type NetworkApiVersion = string;
 
 /** Known values of {@link IPVersions} that the service accepts. */
 export enum KnownIPVersions {
@@ -7355,6 +6601,96 @@ export enum KnownPublicIPAllocationMethod {
  * **Static**
  */
 export type PublicIPAllocationMethod = string;
+
+/** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
+export enum KnownPublicIPAddressSkuName {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard"
+}
+
+/**
+ * Defines values for PublicIPAddressSkuName. \
+ * {@link KnownPublicIPAddressSkuName} can be used interchangeably with PublicIPAddressSkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard**
+ */
+export type PublicIPAddressSkuName = string;
+
+/** Known values of {@link PublicIPAddressSkuTier} that the service accepts. */
+export enum KnownPublicIPAddressSkuTier {
+  /** Regional */
+  Regional = "Regional",
+  /** Global */
+  Global = "Global"
+}
+
+/**
+ * Defines values for PublicIPAddressSkuTier. \
+ * {@link KnownPublicIPAddressSkuTier} can be used interchangeably with PublicIPAddressSkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regional** \
+ * **Global**
+ */
+export type PublicIPAddressSkuTier = string;
+
+/** Known values of {@link SecurityTypes} that the service accepts. */
+export enum KnownSecurityTypes {
+  /** TrustedLaunch */
+  TrustedLaunch = "TrustedLaunch"
+}
+
+/**
+ * Defines values for SecurityTypes. \
+ * {@link KnownSecurityTypes} can be used interchangeably with SecurityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TrustedLaunch**
+ */
+export type SecurityTypes = string;
+
+/** Known values of {@link VirtualMachinePriorityTypes} that the service accepts. */
+export enum KnownVirtualMachinePriorityTypes {
+  /** Regular */
+  Regular = "Regular",
+  /** Low */
+  Low = "Low",
+  /** Spot */
+  Spot = "Spot"
+}
+
+/**
+ * Defines values for VirtualMachinePriorityTypes. \
+ * {@link KnownVirtualMachinePriorityTypes} can be used interchangeably with VirtualMachinePriorityTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular** \
+ * **Low** \
+ * **Spot**
+ */
+export type VirtualMachinePriorityTypes = string;
+
+/** Known values of {@link VirtualMachineEvictionPolicyTypes} that the service accepts. */
+export enum KnownVirtualMachineEvictionPolicyTypes {
+  /** Deallocate */
+  Deallocate = "Deallocate",
+  /** Delete */
+  Delete = "Delete"
+}
+
+/**
+ * Defines values for VirtualMachineEvictionPolicyTypes. \
+ * {@link KnownVirtualMachineEvictionPolicyTypes} can be used interchangeably with VirtualMachineEvictionPolicyTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deallocate** \
+ * **Delete**
+ */
+export type VirtualMachineEvictionPolicyTypes = string;
 
 /** Known values of {@link HyperVGenerationType} that the service accepts. */
 export enum KnownHyperVGenerationType {
@@ -7400,6 +6736,165 @@ export enum KnownPatchOperationStatus {
  * **CompletedWithWarnings**
  */
 export type PatchOperationStatus = string;
+
+/** Known values of {@link IPVersion} that the service accepts. */
+export enum KnownIPVersion {
+  /** IPv4 */
+  IPv4 = "IPv4",
+  /** IPv6 */
+  IPv6 = "IPv6"
+}
+
+/**
+ * Defines values for IPVersion. \
+ * {@link KnownIPVersion} can be used interchangeably with IPVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4** \
+ * **IPv6**
+ */
+export type IPVersion = string;
+
+/** Known values of {@link VirtualMachineScaleSetScaleInRules} that the service accepts. */
+export enum KnownVirtualMachineScaleSetScaleInRules {
+  /** Default */
+  Default = "Default",
+  /** OldestVM */
+  OldestVM = "OldestVM",
+  /** NewestVM */
+  NewestVM = "NewestVM"
+}
+
+/**
+ * Defines values for VirtualMachineScaleSetScaleInRules. \
+ * {@link KnownVirtualMachineScaleSetScaleInRules} can be used interchangeably with VirtualMachineScaleSetScaleInRules,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **OldestVM** \
+ * **NewestVM**
+ */
+export type VirtualMachineScaleSetScaleInRules = string;
+
+/** Known values of {@link OrchestrationMode} that the service accepts. */
+export enum KnownOrchestrationMode {
+  /** Uniform */
+  Uniform = "Uniform",
+  /** Flexible */
+  Flexible = "Flexible"
+}
+
+/**
+ * Defines values for OrchestrationMode. \
+ * {@link KnownOrchestrationMode} can be used interchangeably with OrchestrationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uniform** \
+ * **Flexible**
+ */
+export type OrchestrationMode = string;
+
+/** Known values of {@link OperatingSystemType} that the service accepts. */
+export enum KnownOperatingSystemType {
+  /** Windows */
+  Windows = "Windows",
+  /** Linux */
+  Linux = "Linux"
+}
+
+/**
+ * Defines values for OperatingSystemType. \
+ * {@link KnownOperatingSystemType} can be used interchangeably with OperatingSystemType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux**
+ */
+export type OperatingSystemType = string;
+
+/** Known values of {@link ConsistencyModeTypes} that the service accepts. */
+export enum KnownConsistencyModeTypes {
+  /** CrashConsistent */
+  CrashConsistent = "CrashConsistent",
+  /** FileSystemConsistent */
+  FileSystemConsistent = "FileSystemConsistent",
+  /** ApplicationConsistent */
+  ApplicationConsistent = "ApplicationConsistent"
+}
+
+/**
+ * Defines values for ConsistencyModeTypes. \
+ * {@link KnownConsistencyModeTypes} can be used interchangeably with ConsistencyModeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CrashConsistent** \
+ * **FileSystemConsistent** \
+ * **ApplicationConsistent**
+ */
+export type ConsistencyModeTypes = string;
+
+/** Known values of {@link RestorePointCollectionExpandOptions} that the service accepts. */
+export enum KnownRestorePointCollectionExpandOptions {
+  /** RestorePoints */
+  RestorePoints = "restorePoints"
+}
+
+/**
+ * Defines values for RestorePointCollectionExpandOptions. \
+ * {@link KnownRestorePointCollectionExpandOptions} can be used interchangeably with RestorePointCollectionExpandOptions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **restorePoints**
+ */
+export type RestorePointCollectionExpandOptions = string;
+
+/** Known values of {@link CapacityReservationGroupInstanceViewTypes} that the service accepts. */
+export enum KnownCapacityReservationGroupInstanceViewTypes {
+  /** InstanceView */
+  InstanceView = "instanceView"
+}
+
+/**
+ * Defines values for CapacityReservationGroupInstanceViewTypes. \
+ * {@link KnownCapacityReservationGroupInstanceViewTypes} can be used interchangeably with CapacityReservationGroupInstanceViewTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**
+ */
+export type CapacityReservationGroupInstanceViewTypes = string;
+
+/** Known values of {@link ExpandTypesForGetCapacityReservationGroups} that the service accepts. */
+export enum KnownExpandTypesForGetCapacityReservationGroups {
+  /** VirtualMachineScaleSetVMsRef */
+  VirtualMachineScaleSetVMsRef = "virtualMachineScaleSetVMs/$ref",
+  /** VirtualMachinesRef */
+  VirtualMachinesRef = "virtualMachines/$ref"
+}
+
+/**
+ * Defines values for ExpandTypesForGetCapacityReservationGroups. \
+ * {@link KnownExpandTypesForGetCapacityReservationGroups} can be used interchangeably with ExpandTypesForGetCapacityReservationGroups,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **virtualMachineScaleSetVMs\/$ref** \
+ * **virtualMachines\/$ref**
+ */
+export type ExpandTypesForGetCapacityReservationGroups = string;
+
+/** Known values of {@link CapacityReservationInstanceViewTypes} that the service accepts. */
+export enum KnownCapacityReservationInstanceViewTypes {
+  /** InstanceView */
+  InstanceView = "instanceView"
+}
+
+/**
+ * Defines values for CapacityReservationInstanceViewTypes. \
+ * {@link KnownCapacityReservationInstanceViewTypes} can be used interchangeably with CapacityReservationInstanceViewTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **instanceView**
+ */
+export type CapacityReservationInstanceViewTypes = string;
 
 /** Known values of {@link VMGuestPatchRebootBehavior} that the service accepts. */
 export enum KnownVMGuestPatchRebootBehavior {
@@ -7581,194 +7076,77 @@ export enum KnownPatchInstallationState {
  */
 export type PatchInstallationState = string;
 
-/** Known values of {@link HyperVGenerationTypes} that the service accepts. */
-export enum KnownHyperVGenerationTypes {
-  /** V1 */
-  V1 = "V1",
-  /** V2 */
-  V2 = "V2"
+/** Known values of {@link ExpandTypesForGetVMScaleSets} that the service accepts. */
+export enum KnownExpandTypesForGetVMScaleSets {
+  /** UserData */
+  UserData = "userData"
 }
 
 /**
- * Defines values for HyperVGenerationTypes. \
- * {@link KnownHyperVGenerationTypes} can be used interchangeably with HyperVGenerationTypes,
+ * Defines values for ExpandTypesForGetVMScaleSets. \
+ * {@link KnownExpandTypesForGetVMScaleSets} can be used interchangeably with ExpandTypesForGetVMScaleSets,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **V1** \
- * **V2**
+ * **userData**
  */
-export type HyperVGenerationTypes = string;
+export type ExpandTypesForGetVMScaleSets = string;
 
-/** Known values of {@link VmDiskTypes} that the service accepts. */
-export enum KnownVmDiskTypes {
-  /** None */
-  None = "None",
-  /** Unmanaged */
-  Unmanaged = "Unmanaged"
+/** Known values of {@link OrchestrationServiceNames} that the service accepts. */
+export enum KnownOrchestrationServiceNames {
+  /** AutomaticRepairs */
+  AutomaticRepairs = "AutomaticRepairs",
+  /** DummyOrchestrationServiceName */
+  DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
 }
 
 /**
- * Defines values for VmDiskTypes. \
- * {@link KnownVmDiskTypes} can be used interchangeably with VmDiskTypes,
+ * Defines values for OrchestrationServiceNames. \
+ * {@link KnownOrchestrationServiceNames} can be used interchangeably with OrchestrationServiceNames,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **Unmanaged**
+ * **AutomaticRepairs** \
+ * **DummyOrchestrationServiceName**
  */
-export type VmDiskTypes = string;
+export type OrchestrationServiceNames = string;
 
-/** Known values of {@link ArchitectureTypes} that the service accepts. */
-export enum KnownArchitectureTypes {
-  /** X64 */
-  X64 = "x64",
-  /** Arm64 */
-  Arm64 = "Arm64"
+/** Known values of {@link OrchestrationServiceState} that the service accepts. */
+export enum KnownOrchestrationServiceState {
+  /** NotRunning */
+  NotRunning = "NotRunning",
+  /** Running */
+  Running = "Running",
+  /** Suspended */
+  Suspended = "Suspended"
 }
 
 /**
- * Defines values for ArchitectureTypes. \
- * {@link KnownArchitectureTypes} can be used interchangeably with ArchitectureTypes,
+ * Defines values for OrchestrationServiceState. \
+ * {@link KnownOrchestrationServiceState} can be used interchangeably with OrchestrationServiceState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **x64** \
- * **Arm64**
+ * **NotRunning** \
+ * **Running** \
+ * **Suspended**
  */
-export type ArchitectureTypes = string;
+export type OrchestrationServiceState = string;
 
-/** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
-export enum KnownProximityPlacementGroupType {
-  /** Standard */
-  Standard = "Standard",
-  /** Ultra */
-  Ultra = "Ultra"
+/** Known values of {@link OrchestrationServiceStateAction} that the service accepts. */
+export enum KnownOrchestrationServiceStateAction {
+  /** Resume */
+  Resume = "Resume",
+  /** Suspend */
+  Suspend = "Suspend"
 }
 
 /**
- * Defines values for ProximityPlacementGroupType. \
- * {@link KnownProximityPlacementGroupType} can be used interchangeably with ProximityPlacementGroupType,
+ * Defines values for OrchestrationServiceStateAction. \
+ * {@link KnownOrchestrationServiceStateAction} can be used interchangeably with OrchestrationServiceStateAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Standard** \
- * **Ultra**
+ * **Resume** \
+ * **Suspend**
  */
-export type ProximityPlacementGroupType = string;
-
-/** Known values of {@link OperatingSystemType} that the service accepts. */
-export enum KnownOperatingSystemType {
-  /** Windows */
-  Windows = "Windows",
-  /** Linux */
-  Linux = "Linux"
-}
-
-/**
- * Defines values for OperatingSystemType. \
- * {@link KnownOperatingSystemType} can be used interchangeably with OperatingSystemType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Windows** \
- * **Linux**
- */
-export type OperatingSystemType = string;
-
-/** Known values of {@link ConsistencyModeTypes} that the service accepts. */
-export enum KnownConsistencyModeTypes {
-  /** CrashConsistent */
-  CrashConsistent = "CrashConsistent",
-  /** FileSystemConsistent */
-  FileSystemConsistent = "FileSystemConsistent",
-  /** ApplicationConsistent */
-  ApplicationConsistent = "ApplicationConsistent"
-}
-
-/**
- * Defines values for ConsistencyModeTypes. \
- * {@link KnownConsistencyModeTypes} can be used interchangeably with ConsistencyModeTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CrashConsistent** \
- * **FileSystemConsistent** \
- * **ApplicationConsistent**
- */
-export type ConsistencyModeTypes = string;
-
-/** Known values of {@link RestorePointCollectionExpandOptions} that the service accepts. */
-export enum KnownRestorePointCollectionExpandOptions {
-  /** RestorePoints */
-  RestorePoints = "restorePoints"
-}
-
-/**
- * Defines values for RestorePointCollectionExpandOptions. \
- * {@link KnownRestorePointCollectionExpandOptions} can be used interchangeably with RestorePointCollectionExpandOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **restorePoints**
- */
-export type RestorePointCollectionExpandOptions = string;
-
-/** Known values of {@link RestorePointExpandOptions} that the service accepts. */
-export enum KnownRestorePointExpandOptions {
-  /** InstanceView */
-  InstanceView = "instanceView"
-}
-
-/**
- * Defines values for RestorePointExpandOptions. \
- * {@link KnownRestorePointExpandOptions} can be used interchangeably with RestorePointExpandOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **instanceView**
- */
-export type RestorePointExpandOptions = string;
-
-/** Known values of {@link CapacityReservationGroupInstanceViewTypes} that the service accepts. */
-export enum KnownCapacityReservationGroupInstanceViewTypes {
-  /** InstanceView */
-  InstanceView = "instanceView"
-}
-
-/**
- * Defines values for CapacityReservationGroupInstanceViewTypes. \
- * {@link KnownCapacityReservationGroupInstanceViewTypes} can be used interchangeably with CapacityReservationGroupInstanceViewTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **instanceView**
- */
-export type CapacityReservationGroupInstanceViewTypes = string;
-
-/** Known values of {@link ExpandTypesForGetCapacityReservationGroups} that the service accepts. */
-export enum KnownExpandTypesForGetCapacityReservationGroups {
-  /** VirtualMachineScaleSetVMsRef */
-  VirtualMachineScaleSetVMsRef = "virtualMachineScaleSetVMs/$ref",
-  /** VirtualMachinesRef */
-  VirtualMachinesRef = "virtualMachines/$ref"
-}
-
-/**
- * Defines values for ExpandTypesForGetCapacityReservationGroups. \
- * {@link KnownExpandTypesForGetCapacityReservationGroups} can be used interchangeably with ExpandTypesForGetCapacityReservationGroups,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **virtualMachineScaleSetVMs\/$ref** \
- * **virtualMachines\/$ref**
- */
-export type ExpandTypesForGetCapacityReservationGroups = string;
-
-/** Known values of {@link CapacityReservationInstanceViewTypes} that the service accepts. */
-export enum KnownCapacityReservationInstanceViewTypes {
-  /** InstanceView */
-  InstanceView = "instanceView"
-}
-
-/**
- * Defines values for CapacityReservationInstanceViewTypes. \
- * {@link KnownCapacityReservationInstanceViewTypes} can be used interchangeably with CapacityReservationInstanceViewTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **instanceView**
- */
-export type CapacityReservationInstanceViewTypes = string;
+export type OrchestrationServiceStateAction = string;
 
 /** Known values of {@link ExecutionState} that the service accepts. */
 export enum KnownExecutionState {
@@ -7803,6 +7181,21 @@ export enum KnownExecutionState {
  */
 export type ExecutionState = string;
 
+/** Known values of {@link ExtendedLocationType} that the service accepts. */
+export enum KnownExtendedLocationType {
+  /** EdgeZone */
+  EdgeZone = "EdgeZone"
+}
+
+/**
+ * Defines values for ExtendedLocationType. \
+ * {@link KnownExtendedLocationType} can be used interchangeably with ExtendedLocationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EdgeZone**
+ */
+export type ExtendedLocationType = string;
+
 /** Known values of {@link DiskStorageAccountTypes} that the service accepts. */
 export enum KnownDiskStorageAccountTypes {
   /** Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access. */
@@ -7816,9 +7209,7 @@ export enum KnownDiskStorageAccountTypes {
   /** Premium SSD zone redundant storage. Best for the production workloads that need storage resiliency against zone failures. */
   PremiumZRS = "Premium_ZRS",
   /** Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev/test that need storage resiliency against zone failures. */
-  StandardSSDZRS = "StandardSSD_ZRS",
-  /** Premium SSD v2 locally redundant storage. Best for production and performance-sensitive workloads that consistently require low latency and high IOPS and throughput. */
-  PremiumV2LRS = "PremiumV2_LRS"
+  StandardSSDZRS = "StandardSSD_ZRS"
 }
 
 /**
@@ -7831,8 +7222,7 @@ export enum KnownDiskStorageAccountTypes {
  * **StandardSSD_LRS**: Standard SSD locally redundant storage. Best for web servers, lightly used enterprise applications and dev\/test. \
  * **UltraSSD_LRS**: Ultra SSD locally redundant storage. Best for IO-intensive workloads such as SAP HANA, top tier databases (for example, SQL, Oracle), and other transaction-heavy workloads. \
  * **Premium_ZRS**: Premium SSD zone redundant storage. Best for the production workloads that need storage resiliency against zone failures. \
- * **StandardSSD_ZRS**: Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures. \
- * **PremiumV2_LRS**: Premium SSD v2 locally redundant storage. Best for production and performance-sensitive workloads that consistently require low latency and high IOPS and throughput.
+ * **StandardSSD_ZRS**: Standard SSD zone redundant storage. Best for web servers, lightly used enterprise applications and dev\/test that need storage resiliency against zone failures.
  */
 export type DiskStorageAccountTypes = string;
 
@@ -7854,24 +7244,6 @@ export enum KnownHyperVGeneration {
  */
 export type HyperVGeneration = string;
 
-/** Known values of {@link Architecture} that the service accepts. */
-export enum KnownArchitecture {
-  /** X64 */
-  X64 = "x64",
-  /** Arm64 */
-  Arm64 = "Arm64"
-}
-
-/**
- * Defines values for Architecture. \
- * {@link KnownArchitecture} can be used interchangeably with Architecture,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **x64** \
- * **Arm64**
- */
-export type Architecture = string;
-
 /** Known values of {@link DiskCreateOption} that the service accepts. */
 export enum KnownDiskCreateOption {
   /** Create an empty data disk of a size given by diskSizeGB. */
@@ -7889,11 +7261,7 @@ export enum KnownDiskCreateOption {
   /** Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. */
   Upload = "Upload",
   /** Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. */
-  CopyStart = "CopyStart",
-  /** Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId */
-  ImportSecure = "ImportSecure",
-  /** Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state */
-  UploadPreparedSecure = "UploadPreparedSecure"
+  CopyStart = "CopyStart"
 }
 
 /**
@@ -7908,9 +7276,7 @@ export enum KnownDiskCreateOption {
  * **Copy**: Create a new disk or snapshot by copying from a disk or snapshot specified by the given sourceResourceId. \
  * **Restore**: Create a new disk by copying from a backup recovery point. \
  * **Upload**: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk. \
- * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source. \
- * **ImportSecure**: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId \
- * **UploadPreparedSecure**: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
+ * **CopyStart**: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
  */
 export type DiskCreateOption = string;
 
@@ -7995,13 +7361,7 @@ export type NetworkAccessPolicy = string;
 /** Known values of {@link DiskSecurityTypes} that the service accepts. */
 export enum KnownDiskSecurityTypes {
   /** Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) */
-  TrustedLaunch = "TrustedLaunch",
-  /** Indicates Confidential VM disk with only VM guest state encrypted */
-  ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
-  /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key */
-  ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
-  /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key */
-  ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey"
+  TrustedLaunch = "TrustedLaunch"
 }
 
 /**
@@ -8009,10 +7369,7 @@ export enum KnownDiskSecurityTypes {
  * {@link KnownDiskSecurityTypes} can be used interchangeably with DiskSecurityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **TrustedLaunch**: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) \
- * **ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey**: Indicates Confidential VM disk with only VM guest state encrypted \
- * **ConfidentialVM_DiskEncryptedWithPlatformKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key \
- * **ConfidentialVM_DiskEncryptedWithCustomerKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
+ * **TrustedLaunch**: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
  */
 export type DiskSecurityTypes = string;
 
@@ -8034,24 +7391,6 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Known values of {@link DataAccessAuthMode} that the service accepts. */
-export enum KnownDataAccessAuthMode {
-  /** When export/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export/upload the data. Please refer to aka.ms/DisksAzureADAuth. */
-  AzureActiveDirectory = "AzureActiveDirectory",
-  /** No additional authentication would be performed when accessing export/upload URL. */
-  None = "None"
-}
-
-/**
- * Defines values for DataAccessAuthMode. \
- * {@link KnownDataAccessAuthMode} can be used interchangeably with DataAccessAuthMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureActiveDirectory**: When export\/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export\/upload the data. Please refer to aka.ms\/DisksAzureADAuth. \
- * **None**: No additional authentication would be performed when accessing export\/upload URL.
- */
-export type DataAccessAuthMode = string;
-
 /** Known values of {@link AccessLevel} that the service accepts. */
 export enum KnownAccessLevel {
   /** None */
@@ -8072,6 +7411,63 @@ export enum KnownAccessLevel {
  * **Write**
  */
 export type AccessLevel = string;
+
+/** Known values of {@link SnapshotStorageAccountTypes} that the service accepts. */
+export enum KnownSnapshotStorageAccountTypes {
+  /** Standard HDD locally redundant storage */
+  StandardLRS = "Standard_LRS",
+  /** Premium SSD locally redundant storage */
+  PremiumLRS = "Premium_LRS",
+  /** Standard zone redundant storage */
+  StandardZRS = "Standard_ZRS"
+}
+
+/**
+ * Defines values for SnapshotStorageAccountTypes. \
+ * {@link KnownSnapshotStorageAccountTypes} can be used interchangeably with SnapshotStorageAccountTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard_LRS**: Standard HDD locally redundant storage \
+ * **Premium_LRS**: Premium SSD locally redundant storage \
+ * **Standard_ZRS**: Standard zone redundant storage
+ */
+export type SnapshotStorageAccountTypes = string;
+
+/** Known values of {@link DiskEncryptionSetIdentityType} that the service accepts. */
+export enum KnownDiskEncryptionSetIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for DiskEncryptionSetIdentityType. \
+ * {@link KnownDiskEncryptionSetIdentityType} can be used interchangeably with DiskEncryptionSetIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **None**
+ */
+export type DiskEncryptionSetIdentityType = string;
+
+/** Known values of {@link DiskEncryptionSetType} that the service accepts. */
+export enum KnownDiskEncryptionSetType {
+  /** Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
+  EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
+  /** Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
+  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
+}
+
+/**
+ * Defines values for DiskEncryptionSetType. \
+ * {@link KnownDiskEncryptionSetType} can be used interchangeably with DiskEncryptionSetType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **EncryptionAtRestWithCustomerKey**: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. \
+ * **EncryptionAtRestWithPlatformAndCustomerKeys**: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+ */
+export type DiskEncryptionSetType = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
@@ -8118,104 +7514,8 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Known values of {@link DiskEncryptionSetIdentityType} that the service accepts. */
-export enum KnownDiskEncryptionSetIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-  /** None */
-  None = "None"
-}
-
-/**
- * Defines values for DiskEncryptionSetIdentityType. \
- * {@link KnownDiskEncryptionSetIdentityType} can be used interchangeably with DiskEncryptionSetIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned, UserAssigned** \
- * **None**
- */
-export type DiskEncryptionSetIdentityType = string;
-
-/** Known values of {@link DiskEncryptionSetType} that the service accepts. */
-export enum KnownDiskEncryptionSetType {
-  /** Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
-  /** Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. */
-  EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys",
-  /** Confidential VM supported disk and VM guest state would be encrypted with customer managed key. */
-  ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey"
-}
-
-/**
- * Defines values for DiskEncryptionSetType. \
- * {@link KnownDiskEncryptionSetType} can be used interchangeably with DiskEncryptionSetType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EncryptionAtRestWithCustomerKey**: Resource using diskEncryptionSet would be encrypted at rest with Customer managed key that can be changed and revoked by a customer. \
- * **EncryptionAtRestWithPlatformAndCustomerKeys**: Resource using diskEncryptionSet would be encrypted at rest with two layers of encryption. One of the keys is Customer managed and the other key is Platform managed. \
- * **ConfidentialVmEncryptedWithCustomerKey**: Confidential VM supported disk and VM guest state would be encrypted with customer managed key.
- */
-export type DiskEncryptionSetType = string;
-
-/** Known values of {@link SnapshotStorageAccountTypes} that the service accepts. */
-export enum KnownSnapshotStorageAccountTypes {
-  /** Standard HDD locally redundant storage */
-  StandardLRS = "Standard_LRS",
-  /** Premium SSD locally redundant storage */
-  PremiumLRS = "Premium_LRS",
-  /** Standard zone redundant storage */
-  StandardZRS = "Standard_ZRS"
-}
-
-/**
- * Defines values for SnapshotStorageAccountTypes. \
- * {@link KnownSnapshotStorageAccountTypes} can be used interchangeably with SnapshotStorageAccountTypes,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Standard_LRS**: Standard HDD locally redundant storage \
- * **Premium_LRS**: Premium SSD locally redundant storage \
- * **Standard_ZRS**: Standard zone redundant storage
- */
-export type SnapshotStorageAccountTypes = string;
-
-/** Known values of {@link CopyCompletionErrorReason} that the service accepts. */
-export enum KnownCopyCompletionErrorReason {
-  /** Indicates that the source snapshot was deleted while the background copy of the resource created via CopyStart operation was in progress. */
-  CopySourceNotFound = "CopySourceNotFound"
-}
-
-/**
- * Defines values for CopyCompletionErrorReason. \
- * {@link KnownCopyCompletionErrorReason} can be used interchangeably with CopyCompletionErrorReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CopySourceNotFound**: Indicates that the source snapshot was deleted while the background copy of the resource created via CopyStart operation was in progress.
- */
-export type CopyCompletionErrorReason = string;
-
-/** Known values of {@link ExtendedLocationType} that the service accepts. */
-export enum KnownExtendedLocationType {
-  /** EdgeZone */
-  EdgeZone = "EdgeZone"
-}
-
-/**
- * Defines values for ExtendedLocationType. \
- * {@link KnownExtendedLocationType} can be used interchangeably with ExtendedLocationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EdgeZone**
- */
-export type ExtendedLocationType = string;
-
-/** Known values of {@link GalleryProvisioningState} that the service accepts. */
-export enum KnownGalleryProvisioningState {
+/** Known values of {@link GalleryPropertiesProvisioningState} that the service accepts. */
+export enum KnownGalleryPropertiesProvisioningState {
   /** Creating */
   Creating = "Creating",
   /** Updating */
@@ -8231,8 +7531,8 @@ export enum KnownGalleryProvisioningState {
 }
 
 /**
- * Defines values for GalleryProvisioningState. \
- * {@link KnownGalleryProvisioningState} can be used interchangeably with GalleryProvisioningState,
+ * Defines values for GalleryPropertiesProvisioningState. \
+ * {@link KnownGalleryPropertiesProvisioningState} can be used interchangeably with GalleryPropertiesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Creating** \
@@ -8242,16 +7542,14 @@ export enum KnownGalleryProvisioningState {
  * **Deleting** \
  * **Migrating**
  */
-export type GalleryProvisioningState = string;
+export type GalleryPropertiesProvisioningState = string;
 
 /** Known values of {@link GallerySharingPermissionTypes} that the service accepts. */
 export enum KnownGallerySharingPermissionTypes {
   /** Private */
   Private = "Private",
   /** Groups */
-  Groups = "Groups",
-  /** Community */
-  Community = "Community"
+  Groups = "Groups"
 }
 
 /**
@@ -8260,8 +7558,7 @@ export enum KnownGallerySharingPermissionTypes {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Private** \
- * **Groups** \
- * **Community**
+ * **Groups**
  */
 export type GallerySharingPermissionTypes = string;
 
@@ -8283,30 +7580,6 @@ export enum KnownSharingProfileGroupTypes {
  */
 export type SharingProfileGroupTypes = string;
 
-/** Known values of {@link SharingState} that the service accepts. */
-export enum KnownSharingState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Failed */
-  Failed = "Failed",
-  /** Unknown */
-  Unknown = "Unknown"
-}
-
-/**
- * Defines values for SharingState. \
- * {@link KnownSharingState} can be used interchangeably with SharingState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **InProgress** \
- * **Failed** \
- * **Unknown**
- */
-export type SharingState = string;
-
 /** Known values of {@link SelectPermissions} that the service accepts. */
 export enum KnownSelectPermissions {
   /** Permissions */
@@ -8322,20 +7595,35 @@ export enum KnownSelectPermissions {
  */
 export type SelectPermissions = string;
 
-/** Known values of {@link GalleryExpandParams} that the service accepts. */
-export enum KnownGalleryExpandParams {
-  /** SharingProfileGroups */
-  SharingProfileGroups = "SharingProfile/Groups"
+/** Known values of {@link GalleryImagePropertiesProvisioningState} that the service accepts. */
+export enum KnownGalleryImagePropertiesProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating"
 }
 
 /**
- * Defines values for GalleryExpandParams. \
- * {@link KnownGalleryExpandParams} can be used interchangeably with GalleryExpandParams,
+ * Defines values for GalleryImagePropertiesProvisioningState. \
+ * {@link KnownGalleryImagePropertiesProvisioningState} can be used interchangeably with GalleryImagePropertiesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SharingProfile\/Groups**
+ * **Creating** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Migrating**
  */
-export type GalleryExpandParams = string;
+export type GalleryImagePropertiesProvisioningState = string;
 
 /** Known values of {@link StorageAccountType} that the service accepts. */
 export enum KnownStorageAccountType {
@@ -8358,27 +7646,6 @@ export enum KnownStorageAccountType {
  */
 export type StorageAccountType = string;
 
-/** Known values of {@link ConfidentialVMEncryptionType} that the service accepts. */
-export enum KnownConfidentialVMEncryptionType {
-  /** EncryptedVMGuestStateOnlyWithPmk */
-  EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
-  /** EncryptedWithPmk */
-  EncryptedWithPmk = "EncryptedWithPmk",
-  /** EncryptedWithCmk */
-  EncryptedWithCmk = "EncryptedWithCmk"
-}
-
-/**
- * Defines values for ConfidentialVMEncryptionType. \
- * {@link KnownConfidentialVMEncryptionType} can be used interchangeably with ConfidentialVMEncryptionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EncryptedVMGuestStateOnlyWithPmk** \
- * **EncryptedWithPmk** \
- * **EncryptedWithCmk**
- */
-export type ConfidentialVMEncryptionType = string;
-
 /** Known values of {@link ReplicationMode} that the service accepts. */
 export enum KnownReplicationMode {
   /** Full */
@@ -8397,23 +7664,35 @@ export enum KnownReplicationMode {
  */
 export type ReplicationMode = string;
 
-/** Known values of {@link GalleryExtendedLocationType} that the service accepts. */
-export enum KnownGalleryExtendedLocationType {
-  /** EdgeZone */
-  EdgeZone = "EdgeZone",
-  /** Unknown */
-  Unknown = "Unknown"
+/** Known values of {@link GalleryImageVersionPropertiesProvisioningState} that the service accepts. */
+export enum KnownGalleryImageVersionPropertiesProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating"
 }
 
 /**
- * Defines values for GalleryExtendedLocationType. \
- * {@link KnownGalleryExtendedLocationType} can be used interchangeably with GalleryExtendedLocationType,
+ * Defines values for GalleryImageVersionPropertiesProvisioningState. \
+ * {@link KnownGalleryImageVersionPropertiesProvisioningState} can be used interchangeably with GalleryImageVersionPropertiesProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EdgeZone** \
- * **Unknown**
+ * **Creating** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Migrating**
  */
-export type GalleryExtendedLocationType = string;
+export type GalleryImageVersionPropertiesProvisioningState = string;
 
 /** Known values of {@link AggregatedReplicationState} that the service accepts. */
 export enum KnownAggregatedReplicationState {
@@ -8478,6 +7757,36 @@ export enum KnownReplicationStatusTypes {
  */
 export type ReplicationStatusTypes = string;
 
+/** Known values of {@link GalleryApplicationVersionPropertiesProvisioningState} that the service accepts. */
+export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating"
+}
+
+/**
+ * Defines values for GalleryApplicationVersionPropertiesProvisioningState. \
+ * {@link KnownGalleryApplicationVersionPropertiesProvisioningState} can be used interchangeably with GalleryApplicationVersionPropertiesProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Deleting** \
+ * **Migrating**
+ */
+export type GalleryApplicationVersionPropertiesProvisioningState = string;
+
 /** Known values of {@link SharingUpdateOperationTypes} that the service accepts. */
 export enum KnownSharingUpdateOperationTypes {
   /** Add */
@@ -8485,9 +7794,7 @@ export enum KnownSharingUpdateOperationTypes {
   /** Remove */
   Remove = "Remove",
   /** Reset */
-  Reset = "Reset",
-  /** EnableCommunity */
-  EnableCommunity = "EnableCommunity"
+  Reset = "Reset"
 }
 
 /**
@@ -8497,8 +7804,7 @@ export enum KnownSharingUpdateOperationTypes {
  * ### Known values supported by the service
  * **Add** \
  * **Remove** \
- * **Reset** \
- * **EnableCommunity**
+ * **Reset**
  */
 export type SharingUpdateOperationTypes = string;
 
@@ -8516,27 +7822,6 @@ export enum KnownSharedToValues {
  * **tenant**
  */
 export type SharedToValues = string;
-
-/** Known values of {@link SharedGalleryHostCaching} that the service accepts. */
-export enum KnownSharedGalleryHostCaching {
-  /** None */
-  None = "None",
-  /** ReadOnly */
-  ReadOnly = "ReadOnly",
-  /** ReadWrite */
-  ReadWrite = "ReadWrite"
-}
-
-/**
- * Defines values for SharedGalleryHostCaching. \
- * {@link KnownSharedGalleryHostCaching} can be used interchangeably with SharedGalleryHostCaching,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **ReadOnly** \
- * **ReadWrite**
- */
-export type SharedGalleryHostCaching = string;
 
 /** Known values of {@link CloudServiceUpgradeMode} that the service accepts. */
 export enum KnownCloudServiceUpgradeMode {
@@ -8559,24 +7844,6 @@ export enum KnownCloudServiceUpgradeMode {
  */
 export type CloudServiceUpgradeMode = string;
 
-/** Known values of {@link CloudServiceSlotType} that the service accepts. */
-export enum KnownCloudServiceSlotType {
-  /** Production */
-  Production = "Production",
-  /** Staging */
-  Staging = "Staging"
-}
-
-/**
- * Defines values for CloudServiceSlotType. \
- * {@link KnownCloudServiceSlotType} can be used interchangeably with CloudServiceSlotType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Production** \
- * **Staging**
- */
-export type CloudServiceSlotType = string;
-
 /** Known values of {@link AvailabilitySetSkuTypes} that the service accepts. */
 export enum KnownAvailabilitySetSkuTypes {
   /** Classic */
@@ -8594,24 +7861,39 @@ export enum KnownAvailabilitySetSkuTypes {
  * **Aligned**
  */
 export type AvailabilitySetSkuTypes = string;
-/** Defines values for UpgradeMode. */
-export type UpgradeMode = "Automatic" | "Manual" | "Rolling";
+/** Defines values for StatusLevelTypes. */
+export type StatusLevelTypes = "Info" | "Warning" | "Error";
+/** Defines values for InstanceViewTypes. */
+export type InstanceViewTypes = "instanceView" | "userData";
+/** Defines values for DedicatedHostLicenseTypes. */
+export type DedicatedHostLicenseTypes =
+  | "None"
+  | "Windows_Server_Hybrid"
+  | "Windows_Server_Perpetual";
+/** Defines values for OperatingSystemTypes. */
+export type OperatingSystemTypes = "Windows" | "Linux";
+/** Defines values for CachingTypes. */
+export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for SettingNames. */
 export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 /** Defines values for ProtocolTypes. */
 export type ProtocolTypes = "Http" | "Https";
-/** Defines values for CachingTypes. */
-export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
-/** Defines values for OperatingSystemTypes. */
-export type OperatingSystemTypes = "Windows" | "Linux";
+/** Defines values for MaintenanceOperationResultCodeTypes. */
+export type MaintenanceOperationResultCodeTypes =
+  | "None"
+  | "RetryLater"
+  | "MaintenanceAborted"
+  | "MaintenanceCompleted";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
-/** Defines values for StatusLevelTypes. */
-export type StatusLevelTypes = "Info" | "Warning" | "Error";
+/** Defines values for UpgradeMode. */
+export type UpgradeMode = "Automatic" | "Manual" | "Rolling";
+/** Defines values for OperatingSystemStateTypes. */
+export type OperatingSystemStateTypes = "Generalized" | "Specialized";
 /** Defines values for VirtualMachineScaleSetSkuScaleType. */
 export type VirtualMachineScaleSetSkuScaleType = "Automatic" | "None";
 /** Defines values for UpgradeState. */
@@ -8630,21 +7912,6 @@ export type RollingUpgradeStatusCode =
   | "Faulted";
 /** Defines values for RollingUpgradeActionType. */
 export type RollingUpgradeActionType = "Start" | "Cancel";
-/** Defines values for MaintenanceOperationResultCodeTypes. */
-export type MaintenanceOperationResultCodeTypes =
-  | "None"
-  | "RetryLater"
-  | "MaintenanceAborted"
-  | "MaintenanceCompleted";
-/** Defines values for InstanceViewTypes. */
-export type InstanceViewTypes = "instanceView" | "userData";
-/** Defines values for DedicatedHostLicenseTypes. */
-export type DedicatedHostLicenseTypes =
-  | "None"
-  | "Windows_Server_Hybrid"
-  | "Windows_Server_Perpetual";
-/** Defines values for OperatingSystemStateTypes. */
-export type OperatingSystemStateTypes = "Generalized" | "Specialized";
 /** Defines values for IntervalInMins. */
 export type IntervalInMins =
   | "ThreeMins"
@@ -8670,6 +7937,462 @@ export interface OperationsListOptionalParams
 export type OperationsListResponse = ComputeOperationListResult;
 
 /** Optional parameters. */
+export interface AvailabilitySetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet;
+
+/** Optional parameters. */
+export interface AvailabilitySetsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AvailabilitySetsUpdateResponse = AvailabilitySet;
+
+/** Optional parameters. */
+export interface AvailabilitySetsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AvailabilitySetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AvailabilitySetsGetResponse = AvailabilitySet;
+
+/** Optional parameters. */
+export interface AvailabilitySetsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
+  expand?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
+
+/** Optional parameters. */
+export interface AvailabilitySetsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AvailabilitySetsListResponse = AvailabilitySetListResult;
+
+/** Optional parameters. */
+export interface AvailabilitySetsListAvailableSizesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAvailableSizes operation. */
+export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
+
+/** Optional parameters. */
+export interface AvailabilitySetsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
+  expand?: string;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
+
+/** Optional parameters. */
+export interface AvailabilitySetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AvailabilitySetsListNextResponse = AvailabilitySetListResult;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group. */
+  includeColocationStatus?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult;
+
+/** Optional parameters. */
+export interface ProximityPlacementGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated hosts under the dedicated host group. 'UserData' is not supported for dedicated host group. */
+  expand?: InstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type DedicatedHostGroupsGetResponse = DedicatedHostGroup;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost;
+
+/** Optional parameters. */
+export interface DedicatedHostsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DedicatedHostsUpdateResponse = DedicatedHost;
+
+/** Optional parameters. */
+export interface DedicatedHostsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DedicatedHostsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host. */
+  expand?: InstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type DedicatedHostsGetResponse = DedicatedHost;
+
+/** Optional parameters. */
+export interface DedicatedHostsListByHostGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostGroup operation. */
+export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
+
+/** Optional parameters. */
+export interface DedicatedHostsListByHostGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByHostGroupNext operation. */
+export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult;
+
+/** Optional parameters. */
+export interface SshPublicKeysListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResult;
+
+/** Optional parameters. */
+export interface SshPublicKeysListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListResult;
+
+/** Optional parameters. */
+export interface SshPublicKeysCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type SshPublicKeysCreateResponse = SshPublicKeyResource;
+
+/** Optional parameters. */
+export interface SshPublicKeysUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SshPublicKeysUpdateResponse = SshPublicKeyResource;
+
+/** Optional parameters. */
+export interface SshPublicKeysDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SshPublicKeysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SshPublicKeysGetResponse = SshPublicKeyResource;
+
+/** Optional parameters. */
+export interface SshPublicKeysGenerateKeyPairOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generateKeyPair operation. */
+export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult;
+
+/** Optional parameters. */
+export interface SshPublicKeysListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupListResult;
+
+/** Optional parameters. */
+export interface SshPublicKeysListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage;
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionImagesListTypesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listTypes operation. */
+export type VirtualMachineExtensionImagesListTypesResponse = VirtualMachineExtensionImage[];
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionImagesListVersionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. */
+  filter?: string;
+  top?: number;
+  orderby?: string;
+}
+
+/** Contains response data for the listVersions operation. */
+export type VirtualMachineExtensionImagesListVersionsResponse = VirtualMachineExtensionImage[];
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExtension;
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension;
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension;
+
+/** Optional parameters. */
+export interface VirtualMachineExtensionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineImagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineImagesGetResponse = VirtualMachineImage;
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+  top?: number;
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineImagesListResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListOffersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOffers operation. */
+export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListPublishersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPublishers operation. */
+export type VirtualMachineImagesListPublishersResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesListSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesEdgeZoneGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineImagesEdgeZoneGetResponse = VirtualMachineImage;
+
+/** Optional parameters. */
+export interface VirtualMachineImagesEdgeZoneListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+  /** An integer value specifying the number of images to return that matches supplied values. */
+  top?: number;
+  /** Specifies the order of the results returned. Formatted as an OData query. */
+  orderby?: string;
+}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineImagesEdgeZoneListResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesEdgeZoneListOffersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOffers operation. */
+export type VirtualMachineImagesEdgeZoneListOffersResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPublishers operation. */
+export type VirtualMachineImagesEdgeZoneListPublishersResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
+export interface VirtualMachineImagesEdgeZoneListSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type VirtualMachineImagesEdgeZoneListSkusResponse = VirtualMachineImageResource[];
+
+/** Optional parameters. */
 export interface UsageListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
@@ -8683,11 +8406,264 @@ export interface UsageListNextOptionalParams
 export type UsageListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
-export interface VirtualMachineSizesListOptionalParams
+export interface VirtualMachinesListByLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocation operation. */
+export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesCaptureOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the capture operation. */
+export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
+
+/** Optional parameters. */
+export interface VirtualMachinesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type VirtualMachinesUpdateResponse = VirtualMachine;
+
+/** Optional parameters. */
+export interface VirtualMachinesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional parameter to force delete virtual machines.(Feature in Preview) */
+  forceDeletion?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation. */
+  expand?: InstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type VirtualMachinesGetResponse = VirtualMachine;
+
+/** Optional parameters. */
+export interface VirtualMachinesInstanceViewOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the instanceView operation. */
+export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView;
+
+/** Optional parameters. */
+export interface VirtualMachinesConvertToManagedDisksOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesDeallocateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
+  hibernate?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesGeneralizeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VirtualMachinesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
+export type VirtualMachinesListResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
+  statusOnly?: string;
+}
+
+/** Contains response data for the listAll operation. */
+export type VirtualMachinesListAllResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListAvailableSizesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAvailableSizes operation. */
+export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesPowerOffOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
+  skipShutdown?: boolean;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesReapplyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesRedeployOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesReimageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameters supplied to the Reimage Virtual Machine operation. */
+  parameters?: VirtualMachineReimageParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams
+  extends coreClient.OperationOptions {
+  /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
+  sasUriExpirationTimeInMinutes?: number;
+}
+
+/** Contains response data for the retrieveBootDiagnosticsData operation. */
+export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesPerformMaintenanceOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesSimulateEvictionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VirtualMachinesAssessPatchesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the assessPatches operation. */
+export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesInstallPatchesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the installPatches operation. */
+export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesRunCommandOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the runCommand operation. */
+export type VirtualMachinesRunCommandResponse = RunCommandResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VirtualMachinesListNextResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListAllNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
+  statusOnly?: string;
+}
+
+/** Contains response data for the listAllNext operation. */
+export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsListByLocationOptionalParams
@@ -8801,10 +8777,10 @@ export type VirtualMachineScaleSetsGetOSUpgradeHistoryResponse = VirtualMachineS
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsPowerOffOptionalParams
   extends coreClient.OperationOptions {
-  /** A list of virtual machine instance IDs from the VM scale set. */
-  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
   /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
   skipShutdown?: boolean;
+  /** A list of virtual machine instance IDs from the VM scale set. */
+  vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8888,12 +8864,7 @@ export interface VirtualMachineScaleSetsReimageAllOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams
-  extends coreClient.OperationOptions {
-  /** The zone in which the manual recovery walk is requested for cross zone virtual machine scale set */
-  zone?: string;
-  /** The placement group id for which the manual recovery walk is requested. */
-  placementGroupId?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the forceRecoveryServiceFabricPlatformUpdateDomainWalk operation. */
 export type VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse = RecoveryWalkResponse;
@@ -8945,6 +8916,296 @@ export interface VirtualMachineScaleSetsGetOSUpgradeHistoryNextOptionalParams
 
 /** Contains response data for the getOSUpgradeHistoryNext operation. */
 export type VirtualMachineScaleSetsGetOSUpgradeHistoryNextResponse = VirtualMachineScaleSetListOSUpgradeHistory;
+
+/** Optional parameters. */
+export interface VirtualMachineSizesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
+
+/** Optional parameters. */
+export interface ImagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ImagesCreateOrUpdateResponse = Image;
+
+/** Optional parameters. */
+export interface ImagesUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ImagesUpdateResponse = Image;
+
+/** Optional parameters. */
+export interface ImagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type ImagesGetResponse = Image;
+
+/** Optional parameters. */
+export interface ImagesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ImagesListByResourceGroupResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface ImagesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ImagesListResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface ImagesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ImagesListByResourceGroupNextResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface ImagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ImagesListNextResponse = ImageListResult;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RestorePointCollectionsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection. */
+  expand?: RestorePointCollectionExpandOptions;
+}
+
+/** Contains response data for the get operation. */
+export type RestorePointCollectionsGetResponse = RestorePointCollection;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RestorePointCollectionsListResponse = RestorePointCollectionListResult;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsListAllOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAll operation. */
+export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RestorePointCollectionsListNextResponse = RestorePointCollectionListResult;
+
+/** Optional parameters. */
+export interface RestorePointCollectionsListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult;
+
+/** Optional parameters. */
+export interface RestorePointsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type RestorePointsCreateResponse = RestorePoint;
+
+/** Optional parameters. */
+export interface RestorePointsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RestorePointsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RestorePointsGetResponse = RestorePoint;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations. */
+  expand?: CapacityReservationGroupInstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
+  expand?: ExpandTypesForGetCapacityReservationGroups;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CapacityReservationsUpdateResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CapacityReservationsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
+  expand?: CapacityReservationInstanceViewTypes;
+}
+
+/** Contains response data for the get operation. */
+export type CapacityReservationsGetResponse = CapacityReservation;
+
+/** Optional parameters. */
+export interface CapacityReservationsListByCapacityReservationGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCapacityReservationGroup operation. */
+export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
+
+/** Optional parameters. */
+export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCapacityReservationGroupNext operation. */
+export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
@@ -9261,1034 +9522,6 @@ export interface VirtualMachineScaleSetVMsListNextOptionalParams
 export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
 
 /** Optional parameters. */
-export interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type VirtualMachineExtensionsCreateOrUpdateResponse = VirtualMachineExtension;
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type VirtualMachineExtensionsUpdateResponse = VirtualMachineExtension;
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type VirtualMachineExtensionsGetResponse = VirtualMachineExtension;
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type VirtualMachineExtensionsListResponse = VirtualMachineExtensionsListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocation operation. */
-export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesCaptureOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the capture operation. */
-export type VirtualMachinesCaptureResponse = VirtualMachineCaptureResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type VirtualMachinesCreateOrUpdateResponse = VirtualMachine;
-
-/** Optional parameters. */
-export interface VirtualMachinesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type VirtualMachinesUpdateResponse = VirtualMachine;
-
-/** Optional parameters. */
-export interface VirtualMachinesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional parameter to force delete virtual machines. */
-  forceDeletion?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the virtual machine that is managed by the platform and can change outside of control plane operations. 'UserData' retrieves the UserData property as part of the VM model view that was provided by the user during the VM Create/Update operation. */
-  expand?: InstanceViewTypes;
-}
-
-/** Contains response data for the get operation. */
-export type VirtualMachinesGetResponse = VirtualMachine;
-
-/** Optional parameters. */
-export interface VirtualMachinesInstanceViewOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the instanceView operation. */
-export type VirtualMachinesInstanceViewResponse = VirtualMachineInstanceView;
-
-/** Optional parameters. */
-export interface VirtualMachinesConvertToManagedDisksOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesDeallocateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Optional parameter to hibernate a virtual machine. (Feature in Preview) */
-  hibernate?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesGeneralizeOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface VirtualMachinesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type VirtualMachinesListResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListAllOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
-  statusOnly?: string;
-}
-
-/** Contains response data for the listAll operation. */
-export type VirtualMachinesListAllResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListAvailableSizesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAvailableSizes operation. */
-export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesPowerOffOptionalParams
-  extends coreClient.OperationOptions {
-  /** The parameter to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Default value for this flag is false if not specified */
-  skipShutdown?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesReapplyOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesRestartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesRedeployOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesReimageOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters supplied to the Reimage Virtual Machine operation. */
-  parameters?: VirtualMachineReimageParameters;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams
-  extends coreClient.OperationOptions {
-  /** Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes. <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration of 120 minutes. */
-  sasUriExpirationTimeInMinutes?: number;
-}
-
-/** Contains response data for the retrieveBootDiagnosticsData operation. */
-export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesPerformMaintenanceOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface VirtualMachinesSimulateEvictionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface VirtualMachinesAssessPatchesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the assessPatches operation. */
-export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesInstallPatchesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the installPatches operation. */
-export type VirtualMachinesInstallPatchesResponse = VirtualMachineInstallPatchesResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesRunCommandOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the runCommand operation. */
-export type VirtualMachinesRunCommandResponse = RunCommandResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByLocationNext operation. */
-export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type VirtualMachinesListNextResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachinesListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
-  statusOnly?: string;
-}
-
-/** Contains response data for the listAllNext operation. */
-export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
-
-/** Optional parameters. */
-export interface VirtualMachineImagesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VirtualMachineImagesGetResponse = VirtualMachineImage;
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-  top?: number;
-  orderby?: string;
-}
-
-/** Contains response data for the list operation. */
-export type VirtualMachineImagesListResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListOffersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOffers operation. */
-export type VirtualMachineImagesListOffersResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListPublishersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listPublishers operation. */
-export type VirtualMachineImagesListPublishersResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListSkusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSkus operation. */
-export type VirtualMachineImagesListSkusResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesListByEdgeZoneOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByEdgeZone operation. */
-export type VirtualMachineImagesListByEdgeZoneResponse = VmImagesInEdgeZoneListResult;
-
-/** Optional parameters. */
-export interface VirtualMachineImagesEdgeZoneGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VirtualMachineImagesEdgeZoneGetResponse = VirtualMachineImage;
-
-/** Optional parameters. */
-export interface VirtualMachineImagesEdgeZoneListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-  /** An integer value specifying the number of images to return that matches supplied values. */
-  top?: number;
-  /** Specifies the order of the results returned. Formatted as an OData query. */
-  orderby?: string;
-}
-
-/** Contains response data for the list operation. */
-export type VirtualMachineImagesEdgeZoneListResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesEdgeZoneListOffersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOffers operation. */
-export type VirtualMachineImagesEdgeZoneListOffersResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listPublishers operation. */
-export type VirtualMachineImagesEdgeZoneListPublishersResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineImagesEdgeZoneListSkusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSkus operation. */
-export type VirtualMachineImagesEdgeZoneListSkusResponse = VirtualMachineImageResource[];
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionImagesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage;
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionImagesListTypesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listTypes operation. */
-export type VirtualMachineExtensionImagesListTypesResponse = VirtualMachineExtensionImage[];
-
-/** Optional parameters. */
-export interface VirtualMachineExtensionImagesListVersionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-  top?: number;
-  orderby?: string;
-}
-
-/** Contains response data for the listVersions operation. */
-export type VirtualMachineExtensionImagesListVersionsResponse = VirtualMachineExtensionImage[];
-
-/** Optional parameters. */
-export interface AvailabilitySetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type AvailabilitySetsCreateOrUpdateResponse = AvailabilitySet;
-
-/** Optional parameters. */
-export interface AvailabilitySetsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type AvailabilitySetsUpdateResponse = AvailabilitySet;
-
-/** Optional parameters. */
-export interface AvailabilitySetsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AvailabilitySetsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type AvailabilitySetsGetResponse = AvailabilitySet;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type AvailabilitySetsListBySubscriptionResponse = AvailabilitySetListResult;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AvailabilitySetsListResponse = AvailabilitySetListResult;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListAvailableSizesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAvailableSizes operation. */
-export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListResult;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
-
-/** Optional parameters. */
-export interface AvailabilitySetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AvailabilitySetsListNextResponse = AvailabilitySetListResult;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ProximityPlacementGroupsCreateOrUpdateResponse = ProximityPlacementGroup;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ProximityPlacementGroupsUpdateResponse = ProximityPlacementGroup;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** includeColocationStatus=true enables fetching the colocation status of all the resources in the proximity placement group. */
-  includeColocationStatus?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ProximityPlacementGroupsGetResponse = ProximityPlacementGroup;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ProximityPlacementGroupsListBySubscriptionResponse = ProximityPlacementGroupListResult;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ProximityPlacementGroupsListByResourceGroupResponse = ProximityPlacementGroupListResult;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ProximityPlacementGroupsListBySubscriptionNextResponse = ProximityPlacementGroupListResult;
-
-/** Optional parameters. */
-export interface ProximityPlacementGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ProximityPlacementGroupsListByResourceGroupNextResponse = ProximityPlacementGroupListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DedicatedHostGroupsCreateOrUpdateResponse = DedicatedHostGroup;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated hosts under the dedicated host group. 'UserData' is not supported for dedicated host group. */
-  expand?: InstanceViewTypes;
-}
-
-/** Contains response data for the get operation. */
-export type DedicatedHostGroupsGetResponse = DedicatedHostGroup;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DedicatedHostGroupsListByResourceGroupResponse = DedicatedHostGroupListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type DedicatedHostGroupsListBySubscriptionResponse = DedicatedHostGroupListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DedicatedHostGroupsListByResourceGroupNextResponse = DedicatedHostGroupListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type DedicatedHostGroupsListBySubscriptionNextResponse = DedicatedHostGroupListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DedicatedHostsCreateOrUpdateResponse = DedicatedHost;
-
-/** Optional parameters. */
-export interface DedicatedHostsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type DedicatedHostsUpdateResponse = DedicatedHost;
-
-/** Optional parameters. */
-export interface DedicatedHostsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DedicatedHostsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the dedicated host. 'UserData' is not supported for dedicated host. */
-  expand?: InstanceViewTypes;
-}
-
-/** Contains response data for the get operation. */
-export type DedicatedHostsGetResponse = DedicatedHost;
-
-/** Optional parameters. */
-export interface DedicatedHostsListByHostGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostGroup operation. */
-export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
-
-/** Optional parameters. */
-export interface DedicatedHostsRestartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DedicatedHostsListByHostGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostGroupNext operation. */
-export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult;
-
-/** Optional parameters. */
-export interface SshPublicKeysListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResult;
-
-/** Optional parameters. */
-export interface SshPublicKeysListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListResult;
-
-/** Optional parameters. */
-export interface SshPublicKeysCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type SshPublicKeysCreateResponse = SshPublicKeyResource;
-
-/** Optional parameters. */
-export interface SshPublicKeysUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SshPublicKeysUpdateResponse = SshPublicKeyResource;
-
-/** Optional parameters. */
-export interface SshPublicKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface SshPublicKeysGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SshPublicKeysGetResponse = SshPublicKeyResource;
-
-/** Optional parameters. */
-export interface SshPublicKeysGenerateKeyPairOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateKeyPair operation. */
-export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult;
-
-/** Optional parameters. */
-export interface SshPublicKeysListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupListResult;
-
-/** Optional parameters. */
-export interface SshPublicKeysListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupListResult;
-
-/** Optional parameters. */
-export interface ImagesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ImagesCreateOrUpdateResponse = Image;
-
-/** Optional parameters. */
-export interface ImagesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type ImagesUpdateResponse = Image;
-
-/** Optional parameters. */
-export interface ImagesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ImagesGetOptionalParams extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ImagesGetResponse = Image;
-
-/** Optional parameters. */
-export interface ImagesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ImagesListByResourceGroupResponse = ImageListResult;
-
-/** Optional parameters. */
-export interface ImagesListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ImagesListResponse = ImageListResult;
-
-/** Optional parameters. */
-export interface ImagesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ImagesListByResourceGroupNextResponse = ImageListResult;
-
-/** Optional parameters. */
-export interface ImagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ImagesListNextResponse = ImageListResult;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type RestorePointCollectionsCreateOrUpdateResponse = RestorePointCollection;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type RestorePointCollectionsUpdateResponse = RestorePointCollection;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface RestorePointCollectionsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. If expand=restorePoints, server will return all contained restore points in the restorePointCollection. */
-  expand?: RestorePointCollectionExpandOptions;
-}
-
-/** Contains response data for the get operation. */
-export type RestorePointCollectionsGetResponse = RestorePointCollection;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type RestorePointCollectionsListResponse = RestorePointCollectionListResult;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsListAllOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAll operation. */
-export type RestorePointCollectionsListAllResponse = RestorePointCollectionListResult;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RestorePointCollectionsListNextResponse = RestorePointCollectionListResult;
-
-/** Optional parameters. */
-export interface RestorePointCollectionsListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAllNext operation. */
-export type RestorePointCollectionsListAllNextResponse = RestorePointCollectionListResult;
-
-/** Optional parameters. */
-export interface RestorePointsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type RestorePointsCreateResponse = RestorePoint;
-
-/** Optional parameters. */
-export interface RestorePointsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface RestorePointsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' retrieves information about the run-time state of a restore point. */
-  expand?: RestorePointExpandOptions;
-}
-
-/** Contains response data for the get operation. */
-export type RestorePointsGetResponse = RestorePoint;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type CapacityReservationGroupsCreateOrUpdateResponse = CapacityReservationGroup;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' will retrieve the list of instance views of the capacity reservations under the capacity reservation group which is a snapshot of the runtime properties of a capacity reservation that is managed by the platform and can change outside of control plane operations. */
-  expand?: CapacityReservationGroupInstanceViewTypes;
-}
-
-/** Contains response data for the get operation. */
-export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-/** Contains response data for the listBySubscription operation. */
-export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type CapacityReservationsCreateOrUpdateResponse = CapacityReservation;
-
-/** Optional parameters. */
-export interface CapacityReservationsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type CapacityReservationsUpdateResponse = CapacityReservation;
-
-/** Optional parameters. */
-export interface CapacityReservationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface CapacityReservationsGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. 'InstanceView' retrieves a snapshot of the runtime properties of the capacity reservation that is managed by the platform and can change outside of control plane operations. */
-  expand?: CapacityReservationInstanceViewTypes;
-}
-
-/** Contains response data for the get operation. */
-export type CapacityReservationsGetResponse = CapacityReservation;
-
-/** Optional parameters. */
-export interface CapacityReservationsListByCapacityReservationGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCapacityReservationGroup operation. */
-export type CapacityReservationsListByCapacityReservationGroupResponse = CapacityReservationListResult;
-
-/** Optional parameters. */
-export interface CapacityReservationsListByCapacityReservationGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByCapacityReservationGroupNext operation. */
-export type CapacityReservationsListByCapacityReservationGroupNextResponse = CapacityReservationListResult;
-
-/** Optional parameters. */
 export interface LogAnalyticsExportRequestRateByIntervalOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -10460,6 +9693,30 @@ export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams
 export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult;
 
 /** Optional parameters. */
+export interface ResourceSkusListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Only **location** filter is supported currently. */
+  filter?: string;
+  /** To Include Extended Locations information or not in the response. */
+  includeExtendedLocations?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ResourceSkusListResponse = ResourceSkusResult;
+
+/** Optional parameters. */
+export interface ResourceSkusListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Only **location** filter is supported currently. */
+  filter?: string;
+  /** To Include Extended Locations information or not in the response. */
+  includeExtendedLocations?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ResourceSkusListNextResponse = ResourceSkusResult;
+
+/** Optional parameters. */
 export interface DisksCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -10543,6 +9800,177 @@ export interface DisksListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type DisksListNextResponse = DiskList;
+
+/** Optional parameters. */
+export interface SnapshotsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SnapshotsCreateOrUpdateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SnapshotsUpdateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SnapshotsGetResponse = Snapshot;
+
+/** Optional parameters. */
+export interface SnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SnapshotsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SnapshotsListByResourceGroupResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface SnapshotsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SnapshotsListResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface SnapshotsGrantAccessOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the grantAccess operation. */
+export type SnapshotsGrantAccessResponse = AccessUri;
+
+/** Optional parameters. */
+export interface SnapshotsRevokeAccessOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SnapshotsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SnapshotsListByResourceGroupNextResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface SnapshotsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SnapshotsListNextResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DiskEncryptionSetsGetResponse = DiskEncryptionSet;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DiskEncryptionSetsListResponse = DiskEncryptionSetList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAssociatedResources operation. */
+export type DiskEncryptionSetsListAssociatedResourcesResponse = ResourceUriList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList;
+
+/** Optional parameters. */
+export interface DiskEncryptionSetsListAssociatedResourcesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAssociatedResourcesNext operation. */
+export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriList;
 
 /** Optional parameters. */
 export interface DiskAccessesCreateOrUpdateOptionalParams
@@ -10662,88 +10090,6 @@ export interface DiskAccessesListPrivateEndpointConnectionsNextOptionalParams
 export type DiskAccessesListPrivateEndpointConnectionsNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface DiskEncryptionSetsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DiskEncryptionSetsCreateOrUpdateResponse = DiskEncryptionSet;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type DiskEncryptionSetsUpdateResponse = DiskEncryptionSet;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DiskEncryptionSetsGetResponse = DiskEncryptionSet;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type DiskEncryptionSetsListByResourceGroupResponse = DiskEncryptionSetList;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DiskEncryptionSetsListResponse = DiskEncryptionSetList;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListAssociatedResourcesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAssociatedResources operation. */
-export type DiskEncryptionSetsListAssociatedResourcesResponse = ResourceUriList;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type DiskEncryptionSetsListByResourceGroupNextResponse = DiskEncryptionSetList;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList;
-
-/** Optional parameters. */
-export interface DiskEncryptionSetsListAssociatedResourcesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAssociatedResourcesNext operation. */
-export type DiskEncryptionSetsListAssociatedResourcesNextResponse = ResourceUriList;
-
-/** Optional parameters. */
 export interface DiskRestorePointGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -10786,119 +10132,6 @@ export interface DiskRestorePointListByRestorePointNextOptionalParams
 export type DiskRestorePointListByRestorePointNextResponse = DiskRestorePointList;
 
 /** Optional parameters. */
-export interface SnapshotsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SnapshotsCreateOrUpdateResponse = Snapshot;
-
-/** Optional parameters. */
-export interface SnapshotsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type SnapshotsUpdateResponse = Snapshot;
-
-/** Optional parameters. */
-export interface SnapshotsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SnapshotsGetResponse = Snapshot;
-
-/** Optional parameters. */
-export interface SnapshotsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SnapshotsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SnapshotsListByResourceGroupResponse = SnapshotList;
-
-/** Optional parameters. */
-export interface SnapshotsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SnapshotsListResponse = SnapshotList;
-
-/** Optional parameters. */
-export interface SnapshotsGrantAccessOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the grantAccess operation. */
-export type SnapshotsGrantAccessResponse = AccessUri;
-
-/** Optional parameters. */
-export interface SnapshotsRevokeAccessOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SnapshotsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SnapshotsListByResourceGroupNextResponse = SnapshotList;
-
-/** Optional parameters. */
-export interface SnapshotsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type SnapshotsListNextResponse = SnapshotList;
-
-/** Optional parameters. */
-export interface ResourceSkusListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Only **location** filter is supported currently. */
-  filter?: string;
-  /** To Include Extended Locations information or not in the response. */
-  includeExtendedLocations?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ResourceSkusListResponse = ResourceSkusResult;
-
-/** Optional parameters. */
-export interface ResourceSkusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Only **location** filter is supported currently. */
-  filter?: string;
-  /** To Include Extended Locations information or not in the response. */
-  includeExtendedLocations?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ResourceSkusListNextResponse = ResourceSkusResult;
-
-/** Optional parameters. */
 export interface GalleriesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -10927,8 +10160,6 @@ export interface GalleriesGetOptionalParams
   extends coreClient.OperationOptions {
   /** The select expression to apply on the operation. */
   select?: SelectPermissions;
-  /** The expand query option to apply on the operation. */
-  expand?: GalleryExpandParams;
 }
 
 /** Contains response data for the get operation. */
@@ -11285,55 +10516,6 @@ export interface SharedGalleryImageVersionsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList;
-
-/** Optional parameters. */
-export interface CommunityGalleriesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CommunityGalleriesGetResponse = CommunityGallery;
-
-/** Optional parameters. */
-export interface CommunityGalleryImagesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
-
-/** Optional parameters. */
-export interface CommunityGalleryImagesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
-
-/** Optional parameters. */
-export interface CommunityGalleryImagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
-
-/** Optional parameters. */
-export interface CommunityGalleryImageVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
-
-/** Optional parameters. */
-export interface CommunityGalleryImageVersionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
-
-/** Optional parameters. */
-export interface CommunityGalleryImageVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
 
 /** Optional parameters. */
 export interface CloudServiceRoleInstancesDeleteOptionalParams

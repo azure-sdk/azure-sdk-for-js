@@ -231,17 +231,14 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.LogAnalyticsOperationResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -263,17 +260,14 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.LogAnalyticsOperationResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

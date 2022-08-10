@@ -387,19 +387,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.VirtualMachineExtension
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.extensionParameters4,
+  requestBody: Parameters.extensionParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName
+    Parameters.subscriptionId,
+    Parameters.vmName,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -421,19 +418,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.VirtualMachineExtension
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.extensionParameters5,
+  requestBody: Parameters.extensionParameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName
+    Parameters.subscriptionId,
+    Parameters.vmName,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -443,24 +437,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName
+    Parameters.subscriptionId,
+    Parameters.vmName,
+    Parameters.vmExtensionName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -470,18 +455,15 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtension
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.vmExtensionName,
-    Parameters.vmName
+    Parameters.subscriptionId,
+    Parameters.vmName,
+    Parameters.vmExtensionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -493,16 +475,13 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtensionsListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.vmName
   ],
   headerParameters: [Parameters.accept],

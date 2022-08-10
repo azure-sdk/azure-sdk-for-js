@@ -1,15 +1,143 @@
 # Release History
+    
+## 20.0.0 (2022-08-10)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
+  - Added Interface RestorePointProvisioningDetails
+  - Added Interface VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue
+  - Added Type Alias GalleryApplicationVersionPropertiesProvisioningState
+  - Added Type Alias GalleryImagePropertiesProvisioningState
+  - Added Type Alias GalleryImageVersionPropertiesProvisioningState
+  - Added Type Alias GalleryPropertiesProvisioningState
+  - Interface RestorePoint has a new optional parameter provisioningDetails
+  - Added Enum KnownGalleryApplicationVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryImagePropertiesProvisioningState
+  - Added Enum KnownGalleryImageVersionPropertiesProvisioningState
+  - Added Enum KnownGalleryPropertiesProvisioningState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group CommunityGalleries
+  - Removed operation group CommunityGalleryImages
+  - Removed operation group CommunityGalleryImageVersions
+  - Removed operation DedicatedHosts.beginRestart
+  - Removed operation DedicatedHosts.beginRestartAndWait
+  - Removed operation VirtualMachineImages.listByEdgeZone
+  - Interface AccessUri no longer has parameter securityDataAccessSAS
+  - Interface AutomaticOSUpgradePolicy no longer has parameter useRollingUpgradePolicy
+  - Interface AutomaticRepairsPolicy no longer has parameter repairAction
+  - Interface CapacityReservation no longer has parameter timeCreated
+  - Interface CapacityReservationUpdate no longer has parameter timeCreated
+  - Interface CloudService no longer has parameter systemData
+  - Interface CloudServiceNetworkProfile no longer has parameter slotType
+  - Interface CreationData no longer has parameter securityDataUri
+  - Interface DedicatedHost no longer has parameter timeCreated
+  - Interface DedicatedHostGroup no longer has parameter additionalCapabilities
+  - Interface DedicatedHostGroupUpdate no longer has parameter additionalCapabilities
+  - Interface DedicatedHostUpdate no longer has parameter timeCreated
+  - Interface Disk no longer has parameter dataAccessAuthMode
+  - Interface DiskEncryptionSet no longer has parameter federatedClientId
+  - Interface DiskEncryptionSetUpdate no longer has parameter federatedClientId
+  - Interface DiskRestorePoint no longer has parameter replicationState
+  - Interface DiskRestorePoint no longer has parameter securityProfile
+  - Interface DiskRestorePoint no longer has parameter sourceResourceLocation
+  - Interface DiskSecurityProfile no longer has parameter secureVMDiskEncryptionSetId
+  - Interface DiskUpdate no longer has parameter dataAccessAuthMode
+  - Interface EncryptionSetIdentity no longer has parameter userAssignedIdentities
+  - Interface GalleriesGetOptionalParams no longer has parameter expand
+  - Interface Gallery no longer has parameter sharingStatus
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter advancedSettings
+  - Interface GalleryApplicationVersionPublishingProfile no longer has parameter settings
+  - Interface GalleryArtifactPublishingProfileBase no longer has parameter targetExtendedLocations
+  - Interface GalleryImage no longer has parameter architecture
+  - Interface GalleryImageUpdate no longer has parameter architecture
+  - Interface GalleryUpdate no longer has parameter sharingStatus
+  - Interface GrantAccessData no longer has parameter getSecureVMGuestStateSAS
+  - Interface ImageDiskReference no longer has parameter communityGalleryImageId
+  - Interface ImageDiskReference no longer has parameter sharedGalleryImageId
+  - Interface ImageReference no longer has parameter communityGalleryImageId
+  - Interface LinuxPatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface ManagedDiskParameters no longer has parameter securityProfile
+  - Interface OSDiskImageEncryption no longer has parameter securityProfile
+  - Interface PatchSettings no longer has parameter automaticByPlatformSettings
+  - Interface ProximityPlacementGroup no longer has parameter intent
+  - Interface ProximityPlacementGroup no longer has parameter zones
+  - Interface RestorePoint no longer has parameter instanceView
+  - Interface RestorePoint no longer has parameter sourceRestorePoint
+  - Interface RestorePoint no longer has parameter timeCreated
+  - Interface RestorePointsGetOptionalParams no longer has parameter expand
+  - Interface SharedGalleryImage no longer has parameter architecture
+  - Interface SharedGalleryImageVersion no longer has parameter excludeFromLatest
+  - Interface SharedGalleryImageVersion no longer has parameter storageProfile
+  - Interface SharingProfile no longer has parameter communityGalleryInfo
+  - Interface Snapshot no longer has parameter copyCompletionError
+  - Interface Snapshot no longer has parameter dataAccessAuthMode
+  - Interface Snapshot no longer has parameter securityProfile
+  - Interface SnapshotUpdate no longer has parameter dataAccessAuthMode
+  - Interface SnapshotUpdate no longer has parameter supportedCapabilities
+  - Interface SupportedCapabilities no longer has parameter architecture
+  - Interface VirtualMachine no longer has parameter timeCreated
+  - Interface VirtualMachineExtension no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineImage no longer has parameter architecture
+  - Interface VirtualMachineScaleSet no longer has parameter timeCreated
+  - Interface VirtualMachineScaleSetDataDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetExtension no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineScaleSetExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineScaleSetManagedDiskParameters no longer has parameter securityProfile
+  - Interface VirtualMachineScaleSetOSDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetOSProfile no longer has parameter allowExtensionOperations
+  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams no longer has parameter placementGroupId
+  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams no longer has parameter zone
+  - Interface VirtualMachineScaleSetUpdateOSDisk no longer has parameter deleteOption
+  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration no longer has parameter publicIPPrefix
+  - Interface VirtualMachineScaleSetVM no longer has parameter identity
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineScaleSetVMExtensionUpdate no longer has parameter protectedSettingsFromKeyVault
+  - Interface VirtualMachineScaleSetVMProfile no longer has parameter hardwareProfile
+  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListAllOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListOptionalParams no longer has parameter filter
+  - Interface VirtualMachineUpdate no longer has parameter timeCreated
+  - Interface VMGalleryApplication no longer has parameter enableAutomaticUpgrade
+  - Interface VMGalleryApplication no longer has parameter treatFailureAsDeploymentFailure
+  - Parameter id of interface ImageDiskReference is now required
+  - Class ComputeManagementClient no longer has parameter communityGalleries
+  - Class ComputeManagementClient no longer has parameter communityGalleryImages
+  - Class ComputeManagementClient no longer has parameter communityGalleryImageVersions
+  - Removed Enum KnownArchitecture
+  - Removed Enum KnownArchitectureTypes
+  - Removed Enum KnownCloudServiceSlotType
+  - Removed Enum KnownConfidentialVMEncryptionType
+  - Removed Enum KnownCopyCompletionErrorReason
+  - Removed Enum KnownDataAccessAuthMode
+  - Removed Enum KnownGalleryExpandParams
+  - Removed Enum KnownGalleryExtendedLocationType
+  - Removed Enum KnownGalleryProvisioningState
+  - Removed Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Removed Enum KnownRepairAction
+  - Removed Enum KnownRestorePointExpandOptions
+  - Removed Enum KnownSecurityEncryptionTypes
+  - Removed Enum KnownSharedGalleryHostCaching
+  - Removed Enum KnownSharingState
+  - Removed Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Enum KnownDiskCreateOption no longer has value ImportSecure
+  - Enum KnownDiskCreateOption no longer has value UploadPreparedSecure
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value SystemAssignedUserAssigned
+  - Enum KnownDiskEncryptionSetIdentityType no longer has value UserAssigned
+  - Enum KnownDiskEncryptionSetType no longer has value ConfidentialVmEncryptedWithCustomerKey
+  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMDiskEncryptedWithCustomerKey
+  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMDiskEncryptedWithPlatformKey
+  - Enum KnownDiskSecurityTypes no longer has value ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey
+  - Enum KnownDiskStorageAccountTypes no longer has value PremiumV2LRS
+  - Enum KnownGallerySharingPermissionTypes no longer has value Community
+  - Enum KnownSecurityTypes no longer has value ConfidentialVM
+  - Enum KnownSharingUpdateOperationTypes no longer has value EnableCommunity
+  - Enum KnownStorageAccountTypes no longer has value PremiumV2LRS
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**

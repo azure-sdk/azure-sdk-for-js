@@ -18,7 +18,6 @@ export type AccessLevel = string;
 // @public
 export interface AccessUri {
     readonly accessSAS?: string;
-    readonly securityDataAccessSAS?: string;
 }
 
 // @public
@@ -65,16 +64,9 @@ export interface ApplicationProfile {
 }
 
 // @public
-export type Architecture = string;
-
-// @public
-export type ArchitectureTypes = string;
-
-// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
-    useRollingUpgradePolicy?: boolean;
 }
 
 // @public
@@ -86,7 +78,6 @@ export interface AutomaticOSUpgradeProperties {
 export interface AutomaticRepairsPolicy {
     enabled?: boolean;
     gracePeriod?: string;
-    repairAction?: RepairAction;
 }
 
 // @public
@@ -231,7 +222,6 @@ export interface CapacityReservation extends Resource {
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
     sku: Sku;
-    readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
     zones?: string[];
 }
@@ -423,7 +413,6 @@ export interface CapacityReservationUpdate extends UpdateResource {
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
     sku?: Sku;
-    readonly timeCreated?: Date;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
 
@@ -443,7 +432,6 @@ export interface CloudService {
     location: string;
     readonly name?: string;
     properties?: CloudServiceProperties;
-    systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -459,12 +447,13 @@ export interface CloudServiceExtensionProfile {
 export interface CloudServiceExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: any;
+    protectedSettings?: string;
+    // (undocumented)
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: string[];
-    settings?: any;
+    settings?: string;
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -477,16 +466,17 @@ export interface CloudServiceInstanceView {
     readonly statuses?: ResourceInstanceViewStatus[];
 }
 
-// @public
+// @public (undocumented)
 export interface CloudServiceListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: CloudService[];
 }
 
 // @public
 export interface CloudServiceNetworkProfile {
     loadBalancerConfigurations?: LoadBalancerConfiguration[];
-    slotType?: CloudServiceSlotType;
     swappableCloudService?: SubResource;
 }
 
@@ -566,6 +556,7 @@ export interface CloudServiceRole {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
+    // (undocumented)
     properties?: CloudServiceRoleProperties;
     sku?: CloudServiceRoleSku;
     readonly type?: string;
@@ -652,9 +643,11 @@ export interface CloudServiceRoleInstancesRestartOptionalParams extends coreClie
     updateIntervalInMs?: number;
 }
 
-// @public
+// @public (undocumented)
 export interface CloudServiceRoleListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: CloudServiceRole[];
 }
 
@@ -669,7 +662,7 @@ export interface CloudServiceRoleProfileProperties {
     sku?: CloudServiceRoleSku;
 }
 
-// @public
+// @public (undocumented)
 export interface CloudServiceRoleProperties {
     readonly uniqueId?: string;
 }
@@ -800,9 +793,6 @@ export interface CloudServicesListOptionalParams extends coreClient.OperationOpt
 export type CloudServicesListResponse = CloudServiceListResult;
 
 // @public
-export type CloudServiceSlotType = string;
-
-// @public
 export interface CloudServicesPowerOffOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -891,9 +881,11 @@ export interface CloudServiceUpdate {
 // @public
 export type CloudServiceUpgradeMode = string;
 
-// @public
+// @public (undocumented)
 export interface CloudServiceVaultAndSecretReference {
+    // (undocumented)
     secretUrl?: string;
+    // (undocumented)
     sourceVault?: SubResource;
 }
 
@@ -906,122 +898,6 @@ export interface CloudServiceVaultCertificate {
 export interface CloudServiceVaultSecretGroup {
     sourceVault?: SubResource;
     vaultCertificates?: CloudServiceVaultCertificate[];
-}
-
-// @public
-export interface CommunityGalleries {
-    get(location: string, publicGalleryName: string, options?: CommunityGalleriesGetOptionalParams): Promise<CommunityGalleriesGetResponse>;
-}
-
-// @public
-export interface CommunityGalleriesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleriesGetResponse = CommunityGallery;
-
-// @public
-export interface CommunityGallery extends PirCommunityGalleryResource {
-}
-
-// @public
-export interface CommunityGalleryImage extends PirCommunityGalleryResource {
-    architecture?: Architecture;
-    disallowed?: Disallowed;
-    endOfLifeDate?: Date;
-    eula?: string;
-    features?: GalleryImageFeature[];
-    hyperVGeneration?: HyperVGeneration;
-    identifier?: GalleryImageIdentifier;
-    osState?: OperatingSystemStateTypes;
-    osType?: OperatingSystemTypes;
-    privacyStatementUri?: string;
-    purchasePlan?: ImagePurchasePlan;
-    recommended?: RecommendedMachineConfiguration;
-}
-
-// @public
-export interface CommunityGalleryImageList {
-    nextLink?: string;
-    value: CommunityGalleryImage[];
-}
-
-// @public
-export interface CommunityGalleryImages {
-    get(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImagesGetOptionalParams): Promise<CommunityGalleryImagesGetResponse>;
-    list(location: string, publicGalleryName: string, options?: CommunityGalleryImagesListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImage>;
-}
-
-// @public
-export interface CommunityGalleryImagesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImagesGetResponse = CommunityGalleryImage;
-
-// @public
-export interface CommunityGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImagesListNextResponse = CommunityGalleryImageList;
-
-// @public
-export interface CommunityGalleryImagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
-
-// @public
-export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
-    endOfLifeDate?: Date;
-    excludeFromLatest?: boolean;
-    publishedDate?: Date;
-    storageProfile?: SharedGalleryImageVersionStorageProfile;
-}
-
-// @public
-export interface CommunityGalleryImageVersionList {
-    nextLink?: string;
-    value: CommunityGalleryImageVersion[];
-}
-
-// @public
-export interface CommunityGalleryImageVersions {
-    get(location: string, publicGalleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: CommunityGalleryImageVersionsGetOptionalParams): Promise<CommunityGalleryImageVersionsGetResponse>;
-    list(location: string, publicGalleryName: string, galleryImageName: string, options?: CommunityGalleryImageVersionsListOptionalParams): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
-}
-
-// @public
-export interface CommunityGalleryImageVersionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsGetResponse = CommunityGalleryImageVersion;
-
-// @public
-export interface CommunityGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsListNextResponse = CommunityGalleryImageVersionList;
-
-// @public
-export interface CommunityGalleryImageVersionsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type CommunityGalleryImageVersionsListResponse = CommunityGalleryImageVersionList;
-
-// @public
-export interface CommunityGalleryInfo {
-    readonly communityGalleryEnabled?: boolean;
-    eula?: string;
-    publicNamePrefix?: string;
-    readonly publicNames?: string[];
-    publisherContact?: string;
-    publisherUri?: string;
 }
 
 // @public (undocumented)
@@ -1045,12 +921,6 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     cloudServices: CloudServices;
     // (undocumented)
     cloudServicesUpdateDomain: CloudServicesUpdateDomain;
-    // (undocumented)
-    communityGalleries: CommunityGalleries;
-    // (undocumented)
-    communityGalleryImages: CommunityGalleryImages;
-    // (undocumented)
-    communityGalleryImageVersions: CommunityGalleryImageVersions;
     // (undocumented)
     dedicatedHostGroups: DedicatedHostGroups;
     // (undocumented)
@@ -1153,19 +1023,7 @@ export interface ComputeOperationValue {
 }
 
 // @public
-export type ConfidentialVMEncryptionType = string;
-
-// @public
 export type ConsistencyModeTypes = string;
-
-// @public
-export interface CopyCompletionError {
-    errorCode: CopyCompletionErrorReason;
-    errorMessage: string;
-}
-
-// @public
-export type CopyCompletionErrorReason = string;
 
 // @public
 export interface CreationData {
@@ -1173,16 +1031,12 @@ export interface CreationData {
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
-    securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
     sourceUri?: string;
     storageAccountId?: string;
     uploadSizeBytes?: number;
 }
-
-// @public
-export type DataAccessAuthMode = string;
 
 // @public
 export interface DataDisk {
@@ -1222,7 +1076,6 @@ export interface DedicatedHost extends Resource {
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     sku: Sku;
-    readonly timeCreated?: Date;
     readonly virtualMachines?: SubResourceReadOnly[];
 }
 
@@ -1239,7 +1092,6 @@ export interface DedicatedHostAvailableCapacity {
 
 // @public
 export interface DedicatedHostGroup extends Resource {
-    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     platformFaultDomainCount?: number;
@@ -1256,11 +1108,6 @@ export interface DedicatedHostGroupInstanceView {
 export interface DedicatedHostGroupListResult {
     nextLink?: string;
     value: DedicatedHostGroup[];
-}
-
-// @public
-export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
-    ultraSSDEnabled?: boolean;
 }
 
 // @public
@@ -1329,7 +1176,6 @@ export type DedicatedHostGroupsUpdateResponse = DedicatedHostGroup;
 
 // @public
 export interface DedicatedHostGroupUpdate extends UpdateResource {
-    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     platformFaultDomainCount?: number;
@@ -1364,8 +1210,6 @@ export interface DedicatedHosts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<DedicatedHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
-    beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<PollerLike<PollOperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<DedicatedHostsUpdateResponse>;
     get(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsGetOptionalParams): Promise<DedicatedHostsGetResponse>;
@@ -1410,12 +1254,6 @@ export interface DedicatedHostsListByHostGroupOptionalParams extends coreClient.
 export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
 
 // @public
-export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface DedicatedHostsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1433,7 +1271,6 @@ export interface DedicatedHostUpdate extends UpdateResource {
     platformFaultDomain?: number;
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
-    readonly timeCreated?: Date;
     readonly virtualMachines?: SubResourceReadOnly[];
 }
 
@@ -1472,7 +1309,6 @@ export interface Disk extends Resource {
     burstingEnabled?: boolean;
     completionPercent?: number;
     creationData?: CreationData;
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
     diskIopsReadWrite?: number;
@@ -1665,7 +1501,6 @@ export interface DiskEncryptionSet extends Resource {
     activeKey?: KeyForDiskEncryptionSet;
     readonly autoKeyRotationError?: ApiError;
     encryptionType?: DiskEncryptionSetType;
-    federatedClientId?: string;
     identity?: EncryptionSetIdentity;
     readonly lastKeyRotationTimestamp?: Date;
     readonly previousKeys?: KeyForDiskEncryptionSet[];
@@ -1787,7 +1622,6 @@ export type DiskEncryptionSetType = string;
 export interface DiskEncryptionSetUpdate {
     activeKey?: KeyForDiskEncryptionSet;
     encryptionType?: DiskEncryptionSetType;
-    federatedClientId?: string;
     identity?: EncryptionSetIdentity;
     rotationToLatestKeyVersionEnabled?: boolean;
     tags?: {
@@ -1824,10 +1658,7 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
     readonly osType?: OperatingSystemTypes;
     publicNetworkAccess?: PublicNetworkAccess;
     purchasePlan?: PurchasePlanAutoGenerated;
-    readonly replicationState?: string;
-    securityProfile?: DiskSecurityProfile;
     readonly sourceResourceId?: string;
-    readonly sourceResourceLocation?: string;
     readonly sourceUniqueId?: string;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
@@ -1849,12 +1680,6 @@ export interface DiskRestorePointGrantAccessOptionalParams extends coreClient.Op
 
 // @public
 export type DiskRestorePointGrantAccessResponse = AccessUri;
-
-// @public
-export interface DiskRestorePointInstanceView {
-    id?: string;
-    replicationStatus?: DiskRestorePointReplicationStatus;
-}
 
 // @public
 export interface DiskRestorePointList {
@@ -1884,12 +1709,6 @@ export interface DiskRestorePointOperations {
     beginRevokeAccessAndWait(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointRevokeAccessOptionalParams): Promise<void>;
     get(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, diskRestorePointName: string, options?: DiskRestorePointGetOptionalParams): Promise<DiskRestorePointGetResponse>;
     listByRestorePoint(resourceGroupName: string, restorePointCollectionName: string, vmRestorePointName: string, options?: DiskRestorePointListByRestorePointOptionalParams): PagedAsyncIterableIterator<DiskRestorePoint>;
-}
-
-// @public
-export interface DiskRestorePointReplicationStatus {
-    completionPercent?: number;
-    status?: InstanceViewStatus;
 }
 
 // @public
@@ -1932,7 +1751,6 @@ export interface DisksDeleteOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface DiskSecurityProfile {
-    secureVMDiskEncryptionSetId?: string;
     securityType?: DiskSecurityTypes;
 }
 
@@ -2013,7 +1831,6 @@ export type DisksUpdateResponse = Disk;
 // @public
 export interface DiskUpdate {
     burstingEnabled?: boolean;
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskIopsReadOnly?: number;
     diskIopsReadWrite?: number;
@@ -2054,9 +1871,6 @@ export interface EncryptionSetIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: DiskEncryptionSetIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
-    };
 }
 
 // @public
@@ -2132,7 +1946,6 @@ export interface GalleriesDeleteOptionalParams extends coreClient.OperationOptio
 
 // @public
 export interface GalleriesGetOptionalParams extends coreClient.OperationOptions {
-    expand?: GalleryExpandParams;
     select?: SelectPermissions;
 }
 
@@ -2180,9 +1993,8 @@ export type GalleriesUpdateResponse = Gallery;
 export interface Gallery extends Resource {
     description?: string;
     identifier?: GalleryIdentifier;
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryPropertiesProvisioningState;
     sharingProfile?: SharingProfile;
-    readonly sharingStatus?: SharingStatus;
     softDeletePolicy?: SoftDeletePolicy;
 }
 
@@ -2271,7 +2083,7 @@ export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
 
 // @public
 export interface GalleryApplicationVersion extends Resource {
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
 }
@@ -2283,14 +2095,13 @@ export interface GalleryApplicationVersionList {
 }
 
 // @public
+export type GalleryApplicationVersionPropertiesProvisioningState = string;
+
+// @public
 export interface GalleryApplicationVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
-    advancedSettings?: {
-        [propertyName: string]: string;
-    };
     enableHealthCheck?: boolean;
     // (undocumented)
     manageActions?: UserArtifactManage;
-    settings?: UserArtifactSettings;
     source: UserArtifactSource;
 }
 
@@ -2354,7 +2165,7 @@ export type GalleryApplicationVersionsUpdateResponse = GalleryApplicationVersion
 
 // @public
 export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinition {
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryApplicationVersionPropertiesProvisioningState;
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
 }
@@ -2367,7 +2178,6 @@ export interface GalleryArtifactPublishingProfileBase {
     replicaCount?: number;
     replicationMode?: ReplicationMode;
     storageAccountType?: StorageAccountType;
-    targetExtendedLocations?: GalleryTargetExtendedLocation[];
     targetRegions?: TargetRegion[];
 }
 
@@ -2395,26 +2205,12 @@ export interface GalleryDiskImage {
 }
 
 // @public
-export type GalleryExpandParams = string;
-
-// @public
-export interface GalleryExtendedLocation {
-    // (undocumented)
-    name?: string;
-    type?: GalleryExtendedLocationType;
-}
-
-// @public
-export type GalleryExtendedLocationType = string;
-
-// @public
 export interface GalleryIdentifier {
     readonly uniqueName?: string;
 }
 
 // @public
 export interface GalleryImage extends Resource {
-    architecture?: Architecture;
     description?: string;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
@@ -2425,7 +2221,7 @@ export interface GalleryImage extends Resource {
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryImagePropertiesProvisioningState;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
     releaseNoteUri?: string;
@@ -2449,6 +2245,9 @@ export interface GalleryImageList {
     nextLink?: string;
     value: GalleryImage[];
 }
+
+// @public
+export type GalleryImagePropertiesProvisioningState = string;
 
 // @public
 export interface GalleryImages {
@@ -2509,7 +2308,6 @@ export type GalleryImagesUpdateResponse = GalleryImage;
 
 // @public
 export interface GalleryImageUpdate extends UpdateResourceDefinition {
-    architecture?: Architecture;
     description?: string;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
@@ -2520,7 +2318,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
     privacyStatementUri?: string;
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryImagePropertiesProvisioningState;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
     releaseNoteUri?: string;
@@ -2528,7 +2326,7 @@ export interface GalleryImageUpdate extends UpdateResourceDefinition {
 
 // @public
 export interface GalleryImageVersion extends Resource {
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     storageProfile?: GalleryImageVersionStorageProfile;
@@ -2539,6 +2337,9 @@ export interface GalleryImageVersionList {
     nextLink?: string;
     value: GalleryImageVersion[];
 }
+
+// @public
+export type GalleryImageVersionPropertiesProvisioningState = string;
 
 // @public
 export interface GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
@@ -2611,7 +2412,7 @@ export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 
 // @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryImageVersionPropertiesProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     storageProfile?: GalleryImageVersionStorageProfile;
@@ -2628,7 +2429,7 @@ export interface GalleryOSDiskImage extends GalleryDiskImage {
 }
 
 // @public
-export type GalleryProvisioningState = string;
+export type GalleryPropertiesProvisioningState = string;
 
 // @public
 export type GallerySharingPermissionTypes = string;
@@ -2648,22 +2449,12 @@ export interface GallerySharingProfileUpdateOptionalParams extends coreClient.Op
 // @public
 export type GallerySharingProfileUpdateResponse = SharingUpdate;
 
-// @public (undocumented)
-export interface GalleryTargetExtendedLocation {
-    encryption?: EncryptionImages;
-    extendedLocation?: GalleryExtendedLocation;
-    extendedLocationReplicaCount?: number;
-    name?: string;
-    storageAccountType?: StorageAccountType;
-}
-
 // @public
 export interface GalleryUpdate extends UpdateResourceDefinition {
     description?: string;
     identifier?: GalleryIdentifier;
-    readonly provisioningState?: GalleryProvisioningState;
+    readonly provisioningState?: GalleryPropertiesProvisioningState;
     sharingProfile?: SharingProfile;
-    readonly sharingStatus?: SharingStatus;
     softDeletePolicy?: SoftDeletePolicy;
 }
 
@@ -2672,7 +2463,6 @@ export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
     durationInSeconds: number;
-    getSecureVMGuestStateSAS?: boolean;
 }
 
 // @public
@@ -2721,10 +2511,8 @@ export interface ImageDisk {
 
 // @public
 export interface ImageDiskReference {
-    communityGalleryImageId?: string;
-    id?: string;
+    id: string;
     lun?: number;
-    sharedGalleryImageId?: string;
 }
 
 // @public
@@ -2748,7 +2536,6 @@ export interface ImagePurchasePlan {
 
 // @public
 export interface ImageReference extends SubResource {
-    communityGalleryImageId?: string;
     readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
@@ -2851,7 +2638,7 @@ export interface InnerError {
     exceptiontype?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface InstanceSku {
     readonly name?: string;
     readonly tier?: string;
@@ -2929,18 +2716,6 @@ export enum KnownAggregatedReplicationState {
 }
 
 // @public
-export enum KnownArchitecture {
-    Arm64 = "Arm64",
-    X64 = "x64"
-}
-
-// @public
-export enum KnownArchitectureTypes {
-    Arm64 = "Arm64",
-    X64 = "x64"
-}
-
-// @public
 export enum KnownAvailabilitySetSkuTypes {
     Aligned = "Aligned",
     Classic = "Classic"
@@ -2957,12 +2732,6 @@ export enum KnownCapacityReservationInstanceViewTypes {
 }
 
 // @public
-export enum KnownCloudServiceSlotType {
-    Production = "Production",
-    Staging = "Staging"
-}
-
-// @public
 export enum KnownCloudServiceUpgradeMode {
     Auto = "Auto",
     Manual = "Manual",
@@ -2970,28 +2739,10 @@ export enum KnownCloudServiceUpgradeMode {
 }
 
 // @public
-export enum KnownConfidentialVMEncryptionType {
-    EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
-    EncryptedWithCmk = "EncryptedWithCmk",
-    EncryptedWithPmk = "EncryptedWithPmk"
-}
-
-// @public
 export enum KnownConsistencyModeTypes {
     ApplicationConsistent = "ApplicationConsistent",
     CrashConsistent = "CrashConsistent",
     FileSystemConsistent = "FileSystemConsistent"
-}
-
-// @public
-export enum KnownCopyCompletionErrorReason {
-    CopySourceNotFound = "CopySourceNotFound"
-}
-
-// @public
-export enum KnownDataAccessAuthMode {
-    AzureActiveDirectory = "AzureActiveDirectory",
-    None = "None"
 }
 
 // @public
@@ -3019,10 +2770,8 @@ export enum KnownDiskCreateOption {
     Empty = "Empty",
     FromImage = "FromImage",
     Import = "Import",
-    ImportSecure = "ImportSecure",
     Restore = "Restore",
-    Upload = "Upload",
-    UploadPreparedSecure = "UploadPreparedSecure"
+    Upload = "Upload"
 }
 
 // @public
@@ -3046,23 +2795,17 @@ export enum KnownDiskDetachOptionTypes {
 // @public
 export enum KnownDiskEncryptionSetIdentityType {
     None = "None",
-    SystemAssigned = "SystemAssigned",
-    SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    UserAssigned = "UserAssigned"
+    SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownDiskEncryptionSetType {
-    ConfidentialVmEncryptedWithCustomerKey = "ConfidentialVmEncryptedWithCustomerKey",
     EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
     EncryptionAtRestWithPlatformAndCustomerKeys = "EncryptionAtRestWithPlatformAndCustomerKeys"
 }
 
 // @public
 export enum KnownDiskSecurityTypes {
-    ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
-    ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
-    ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
 
@@ -3081,7 +2824,6 @@ export enum KnownDiskState {
 // @public
 export enum KnownDiskStorageAccountTypes {
     PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
     StandardSSDLRS = "StandardSSD_LRS",
@@ -3129,18 +2871,37 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
-export enum KnownGalleryExpandParams {
-    SharingProfileGroups = "SharingProfile/Groups"
+export enum KnownGalleryApplicationVersionPropertiesProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
-export enum KnownGalleryExtendedLocationType {
-    EdgeZone = "EdgeZone",
-    Unknown = "Unknown"
+export enum KnownGalleryImagePropertiesProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
-export enum KnownGalleryProvisioningState {
+export enum KnownGalleryImageVersionPropertiesProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Migrating = "Migrating",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownGalleryPropertiesProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -3151,7 +2912,6 @@ export enum KnownGalleryProvisioningState {
 
 // @public
 export enum KnownGallerySharingPermissionTypes {
-    Community = "Community",
     Groups = "Groups",
     Private = "Private"
 }
@@ -3190,14 +2950,6 @@ export enum KnownIPVersions {
 export enum KnownLinuxPatchAssessmentMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     ImageDefault = "ImageDefault"
-}
-
-// @public
-export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
-    Always = "Always",
-    IfRequired = "IfRequired",
-    Never = "Never",
-    Unknown = "Unknown"
 }
 
 // @public
@@ -3320,13 +3072,6 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
-export enum KnownRepairAction {
-    Reimage = "Reimage",
-    Replace = "Replace",
-    Restart = "Restart"
-}
-
-// @public
 export enum KnownReplicationMode {
     Full = "Full",
     Shallow = "Shallow"
@@ -3351,32 +3096,13 @@ export enum KnownRestorePointCollectionExpandOptions {
 }
 
 // @public
-export enum KnownRestorePointExpandOptions {
-    InstanceView = "instanceView"
-}
-
-// @public
-export enum KnownSecurityEncryptionTypes {
-    DiskWithVMGuestState = "DiskWithVMGuestState",
-    VMGuestStateOnly = "VMGuestStateOnly"
-}
-
-// @public
 export enum KnownSecurityTypes {
-    ConfidentialVM = "ConfidentialVM",
     TrustedLaunch = "TrustedLaunch"
 }
 
 // @public
 export enum KnownSelectPermissions {
     Permissions = "Permissions"
-}
-
-// @public
-export enum KnownSharedGalleryHostCaching {
-    None = "None",
-    ReadOnly = "ReadOnly",
-    ReadWrite = "ReadWrite"
 }
 
 // @public
@@ -3391,17 +3117,8 @@ export enum KnownSharingProfileGroupTypes {
 }
 
 // @public
-export enum KnownSharingState {
-    Failed = "Failed",
-    InProgress = "InProgress",
-    Succeeded = "Succeeded",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownSharingUpdateOperationTypes {
     Add = "Add",
-    EnableCommunity = "EnableCommunity",
     Remove = "Remove",
     Reset = "Reset"
 }
@@ -3423,7 +3140,6 @@ export enum KnownStorageAccountType {
 // @public
 export enum KnownStorageAccountTypes {
     PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
     StandardSSDLRS = "StandardSSD_LRS",
@@ -3678,14 +3394,6 @@ export enum KnownWindowsPatchAssessmentMode {
 }
 
 // @public
-export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
-    Always = "Always",
-    IfRequired = "IfRequired",
-    Never = "Never",
-    Unknown = "Unknown"
-}
-
-// @public
 export enum KnownWindowsVMGuestPatchMode {
     AutomaticByOS = "AutomaticByOS",
     AutomaticByPlatform = "AutomaticByPlatform",
@@ -3729,16 +3437,7 @@ export type LinuxPatchAssessmentMode = string;
 // @public
 export interface LinuxPatchSettings {
     assessmentMode?: LinuxPatchAssessmentMode;
-    automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
     patchMode?: LinuxVMGuestPatchMode;
-}
-
-// @public
-export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-// @public
-export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
-    rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 // @public
@@ -3757,12 +3456,12 @@ export interface LoadBalancerConfiguration {
     properties: LoadBalancerConfigurationProperties;
 }
 
-// @public
+// @public (undocumented)
 export interface LoadBalancerConfigurationProperties {
     frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
 }
 
-// @public
+// @public (undocumented)
 export interface LoadBalancerFrontendIPConfiguration {
     name: string;
     properties: LoadBalancerFrontendIPConfigurationProperties;
@@ -3845,7 +3544,6 @@ export interface ManagedArtifact {
 // @public
 export interface ManagedDiskParameters extends SubResource {
     diskEncryptionSet?: DiskEncryptionSetParameters;
-    securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountTypes;
 }
 
@@ -3936,13 +3634,6 @@ export interface OSDiskImage {
 
 // @public
 export interface OSDiskImageEncryption extends DiskImageEncryption {
-    securityProfile?: OSDiskImageSecurityProfile;
-}
-
-// @public
-export interface OSDiskImageSecurityProfile {
-    confidentialVMEncryptionType?: ConfidentialVMEncryptionType;
-    secureVMDiskEncryptionSetId?: string;
 }
 
 // @public
@@ -3954,9 +3645,11 @@ export interface OSFamily {
     readonly type?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface OSFamilyListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: OSFamily[];
 }
 
@@ -3989,9 +3682,11 @@ export interface OSVersion {
     readonly type?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface OSVersionListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: OSVersion[];
 }
 
@@ -4035,17 +3730,8 @@ export type PatchOperationStatus = string;
 // @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
-    automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
-}
-
-// @public
-export interface PirCommunityGalleryResource {
-    readonly location?: string;
-    readonly name?: string;
-    readonly type?: string;
-    uniqueId?: string;
 }
 
 // @public
@@ -4128,22 +3814,15 @@ export type ProtocolTypes = "Http" | "Https";
 export interface ProximityPlacementGroup extends Resource {
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
-    intent?: ProximityPlacementGroupPropertiesIntent;
     proximityPlacementGroupType?: ProximityPlacementGroupType;
     readonly virtualMachines?: SubResourceWithColocationStatus[];
     readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
-    zones?: string[];
 }
 
 // @public
 export interface ProximityPlacementGroupListResult {
     nextLink?: string;
     value: ProximityPlacementGroup[];
-}
-
-// @public
-export interface ProximityPlacementGroupPropertiesIntent {
-    vmSizes?: string[];
 }
 
 // @public
@@ -4283,16 +3962,6 @@ export interface RegionalReplicationStatus {
     readonly region?: string;
     readonly state?: ReplicationState;
 }
-
-// @public
-export interface RegionalSharingStatus {
-    details?: string;
-    region?: string;
-    readonly state?: SharingState;
-}
-
-// @public
-export type RepairAction = string;
 
 // @public
 export type ReplicationMode = string;
@@ -4455,25 +4124,12 @@ export interface ResourceUriList {
 }
 
 // @public
-export interface ResourceWithOptionalLocation {
-    readonly id?: string;
-    location?: string;
-    readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public
 export interface RestorePoint extends ProxyResource {
-    consistencyMode?: ConsistencyModeTypes;
+    readonly consistencyMode?: ConsistencyModeTypes;
     excludeDisks?: ApiEntityReference[];
-    readonly instanceView?: RestorePointInstanceView;
+    readonly provisioningDetails?: RestorePointProvisioningDetails;
     readonly provisioningState?: string;
     readonly sourceMetadata?: RestorePointSourceMetadata;
-    sourceRestorePoint?: ApiEntityReference;
-    timeCreated?: Date;
 }
 
 // @public
@@ -4575,12 +4231,11 @@ export interface RestorePointCollectionUpdate extends UpdateResource {
 }
 
 // @public
-export type RestorePointExpandOptions = string;
-
-// @public
-export interface RestorePointInstanceView {
-    diskRestorePoints?: DiskRestorePointInstanceView[];
-    statuses?: InstanceViewStatus[];
+export interface RestorePointProvisioningDetails {
+    creationTime?: Date;
+    statusCode?: number;
+    statusMessage?: string;
+    totalUsedSizeInBytes?: number;
 }
 
 // @public
@@ -4609,7 +4264,6 @@ export interface RestorePointsDeleteOptionalParams extends coreClient.OperationO
 
 // @public
 export interface RestorePointsGetOptionalParams extends coreClient.OperationOptions {
-    expand?: RestorePointExpandOptions;
 }
 
 // @public
@@ -4660,12 +4314,14 @@ export interface RetrieveBootDiagnosticsDataResult {
     readonly serialConsoleLogBlobUri?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface RoleInstance {
     readonly id?: string;
     readonly location?: string;
     readonly name?: string;
+    // (undocumented)
     properties?: RoleInstanceProperties;
+    // (undocumented)
     sku?: InstanceSku;
     readonly tags?: {
         [propertyName: string]: string;
@@ -4673,9 +4329,11 @@ export interface RoleInstance {
     readonly type?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface RoleInstanceListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: RoleInstance[];
 }
 
@@ -4684,7 +4342,7 @@ export interface RoleInstanceNetworkProfile {
     readonly networkInterfaces?: SubResource[];
 }
 
-// @public
+// @public (undocumented)
 export interface RoleInstanceProperties {
     instanceView?: RoleInstanceView;
     networkProfile?: RoleInstanceNetworkProfile;
@@ -4809,9 +4467,6 @@ export interface ScheduledEventsProfile {
 }
 
 // @public
-export type SecurityEncryptionTypes = string;
-
-// @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
     securityType?: SecurityTypes;
@@ -4861,22 +4516,7 @@ export interface SharedGallery extends PirSharedGalleryResource {
 }
 
 // @public
-export interface SharedGalleryDataDiskImage extends SharedGalleryDiskImage {
-    lun: number;
-}
-
-// @public
-export interface SharedGalleryDiskImage {
-    readonly diskSizeGB?: number;
-    hostCaching?: SharedGalleryHostCaching;
-}
-
-// @public
-export type SharedGalleryHostCaching = string;
-
-// @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
-    architecture?: Architecture;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     features?: GalleryImageFeature[];
@@ -4926,9 +4566,7 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
     endOfLifeDate?: Date;
-    excludeFromLatest?: boolean;
     publishedDate?: Date;
-    storageProfile?: SharedGalleryImageVersionStorageProfile;
 }
 
 // @public
@@ -4967,19 +4605,9 @@ export interface SharedGalleryImageVersionsListOptionalParams extends coreClient
 export type SharedGalleryImageVersionsListResponse = SharedGalleryImageVersionList;
 
 // @public
-export interface SharedGalleryImageVersionStorageProfile {
-    dataDiskImages?: SharedGalleryDataDiskImage[];
-    osDiskImage?: SharedGalleryOSDiskImage;
-}
-
-// @public
 export interface SharedGalleryList {
     nextLink?: string;
     value: SharedGallery[];
-}
-
-// @public
-export interface SharedGalleryOSDiskImage extends SharedGalleryDiskImage {
 }
 
 // @public
@@ -4992,7 +4620,6 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5005,15 +4632,6 @@ export interface SharingProfileGroup {
 
 // @public
 export type SharingProfileGroupTypes = string;
-
-// @public
-export type SharingState = string;
-
-// @public
-export interface SharingStatus {
-    readonly aggregatedState?: SharingState;
-    summary?: RegionalSharingStatus[];
-}
 
 // @public
 export interface SharingUpdate {
@@ -5034,9 +4652,7 @@ export interface Sku {
 // @public
 export interface Snapshot extends Resource {
     completionPercent?: number;
-    copyCompletionError?: CopyCompletionError;
     creationData?: CreationData;
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     readonly diskSizeBytes?: number;
     diskSizeGB?: number;
@@ -5052,7 +4668,6 @@ export interface Snapshot extends Resource {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     purchasePlan?: PurchasePlanAutoGenerated;
-    securityProfile?: DiskSecurityProfile;
     sku?: SnapshotSku;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
@@ -5168,7 +4783,6 @@ export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
 export interface SnapshotUpdate {
-    dataAccessAuthMode?: DataAccessAuthMode;
     diskAccessId?: string;
     diskSizeGB?: number;
     encryption?: Encryption;
@@ -5177,7 +4791,6 @@ export interface SnapshotUpdate {
     osType?: OperatingSystemTypes;
     publicNetworkAccess?: PublicNetworkAccess;
     sku?: SnapshotSku;
-    supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
     tags?: {
         [propertyName: string]: string;
@@ -5305,7 +4918,7 @@ export interface SshPublicKeyUpdateResource extends UpdateResource {
     publicKey?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface StatusCodeCount {
     readonly code?: string;
     readonly count?: number;
@@ -5345,13 +4958,6 @@ export interface SubResourceWithColocationStatus extends SubResource {
 // @public
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
-    architecture?: Architecture;
-}
-
-// @public
-export interface SystemData {
-    readonly createdAt?: Date;
-    readonly lastModifiedAt?: Date;
 }
 
 // @public
@@ -5384,9 +4990,11 @@ export interface UpdateDomain {
     readonly name?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface UpdateDomainListResult {
+    // (undocumented)
     nextLink?: string;
+    // (undocumented)
     value: UpdateDomain[];
 }
 
@@ -5488,12 +5096,6 @@ export interface UserArtifactManage {
 }
 
 // @public
-export interface UserArtifactSettings {
-    configFileName?: string;
-    packageFileName?: string;
-}
-
-// @public
 export interface UserArtifactSource {
     defaultConfigurationLink?: string;
     mediaLink: string;
@@ -5550,7 +5152,6 @@ export interface VirtualMachine extends Resource {
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
-    readonly timeCreated?: Date;
     userData?: string;
     virtualMachineScaleSet?: SubResource;
     readonly vmId?: string;
@@ -5586,8 +5187,8 @@ export interface VirtualMachineCaptureParameters {
 // @public
 export interface VirtualMachineCaptureResult extends SubResource {
     readonly contentVersion?: string;
-    readonly parameters?: any;
-    readonly resources?: any[];
+    readonly parameters?: Record<string, unknown>;
+    readonly resources?: Record<string, unknown>[];
     readonly schema?: string;
 }
 
@@ -5595,16 +5196,15 @@ export interface VirtualMachineCaptureResult extends SubResource {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 // @public
-export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
+export interface VirtualMachineExtension extends Resource {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     typeHandlerVersion?: string;
     typePropertiesType?: string;
@@ -5730,10 +5330,9 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
@@ -5756,7 +5355,6 @@ export interface VirtualMachineIdentity {
 
 // @public
 export interface VirtualMachineImage extends VirtualMachineImageResource {
-    architecture?: ArchitectureTypes;
     automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
     // (undocumented)
     dataDiskImages?: DataDiskImage[];
@@ -5788,7 +5386,6 @@ export interface VirtualMachineImageResource extends SubResource {
 export interface VirtualMachineImages {
     get(location: string, publisherName: string, offer: string, skus: string, version: string, options?: VirtualMachineImagesGetOptionalParams): Promise<VirtualMachineImagesGetResponse>;
     list(location: string, publisherName: string, offer: string, skus: string, options?: VirtualMachineImagesListOptionalParams): Promise<VirtualMachineImagesListResponse>;
-    listByEdgeZone(location: string, edgeZone: string, options?: VirtualMachineImagesListByEdgeZoneOptionalParams): Promise<VirtualMachineImagesListByEdgeZoneResponse>;
     listOffers(location: string, publisherName: string, options?: VirtualMachineImagesListOffersOptionalParams): Promise<VirtualMachineImagesListOffersResponse>;
     listPublishers(location: string, options?: VirtualMachineImagesListPublishersOptionalParams): Promise<VirtualMachineImagesListPublishersResponse>;
     listSkus(location: string, publisherName: string, offer: string, options?: VirtualMachineImagesListSkusOptionalParams): Promise<VirtualMachineImagesListSkusResponse>;
@@ -5847,13 +5444,6 @@ export interface VirtualMachineImagesGetOptionalParams extends coreClient.Operat
 
 // @public
 export type VirtualMachineImagesGetResponse = VirtualMachineImage;
-
-// @public
-export interface VirtualMachineImagesListByEdgeZoneOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type VirtualMachineImagesListByEdgeZoneResponse = VmImagesInEdgeZoneListResult;
 
 // @public
 export interface VirtualMachineImagesListOffersOptionalParams extends coreClient.OperationOptions {
@@ -6219,7 +5809,6 @@ export interface VirtualMachineScaleSet extends Resource {
     singlePlacementGroup?: boolean;
     sku?: Sku;
     spotRestorePolicy?: SpotRestorePolicy;
-    readonly timeCreated?: Date;
     readonly uniqueId?: string;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
@@ -6231,7 +5820,6 @@ export interface VirtualMachineScaleSet extends Resource {
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
@@ -6247,12 +5835,11 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -6335,21 +5922,15 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
     typePropertiesType?: string;
-}
-
-// @public
-export interface VirtualMachineScaleSetHardwareProfile {
-    vmSizeProperties?: VMSizeProperties;
 }
 
 // @public
@@ -6358,8 +5939,14 @@ export interface VirtualMachineScaleSetIdentity {
     readonly tenantId?: string;
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentitiesValue;
+        [propertyName: string]: VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue;
     };
+}
+
+// @public (undocumented)
+export interface VirtualMachineScaleSetIdentityUserAssignedIdentitiesValue {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -6421,7 +6008,6 @@ export interface VirtualMachineScaleSetListWithLinkResult {
 // @public
 export interface VirtualMachineScaleSetManagedDiskParameters {
     diskEncryptionSet?: DiskEncryptionSetParameters;
-    securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountTypes;
 }
 
@@ -6454,7 +6040,6 @@ export interface VirtualMachineScaleSetNetworkProfile {
 export interface VirtualMachineScaleSetOSDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
@@ -6469,7 +6054,6 @@ export interface VirtualMachineScaleSetOSDisk {
 export interface VirtualMachineScaleSetOSProfile {
     adminPassword?: string;
     adminUsername?: string;
-    allowExtensionOperations?: boolean;
     computerNamePrefix?: string;
     customData?: string;
     linuxConfiguration?: LinuxConfiguration;
@@ -6615,8 +6199,6 @@ export interface VirtualMachineScaleSetsDeleteOptionalParams extends coreClient.
 
 // @public
 export interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams extends coreClient.OperationOptions {
-    placementGroupId?: string;
-    zone?: string;
 }
 
 // @public
@@ -6855,7 +6437,6 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 // @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
-    deleteOption?: DiskDeleteOptionTypes;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
@@ -6877,7 +6458,6 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     dnsSettings?: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings;
     idleTimeoutInMinutes?: number;
     name?: string;
-    publicIPPrefix?: SubResource;
 }
 
 // @public
@@ -6907,7 +6487,6 @@ export interface VirtualMachineScaleSetVM extends Resource {
     availabilitySet?: SubResource;
     diagnosticsProfile?: DiagnosticsProfile;
     hardwareProfile?: HardwareProfile;
-    identity?: VirtualMachineIdentity;
     readonly instanceId?: string;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
     readonly latestModelApplied?: boolean;
@@ -6935,11 +6514,10 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -7015,10 +6593,9 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -7070,7 +6647,6 @@ export interface VirtualMachineScaleSetVMProfile {
     diagnosticsProfile?: DiagnosticsProfile;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
-    hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetNetworkProfile;
     osProfile?: VirtualMachineScaleSetOSProfile;
@@ -7402,7 +6978,6 @@ export type VirtualMachineSizeTypes = string;
 
 // @public
 export interface VirtualMachinesListAllNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
     statusOnly?: string;
 }
 
@@ -7411,7 +6986,6 @@ export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListAllOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
     statusOnly?: string;
 }
 
@@ -7441,7 +7015,6 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -7449,7 +7022,6 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -7575,17 +7147,10 @@ export interface VirtualMachineUpdate extends UpdateResource {
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
-    readonly timeCreated?: Date;
     userData?: string;
     virtualMachineScaleSet?: SubResource;
     readonly vmId?: string;
     zones?: string[];
-}
-
-// @public
-export interface VMDiskSecurityProfile {
-    diskEncryptionSet?: DiskEncryptionSetParameters;
-    securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 // @public
@@ -7594,11 +7159,9 @@ export type VmDiskTypes = string;
 // @public
 export interface VMGalleryApplication {
     configurationReference?: string;
-    enableAutomaticUpgrade?: boolean;
     order?: number;
     packageReferenceId: string;
     tags?: string;
-    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public
@@ -7615,12 +7178,6 @@ export type VMGuestPatchRebootSetting = string;
 
 // @public
 export type VMGuestPatchRebootStatus = string;
-
-// @public
-export interface VmImagesInEdgeZoneListResult {
-    nextLink?: string;
-    value?: VirtualMachineImageResource[];
-}
 
 // @public (undocumented)
 export interface VMScaleSetConvertToSinglePlacementGroupInput {
@@ -7654,14 +7211,6 @@ export interface WindowsParameters {
 
 // @public
 export type WindowsPatchAssessmentMode = string;
-
-// @public
-export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
-
-// @public
-export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
-    rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
-}
 
 // @public
 export type WindowsVMGuestPatchMode = string;

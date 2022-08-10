@@ -100,19 +100,16 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtensionImage
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
-    Parameters.version,
-    Parameters.typeParam
+    Parameters.typeParam,
+    Parameters.version
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -134,16 +131,13 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName
   ],
   headerParameters: [Parameters.accept],
@@ -166,9 +160,6 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [
@@ -180,7 +171,7 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publisherName,
     Parameters.typeParam
   ],
