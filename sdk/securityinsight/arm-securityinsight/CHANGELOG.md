@@ -1,15 +1,12 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-10)
+    
+**Breaking Changes**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Parameter logicAppsResourceId of interface ManualTriggerRequestBody is now required
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**

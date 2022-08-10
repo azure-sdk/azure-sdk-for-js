@@ -271,7 +271,7 @@ export interface AutomationRulesList {
 
 export interface ManualTriggerRequestBody {
   tenantId?: string;
-  logicAppsResourceId?: string;
+  logicAppsResourceId: string;
 }
 
 /** List all the bookmarks. */

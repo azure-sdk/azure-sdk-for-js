@@ -3354,7 +3354,7 @@ export interface MalwareEntityProperties extends EntityCommonProperties {
 // @public (undocumented)
 export interface ManualTriggerRequestBody {
     // (undocumented)
-    logicAppsResourceId?: string;
+    logicAppsResourceId: string;
     // (undocumented)
     tenantId?: string;
 }
