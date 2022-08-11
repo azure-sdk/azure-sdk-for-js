@@ -90,10 +90,47 @@ export const SerialConsoleOperationsValueItemDisplay: coreClient.CompositeMapper
   }
 };
 
+export const SerialConsoleOperationsForbidden: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SerialConsoleOperationsForbidden",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SerialConsoleStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SerialConsoleStatus",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SerialConsoleState"
+        }
+      }
+    }
+  }
+};
+
+export const SerialConsoleState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SerialConsoleState",
     modelProperties: {
       disabled: {
         serializedName: "disabled",
@@ -131,10 +168,11 @@ export const DisableSerialConsoleResult: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DisableSerialConsoleResult",
     modelProperties: {
-      disabled: {
-        serializedName: "disabled",
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "SerialConsoleState"
         }
       }
     }
@@ -146,10 +184,11 @@ export const EnableSerialConsoleResult: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EnableSerialConsoleResult",
     modelProperties: {
-      disabled: {
-        serializedName: "disabled",
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "Boolean"
+          name: "Composite",
+          className: "SerialConsoleState"
         }
       }
     }

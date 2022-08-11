@@ -29,7 +29,7 @@ export type DisableConsoleResponse = DisableSerialConsoleResult;
 
 // @public
 export interface DisableSerialConsoleResult {
-    disabled?: boolean;
+    properties?: SerialConsoleState;
 }
 
 // @public
@@ -41,7 +41,7 @@ export type EnableConsoleResponse = EnableSerialConsoleResult;
 
 // @public
 export interface EnableSerialConsoleResult {
-    disabled?: boolean;
+    properties?: SerialConsoleState;
 }
 
 // @public
@@ -89,7 +89,8 @@ export interface MicrosoftSerialConsoleClientOptionalParams extends coreClient.S
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -101,6 +102,12 @@ export interface Resource {
 // @public
 export interface SerialConsoleOperations {
     value?: SerialConsoleOperationsValueItem[];
+}
+
+// @public
+export interface SerialConsoleOperationsForbidden {
+    code?: string;
+    message?: string;
 }
 
 // @public (undocumented)
@@ -126,14 +133,19 @@ export interface SerialConsoleOperationsValueItemDisplay {
 }
 
 // @public
-export interface SerialConsoleStatus {
+export interface SerialConsoleState {
     disabled?: boolean;
 }
 
 // @public
-export type SerialPort = ProxyResource & {
+export interface SerialConsoleStatus {
+    properties?: SerialConsoleState;
+}
+
+// @public
+export interface SerialPort extends ProxyResource {
     state?: SerialPortState;
-};
+}
 
 // @public
 export interface SerialPortConnectResult {

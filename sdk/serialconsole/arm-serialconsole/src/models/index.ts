@@ -27,8 +27,22 @@ export interface SerialConsoleOperationsValueItemDisplay {
   description?: string;
 }
 
+/** The provided authentication information was insufficient for access to Serial Console */
+export interface SerialConsoleOperationsForbidden {
+  /** Error code */
+  code?: string;
+  /** Serial console access forbidden */
+  message?: string;
+}
+
 /** Returns whether or not Serial Console is disabled. */
 export interface SerialConsoleStatus {
+  /** Returns whether or not Serial Console is disabled. */
+  properties?: SerialConsoleState;
+}
+
+/** Returns whether or not Serial Console is disabled. */
+export interface SerialConsoleState {
   /** Whether or not Serial Console is disabled. */
   disabled?: boolean;
 }
@@ -43,14 +57,14 @@ export interface GetSerialConsoleSubscriptionNotFound {
 
 /** Returns whether or not Serial Console is disabled. */
 export interface DisableSerialConsoleResult {
-  /** Whether or not Serial Console is disabled. */
-  disabled?: boolean;
+  /** Returns whether or not Serial Console is disabled. */
+  properties?: SerialConsoleState;
 }
 
 /** Returns whether or not Serial Console is disabled (enabled). */
 export interface EnableSerialConsoleResult {
-  /** Whether or not Serial Console is disabled (enabled). */
-  disabled?: boolean;
+  /** Returns whether or not Serial Console is disabled. */
+  properties?: SerialConsoleState;
 }
 
 /** The list serial ports operation response. */
@@ -103,13 +117,14 @@ export interface SerialPortConnectResult {
 }
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Represents the serial port of the parent resource. */
-export type SerialPort = ProxyResource & {
+export interface SerialPort extends ProxyResource {
   /** Specifies whether the port is enabled for a serial console connection. */
   state?: SerialPortState;
-};
+}
+
 /** Defines values for SerialPortState. */
 export type SerialPortState = "enabled" | "disabled";
 
