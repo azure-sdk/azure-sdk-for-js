@@ -1810,6 +1810,11 @@
       "packageName": "@azure/communication-rooms",
       "projectFolder": "sdk/communication/communication-rooms",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-nginx",
+      "projectFolder": "sdk/nginx/arm-nginx",
+      "versionPolicyName": "management"
     }
   ]
 }
