@@ -1,15 +1,37 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-12)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FileImports
+  - Added Interface FileImport
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface ValidationError
+  - Added Type Alias DeleteStatus
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsDeleteResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Class SecurityInsights has a new parameter fileImports
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**
