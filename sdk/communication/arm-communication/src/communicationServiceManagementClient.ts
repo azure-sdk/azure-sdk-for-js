@@ -107,7 +107,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01-preview";
+    this.apiVersion = options.apiVersion || "2022-07-01-preview";
     this.operations = new OperationsImpl(this);
     this.communicationServices = new CommunicationServicesImpl(this);
     this.domains = new DomainsImpl(this);
@@ -130,7 +130,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return item.replace(/(?<==).*$/, apiVersion);
+              return "api-version=" + apiVersion;
             } else {
               return item;
             }
