@@ -16,6 +16,9 @@ import {
   RegisteredServerCreateParameters,
   RegisteredServersCreateOptionalParams,
   RegisteredServersCreateResponse,
+  RegisteredServerUpdateParameters,
+  RegisteredServersUpdateOptionalParams,
+  RegisteredServersUpdateResponse,
   RegisteredServersDeleteOptionalParams,
   RegisteredServersDeleteResponse,
   TriggerRolloverRequest,
@@ -85,6 +88,41 @@ export interface RegisteredServers {
     parameters: RegisteredServerCreateParameters,
     options?: RegisteredServersCreateOptionalParams
   ): Promise<RegisteredServersCreateResponse>;
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegisteredServersUpdateResponse>,
+      RegisteredServersUpdateResponse
+    >
+  >;
+  /**
+   * Update registered server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageSyncServiceName Name of Storage Sync Service resource.
+   * @param serverId GUID identifying the on-premises server.
+   * @param parameters Body of Registered Server object.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    storageSyncServiceName: string,
+    serverId: string,
+    parameters: RegisteredServerUpdateParameters,
+    options?: RegisteredServersUpdateOptionalParams
+  ): Promise<RegisteredServersUpdateResponse>;
   /**
    * Delete the given registered server.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
