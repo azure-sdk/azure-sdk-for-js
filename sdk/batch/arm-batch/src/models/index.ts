@@ -1221,7 +1221,7 @@ export interface Pool extends ProxyResource {
   /** Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS). */
   deploymentConfiguration?: DeploymentConfiguration;
   /**
-   * The number of compute nodes currently in the pool.
+   * The number of dedicated compute nodes currently in the pool.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentDedicatedNodes?: number;
