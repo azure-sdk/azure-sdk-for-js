@@ -24,6 +24,10 @@ import {
   LiveOutputsCreateOptionalParams,
   LiveOutputsCreateResponse,
   LiveOutputsDeleteOptionalParams,
+  LiveOutputsAsyncOperationOptionalParams,
+  LiveOutputsAsyncOperationResponse,
+  LiveOutputsOperationLocationOptionalParams,
+  LiveOutputsOperationLocationResponse,
   LiveOutputsListNextResponse
 } from "../models";
 
@@ -376,6 +380,55 @@ export class LiveOutputsImpl implements LiveOutputs {
   }
 
   /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: LiveOutputsAsyncOperationOptionalParams
+  ): Promise<LiveOutputsAsyncOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, operationId, options },
+      asyncOperationOperationSpec
+    );
+  }
+
+  /**
+   * Get a Live Output operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param liveOutputName The name of the live output.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    liveOutputName: string,
+    operationId: string,
+    options?: LiveOutputsOperationLocationOptionalParams
+  ): Promise<LiveOutputsOperationLocationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        liveEventName,
+        liveOutputName,
+        operationId,
+        options
+      },
+      operationLocationOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -411,7 +464,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -434,7 +487,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -468,7 +521,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters18,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -494,13 +547,62 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.liveEventName,
+    Parameters.liveOutputName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const asyncOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveOutputOperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const operationLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}/operationLocations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LiveOutput
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.liveEventName,
+    Parameters.operationId1,
     Parameters.liveOutputName
   ],
   headerParameters: [Parameters.accept],
@@ -517,7 +619,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

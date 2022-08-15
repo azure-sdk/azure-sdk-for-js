@@ -359,6 +359,18 @@ export const parameters15: OperationParameter = {
   mapper: StreamingLocatorMapper
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-08-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const liveEventName: OperationURLParameter = {
   parameterPath: "liveEventName",
   mapper: {
@@ -393,6 +405,20 @@ export const autoStart: OperationQueryParameter = {
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: LiveEventActionInputMapper
+};
+
+export const operationId1: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const liveOutputName: OperationURLParameter = {
