@@ -1,15 +1,52 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-15)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FileImports
+  - Added Interface AutomationRuleBooleanCondition
+  - Added Interface AutomationRulePropertyArrayValuesCondition
+  - Added Interface BooleanConditionProperties
+  - Added Interface FileImport
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface PropertyArrayConditionProperties
+  - Added Interface ValidationError
+  - Added Type Alias AutomationRuleBooleanConditionSupportedOperator
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Type Alias AutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Type Alias DeleteStatus
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsDeleteResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Class SecurityInsights has a new parameter fileImports
+  - Added Enum KnownAutomationRuleBooleanConditionSupportedOperator
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Added Enum KnownAutomationRulePropertyArrayConditionSupportedArrayType
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsKey
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentCustomDetailsValue
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty has a new value IncidentUpdatedBySource
+  - Enum KnownConditionType has a new value Boolean
+  - Enum KnownConditionType has a new value PropertyArray
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**
