@@ -1,15 +1,37 @@
 # Release History
+    
+## 3.0.0-beta.1 (2022-08-15)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Added Interface AzureKeyVaultProperties
+  - Added Interface AzureResource
+  - Added Interface ConfluentBootstrapServer
+  - Added Interface ConfluentSchemaRegistry
+  - Added Interface LinkerResource
+  - Added Interface MicrosoftServiceLinkerOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface SecretAuthInfo
+  - Added Interface ServicePrincipalCertificateAuthInfo
+  - Added Interface ServicePrincipalSecretAuthInfo
+  - Added Interface SystemAssignedIdentityAuthInfo
+  - Added Interface UserAssignedIdentityAuthInfo
+  - Added Interface ValidateResult
+  - Added Class MicrosoftServiceLinker
+  - Added Type Alias Type
+  - Added Type Alias ValidationItemResult
+  - Added Enum KnownType
+  - Added Enum KnownValidationItemResult
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Deleted Class ServiceLinkerManagementClient
+  - Removed Enum KnownAzureResourceType
+  - Removed Enum KnownSecretType
+  - Removed Enum KnownTargetServiceType
+  - Removed Enum KnownValidationResultStatus
+    
+    
 ## 2.0.0 (2022-05-16)
     
 **Features**

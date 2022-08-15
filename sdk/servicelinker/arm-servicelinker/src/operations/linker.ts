@@ -11,7 +11,7 @@ import { Linker } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient";
+import { MicrosoftServiceLinker } from "../microsoftServiceLinker";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Linker operations. */
 export class LinkerImpl implements Linker {
-  private readonly client: ServiceLinkerManagementClient;
+  private readonly client: MicrosoftServiceLinker;
 
   /**
    * Initialize a new instance of the class Linker class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceLinkerManagementClient) {
+  constructor(client: MicrosoftServiceLinker) {
     this.client = client;
   }
 
@@ -646,16 +646,16 @@ const validateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateResult
     },
     201: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateResult
     },
     202: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateResult
     },
     204: {
-      bodyMapper: Mappers.ValidateOperationResult
+      bodyMapper: Mappers.ValidateResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
