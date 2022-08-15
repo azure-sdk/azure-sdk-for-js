@@ -1810,6 +1810,11 @@
       "packageName": "@azure/communication-rooms",
       "projectFolder": "sdk/communication/communication-rooms",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "vi",
+      "projectFolder": "sdk/vi/arm-vi",
+      "versionPolicyName": "management"
     }
   ]
 }
