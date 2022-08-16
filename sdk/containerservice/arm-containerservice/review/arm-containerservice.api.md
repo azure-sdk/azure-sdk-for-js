@@ -328,6 +328,9 @@ export interface ContainerServiceVMDiagnostics {
 export type ContainerServiceVMSizeTypes = string;
 
 // @public
+export type ControlledValues = string;
+
+// @public
 export type Count = 1 | 3 | 5;
 
 // @public
@@ -805,6 +808,12 @@ export enum KnownContainerServiceVMSizeTypes {
 }
 
 // @public
+export enum KnownControlledValues {
+    RequestsAndLimits = "RequestsAndLimits",
+    RequestsOnly = "RequestsOnly"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
@@ -1005,6 +1014,14 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownUpdateMode {
+    Auto = "Auto",
+    Initial = "Initial",
+    Off = "Off",
+    Recreate = "Recreate"
 }
 
 // @public
@@ -1821,11 +1838,20 @@ export interface ManagedClusterWindowsProfile {
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfile {
     keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+    // (undocumented)
+    verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 // @public
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
     enabled: boolean;
+}
+
+// @public (undocumented)
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+    controlledValues: ControlledValues;
+    enabled: boolean;
+    updateMode: UpdateMode;
 }
 
 // @public (undocumented)
@@ -2331,6 +2357,9 @@ export interface TrustedAccessRolesListOptionalParams extends coreClient.Operati
 
 // @public
 export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
+
+// @public
+export type UpdateMode = string;
 
 // @public
 export type UpgradeChannel = string;

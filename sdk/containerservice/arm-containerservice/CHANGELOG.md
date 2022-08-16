@@ -1,16 +1,6 @@
 # Release History
-
-## 17.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 17.1.0-beta.1 (2022-07-25)
+    
+## 17.1.0-beta.2 (2022-08-16)
     
 **Features**
 
@@ -67,6 +57,7 @@
   - Added Interface ManagedClusterStorageProfileBlobCSIDriver
   - Added Interface ManagedClusterWorkloadAutoScalerProfile
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
@@ -80,6 +71,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias ControlledValues
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
   - Added Type Alias FleetMembersGetResponse
@@ -109,6 +101,7 @@
   - Added Type Alias TrustedAccessRoleBindingsListResponse
   - Added Type Alias TrustedAccessRolesListNextResponse
   - Added Type Alias TrustedAccessRolesListResponse
+  - Added Type Alias UpdateMode
   - Interface AgentPool has a new optional parameter capacityReservationGroupID
   - Interface AgentPool has a new optional parameter enableCustomCATrust
   - Interface AgentPool has a new optional parameter messageOfTheDay
@@ -135,10 +128,12 @@
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Added Enum KnownControlledValues
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+  - Added Enum KnownUpdateMode
   - Enum KnownOssku has a new value Windows2019
   - Enum KnownOssku has a new value Windows2022
   - Enum KnownSnapshotType has a new value ManagedCluster

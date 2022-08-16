@@ -841,12 +841,22 @@ export interface ManagedClusterIngressProfileWebAppRouting {
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
 }
 
 /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
   /** Whether to enable KEDA. */
   enabled: boolean;
+}
+
+export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
+  /** Whether to enable VPA. Default value is false. */
+  enabled: boolean;
+  /** Controls which resource value autoscaler will change. Default value is RequestsAndLimits. */
+  controlledValues: ControlledValues;
+  /** Each update mode level is a superset of the lower levels. Off<Initial<Recreate<=Auto. For example: if UpdateMode is Initial, it means VPA sets the recommended resources in the VerticalPodAutoscaler Custom Resource (from UpdateMode Off) and also assigns resources on pod creation (from Initial). The default value is Off. */
+  updateMode: UpdateMode;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -2392,6 +2402,48 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link ControlledValues} that the service accepts. */
+export enum KnownControlledValues {
+  /** Autoscaler will control resource requests and limits. */
+  RequestsAndLimits = "RequestsAndLimits",
+  /** Autoscaler will control resource requests only. */
+  RequestsOnly = "RequestsOnly"
+}
+
+/**
+ * Defines values for ControlledValues. \
+ * {@link KnownControlledValues} can be used interchangeably with ControlledValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RequestsAndLimits**: Autoscaler will control resource requests and limits. \
+ * **RequestsOnly**: Autoscaler will control resource requests only.
+ */
+export type ControlledValues = string;
+
+/** Known values of {@link UpdateMode} that the service accepts. */
+export enum KnownUpdateMode {
+  /** Autoscaler never changes pod resources but provides recommendations. */
+  Off = "Off",
+  /** Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. */
+  Initial = "Initial",
+  /** Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. */
+  Recreate = "Recreate",
+  /** Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available. */
+  Auto = "Auto"
+}
+
+/**
+ * Defines values for UpdateMode. \
+ * {@link KnownUpdateMode} can be used interchangeably with UpdateMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Off**: Autoscaler never changes pod resources but provides recommendations. \
+ * **Initial**: Autoscaler only assigns resources on pod creation and doesn't change them during the lifetime of the pod. \
+ * **Recreate**: Autoscaler assigns resources on pod creation and updates pods that need further scaling during their lifetime by deleting and recreating. \
+ * **Auto**: Autoscaler chooses the update mode. Autoscaler currently does the same as Recreate. In the future, it may take advantage of restart-free mechanisms once they are available.
+ */
+export type UpdateMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
