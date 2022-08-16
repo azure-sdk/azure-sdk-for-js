@@ -47,7 +47,8 @@ export interface PrivateEndpointConnections {
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name
@@ -68,7 +69,8 @@ export interface PrivateEndpointConnections {
   >;
   /**
    * Update the state of the specified private endpoint connection associated with the configuration
-   * store.
+   * store. This operation cannot be used to create a private endpoint connection. Private endpoint
+   * connections must be created with the Network resource provider.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param configStoreName The name of the configuration store.
    * @param privateEndpointConnectionName Private endpoint connection name

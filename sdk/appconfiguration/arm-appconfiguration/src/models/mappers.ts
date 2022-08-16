@@ -1027,33 +1027,6 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
   }
 };
 
-export const KeyValueListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyValueListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "KeyValue"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const KeyValue: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1232,6 +1205,33 @@ export const DeletedConfigurationStore: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const KeyValueListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyValueListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyValue"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

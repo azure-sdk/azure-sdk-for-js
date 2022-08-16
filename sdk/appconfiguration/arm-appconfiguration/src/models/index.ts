@@ -451,14 +451,6 @@ export interface PrivateLinkResource {
   readonly requiredZoneNames?: string[];
 }
 
-/** The result of a request to list key-values. */
-export interface KeyValueListResult {
-  /** The collection value. */
-  value?: KeyValue[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
 /** The key-value resource along with all resource properties. */
 export interface KeyValue {
   /**
@@ -572,16 +564,24 @@ export interface DeletedConfigurationStore {
   readonly purgeProtectionEnabled?: boolean;
 }
 
+/** The result of a request to list key-values. */
+export interface KeyValueListResult {
+  /** The collection value. */
+  value?: KeyValue[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it. */
-export type ConfigurationStore = TrackedResource & {
+export interface ConfigurationStore extends TrackedResource {
   /** The managed identity information, if configured. */
   identity?: ResourceIdentity;
   /** The sku of the configuration store. */
@@ -623,13 +623,17 @@ export type ConfigurationStore = TrackedResource & {
   enablePurgeProtection?: boolean;
   /** Indicates whether the configuration store need to be recovered. */
   createMode?: CreateMode;
-};
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -647,11 +651,17 @@ export type IdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -671,9 +681,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -691,7 +705,9 @@ export type ConnectionStatus = string;
 
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
+  /** None */
   None = "None",
+  /** Recreate */
   Recreate = "Recreate"
 }
 
@@ -707,7 +723,9 @@ export type ActionsRequired = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -723,9 +741,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -743,6 +765,7 @@ export type CreatedByType = string;
 
 /** Known values of {@link ConfigurationResourceType} that the service accepts. */
 export enum KnownConfigurationResourceType {
+  /** MicrosoftAppConfigurationConfigurationStores */
   MicrosoftAppConfigurationConfigurationStores = "Microsoft.AppConfiguration/configurationStores"
 }
 
@@ -992,16 +1015,6 @@ export interface PrivateLinkResourcesListByConfigurationStoreNextOptionalParams
 export type PrivateLinkResourcesListByConfigurationStoreNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface KeyValuesListByConfigurationStoreOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the listByConfigurationStore operation. */
-export type KeyValuesListByConfigurationStoreResponse = KeyValueListResult;
-
-/** Optional parameters. */
 export interface KeyValuesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1026,16 +1039,6 @@ export interface KeyValuesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
-
-/** Optional parameters. */
-export interface KeyValuesListByConfigurationStoreNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skipToken?: string;
-}
-
-/** Contains response data for the listByConfigurationStoreNext operation. */
-export type KeyValuesListByConfigurationStoreNextResponse = KeyValueListResult;
 
 /** Optional parameters. */
 export interface AppConfigurationManagementClientOptionalParams
