@@ -1,5 +1,76 @@
 # Release History
     
+## 30.0.0 (2022-08-17)
+    
+**Features**
+
+  - Added operation group VipSwap
+  - Added operation PublicIPAddresses.beginDdosProtectionStatus
+  - Added operation PublicIPAddresses.beginDdosProtectionStatusAndWait
+  - Added operation VirtualNetworks.beginListDdosProtectionStatusAndWait
+  - Added Interface PublicIPAddressesDdosProtectionStatusOptionalParams
+  - Added Interface PublicIpDdosProtectionStatusResult
+  - Added Interface SwapResource
+  - Added Interface SwapResourceListResult
+  - Added Interface SwapResourceProperties
+  - Added Interface VipSwapCreateOptionalParams
+  - Added Interface VipSwapGetOptionalParams
+  - Added Interface VipSwapListOptionalParams
+  - Added Interface VirtualNetworkDdosProtectionStatusResult
+  - Added Interface VirtualNetworkGatewayPolicyGroup
+  - Added Interface VirtualNetworkGatewayPolicyGroupMember
+  - Added Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams
+  - Added Interface VirtualNetworksListDdosProtectionStatusOptionalParams
+  - Added Interface VngClientConnectionConfiguration
+  - Added Type Alias ActionType
+  - Added Type Alias ApplicationGatewayClientRevocationOptions
+  - Added Type Alias DdosSettingsProtectionMode
+  - Added Type Alias ExpressRoutePortsBillingType
+  - Added Type Alias IsWorkloadProtected
+  - Added Type Alias PublicIPAddressesDdosProtectionStatusResponse
+  - Added Type Alias SlotType
+  - Added Type Alias VipSwapGetResponse
+  - Added Type Alias VipSwapListResponse
+  - Added Type Alias VirtualNetworksListDdosProtectionStatusNextResponse
+  - Added Type Alias VirtualNetworksListDdosProtectionStatusResponse
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientRevocation
+  - Interface DdosProtectionPlan has a new optional parameter publicIpAddresses
+  - Interface DdosSettings has a new optional parameter ddosProtectionPlan
+  - Interface DdosSettings has a new optional parameter protectionMode
+  - Interface ExpressRouteConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface ExpressRouteLink has a new optional parameter coloLocation
+  - Interface ExpressRoutePort has a new optional parameter billingType
+  - Interface ManagedRuleOverride has a new optional parameter action
+  - Interface NetworkInterface has a new optional parameter disableTcpStateTracking
+  - Interface Probe has a new optional parameter probeThreshold
+  - Interface VirtualNetworkGateway has a new optional parameter virtualNetworkGatewayPolicyGroups
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface VirtualNetworkGatewayConnectionListEntity has a new optional parameter enablePrivateLinkFastPath
+  - Interface VpnClientConfiguration has a new optional parameter vngClientConnectionConfigurations
+  - Class NetworkManagementClient has a new parameter vipSwap
+  - Added Enum KnownActionType
+  - Added Enum KnownApplicationGatewayClientRevocationOptions
+  - Added Enum KnownDdosSettingsProtectionMode
+  - Added Enum KnownExpressRoutePortsBillingType
+  - Added Enum KnownIsWorkloadProtected
+  - Enum KnownApplicationGatewayBackendHealthServerHealth has a new value Healthy
+  - Enum KnownApplicationGatewayBackendHealthServerHealth has a new value Unhealthy
+  - Enum KnownManagedRuleEnabledState has a new value Enabled
+
+**Breaking Changes**
+
+  - Interface DdosCustomPolicy no longer has parameter protocolCustomSettings
+  - Interface DdosCustomPolicy no longer has parameter publicIPAddresses
+  - Interface DdosSettings no longer has parameter ddosCustomPolicy
+  - Interface DdosSettings no longer has parameter protectedIP
+  - Interface DdosSettings no longer has parameter protectionCoverage
+  - Removed Enum KnownDdosCustomPolicyProtocol
+  - Removed Enum KnownDdosCustomPolicyTriggerSensitivityOverride
+  - Removed Enum KnownDdosSettingsProtectionCoverage
+  - Enum KnownApplicationGatewayBackendHealthServerHealth no longer has value Down
+  - Enum KnownApplicationGatewayBackendHealthServerHealth no longer has value Up
+    
+    
 ## 29.0.0 (2022-08-02)
     
 **Features**
