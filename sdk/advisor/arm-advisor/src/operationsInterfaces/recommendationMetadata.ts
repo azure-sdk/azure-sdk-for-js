@@ -18,7 +18,7 @@ import {
 /** Interface representing a RecommendationMetadata. */
 export interface RecommendationMetadata {
   /**
-   * Gets the list of metadata entities.
+   * Gets the list of metadata .
    * @param options The options parameters.
    */
   list(

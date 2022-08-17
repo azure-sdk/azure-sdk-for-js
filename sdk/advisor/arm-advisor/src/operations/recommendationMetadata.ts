@@ -36,7 +36,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Gets the list of metadata .
    * @param options The options parameters.
    */
   public list(
@@ -93,7 +93,7 @@ export class RecommendationMetadataImpl implements RecommendationMetadata {
   }
 
   /**
-   * Gets the list of metadata entities.
+   * Gets the list of metadata .
    * @param options The options parameters.
    */
   private _list(
