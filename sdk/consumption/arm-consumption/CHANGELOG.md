@@ -1,15 +1,48 @@
 # Release History
+    
+## 10.0.0 (2022-08-17)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
+  - Added operation LotsOperations.listByCustomer
+  - Added Interface AmountWithExchangeRate
+  - Added Interface Balance
+  - Added Interface Budget
+  - Added Interface ChargeSummary
+  - Added Interface CreditSummary
+  - Added Interface EventSummary
+  - Added Interface LegacyChargeSummary
+  - Added Interface LegacyReservationRecommendation
+  - Added Interface LegacyReservationTransaction
+  - Added Interface LegacySharedScopeReservationRecommendationProperties
+  - Added Interface LegacySingleScopeReservationRecommendationProperties
+  - Added Interface LegacyUsageDetail
+  - Added Interface LotsListByCustomerNextOptionalParams
+  - Added Interface LotsListByCustomerOptionalParams
+  - Added Interface LotSummary
+  - Added Interface ManagementGroupAggregatedCostResult
+  - Added Interface Marketplace
+  - Added Interface ModernChargeSummary
+  - Added Interface ModernReservationRecommendation
+  - Added Interface ModernReservationTransaction
+  - Added Interface ModernUsageDetail
+  - Added Interface PriceSheetResult
+  - Added Interface ReservationDetail
+  - Added Interface ReservationRecommendation
+  - Added Interface ReservationRecommendationDetailsModel
+  - Added Interface ReservationSummary
+  - Added Interface ReservationTransaction
+  - Added Interface TagsResult
+  - Added Interface UsageDetail
+  - Added Type Alias LotsListByCustomerNextResponse
+  - Added Type Alias LotsListByCustomerResponse
+  - Enum KnownEventType has a new value CreditExpired
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation ReservationRecommendationDetails.get has a new signature
+  - Interface BudgetFilter no longer has parameter not
+    
 ## 9.0.1 (2022-04-11)
 
 **features**
