@@ -62,7 +62,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/3.0.1`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/3.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -109,7 +109,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-08-03";
     this.configurationStores = new ConfigurationStoresImpl(this);
     this.operations = new OperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -133,7 +133,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return item.replace(/(?<==).*$/, apiVersion);
+              return "api-version=" + apiVersion;
             } else {
               return item;
             }
