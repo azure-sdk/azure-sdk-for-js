@@ -36,7 +36,7 @@ import {
 /** Interface representing a ConfigurationStores. */
 export interface ConfigurationStores {
   /**
-   * Lists the configuration stores for a given subscription.
+   * Lists the configuration   stores for a given subscription.
    * @param options The options parameters.
    */
   list(
