@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { WebPubSubPrivateEndpointConnections } from "../operationsInterfaces";
+import { WebPubSubCustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,26 +15,25 @@ import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  PrivateEndpointConnection,
-  WebPubSubPrivateEndpointConnectionsListNextOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListResponse,
-  WebPubSubPrivateEndpointConnectionsGetOptionalParams,
-  WebPubSubPrivateEndpointConnectionsGetResponse,
-  WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
-  WebPubSubPrivateEndpointConnectionsUpdateResponse,
-  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
-  WebPubSubPrivateEndpointConnectionsListNextResponse
+  CustomDomain,
+  WebPubSubCustomDomainsListNextOptionalParams,
+  WebPubSubCustomDomainsListOptionalParams,
+  WebPubSubCustomDomainsListResponse,
+  WebPubSubCustomDomainsGetOptionalParams,
+  WebPubSubCustomDomainsGetResponse,
+  WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
+  WebPubSubCustomDomainsCreateOrUpdateResponse,
+  WebPubSubCustomDomainsDeleteOptionalParams,
+  WebPubSubCustomDomainsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing WebPubSubPrivateEndpointConnections operations. */
-export class WebPubSubPrivateEndpointConnectionsImpl
-  implements WebPubSubPrivateEndpointConnections {
+/** Class containing WebPubSubCustomDomains operations. */
+export class WebPubSubCustomDomainsImpl implements WebPubSubCustomDomains {
   private readonly client: WebPubSubManagementClient;
 
   /**
-   * Initialize a new instance of the class WebPubSubPrivateEndpointConnections class.
+   * Initialize a new instance of the class WebPubSubCustomDomains class.
    * @param client Reference to the service client
    */
   constructor(client: WebPubSubManagementClient) {
@@ -42,7 +41,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List all custom domains.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -51,8 +50,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubCustomDomainsListOptionalParams
+  ): PagedAsyncIterableIterator<CustomDomain> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
@@ -70,8 +69,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection[]> {
+    options?: WebPubSubCustomDomainsListOptionalParams
+  ): AsyncIterableIterator<CustomDomain[]> {
     let result = await this._list(resourceGroupName, resourceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -90,8 +89,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): AsyncIterableIterator<PrivateEndpointConnection> {
+    options?: WebPubSubCustomDomainsListOptionalParams
+  ): AsyncIterableIterator<CustomDomain> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
@@ -102,7 +101,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * List private endpoint connections
+   * List all custom domains.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
@@ -111,8 +110,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListResponse> {
+    options?: WebPubSubCustomDomainsListOptionalParams
+  ): Promise<WebPubSubCustomDomainsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listOperationSpec
@@ -120,71 +119,137 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * Get the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Get a custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
+   * @param name Custom domain name.
    * @param options The options parameters.
    */
   get(
-    privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse> {
+    name: string,
+    options?: WebPubSubCustomDomainsGetOptionalParams
+  ): Promise<WebPubSubCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { resourceGroupName, resourceName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update the state of specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
-   * @param parameters The resource of private endpoint and its properties
+   * @param name Custom domain name.
+   * @param parameters A custom domain
    * @param options The options parameters.
    */
-  update(
-    privateEndpointConnectionName: string,
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    parameters: PrivateEndpointConnection,
-    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        parameters,
-        options
-      },
-      updateOperationSpec
+    name: string,
+    parameters: CustomDomain,
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
+      WebPubSubCustomDomainsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, name, parameters, options },
+      createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Create or update a custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
+   * @param name Custom domain name.
+   * @param parameters A custom domain
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    name: string,
+    parameters: CustomDomain,
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+  ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      name,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Delete a custom domain.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param name Custom domain name.
    * @param options The options parameters.
    */
   async beginDelete(
-    privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    name: string,
+    options?: WebPubSubCustomDomainsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -227,12 +292,7 @@ export class WebPubSubPrivateEndpointConnectionsImpl
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        privateEndpointConnectionName,
-        resourceGroupName,
-        resourceName,
-        options
-      },
+      { resourceGroupName, resourceName, name, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -245,23 +305,23 @@ export class WebPubSubPrivateEndpointConnectionsImpl
   }
 
   /**
-   * Delete the specified private endpoint connection
-   * @param privateEndpointConnectionName The name of the private endpoint connection
+   * Delete a custom domain.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
+   * @param name Custom domain name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
-    privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    name: string,
+    options?: WebPubSubCustomDomainsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
-      privateEndpointConnectionName,
       resourceGroupName,
       resourceName,
+      name,
       options
     );
     return poller.pollUntilDone();
@@ -279,8 +339,8 @@ export class WebPubSubPrivateEndpointConnectionsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubPrivateEndpointConnectionsListNextOptionalParams
-  ): Promise<WebPubSubPrivateEndpointConnectionsListNextResponse> {
+    options?: WebPubSubCustomDomainsListNextOptionalParams
+  ): Promise<WebPubSubCustomDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listNextOperationSpec
@@ -292,11 +352,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.CustomDomainList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -314,11 +374,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.CustomDomain
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -330,31 +390,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.CustomDomain
+    },
+    201: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    202: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    204: {
+      bodyMapper: Mappers.CustomDomain
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.name
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -362,7 +431,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customDomains/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -379,7 +448,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -389,7 +458,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionList
+      bodyMapper: Mappers.CustomDomainList
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
