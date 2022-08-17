@@ -1,15 +1,287 @@
 # Release History
+    
+## 10.0.0-beta.1 (2022-08-17)
+    
+**Features**
 
-## 9.0.2 (Unreleased)
+  - Added operation group DatabaseAdvancedThreatProtectionSettings
+  - Added operation group DistributedAvailabilityGroups
+  - Added operation group EndpointCertificates
+  - Added operation group IPv6FirewallRules
+  - Added operation group ManagedDatabaseAdvancedThreatProtectionSettings
+  - Added operation group ManagedDatabaseMoveOperations
+  - Added operation group ManagedInstanceAdvancedThreatProtectionSettings
+  - Added operation group ManagedInstanceDtcs
+  - Added operation group ManagedServerDnsAliases
+  - Added operation group ServerAdvancedThreatProtectionSettings
+  - Added operation group ServerTrustCertificates
+  - Added Interface Advisor
+  - Added Interface BackupShortTermRetentionPolicy
+  - Added Interface Database
+  - Added Interface DatabaseAdvancedThreatProtection
+  - Added Interface DatabaseAdvancedThreatProtectionListResult
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams
+  - Added Interface DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+  - Added Interface DatabaseAutomaticTuning
+  - Added Interface DatabaseBlobAuditingPolicy
+  - Added Interface DatabaseColumn
+  - Added Interface DatabaseExtensions
+  - Added Interface DatabaseOperation
+  - Added Interface DatabaseSchema
+  - Added Interface DatabaseSecurityAlertPolicy
+  - Added Interface DatabaseTable
+  - Added Interface DatabaseUsage
+  - Added Interface DatabaseVulnerabilityAssessment
+  - Added Interface DatabaseVulnerabilityAssessmentRuleBaseline
+  - Added Interface DatabaseVulnerabilityAssessmentScansExport
+  - Added Interface DataMaskingPolicy
+  - Added Interface DataMaskingRule
+  - Added Interface DataWarehouseUserActivities
+  - Added Interface DeletedServer
+  - Added Interface DistributedAvailabilityGroup
+  - Added Interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
+  - Added Interface DistributedAvailabilityGroupsDeleteOptionalParams
+  - Added Interface DistributedAvailabilityGroupsGetOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListByInstanceOptionalParams
+  - Added Interface DistributedAvailabilityGroupsListResult
+  - Added Interface DistributedAvailabilityGroupsUpdateOptionalParams
+  - Added Interface ElasticPool
+  - Added Interface ElasticPoolActivity
+  - Added Interface ElasticPoolDatabaseActivity
+  - Added Interface ElasticPoolOperation
+  - Added Interface EncryptionProtector
+  - Added Interface EndpointCertificate
+  - Added Interface EndpointCertificateListResult
+  - Added Interface EndpointCertificatesGetOptionalParams
+  - Added Interface EndpointCertificatesListByInstanceNextOptionalParams
+  - Added Interface EndpointCertificatesListByInstanceOptionalParams
+  - Added Interface ExtendedDatabaseBlobAuditingPolicy
+  - Added Interface ExtendedServerBlobAuditingPolicy
+  - Added Interface FailoverGroup
+  - Added Interface FirewallRule
+  - Added Interface GeoBackupPolicy
+  - Added Interface ImportExportExtensionsOperationResult
+  - Added Interface ImportExportOperationResult
+  - Added Interface InstanceFailoverGroup
+  - Added Interface InstancePool
+  - Added Interface IPv6FirewallRule
+  - Added Interface IPv6FirewallRuleListResult
+  - Added Interface IPv6FirewallRulesCreateOrUpdateOptionalParams
+  - Added Interface IPv6FirewallRulesDeleteOptionalParams
+  - Added Interface IPv6FirewallRulesGetOptionalParams
+  - Added Interface IPv6FirewallRulesListByServerNextOptionalParams
+  - Added Interface IPv6FirewallRulesListByServerOptionalParams
+  - Added Interface Job
+  - Added Interface JobAgent
+  - Added Interface JobCredential
+  - Added Interface JobExecution
+  - Added Interface JobStep
+  - Added Interface JobTargetGroup
+  - Added Interface JobVersion
+  - Added Interface LedgerDigestUploads
+  - Added Interface LogicalDatabaseTransparentDataEncryption
+  - Added Interface LogicalServerAdvancedThreatProtectionListResult
+  - Added Interface LongTermRetentionBackup
+  - Added Interface LongTermRetentionBackupOperationResult
+  - Added Interface LongTermRetentionPolicy
+  - Added Interface MaintenanceWindowOptions
+  - Added Interface MaintenanceWindows
+  - Added Interface ManagedBackupShortTermRetentionPolicy
+  - Added Interface ManagedDatabase
+  - Added Interface ManagedDatabaseAdvancedThreatProtection
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionListResult
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextOptionalParams
+  - Added Interface ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams
+  - Added Interface ManagedDatabaseMoveOperationListResult
+  - Added Interface ManagedDatabaseMoveOperationResult
+  - Added Interface ManagedDatabaseMoveOperationsGetOptionalParams
+  - Added Interface ManagedDatabaseMoveOperationsListByLocationNextOptionalParams
+  - Added Interface ManagedDatabaseMoveOperationsListByLocationOptionalParams
+  - Added Interface ManagedDatabaseRestoreDetailsResult
+  - Added Interface ManagedDatabaseSecurityAlertPolicy
+  - Added Interface ManagedInstance
+  - Added Interface ManagedInstanceAdministrator
+  - Added Interface ManagedInstanceAdvancedThreatProtection
+  - Added Interface ManagedInstanceAdvancedThreatProtectionListResult
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextOptionalParams
+  - Added Interface ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceOptionalParams
+  - Added Interface ManagedInstanceAzureADOnlyAuthentication
+  - Added Interface ManagedInstanceDtc
+  - Added Interface ManagedInstanceDtcListResult
+  - Added Interface ManagedInstanceDtcsCreateOrUpdateOptionalParams
+  - Added Interface ManagedInstanceDtcSecuritySettings
+  - Added Interface ManagedInstanceDtcsGetOptionalParams
+  - Added Interface ManagedInstanceDtcsListByManagedInstanceNextOptionalParams
+  - Added Interface ManagedInstanceDtcsListByManagedInstanceOptionalParams
+  - Added Interface ManagedInstanceDtcTransactionManagerCommunicationSettings
+  - Added Interface ManagedInstanceEncryptionProtector
+  - Added Interface ManagedInstanceKey
+  - Added Interface ManagedInstanceLongTermRetentionBackup
+  - Added Interface ManagedInstanceLongTermRetentionPolicy
+  - Added Interface ManagedInstanceOperation
+  - Added Interface ManagedInstancePrivateEndpointConnection
+  - Added Interface ManagedInstancePrivateLink
+  - Added Interface ManagedInstanceQuery
+  - Added Interface ManagedInstanceVulnerabilityAssessment
+  - Added Interface ManagedServerDnsAlias
+  - Added Interface ManagedServerDnsAliasAcquisition
+  - Added Interface ManagedServerDnsAliasCreation
+  - Added Interface ManagedServerDnsAliasesAcquireOptionalParams
+  - Added Interface ManagedServerDnsAliasesCreateOrUpdateOptionalParams
+  - Added Interface ManagedServerDnsAliasesDeleteOptionalParams
+  - Added Interface ManagedServerDnsAliasesGetOptionalParams
+  - Added Interface ManagedServerDnsAliasesListByManagedInstanceNextOptionalParams
+  - Added Interface ManagedServerDnsAliasesListByManagedInstanceOptionalParams
+  - Added Interface ManagedServerDnsAliasListResult
+  - Added Interface ManagedServerSecurityAlertPolicy
+  - Added Interface ManagedTransparentDataEncryption
+  - Added Interface OutboundFirewallRule
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface ProxyResourceWithWritableName
+  - Added Interface QueryStatistics
+  - Added Interface RecommendedAction
+  - Added Interface RecommendedSensitivityLabelUpdate
+  - Added Interface RecoverableDatabase
+  - Added Interface RecoverableManagedDatabase
+  - Added Interface ReplicationLink
+  - Added Interface RestorableDroppedDatabase
+  - Added Interface RestorableDroppedManagedDatabase
+  - Added Interface RestorePoint
+  - Added Interface SecurityEvent
+  - Added Interface SensitivityLabel
+  - Added Interface SensitivityLabelUpdate
+  - Added Interface Server
+  - Added Interface ServerAdvancedThreatProtection
+  - Added Interface ServerAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsGetOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsListByServerNextOptionalParams
+  - Added Interface ServerAdvancedThreatProtectionSettingsListByServerOptionalParams
+  - Added Interface ServerAutomaticTuning
+  - Added Interface ServerAzureADAdministrator
+  - Added Interface ServerAzureADOnlyAuthentication
+  - Added Interface ServerBlobAuditingPolicy
+  - Added Interface ServerCommunicationLink
+  - Added Interface ServerConnectionPolicy
+  - Added Interface ServerDevOpsAuditingSettings
+  - Added Interface ServerDnsAlias
+  - Added Interface ServerKey
+  - Added Interface ServerOperation
+  - Added Interface ServerSecurityAlertPolicy
+  - Added Interface ServerTrustCertificate
+  - Added Interface ServerTrustCertificatesCreateOrUpdateOptionalParams
+  - Added Interface ServerTrustCertificatesDeleteOptionalParams
+  - Added Interface ServerTrustCertificatesGetOptionalParams
+  - Added Interface ServerTrustCertificatesListByInstanceNextOptionalParams
+  - Added Interface ServerTrustCertificatesListByInstanceOptionalParams
+  - Added Interface ServerTrustCertificatesListResult
+  - Added Interface ServerTrustGroup
+  - Added Interface ServerVulnerabilityAssessment
+  - Added Interface ServiceObjective
+  - Added Interface SqlAgentConfiguration
+  - Added Interface SubscriptionUsage
+  - Added Interface SyncAgent
+  - Added Interface SyncAgentLinkedDatabase
+  - Added Interface SyncGroup
+  - Added Interface SyncMember
+  - Added Interface TdeCertificate
+  - Added Interface TimeZone
+  - Added Interface TrackedResource
+  - Added Interface UpdateManagedInstanceDnsServersOperation
+  - Added Interface VirtualCluster
+  - Added Interface VirtualNetworkRule
+  - Added Interface VulnerabilityAssessmentScanRecord
+  - Added Interface WorkloadClassifier
+  - Added Interface WorkloadGroup
+  - Added Type Alias AdvancedThreatProtectionName
+  - Added Type Alias AdvancedThreatProtectionState
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
+  - Added Type Alias DatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse
+  - Added Type Alias DistributedAvailabilityGroupsCreateOrUpdateResponse
+  - Added Type Alias DistributedAvailabilityGroupsGetResponse
+  - Added Type Alias DistributedAvailabilityGroupsListByInstanceNextResponse
+  - Added Type Alias DistributedAvailabilityGroupsListByInstanceResponse
+  - Added Type Alias DistributedAvailabilityGroupsUpdateResponse
+  - Added Type Alias DtcName
+  - Added Type Alias EndpointCertificatesGetResponse
+  - Added Type Alias EndpointCertificatesListByInstanceNextResponse
+  - Added Type Alias EndpointCertificatesListByInstanceResponse
+  - Added Type Alias IPv6FirewallRulesCreateOrUpdateResponse
+  - Added Type Alias IPv6FirewallRulesGetResponse
+  - Added Type Alias IPv6FirewallRulesListByServerNextResponse
+  - Added Type Alias IPv6FirewallRulesListByServerResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseNextResponse
+  - Added Type Alias ManagedDatabaseAdvancedThreatProtectionSettingsListByDatabaseResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsGetResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsListByLocationNextResponse
+  - Added Type Alias ManagedDatabaseMoveOperationsListByLocationResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextResponse
+  - Added Type Alias ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceResponse
+  - Added Type Alias ManagedInstanceDtcsCreateOrUpdateResponse
+  - Added Type Alias ManagedInstanceDtcsGetResponse
+  - Added Type Alias ManagedInstanceDtcsListByManagedInstanceNextResponse
+  - Added Type Alias ManagedInstanceDtcsListByManagedInstanceResponse
+  - Added Type Alias ManagedServerDnsAliasesAcquireResponse
+  - Added Type Alias ManagedServerDnsAliasesCreateOrUpdateResponse
+  - Added Type Alias ManagedServerDnsAliasesGetResponse
+  - Added Type Alias ManagedServerDnsAliasesListByManagedInstanceNextResponse
+  - Added Type Alias ManagedServerDnsAliasesListByManagedInstanceResponse
+  - Added Type Alias MoveOperationMode
+  - Added Type Alias ReplicationLinksFailoverAllowDataLossResponse
+  - Added Type Alias ReplicationLinksFailoverResponse
+  - Added Type Alias ReplicationMode
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsCreateOrUpdateResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsGetResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsListByServerNextResponse
+  - Added Type Alias ServerAdvancedThreatProtectionSettingsListByServerResponse
+  - Added Type Alias ServerTrustCertificatesCreateOrUpdateResponse
+  - Added Type Alias ServerTrustCertificatesGetResponse
+  - Added Type Alias ServerTrustCertificatesListByInstanceNextResponse
+  - Added Type Alias ServerTrustCertificatesListByInstanceResponse
+  - Added Type Alias SyncGroupsType
+  - Interface ElasticPoolUpdate has a new optional parameter highAvailabilityReplicaCount
+  - Class SqlManagementClient has a new parameter databaseAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter distributedAvailabilityGroups
+  - Class SqlManagementClient has a new parameter endpointCertificates
+  - Class SqlManagementClient has a new parameter iPv6FirewallRules
+  - Class SqlManagementClient has a new parameter managedDatabaseAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter managedDatabaseMoveOperations
+  - Class SqlManagementClient has a new parameter managedInstanceAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter managedInstanceDtcs
+  - Class SqlManagementClient has a new parameter managedServerDnsAliases
+  - Class SqlManagementClient has a new parameter serverAdvancedThreatProtectionSettings
+  - Class SqlManagementClient has a new parameter serverTrustCertificates
+  - Added Enum KnownAdvancedThreatProtectionName
+  - Added Enum KnownDtcName
+  - Added Enum KnownMoveOperationMode
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownSyncGroupsType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group OperationsHealthOperations
+  - Removed operation ReplicationLinks.beginUnlink
+  - Removed operation ReplicationLinks.beginUnlinkAndWait
+  - Operation SyncGroups.listLogs has a new signature
+  - Interface DatabaseIdentity no longer has parameter delegatedResources
+  - Interface DatabaseUpdate no longer has parameter primaryDelegatedIdentityClientId
+  - Class SqlManagementClient no longer has parameter operationsHealthOperations
+  - Removed Enum KnownEnum60
+    
 ## 9.0.1 (2022-05-01)
 
 **Features**

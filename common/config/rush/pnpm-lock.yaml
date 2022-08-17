@@ -4053,7 +4053,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220815
+      typescript: 4.9.0-dev.20220817
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8960,8 +8960,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220815:
-    resolution: {integrity: sha512-C4D85FWbZEZhbvGglzsQbIj6S5kIwCVA4X63nDBcBZd8qL47l4LBAG8akqPsQfKEqRVrHvNoRAVI4E5jv8aBqw==}
+  /typescript/4.9.0-dev.20220817:
+    resolution: {integrity: sha512-Au+zM0t9oKRq6WF9Ev1WfgGfV7eB+EinOigiR5dTR9DFd0gPZhClNQkQCqwW+qbwJ4hSGKkhZ43wxJYpsroVlA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14463,7 +14463,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-zR3IeH9PKKdyMB6ZAI4ofVQfVUdISHmUNqKefMrtICfI+pYrDFlSPJABRaZ6XP73acXZZgVzZddbVAElt0jd8g==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-uL/PEQ10xFzOhgnYk/yqGjQ32JTGxBWT9WtHLhR6RsiPngHv7ecYNkXDWhVjrn/513JJ3sCaJW56kUKC5vGf2A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14475,6 +14475,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14486,7 +14488,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -16991,7 +16992,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-i6qLYYX26P7zR9f8XNBiYeXkwIK9YNe62e1nMj1JH3iGUlltw6L1OFxQFONQfXanTFCHzm2/LAZ7zBiUGbxPNQ==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-AQ/+VgWt0+N2/cpLbLDfY9F0kZITq5zRdSJ/qL3W53j4YUkSqLQn/zOLUh2DJpD6aKhaIDB7cTrdpTQbrlRxvw==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
