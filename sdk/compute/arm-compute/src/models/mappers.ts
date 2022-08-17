@@ -1850,6 +1850,73 @@ export const VMGalleryApplication: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      instanceView: {
+        serializedName: "instanceView",
+        type: {
+          name: "Composite",
+          className: "VMGalleryApplicationInstanceView"
+        }
+      }
+    }
+  }
+};
+
+export const VMGalleryApplicationInstanceView: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplicationInstanceView",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      result: {
+        serializedName: "result",
+        type: {
+          name: "String"
+        }
+      },
+      actionsPerformed: {
+        serializedName: "actionsPerformed",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMGalleryApplicationInstanceViewAction"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const VMGalleryApplicationInstanceViewAction: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VMGalleryApplicationInstanceViewAction",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      result: {
+        serializedName: "result",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2166,6 +2233,13 @@ export const VirtualMachineScaleSetUpdateVMProfile: coreClient.CompositeMapper =
         serializedName: "userData",
         type: {
           name: "String"
+        }
+      },
+      applicationProfile: {
+        serializedName: "applicationProfile",
+        type: {
+          name: "Composite",
+          className: "ApplicationProfile"
         }
       }
     }
@@ -3100,6 +3174,27 @@ export const OrchestrationServiceStateInput: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VirtualMachineApplicationsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VirtualMachineApplicationsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMGalleryApplication"
+            }
+          }
         }
       }
     }
@@ -8374,7 +8469,8 @@ export const SharingProfile: coreClient.CompositeMapper = {
       communityGalleryInfo: {
         serializedName: "communityGalleryInfo",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "CommunityGalleryInfo"
         }
       }
     }
@@ -8394,6 +8490,58 @@ export const SharingProfileGroup: coreClient.CompositeMapper = {
       },
       ids: {
         serializedName: "ids",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryInfo",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNamePrefix: {
+        serializedName: "publicNamePrefix",
+        type: {
+          name: "String"
+        }
+      },
+      communityGalleryEnabled: {
+        serializedName: "communityGalleryEnabled",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -10917,58 +11065,6 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CommunityGalleryInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryInfo",
-    modelProperties: {
-      publisherUri: {
-        serializedName: "publisherUri",
-        type: {
-          name: "String"
-        }
-      },
-      publisherContact: {
-        serializedName: "publisherContact",
-        type: {
-          name: "String"
-        }
-      },
-      eula: {
-        serializedName: "eula",
-        type: {
-          name: "String"
-        }
-      },
-      publicNamePrefix: {
-        serializedName: "publicNamePrefix",
-        type: {
-          name: "String"
-        }
-      },
-      communityGalleryEnabled: {
-        serializedName: "communityGalleryEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      publicNames: {
-        serializedName: "publicNames",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
         }
       }
     }

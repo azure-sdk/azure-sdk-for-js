@@ -1104,6 +1104,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     usageOperations: UsageOperations;
     // (undocumented)
+    virtualMachineApplications: VirtualMachineApplications;
+    // (undocumented)
     virtualMachineExtensionImages: VirtualMachineExtensionImages;
     // (undocumented)
     virtualMachineExtensions: VirtualMachineExtensions;
@@ -1115,6 +1117,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     virtualMachineRunCommands: VirtualMachineRunCommands;
     // (undocumented)
     virtualMachines: VirtualMachines;
+    // (undocumented)
+    virtualMachineScaleSetApplications: VirtualMachineScaleSetApplications;
     // (undocumented)
     virtualMachineScaleSetExtensions: VirtualMachineScaleSetExtensions;
     // (undocumented)
@@ -4992,7 +4996,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5563,6 +5567,50 @@ export interface VirtualMachineAgentInstanceView {
     statuses?: InstanceViewStatus[];
     vmAgentVersion?: string;
 }
+
+// @public
+export interface VirtualMachineApplications {
+    beginDelete(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsDeleteOptionalParams): Promise<void>;
+    beginPut(resourceGroupName: string, vmName: string, applicationName: string, application: VMGalleryApplication, options?: VirtualMachineApplicationsPutOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineApplicationsPutResponse>, VirtualMachineApplicationsPutResponse>>;
+    beginPutAndWait(resourceGroupName: string, vmName: string, applicationName: string, application: VMGalleryApplication, options?: VirtualMachineApplicationsPutOptionalParams): Promise<VirtualMachineApplicationsPutResponse>;
+    get(resourceGroupName: string, vmName: string, applicationName: string, options?: VirtualMachineApplicationsGetOptionalParams): Promise<VirtualMachineApplicationsGetResponse>;
+    list(resourceGroupName: string, vmName: string, options?: VirtualMachineApplicationsListOptionalParams): Promise<VirtualMachineApplicationsListResponse>;
+}
+
+// @public
+export interface VirtualMachineApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineApplicationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineApplicationsGetResponse = VMGalleryApplication;
+
+// @public
+export interface VirtualMachineApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineApplicationsListResponse = VirtualMachineApplicationsListResult;
+
+// @public
+export interface VirtualMachineApplicationsListResult {
+    value?: VMGalleryApplication[];
+}
+
+// @public
+export interface VirtualMachineApplicationsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineApplicationsPutResponse = VMGalleryApplication;
 
 // @public
 export interface VirtualMachineAssessPatchesResult {
@@ -6228,6 +6276,45 @@ export interface VirtualMachineScaleSet extends Resource {
 }
 
 // @public
+export interface VirtualMachineScaleSetApplications {
+    beginDelete(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsDeleteOptionalParams): Promise<void>;
+    beginPut(resourceGroupName: string, vmScaleSetName: string, applicationName: string, application: VMGalleryApplication, options?: VirtualMachineScaleSetApplicationsPutOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachineScaleSetApplicationsPutResponse>, VirtualMachineScaleSetApplicationsPutResponse>>;
+    beginPutAndWait(resourceGroupName: string, vmScaleSetName: string, applicationName: string, application: VMGalleryApplication, options?: VirtualMachineScaleSetApplicationsPutOptionalParams): Promise<VirtualMachineScaleSetApplicationsPutResponse>;
+    get(resourceGroupName: string, vmScaleSetName: string, applicationName: string, options?: VirtualMachineScaleSetApplicationsGetOptionalParams): Promise<VirtualMachineScaleSetApplicationsGetResponse>;
+    list(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetApplicationsListOptionalParams): Promise<VirtualMachineScaleSetApplicationsListResponse>;
+}
+
+// @public
+export interface VirtualMachineScaleSetApplicationsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachineScaleSetApplicationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsGetResponse = VMGalleryApplication;
+
+// @public
+export interface VirtualMachineScaleSetApplicationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsListResponse = VirtualMachineApplicationsListResult;
+
+// @public
+export interface VirtualMachineScaleSetApplicationsPutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineScaleSetApplicationsPutResponse = VMGalleryApplication;
+
+// @public
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
@@ -6889,6 +6976,7 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
 
 // @public
 export interface VirtualMachineScaleSetUpdateVMProfile {
+    applicationProfile?: ApplicationProfile;
     billingProfile?: BillingProfile;
     diagnosticsProfile?: DiagnosticsProfile;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
@@ -7595,10 +7683,25 @@ export type VmDiskTypes = string;
 export interface VMGalleryApplication {
     configurationReference?: string;
     enableAutomaticUpgrade?: boolean;
+    readonly instanceView?: VMGalleryApplicationInstanceView;
     order?: number;
     packageReferenceId: string;
     tags?: string;
     treatFailureAsDeploymentFailure?: boolean;
+}
+
+// @public (undocumented)
+export interface VMGalleryApplicationInstanceView {
+    actionsPerformed?: VMGalleryApplicationInstanceViewAction[];
+    name?: string;
+    result?: string;
+    version?: string;
+}
+
+// @public (undocumented)
+export interface VMGalleryApplicationInstanceViewAction {
+    operation?: string;
+    result?: string;
 }
 
 // @public

@@ -245,7 +245,7 @@ export interface VirtualMachineScaleSetVMProfile {
   capacityReservation?: CapacityReservationProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
-  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01. */
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
 }
 
@@ -640,11 +640,34 @@ export interface VMGalleryApplication {
   treatFailureAsDeploymentFailure?: boolean;
   /** If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS */
   enableAutomaticUpgrade?: boolean;
+  /**
+   * Contains instanceView of the VMApplication if $expand=instanceView is specified
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: VMGalleryApplicationInstanceView;
+}
+
+export interface VMGalleryApplicationInstanceView {
+  /** The application name */
+  name?: string;
+  /** The application version */
+  version?: string;
+  /** The current status of the application */
+  result?: string;
+  /** actions performed on the application */
+  actionsPerformed?: VMGalleryApplicationInstanceViewAction[];
+}
+
+export interface VMGalleryApplicationInstanceViewAction {
+  /** The action performed */
+  operation?: string;
+  /** The result of the operation */
+  result?: string;
 }
 
 /** Specifies the hardware settings for the virtual machine scale set. */
 export interface VirtualMachineScaleSetHardwareProfile {
-  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
+  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
   vmSizeProperties?: VMSizeProperties;
 }
 
@@ -766,6 +789,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   scheduledEventsProfile?: ScheduledEventsProfile;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /** Specifies the gallery applications that should be made available to the VM/VMSS */
+  applicationProfile?: ApplicationProfile;
 }
 
 /** Describes a virtual machine scale set OS profile. */
@@ -1181,6 +1206,12 @@ export interface OrchestrationServiceStateInput {
   serviceName: OrchestrationServiceNames;
   /** The action to be performed. */
   action: OrchestrationServiceStateAction;
+}
+
+/** The List Extension operation response */
+export interface VirtualMachineApplicationsListResult {
+  /** The list of extensions */
+  value?: VMGalleryApplication[];
 }
 
 /** The instance view of a virtual machine extension. */
@@ -3221,7 +3252,7 @@ export interface SharingProfile {
    */
   readonly groups?: SharingProfileGroup[];
   /** Information of community gallery if current gallery is shared to community. */
-  communityGalleryInfo?: any;
+  communityGalleryInfo?: CommunityGalleryInfo;
 }
 
 /** Group of the gallery sharing profile */
@@ -3230,6 +3261,28 @@ export interface SharingProfileGroup {
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
+}
+
+/** Information of community gallery if current gallery is shared to community */
+export interface CommunityGalleryInfo {
+  /** The link to the publisher website. Visible to all users. */
+  publisherUri?: string;
+  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
+  publisherContact?: string;
+  /** End-user license agreement for community gallery image. */
+  eula?: string;
+  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
+  publicNamePrefix?: string;
+  /**
+   * Contains info about whether community gallery sharing is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly communityGalleryEnabled?: boolean;
+  /**
+   * Community gallery public name list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicNames?: string[];
 }
 
 /** Contains information about the soft deletion policy of the gallery. */
@@ -4275,28 +4328,6 @@ export interface OSFamilyListResult {
   nextLink?: string;
 }
 
-/** Information of community gallery if current gallery is shared to community */
-export interface CommunityGalleryInfo {
-  /** The link to the publisher website. Visible to all users. */
-  publisherUri?: string;
-  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
-  publisherContact?: string;
-  /** End-user license agreement for community gallery image. */
-  eula?: string;
-  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
-  publicNamePrefix?: string;
-  /**
-   * Contains info about whether community gallery sharing is enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly communityGalleryEnabled?: boolean;
-  /**
-   * Community gallery public name list.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNames?: string[];
-}
-
 /** The source image from which the Image Version is going to be created. */
 export interface GalleryArtifactSource {
   /** The managed artifact. */
@@ -4690,7 +4721,7 @@ export interface VirtualMachineScaleSet extends Resource {
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
   spotRestorePolicy?: SpotRestorePolicy;
   /**
-   * Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -4872,7 +4903,7 @@ export interface VirtualMachine extends Resource {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -4996,7 +5027,7 @@ export interface DedicatedHost extends Resource {
    */
   readonly instanceView?: DedicatedHostInstanceView;
   /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5099,7 +5130,7 @@ export interface CapacityReservation extends Resource {
    */
   readonly instanceView?: CapacityReservationInstanceView;
   /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5592,7 +5623,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5676,7 +5707,7 @@ export interface DedicatedHostUpdate extends UpdateResource {
    */
   readonly instanceView?: DedicatedHostInstanceView;
   /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5773,7 +5804,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
    */
   readonly instanceView?: CapacityReservationInstanceView;
   /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5860,7 +5891,7 @@ export interface DedicatedHostInstanceViewWithName
 export interface ImageOSDisk extends ImageDisk {
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   osType: OperatingSystemTypes;
-  /** The OS State. */
+  /** The OS State. For managed images, use Generalized. */
   osState: OperatingSystemStateTypes;
 }
 
@@ -9038,6 +9069,41 @@ export interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams
 export type VirtualMachineScaleSetRollingUpgradesGetLatestResponse = RollingUpgradeStatusInfo;
 
 /** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineScaleSetApplicationsListResponse = VirtualMachineApplicationsListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineScaleSetApplicationsGetResponse = VMGalleryApplication;
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachineScaleSetApplicationsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the put operation. */
+export type VirtualMachineScaleSetApplicationsPutResponse = VMGalleryApplication;
+
+/** Optional parameters. */
 export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -9582,6 +9648,41 @@ export interface VirtualMachinesListAllNextOptionalParams
 
 /** Contains response data for the listAllNext operation. */
 export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineApplicationsListResponse = VirtualMachineApplicationsListResult;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VirtualMachineApplicationsGetResponse = VMGalleryApplication;
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachineApplicationsPutOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the put operation. */
+export type VirtualMachineApplicationsPutResponse = VMGalleryApplication;
 
 /** Optional parameters. */
 export interface VirtualMachineImagesGetOptionalParams

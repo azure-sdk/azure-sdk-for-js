@@ -21,6 +21,7 @@ import {
   OrchestrationServiceStateInput as OrchestrationServiceStateInputMapper,
   VirtualMachineScaleSetExtension as VirtualMachineScaleSetExtensionMapper,
   VirtualMachineScaleSetExtensionUpdate as VirtualMachineScaleSetExtensionUpdateMapper,
+  VMGalleryApplication as VMGalleryApplicationMapper,
   VirtualMachineScaleSetVMExtension as VirtualMachineScaleSetVMExtensionMapper,
   VirtualMachineScaleSetVMExtensionUpdate as VirtualMachineScaleSetVMExtensionUpdateMapper,
   VirtualMachineScaleSetVMReimageParameters as VirtualMachineScaleSetVMReimageParametersMapper,
@@ -110,7 +111,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -318,6 +319,22 @@ export const expand1: OperationQueryParameter = {
   }
 };
 
+export const applicationName: OperationURLParameter = {
+  parameterPath: "applicationName",
+  mapper: {
+    serializedName: "applicationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const application: OperationParameter = {
+  parameterPath: "application",
+  mapper: VMGalleryApplicationMapper
+};
+
 export const extensionParameters2: OperationParameter = {
   parameterPath: "extensionParameters",
   mapper: VirtualMachineScaleSetVMExtensionMapper
@@ -493,6 +510,18 @@ export const parameters9: OperationParameter = {
 export const installPatchesInput: OperationParameter = {
   parameterPath: "installPatchesInput",
   mapper: VirtualMachineInstallPatchesParametersMapper
+};
+
+export const expand3: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    defaultValue: "instanceView",
+    isConstant: true,
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const location1: OperationURLParameter = {
@@ -749,7 +778,7 @@ export const parameters23: OperationParameter = {
   mapper: RestorePointCollectionUpdateMapper
 };
 
-export const expand3: OperationQueryParameter = {
+export const expand4: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -775,7 +804,7 @@ export const restorePointName: OperationURLParameter = {
   }
 };
 
-export const expand4: OperationQueryParameter = {
+export const expand5: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -806,7 +835,7 @@ export const parameters26: OperationParameter = {
   mapper: CapacityReservationGroupUpdateMapper
 };
 
-export const expand5: OperationQueryParameter = {
+export const expand6: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -816,7 +845,7 @@ export const expand5: OperationQueryParameter = {
   }
 };
 
-export const expand6: OperationQueryParameter = {
+export const expand7: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -847,7 +876,7 @@ export const parameters28: OperationParameter = {
   mapper: CapacityReservationUpdateMapper
 };
 
-export const expand7: OperationQueryParameter = {
+export const expand8: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -1103,7 +1132,7 @@ export const select1: OperationQueryParameter = {
   }
 };
 
-export const expand8: OperationQueryParameter = {
+export const expand9: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
@@ -1155,7 +1184,7 @@ export const galleryImageVersion1: OperationParameter = {
   mapper: GalleryImageVersionUpdateMapper
 };
 
-export const expand9: OperationQueryParameter = {
+export const expand10: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",

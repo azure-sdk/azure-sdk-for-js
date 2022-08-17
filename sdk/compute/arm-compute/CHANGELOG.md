@@ -1,15 +1,34 @@
 # Release History
+    
+## 19.2.0 (2022-08-17)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group VirtualMachineApplications
+  - Added operation group VirtualMachineScaleSetApplications
+  - Added Interface VirtualMachineApplicationsDeleteOptionalParams
+  - Added Interface VirtualMachineApplicationsGetOptionalParams
+  - Added Interface VirtualMachineApplicationsListOptionalParams
+  - Added Interface VirtualMachineApplicationsListResult
+  - Added Interface VirtualMachineApplicationsPutOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsListOptionalParams
+  - Added Interface VirtualMachineScaleSetApplicationsPutOptionalParams
+  - Added Interface VMGalleryApplicationInstanceView
+  - Added Interface VMGalleryApplicationInstanceViewAction
+  - Added Type Alias VirtualMachineApplicationsGetResponse
+  - Added Type Alias VirtualMachineApplicationsListResponse
+  - Added Type Alias VirtualMachineApplicationsPutResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsGetResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsListResponse
+  - Added Type Alias VirtualMachineScaleSetApplicationsPutResponse
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter applicationProfile
+  - Interface VMGalleryApplication has a new optional parameter instanceView
+  - Class ComputeManagementClient has a new parameter virtualMachineApplications
+  - Class ComputeManagementClient has a new parameter virtualMachineScaleSetApplications
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
