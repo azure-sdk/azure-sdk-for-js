@@ -3932,6 +3932,8 @@ export interface OSDisk {
 // @public
 export interface OSDiskImage {
     operatingSystem: OperatingSystemTypes;
+    sizeInBytes?: number;
+    sizeInGb?: number;
 }
 
 // @public
@@ -4992,7 +4994,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }

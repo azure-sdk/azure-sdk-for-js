@@ -1,15 +1,13 @@
 # Release History
+    
+## 19.2.0 (2022-08-18)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface OSDiskImage has a new optional parameter sizeInBytes
+  - Interface OSDiskImage has a new optional parameter sizeInGb
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
