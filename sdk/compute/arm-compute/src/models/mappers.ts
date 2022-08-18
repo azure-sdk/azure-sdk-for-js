@@ -796,6 +796,12 @@ export const WindowsConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "WinRMConfiguration"
         }
+      },
+      enableVMAgentPlatformUpdates: {
+        serializedName: "enableVMAgentPlatformUpdates",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -960,6 +966,12 @@ export const LinuxConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "LinuxPatchSettings"
+        }
+      },
+      enableVMAgentPlatformUpdates: {
+        serializedName: "enableVMAgentPlatformUpdates",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1698,6 +1710,29 @@ export const VirtualMachineScaleSetExtensionProfile: coreClient.CompositeMapper 
         serializedName: "extensionsTimeBudget",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultSecretReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultSecretReference",
+    modelProperties: {
+      secretUrl: {
+        serializedName: "secretUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceVault: {
+        serializedName: "sourceVault",
+        type: {
+          name: "Composite",
+          className: "SubResource"
         }
       }
     }
@@ -3468,29 +3503,6 @@ export const DiskEncryptionSettings: coreClient.CompositeMapper = {
         serializedName: "enabled",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const KeyVaultSecretReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyVaultSecretReference",
-    modelProperties: {
-      secretUrl: {
-        serializedName: "secretUrl",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      sourceVault: {
-        serializedName: "sourceVault",
-        type: {
-          name: "Composite",
-          className: "SubResource"
         }
       }
     }
@@ -8374,7 +8386,8 @@ export const SharingProfile: coreClient.CompositeMapper = {
       communityGalleryInfo: {
         serializedName: "communityGalleryInfo",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "CommunityGalleryInfo"
         }
       }
     }
@@ -8394,6 +8407,58 @@ export const SharingProfileGroup: coreClient.CompositeMapper = {
       },
       ids: {
         serializedName: "ids",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CommunityGalleryInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunityGalleryInfo",
+    modelProperties: {
+      publisherUri: {
+        serializedName: "publisherUri",
+        type: {
+          name: "String"
+        }
+      },
+      publisherContact: {
+        serializedName: "publisherContact",
+        type: {
+          name: "String"
+        }
+      },
+      eula: {
+        serializedName: "eula",
+        type: {
+          name: "String"
+        }
+      },
+      publicNamePrefix: {
+        serializedName: "publicNamePrefix",
+        type: {
+          name: "String"
+        }
+      },
+      communityGalleryEnabled: {
+        serializedName: "communityGalleryEnabled",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      publicNames: {
+        serializedName: "publicNames",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -10923,58 +10988,6 @@ export const OSFamilyListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CommunityGalleryInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunityGalleryInfo",
-    modelProperties: {
-      publisherUri: {
-        serializedName: "publisherUri",
-        type: {
-          name: "String"
-        }
-      },
-      publisherContact: {
-        serializedName: "publisherContact",
-        type: {
-          name: "String"
-        }
-      },
-      eula: {
-        serializedName: "eula",
-        type: {
-          name: "String"
-        }
-      },
-      publicNamePrefix: {
-        serializedName: "publicNamePrefix",
-        type: {
-          name: "String"
-        }
-      },
-      communityGalleryEnabled: {
-        serializedName: "communityGalleryEnabled",
-        readOnly: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      publicNames: {
-        serializedName: "publicNames",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const GalleryArtifactSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -11640,7 +11653,8 @@ export const VirtualMachineScaleSetExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }
@@ -11742,7 +11756,8 @@ export const VirtualMachineScaleSetExtensionUpdate: coreClient.CompositeMapper =
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }
@@ -11840,7 +11855,8 @@ export const VirtualMachineScaleSetVMExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }
@@ -11924,7 +11940,8 @@ export const VirtualMachineScaleSetVMExtensionUpdate: coreClient.CompositeMapper
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }
@@ -14181,7 +14198,8 @@ export const VirtualMachineExtensionUpdate: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }
@@ -15001,7 +15019,8 @@ export const VirtualMachineExtension: coreClient.CompositeMapper = {
       protectedSettingsFromKeyVault: {
         serializedName: "properties.protectedSettingsFromKeyVault",
         type: {
-          name: "any"
+          name: "Composite",
+          className: "KeyVaultSecretReference"
         }
       }
     }

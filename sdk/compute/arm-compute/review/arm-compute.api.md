@@ -3710,6 +3710,7 @@ export interface LastPatchInstallationSummary {
 // @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: LinuxPatchSettings;
     provisionVMAgent?: boolean;
     ssh?: SshConfiguration;
@@ -4992,7 +4993,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5601,7 +5602,7 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -5731,7 +5732,7 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -6248,7 +6249,7 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6336,7 +6337,7 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6936,7 +6937,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     instanceView?: VirtualMachineExtensionInstanceView;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -7016,7 +7017,7 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -7637,6 +7638,7 @@ export interface VMSizeProperties {
 export interface WindowsConfiguration {
     additionalUnattendContent?: AdditionalUnattendContent[];
     enableAutomaticUpdates?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettings;
     provisionVMAgent?: boolean;
     timeZone?: string;
