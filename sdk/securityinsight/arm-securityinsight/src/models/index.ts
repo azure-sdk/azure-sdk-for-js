@@ -725,6 +725,48 @@ export interface EntityQueryTemplateList {
   value: EntityQueryTemplateUnion[];
 }
 
+/** List all the file imports. */
+export interface FileImportList {
+  /**
+   * URL to fetch the next set of file imports.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of file imports. */
+  value: FileImport[];
+}
+
+/** Represents a file. */
+export interface FileMetadata {
+  /** The format of the file */
+  fileFormat?: FileFormat;
+  /** The name of the file. */
+  fileName?: string;
+  /** The size of the file. */
+  fileSize?: number;
+  /**
+   * A URI with a valid SAS token to allow uploading / downloading the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileContentUri?: string;
+  /**
+   * Indicates whether the file was deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deleteStatus?: DeleteStatus;
+}
+
+/** Describes an error encountered in the file during validation. */
+export interface ValidationError {
+  /** The number of the record that has the error. */
+  recordIndex?: number;
+  /**
+   * A list of descriptions of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessages?: string[];
+}
+
 /** List all the incidents. */
 export interface IncidentList {
   /**
@@ -2175,6 +2217,63 @@ export interface EntityQueryTemplate extends Resource {
   kind: EntityQueryTemplateKind;
 }
 
+/** Represents a file import in Azure Security Insights. */
+export interface FileImport extends Resource {
+  /** Describes how to ingest the records in the file. */
+  ingestionMode?: IngestionMode;
+  /** The content type of this file. */
+  contentType?: FileImportContentType;
+  /**
+   * The time the file was imported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeUTC?: Date;
+  /**
+   * Represents the error file (if the import was ingested with errors or failed the validation).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorFile?: FileMetadata;
+  /**
+   * An ordered list of some of the errors that were encountered during validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorsPreview?: ValidationError[];
+  /** Represents the imported file. */
+  importFile?: FileMetadata;
+  /**
+   * The number of records that have been successfully ingested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestedRecordCount?: number;
+  /** The source for the data in the file. */
+  source?: string;
+  /**
+   * The state of the file import.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: FileImportState;
+  /**
+   * The number of records in the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRecordCount?: number;
+  /**
+   * The number of records that have passed validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validRecordCount?: number;
+  /**
+   * The time the files associated with this import are deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesValidUntilTimeUTC?: Date;
+  /**
+   * The time the file import record is soft deleted from the database and history.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importValidUntilTimeUTC?: Date;
+}
+
 /** Consent for Office365 tenant that already made. */
 export interface OfficeConsent extends Resource {
   /** The tenantId of the Office365 with the consent. */
@@ -2325,6 +2424,10 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
   timeGenerated: Date;
   /** The name of the alert type. */
   alertType: string;
+  /** The intent of the alert. */
+  intent?: string;
+  /** The techniques of the alert. */
+  techniques?: string[];
 }
 
 /** Represents Insight Query. */
@@ -6692,6 +6795,123 @@ export enum KnownEntityQueryTemplateKind {
  */
 export type EntityQueryTemplateKind = string;
 
+/** Known values of {@link IngestionMode} that the service accepts. */
+export enum KnownIngestionMode {
+  /** No records should be ingested when invalid records are detected. */
+  IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
+  /** Valid records should still be ingested when invalid records are detected. */
+  IngestAnyValidRecords = "IngestAnyValidRecords",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for IngestionMode. \
+ * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IngestOnlyIfAllAreValid**: No records should be ingested when invalid records are detected. \
+ * **IngestAnyValidRecords**: Valid records should still be ingested when invalid records are detected. \
+ * **Unspecified**: Unspecified
+ */
+export type IngestionMode = string;
+
+/** Known values of {@link FileImportContentType} that the service accepts. */
+export enum KnownFileImportContentType {
+  /** File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. */
+  BasicIndicator = "BasicIndicator",
+  /** File containing STIX indicators. */
+  StixIndicator = "StixIndicator",
+  /** File containing other records. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportContentType. \
+ * {@link KnownFileImportContentType} can be used interchangeably with FileImportContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BasicIndicator**: File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. \
+ * **StixIndicator**: File containing STIX indicators. \
+ * **Unspecified**: File containing other records.
+ */
+export type FileImportContentType = string;
+
+/** Known values of {@link FileFormat} that the service accepts. */
+export enum KnownFileFormat {
+  /** A CSV file. */
+  CSV = "CSV",
+  /** A JSON file. */
+  Json = "JSON",
+  /** A file of other format. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileFormat. \
+ * {@link KnownFileFormat} can be used interchangeably with FileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CSV**: A CSV file. \
+ * **JSON**: A JSON file. \
+ * **Unspecified**: A file of other format.
+ */
+export type FileFormat = string;
+
+/** Known values of {@link DeleteStatus} that the service accepts. */
+export enum KnownDeleteStatus {
+  /** The file was deleted. */
+  Deleted = "Deleted",
+  /** The file was not deleted. */
+  NotDeleted = "NotDeleted",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for DeleteStatus. \
+ * {@link KnownDeleteStatus} can be used interchangeably with DeleteStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deleted**: The file was deleted. \
+ * **NotDeleted**: The file was not deleted. \
+ * **Unspecified**: Unspecified
+ */
+export type DeleteStatus = string;
+
+/** Known values of {@link FileImportState} that the service accepts. */
+export enum KnownFileImportState {
+  /** A fatal error has occurred while ingesting the file. */
+  FatalError = "FatalError",
+  /** The file has been ingested. */
+  Ingested = "Ingested",
+  /** The file has been ingested with errors. */
+  IngestedWithErrors = "IngestedWithErrors",
+  /** The file ingestion is in progress. */
+  InProgress = "InProgress",
+  /** The file is invalid. */
+  Invalid = "Invalid",
+  /** Waiting for the file to be uploaded. */
+  WaitingForUpload = "WaitingForUpload",
+  /** Unspecified state. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportState. \
+ * {@link KnownFileImportState} can be used interchangeably with FileImportState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FatalError**: A fatal error has occurred while ingesting the file. \
+ * **Ingested**: The file has been ingested. \
+ * **IngestedWithErrors**: The file has been ingested with errors. \
+ * **InProgress**: The file ingestion is in progress. \
+ * **Invalid**: The file is invalid. \
+ * **WaitingForUpload**: Waiting for the file to be uploaded. \
+ * **Unspecified**: Unspecified state.
+ */
+export type FileImportState = string;
+
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
   /** Incident classification was undetermined */
@@ -8812,6 +9032,64 @@ export interface EntityQueryTemplatesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
+
+/** Optional parameters. */
+export interface FileImportsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type FileImportsListResponse = FileImportList;
+
+/** Optional parameters. */
+export interface FileImportsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FileImportsGetResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FileImportsCreateResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type FileImportsDeleteResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type FileImportsListNextResponse = FileImportList;
 
 /** Optional parameters. */
 export interface IncidentCommentsListOptionalParams
