@@ -4074,7 +4074,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220817
+      typescript: 4.9.0-dev.20220819
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8981,8 +8981,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220817:
-    resolution: {integrity: sha512-Au+zM0t9oKRq6WF9Ev1WfgGfV7eB+EinOigiR5dTR9DFd0gPZhClNQkQCqwW+qbwJ4hSGKkhZ43wxJYpsroVlA==}
+  /typescript/4.9.0-dev.20220819:
+    resolution: {integrity: sha512-MFHRQ1r0ZqHeJVsG3Zwz3rlPoJMyvpHfZ6AEwO0zxUamMB5PMmrNnJIj6LlV2p3dVFKgPZrxgLu+kRpvYzGT7A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14931,7 +14931,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-R4G43D3BrXJR8mSoWwJo2pHwmAKHM+1D6OqoPnm9iTY/S2R/U5v3LEuKnSWwO1ApFSfc+kOFyxMinoZTr182Ww==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-8QprjgDHhkTmuEtmmte1JCUYYl4roFZA/sghR96UIfq7PL6eWVCyriAlPsK2QXKOJ924r8oM/LZlGfTVvvC4/w==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -14943,6 +14943,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14954,7 +14956,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15290,7 +15291,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-QLuMWCNCenwRrDYBKCKVsN2UQsunFJIppNZzIvCW2Chds2GbGV0IKjBOGTo3nxzIS0UCn78RC/Lybnm0HIzM5Q==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-w8wr6e5eULQP0PukqqdtgA/JjiSBOxmJs4rWa33DIo4PaTkj2jaJn2o/fZLc/7GyC9ahp2/9WuOXTNRQoh7PeA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -15333,7 +15334,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-rm2F+CMQH1g+ocjRW1BiUDm4qcrOtV/IKmgwOM9MnF5kHj6FIPECExUsxNHjmMLELd6ypEl4c/6nD4kCCTM+Eg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-hfbv/NLv32X/MkK2g4t4EWLmSt5+usgrWm42F04w9dwMZLO7PQldEizLAz/9/m8iGMyHzeO401ttQYZEqtyFOQ==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -15470,7 +15471,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-4uTyXHzDVdFLtvfyIM2zWDegP6NOy6bBYpL97FLzLDIIedUtmQcnxRHPgMW9oQp8mVqRp/adKls8E8PhmpMtgA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-9FgHQZnCCBqwtOy+WfIkvy3YF5IA2pnE7tbsFs427LlAm5xITEtPWJYHjPVcGbLoX/lL3qo0epwTWfjsSiaNVA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
