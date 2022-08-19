@@ -1,15 +1,12 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-08-19)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Monitor has a new optional parameter zoneRedundancyPreference
+    
+    
 ## 1.0.0-beta.2 (2022-07-14)
     
 **Features**
