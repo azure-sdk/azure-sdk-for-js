@@ -4074,7 +4074,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220817
+      typescript: 4.9.0-dev.20220821
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8981,8 +8981,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220817:
-    resolution: {integrity: sha512-Au+zM0t9oKRq6WF9Ev1WfgGfV7eB+EinOigiR5dTR9DFd0gPZhClNQkQCqwW+qbwJ4hSGKkhZ43wxJYpsroVlA==}
+  /typescript/4.9.0-dev.20220821:
+    resolution: {integrity: sha512-fbyWCHTzhcKE54GF2lajI5h7GrdLUkCEgzqQOT1cf+IPqVwcM9Bk1/d+NjJKrMoroOPztYvEat0b8pxn3+/XJw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10192,7 +10192,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-p6hsQrOTCjIBoSXig5D7c75CNYHYE/PoYnoZTCp9/7L65LQPsBE2oYGu1LJyXBMveQDH7dMRAYom5zC5+uk9RA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-cTSZDpPVjhGQdBWgLuzFu3Y21IHtA2gnGlSXflNTW7zD+FDPKv12VfHeYhAJrCECWzuIrDEUK/g2iHW3wDk1dA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -10213,7 +10213,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
@@ -15290,7 +15290,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-QLuMWCNCenwRrDYBKCKVsN2UQsunFJIppNZzIvCW2Chds2GbGV0IKjBOGTo3nxzIS0UCn78RC/Lybnm0HIzM5Q==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-w8wr6e5eULQP0PukqqdtgA/JjiSBOxmJs4rWa33DIo4PaTkj2jaJn2o/fZLc/7GyC9ahp2/9WuOXTNRQoh7PeA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -15333,7 +15333,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-rm2F+CMQH1g+ocjRW1BiUDm4qcrOtV/IKmgwOM9MnF5kHj6FIPECExUsxNHjmMLELd6ypEl4c/6nD4kCCTM+Eg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-hfbv/NLv32X/MkK2g4t4EWLmSt5+usgrWm42F04w9dwMZLO7PQldEizLAz/9/m8iGMyHzeO401ttQYZEqtyFOQ==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -15470,7 +15470,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-4uTyXHzDVdFLtvfyIM2zWDegP6NOy6bBYpL97FLzLDIIedUtmQcnxRHPgMW9oQp8mVqRp/adKls8E8PhmpMtgA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-9FgHQZnCCBqwtOy+WfIkvy3YF5IA2pnE7tbsFs427LlAm5xITEtPWJYHjPVcGbLoX/lL3qo0epwTWfjsSiaNVA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -17414,7 +17414,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-nbSlSEVxBuLg23r38GJ4lsg7EbMa34YTYYNU+LQyns44Z8qM3wEvdkPu6F/EE+eFTOmpeWmK72OaNZKthLdOEg==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-1iuICt8ODAZhN99QyWO/p7FFat8LRWq2/zvdyC/RwW7mPjqK+MumVAHGO6vsMlzpAvYKnIOe1UvJ0+NcDBAezw==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
