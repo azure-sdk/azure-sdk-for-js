@@ -1,15 +1,30 @@
 # Release History
+    
+## 3.0.0 (2022-08-22)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter targetProperties
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureBlobDatastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen1Datastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen2Datastore no longer has parameter datastoreType
+  - Interface AzureFileDatastore no longer has parameter datastoreType
+  - Interface CommandJob no longer has parameter jobType
+  - Interface KubernetesOnlineDeployment no longer has parameter endpointComputeType
+  - Interface ManagedOnlineDeployment no longer has parameter endpointComputeType
+  - Interface MLTableData no longer has parameter dataType
+  - Interface PipelineJob no longer has parameter jobType
+  - Interface SweepJob no longer has parameter jobType
+  - Interface UriFileDataVersion no longer has parameter dataType
+  - Interface UriFolderDataVersion no longer has parameter dataType
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter value
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter valueFormat
+  - Removed Enum KnownValueFormat
+    
+    
 ## 2.0.0 (2022-08-05)
     
 **Breaking Changes**
