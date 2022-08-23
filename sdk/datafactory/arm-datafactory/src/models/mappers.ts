@@ -6738,6 +6738,97 @@ export const ScriptActivityTypePropertiesLogSettings: coreClient.CompositeMapper
   }
 };
 
+export const SynapseNotebookReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SynapseNotebookReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const BigDataPoolParametrizationReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BigDataPoolParametrizationReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const NotebookParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NotebookParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        nullable: true,
+        type: {
+          name: "any"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SynapseSparkJobReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SynapseSparkJobReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTriggerRecurrence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -14500,6 +14591,33 @@ export const SharePointOnlineListLinkedService: coreClient.CompositeMapper = {
       },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const AzureSynapseArtifactsLinkedService: coreClient.CompositeMapper = {
+  serializedName: "AzureSynapseArtifacts",
+  type: {
+    name: "Composite",
+    className: "AzureSynapseArtifactsLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      endpoint: {
+        serializedName: "typeProperties.endpoint",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      authentication: {
+        serializedName: "typeProperties.authentication",
         type: {
           name: "any"
         }
@@ -24491,6 +24609,151 @@ export const ScriptActivity: coreClient.CompositeMapper = {
   }
 };
 
+export const SynapseNotebookActivity: coreClient.CompositeMapper = {
+  serializedName: "SynapseNotebook",
+  type: {
+    name: "Composite",
+    className: "SynapseNotebookActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      notebook: {
+        serializedName: "typeProperties.notebook",
+        type: {
+          name: "Composite",
+          className: "SynapseNotebookReference"
+        }
+      },
+      sparkPool: {
+        serializedName: "typeProperties.sparkPool",
+        type: {
+          name: "Composite",
+          className: "BigDataPoolParametrizationReference"
+        }
+      },
+      parameters: {
+        serializedName: "typeProperties.parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Composite", className: "NotebookParameter" } }
+        }
+      },
+      executorSize: {
+        serializedName: "typeProperties.executorSize",
+        type: {
+          name: "any"
+        }
+      },
+      conf: {
+        serializedName: "typeProperties.conf",
+        type: {
+          name: "any"
+        }
+      },
+      driverSize: {
+        serializedName: "typeProperties.driverSize",
+        type: {
+          name: "any"
+        }
+      },
+      numExecutors: {
+        serializedName: "typeProperties.numExecutors",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SynapseSparkJobDefinitionActivity: coreClient.CompositeMapper = {
+  serializedName: "SparkJob",
+  type: {
+    name: "Composite",
+    className: "SynapseSparkJobDefinitionActivity",
+    uberParent: "Activity",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ExecutionActivity.type.modelProperties,
+      sparkJob: {
+        serializedName: "typeProperties.sparkJob",
+        type: {
+          name: "Composite",
+          className: "SynapseSparkJobReference"
+        }
+      },
+      arguments: {
+        serializedName: "typeProperties.args",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      },
+      file: {
+        serializedName: "typeProperties.file",
+        type: {
+          name: "any"
+        }
+      },
+      className: {
+        serializedName: "typeProperties.className",
+        type: {
+          name: "any"
+        }
+      },
+      files: {
+        serializedName: "typeProperties.files",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "any"
+            }
+          }
+        }
+      },
+      targetBigDataPool: {
+        serializedName: "typeProperties.targetBigDataPool",
+        type: {
+          name: "Composite",
+          className: "BigDataPoolParametrizationReference"
+        }
+      },
+      executorSize: {
+        serializedName: "typeProperties.executorSize",
+        type: {
+          name: "any"
+        }
+      },
+      conf: {
+        serializedName: "typeProperties.conf",
+        type: {
+          name: "any"
+        }
+      },
+      driverSize: {
+        serializedName: "typeProperties.driverSize",
+        type: {
+          name: "any"
+        }
+      },
+      numExecutors: {
+        serializedName: "typeProperties.numExecutors",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ScheduleTrigger: coreClient.CompositeMapper = {
   serializedName: "ScheduleTrigger",
   type: {
@@ -26441,6 +26704,7 @@ export let discriminators = {
   "LinkedService.AzureFunction": AzureFunctionLinkedService,
   "LinkedService.Snowflake": SnowflakeLinkedService,
   "LinkedService.SharePointOnlineList": SharePointOnlineListLinkedService,
+  "LinkedService.AzureSynapseArtifacts": AzureSynapseArtifactsLinkedService,
   "Dataset.AmazonS3Object": AmazonS3Dataset,
   "Dataset.Avro": AvroDataset,
   "Dataset.Excel": ExcelDataset,
@@ -26728,6 +26992,8 @@ export let discriminators = {
   "Activity.AzureFunctionActivity": AzureFunctionActivity,
   "Activity.ExecuteDataFlow": ExecuteDataFlowActivity,
   "Activity.Script": ScriptActivity,
+  "Activity.SynapseNotebook": SynapseNotebookActivity,
+  "Activity.SparkJob": SynapseSparkJobDefinitionActivity,
   "Trigger.ScheduleTrigger": ScheduleTrigger,
   "Trigger.BlobTrigger": BlobTrigger,
   "Trigger.BlobEventsTrigger": BlobEventsTrigger,
