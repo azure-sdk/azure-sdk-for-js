@@ -11,3 +11,5 @@ export * from "./policyAssignments";
 export * from "./policyDefinitions";
 export * from "./policySetDefinitions";
 export * from "./policyExemptions";
+export * from "./variables";
+export * from "./variableValues";

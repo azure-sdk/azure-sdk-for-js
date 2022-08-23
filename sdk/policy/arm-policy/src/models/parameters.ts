@@ -16,7 +16,9 @@ import {
   PolicyAssignmentUpdate as PolicyAssignmentUpdateMapper,
   PolicyDefinition as PolicyDefinitionMapper,
   PolicySetDefinition as PolicySetDefinitionMapper,
-  PolicyExemption as PolicyExemptionMapper
+  PolicyExemption as PolicyExemptionMapper,
+  Variable as VariableMapper,
+  VariableValue as VariableValueMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -314,4 +316,48 @@ export const apiVersion2: OperationQueryParameter = {
 export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: PolicyExemptionMapper
+};
+
+export const variableName: OperationURLParameter = {
+  parameterPath: "variableName",
+  mapper: {
+    serializedName: "variableName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-08-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VariableMapper
+};
+
+export const variableValueName: OperationURLParameter = {
+  parameterPath: "variableValueName",
+  mapper: {
+    serializedName: "variableValueName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: VariableValueMapper
 };
