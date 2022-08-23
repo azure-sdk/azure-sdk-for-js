@@ -83,6 +83,8 @@ export interface AuthenticationSettingsContract {
   oAuth2?: OAuth2AuthenticationSettingsContract;
   /** OpenID Connect Authentication Settings */
   openid?: OpenIdAuthenticationSettingsContract;
+  /** Collection of OAuth2 authentication settings included into this API. */
+  oAuth2AuthenticationSettings?: OAuth2AuthenticationSettingsContract[];
 }
 
 /** API OAuth2 Authentication settings details. */
@@ -237,6 +239,8 @@ export interface ApiCreateOrUpdateParameter {
    *  * `graphql` creates GraphQL API.
    */
   soapApiType?: SoapApiType;
+  /** Strategy of translating required query parameters to template ones. By default has value 'template'. Possible values: 'template', 'query' */
+  translateRequiredQueryParametersConduct?: TranslateRequiredQueryParametersConduct;
 }
 
 /** Criteria to limit import of WSDL to a subset of the document. */
@@ -885,6 +889,72 @@ export interface AuthorizationServerSecretsContract {
   resourceOwnerPassword?: string;
 }
 
+/** Paged Authorization Provider list representation. */
+export interface AuthorizationProviderCollection {
+  /** Page values. */
+  value?: AuthorizationProviderContract[];
+  /** Total record count number across all pages. */
+  count?: number;
+  /** Next page link if any. */
+  nextLink?: string;
+}
+
+/** OAuth2 settings details */
+export interface AuthorizationProviderOAuth2Settings {
+  /** Redirect url to be set in the OAuth application. */
+  redirectUrl?: string;
+  /** OAuth2 settings */
+  grantTypes?: AuthorizationProviderOAuth2GrantTypes;
+}
+
+/** Authorization Provider oauth2 grant types settings */
+export interface AuthorizationProviderOAuth2GrantTypes {
+  /** OAuth2 authorization code grant parameters */
+  authorizationCode?: { [propertyName: string]: string };
+  /** OAuth2 client credential grant parameters */
+  clientCredentials?: { [propertyName: string]: string };
+}
+
+/** Paged Authorization list representation. */
+export interface AuthorizationCollection {
+  /** Page values. */
+  value?: AuthorizationContract[];
+  /** Total record count number across all pages. */
+  count?: number;
+  /** Next page link if any. */
+  nextLink?: string;
+}
+
+/** Authorization error details. */
+export interface AuthorizationError {
+  /** Error code */
+  code?: string;
+  /** Error message */
+  message?: string;
+}
+
+/** Authorization login request contract. */
+export interface AuthorizationLoginRequestContract {
+  /** The post redirect url after login is completed. */
+  postLoginRedirectUrl?: string;
+}
+
+/** Authorization login response contract. */
+export interface AuthorizationLoginResponseContract {
+  /** The login link */
+  loginLink?: string;
+}
+
+/** Paged Authorization Access Policy list representation. */
+export interface AuthorizationAccessPolicyCollection {
+  /** Page values. */
+  value?: AuthorizationAccessPolicyContract[];
+  /** Total record count number across all pages. */
+  count?: number;
+  /** Next page link if any. */
+  nextLink?: string;
+}
+
 /** Paged Backend list representation. */
 export interface BackendCollection {
   /** Backend values. */
@@ -1054,7 +1124,7 @@ export interface KeyVaultLastAccessStatusContractProperties {
 export interface KeyVaultContractCreateProperties {
   /** Key vault secret identifier for fetching secret. Providing a versioned secret will prevent auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi */
   secretIdentifier?: string;
-  /** SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret. */
+  /** Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret. */
   identityClientId?: string;
 }
 
@@ -1958,6 +2028,8 @@ export interface IdentityProviderBaseParameters {
   profileEditingPolicyName?: string;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
   passwordResetPolicyName?: string;
+  /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
+  clientLibrary?: string;
 }
 
 /** Parameters supplied to update Identity Provider */
@@ -1978,6 +2050,8 @@ export interface IdentityProviderUpdateParameters {
   profileEditingPolicyName?: string;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
   passwordResetPolicyName?: string;
+  /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
+  clientLibrary?: string;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
@@ -2193,6 +2267,82 @@ export interface PolicyDescriptionCollection {
   value?: PolicyDescriptionContract[];
   /** Total record count number. */
   count?: number;
+}
+
+/** The response of the get policy fragments operation. */
+export interface PolicyFragmentCollection {
+  /** Policy fragment contract value. */
+  value?: PolicyFragmentContract[];
+  /** Total record count number. */
+  count?: number;
+  /** Next page link if any. */
+  nextLink?: string;
+}
+
+/** A collection of resources. */
+export interface ResourceCollection {
+  /** A collection of resources. */
+  value?: ResourceCollectionValueItem[];
+  /** Total record count number. */
+  count?: number;
+  /** Next page link if any. */
+  nextLink?: string;
+}
+
+/** The collection of the developer portal configurations. */
+export interface PortalConfigCollection {
+  /** The developer portal configurations. */
+  value?: PortalConfigContract[];
+  /**
+   * Next page link if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface PortalConfigPropertiesSignin {
+  /** Redirect anonymous users to the sign-in page. */
+  require?: boolean;
+}
+
+export interface PortalConfigPropertiesSignup {
+  /** Terms of service settings. */
+  termsOfService?: PortalConfigTermsOfServiceProperties;
+}
+
+/** Terms of service contract properties. */
+export interface PortalConfigTermsOfServiceProperties {
+  /** A terms of service text. */
+  text?: string;
+  /** Ask user for consent to the terms of service. */
+  requireConsent?: boolean;
+}
+
+export interface PortalConfigDelegationProperties {
+  /** Enable or disable delegation for user registration. */
+  delegateRegistration?: boolean;
+  /** Enable or disable delegation for product subscriptions. */
+  delegateSubscription?: boolean;
+  /** A delegation endpoint URL. */
+  delegationUrl?: string;
+  /** A base64-encoded validation key to ensure requests originate from Azure API Management service. */
+  validationKey?: string;
+}
+
+/** The developer portal Cross-Origin Resource Sharing (CORS) settings. */
+export interface PortalConfigCorsProperties {
+  /** Allowed origins, e.g. `https://trusted.com`. */
+  allowedOrigins?: string[];
+}
+
+/** The developer portal Content Security Policy (CSP) settings. */
+export interface PortalConfigCspProperties {
+  /** The mode of the developer portal Content Security Policy (CSP). */
+  mode?: PortalSettingsCspMode;
+  /** The URLs used by the browser to report CSP violations. */
+  reportUri?: string[];
+  /** Allowed sources, e.g. `*.trusted.com`, `trusted.com`, `https://`. */
+  allowedSources?: string[];
 }
 
 /** Paged list of portal revisions. */
@@ -2504,6 +2654,22 @@ export interface RequestReportRecordContract {
   requestId?: string;
   /** The size of this request.. */
   requestSize?: number;
+}
+
+/** The response of the list schema operation. */
+export interface GlobalSchemaCollection {
+  /**
+   * Global Schema Contract value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GlobalSchemaContract[];
+  /** Total record count number. */
+  count?: number;
+  /**
+   * Next page link if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Paged AccessInformation list representation. */
@@ -3109,15 +3275,15 @@ export interface ProductContract extends Resource {
   displayName?: string;
 }
 
-/** Schema Contract details. */
+/** API Schema Contract details. */
 export interface SchemaContract extends Resource {
   /** Must be a valid a media type used in a Content-Type header as defined in the RFC 2616. Media type of the schema document (e.g. application/json, application/xml). </br> - `Swagger` Schema use `application/vnd.ms-azure-apim.swagger.definitions+json` </br> - `WSDL` Schema use `application/vnd.ms-azure-apim.xsd+xml` </br> - `OpenApi` Schema use `application/vnd.oai.openapi.components+json` </br> - `WADL Schema` use `application/vnd.ms-azure-apim.wadl.grammars+xml`. */
   contentType?: string;
   /** Json escaped string defining the document representing the Schema. Used for schemas other than Swagger/OpenAPI. */
   value?: string;
-  /** Types definitions. Used for OpenAPI v2 (Swagger) schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v1 schemas only, null otherwise. */
   definitions?: Record<string, unknown>;
-  /** Types definitions. Used for OpenAPI v3 schemas only, null otherwise. */
+  /** Types definitions. Used for Swagger/OpenAPI v2/v3 schemas only, null otherwise. */
   components?: Record<string, unknown>;
 }
 
@@ -3231,6 +3397,10 @@ export interface AuthorizationServerContract extends Resource {
   resourceOwnerPassword?: string;
   /** User-friendly authorization server name. */
   displayName?: string;
+  /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
+  useInTestConsole?: boolean;
+  /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
+  useInApiDocumentation?: boolean;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
   clientRegistrationEndpoint?: string;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
@@ -3267,6 +3437,10 @@ export interface AuthorizationServerUpdateContract extends Resource {
   resourceOwnerPassword?: string;
   /** User-friendly authorization server name. */
   displayName?: string;
+  /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
+  useInTestConsole?: boolean;
+  /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
+  useInApiDocumentation?: boolean;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
   clientRegistrationEndpoint?: string;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
@@ -3277,6 +3451,38 @@ export interface AuthorizationServerUpdateContract extends Resource {
   clientId?: string;
   /** Client or app secret registered with this authorization server. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+}
+
+/** Authorization Provider contract. */
+export interface AuthorizationProviderContract extends Resource {
+  /** Authorization Provider name. Must be 1 to 300 characters long. */
+  displayName?: string;
+  /** Identity provider name. Must be 1 to 300 characters long. */
+  identityProvider?: string;
+  /** OAuth2 settings */
+  oauth2?: AuthorizationProviderOAuth2Settings;
+}
+
+/** Authorization contract. */
+export interface AuthorizationContract extends Resource {
+  /** Authorization type options */
+  authorizationType?: AuthorizationType;
+  /** OAuth2 grant type options */
+  oAuth2GrantType?: OAuth2GrantType;
+  /** Authorization parameters */
+  parameters?: { [propertyName: string]: string };
+  /** Authorization error details. */
+  error?: AuthorizationError;
+  /** Status of the Authorization */
+  status?: string;
+}
+
+/** Authorization access policy contract. */
+export interface AuthorizationAccessPolicyContract extends Resource {
+  /** The Tenant Id */
+  tenantId?: string;
+  /** The Object Id */
+  objectId?: string;
 }
 
 /** Backend details. */
@@ -3485,6 +3691,8 @@ export interface IdentityProviderContract extends Resource {
   profileEditingPolicyName?: string;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
   passwordResetPolicyName?: string;
+  /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
+  clientLibrary?: string;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
@@ -3509,6 +3717,8 @@ export interface IdentityProviderCreateContract extends Resource {
   profileEditingPolicyName?: string;
   /** Password Reset Policy Name. Only applies to AAD B2C Identity Provider. */
   passwordResetPolicyName?: string;
+  /** The client library to be used in the developer portal. Only applies to AAD and AAD B2C Identity Provider. */
+  clientLibrary?: string;
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
@@ -3608,6 +3818,32 @@ export interface PolicyDescriptionContract extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly scope?: number;
+}
+
+/** Policy fragment contract details. */
+export interface PolicyFragmentContract extends Resource {
+  /** Contents of the policy fragment. */
+  value?: string;
+  /** Policy fragment description. */
+  description?: string;
+  /** Format of the policy fragment content. */
+  format?: PolicyFragmentContentFormat;
+}
+
+export interface ResourceCollectionValueItem extends Resource {}
+
+/** The developer portal configuration contract. */
+export interface PortalConfigContract extends Resource {
+  /** Enable or disable Basic authentication method. */
+  enableBasicAuth?: boolean;
+  signin?: PortalConfigPropertiesSignin;
+  signup?: PortalConfigPropertiesSignup;
+  /** The developer portal delegation settings. */
+  delegation?: PortalConfigDelegationProperties;
+  /** The developer portal Cross-Origin Resource Sharing (CORS) settings. */
+  cors?: PortalConfigCorsProperties;
+  /** The developer portal Content Security Policy (CSP) settings. */
+  csp?: PortalConfigCspProperties;
 }
 
 /** Portal Revision's contract details. */
@@ -3753,6 +3989,18 @@ export interface SubscriptionContract extends Resource {
   stateComment?: string;
   /** Determines whether tracing is enabled */
   allowTracing?: boolean;
+}
+
+/** Global Schema Contract details. */
+export interface GlobalSchemaContract extends Resource {
+  /** Schema Type. Immutable. */
+  schemaType?: SchemaType;
+  /** Free-form schema entity description. */
+  description?: string;
+  /** Json-encoded string for non json-based schema. */
+  value?: any;
+  /** Global Schema document object for json-based schema formats(e.g. json schema). */
+  document?: Record<string, unknown>;
 }
 
 /** Tenant Settings. */
@@ -3920,6 +4168,10 @@ export interface AuthorizationServerContractProperties
   extends AuthorizationServerContractBaseProperties {
   /** User-friendly authorization server name. */
   displayName: string;
+  /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
+  useInTestConsole?: boolean;
+  /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
+  useInApiDocumentation?: boolean;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
   clientRegistrationEndpoint: string;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
@@ -3937,6 +4189,10 @@ export interface AuthorizationServerUpdateContractProperties
   extends AuthorizationServerContractBaseProperties {
   /** User-friendly authorization server name. */
   displayName?: string;
+  /** If true, the authorization server may be used in the developer portal test console. True by default if no value is provided. */
+  useInTestConsole?: boolean;
+  /** If true, the authorization server will be used in the API documentation in the developer portal. False by default if no value is provided. */
+  useInApiDocumentation?: boolean;
   /** Optional reference to a page where client or app registration for this authorization server is performed. Contains absolute URL to entity being referenced. */
   clientRegistrationEndpoint?: string;
   /** OAuth authorization endpoint. See http://tools.ietf.org/html/rfc6749#section-3.2. */
@@ -4338,6 +4594,8 @@ export interface ApiCreateOrUpdateProperties extends ApiContractProperties {
    *  * `graphql` creates GraphQL API.
    */
   soapApiType?: SoapApiType;
+  /** Strategy of translating required query parameters to template ones. By default has value 'template'. Possible values: 'template', 'query' */
+  translateRequiredQueryParametersConduct?: TranslateRequiredQueryParametersConduct;
 }
 
 /** Defines headers for Api_getEntityTag operation. */
@@ -4684,6 +4942,48 @@ export interface AuthorizationServerUpdateHeaders {
 
 /** Defines headers for AuthorizationServer_listSecrets operation. */
 export interface AuthorizationServerListSecretsHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for AuthorizationProvider_get operation. */
+export interface AuthorizationProviderGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for AuthorizationProvider_createOrUpdate operation. */
+export interface AuthorizationProviderCreateOrUpdateHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for Authorization_get operation. */
+export interface AuthorizationGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for Authorization_createOrUpdate operation. */
+export interface AuthorizationCreateOrUpdateHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for AuthorizationLoginLinks_post operation. */
+export interface AuthorizationLoginLinksPostHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for AuthorizationAccessPolicy_get operation. */
+export interface AuthorizationAccessPolicyGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for AuthorizationAccessPolicy_createOrUpdate operation. */
+export interface AuthorizationAccessPolicyCreateOrUpdateHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
   eTag?: string;
 }
@@ -5072,6 +5372,36 @@ export interface PolicyCreateOrUpdateHeaders {
   eTag?: string;
 }
 
+/** Defines headers for PolicyFragment_getEntityTag operation. */
+export interface PolicyFragmentGetEntityTagHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for PolicyFragment_get operation. */
+export interface PolicyFragmentGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for PolicyFragment_createOrUpdate operation. */
+export interface PolicyFragmentCreateOrUpdateHeaders {
+  /** Current entity state version */
+  eTag?: string;
+}
+
+/** Defines headers for PortalConfig_getEntityTag operation. */
+export interface PortalConfigGetEntityTagHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for PortalConfig_get operation. */
+export interface PortalConfigGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
 /** Defines headers for PortalRevision_getEntityTag operation. */
 export interface PortalRevisionGetEntityTagHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
@@ -5170,6 +5500,24 @@ export interface ProductPolicyGetHeaders {
 
 /** Defines headers for ProductPolicy_createOrUpdate operation. */
 export interface ProductPolicyCreateOrUpdateHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_getEntityTag operation. */
+export interface GlobalSchemaGetEntityTagHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_get operation. */
+export interface GlobalSchemaGetHeaders {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
+
+/** Defines headers for GlobalSchema_createOrUpdate operation. */
+export interface GlobalSchemaCreateOrUpdateHeaders {
   /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
   eTag?: string;
 }
@@ -5425,6 +5773,24 @@ export enum KnownSoapApiType {
  * **graphql**: Imports the API having a GraphQL front end.
  */
 export type SoapApiType = string;
+
+/** Known values of {@link TranslateRequiredQueryParametersConduct} that the service accepts. */
+export enum KnownTranslateRequiredQueryParametersConduct {
+  /** Translates required query parameters to template ones. Is a default value */
+  Template = "template",
+  /** Leaves required query parameters as they are (no translation done). */
+  Query = "query"
+}
+
+/**
+ * Defines values for TranslateRequiredQueryParametersConduct. \
+ * {@link KnownTranslateRequiredQueryParametersConduct} can be used interchangeably with TranslateRequiredQueryParametersConduct,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **template**: Translates required query parameters to template ones. Is a default value \
+ * **query**: Leaves required query parameters as they are (no translation done).
+ */
+export type TranslateRequiredQueryParametersConduct = string;
 
 /** Known values of {@link PolicyContentFormat} that the service accepts. */
 export enum KnownPolicyContentFormat {
@@ -5764,6 +6130,39 @@ export enum KnownBearerTokenSendingMethod {
  * **query**
  */
 export type BearerTokenSendingMethod = string;
+
+/** Known values of {@link AuthorizationType} that the service accepts. */
+export enum KnownAuthorizationType {
+  /** OAuth2 authorization type */
+  OAuth2 = "OAuth2"
+}
+
+/**
+ * Defines values for AuthorizationType. \
+ * {@link KnownAuthorizationType} can be used interchangeably with AuthorizationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OAuth2**: OAuth2 authorization type
+ */
+export type AuthorizationType = string;
+
+/** Known values of {@link OAuth2GrantType} that the service accepts. */
+export enum KnownOAuth2GrantType {
+  /** Authorization Code grant */
+  AuthorizationCode = "AuthorizationCode",
+  /** Client Credential grant */
+  ClientCredentials = "ClientCredentials"
+}
+
+/**
+ * Defines values for OAuth2GrantType. \
+ * {@link KnownOAuth2GrantType} can be used interchangeably with OAuth2GrantType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AuthorizationCode**: Authorization Code grant \
+ * **ClientCredentials**: Client Credential grant
+ */
+export type OAuth2GrantType = string;
 
 /** Known values of {@link BackendProtocol} that the service accepts. */
 export enum KnownBackendProtocol {
@@ -6416,6 +6815,45 @@ export enum KnownNotificationName {
  */
 export type NotificationName = string;
 
+/** Known values of {@link PolicyFragmentContentFormat} that the service accepts. */
+export enum KnownPolicyFragmentContentFormat {
+  /** The contents are inline and Content type is an XML document. */
+  Xml = "xml",
+  /** The contents are inline and Content type is a non XML encoded policy document. */
+  Rawxml = "rawxml"
+}
+
+/**
+ * Defines values for PolicyFragmentContentFormat. \
+ * {@link KnownPolicyFragmentContentFormat} can be used interchangeably with PolicyFragmentContentFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **xml**: The contents are inline and Content type is an XML document. \
+ * **rawxml**: The contents are inline and Content type is a non XML encoded policy document.
+ */
+export type PolicyFragmentContentFormat = string;
+
+/** Known values of {@link PortalSettingsCspMode} that the service accepts. */
+export enum KnownPortalSettingsCspMode {
+  /** The browser will block requests not matching allowed origins. */
+  Enabled = "enabled",
+  /** The browser will not apply the origin restrictions. */
+  Disabled = "disabled",
+  /** The browser will report requests not matching allowed origins without blocking them. */
+  ReportOnly = "reportOnly"
+}
+
+/**
+ * Defines values for PortalSettingsCspMode. \
+ * {@link KnownPortalSettingsCspMode} can be used interchangeably with PortalSettingsCspMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: The browser will block requests not matching allowed origins. \
+ * **disabled**: The browser will not apply the origin restrictions. \
+ * **reportOnly**: The browser will report requests not matching allowed origins without blocking them.
+ */
+export type PortalSettingsCspMode = string;
+
 /** Known values of {@link PortalRevisionStatus} that the service accepts. */
 export enum KnownPortalRevisionStatus {
   /** Portal's revision has been queued. */
@@ -6463,6 +6901,24 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link SchemaType} that the service accepts. */
+export enum KnownSchemaType {
+  /** Xml schema type. */
+  Xml = "xml",
+  /** Json schema type. */
+  Json = "json"
+}
+
+/**
+ * Defines values for SchemaType. \
+ * {@link KnownSchemaType} can be used interchangeably with SchemaType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **xml**: Xml schema type. \
+ * **json**: Json schema type.
+ */
+export type SchemaType = string;
 
 /** Known values of {@link SettingsTypeName} that the service accepts. */
 export enum KnownSettingsTypeName {
@@ -7749,6 +8205,167 @@ export interface AuthorizationServerListByServiceNextOptionalParams
 export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCollection;
 
 /** Optional parameters. */
+export interface AuthorizationProviderListByServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByService operation. */
+export type AuthorizationProviderListByServiceResponse = AuthorizationProviderCollection;
+
+/** Optional parameters. */
+export interface AuthorizationProviderGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AuthorizationProviderGetResponse = AuthorizationProviderGetHeaders &
+  AuthorizationProviderContract;
+
+/** Optional parameters. */
+export interface AuthorizationProviderCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AuthorizationProviderCreateOrUpdateResponse = AuthorizationProviderCreateOrUpdateHeaders &
+  AuthorizationProviderContract;
+
+/** Optional parameters. */
+export interface AuthorizationProviderDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AuthorizationProviderListByServiceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByServiceNext operation. */
+export type AuthorizationProviderListByServiceNextResponse = AuthorizationProviderCollection;
+
+/** Optional parameters. */
+export interface AuthorizationListByAuthorizationProviderOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByAuthorizationProvider operation. */
+export type AuthorizationListByAuthorizationProviderResponse = AuthorizationCollection;
+
+/** Optional parameters. */
+export interface AuthorizationGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AuthorizationGetResponse = AuthorizationGetHeaders &
+  AuthorizationContract;
+
+/** Optional parameters. */
+export interface AuthorizationCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AuthorizationCreateOrUpdateResponse = AuthorizationCreateOrUpdateHeaders &
+  AuthorizationContract;
+
+/** Optional parameters. */
+export interface AuthorizationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AuthorizationListByAuthorizationProviderNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByAuthorizationProviderNext operation. */
+export type AuthorizationListByAuthorizationProviderNextResponse = AuthorizationCollection;
+
+/** Optional parameters. */
+export interface AuthorizationLoginLinksPostOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type AuthorizationLoginLinksPostResponse = AuthorizationLoginLinksPostHeaders &
+  AuthorizationLoginResponseContract;
+
+/** Optional parameters. */
+export interface AuthorizationAccessPolicyListByAuthorizationOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByAuthorization operation. */
+export type AuthorizationAccessPolicyListByAuthorizationResponse = AuthorizationAccessPolicyCollection;
+
+/** Optional parameters. */
+export interface AuthorizationAccessPolicyGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AuthorizationAccessPolicyGetResponse = AuthorizationAccessPolicyGetHeaders &
+  AuthorizationAccessPolicyContract;
+
+/** Optional parameters. */
+export interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AuthorizationAccessPolicyCreateOrUpdateResponse = AuthorizationAccessPolicyCreateOrUpdateHeaders &
+  AuthorizationAccessPolicyContract;
+
+/** Optional parameters. */
+export interface AuthorizationAccessPolicyDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AuthorizationAccessPolicyListByAuthorizationNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByAuthorizationNext operation. */
+export type AuthorizationAccessPolicyListByAuthorizationNextResponse = AuthorizationAccessPolicyCollection;
+
+/** Optional parameters. */
 export interface BackendListByServiceOptionalParams
   extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
@@ -7979,6 +8596,8 @@ export interface ContentTypeCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
+  /** Content type contract details. */
+  parameters?: ContentTypeContract;
 }
 
 /** Contains response data for the createOrUpdate operation. */
@@ -9208,6 +9827,107 @@ export interface PolicyDescriptionListByServiceOptionalParams
 export type PolicyDescriptionListByServiceResponse = PolicyDescriptionCollection;
 
 /** Optional parameters. */
+export interface PolicyFragmentListByServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter, orderBy | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| value | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+  /** OData order by query option. */
+  orderby?: string;
+}
+
+/** Contains response data for the listByService operation. */
+export type PolicyFragmentListByServiceResponse = PolicyFragmentCollection;
+
+/** Optional parameters. */
+export interface PolicyFragmentGetEntityTagOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEntityTag operation. */
+export type PolicyFragmentGetEntityTagResponse = PolicyFragmentGetEntityTagHeaders;
+
+/** Optional parameters. */
+export interface PolicyFragmentGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** Policy fragment content format. */
+  format?: PolicyFragmentContentFormat;
+}
+
+/** Contains response data for the get operation. */
+export type PolicyFragmentGetResponse = PolicyFragmentGetHeaders &
+  PolicyFragmentContract;
+
+/** Optional parameters. */
+export interface PolicyFragmentCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PolicyFragmentCreateOrUpdateResponse = PolicyFragmentCreateOrUpdateHeaders &
+  PolicyFragmentContract;
+
+/** Optional parameters. */
+export interface PolicyFragmentDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PolicyFragmentListReferencesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listReferences operation. */
+export type PolicyFragmentListReferencesResponse = ResourceCollection;
+
+/** Optional parameters. */
+export interface PortalConfigListByServiceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByService operation. */
+export type PortalConfigListByServiceResponse = PortalConfigCollection;
+
+/** Optional parameters. */
+export interface PortalConfigGetEntityTagOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEntityTag operation. */
+export type PortalConfigGetEntityTagResponse = PortalConfigGetEntityTagHeaders;
+
+/** Optional parameters. */
+export interface PortalConfigGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PortalConfigGetResponse = PortalConfigGetHeaders &
+  PortalConfigContract;
+
+/** Optional parameters. */
+export interface PortalConfigUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PortalConfigUpdateResponse = PortalConfigContract;
+
+/** Optional parameters. */
+export interface PortalConfigCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PortalConfigCreateOrUpdateResponse = PortalConfigContract;
+
+/** Optional parameters. */
 export interface PortalRevisionListByServiceOptionalParams
   extends coreClient.OperationOptions {
   /**
@@ -9956,6 +10676,68 @@ export interface ReportsListByTimeNextOptionalParams
 
 /** Contains response data for the listByTimeNext operation. */
 export type ReportsListByTimeNextResponse = ReportCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByService operation. */
+export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetEntityTagOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEntityTag operation. */
+export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
+
+/** Optional parameters. */
+export interface GlobalSchemaGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders &
+  GlobalSchemaContract;
+
+/** Optional parameters. */
+export interface GlobalSchemaDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GlobalSchemaListByServiceNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
+  filter?: string;
+  /** Number of records to return. */
+  top?: number;
+  /** Number of records to skip. */
+  skip?: number;
+}
+
+/** Contains response data for the listByServiceNext operation. */
+export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
 export interface TenantSettingsListByServiceOptionalParams
