@@ -360,6 +360,16 @@ export interface AssetTrackOperationStatus {
 }
 
 // @public
+export interface AsyncOperationResult {
+    error?: ErrorDetail;
+    name?: string;
+    status?: AsyncOperationStatus;
+}
+
+// @public
+export type AsyncOperationStatus = string;
+
+// @public
 export type AttributeFilter = string;
 
 // @public
@@ -417,8 +427,6 @@ export class AzureMediaServices extends coreClient.ServiceClient {
     // (undocumented)
     accountFilters: AccountFilters;
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     assetFilters: AssetFilters;
     // (undocumented)
     assets: Assets;
@@ -465,7 +473,6 @@ export class AzureMediaServices extends coreClient.ServiceClient {
 // @public
 export interface AzureMediaServicesOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -1356,6 +1363,13 @@ export enum KnownAssetStorageEncryptionFormat {
 }
 
 // @public
+export enum KnownAsyncOperationStatus {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownAttributeFilter {
     All = "All",
     Bottom = "Bottom",
@@ -1920,6 +1934,7 @@ export type LiveEventResourceState = string;
 
 // @public
 export interface LiveEvents {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveEventsAsyncOperationOptionalParams): Promise<LiveEventsAsyncOperationResponse>;
     beginAllocate(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginAllocateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsAllocateOptionalParams): Promise<void>;
     beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveEventsCreateResponse>, LiveEventsCreateResponse>>;
@@ -1936,6 +1951,7 @@ export interface LiveEvents {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, parameters: LiveEvent, options?: LiveEventsUpdateOptionalParams): Promise<LiveEventsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveEventsGetOptionalParams): Promise<LiveEventsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: LiveEventsListOptionalParams): PagedAsyncIterableIterator<LiveEvent>;
+    operationLocation(resourceGroupName: string, accountName: string, liveEventName: string, operationId: string, options?: LiveEventsOperationLocationOptionalParams): Promise<LiveEventsOperationLocationResponse>;
 }
 
 // @public
@@ -1943,6 +1959,13 @@ export interface LiveEventsAllocateOptionalParams extends coreClient.OperationOp
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface LiveEventsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface LiveEventsCreateOptionalParams extends coreClient.OperationOptions {
@@ -1980,6 +2003,13 @@ export interface LiveEventsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type LiveEventsListResponse = LiveEventListResult;
+
+// @public
+export interface LiveEventsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveEventsOperationLocationResponse = LiveEvent;
 
 // @public
 export interface LiveEventsResetOptionalParams extends coreClient.OperationOptions {
@@ -2027,6 +2057,7 @@ export interface LiveOutput extends ProxyResource {
     outputSnapTime?: number;
     readonly provisioningState?: string;
     readonly resourceState?: LiveOutputResourceState;
+    rewindWindowLength?: string;
     readonly systemData?: SystemData;
 }
 
@@ -2042,13 +2073,22 @@ export type LiveOutputResourceState = string;
 
 // @public
 export interface LiveOutputs {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: LiveOutputsAsyncOperationOptionalParams): Promise<LiveOutputsAsyncOperationResponse>;
     beginCreate(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<PollerLike<PollOperationState<LiveOutputsCreateResponse>, LiveOutputsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, parameters: LiveOutput, options?: LiveOutputsCreateOptionalParams): Promise<LiveOutputsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, options?: LiveOutputsGetOptionalParams): Promise<LiveOutputsGetResponse>;
     list(resourceGroupName: string, accountName: string, liveEventName: string, options?: LiveOutputsListOptionalParams): PagedAsyncIterableIterator<LiveOutput>;
+    operationLocation(resourceGroupName: string, accountName: string, liveEventName: string, liveOutputName: string, operationId: string, options?: LiveOutputsOperationLocationOptionalParams): Promise<LiveOutputsOperationLocationResponse>;
 }
+
+// @public
+export interface LiveOutputsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface LiveOutputsCreateOptionalParams extends coreClient.OperationOptions {
@@ -2085,6 +2125,13 @@ export interface LiveOutputsListOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type LiveOutputsListResponse = LiveOutputListResult;
+
+// @public
+export interface LiveOutputsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LiveOutputsOperationLocationResponse = LiveOutput;
 
 // @public
 export interface Locations {
@@ -2710,6 +2757,7 @@ export type StreamingEndpointResourceState = string;
 
 // @public
 export interface StreamingEndpoints {
+    asyncOperation(resourceGroupName: string, accountName: string, operationId: string, options?: StreamingEndpointsAsyncOperationOptionalParams): Promise<StreamingEndpointsAsyncOperationResponse>;
     beginCreate(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<StreamingEndpointsCreateResponse>, StreamingEndpointsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsCreateOptionalParams): Promise<StreamingEndpointsCreateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -2724,8 +2772,16 @@ export interface StreamingEndpoints {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<StreamingEndpointsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsGetOptionalParams): Promise<StreamingEndpointsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: StreamingEndpointsListOptionalParams): PagedAsyncIterableIterator<StreamingEndpoint>;
+    operationLocation(resourceGroupName: string, accountName: string, streamingEndpointName: string, operationId: string, options?: StreamingEndpointsOperationLocationOptionalParams): Promise<StreamingEndpointsOperationLocationResponse>;
     skus(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsSkusOptionalParams): Promise<StreamingEndpointsSkusResponse>;
 }
+
+// @public
+export interface StreamingEndpointsAsyncOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
 
 // @public
 export interface StreamingEndpointsCreateOptionalParams extends coreClient.OperationOptions {
@@ -2768,6 +2824,13 @@ export interface StreamingEndpointsListOptionalParams extends coreClient.Operati
 
 // @public
 export type StreamingEndpointsListResponse = StreamingEndpointListResult;
+
+// @public
+export interface StreamingEndpointsOperationLocationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
 
 // @public
 export interface StreamingEndpointsScaleOptionalParams extends coreClient.OperationOptions {
