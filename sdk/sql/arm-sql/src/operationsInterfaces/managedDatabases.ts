@@ -20,8 +20,13 @@ import {
   ManagedDatabaseUpdate,
   ManagedDatabasesUpdateOptionalParams,
   ManagedDatabasesUpdateResponse,
+  ManagedDatabaseMoveDefinition,
+  ManagedDatabasesCancelMoveOptionalParams,
+  ManagedDatabasesCompleteMoveOptionalParams,
   CompleteDatabaseRestoreDefinition,
-  ManagedDatabasesCompleteRestoreOptionalParams
+  ManagedDatabasesCompleteRestoreOptionalParams,
+  ManagedDatabaseStartMoveDefinition,
+  ManagedDatabasesStartMoveOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -168,6 +173,70 @@ export interface ManagedDatabases {
     options?: ManagedDatabasesUpdateOptionalParams
   ): Promise<ManagedDatabasesUpdateResponse>;
   /**
+   * Cancels a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the cancel managed database move operation.
+   * @param options The options parameters.
+   */
+  beginCancelMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCancelMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Cancels a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the cancel managed database move operation.
+   * @param options The options parameters.
+   */
+  beginCancelMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCancelMoveOptionalParams
+  ): Promise<void>;
+  /**
+   * Completes a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the complete managed database move operation.
+   * @param options The options parameters.
+   */
+  beginCompleteMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCompleteMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Completes a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the complete managed database move operation.
+   * @param options The options parameters.
+   */
+  beginCompleteMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseMoveDefinition,
+    options?: ManagedDatabasesCompleteMoveOptionalParams
+  ): Promise<void>;
+  /**
    * Completes the restore operation on a managed database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -198,5 +267,37 @@ export interface ManagedDatabases {
     databaseName: string,
     parameters: CompleteDatabaseRestoreDefinition,
     options?: ManagedDatabasesCompleteRestoreOptionalParams
+  ): Promise<void>;
+  /**
+   * Starts a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the start managed database move operation.
+   * @param options The options parameters.
+   */
+  beginStartMove(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseStartMoveDefinition,
+    options?: ManagedDatabasesStartMoveOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Starts a managed database move operation.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param managedInstanceName The name of the managed instance.
+   * @param databaseName The name of the database.
+   * @param parameters Parameters of the start managed database move operation.
+   * @param options The options parameters.
+   */
+  beginStartMoveAndWait(
+    resourceGroupName: string,
+    managedInstanceName: string,
+    databaseName: string,
+    parameters: ManagedDatabaseStartMoveDefinition,
+    options?: ManagedDatabasesStartMoveOptionalParams
   ): Promise<void>;
 }
