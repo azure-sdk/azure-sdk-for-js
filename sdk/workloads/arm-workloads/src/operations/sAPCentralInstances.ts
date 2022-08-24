@@ -44,9 +44,10 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Lists the SAP Central Instances in an SVI.
+   * Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   public list(
@@ -115,11 +116,11 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Gets the SAP Central Instance.
+   * Gets the SAP Central Services Instance resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   get(
@@ -140,12 +141,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -217,12 +218,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Puts the SAP Central Instance. <br><br>This will be used by service only. PUT by end user will
-   * return a Bad Request error.
+   * Creates the SAP Central Services Instance resource. <br><br>This will be used by service only. PUT
+   * operation on this resource by end user will return a Bad Request error.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -241,11 +242,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -317,11 +319,12 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Updates the SAP Central Instance. <br><br>This can be used to update tags.
+   * Updates the SAP Central Services Instance resource. <br><br>This can be used to update tags on the
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -340,12 +343,14 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -418,12 +423,14 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Deletes the SAP Central Instance. <br><br>This will be used by service only. Delete by end user will
-   * return a Bad Request error.
+   * Deletes the SAP Central Services Instance resource. <br><br>This will be used by service only.
+   * Delete operation on this resource by end user will return a Bad Request error. You can delete the
+   * parent resource, which is the Virtual Instance for SAP solutions resource, using the delete
+   * operation on it.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
-   * @param centralInstanceName Central Instance name string modeled as parameter for auto generation to
-   *                            work correctly.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
+   * @param centralInstanceName Central Services Instance resource name string modeled as parameter for
+   *                            auto generation to work correctly.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -442,9 +449,10 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   }
 
   /**
-   * Lists the SAP Central Instances in an SVI.
+   * Lists the SAP Central Services Instance resource for the given Virtual Instance for SAP solutions
+   * resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   private _list(
@@ -461,7 +469,7 @@ export class SAPCentralInstancesImpl implements SAPCentralInstances {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

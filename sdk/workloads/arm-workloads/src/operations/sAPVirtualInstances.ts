@@ -52,7 +52,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in a resource group.
+   * Gets all Virtual Instances for SAP solutions resources in a Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -105,7 +105,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in the subscription.
+   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -147,9 +147,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Creates an Virtual Instance for SAP.
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginCreate(
@@ -215,9 +215,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Creates an Virtual Instance for SAP.
+   * Creates a Virtual Instance for SAP solutions (VIS) resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -234,9 +234,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets an Virtual Instance for SAP.
+   * Gets a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   get(
@@ -251,9 +251,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Updates an Virtual Instance for SAP.
+   * Updates a Virtual Instance for SAP solutions resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   update(
@@ -268,9 +268,10 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Deletes an Virtual Instance for SAP.
+   * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
+   * associated Central Services Instance, Application Server Instances and Database Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginDelete(
@@ -337,9 +338,10 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Deletes an Virtual Instance for SAP.
+   * Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the
+   * associated Central Services Instance, Application Server Instances and Database Instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -356,7 +358,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in a resource group.
+   * Gets all Virtual Instances for SAP solutions resources in a Resource Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -371,7 +373,7 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Gets all Virtual Instances for SAP in the subscription.
+   * Gets all Virtual Instances for SAP solutions resources in a Subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -384,9 +386,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Starts the SAP System.
+   * Starts the SAP application, that is the Central Services instance and Application server instances.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStart(
@@ -452,9 +454,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Starts the SAP System.
+   * Starts the SAP application, that is the Central Services instance and Application server instances.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStartAndWait(
@@ -471,9 +473,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Stops the SAP System.
+   * Stops the SAP Application, that is the Application server instances and Central Services instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStop(
@@ -539,9 +541,9 @@ export class SAPVirtualInstancesImpl implements SAPVirtualInstances {
   }
 
   /**
-   * Stops the SAP System.
+   * Stops the SAP Application, that is the Application server instances and Central Services instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP.
+   * @param sapVirtualInstanceName The name of the Virtual Instances for SAP solutions resource
    * @param options The options parameters.
    */
   async beginStopAndWait(
