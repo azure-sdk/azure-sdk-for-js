@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OnlineEndpoints } from "../operationsInterfaces";
+import { LabelingJobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,34 +15,30 @@ import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspace
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  OnlineEndpoint,
-  OnlineEndpointsListNextOptionalParams,
-  OnlineEndpointsListOptionalParams,
-  OnlineEndpointsListResponse,
-  OnlineEndpointsDeleteOptionalParams,
-  OnlineEndpointsGetOptionalParams,
-  OnlineEndpointsGetResponse,
-  PartialMinimalTrackedResourceWithIdentity,
-  OnlineEndpointsUpdateOptionalParams,
-  OnlineEndpointsUpdateResponse,
-  OnlineEndpointsCreateOrUpdateOptionalParams,
-  OnlineEndpointsCreateOrUpdateResponse,
-  OnlineEndpointsListKeysOptionalParams,
-  OnlineEndpointsListKeysResponse,
-  RegenerateEndpointKeysRequest,
-  OnlineEndpointsRegenerateKeysOptionalParams,
-  OnlineEndpointsGetTokenOptionalParams,
-  OnlineEndpointsGetTokenResponse,
-  OnlineEndpointsListNextResponse
+  LabelingJob,
+  LabelingJobsListNextOptionalParams,
+  LabelingJobsListOptionalParams,
+  LabelingJobsListResponse,
+  LabelingJobsDeleteOptionalParams,
+  LabelingJobsGetOptionalParams,
+  LabelingJobsGetResponse,
+  LabelingJobsCreateOrUpdateOptionalParams,
+  LabelingJobsCreateOrUpdateResponse,
+  ExportSummaryUnion,
+  LabelingJobsExportLabelsOptionalParams,
+  LabelingJobsExportLabelsResponse,
+  LabelingJobsPauseOptionalParams,
+  LabelingJobsResumeOptionalParams,
+  LabelingJobsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing OnlineEndpoints operations. */
-export class OnlineEndpointsImpl implements OnlineEndpoints {
+/** Class containing LabelingJobs operations. */
+export class LabelingJobsImpl implements LabelingJobs {
   private readonly client: AzureMachineLearningWorkspaces;
 
   /**
-   * Initialize a new instance of the class OnlineEndpoints class.
+   * Initialize a new instance of the class LabelingJobs class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningWorkspaces) {
@@ -50,7 +46,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * List Online Endpoints.
+   * Lists labeling jobs in the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -58,8 +54,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<OnlineEndpoint> {
+    options?: LabelingJobsListOptionalParams
+  ): PagedAsyncIterableIterator<LabelingJob> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -77,8 +73,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
-  ): AsyncIterableIterator<OnlineEndpoint[]> {
+    options?: LabelingJobsListOptionalParams
+  ): AsyncIterableIterator<LabelingJob[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -97,8 +93,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
-  ): AsyncIterableIterator<OnlineEndpoint> {
+    options?: LabelingJobsListOptionalParams
+  ): AsyncIterableIterator<LabelingJob> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -109,7 +105,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * List Online Endpoints.
+   * Lists labeling jobs in the workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -117,8 +113,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: OnlineEndpointsListOptionalParams
-  ): Promise<OnlineEndpointsListResponse> {
+    options?: LabelingJobsListOptionalParams
+  ): Promise<LabelingJobsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -126,232 +122,67 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * Delete Online Endpoint (asynchronous).
+   * Delete a labeling job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
-  async beginDelete(
+  delete(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
+    id: string,
+    options?: LabelingJobsDeleteOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, id, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Delete Online Endpoint (asynchronous).
+   * Gets a labeling job by name/id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: OnlineEndpointsDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get Online Endpoint.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: OnlineEndpointsGetOptionalParams
-  ): Promise<OnlineEndpointsGetResponse> {
+    id: string,
+    options?: LabelingJobsGetOptionalParams
+  ): Promise<LabelingJobsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
+      { resourceGroupName, workspaceName, id, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update Online Endpoint (asynchronous).
+   * Creates or updates a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body Online Endpoint entity to apply during operation.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<OnlineEndpointsUpdateResponse>,
-      OnlineEndpointsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<OnlineEndpointsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update Online Endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body Online Endpoint entity to apply during operation.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: OnlineEndpointsUpdateOptionalParams
-  ): Promise<OnlineEndpointsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Create or update Online Endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body Online Endpoint entity to apply during operation.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body LabelingJob definition object.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
+    id: string,
+    body: LabelingJob,
+    options?: LabelingJobsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<OnlineEndpointsCreateOrUpdateResponse>,
-      OnlineEndpointsCreateOrUpdateResponse
+      PollOperationState<LabelingJobsCreateOrUpdateResponse>,
+      LabelingJobsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<OnlineEndpointsCreateOrUpdateResponse> => {
+    ): Promise<LabelingJobsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -389,7 +220,7 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
+      { resourceGroupName, workspaceName, id, body, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -401,24 +232,24 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * Create or update Online Endpoint (asynchronous).
+   * Creates or updates a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body Online Endpoint entity to apply during operation.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body LabelingJob definition object.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: OnlineEndpoint,
-    options?: OnlineEndpointsCreateOrUpdateOptionalParams
-  ): Promise<OnlineEndpointsCreateOrUpdateResponse> {
+    id: string,
+    body: LabelingJob,
+    options?: LabelingJobsCreateOrUpdateOptionalParams
+  ): Promise<LabelingJobsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      endpointName,
+      id,
       body,
       options
     );
@@ -426,38 +257,134 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * List EndpointAuthKeys for an Endpoint using Key-based authentication.
+   * Export labels from a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body The export summary.
    * @param options The options parameters.
    */
-  listKeys(
+  async beginExportLabels(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: OnlineEndpointsListKeysOptionalParams
-  ): Promise<OnlineEndpointsListKeysResponse> {
+    id: string,
+    body: ExportSummaryUnion,
+    options?: LabelingJobsExportLabelsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LabelingJobsExportLabelsResponse>,
+      LabelingJobsExportLabelsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LabelingJobsExportLabelsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, id, body, options },
+      exportLabelsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Export labels from a labeling job (asynchronous).
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param body The export summary.
+   * @param options The options parameters.
+   */
+  async beginExportLabelsAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    body: ExportSummaryUnion,
+    options?: LabelingJobsExportLabelsOptionalParams
+  ): Promise<LabelingJobsExportLabelsResponse> {
+    const poller = await this.beginExportLabels(
+      resourceGroupName,
+      workspaceName,
+      id,
+      body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Pause a labeling job.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param id The name and identifier for the LabelingJob.
+   * @param options The options parameters.
+   */
+  pause(
+    resourceGroupName: string,
+    workspaceName: string,
+    id: string,
+    options?: LabelingJobsPauseOptionalParams
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      listKeysOperationSpec
+      { resourceGroupName, workspaceName, id, options },
+      pauseOperationSpec
     );
   }
 
   /**
-   * Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
+   * Resume a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body RegenerateKeys request .
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
-  async beginRegenerateKeys(
+  async beginResume(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
+    id: string,
+    options?: LabelingJobsResumeOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -500,8 +427,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      regenerateKeysOperationSpec
+      { resourceGroupName, workspaceName, id, options },
+      resumeOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -513,47 +440,25 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
   }
 
   /**
-   * Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).
+   * Resume a labeling job (asynchronous).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param body RegenerateKeys request .
+   * @param id The name and identifier for the LabelingJob.
    * @param options The options parameters.
    */
-  async beginRegenerateKeysAndWait(
+  async beginResumeAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: RegenerateEndpointKeysRequest,
-    options?: OnlineEndpointsRegenerateKeysOptionalParams
+    id: string,
+    options?: LabelingJobsResumeOptionalParams
   ): Promise<void> {
-    const poller = await this.beginRegenerateKeys(
+    const poller = await this.beginResume(
       resourceGroupName,
       workspaceName,
-      endpointName,
-      body,
+      id,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Retrieve a valid AAD token for an Endpoint using AMLToken-based authentication.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Online Endpoint name.
-   * @param options The options parameters.
-   */
-  getToken(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: OnlineEndpointsGetTokenOptionalParams
-  ): Promise<OnlineEndpointsGetTokenResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      getTokenOperationSpec
-    );
   }
 
   /**
@@ -567,8 +472,8 @@ export class OnlineEndpointsImpl implements OnlineEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: OnlineEndpointsListNextOptionalParams
-  ): Promise<OnlineEndpointsListNextResponse> {
+    options?: LabelingJobsListNextOptionalParams
+  ): Promise<LabelingJobsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -580,26 +485,17 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.LabelingJobResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.name2,
-    Parameters.computeType,
-    Parameters.orderBy2
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -611,12 +507,10 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -628,110 +522,112 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.id
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.LabelingJob
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeJobInstructions,
+    Parameters.includeLabelCategories
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.id
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OnlineEndpoint
-    },
-    201: {
-      bodyMapper: Mappers.OnlineEndpoint
-    },
-    202: {
-      bodyMapper: Mappers.OnlineEndpoint
-    },
-    204: {
-      bodyMapper: Mappers.OnlineEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.LabelingJob
     },
     201: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.LabelingJob
     },
     202: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.LabelingJob
     },
     204: {
-      bodyMapper: Mappers.OnlineEndpoint
+      bodyMapper: Mappers.LabelingJob
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName1
+    Parameters.id1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const listKeysOperationSpec: coreClient.OperationSpec = {
+const exportLabelsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/listKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/exportLabels",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAuthKeys
+      bodyMapper: Mappers.ExportSummary
     },
+    201: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    202: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    204: {
+      bodyMapper: Mappers.ExportSummary
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body15,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.id
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const pauseOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/pause",
+  httpMethod: "POST",
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -742,14 +638,14 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.id
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const regenerateKeysOperationSpec: coreClient.OperationSpec = {
+const resumeOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/regenerateKeys",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/labelingJobs/{id}/resume",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -760,38 +656,13 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/token",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EndpointAuthToken
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.id
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -801,22 +672,13 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OnlineEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.LabelingJobResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.count,
-    Parameters.tags1,
-    Parameters.properties1,
-    Parameters.name2,
-    Parameters.computeType,
-    Parameters.orderBy2
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
