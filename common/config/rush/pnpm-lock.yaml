@@ -300,6 +300,7 @@ specifiers:
   '@rush-temp/test-utils': file:./projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:./projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:./projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:./projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:./projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
@@ -604,6 +605,7 @@ dependencies:
   '@rush-temp/test-utils': file:projects/test-utils.tgz
   '@rush-temp/test-utils-perf': file:projects/test-utils-perf.tgz
   '@rush-temp/testing-recorder-new': file:projects/testing-recorder-new.tgz
+  '@rush-temp/vi': file:projects/vi.tgz
   '@rush-temp/video-analyzer-edge': file:projects/video-analyzer-edge.tgz
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
@@ -4080,7 +4082,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220823
+      typescript: 4.9.0-dev.20220824
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8991,8 +8993,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220823:
-    resolution: {integrity: sha512-8LTaS3Uev9r3Mj6CzXIpr1KQdFD+98bM1Y/tuXUpKGoPWnplMoralGsxflIMa5l6O8P0NPqioDJDsxWeHsxA5A==}
+  /typescript/4.9.0-dev.20220824:
+    resolution: {integrity: sha512-NsplEHXMgy5v81L3fXRgvitWTjUgIwxZylKWI5Nex06xASPKrhuJOnP0ucEpDpIvDofVoUV6W8N8DzPql58H2A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -19381,6 +19383,33 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/vi.tgz:
+    resolution: {integrity: sha512-EdbvJvCNIVa81uRXoDzoHCLYdZM6lMpPjapp1f/8fgTCzTtBZvS1Xfbb3qqJP3YQtdAXbUkKvjpFOqbSBOiFvw==, tarball: file:projects/vi.tgz}
+    name: '@rush-temp/vi'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
     dev: false
 
   file:projects/video-analyzer-edge.tgz:

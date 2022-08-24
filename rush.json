@@ -1830,6 +1830,11 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "vi",
+      "projectFolder": "sdk/vi/arm-vi",
+      "versionPolicyName": "management"
     }
   ]
 }
