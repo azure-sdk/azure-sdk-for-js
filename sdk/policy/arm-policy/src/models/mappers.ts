@@ -1287,3 +1287,198 @@ export const PolicyExemptionListResult: coreClient.CompositeMapper = {
     }
   }
 };
+
+export const Variable: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Variable",
+    modelProperties: {
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      columns: {
+        serializedName: "properties.columns",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyVariableColumn"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PolicyVariableColumn: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyVariableColumn",
+    modelProperties: {
+      columnName: {
+        serializedName: "columnName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VariableListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Variable"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const VariableValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableValue",
+    modelProperties: {
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      values: {
+        serializedName: "properties.values",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicyVariableValueColumnValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PolicyVariableValueColumnValue: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicyVariableValueColumnValue",
+    modelProperties: {
+      columnName: {
+        serializedName: "columnName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      columnValue: {
+        serializedName: "columnValue",
+        required: true,
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const VariableValueListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableValueListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VariableValue"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
