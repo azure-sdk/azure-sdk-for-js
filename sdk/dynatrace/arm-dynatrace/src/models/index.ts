@@ -80,9 +80,9 @@ export interface ErrorAdditionalInfo {
 /** List of all the resources being monitored by Dynatrace monitor resource */
 export interface MonitoredResourceListResponse {
   /** The items on this page */
-  value: MonitoredResource[];
+  value?: MonitoredResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of resource being monitored by Dynatrace monitor resource */
@@ -326,9 +326,9 @@ export interface OperationDisplay {
 /** The response of a MonitorResource list operation. */
 export interface MonitorResourceListResult {
   /** The items on this page */
-  value: MonitorResource[];
+  value?: MonitorResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Set of rules for sending logs for the Monitor resource. */
@@ -373,25 +373,25 @@ export interface TagRuleUpdate {
 /** The response of a TagRule list operation. */
 export interface TagRuleListResult {
   /** The items on this page */
-  value: TagRule[];
+  value?: TagRule[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** The response of a DynatraceSingleSignOnResource list operation. */
 export interface DynatraceSingleSignOnResourceListResult {
   /** The items on this page */
-  value: DynatraceSingleSignOnResource[];
+  value?: DynatraceSingleSignOnResource[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Response of a list VM Host Operation. */
 export interface VMHostsListResponse {
   /** The items on this page */
-  value: VMInfo[];
+  value?: VMInfo[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of VM Resource having Dynatrace OneAgent installed */
@@ -419,9 +419,9 @@ export interface VMInfo {
 /** Response of a list App Services Operation. */
 export interface AppServiceListResponse {
   /** The items on this page */
-  value: AppServiceInfo[];
+  value?: AppServiceInfo[];
   /** The link to the next page of items */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Details of App Services having Dynatrace OneAgent installed */

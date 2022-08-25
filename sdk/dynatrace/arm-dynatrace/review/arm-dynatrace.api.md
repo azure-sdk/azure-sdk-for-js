@@ -41,8 +41,8 @@ export interface AppServiceInfo {
 
 // @public
 export interface AppServiceListResponse {
-    nextLink: string;
-    value: AppServiceInfo[];
+    nextLink?: string;
+    value?: AppServiceInfo[];
 }
 
 // @public
@@ -109,8 +109,8 @@ export interface DynatraceSingleSignOnResource extends ProxyResource {
 
 // @public
 export interface DynatraceSingleSignOnResourceListResult {
-    nextLink: string;
-    value: DynatraceSingleSignOnResource[];
+    nextLink?: string;
+    value?: DynatraceSingleSignOnResource[];
 }
 
 // @public
@@ -365,8 +365,8 @@ export interface MonitoredResource {
 
 // @public
 export interface MonitoredResourceListResponse {
-    nextLink: string;
-    value: MonitoredResource[];
+    nextLink?: string;
+    value?: MonitoredResource[];
 }
 
 // @public
@@ -391,8 +391,8 @@ export interface MonitorResource extends TrackedResource {
 
 // @public
 export interface MonitorResourceListResult {
-    nextLink: string;
-    value: MonitorResource[];
+    nextLink?: string;
+    value?: MonitorResource[];
 }
 
 // @public
@@ -724,8 +724,8 @@ export interface TagRule extends ProxyResource {
 
 // @public
 export interface TagRuleListResult {
-    nextLink: string;
-    value: TagRule[];
+    nextLink?: string;
+    value?: TagRule[];
 }
 
 // @public
@@ -822,8 +822,8 @@ export interface VMExtensionPayload {
 
 // @public
 export interface VMHostsListResponse {
-    nextLink: string;
-    value: VMInfo[];
+    nextLink?: string;
+    value?: VMInfo[];
 }
 
 // @public
