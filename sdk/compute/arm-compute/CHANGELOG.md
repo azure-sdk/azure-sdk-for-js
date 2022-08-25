@@ -1,15 +1,14 @@
 # Release History
+    
+## 19.2.0 (2022-08-25)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CapacityReservation has a new optional parameter platformFaultDomainCount
+  - Interface CapacityReservationUpdate has a new optional parameter platformFaultDomainCount
+  - Interface CapacityReservationUtilization has a new optional parameter currentCapacity
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**

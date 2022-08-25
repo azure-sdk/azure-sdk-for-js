@@ -227,6 +227,7 @@ export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 // @public
 export interface CapacityReservation extends Resource {
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly platformFaultDomainCount?: number;
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
@@ -419,6 +420,7 @@ export type CapacityReservationsUpdateResponse = CapacityReservation;
 // @public
 export interface CapacityReservationUpdate extends UpdateResource {
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly platformFaultDomainCount?: number;
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
@@ -429,6 +431,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
 
 // @public
 export interface CapacityReservationUtilization {
+    readonly currentCapacity?: number;
     readonly virtualMachinesAllocated?: SubResourceReadOnly[];
 }
 
@@ -4992,7 +4995,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
