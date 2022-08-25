@@ -12,11 +12,6 @@ import * as coreClient from "@azure/core-client";
 export interface ResourceProviderOperationList {
   /** List of operations supported by this resource provider. */
   value?: ResourceProviderOperation[];
-  /**
-   * Link to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
 }
 
 /** Supported operation of this resource provider. */
@@ -63,36 +58,6 @@ export interface LogSpecification {
   displayName?: string;
   /** Blob duration of the log */
   blobDuration?: string;
-}
-
-/** Cloud error object. */
-export interface CloudError {
-  /** Cloud error object properties. */
-  error?: CloudErrorProperties;
-}
-
-/** Cloud error object properties. */
-export interface CloudErrorProperties {
-  /** Error code */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
@@ -174,6 +139,17 @@ export interface Plan {
   version?: string;
 }
 
+export interface CloudError {
+  error?: CloudErrorProperties;
+}
+
+export interface CloudErrorProperties {
+  /** Error code */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
 /** Workspace properties that can be patched. */
 export interface WorkspacePatch {
   /** tags to be updated */
@@ -184,8 +160,6 @@ export interface WorkspacePatch {
   friendlyName?: string;
   /** List of applicationGroup links. */
   applicationGroupReferences?: string[];
-  /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** List of Workspace definitions. */
@@ -206,7 +180,7 @@ export interface ScalingSchedule {
   /** Set of days of the week on which this schedule is active. */
   daysOfWeek?: ScalingScheduleDaysOfWeekItem[];
   /** Starting time for ramp up period. */
-  rampUpStartTime?: Time;
+  rampUpStartTime?: Date;
   /** Load balancing algorithm for ramp up period. */
   rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
   /** Minimum host percentage for ramp up period. */
@@ -214,11 +188,11 @@ export interface ScalingSchedule {
   /** Capacity threshold for ramp up period. */
   rampUpCapacityThresholdPct?: number;
   /** Starting time for peak period. */
-  peakStartTime?: Time;
+  peakStartTime?: Date;
   /** Load balancing algorithm for peak period. */
   peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
   /** Starting time for ramp down period. */
-  rampDownStartTime?: Time;
+  rampDownStartTime?: Date;
   /** Load balancing algorithm for ramp down period. */
   rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
   /** Minimum host percentage for ramp down period. */
@@ -234,17 +208,9 @@ export interface ScalingSchedule {
   /** Notification message for users during ramp down period. */
   rampDownNotificationMessage?: string;
   /** Starting time for off-peak period. */
-  offPeakStartTime?: Time;
+  offPeakStartTime?: Date;
   /** Load balancing algorithm for off-peak period. */
   offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
-}
-
-/** The time for a scaling action to occur. */
-export interface Time {
-  /** The hour. */
-  hour: number;
-  /** The minute. */
-  minute: number;
 }
 
 /** Scaling plan reference to hostpool. */
@@ -265,6 +231,8 @@ export interface ScalingPlanPatch {
   friendlyName?: string;
   /** Timezone of the scaling plan. */
   timeZone?: string;
+  /** HostPool type for desktop. */
+  hostPoolType?: HostPoolType;
   /** Exclusion tag for scaling plan. */
   exclusionTag?: string;
   /** List of ScalingSchedule definitions. */
@@ -546,54 +514,8 @@ export interface SendMessage {
   messageBody?: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
-export interface PrivateEndpointConnectionListResultWithSystemData {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionWithSystemData[];
-  /**
-   * Link to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-  /**
-   * Link to the next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** Represents a Workspace definition. */
-export type Workspace = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface Workspace extends ResourceModelWithAllowedPropertySet {
   /**
    * ObjectId of Workspace. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -610,17 +532,10 @@ export type Workspace = ResourceModelWithAllowedPropertySet & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 /** Represents a scaling plan definition. */
-export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
   /**
    * ObjectId of scaling plan. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -633,22 +548,17 @@ export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
   /** Timezone of the scaling plan. */
   timeZone?: string;
   /** HostPool type for desktop. */
-  hostPoolType?: ScalingHostPoolType;
+  hostPoolType?: HostPoolType;
   /** Exclusion tag for scaling plan. */
   exclusionTag?: string;
   /** List of ScalingSchedule definitions. */
   schedules?: ScalingSchedule[];
   /** List of ScalingHostPoolReference definitions. */
   hostPoolReferences?: ScalingHostPoolReference[];
-};
+}
 
 /** Represents a ApplicationGroup definition. */
-export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
   /**
    * ObjectId of ApplicationGroup. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -674,15 +584,10 @@ export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-};
+}
 
 /** Represents a HostPool definition. */
-export type HostPool = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface HostPool extends ResourceModelWithAllowedPropertySet {
   /**
    * ObjectId of HostPool. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -734,28 +639,26 @@ export type HostPool = ResourceModelWithAllowedPropertySet & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
-export type ResourceModelWithAllowedPropertySetIdentity = Identity & {};
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {}
 
-export type ResourceModelWithAllowedPropertySetSku = Sku & {};
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {}
 
-export type ResourceModelWithAllowedPropertySetPlan = Plan & {};
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {}
 
 /** ApplicationGroup properties that can be patched. */
-export type ApplicationGroupPatch = Resource & {
+export interface ApplicationGroupPatch extends Resource {
   /** tags to be updated */
   tags?: { [propertyName: string]: string };
   /** Description of ApplicationGroup. */
   description?: string;
   /** Friendly name of ApplicationGroup. */
   friendlyName?: string;
-};
+}
 
 /** Represents a StartMenuItem definition. */
-export type StartMenuItem = Resource & {
+export interface StartMenuItem extends Resource {
   /** Alias of StartMenuItem. */
   appAlias?: string;
   /** Path to the file of StartMenuItem. */
@@ -766,15 +669,10 @@ export type StartMenuItem = Resource & {
   iconPath?: string;
   /** Index of the icon. */
   iconIndex?: number;
-};
+}
 
 /** Schema for Application properties. */
-export type Application = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface Application extends Resource {
   /**
    * ObjectId of Application. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -812,15 +710,10 @@ export type Application = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly iconContent?: Uint8Array;
-};
+}
 
 /** Schema for Desktop properties. */
-export type Desktop = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface Desktop extends Resource {
   /**
    * ObjectId of Desktop. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -840,10 +733,10 @@ export type Desktop = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly iconContent?: Uint8Array;
-};
+}
 
 /** HostPool properties that can be patched. */
-export type HostPoolPatch = Resource & {
+export interface HostPoolPatch extends Resource {
   /** tags to be updated */
   tags?: { [propertyName: string]: string };
   /** Friendly name of HostPool. */
@@ -878,17 +771,10 @@ export type HostPoolPatch = Resource & {
   preferredAppGroupType?: PreferredAppGroupType;
   /** The flag to turn on/off StartVMOnConnect feature. */
   startVMOnConnect?: boolean;
-  /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: PublicNetworkAccess;
-};
+}
 
 /** Represents a UserSession definition. */
-export type UserSession = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface UserSession extends Resource {
   /**
    * ObjectId of user session. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -904,15 +790,10 @@ export type UserSession = Resource & {
   activeDirectoryUserName?: string;
   /** The timestamp of the user session create. */
   createTime?: Date;
-};
+}
 
 /** Represents a SessionHost definition. */
-export type SessionHost = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface SessionHost extends Resource {
   /**
    * ObjectId of SessionHost. (internal use)
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -963,23 +844,18 @@ export type SessionHost = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sessionHostHealthCheckResults?: SessionHostHealthCheckReport[];
-};
+}
 
 /** SessionHost properties that can be patched. */
-export type SessionHostPatch = Resource & {
+export interface SessionHostPatch extends Resource {
   /** Allow a new session. */
   allowNewSession?: boolean;
   /** User assigned to SessionHost. */
   assignedUser?: string;
-};
+}
 
 /** Schema for MSIX Package properties. */
-export type MsixPackage = Resource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+export interface MsixPackage extends Resource {
   /** VHD/CIM image path on Network Share. */
   imagePath?: string;
   /** Package Name from appxmanifest.xml. */
@@ -1002,20 +878,20 @@ export type MsixPackage = Resource & {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
-};
+}
 
 /** MSIX Package properties that can be patched. */
-export type MsixPackagePatch = Resource & {
+export interface MsixPackagePatch extends Resource {
   /** Set a version of the package to be active across hostpool. */
   isActive?: boolean;
   /** Set Registration mode. Regular or Delayed. */
   isRegularRegistration?: boolean;
   /** Display name for MSIX Package. */
   displayName?: string;
-};
+}
 
 /** Represents the definition of contents retrieved after expanding the MSIX Image. */
-export type ExpandMsixImage = Resource & {
+export interface ExpandMsixImage extends Resource {
   /** Alias of MSIX Package. */
   packageAlias?: string;
   /** VHD/CIM image path on Network Share. */
@@ -1042,102 +918,44 @@ export type ExpandMsixImage = Resource & {
   lastUpdated?: Date;
   /** List of package applications. */
   packageApplications?: MsixPackageApplications[];
-};
-
-/** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
-
-/** A private link resource */
-export type PrivateLinkResource = Resource & {
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: string[];
-};
-
-/** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnectionWithSystemData = PrivateEndpointConnection & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-};
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
 }
 
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  Enabled = "Enabled",
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type PublicNetworkAccess = string;
-
-/** Known values of {@link ScalingHostPoolType} that the service accepts. */
-export enum KnownScalingHostPoolType {
+/** Known values of {@link HostPoolType} that the service accepts. */
+export enum KnownHostPoolType {
+  /** Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. */
+  Personal = "Personal",
   /** Users get a new (random) SessionHost every time it connects to the HostPool. */
-  Pooled = "Pooled"
+  Pooled = "Pooled",
+  /** Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct. */
+  BYODesktop = "BYODesktop"
 }
 
 /**
- * Defines values for ScalingHostPoolType. \
- * {@link KnownScalingHostPoolType} can be used interchangeably with ScalingHostPoolType,
+ * Defines values for HostPoolType. \
+ * {@link KnownHostPoolType} can be used interchangeably with HostPoolType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool.
+ * **Personal**: Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. \
+ * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool. \
+ * **BYODesktop**: Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct.
  */
-export type ScalingHostPoolType = string;
+export type HostPoolType = string;
 
 /** Known values of {@link ScalingScheduleDaysOfWeekItem} that the service accepts. */
 export enum KnownScalingScheduleDaysOfWeekItem {
+  /** Sunday */
   Sunday = "Sunday",
+  /** Monday */
   Monday = "Monday",
+  /** Tuesday */
   Tuesday = "Tuesday",
+  /** Wednesday */
   Wednesday = "Wednesday",
+  /** Thursday */
   Thursday = "Thursday",
+  /** Friday */
   Friday = "Friday",
+  /** Saturday */
   Saturday = "Saturday"
 }
 
@@ -1158,7 +976,9 @@ export type ScalingScheduleDaysOfWeekItem = string;
 
 /** Known values of {@link SessionHostLoadBalancingAlgorithm} that the service accepts. */
 export enum KnownSessionHostLoadBalancingAlgorithm {
+  /** BreadthFirst */
   BreadthFirst = "BreadthFirst",
+  /** DepthFirst */
   DepthFirst = "DepthFirst"
 }
 
@@ -1174,7 +994,9 @@ export type SessionHostLoadBalancingAlgorithm = string;
 
 /** Known values of {@link StopHostsWhen} that the service accepts. */
 export enum KnownStopHostsWhen {
+  /** ZeroSessions */
   ZeroSessions = "ZeroSessions",
+  /** ZeroActiveSessions */
   ZeroActiveSessions = "ZeroActiveSessions"
 }
 
@@ -1190,7 +1012,9 @@ export type StopHostsWhen = string;
 
 /** Known values of {@link ApplicationGroupType} that the service accepts. */
 export enum KnownApplicationGroupType {
+  /** RemoteApp */
   RemoteApp = "RemoteApp",
+  /** Desktop */
   Desktop = "Desktop"
 }
 
@@ -1233,7 +1057,9 @@ export type Operation = string;
 
 /** Known values of {@link RemoteApplicationType} that the service accepts. */
 export enum KnownRemoteApplicationType {
+  /** InBuilt */
   InBuilt = "InBuilt",
+  /** MsixApplication */
   MsixApplication = "MsixApplication"
 }
 
@@ -1249,8 +1075,11 @@ export type RemoteApplicationType = string;
 
 /** Known values of {@link CommandLineSetting} that the service accepts. */
 export enum KnownCommandLineSetting {
+  /** DoNotAllow */
   DoNotAllow = "DoNotAllow",
+  /** Allow */
   Allow = "Allow",
+  /** Require */
   Require = "Require"
 }
 
@@ -1265,30 +1094,11 @@ export enum KnownCommandLineSetting {
  */
 export type CommandLineSetting = string;
 
-/** Known values of {@link HostPoolType} that the service accepts. */
-export enum KnownHostPoolType {
-  /** Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. */
-  Personal = "Personal",
-  /** Users get a new (random) SessionHost every time it connects to the HostPool. */
-  Pooled = "Pooled",
-  /** Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct. */
-  BYODesktop = "BYODesktop"
-}
-
-/**
- * Defines values for HostPoolType. \
- * {@link KnownHostPoolType} can be used interchangeably with HostPoolType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Personal**: Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost. \
- * **Pooled**: Users get a new (random) SessionHost every time it connects to the HostPool. \
- * **BYODesktop**: Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct.
- */
-export type HostPoolType = string;
-
 /** Known values of {@link PersonalDesktopAssignmentType} that the service accepts. */
 export enum KnownPersonalDesktopAssignmentType {
+  /** Automatic */
   Automatic = "Automatic",
+  /** Direct */
   Direct = "Direct"
 }
 
@@ -1304,8 +1114,11 @@ export type PersonalDesktopAssignmentType = string;
 
 /** Known values of {@link LoadBalancerType} that the service accepts. */
 export enum KnownLoadBalancerType {
+  /** BreadthFirst */
   BreadthFirst = "BreadthFirst",
+  /** DepthFirst */
   DepthFirst = "DepthFirst",
+  /** Persistent */
   Persistent = "Persistent"
 }
 
@@ -1322,8 +1135,11 @@ export type LoadBalancerType = string;
 
 /** Known values of {@link RegistrationTokenOperation} that the service accepts. */
 export enum KnownRegistrationTokenOperation {
+  /** Delete */
   Delete = "Delete",
+  /** None */
   None = "None",
+  /** Update */
   Update = "Update"
 }
 
@@ -1340,9 +1156,13 @@ export type RegistrationTokenOperation = string;
 
 /** Known values of {@link SSOSecretType} that the service accepts. */
 export enum KnownSSOSecretType {
+  /** SharedKey */
   SharedKey = "SharedKey",
+  /** Certificate */
   Certificate = "Certificate",
+  /** SharedKeyInKeyVault */
   SharedKeyInKeyVault = "SharedKeyInKeyVault",
+  /** CertificateInKeyVault */
   CertificateInKeyVault = "CertificateInKeyVault"
 }
 
@@ -1360,8 +1180,11 @@ export type SSOSecretType = string;
 
 /** Known values of {@link PreferredAppGroupType} that the service accepts. */
 export enum KnownPreferredAppGroupType {
+  /** None */
   None = "None",
+  /** Desktop */
   Desktop = "Desktop",
+  /** RailApplications */
   RailApplications = "RailApplications"
 }
 
@@ -1378,7 +1201,9 @@ export type PreferredAppGroupType = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
+  /** RemoteApp */
   RemoteApp = "RemoteApp",
+  /** Desktop */
   Desktop = "Desktop"
 }
 
@@ -1394,11 +1219,17 @@ export type ApplicationType = string;
 
 /** Known values of {@link SessionState} that the service accepts. */
 export enum KnownSessionState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Active */
   Active = "Active",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Pending */
   Pending = "Pending",
+  /** LogOff */
   LogOff = "LogOff",
+  /** UserProfileDiskMounted */
   UserProfileDiskMounted = "UserProfileDiskMounted"
 }
 
@@ -1466,10 +1297,15 @@ export type Status = string;
 
 /** Known values of {@link UpdateState} that the service accepts. */
 export enum KnownUpdateState {
+  /** Initial */
   Initial = "Initial",
+  /** Pending */
   Pending = "Pending",
+  /** Started */
   Started = "Started",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1554,44 +1390,6 @@ export enum KnownHealthCheckResult {
  * **SessionHostShutdown**: We received a Shutdown notification.
  */
 export type HealthCheckResult = string;
-
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  Pending = "Pending",
-  Approved = "Approved",
-  Rejected = "Rejected"
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  Succeeded = "Succeeded",
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Failed = "Failed"
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
@@ -1601,13 +1399,6 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ResourceProviderOperationList;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = ResourceProviderOperationList;
 
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
@@ -1884,13 +1675,6 @@ export interface DesktopsListOptionalParams
 export type DesktopsListResponse = DesktopList;
 
 /** Optional parameters. */
-export interface DesktopsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DesktopsListNextResponse = DesktopList;
-
-/** Optional parameters. */
 export interface HostPoolsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2032,7 +1816,7 @@ export interface SessionHostsDeleteOptionalParams
 /** Optional parameters. */
 export interface SessionHostsUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** Force flag to update assign, unassign or reassign personal desktop. */
+  /** Force flag to update sessionHost. */
   force?: boolean;
   /** Object containing SessionHost definitions. */
   sessionHost?: SessionHostPatch;
@@ -2110,98 +1894,6 @@ export interface MsixImagesExpandNextOptionalParams
 
 /** Contains response data for the expandNext operation. */
 export type MsixImagesExpandNextResponse = ExpandMsixImageList;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPool operation. */
-export type PrivateEndpointConnectionsListByHostPoolResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByHostPool operation. */
-export type PrivateEndpointConnectionsGetByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateByHostPool operation. */
-export type PrivateEndpointConnectionsUpdateByHostPoolResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type PrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getByWorkspace operation. */
-export type PrivateEndpointConnectionsGetByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateByWorkspace operation. */
-export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpointConnectionWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPoolNext operation. */
-export type PrivateEndpointConnectionsListByHostPoolNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateEndpointConnectionsListByWorkspaceNextResponse = PrivateEndpointConnectionListResultWithSystemData;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByHostPoolOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPool operation. */
-export type PrivateLinkResourcesListByHostPoolResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspace operation. */
-export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByHostPoolNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByHostPoolNext operation. */
-export type PrivateLinkResourcesListByHostPoolNextResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByWorkspaceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByWorkspaceNext operation. */
-export type PrivateLinkResourcesListByWorkspaceNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface DesktopVirtualizationAPIClientOptionalParams

@@ -4080,7 +4080,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220823
+      typescript: 4.9.0-dev.20220825
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8991,8 +8991,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220823:
-    resolution: {integrity: sha512-8LTaS3Uev9r3Mj6CzXIpr1KQdFD+98bM1Y/tuXUpKGoPWnplMoralGsxflIMa5l6O8P0NPqioDJDsxWeHsxA5A==}
+  /typescript/4.9.0-dev.20220825:
+    resolution: {integrity: sha512-X6bFdJycFPfp4CC8RqOZkCQauNIayamosrtovm6UlCjez9AKMQ1TQJiwReDybks9TGHR3LegEIvLIMWj+uiHYg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11587,7 +11587,7 @@ packages:
     dev: false
 
   file:projects/arm-desktopvirtualization.tgz:
-    resolution: {integrity: sha512-ITqoXYFDuj0Z3hWtReARjx++0H9Du7BfhxHn4cYnZcQJQqdZkZLg2bLgCYg0gn8LVA0dztG20UH+YcE9yqV8Jw==, tarball: file:projects/arm-desktopvirtualization.tgz}
+    resolution: {integrity: sha512-zA3Nv1A6YbyAb9qrvs2K04WQCJOi+hKQK7R5z9sDpGpnMAWClTt4nbrtocVxFoD1Zzi6ne9UAjYZMFiwGgYBIA==, tarball: file:projects/arm-desktopvirtualization.tgz}
     name: '@rush-temp/arm-desktopvirtualization'
     version: 0.0.0
     dependencies:
@@ -11598,6 +11598,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11609,7 +11611,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

@@ -6,25 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Desktops } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
-  Desktop,
-  DesktopsListNextOptionalParams,
-  DesktopsListOptionalParams,
   DesktopsGetOptionalParams,
   DesktopsGetResponse,
   DesktopsUpdateOptionalParams,
   DesktopsUpdateResponse,
-  DesktopsListResponse,
-  DesktopsListNextResponse
+  DesktopsListOptionalParams,
+  DesktopsListResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing Desktops operations. */
 export class DesktopsImpl implements Desktops {
   private readonly client: DesktopVirtualizationAPIClient;
@@ -35,77 +30,6 @@ export class DesktopsImpl implements Desktops {
    */
   constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
-  }
-
-  /**
-   * List desktops.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: DesktopsListOptionalParams
-  ): PagedAsyncIterableIterator<Desktop> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      applicationGroupName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGroupName,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: DesktopsListOptionalParams
-  ): AsyncIterableIterator<Desktop[]> {
-    let result = await this._list(
-      resourceGroupName,
-      applicationGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        applicationGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: DesktopsListOptionalParams
-  ): AsyncIterableIterator<Desktop> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      applicationGroupName,
-      options
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -152,7 +76,7 @@ export class DesktopsImpl implements Desktops {
    * @param applicationGroupName The name of the application group
    * @param options The options parameters.
    */
-  private _list(
+  list(
     resourceGroupName: string,
     applicationGroupName: string,
     options?: DesktopsListOptionalParams
@@ -160,25 +84,6 @@ export class DesktopsImpl implements Desktops {
     return this.client.sendOperationRequest(
       { resourceGroupName, applicationGroupName, options },
       listOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    nextLink: string,
-    options?: DesktopsListNextOptionalParams
-  ): Promise<DesktopsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, nextLink, options },
-      listNextOperationSpec
     );
   }
 }
@@ -248,28 +153,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DesktopList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.applicationGroupName

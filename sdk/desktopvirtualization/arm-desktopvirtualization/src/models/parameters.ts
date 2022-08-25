@@ -27,8 +27,7 @@ import {
   SessionHostPatch as SessionHostPatchMapper,
   MsixPackage as MsixPackageMapper,
   MsixPackagePatch as MsixPackagePatchMapper,
-  MsixImageURI as MsixImageURIMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  MsixImageURI as MsixImageURIMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -58,25 +57,13 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-03-preview",
+    defaultValue: "2022-08-10",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -145,11 +132,23 @@ export const workspace1: OperationParameter = {
   mapper: WorkspacePatchMapper
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const scalingPlanName: OperationURLParameter = {
   parameterPath: "scalingPlanName",
   mapper: {
     constraints: {
-      MaxLength: 64,
+      MaxLength: 24,
       MinLength: 3
     },
     serializedName: "scalingPlanName",
@@ -353,20 +352,4 @@ export const msixPackage1: OperationParameter = {
 export const msixImageURI: OperationParameter = {
   parameterPath: "msixImageURI",
   mapper: MsixImageURIMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const connection: OperationParameter = {
-  parameterPath: "connection",
-  mapper: PrivateEndpointConnectionMapper
 };

@@ -18,5 +18,3 @@ export * from "./userSessions";
 export * from "./sessionHosts";
 export * from "./msixPackages";
 export * from "./msixImages";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
