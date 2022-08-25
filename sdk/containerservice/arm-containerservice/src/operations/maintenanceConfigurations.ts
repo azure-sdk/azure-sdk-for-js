@@ -265,7 +265,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -274,7 +274,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.configName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -316,8 +316,8 @@ const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -206,6 +206,9 @@ export interface AzureKeyVaultKms {
 }
 
 // @public
+export type BackendPoolType = string;
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -612,6 +615,12 @@ export enum KnownAgentPoolMode {
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownBackendPoolType {
+    NodeIP = "NodeIP",
+    NodeIPConfiguration = "NodeIPConfiguration"
 }
 
 // @public
@@ -1348,6 +1357,7 @@ export interface ManagedClusterListResult {
 // @public
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
+    backendPoolType?: BackendPoolType;
     effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;

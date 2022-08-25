@@ -1,16 +1,6 @@
 # Release History
-
-## 17.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 17.1.0-beta.2 (2022-08-19)
+    
+## 17.1.0-beta.3 (2022-08-25)
     
 **Features**
 
@@ -89,6 +79,7 @@
   - Added Interface TrustedAccessRoleRule
   - Added Interface TrustedAccessRolesListNextOptionalParams
   - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
@@ -137,6 +128,7 @@
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
   - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
@@ -148,6 +140,7 @@
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
