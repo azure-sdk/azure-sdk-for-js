@@ -114,6 +114,20 @@ export const Subscription: coreClient.CompositeMapper = {
           allowedValues: ["Enabled", "Warned", "PastDue", "Disabled", "Deleted"]
         }
       },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       subscriptionPolicies: {
         serializedName: "subscriptionPolicies",
         type: {
@@ -181,7 +195,6 @@ export const SubscriptionListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        required: true,
         type: {
           name: "String"
         }
@@ -799,6 +812,13 @@ export const AcceptOwnershipStatusResponse: coreClient.CompositeMapper = {
       },
       acceptOwnershipState: {
         serializedName: "acceptOwnershipState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
         readOnly: true,
         type: {
           name: "String"
