@@ -50,12 +50,14 @@ export interface CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -68,12 +70,14 @@ export interface CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<CollectorPoliciesCreateOrUpdateResponse>;
   /**

@@ -157,12 +157,14 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -215,6 +217,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
+        location,
         options
       },
       createOrUpdateOperationSpec
@@ -233,18 +236,21 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<CollectorPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       azureTrafficCollectorName,
       collectorPolicyName,
+      location,
       options
     );
     return poller.pollUntilDone();
@@ -433,6 +439,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
+      location: ["location"],
+      tags: ["options", "tags"],
       ingestionPolicy: ["options", "ingestionPolicy"],
       emissionPolicies: ["options", "emissionPolicies"]
     },
