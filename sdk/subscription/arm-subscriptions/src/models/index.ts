@@ -100,7 +100,7 @@ export interface SubscriptionListResult {
   /** An array of subscriptions. */
   value?: Subscription[];
   /** The URL to get the next set of results. */
-  nextLink: string;
+  nextLink?: string;
 }
 
 /** Tenant Ids information. */
@@ -501,7 +501,9 @@ export interface SubscriptionAcceptOwnershipHeaders {
 
 /** Known values of {@link Workload} that the service accepts. */
 export enum KnownWorkload {
+  /** Production */
   Production = "Production",
+  /** DevTest */
   DevTest = "DevTest"
 }
 
@@ -517,8 +519,11 @@ export type Workload = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -535,8 +540,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link AcceptOwnership} that the service accepts. */
 export enum KnownAcceptOwnership {
+  /** Pending */
   Pending = "Pending",
+  /** Completed */
   Completed = "Completed",
+  /** Expired */
   Expired = "Expired"
 }
 
@@ -553,9 +561,13 @@ export type AcceptOwnership = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 

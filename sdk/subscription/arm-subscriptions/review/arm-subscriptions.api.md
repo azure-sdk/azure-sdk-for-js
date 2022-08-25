@@ -145,41 +145,29 @@ export interface GetTenantPolicyResponse {
 
 // @public
 export enum KnownAcceptOwnership {
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Pending = "Pending"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownWorkload {
-    // (undocumented)
     DevTest = "DevTest",
-    // (undocumented)
     Production = "Production"
 }
 
@@ -396,7 +384,7 @@ export type SubscriptionEnableResponse = EnabledSubscriptionId;
 
 // @public
 export interface SubscriptionListResult {
-    nextLink: string;
+    nextLink?: string;
     value?: Subscription[];
 }
 
