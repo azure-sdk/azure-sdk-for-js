@@ -1,15 +1,302 @@
 # Release History
+    
+## 3.0.0-beta.1 (2022-08-26)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Added operation group LabelingJobs
+  - Added operation group Schedules
+  - Added operation ComputeOperations.updateCustomServices
+  - Added operation ComputeOperations.updateIdleShutdownSetting
+  - Added Interface AutoForecastHorizon
+  - Added Interface AutoMLJob
+  - Added Interface AutoMLVertical
+  - Added Interface AutoNCrossValidations
+  - Added Interface AutoSeasonality
+  - Added Interface AutoTargetLags
+  - Added Interface AutoTargetRollingWindowSize
+  - Added Interface AzureDatastore
+  - Added Interface BindOptions
+  - Added Interface Classification
+  - Added Interface ClassificationTrainingSettings
+  - Added Interface CocoExportSummary
+  - Added Interface ColumnTransformer
+  - Added Interface ComputeUpdateCustomServicesOptionalParams
+  - Added Interface ComputeUpdateIdleShutdownSettingOptionalParams
+  - Added Interface CronTrigger
+  - Added Interface CsvExportSummary
+  - Added Interface CustomForecastHorizon
+  - Added Interface CustomNCrossValidations
+  - Added Interface CustomSeasonality
+  - Added Interface CustomService
+  - Added Interface CustomTargetLags
+  - Added Interface CustomTargetRollingWindowSize
+  - Added Interface DatasetExportSummary
+  - Added Interface DeploymentResourceConfiguration
+  - Added Interface Docker
+  - Added Interface EncryptionKeyVaultUpdateProperties
+  - Added Interface EncryptionUpdateProperties
+  - Added Interface Endpoint
+  - Added Interface EndpointScheduleAction
+  - Added Interface EnvironmentVariable
+  - Added Interface ExportSummary
+  - Added Interface FeaturizationSettings
+  - Added Interface ForecastHorizon
+  - Added Interface Forecasting
+  - Added Interface ForecastingSettings
+  - Added Interface ForecastingTrainingSettings
+  - Added Interface HdfsDatastore
+  - Added Interface IdleShutdownSetting
+  - Added Interface Image_2
+  - Added Interface ImageClassification
+  - Added Interface ImageClassificationBase
+  - Added Interface ImageClassificationMultilabel
+  - Added Interface ImageInstanceSegmentation
+  - Added Interface ImageLimitSettings
+  - Added Interface ImageModelDistributionSettings
+  - Added Interface ImageModelDistributionSettingsClassification
+  - Added Interface ImageModelDistributionSettingsObjectDetection
+  - Added Interface ImageModelSettings
+  - Added Interface ImageModelSettingsClassification
+  - Added Interface ImageModelSettingsObjectDetection
+  - Added Interface ImageObjectDetection
+  - Added Interface ImageObjectDetectionBase
+  - Added Interface ImageSweepLimitSettings
+  - Added Interface ImageSweepSettings
+  - Added Interface ImageVertical
+  - Added Interface JobResourceConfiguration
+  - Added Interface JobScheduleAction
+  - Added Interface KerberosCredentials
+  - Added Interface KerberosKeytabCredentials
+  - Added Interface KerberosKeytabSecrets
+  - Added Interface KerberosPasswordCredentials
+  - Added Interface KerberosPasswordSecrets
+  - Added Interface LabelCategory
+  - Added Interface LabelClass
+  - Added Interface LabelingDataConfiguration
+  - Added Interface LabelingJob
+  - Added Interface LabelingJobImageProperties
+  - Added Interface LabelingJobInstructions
+  - Added Interface LabelingJobMediaProperties
+  - Added Interface LabelingJobProperties
+  - Added Interface LabelingJobResourceArmPaginatedResult
+  - Added Interface LabelingJobsCreateOrUpdateHeaders
+  - Added Interface LabelingJobsCreateOrUpdateOptionalParams
+  - Added Interface LabelingJobsDeleteOptionalParams
+  - Added Interface LabelingJobsExportLabelsHeaders
+  - Added Interface LabelingJobsExportLabelsOptionalParams
+  - Added Interface LabelingJobsGetOptionalParams
+  - Added Interface LabelingJobsListNextOptionalParams
+  - Added Interface LabelingJobsListOptionalParams
+  - Added Interface LabelingJobsPauseOptionalParams
+  - Added Interface LabelingJobsResumeHeaders
+  - Added Interface LabelingJobsResumeOptionalParams
+  - Added Interface LabelingJobTextProperties
+  - Added Interface MLAssistConfiguration
+  - Added Interface MLAssistConfigurationDisabled
+  - Added Interface MLAssistConfigurationEnabled
+  - Added Interface NCrossValidations
+  - Added Interface NlpVertical
+  - Added Interface NlpVerticalFeaturizationSettings
+  - Added Interface NlpVerticalLimitSettings
+  - Added Interface ProgressMetrics
+  - Added Interface RecurrenceSchedule
+  - Added Interface RecurrenceTrigger
+  - Added Interface Regression
+  - Added Interface RegressionTrainingSettings
+  - Added Interface Schedule
+  - Added Interface ScheduleActionBase
+  - Added Interface ScheduleProperties
+  - Added Interface ScheduleResourceArmPaginatedResult
+  - Added Interface SchedulesCreateOrUpdateHeaders
+  - Added Interface SchedulesCreateOrUpdateOptionalParams
+  - Added Interface SchedulesDeleteHeaders
+  - Added Interface SchedulesDeleteOptionalParams
+  - Added Interface SchedulesGetOptionalParams
+  - Added Interface SchedulesListNextOptionalParams
+  - Added Interface SchedulesListOptionalParams
+  - Added Interface Seasonality
+  - Added Interface SparkJob
+  - Added Interface SparkJobEntry
+  - Added Interface SparkJobPythonEntry
+  - Added Interface SparkJobScalaEntry
+  - Added Interface SparkResourceConfiguration
+  - Added Interface StackEnsembleSettings
+  - Added Interface StatusMessage
+  - Added Interface TableVertical
+  - Added Interface TableVerticalFeaturizationSettings
+  - Added Interface TableVerticalLimitSettings
+  - Added Interface TargetLags
+  - Added Interface TargetRollingWindowSize
+  - Added Interface TextClassification
+  - Added Interface TextClassificationMultilabel
+  - Added Interface TextNer
+  - Added Interface TmpfsOptions
+  - Added Interface TrainingSettings
+  - Added Interface TriggerBase
+  - Added Interface VolumeDefinition
+  - Added Interface VolumeOptions
+  - Added Type Alias AutoMLVerticalUnion
+  - Added Type Alias BlockedTransformers
+  - Added Type Alias ClassificationModels
+  - Added Type Alias ClassificationMultilabelPrimaryMetrics
+  - Added Type Alias ClassificationPrimaryMetrics
+  - Added Type Alias ComputeProvisioningState
+  - Added Type Alias EgressPublicNetworkAccessType
+  - Added Type Alias EnvironmentVariableType
+  - Added Type Alias ExportFormatType
+  - Added Type Alias ExportSummaryUnion
+  - Added Type Alias FeatureLags
+  - Added Type Alias FeaturizationMode
+  - Added Type Alias ForecastHorizonMode
+  - Added Type Alias ForecastHorizonUnion
+  - Added Type Alias ForecastingModels
+  - Added Type Alias ForecastingPrimaryMetrics
+  - Added Type Alias ImageAnnotationType
+  - Added Type Alias ImageType
+  - Added Type Alias InstanceSegmentationPrimaryMetrics
+  - Added Type Alias JobProvisioningState
+  - Added Type Alias LabelingJobMediaPropertiesUnion
+  - Added Type Alias LabelingJobsCreateOrUpdateResponse
+  - Added Type Alias LabelingJobsExportLabelsResponse
+  - Added Type Alias LabelingJobsGetResponse
+  - Added Type Alias LabelingJobsListNextResponse
+  - Added Type Alias LabelingJobsListResponse
+  - Added Type Alias LearningRateScheduler
+  - Added Type Alias LogVerbosity
+  - Added Type Alias MediaType
+  - Added Type Alias MLAssistConfigurationType
+  - Added Type Alias MLAssistConfigurationUnion
+  - Added Type Alias ModelSize
+  - Added Type Alias NCrossValidationsMode
+  - Added Type Alias NCrossValidationsUnion
+  - Added Type Alias ObjectDetectionPrimaryMetrics
+  - Added Type Alias Protocol
+  - Added Type Alias PublicNetworkAccessType
+  - Added Type Alias RecurrenceFrequency
+  - Added Type Alias RegressionModels
+  - Added Type Alias RegressionPrimaryMetrics
+  - Added Type Alias ScheduleActionBaseUnion
+  - Added Type Alias ScheduleActionType
+  - Added Type Alias ScheduleProvisioningStatus
+  - Added Type Alias SchedulesCreateOrUpdateResponse
+  - Added Type Alias SchedulesGetResponse
+  - Added Type Alias SchedulesListNextResponse
+  - Added Type Alias SchedulesListResponse
+  - Added Type Alias SeasonalityMode
+  - Added Type Alias SeasonalityUnion
+  - Added Type Alias ShortSeriesHandlingConfiguration
+  - Added Type Alias SparkJobEntryType
+  - Added Type Alias SparkJobEntryUnion
+  - Added Type Alias StackMetaLearnerType
+  - Added Type Alias StatusMessageLevel
+  - Added Type Alias StochasticOptimizer
+  - Added Type Alias TargetAggregationFunction
+  - Added Type Alias TargetLagsMode
+  - Added Type Alias TargetLagsUnion
+  - Added Type Alias TargetRollingWindowSizeMode
+  - Added Type Alias TargetRollingWindowSizeUnion
+  - Added Type Alias TaskType
+  - Added Type Alias TextAnnotationType
+  - Added Type Alias TriggerBaseUnion
+  - Added Type Alias TriggerType
+  - Added Type Alias UseStl
+  - Added Type Alias ValidationMetricType
+  - Added Type Alias VolumeDefinitionType
+  - Added Type Alias WeekDay
+  - Added Type Alias WorkspaceProvisioningState
+  - Interface ComputeInstanceProperties has a new optional parameter customServices
+  - Interface ComputeInstanceProperties has a new optional parameter idleTimeBeforeShutdown
+  - Interface JobBaseProperties has a new optional parameter componentId
+  - Interface JobsListNextOptionalParams has a new optional parameter scheduled
+  - Interface JobsListNextOptionalParams has a new optional parameter scheduleId
+  - Interface JobsListOptionalParams has a new optional parameter scheduled
+  - Interface JobsListOptionalParams has a new optional parameter scheduleId
+  - Interface OnlineDeploymentProperties has a new optional parameter egressPublicNetworkAccess
+  - Interface OnlineEndpointProperties has a new optional parameter mirrorTraffic
+  - Interface OnlineEndpointProperties has a new optional parameter publicNetworkAccess
+  - Interface PipelineJob has a new optional parameter sourceJobId
+  - Interface Workspace has a new optional parameter scheduledPurgeDate
+  - Interface Workspace has a new optional parameter softDeletedAt
+  - Interface WorkspaceUpdateParameters has a new optional parameter encryption
+  - Class AzureMachineLearningWorkspaces has a new parameter labelingJobs
+  - Class AzureMachineLearningWorkspaces has a new parameter schedules
+  - Added Enum KnownBlockedTransformers
+  - Added Enum KnownClassificationModels
+  - Added Enum KnownClassificationMultilabelPrimaryMetrics
+  - Added Enum KnownClassificationPrimaryMetrics
+  - Added Enum KnownComputeProvisioningState
+  - Added Enum KnownEgressPublicNetworkAccessType
+  - Added Enum KnownEnvironmentVariableType
+  - Added Enum KnownExportFormatType
+  - Added Enum KnownFeatureLags
+  - Added Enum KnownFeaturizationMode
+  - Added Enum KnownForecastHorizonMode
+  - Added Enum KnownForecastingModels
+  - Added Enum KnownForecastingPrimaryMetrics
+  - Added Enum KnownImageAnnotationType
+  - Added Enum KnownImageType
+  - Added Enum KnownInstanceSegmentationPrimaryMetrics
+  - Added Enum KnownJobProvisioningState
+  - Added Enum KnownLearningRateScheduler
+  - Added Enum KnownLogVerbosity
+  - Added Enum KnownMediaType
+  - Added Enum KnownMLAssistConfigurationType
+  - Added Enum KnownModelSize
+  - Added Enum KnownNCrossValidationsMode
+  - Added Enum KnownObjectDetectionPrimaryMetrics
+  - Added Enum KnownProtocol
+  - Added Enum KnownPublicNetworkAccessType
+  - Added Enum KnownRecurrenceFrequency
+  - Added Enum KnownRegressionModels
+  - Added Enum KnownRegressionPrimaryMetrics
+  - Added Enum KnownScheduleActionType
+  - Added Enum KnownScheduleProvisioningStatus
+  - Added Enum KnownSeasonalityMode
+  - Added Enum KnownShortSeriesHandlingConfiguration
+  - Added Enum KnownSparkJobEntryType
+  - Added Enum KnownStackMetaLearnerType
+  - Added Enum KnownStatusMessageLevel
+  - Added Enum KnownStochasticOptimizer
+  - Added Enum KnownTargetAggregationFunction
+  - Added Enum KnownTargetLagsMode
+  - Added Enum KnownTargetRollingWindowSizeMode
+  - Added Enum KnownTaskType
+  - Added Enum KnownTextAnnotationType
+  - Added Enum KnownTriggerType
+  - Added Enum KnownUseStl
+  - Added Enum KnownValidationMetricType
+  - Added Enum KnownVolumeDefinitionType
+  - Added Enum KnownWeekDay
+  - Added Enum KnownWorkspaceProvisioningState
+  - Enum KnownCredentialsType has a new value KerberosKeytab
+  - Enum KnownCredentialsType has a new value KerberosPassword
+  - Enum KnownDatastoreType has a new value Hdfs
+  - Enum KnownJobStatus has a new value Scheduled
+  - Enum KnownJobType has a new value AutoML
+  - Enum KnownJobType has a new value Labeling
+  - Enum KnownJobType has a new value Spark
+  - Enum KnownOutputDeliveryMode has a new value Direct
+  - Enum KnownSecretsType has a new value KerberosKeytab
+  - Enum KnownSecretsType has a new value KerberosPassword
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureBlobDatastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen1Datastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen2Datastore no longer has parameter datastoreType
+  - Interface AzureFileDatastore no longer has parameter datastoreType
+  - Interface CommandJob no longer has parameter jobType
+  - Interface KubernetesOnlineDeployment no longer has parameter endpointComputeType
+  - Interface ManagedOnlineDeployment no longer has parameter endpointComputeType
+  - Interface MLTableData no longer has parameter dataType
+  - Interface PipelineJob no longer has parameter jobType
+  - Interface SweepJob no longer has parameter jobType
+  - Interface UriFileDataVersion no longer has parameter dataType
+  - Interface UriFolderDataVersion no longer has parameter dataType
+  - Removed Enum KnownProvisioningState
+    
+    
 ## 2.0.0 (2022-08-05)
     
 **Breaking Changes**
