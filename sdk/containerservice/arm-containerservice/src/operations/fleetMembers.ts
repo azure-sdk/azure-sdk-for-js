@@ -375,7 +375,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -385,8 +385,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.fleetMemberName
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -478,8 +478,8 @@ const listByFleetNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.fleetName
+    Parameters.fleetName,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

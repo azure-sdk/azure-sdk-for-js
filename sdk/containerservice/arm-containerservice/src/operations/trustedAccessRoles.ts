@@ -150,8 +150,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.location
   ],
   headerParameters: [Parameters.accept],
   serializer
