@@ -1248,6 +1248,16 @@ export interface LiveEventActionInput {
   removeOutputsOnStop?: boolean;
 }
 
+/** The status of an async operation. */
+export interface AsyncOperationResult {
+  /** The error object */
+  error?: ErrorDetail;
+  /** Operation Id of the async operation. */
+  name?: string;
+  /** Operation status of the async operation. */
+  status?: AsyncOperationStatus;
+}
+
 /** The LiveOutput list result. */
 export interface LiveOutputListResult {
   /** The result of the List LiveOutput operation. */
@@ -2318,6 +2328,8 @@ export interface LiveOutput extends ProxyResource {
   assetName?: string;
   /** ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window. */
   archiveWindowLength?: string;
+  /** ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL. */
+  rewindWindowLength?: string;
   /** The manifest file name. If not provided, the service will generate one automatically. */
   manifestName?: string;
   /** HTTP Live Streaming (HLS) packing setting for the live output. */
@@ -3458,6 +3470,27 @@ export enum KnownStreamOptionsFlag {
  * **LowLatencyV2**: The live event is optimized for end to end latency. This option is only available for encoding live events with RTMP input. The outputs can be streamed using HLS or DASH formats. The outputs' archive or DVR rewind length is limited to 6 hours. Use "LowLatency" stream option for all other scenarios.
  */
 export type StreamOptionsFlag = string;
+
+/** Known values of {@link AsyncOperationStatus} that the service accepts. */
+export enum KnownAsyncOperationStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** InProgress */
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for AsyncOperationStatus. \
+ * {@link KnownAsyncOperationStatus} can be used interchangeably with AsyncOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **InProgress**
+ */
+export type AsyncOperationStatus = string;
 
 /** Known values of {@link LiveOutputResourceState} that the service accepts. */
 export enum KnownLiveOutputResourceState {
@@ -4890,6 +4923,20 @@ export interface LiveEventsResetOptionalParams
 }
 
 /** Optional parameters. */
+export interface LiveEventsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveEventsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveEventsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveEventsOperationLocationResponse = LiveEvent;
+
+/** Optional parameters. */
 export interface LiveEventsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4930,6 +4977,20 @@ export interface LiveOutputsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface LiveOutputsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type LiveOutputsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LiveOutputsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type LiveOutputsOperationLocationResponse = LiveOutput;
 
 /** Optional parameters. */
 export interface LiveOutputsListNextOptionalParams
@@ -5022,6 +5083,20 @@ export interface StreamingEndpointsScaleOptionalParams
 }
 
 /** Optional parameters. */
+export interface StreamingEndpointsAsyncOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the asyncOperation operation. */
+export type StreamingEndpointsAsyncOperationResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface StreamingEndpointsOperationLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the operationLocation operation. */
+export type StreamingEndpointsOperationLocationResponse = StreamingEndpoint;
+
+/** Optional parameters. */
 export interface StreamingEndpointsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5033,8 +5108,6 @@ export interface AzureMediaServicesOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }
