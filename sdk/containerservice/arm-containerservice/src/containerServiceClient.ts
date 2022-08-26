@@ -26,8 +26,7 @@ import {
   ManagedClusterSnapshotsImpl,
   TrustedAccessRolesImpl,
   TrustedAccessRoleBindingsImpl,
-  FleetsImpl,
-  FleetMembersImpl
+  GuardrailsVersionsImpl
 } from "./operations";
 import {
   Operations,
@@ -41,8 +40,7 @@ import {
   ManagedClusterSnapshots,
   TrustedAccessRoles,
   TrustedAccessRoleBindings,
-  Fleets,
-  FleetMembers
+  GuardrailsVersions
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -98,41 +96,34 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-02-preview";
+    this.apiVersion = options.apiVersion || "2022-08-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -146,8 +137,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
     this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
-    this.fleets = new FleetsImpl(this);
-    this.fleetMembers = new FleetMembersImpl(this);
+    this.guardrailsVersions = new GuardrailsVersionsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -190,6 +180,5 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   managedClusterSnapshots: ManagedClusterSnapshots;
   trustedAccessRoles: TrustedAccessRoles;
   trustedAccessRoleBindings: TrustedAccessRoleBindings;
-  fleets: Fleets;
-  fleetMembers: FleetMembers;
+  guardrailsVersions: GuardrailsVersions;
 }
