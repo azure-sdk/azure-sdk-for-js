@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ApiVersionParameter = string;
+
+// @public
 export interface AzureTrafficCollector extends TrackedResource {
     collectorPolicies?: CollectorPolicy[];
     readonly etag?: string;
@@ -162,7 +165,11 @@ export interface CollectorPolicies {
 export interface CollectorPoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
+    location?: string;
     resumeFrom?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
     updateIntervalInMs?: number;
 }
 
@@ -197,22 +204,17 @@ export interface CollectorPoliciesListOptionalParams extends coreClient.Operatio
 export type CollectorPoliciesListResponse = CollectorPolicyListResult;
 
 // @public
-export interface CollectorPolicy extends ProxyResource {
+export interface CollectorPolicy extends TrackedResource {
     emissionPolicies?: EmissionPoliciesPropertiesFormat[];
     readonly etag?: string;
     ingestionPolicy?: IngestionPolicyPropertiesFormat;
     readonly provisioningState?: ProvisioningState;
-    readonly systemData?: CollectorPolicySystemData;
 }
 
 // @public
 export interface CollectorPolicyListResult {
     readonly nextLink?: string;
     value?: CollectorPolicy[];
-}
-
-// @public
-export interface CollectorPolicySystemData extends SystemData {
 }
 
 // @public
@@ -249,6 +251,12 @@ export interface IngestionSourcesPropertiesFormat {
 
 // @public
 export type IngestionType = string;
+
+// @public
+export enum KnownApiVersionParameter {
+    TwoThousandTwentyTwo0501 = "2022-05-01",
+    TwoThousandTwentyTwo0801 = "2022-08-01"
+}
 
 // @public
 export enum KnownCreatedByType {

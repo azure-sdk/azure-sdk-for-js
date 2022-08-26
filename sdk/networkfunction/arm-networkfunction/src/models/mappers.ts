@@ -276,91 +276,6 @@ export const EmissionPolicyDestination: coreClient.CompositeMapper = {
   }
 };
 
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ProxyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ProxyResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceReference",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TrackedResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -411,6 +326,61 @@ export const TrackedResource: coreClient.CompositeMapper = {
   }
 };
 
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TagsObject: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -455,22 +425,32 @@ export const CollectorPolicyListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CollectorPolicySystemData: coreClient.CompositeMapper = {
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CollectorPolicySystemData",
+    className: "ProxyResource",
     modelProperties: {
-      ...SystemData.type.modelProperties
-    }
-  }
-};
-
-export const TrackedResourceSystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrackedResourceSystemData",
-    modelProperties: {
-      ...SystemData.type.modelProperties
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -480,19 +460,12 @@ export const CollectorPolicy: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CollectorPolicy",
     modelProperties: {
-      ...ProxyResource.type.modelProperties,
+      ...TrackedResource.type.modelProperties,
       etag: {
         serializedName: "etag",
         readOnly: true,
         type: {
           name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "CollectorPolicySystemData"
         }
       },
       ingestionPolicy: {
@@ -564,6 +537,16 @@ export const AzureTrafficCollector: coreClient.CompositeMapper = {
           name: "String"
         }
       }
+    }
+  }
+};
+
+export const TrackedResourceSystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResourceSystemData",
+    modelProperties: {
+      ...SystemData.type.modelProperties
     }
   }
 };
