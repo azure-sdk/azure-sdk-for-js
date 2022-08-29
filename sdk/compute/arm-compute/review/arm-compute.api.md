@@ -4992,7 +4992,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5947,6 +5947,7 @@ export interface VirtualMachineListResult {
 // @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
     // (undocumented)
     dscpConfiguration?: SubResource;
@@ -6428,6 +6429,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 // @public
 export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -6835,6 +6837,7 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration extends SubResource {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
