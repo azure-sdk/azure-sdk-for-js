@@ -52,23 +52,16 @@ export interface ErrorResponse {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownLockLevel {
-    // (undocumented)
     CanNotDelete = "CanNotDelete",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     ReadOnly = "ReadOnly"
 }
 
