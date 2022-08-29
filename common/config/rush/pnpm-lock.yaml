@@ -4083,7 +4083,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220828
+      typescript: 4.9.0-dev.20220829
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8994,8 +8994,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220828:
-    resolution: {integrity: sha512-XM4H+zuGTaVi+ZLpLZ6jNTTlE4t1keC6g2e4x3JztjzIHEN/RfV2NncqflIkWD39Fh7qqCckFboFqVcG7M+QuA==}
+  /typescript/4.9.0-dev.20220829:
+    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10205,7 +10205,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-p6hsQrOTCjIBoSXig5D7c75CNYHYE/PoYnoZTCp9/7L65LQPsBE2oYGu1LJyXBMveQDH7dMRAYom5zC5+uk9RA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-cTSZDpPVjhGQdBWgLuzFu3Y21IHtA2gnGlSXflNTW7zD+FDPKv12VfHeYhAJrCECWzuIrDEUK/g2iHW3wDk1dA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -10226,7 +10226,7 @@ packages:
       rollup: 2.77.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
