@@ -4083,7 +4083,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220828
+      typescript: 4.9.0-dev.20220829
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -8994,8 +8994,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220828:
-    resolution: {integrity: sha512-XM4H+zuGTaVi+ZLpLZ6jNTTlE4t1keC6g2e4x3JztjzIHEN/RfV2NncqflIkWD39Fh7qqCckFboFqVcG7M+QuA==}
+  /typescript/4.9.0-dev.20220829:
+    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14318,7 +14318,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-N37vSXrSb3VaEpjLKwotn/eu7I2YHF6eK011ptpfTAdB6kLRxctaqGhlgTgrwvFrzspx+ynuGESVH4DuTrPlZg==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-tLtY9L0XaIQbzJ6SmrVUwbC634QUlaokZQvplQ+rDiAvNEH0ylczWNEgKM95xE1mL3JBbHPBp2o2uf5KmOOXIg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -14330,6 +14330,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14341,7 +14343,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
