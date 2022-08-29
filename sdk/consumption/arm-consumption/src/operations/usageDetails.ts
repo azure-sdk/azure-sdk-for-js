@@ -34,6 +34,10 @@ export class UsageDetailsImpl implements UsageDetails {
   }
 
   /**
+   * Note: _**Enterprise Agreement and Microsoft Customer Agreement customers:** Please do not use this
+   * API. Use the [Cost Details
+   * API](/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP) instead._
+   *
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
    * @param scope The scope associated with usage details operations. This includes
@@ -99,6 +103,10 @@ export class UsageDetailsImpl implements UsageDetails {
   }
 
   /**
+   * Note: _**Enterprise Agreement and Microsoft Customer Agreement customers:** Please do not use this
+   * API. Use the [Cost Details
+   * API](/rest/api/cost-management/generate-cost-details-report/create-operation?tabs=HTTP) instead._
+   *
    * Lists the usage details for the defined scope. Usage details are available via this API only for May
    * 1, 2014 or later.
    * @param scope The scope associated with usage details operations. This includes
@@ -177,6 +185,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -200,6 +209,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.UsageDetailsListResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
