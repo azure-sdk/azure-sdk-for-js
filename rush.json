@@ -1835,6 +1835,11 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "adp",
+      "projectFolder": "sdk/adp/arm-adp",
+      "versionPolicyName": "management"
     }
   ]
 }
