@@ -1,15 +1,65 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-30)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group FileImports
+  - Added operation group Package
+  - Added operation group Packages
+  - Added operation group Templates
+  - Added Interface FileImport
+  - Added Interface FileImportList
+  - Added Interface FileImportsCreateOptionalParams
+  - Added Interface FileImportsDeleteOptionalParams
+  - Added Interface FileImportsGetOptionalParams
+  - Added Interface FileImportsListNextOptionalParams
+  - Added Interface FileImportsListOptionalParams
+  - Added Interface FileMetadata
+  - Added Interface PackageInstallationProperties
+  - Added Interface PackageInstallOptionalParams
+  - Added Interface PackageList
+  - Added Interface PackageModel
+  - Added Interface PackagesGetOptionalParams
+  - Added Interface PackagesListNextOptionalParams
+  - Added Interface PackagesListOptionalParams
+  - Added Interface PackageUninstallOptionalParams
+  - Added Interface TemplateList
+  - Added Interface TemplateModel
+  - Added Interface TemplatesGetOptionalParams
+  - Added Interface TemplatesListNextOptionalParams
+  - Added Interface TemplatesListOptionalParams
+  - Added Interface ValidationError
+  - Added Type Alias DeleteStatus
+  - Added Type Alias FileFormat
+  - Added Type Alias FileImportContentType
+  - Added Type Alias FileImportsCreateResponse
+  - Added Type Alias FileImportsDeleteResponse
+  - Added Type Alias FileImportsGetResponse
+  - Added Type Alias FileImportsListNextResponse
+  - Added Type Alias FileImportsListResponse
+  - Added Type Alias FileImportState
+  - Added Type Alias IngestionMode
+  - Added Type Alias PackageInstallResponse
+  - Added Type Alias PackageKind
+  - Added Type Alias PackagesGetResponse
+  - Added Type Alias PackagesListNextResponse
+  - Added Type Alias PackagesListResponse
+  - Added Type Alias TemplatesGetResponse
+  - Added Type Alias TemplatesListNextResponse
+  - Added Type Alias TemplatesListResponse
+  - Class SecurityInsights has a new parameter fileImports
+  - Class SecurityInsights has a new parameter package
+  - Class SecurityInsights has a new parameter packages
+  - Class SecurityInsights has a new parameter templates
+  - Added Enum KnownDeleteStatus
+  - Added Enum KnownFileFormat
+  - Added Enum KnownFileImportContentType
+  - Added Enum KnownFileImportState
+  - Added Enum KnownIngestionMode
+  - Added Enum KnownPackageKind
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**
