@@ -9,137 +9,126 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  BuilderResource,
-  BuildServiceBuilderListOptionalParams,
-  BuildServiceBuilderGetOptionalParams,
-  BuildServiceBuilderGetResponse,
-  BuildServiceBuilderCreateOrUpdateOptionalParams,
-  BuildServiceBuilderCreateOrUpdateResponse,
-  BuildServiceBuilderDeleteOptionalParams,
-  BuildServiceBuilderListDeploymentsOptionalParams,
-  BuildServiceBuilderListDeploymentsResponse
+  GatewayResource,
+  GatewaysListOptionalParams,
+  GatewaysGetOptionalParams,
+  GatewaysGetResponse,
+  GatewaysCreateOrUpdateOptionalParams,
+  GatewaysCreateOrUpdateResponse,
+  GatewaysDeleteOptionalParams,
+  CustomDomainValidatePayload,
+  GatewaysValidateDomainOptionalParams,
+  GatewaysValidateDomainResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a BuildServiceBuilder. */
-export interface BuildServiceBuilder {
+/** Interface representing a Gateways. */
+export interface Gateways {
   /**
-   * List KPack builders result.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): PagedAsyncIterableIterator<BuilderResource>;
+    options?: GatewaysListOptionalParams
+  ): PagedAsyncIterableIterator<GatewayResource>;
   /**
-   * Get a KPack builder.
+   * Get the Spring Cloud Gateway and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderGetOptionalParams
-  ): Promise<BuildServiceBuilderGetResponse>;
+    gatewayName: string,
+    options?: GatewaysGetOptionalParams
+  ): Promise<GatewaysGetResponse>;
   /**
-   * Create or update a KPack builder.
+   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayResource The gateway for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    gatewayName: string,
+    gatewayResource: GatewayResource,
+    options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
-      BuildServiceBuilderCreateOrUpdateResponse
+      PollOperationState<GatewaysCreateOrUpdateResponse>,
+      GatewaysCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update a KPack builder.
+   * Create the default Spring Cloud Gateway or update the existing Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayResource The gateway for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
-  ): Promise<BuildServiceBuilderCreateOrUpdateResponse>;
+    gatewayName: string,
+    gatewayResource: GatewayResource,
+    options?: GatewaysCreateOrUpdateOptionalParams
+  ): Promise<GatewaysCreateOrUpdateResponse>;
   /**
-   * Delete a KPack builder.
+   * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    gatewayName: string,
+    options?: GatewaysDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete a KPack builder.
+   * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    gatewayName: string,
+    options?: GatewaysDeleteOptionalParams
   ): Promise<void>;
   /**
-   * List deployments that are using the builder.
+   * Check the domains are valid as well as not in use.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param validatePayload Custom domain payload to be validated
    * @param options The options parameters.
    */
-  listDeployments(
+  validateDomain(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderListDeploymentsOptionalParams
-  ): Promise<BuildServiceBuilderListDeploymentsResponse>;
+    gatewayName: string,
+    validatePayload: CustomDomainValidatePayload,
+    options?: GatewaysValidateDomainOptionalParams
+  ): Promise<GatewaysValidateDomainResponse>;
 }
