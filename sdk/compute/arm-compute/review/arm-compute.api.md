@@ -1649,6 +1649,9 @@ export interface DiskAccessUpdate {
 }
 
 // @public
+export type DiskControllerTypes = string;
+
+// @public
 export type DiskCreateOption = string;
 
 // @public
@@ -3009,6 +3012,12 @@ export enum KnownDiffDiskOptions {
 export enum KnownDiffDiskPlacement {
     CacheDisk = "CacheDisk",
     ResourceDisk = "ResourceDisk"
+}
+
+// @public
+export enum KnownDiskControllerTypes {
+    NVMe = "NVMe",
+    Scsi = "SCSI"
 }
 
 // @public
@@ -4992,7 +5001,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5323,6 +5332,7 @@ export type StorageAccountTypes = string;
 // @public
 export interface StorageProfile {
     dataDisks?: DataDisk[];
+    diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
     osDisk?: OSDisk;
 }
@@ -6784,6 +6794,8 @@ export interface VirtualMachineScaleSetsStartOptionalParams extends coreClient.O
 // @public
 export interface VirtualMachineScaleSetStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetOSDisk;
 }
@@ -6883,6 +6895,8 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetUpdateStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetUpdateOSDisk;
 }
@@ -6892,6 +6906,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     billingProfile?: BillingProfile;
     diagnosticsProfile?: DiagnosticsProfile;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+    hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;

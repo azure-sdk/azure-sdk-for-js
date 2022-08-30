@@ -245,7 +245,7 @@ export interface VirtualMachineScaleSetVMProfile {
   capacityReservation?: CapacityReservationProfile;
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
-  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01. */
+  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01. */
   hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
 }
 
@@ -400,6 +400,7 @@ export interface VirtualMachineScaleSetStorageProfile {
   osDisk?: VirtualMachineScaleSetOSDisk;
   /** Specifies the parameters that are used to add data disks to the virtual machines in the scale set. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
   dataDisks?: VirtualMachineScaleSetDataDisk[];
+  diskControllerType?: string;
 }
 
 /** Describes a virtual machine scale set operating system disk. */
@@ -644,7 +645,7 @@ export interface VMGalleryApplication {
 
 /** Specifies the hardware settings for the virtual machine scale set. */
 export interface VirtualMachineScaleSetHardwareProfile {
-  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
+  /** Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details. */
   vmSizeProperties?: VMSizeProperties;
 }
 
@@ -766,6 +767,8 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
   scheduledEventsProfile?: ScheduledEventsProfile;
   /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
   userData?: string;
+  /** Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01. */
+  hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
 }
 
 /** Describes a virtual machine scale set OS profile. */
@@ -788,6 +791,7 @@ export interface VirtualMachineScaleSetUpdateStorageProfile {
   osDisk?: VirtualMachineScaleSetUpdateOSDisk;
   /** The data disks. */
   dataDisks?: VirtualMachineScaleSetDataDisk[];
+  diskControllerType?: string;
 }
 
 /** Describes virtual machine scale set operating system disk Update Object. This should be used for Updating VMSS OS Disk. */
@@ -1355,6 +1359,8 @@ export interface StorageProfile {
   osDisk?: OSDisk;
   /** Specifies the parameters that are used to add a data disk to a virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
   dataDisks?: DataDisk[];
+  /** Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01 */
+  diskControllerType?: DiskControllerTypes;
 }
 
 /** Specifies information about the operating system disk used by the virtual machine. <br><br> For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
@@ -3221,7 +3227,7 @@ export interface SharingProfile {
    */
   readonly groups?: SharingProfileGroup[];
   /** Information of community gallery if current gallery is shared to community. */
-  communityGalleryInfo?: any;
+  communityGalleryInfo?: CommunityGalleryInfo;
 }
 
 /** Group of the gallery sharing profile */
@@ -3230,6 +3236,28 @@ export interface SharingProfileGroup {
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
+}
+
+/** Information of community gallery if current gallery is shared to community */
+export interface CommunityGalleryInfo {
+  /** The link to the publisher website. Visible to all users. */
+  publisherUri?: string;
+  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
+  publisherContact?: string;
+  /** End-user license agreement for community gallery image. */
+  eula?: string;
+  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
+  publicNamePrefix?: string;
+  /**
+   * Contains info about whether community gallery sharing is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly communityGalleryEnabled?: boolean;
+  /**
+   * Community gallery public name list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicNames?: string[];
 }
 
 /** Contains information about the soft deletion policy of the gallery. */
@@ -4275,28 +4303,6 @@ export interface OSFamilyListResult {
   nextLink?: string;
 }
 
-/** Information of community gallery if current gallery is shared to community */
-export interface CommunityGalleryInfo {
-  /** The link to the publisher website. Visible to all users. */
-  publisherUri?: string;
-  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
-  publisherContact?: string;
-  /** End-user license agreement for community gallery image. */
-  eula?: string;
-  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
-  publicNamePrefix?: string;
-  /**
-   * Contains info about whether community gallery sharing is enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly communityGalleryEnabled?: boolean;
-  /**
-   * Community gallery public name list.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNames?: string[];
-}
-
 /** The source image from which the Image Version is going to be created. */
 export interface GalleryArtifactSource {
   /** The managed artifact. */
@@ -4690,7 +4696,7 @@ export interface VirtualMachineScaleSet extends Resource {
   /** Specifies the Spot Restore properties for the virtual machine scale set. */
   spotRestorePolicy?: SpotRestorePolicy;
   /**
-   * Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -4872,7 +4878,7 @@ export interface VirtualMachine extends Resource {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -4996,7 +5002,7 @@ export interface DedicatedHost extends Resource {
    */
   readonly instanceView?: DedicatedHostInstanceView;
   /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5099,7 +5105,7 @@ export interface CapacityReservation extends Resource {
    */
   readonly instanceView?: CapacityReservationInstanceView;
   /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5592,7 +5598,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
   /** Specifies the gallery applications that should be made available to the VM/VMSS */
   applicationProfile?: ApplicationProfile;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5676,7 +5682,7 @@ export interface DedicatedHostUpdate extends UpdateResource {
    */
   readonly instanceView?: DedicatedHostInstanceView;
   /**
-   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5773,7 +5779,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
    */
   readonly instanceView?: CapacityReservationInstanceView;
   /**
-   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.
+   * Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5860,7 +5866,7 @@ export interface DedicatedHostInstanceViewWithName
 export interface ImageOSDisk extends ImageDisk {
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   osType: OperatingSystemTypes;
-  /** The OS State. */
+  /** The OS State. For managed images, use Generalized. */
   osState: OperatingSystemStateTypes;
 }
 
@@ -7319,6 +7325,24 @@ export enum KnownDiskDetachOptionTypes {
  * **ForceDetach**
  */
 export type DiskDetachOptionTypes = string;
+
+/** Known values of {@link DiskControllerTypes} that the service accepts. */
+export enum KnownDiskControllerTypes {
+  /** Scsi */
+  Scsi = "SCSI",
+  /** NVMe */
+  NVMe = "NVMe"
+}
+
+/**
+ * Defines values for DiskControllerTypes. \
+ * {@link KnownDiskControllerTypes} can be used interchangeably with DiskControllerTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SCSI** \
+ * **NVMe**
+ */
+export type DiskControllerTypes = string;
 
 /** Known values of {@link IPVersions} that the service accepts. */
 export enum KnownIPVersions {

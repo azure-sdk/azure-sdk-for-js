@@ -1,15 +1,17 @@
 # Release History
+    
+## 19.2.0 (2022-08-30)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias DiskControllerTypes
+  - Interface StorageProfile has a new optional parameter diskControllerType
+  - Interface VirtualMachineScaleSetStorageProfile has a new optional parameter diskControllerType
+  - Interface VirtualMachineScaleSetUpdateStorageProfile has a new optional parameter diskControllerType
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter hardwareProfile
+  - Added Enum KnownDiskControllerTypes
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
