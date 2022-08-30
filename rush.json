@@ -1835,6 +1835,11 @@
       "packageName": "@azure/arm-nginx",
       "projectFolder": "sdk/nginx/arm-nginx",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dataprotectionplatform",
+      "projectFolder": "sdk/dataprotectionplatform/arm-dataprotectionplatform",
+      "versionPolicyName": "management"
     }
   ]
 }
