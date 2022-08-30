@@ -1,18 +1,8 @@
 # Release History
+    
+## 11.0.0-beta.2 (2022-08-30)
 
-## 11.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 11.0.0-beta.1 (2022-07-25)
-
-The package of @azure/arm-automation is using our next generation design principles since version 11.0.0-beta.1, which contains breaking changes.
+The package of @azure/arm-automation is using our next generation design principles since version 11.0.0-beta.2, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

@@ -4,11 +4,8 @@
 
 ```ts
 
-/// <reference types="node" />
-
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
@@ -100,48 +97,6 @@ export interface AdvancedSchedule {
 export interface AdvancedScheduleMonthlyOccurrence {
     day?: ScheduleDay;
     occurrence?: number;
-}
-
-// @public
-export interface AgentRegistration {
-    dscMetaConfiguration?: string;
-    endpoint?: string;
-    id?: string;
-    keys?: AgentRegistrationKeys;
-}
-
-// @public
-export interface AgentRegistrationInformation {
-    get(resourceGroupName: string, automationAccountName: string, options?: AgentRegistrationInformationGetOptionalParams): Promise<AgentRegistrationInformationGetResponse>;
-    regenerateKey(resourceGroupName: string, automationAccountName: string, parameters: AgentRegistrationRegenerateKeyParameter, options?: AgentRegistrationInformationRegenerateKeyOptionalParams): Promise<AgentRegistrationInformationRegenerateKeyResponse>;
-}
-
-// @public
-export interface AgentRegistrationInformationGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AgentRegistrationInformationGetResponse = AgentRegistration;
-
-// @public
-export interface AgentRegistrationInformationRegenerateKeyOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AgentRegistrationInformationRegenerateKeyResponse = AgentRegistration;
-
-// @public
-export type AgentRegistrationKeyName = string;
-
-// @public
-export interface AgentRegistrationKeys {
-    primary?: string;
-    secondary?: string;
-}
-
-// @public
-export interface AgentRegistrationRegenerateKeyParameter {
-    keyName: AgentRegistrationKeyName;
 }
 
 // @public
@@ -270,8 +225,6 @@ export class AutomationClient extends coreClient.ServiceClient {
     // (undocumented)
     activityOperations: ActivityOperations;
     // (undocumented)
-    agentRegistrationInformation: AgentRegistrationInformation;
-    // (undocumented)
     automationAccountOperations: AutomationAccountOperations;
     // (undocumented)
     certificateOperations: CertificateOperations;
@@ -279,7 +232,6 @@ export class AutomationClient extends coreClient.ServiceClient {
     connectionOperations: ConnectionOperations;
     // (undocumented)
     connectionTypeOperations: ConnectionTypeOperations;
-    convertGraphRunbookContent(resourceGroupName: string, automationAccountName: string, parameters: GraphicalRunbookContent, options?: ConvertGraphRunbookContentOptionalParams): Promise<ConvertGraphRunbookContentResponse>;
     // (undocumented)
     credentialOperations: CredentialOperations;
     // (undocumented)
@@ -292,8 +244,6 @@ export class AutomationClient extends coreClient.ServiceClient {
     dscConfigurationOperations: DscConfigurationOperations;
     // (undocumented)
     dscNodeConfigurationOperations: DscNodeConfigurationOperations;
-    // (undocumented)
-    dscNodeOperations: DscNodeOperations;
     // (undocumented)
     fields: Fields;
     // (undocumented)
@@ -315,8 +265,6 @@ export class AutomationClient extends coreClient.ServiceClient {
     // (undocumented)
     nodeCountInformation: NodeCountInformation;
     // (undocumented)
-    nodeReports: NodeReports;
-    // (undocumented)
     objectDataTypes: ObjectDataTypes;
     // (undocumented)
     operations: Operations;
@@ -326,6 +274,8 @@ export class AutomationClient extends coreClient.ServiceClient {
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
     python2Package: Python2Package;
+    // (undocumented)
+    python3Package: Python3Package;
     // (undocumented)
     runbookDraftOperations: RunbookDraftOperations;
     // (undocumented)
@@ -459,12 +409,6 @@ export interface CertificateUpdateParameters {
 
 // @public
 export type CertificateUpdateResponse = Certificate;
-
-// @public (undocumented)
-export interface ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
-}
 
 // @public
 export interface Connection extends ProxyResource {
@@ -648,13 +592,6 @@ export interface ContentSource {
 
 // @public
 export type ContentSourceType = string;
-
-// @public
-export interface ConvertGraphRunbookContentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ConvertGraphRunbookContentResponse = GraphicalRunbookContent;
 
 // @public
 export type CountType = string;
@@ -1044,31 +981,6 @@ export interface DscConfigurationUpdateParameters {
 export type DscConfigurationUpdateResponse = DscConfiguration;
 
 // @public
-export interface DscMetaConfiguration {
-    actionAfterReboot?: string;
-    allowModuleOverwrite?: boolean;
-    certificateId?: string;
-    configurationMode?: string;
-    configurationModeFrequencyMins?: number;
-    rebootNodeIfNeeded?: boolean;
-    refreshFrequencyMins?: number;
-}
-
-// @public
-export interface DscNode extends ProxyResource {
-    accountId?: string;
-    etag?: string;
-    extensionHandler?: DscNodeExtensionHandlerAssociationProperty[];
-    ip?: string;
-    lastSeen?: Date;
-    namePropertiesNodeConfigurationName?: string;
-    nodeId?: string;
-    registrationTime?: Date;
-    status?: string;
-    totalCount?: number;
-}
-
-// @public
 export interface DscNodeConfiguration extends ProxyResource {
     configuration?: DscConfigurationAssociationProperty;
     creationTime?: Date;
@@ -1145,134 +1057,9 @@ export interface DscNodeConfigurationOperations {
 }
 
 // @public
-export interface DscNodeDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
 export interface DscNodeExtensionHandlerAssociationProperty {
     name?: string;
     version?: string;
-}
-
-// @public
-export interface DscNodeGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DscNodeGetResponse = DscNode;
-
-// @public
-export interface DscNodeListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type DscNodeListByAutomationAccountNextResponse = DscNodeListResult;
-
-// @public
-export interface DscNodeListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    inlinecount?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
-export type DscNodeListByAutomationAccountResponse = DscNodeListResult;
-
-// @public
-export interface DscNodeListResult {
-    nextLink?: string;
-    totalCount?: number;
-    value?: DscNode[];
-}
-
-// @public
-export interface DscNodeOperations {
-    delete(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: DscNodeGetOptionalParams): Promise<DscNodeGetResponse>;
-    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: DscNodeListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<DscNode>;
-    update(resourceGroupName: string, automationAccountName: string, nodeId: string, dscNodeUpdateParameters: DscNodeUpdateParameters, options?: DscNodeUpdateOptionalParams): Promise<DscNodeUpdateResponse>;
-}
-
-// @public
-export interface DscNodeReport {
-    configurationVersion?: string;
-    endTime?: Date;
-    errors?: DscReportError[];
-    hostName?: string;
-    id?: string;
-    iPV4Addresses?: string[];
-    iPV6Addresses?: string[];
-    lastModifiedTime?: Date;
-    metaConfiguration?: DscMetaConfiguration;
-    numberOfResources?: number;
-    rawErrors?: string;
-    rebootRequested?: string;
-    refreshMode?: string;
-    reportFormatVersion?: string;
-    reportId?: string;
-    resources?: DscReportResource[];
-    startTime?: Date;
-    status?: string;
-    type?: string;
-}
-
-// @public
-export interface DscNodeReportListResult {
-    nextLink?: string;
-    value?: DscNodeReport[];
-}
-
-// @public
-export interface DscNodeUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface DscNodeUpdateParameters {
-    nodeId?: string;
-    // (undocumented)
-    properties?: DscNodeUpdateParametersProperties;
-}
-
-// @public (undocumented)
-export interface DscNodeUpdateParametersProperties {
-    name?: string;
-}
-
-// @public
-export type DscNodeUpdateResponse = DscNode;
-
-// @public
-export interface DscReportError {
-    errorCode?: string;
-    errorDetails?: string;
-    errorMessage?: string;
-    errorSource?: string;
-    locale?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface DscReportResource {
-    dependsOn?: DscReportResourceNavigation[];
-    durationInSeconds?: number;
-    error?: string;
-    moduleName?: string;
-    moduleVersion?: string;
-    resourceId?: string;
-    resourceName?: string;
-    sourceInfo?: string;
-    startDate?: Date;
-    status?: string;
-}
-
-// @public
-export interface DscReportResourceNavigation {
-    resourceId?: string;
 }
 
 // @public
@@ -1314,15 +1101,6 @@ export interface FieldsListByTypeOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type FieldsListByTypeResponse = TypeFieldListResult;
-
-// @public
-export interface GraphicalRunbookContent {
-    graphRunbookJson?: string;
-    rawContent?: RawGraphicalRunbookContent;
-}
-
-// @public
-export type GraphRunbookType = string;
 
 // @public
 export type GroupTypeEnum = string;
@@ -1480,7 +1258,7 @@ export interface Identity {
     readonly tenantId?: string;
     type?: ResourceIdentityType;
     userAssignedIdentities?: {
-        [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+        [propertyName: string]: UserAssignedIdentitiesProperties;
     };
 }
 
@@ -1782,12 +1560,6 @@ export interface KeyVaultProperties {
 }
 
 // @public
-export enum KnownAgentRegistrationKeyName {
-    Primary = "primary",
-    Secondary = "secondary"
-}
-
-// @public
 export enum KnownAutomationAccountState {
     Ok = "Ok",
     Suspended = "Suspended",
@@ -1831,12 +1603,6 @@ export enum KnownDscConfigurationState {
     Edit = "Edit",
     New = "New",
     Published = "Published"
-}
-
-// @public
-export enum KnownGraphRunbookType {
-    GraphPowerShell = "GraphPowerShell",
-    GraphPowerShellWorkflow = "GraphPowerShellWorkflow"
 }
 
 // @public
@@ -1938,6 +1704,26 @@ export enum KnownLinuxUpdateClasses {
     Other = "Other",
     Security = "Security",
     Unclassified = "Unclassified"
+}
+
+// @public
+export enum KnownModuleProvisioningState {
+    ActivitiesStored = "ActivitiesStored",
+    Cancelled = "Cancelled",
+    ConnectionTypeImported = "ConnectionTypeImported",
+    ContentDownloaded = "ContentDownloaded",
+    ContentRetrieved = "ContentRetrieved",
+    ContentStored = "ContentStored",
+    ContentValidated = "ContentValidated",
+    Created = "Created",
+    Creating = "Creating",
+    Failed = "Failed",
+    ModuleDataStored = "ModuleDataStored",
+    ModuleImportRunbookComplete = "ModuleImportRunbookComplete",
+    RunningImportModuleRunbook = "RunningImportModuleRunbook",
+    StartingImportModuleRunbook = "StartingImportModuleRunbook",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -2145,7 +1931,7 @@ export interface ModuleOperations {
 }
 
 // @public
-export type ModuleProvisioningState = "Created" | "Creating" | "StartingImportModuleRunbook" | "RunningImportModuleRunbook" | "ContentRetrieved" | "ContentDownloaded" | "ContentValidated" | "ConnectionTypeImported" | "ContentStored" | "ModuleDataStored" | "ActivitiesStored" | "ModuleImportRunbookComplete" | "Succeeded" | "Failed" | "Cancelled" | "Updating";
+export type ModuleProvisioningState = string;
 
 // @public
 export interface ModuleUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2195,43 +1981,6 @@ export interface NodeCounts {
 }
 
 // @public
-export interface NodeReports {
-    get(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: NodeReportsGetOptionalParams): Promise<NodeReportsGetResponse>;
-    getContent(resourceGroupName: string, automationAccountName: string, nodeId: string, reportId: string, options?: NodeReportsGetContentOptionalParams): Promise<NodeReportsGetContentResponse>;
-    listByNode(resourceGroupName: string, automationAccountName: string, nodeId: string, options?: NodeReportsListByNodeOptionalParams): PagedAsyncIterableIterator<DscNodeReport>;
-}
-
-// @public
-export interface NodeReportsGetContentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NodeReportsGetContentResponse = Record<string, unknown>;
-
-// @public
-export interface NodeReportsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type NodeReportsGetResponse = DscNodeReport;
-
-// @public
-export interface NodeReportsListByNodeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type NodeReportsListByNodeNextResponse = DscNodeReportListResult;
-
-// @public
-export interface NodeReportsListByNodeOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-}
-
-// @public
-export type NodeReportsListByNodeResponse = DscNodeReportListResult;
-
-// @public
 export interface NonAzureQueryProperties {
     functionAlias?: string;
     workspaceId?: string;
@@ -2264,6 +2013,7 @@ export type OperatingSystemType = "Windows" | "Linux";
 export interface Operation {
     display?: OperationDisplay;
     name?: string;
+    origin?: string;
 }
 
 // @public
@@ -2432,6 +2182,54 @@ export interface Python2PackageUpdateOptionalParams extends coreClient.Operation
 export type Python2PackageUpdateResponse = Module;
 
 // @public
+export interface Python3Package {
+    createOrUpdate(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageCreateParameters, options?: Python3PackageCreateOrUpdateOptionalParams): Promise<Python3PackageCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, automationAccountName: string, packageName: string, options?: Python3PackageGetOptionalParams): Promise<Python3PackageGetResponse>;
+    listByAutomationAccount(resourceGroupName: string, automationAccountName: string, options?: Python3PackageListByAutomationAccountOptionalParams): PagedAsyncIterableIterator<Module>;
+    update(resourceGroupName: string, automationAccountName: string, packageName: string, parameters: PythonPackageUpdateParameters, options?: Python3PackageUpdateOptionalParams): Promise<Python3PackageUpdateResponse>;
+}
+
+// @public
+export interface Python3PackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageCreateOrUpdateResponse = Module;
+
+// @public
+export interface Python3PackageDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface Python3PackageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageGetResponse = Module;
+
+// @public
+export interface Python3PackageListByAutomationAccountNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountNextResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageListByAutomationAccountOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageListByAutomationAccountResponse = ModuleListResult;
+
+// @public
+export interface Python3PackageUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type Python3PackageUpdateResponse = Module;
+
+// @public
 export interface PythonPackageCreateParameters {
     contentLink: ContentLink;
     tags?: {
@@ -2444,13 +2242,6 @@ export interface PythonPackageUpdateParameters {
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface RawGraphicalRunbookContent {
-    runbookDefinition?: string;
-    runbookType?: GraphRunbookType;
-    schemaVersion?: string;
 }
 
 // @public
@@ -2555,7 +2346,7 @@ export interface RunbookDraftGetContentOptionalParams extends coreClient.Operati
 
 // @public
 export type RunbookDraftGetContentResponse = {
-    body: coreRestPipeline.RequestBodyType;
+    body: string;
 };
 
 // @public
@@ -2567,11 +2358,11 @@ export type RunbookDraftGetResponse = RunbookDraft;
 
 // @public
 export interface RunbookDraftOperations {
-    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<PollerLike<PollOperationState<RunbookDraftReplaceContentResponse>, RunbookDraftReplaceContentResponse>>;
-    beginReplaceContentAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<RunbookDraftReplaceContentResponse>;
+    beginReplaceContent(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReplaceContentAndWait(resourceGroupName: string, automationAccountName: string, runbookName: string, runbookContent: string, options?: RunbookDraftReplaceContentOptionalParams): Promise<void>;
     get(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetOptionalParams): Promise<RunbookDraftGetResponse>;
     getContent(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftGetContentOptionalParams): Promise<RunbookDraftGetContentResponse>;
-    undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftUndoEditOptionalParams): Promise<RunbookDraftUndoEditResponse>;
+    undoEdit(resourceGroupName: string, automationAccountName: string, runbookName: string, options?: RunbookDraftUndoEditOptionalParams): Promise<void>;
 }
 
 // @public
@@ -2586,17 +2377,8 @@ export interface RunbookDraftReplaceContentOptionalParams extends coreClient.Ope
 }
 
 // @public
-export type RunbookDraftReplaceContentResponse = {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-
-// @public
 export interface RunbookDraftUndoEditOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export type RunbookDraftUndoEditResponse = RunbookDraftUndoEditResult;
 
 // @public
 export interface RunbookDraftUndoEditResult {
@@ -2612,7 +2394,7 @@ export interface RunbookGetContentOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type RunbookGetContentResponse = {
-    body: coreRestPipeline.RequestBodyType;
+    body: string;
 };
 
 // @public
@@ -3485,6 +3267,12 @@ export interface UsagesListByAutomationAccountOptionalParams extends coreClient.
 
 // @public
 export type UsagesListByAutomationAccountResponse = UsageListResult;
+
+// @public (undocumented)
+export interface UserAssignedIdentitiesProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface Variable extends ProxyResource {

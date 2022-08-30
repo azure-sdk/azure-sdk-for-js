@@ -399,7 +399,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -422,7 +422,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -448,8 +448,8 @@ const createOrUpdate$textOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters27,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters18,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -480,8 +480,8 @@ const createOrUpdate$jsonOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters28,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -505,8 +505,8 @@ const update$textOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters29,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -534,8 +534,8 @@ const update$jsonOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters30,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -557,7 +557,7 @@ const getContentOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -582,10 +582,10 @@ const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.filter,
+    Parameters.apiVersion4,
     Parameters.skip,
     Parameters.top,
-    Parameters.inlinecount,
-    Parameters.apiVersion2
+    Parameters.inlinecount
   ],
   urlParameters: [
     Parameters.$host,
@@ -609,10 +609,10 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.filter,
+    Parameters.apiVersion4,
     Parameters.skip,
     Parameters.top,
-    Parameters.inlinecount,
-    Parameters.apiVersion2
+    Parameters.inlinecount
   ],
   urlParameters: [
     Parameters.$host,
