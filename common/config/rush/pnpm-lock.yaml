@@ -4095,7 +4095,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220828
+      typescript: 4.9.0-dev.20220829
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9098,8 +9098,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220828:
-    resolution: {integrity: sha512-XM4H+zuGTaVi+ZLpLZ6jNTTlE4t1keC6g2e4x3JztjzIHEN/RfV2NncqflIkWD39Fh7qqCckFboFqVcG7M+QuA==}
+  /typescript/4.9.0-dev.20220829:
+    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14721,7 +14721,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-zR3IeH9PKKdyMB6ZAI4ofVQfVUdISHmUNqKefMrtICfI+pYrDFlSPJABRaZ6XP73acXZZgVzZddbVAElt0jd8g==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-uL/PEQ10xFzOhgnYk/yqGjQ32JTGxBWT9WtHLhR6RsiPngHv7ecYNkXDWhVjrn/513JJ3sCaJW56kUKC5vGf2A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14733,6 +14733,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.77.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14744,7 +14746,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -15669,7 +15670,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-kJTGc13v98By2R/RRGv8OLG+OUGpQlnEsh3awDVosiZK5hW2fr34X1S1RQEabHvPuXQt4s5qG1sikvbhovRrpA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-f2VzRwK94ENNXQYhHUwoDmbYDN0TOFYwlwLo3qthLuSROqb3XRi0Klw4LgqiIgQKO2NxU3nQzAeDaeVs6NegvQ==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
