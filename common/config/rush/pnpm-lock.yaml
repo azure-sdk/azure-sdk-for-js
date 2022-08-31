@@ -13,6 +13,7 @@ specifiers:
   '@rush-temp/api-management-custom-widgets-tools': file:./projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
   '@rush-temp/arm-advisor': file:./projects/arm-advisor.tgz
+  '@rush-temp/arm-agrifood': file:./projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:./projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:./projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:./projects/arm-app.tgz
@@ -318,6 +319,7 @@ dependencies:
   '@rush-temp/api-management-custom-widgets-tools': file:projects/api-management-custom-widgets-tools.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
   '@rush-temp/arm-advisor': file:projects/arm-advisor.tgz
+  '@rush-temp/arm-agrifood': file:projects/arm-agrifood.tgz
   '@rush-temp/arm-analysisservices': file:projects/arm-analysisservices.tgz
   '@rush-temp/arm-apimanagement': file:projects/arm-apimanagement.tgz
   '@rush-temp/arm-app': file:projects/arm-app.tgz
@@ -4095,7 +4097,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220829
+      typescript: 4.9.0-dev.20220830
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9098,8 +9100,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220829:
-    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
+  /typescript/4.9.0-dev.20220830:
+    resolution: {integrity: sha512-DVMaPFszCw9wFZcTYcFiksny0rUttUJpIvtwCD3ynKYepnX1OCTHwLwsAGtETxi6AuutJ5pSRn2LoAILjzYwvw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10200,6 +10202,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-agrifood.tgz:
+    resolution: {integrity: sha512-EBK9oruIKDdZfzohZlOs0I6prTziqDtFwmmh9KuuOi83wvV3OS1kD17pf0Dw57XuV0WknZW336OSLrUDz/J5qg==, tarball: file:projects/arm-agrifood.tgz}
+    name: '@rush-temp/arm-agrifood'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
