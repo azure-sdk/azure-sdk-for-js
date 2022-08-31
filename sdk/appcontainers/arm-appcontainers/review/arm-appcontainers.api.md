@@ -642,12 +642,27 @@ export interface CustomHostnameAnalysisResult {
     aRecords?: string[];
     cNameRecords?: string[];
     readonly conflictingContainerAppResourceId?: string;
-    readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+    readonly customDomainVerificationFailureInfo?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo;
     readonly customDomainVerificationTest?: DnsVerificationTestResult;
     readonly hasConflictOnManagedEnvironment?: boolean;
     readonly hostName?: string;
     readonly isHostnameAlreadyVerified?: boolean;
     txtRecords?: string[];
+}
+
+// @public
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo {
+    readonly code?: string;
+    details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem {
+    readonly code?: string;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -939,6 +954,7 @@ export enum KnownCheckNameAvailabilityReason {
 // @public
 export enum KnownContainerAppProvisioningState {
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"

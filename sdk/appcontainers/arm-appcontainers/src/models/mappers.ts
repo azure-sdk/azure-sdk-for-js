@@ -2180,7 +2180,8 @@ export const CustomHostnameAnalysisResult: coreClient.CompositeMapper = {
         serializedName: "customDomainVerificationFailureInfo",
         type: {
           name: "Composite",
-          className: "DefaultErrorResponse"
+          className:
+            "CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo"
         }
       },
       hasConflictOnManagedEnvironment: {
@@ -2250,6 +2251,81 @@ export const CustomHostnameAnalysisResult: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className:
+                "CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
