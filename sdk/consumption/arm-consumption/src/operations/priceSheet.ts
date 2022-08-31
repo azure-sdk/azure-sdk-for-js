@@ -88,6 +88,7 @@ const getByBillingPeriodOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PriceSheetResult
     },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
