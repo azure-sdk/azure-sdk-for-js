@@ -15,73 +15,15 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AlertRulesImpl,
-  ActionsImpl,
-  AlertRuleTemplatesImpl,
-  AutomationRulesImpl,
-  IncidentsImpl,
-  BookmarksImpl,
-  BookmarkRelationsImpl,
-  BookmarkOperationsImpl,
-  IPGeodataImpl,
-  DomainWhoisImpl,
-  EntitiesImpl,
-  EntitiesGetTimelineImpl,
-  EntitiesRelationsImpl,
-  EntityRelationsImpl,
-  EntityQueriesImpl,
-  EntityQueryTemplatesImpl,
-  IncidentCommentsImpl,
-  IncidentRelationsImpl,
-  MetadataImpl,
-  OfficeConsentsImpl,
-  SentinelOnboardingStatesImpl,
-  SecurityMLAnalyticsSettingsImpl,
-  ProductSettingsImpl,
-  SourceControlOperationsImpl,
-  SourceControlsImpl,
-  ThreatIntelligenceIndicatorImpl,
-  ThreatIntelligenceIndicatorsImpl,
-  ThreatIntelligenceIndicatorMetricsImpl,
-  WatchlistsImpl,
-  WatchlistItemsImpl,
-  DataConnectorsImpl,
-  DataConnectorsCheckRequirementsOperationsImpl,
+  PackagesImpl,
+  PackageImpl,
+  TemplatesImpl,
   OperationsImpl
 } from "./operations";
 import {
-  AlertRules,
-  Actions,
-  AlertRuleTemplates,
-  AutomationRules,
-  Incidents,
-  Bookmarks,
-  BookmarkRelations,
-  BookmarkOperations,
-  IPGeodata,
-  DomainWhois,
-  Entities,
-  EntitiesGetTimeline,
-  EntitiesRelations,
-  EntityRelations,
-  EntityQueries,
-  EntityQueryTemplates,
-  IncidentComments,
-  IncidentRelations,
-  Metadata,
-  OfficeConsents,
-  SentinelOnboardingStates,
-  SecurityMLAnalyticsSettings,
-  ProductSettings,
-  SourceControlOperations,
-  SourceControls,
-  ThreatIntelligenceIndicator,
-  ThreatIntelligenceIndicators,
-  ThreatIntelligenceIndicatorMetrics,
-  Watchlists,
-  WatchlistItems,
-  DataConnectors,
-  DataConnectorsCheckRequirementsOperations,
+  Packages,
+  Package,
+  Templates,
   Operations
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
@@ -138,83 +80,37 @@ export class SecurityInsights extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
-    this.alertRules = new AlertRulesImpl(this);
-    this.actions = new ActionsImpl(this);
-    this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
-    this.automationRules = new AutomationRulesImpl(this);
-    this.incidents = new IncidentsImpl(this);
-    this.bookmarks = new BookmarksImpl(this);
-    this.bookmarkRelations = new BookmarkRelationsImpl(this);
-    this.bookmarkOperations = new BookmarkOperationsImpl(this);
-    this.iPGeodata = new IPGeodataImpl(this);
-    this.domainWhois = new DomainWhoisImpl(this);
-    this.entities = new EntitiesImpl(this);
-    this.entitiesGetTimeline = new EntitiesGetTimelineImpl(this);
-    this.entitiesRelations = new EntitiesRelationsImpl(this);
-    this.entityRelations = new EntityRelationsImpl(this);
-    this.entityQueries = new EntityQueriesImpl(this);
-    this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
-    this.incidentComments = new IncidentCommentsImpl(this);
-    this.incidentRelations = new IncidentRelationsImpl(this);
-    this.metadata = new MetadataImpl(this);
-    this.officeConsents = new OfficeConsentsImpl(this);
-    this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
-    this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
-      this
-    );
-    this.productSettings = new ProductSettingsImpl(this);
-    this.sourceControlOperations = new SourceControlOperationsImpl(this);
-    this.sourceControls = new SourceControlsImpl(this);
-    this.threatIntelligenceIndicator = new ThreatIntelligenceIndicatorImpl(
-      this
-    );
-    this.threatIntelligenceIndicators = new ThreatIntelligenceIndicatorsImpl(
-      this
-    );
-    this.threatIntelligenceIndicatorMetrics = new ThreatIntelligenceIndicatorMetricsImpl(
-      this
-    );
-    this.watchlists = new WatchlistsImpl(this);
-    this.watchlistItems = new WatchlistItemsImpl(this);
-    this.dataConnectors = new DataConnectorsImpl(this);
-    this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
-      this
-    );
+    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.packages = new PackagesImpl(this);
+    this.package = new PackageImpl(this);
+    this.templates = new TemplatesImpl(this);
     this.operations = new OperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -247,37 +143,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  alertRules: AlertRules;
-  actions: Actions;
-  alertRuleTemplates: AlertRuleTemplates;
-  automationRules: AutomationRules;
-  incidents: Incidents;
-  bookmarks: Bookmarks;
-  bookmarkRelations: BookmarkRelations;
-  bookmarkOperations: BookmarkOperations;
-  iPGeodata: IPGeodata;
-  domainWhois: DomainWhois;
-  entities: Entities;
-  entitiesGetTimeline: EntitiesGetTimeline;
-  entitiesRelations: EntitiesRelations;
-  entityRelations: EntityRelations;
-  entityQueries: EntityQueries;
-  entityQueryTemplates: EntityQueryTemplates;
-  incidentComments: IncidentComments;
-  incidentRelations: IncidentRelations;
-  metadata: Metadata;
-  officeConsents: OfficeConsents;
-  sentinelOnboardingStates: SentinelOnboardingStates;
-  securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
-  productSettings: ProductSettings;
-  sourceControlOperations: SourceControlOperations;
-  sourceControls: SourceControls;
-  threatIntelligenceIndicator: ThreatIntelligenceIndicator;
-  threatIntelligenceIndicators: ThreatIntelligenceIndicators;
-  threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
-  watchlists: Watchlists;
-  watchlistItems: WatchlistItems;
-  dataConnectors: DataConnectors;
-  dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
+  packages: Packages;
+  package: Package;
+  templates: Templates;
   operations: Operations;
 }

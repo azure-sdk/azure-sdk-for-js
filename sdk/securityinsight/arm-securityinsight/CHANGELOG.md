@@ -1,15 +1,176 @@
 # Release History
+    
+## 1.0.0-beta.5 (2022-08-31)
+    
+**Features**
 
-## 1.0.0-beta.5 (Unreleased)
+  - Added operation group Package
+  - Added operation group Packages
+  - Added operation group Templates
+  - Added Interface PackageInstallationProperties
+  - Added Interface PackageInstallOptionalParams
+  - Added Interface PackageList
+  - Added Interface PackageModel
+  - Added Interface PackagesGetOptionalParams
+  - Added Interface PackagesListNextOptionalParams
+  - Added Interface PackagesListOptionalParams
+  - Added Interface PackageUninstallOptionalParams
+  - Added Interface TemplateList
+  - Added Interface TemplateModel
+  - Added Interface TemplatesGetOptionalParams
+  - Added Interface TemplatesListNextOptionalParams
+  - Added Interface TemplatesListOptionalParams
+  - Added Type Alias Flag
+  - Added Type Alias PackageInstallResponse
+  - Added Type Alias PackageKind
+  - Added Type Alias PackagesGetResponse
+  - Added Type Alias PackagesListNextResponse
+  - Added Type Alias PackagesListResponse
+  - Added Type Alias TemplatesGetResponse
+  - Added Type Alias TemplatesListNextResponse
+  - Added Type Alias TemplatesListResponse
+  - Class SecurityInsights has a new parameter package
+  - Class SecurityInsights has a new parameter packages
+  - Class SecurityInsights has a new parameter templates
+  - Added Enum KnownFlag
+  - Added Enum KnownPackageKind
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Actions
+  - Removed operation group AlertRules
+  - Removed operation group AlertRuleTemplates
+  - Removed operation group AutomationRules
+  - Removed operation group BookmarkOperations
+  - Removed operation group BookmarkRelations
+  - Removed operation group Bookmarks
+  - Removed operation group DataConnectors
+  - Removed operation group DataConnectorsCheckRequirementsOperations
+  - Removed operation group DomainWhois
+  - Removed operation group Entities
+  - Removed operation group EntitiesGetTimeline
+  - Removed operation group EntitiesRelations
+  - Removed operation group EntityQueries
+  - Removed operation group EntityQueryTemplates
+  - Removed operation group EntityRelations
+  - Removed operation group IncidentComments
+  - Removed operation group IncidentRelations
+  - Removed operation group Incidents
+  - Removed operation group IPGeodata
+  - Removed operation group Metadata
+  - Removed operation group OfficeConsents
+  - Removed operation group ProductSettings
+  - Removed operation group SecurityMLAnalyticsSettings
+  - Removed operation group SentinelOnboardingStates
+  - Removed operation group SourceControlOperations
+  - Removed operation group SourceControls
+  - Removed operation group ThreatIntelligenceIndicator
+  - Removed operation group ThreatIntelligenceIndicatorMetrics
+  - Removed operation group ThreatIntelligenceIndicators
+  - Removed operation group WatchlistItems
+  - Removed operation group Watchlists
+  - Class SecurityInsights no longer has parameter actions
+  - Class SecurityInsights no longer has parameter alertRules
+  - Class SecurityInsights no longer has parameter alertRuleTemplates
+  - Class SecurityInsights no longer has parameter automationRules
+  - Class SecurityInsights no longer has parameter bookmarkOperations
+  - Class SecurityInsights no longer has parameter bookmarkRelations
+  - Class SecurityInsights no longer has parameter bookmarks
+  - Class SecurityInsights no longer has parameter dataConnectors
+  - Class SecurityInsights no longer has parameter dataConnectorsCheckRequirementsOperations
+  - Class SecurityInsights no longer has parameter domainWhois
+  - Class SecurityInsights no longer has parameter entities
+  - Class SecurityInsights no longer has parameter entitiesGetTimeline
+  - Class SecurityInsights no longer has parameter entitiesRelations
+  - Class SecurityInsights no longer has parameter entityQueries
+  - Class SecurityInsights no longer has parameter entityQueryTemplates
+  - Class SecurityInsights no longer has parameter entityRelations
+  - Class SecurityInsights no longer has parameter incidentComments
+  - Class SecurityInsights no longer has parameter incidentRelations
+  - Class SecurityInsights no longer has parameter incidents
+  - Class SecurityInsights no longer has parameter iPGeodata
+  - Class SecurityInsights no longer has parameter metadata
+  - Class SecurityInsights no longer has parameter officeConsents
+  - Class SecurityInsights no longer has parameter productSettings
+  - Class SecurityInsights no longer has parameter securityMLAnalyticsSettings
+  - Class SecurityInsights no longer has parameter sentinelOnboardingStates
+  - Class SecurityInsights no longer has parameter sourceControlOperations
+  - Class SecurityInsights no longer has parameter sourceControls
+  - Class SecurityInsights no longer has parameter threatIntelligenceIndicator
+  - Class SecurityInsights no longer has parameter threatIntelligenceIndicatorMetrics
+  - Class SecurityInsights no longer has parameter threatIntelligenceIndicators
+  - Class SecurityInsights no longer has parameter watchlistItems
+  - Class SecurityInsights no longer has parameter watchlists
+  - Removed Enum KnownActionType
+  - Removed Enum KnownAlertDetail
+  - Removed Enum KnownAlertRuleKind
+  - Removed Enum KnownAlertSeverity
+  - Removed Enum KnownAlertStatus
+  - Removed Enum KnownAntispamMailDirection
+  - Removed Enum KnownAttackTactic
+  - Removed Enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType
+  - Removed Enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType
+  - Removed Enum KnownAutomationRulePropertyChangedConditionSupportedChangedType
+  - Removed Enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType
+  - Removed Enum KnownAutomationRulePropertyConditionSupportedOperator
+  - Removed Enum KnownAutomationRulePropertyConditionSupportedProperty
+  - Removed Enum KnownConditionType
+  - Removed Enum KnownConfidenceLevel
+  - Removed Enum KnownConfidenceScoreStatus
+  - Removed Enum KnownConnectAuthKind
+  - Removed Enum KnownConnectivityType
+  - Removed Enum KnownContentType
+  - Removed Enum KnownCustomEntityQueryKind
+  - Removed Enum KnownDataConnectorAuthorizationState
+  - Removed Enum KnownDataConnectorKind
+  - Removed Enum KnownDataConnectorLicenseState
+  - Removed Enum KnownDataTypeState
+  - Removed Enum KnownDeploymentFetchStatus
+  - Removed Enum KnownDeploymentResult
+  - Removed Enum KnownDeploymentState
+  - Removed Enum KnownDeviceImportance
+  - Removed Enum KnownEntityItemQueryKind
+  - Removed Enum KnownEntityKind
+  - Removed Enum KnownEntityMappingType
+  - Removed Enum KnownEntityProviders
+  - Removed Enum KnownEntityQueryKind
+  - Removed Enum KnownEntityQueryTemplateKind
+  - Removed Enum KnownEntityTimelineKind
+  - Removed Enum KnownEntityType
+  - Removed Enum KnownEnum13
+  - Removed Enum KnownEventGroupingAggregationKind
+  - Removed Enum KnownFileHashAlgorithm
+  - Removed Enum KnownGetInsightsError
+  - Removed Enum KnownIncidentClassification
+  - Removed Enum KnownIncidentClassificationReason
+  - Removed Enum KnownIncidentLabelType
+  - Removed Enum KnownIncidentSeverity
+  - Removed Enum KnownIncidentStatus
+  - Removed Enum KnownKillChainIntent
+  - Removed Enum KnownMatchingMethod
+  - Removed Enum KnownMicrosoftSecurityProductName
+  - Removed Enum KnownOutputType
+  - Removed Enum KnownOwnerType
+  - Removed Enum KnownPermissionProviderScope
+  - Removed Enum KnownPollingFrequency
+  - Removed Enum KnownProviderName
+  - Removed Enum KnownRegistryHive
+  - Removed Enum KnownRegistryValueKind
+  - Removed Enum KnownRepoType
+  - Removed Enum KnownSecurityMLAnalyticsSettingsKind
+  - Removed Enum KnownSettingKind
+  - Removed Enum KnownSettingsStatus
+  - Removed Enum KnownSettingType
+  - Removed Enum KnownSourceType
+  - Removed Enum KnownTemplateStatus
+  - Removed Enum KnownThreatIntelligenceResourceKindEnum
+  - Removed Enum KnownThreatIntelligenceSortingCriteriaEnum
+  - Removed Enum KnownTriggersOn
+  - Removed Enum KnownTriggersWhen
+  - Removed Enum KnownUebaDataSources
+  - Removed Enum KnownVersion
+    
+    
 ## 1.0.0-beta.4 (2022-07-11)
     
 **Features**

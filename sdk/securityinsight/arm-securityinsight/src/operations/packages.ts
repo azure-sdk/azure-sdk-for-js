@@ -7,26 +7,28 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { EntitiesRelations } from "../operationsInterfaces";
+import { Packages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  Relation,
-  EntitiesRelationsListNextOptionalParams,
-  EntitiesRelationsListOptionalParams,
-  EntitiesRelationsListResponse,
-  EntitiesRelationsListNextResponse
+  PackageModel,
+  PackagesListNextOptionalParams,
+  PackagesListOptionalParams,
+  PackagesListResponse,
+  PackagesGetOptionalParams,
+  PackagesGetResponse,
+  PackagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing EntitiesRelations operations. */
-export class EntitiesRelationsImpl implements EntitiesRelations {
+/** Class containing Packages operations. */
+export class PackagesImpl implements Packages {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class EntitiesRelations class.
+   * Initialize a new instance of the class Packages class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -34,22 +36,23 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
   }
 
   /**
-   * Gets all relations of an entity.
+   * Gets all available packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesRelationsListOptionalParams
-  ): PagedAsyncIterableIterator<Relation> {
+    options?: PackagesListOptionalParams
+  ): PagedAsyncIterableIterator<PackageModel> {
     const iter = this.listPagingAll(
       resourceGroupName,
+      operationalInsightsResourceProvider,
       workspaceName,
-      entityId,
       options
     );
     return {
@@ -62,8 +65,8 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
       byPage: () => {
         return this.listPagingPage(
           resourceGroupName,
+          operationalInsightsResourceProvider,
           workspaceName,
-          entityId,
           options
         );
       }
@@ -72,14 +75,14 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
 
   private async *listPagingPage(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesRelationsListOptionalParams
-  ): AsyncIterableIterator<Relation[]> {
+    options?: PackagesListOptionalParams
+  ): AsyncIterableIterator<PackageModel[]> {
     let result = await this._list(
       resourceGroupName,
+      operationalInsightsResourceProvider,
       workspaceName,
-      entityId,
       options
     );
     yield result.value || [];
@@ -87,8 +90,8 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
+        operationalInsightsResourceProvider,
         workspaceName,
-        entityId,
         continuationToken,
         options
       );
@@ -99,14 +102,14 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
 
   private async *listPagingAll(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesRelationsListOptionalParams
-  ): AsyncIterableIterator<Relation> {
+    options?: PackagesListOptionalParams
+  ): AsyncIterableIterator<PackageModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
+      operationalInsightsResourceProvider,
       workspaceName,
-      entityId,
       options
     )) {
       yield* page;
@@ -114,41 +117,82 @@ export class EntitiesRelationsImpl implements EntitiesRelations {
   }
 
   /**
-   * Gets all relations of an entity.
+   * Gets all available packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityId: string,
-    options?: EntitiesRelationsListOptionalParams
-  ): Promise<EntitiesRelationsListResponse> {
+    options?: PackagesListOptionalParams
+  ): Promise<PackagesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, options },
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        options
+      },
       listOperationSpec
+    );
+  }
+
+  /**
+   * Gets a package byt its identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
+   * @param workspaceName The name of the workspace.
+   * @param packageId package Id
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
+    workspaceName: string,
+    packageId: string,
+    options?: PackagesGetOptionalParams
+  ): Promise<PackagesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        packageId,
+        options
+      },
+      getOperationSpec
     );
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param entityId entity ID
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityId: string,
     nextLink: string,
-    options?: EntitiesRelationsListNextOptionalParams
-  ): Promise<EntitiesRelationsListNextResponse> {
+    options?: PackagesListNextOptionalParams
+  ): Promise<PackagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, entityId, nextLink, options },
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -158,11 +202,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/relations",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentpackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationList
+      bodyMapper: Mappers.PackageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -179,8 +223,32 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contentpackages/{packageId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PackageModel
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.entityId
+    Parameters.packageId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -190,7 +258,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RelationList
+      bodyMapper: Mappers.PackageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -207,9 +275,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.nextLink,
-    Parameters.entityId
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer

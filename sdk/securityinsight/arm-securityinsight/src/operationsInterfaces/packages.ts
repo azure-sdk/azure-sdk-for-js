@@ -8,37 +8,43 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EntityQueryTemplateUnion,
-  EntityQueryTemplatesListOptionalParams,
-  EntityQueryTemplatesGetOptionalParams,
-  EntityQueryTemplatesGetResponse
+  PackageModel,
+  PackagesListOptionalParams,
+  PackagesGetOptionalParams,
+  PackagesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a EntityQueryTemplates. */
-export interface EntityQueryTemplates {
+/** Interface representing a Packages. */
+export interface Packages {
   /**
-   * Gets all entity query templates.
+   * Gets all available packages.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    options?: EntityQueryTemplatesListOptionalParams
-  ): PagedAsyncIterableIterator<EntityQueryTemplateUnion>;
+    options?: PackagesListOptionalParams
+  ): PagedAsyncIterableIterator<PackageModel>;
   /**
-   * Gets an entity query.
+   * Gets a package byt its identifier.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param entityQueryTemplateId entity query template ID
+   * @param packageId package Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    entityQueryTemplateId: string,
-    options?: EntityQueryTemplatesGetOptionalParams
-  ): Promise<EntityQueryTemplatesGetResponse>;
+    packageId: string,
+    options?: PackagesGetOptionalParams
+  ): Promise<PackagesGetResponse>;
 }

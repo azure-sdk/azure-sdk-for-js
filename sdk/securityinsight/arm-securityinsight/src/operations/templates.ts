@@ -7,29 +7,28 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OfficeConsents } from "../operationsInterfaces";
+import { Templates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SecurityInsights } from "../securityInsights";
 import {
-  OfficeConsent,
-  OfficeConsentsListNextOptionalParams,
-  OfficeConsentsListOptionalParams,
-  OfficeConsentsListResponse,
-  OfficeConsentsGetOptionalParams,
-  OfficeConsentsGetResponse,
-  OfficeConsentsDeleteOptionalParams,
-  OfficeConsentsListNextResponse
+  TemplateModel,
+  TemplatesListNextOptionalParams,
+  TemplatesListOptionalParams,
+  TemplatesListResponse,
+  TemplatesGetOptionalParams,
+  TemplatesGetResponse,
+  TemplatesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing OfficeConsents operations. */
-export class OfficeConsentsImpl implements OfficeConsents {
+/** Class containing Templates operations. */
+export class TemplatesImpl implements Templates {
   private readonly client: SecurityInsights;
 
   /**
-   * Initialize a new instance of the class OfficeConsents class.
+   * Initialize a new instance of the class Templates class.
    * @param client Reference to the service client
    */
   constructor(client: SecurityInsights) {
@@ -37,17 +36,25 @@ export class OfficeConsentsImpl implements OfficeConsents {
   }
 
   /**
-   * Gets all office365 consents.
+   * Gets all installed templates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
-  ): PagedAsyncIterableIterator<OfficeConsent> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    options?: TemplatesListOptionalParams
+  ): PagedAsyncIterableIterator<TemplateModel> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      operationalInsightsResourceProvider,
+      workspaceName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -56,22 +63,34 @@ export class OfficeConsentsImpl implements OfficeConsents {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+        return this.listPagingPage(
+          resourceGroupName,
+          operationalInsightsResourceProvider,
+          workspaceName,
+          options
+        );
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
-  ): AsyncIterableIterator<OfficeConsent[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
+    options?: TemplatesListOptionalParams
+  ): AsyncIterableIterator<TemplateModel[]> {
+    let result = await this._list(
+      resourceGroupName,
+      operationalInsightsResourceProvider,
+      workspaceName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
+        operationalInsightsResourceProvider,
         workspaceName,
         continuationToken,
         options
@@ -83,11 +102,13 @@ export class OfficeConsentsImpl implements OfficeConsents {
 
   private async *listPagingAll(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
-  ): AsyncIterableIterator<OfficeConsent> {
+    options?: TemplatesListOptionalParams
+  ): AsyncIterableIterator<TemplateModel> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
+      operationalInsightsResourceProvider,
       workspaceName,
       options
     )) {
@@ -96,75 +117,82 @@ export class OfficeConsentsImpl implements OfficeConsents {
   }
 
   /**
-   * Gets all office365 consents.
+   * Gets all installed templates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    options?: OfficeConsentsListOptionalParams
-  ): Promise<OfficeConsentsListResponse> {
+    options?: TemplatesListOptionalParams
+  ): Promise<TemplatesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        options
+      },
       listOperationSpec
     );
   }
 
   /**
-   * Gets an office365 consent.
+   * Gets a template byt its identifier.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
-   * @param consentId consent ID
+   * @param templateId template Id
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
-    consentId: string,
-    options?: OfficeConsentsGetOptionalParams
-  ): Promise<OfficeConsentsGetResponse> {
+    templateId: string,
+    options?: TemplatesGetOptionalParams
+  ): Promise<TemplatesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, consentId, options },
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        templateId,
+        options
+      },
       getOperationSpec
-    );
-  }
-
-  /**
-   * Delete the office365 consent.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param consentId consent ID
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    workspaceName: string,
-    consentId: string,
-    options?: OfficeConsentsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, consentId, options },
-      deleteOperationSpec
     );
   }
 
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param operationalInsightsResourceProvider The namespace of workspaces resource provider-
+   *                                            Microsoft.OperationalInsights.
    * @param workspaceName The name of the workspace.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
+    operationalInsightsResourceProvider: string,
     workspaceName: string,
     nextLink: string,
-    options?: OfficeConsentsListNextOptionalParams
-  ): Promise<OfficeConsentsListNextResponse> {
+    options?: TemplatesListNextOptionalParams
+  ): Promise<TemplatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      {
+        resourceGroupName,
+        operationalInsightsResourceProvider,
+        workspaceName,
+        nextLink,
+        options
+      },
       listNextOperationSpec
     );
   }
@@ -174,21 +202,28 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contenttemplates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfficeConsentList
+      bodyMapper: Mappers.TemplateList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.top,
+    Parameters.skipToken
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
@@ -196,11 +231,11 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{operationalInsightsResourceProvider}/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/contenttemplates/{templateId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfficeConsent
+      bodyMapper: Mappers.TemplateModel
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -211,30 +246,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
-    Parameters.consentId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/officeConsents/{consentId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.consentId
+    Parameters.templateId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -244,17 +258,24 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfficeConsentList
+      bodyMapper: Mappers.TemplateList
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderby,
+    Parameters.top,
+    Parameters.skipToken
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.operationalInsightsResourceProvider,
     Parameters.workspaceName,
     Parameters.nextLink
   ],
