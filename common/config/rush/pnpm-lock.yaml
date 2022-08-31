@@ -79,6 +79,7 @@ specifiers:
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:./projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:./projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -384,6 +385,7 @@ dependencies:
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
   '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
   '@rush-temp/arm-education': file:projects/arm-education.tgz
+  '@rush-temp/arm-elasticsan': file:projects/arm-elasticsan.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -4095,7 +4097,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220829
+      typescript: 4.9.0-dev.20220831
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9098,8 +9100,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220829:
-    resolution: {integrity: sha512-JPUwN18SBzfknl8eLExxWrNo8H98PrZMQdNTXRFYlQFv6qg56e3H/gaJn8Bmo2xz6L1vADwzbMHIp4PAWjskQw==}
+  /typescript/4.9.0-dev.20220831:
+    resolution: {integrity: sha512-FXVLQI/P9R7uT/I0ODGrIPmV9uDlQXufoe+RUcvZOvTtLzk2Kd1H9rr+e3l6hiSho6ikrnvews2LWF5AulwO/w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12037,6 +12039,33 @@ packages:
   file:projects/arm-education.tgz:
     resolution: {integrity: sha512-G0sAEfD2QgQkdcBIC/Bkia+PXdhY9n5KCf930rsBqWGwW+eAAkEKpw3eoh1xkDce45D3wH8ZKT/A8Ej8C37SRA==, tarball: file:projects/arm-education.tgz}
     name: '@rush-temp/arm-education'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.77.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.77.2
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.77.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.77.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.77.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
+  file:projects/arm-elasticsan.tgz:
+    resolution: {integrity: sha512-mKrU4fiXZVaeLPzaGop0/VeHc7+GWAX6v0bpWAt3C1Oxk231hgCXCyX04kGTxCR1ur6LxxCJVVd+Yycr6iOwMw==, tarball: file:projects/arm-elasticsan.tgz}
+    name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
@@ -15669,7 +15698,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-f2VzRwK94ENNXQYhHUwoDmbYDN0TOFYwlwLo3qthLuSROqb3XRi0Klw4LgqiIgQKO2NxU3nQzAeDaeVs6NegvQ==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-OBDRudn5gm5DtRCtSrKzlg3sI4ghfYAuLNkVUWZqcSXTg5XTEHjAkwrwhwh67SYP5E32pPlK3Er9BmCu7vvRow==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
