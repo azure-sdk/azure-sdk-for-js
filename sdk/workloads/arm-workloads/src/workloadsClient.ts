@@ -176,7 +176,8 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP sizing recommendations.
+   * Get SAP sizing recommendations by providing input SAPS for application tier and memory required for
+   * database tier
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -191,7 +192,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP supported SKUs.
+   * Get a list of SAP supported SKUs for ASCS, Application and Database tier.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -206,7 +207,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP Disk Configurations.
+   * Get the SAP Disk Configuration Layout prod/non-prod SAP System.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
@@ -221,7 +222,7 @@ export class WorkloadsClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Get SAP Availability Zone Details.
+   * Get the recommended SAP Availability Zone Pair Details for your region.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */

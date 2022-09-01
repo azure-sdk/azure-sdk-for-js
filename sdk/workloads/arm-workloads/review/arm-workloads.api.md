@@ -650,6 +650,7 @@ export interface Monitor extends TrackedResource {
     readonly msiArmId?: string;
     readonly provisioningState?: WorkloadMonitorProvisioningState;
     routingPreference?: RoutingPreference;
+    zoneRedundancyPreference?: string;
 }
 
 // @public
