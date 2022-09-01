@@ -64,7 +64,7 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
-   * Lists the configuration stores for a given subscription.
+   * Lists the configuration   stores for a given subscription.
    * @param options The options parameters.
    */
   public list(
@@ -272,7 +272,7 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
-   * Lists the configuration stores for a given subscription.
+   * Lists the configuration   stores for a given subscription.
    * @param options The options parameters.
    */
   private _list(
