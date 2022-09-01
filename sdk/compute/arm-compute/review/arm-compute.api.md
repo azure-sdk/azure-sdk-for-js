@@ -459,12 +459,12 @@ export interface CloudServiceExtensionProfile {
 export interface CloudServiceExtensionProperties {
     autoUpgradeMinorVersion?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: any;
+    protectedSettings?: Record<string, unknown>;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: string[];
-    settings?: any;
+    settings?: Record<string, unknown>;
     type?: string;
     typeHandlerVersion?: string;
 }
@@ -4992,7 +4992,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5586,8 +5586,8 @@ export interface VirtualMachineCaptureParameters {
 // @public
 export interface VirtualMachineCaptureResult extends SubResource {
     readonly contentVersion?: string;
-    readonly parameters?: any;
-    readonly resources?: any[];
+    readonly parameters?: Record<string, unknown>;
+    readonly resources?: Record<string, unknown>[];
     readonly schema?: string;
 }
 
@@ -5600,11 +5600,11 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     typeHandlerVersion?: string;
     typePropertiesType?: string;
@@ -5730,10 +5730,10 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
     autoUpgradeMinorVersion?: boolean;
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     type?: string;
     typeHandlerVersion?: string;
@@ -6247,12 +6247,12 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -6335,12 +6335,12 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -6935,11 +6935,11 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     readonly provisioningState?: string;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;
@@ -7015,10 +7015,10 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     readonly name?: string;
-    protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettings?: Record<string, unknown>;
+    protectedSettingsFromKeyVault?: Record<string, unknown>;
     publisher?: string;
-    settings?: any;
+    settings?: Record<string, unknown>;
     suppressFailures?: boolean;
     readonly type?: string;
     typeHandlerVersion?: string;

@@ -3221,7 +3221,7 @@ export interface SharingProfile {
    */
   readonly groups?: SharingProfileGroup[];
   /** Information of community gallery if current gallery is shared to community. */
-  communityGalleryInfo?: any;
+  communityGalleryInfo?: CommunityGalleryInfo;
 }
 
 /** Group of the gallery sharing profile */
@@ -3230,6 +3230,28 @@ export interface SharingProfileGroup {
   type?: SharingProfileGroupTypes;
   /** A list of subscription/tenant ids the gallery is aimed to be shared to. */
   ids?: string[];
+}
+
+/** Information of community gallery if current gallery is shared to community */
+export interface CommunityGalleryInfo {
+  /** The link to the publisher website. Visible to all users. */
+  publisherUri?: string;
+  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
+  publisherContact?: string;
+  /** End-user license agreement for community gallery image. */
+  eula?: string;
+  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
+  publicNamePrefix?: string;
+  /**
+   * Contains info about whether community gallery sharing is enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly communityGalleryEnabled?: boolean;
+  /**
+   * Community gallery public name list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicNames?: string[];
 }
 
 /** Contains information about the soft deletion policy of the gallery. */
@@ -4004,9 +4026,9 @@ export interface CloudServiceExtensionProperties {
   /** Explicitly specify whether platform can automatically upgrade typeHandlerVersion to higher minor versions when they become available. */
   autoUpgradeMinorVersion?: boolean;
   /** Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** Protected settings for the extension which are encrypted before sent to the role instance. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /** Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance. */
   protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
   /**
@@ -4275,28 +4297,6 @@ export interface OSFamilyListResult {
   nextLink?: string;
 }
 
-/** Information of community gallery if current gallery is shared to community */
-export interface CommunityGalleryInfo {
-  /** The link to the publisher website. Visible to all users. */
-  publisherUri?: string;
-  /** Community gallery publisher support email. The email address of the publisher. Visible to all users. */
-  publisherContact?: string;
-  /** End-user license agreement for community gallery image. */
-  eula?: string;
-  /** The prefix of the gallery name that will be displayed publicly. Visible to all users. */
-  publicNamePrefix?: string;
-  /**
-   * Contains info about whether community gallery sharing is enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly communityGalleryEnabled?: boolean;
-  /**
-   * Community gallery public name list.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNames?: string[];
-}
-
 /** The source image from which the Image Version is going to be created. */
 export interface GalleryArtifactSource {
   /** The managed artifact. */
@@ -4458,12 +4458,12 @@ export interface VirtualMachineCaptureResult extends SubResource {
    * parameters of the captured virtual machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly parameters?: any;
+  readonly parameters?: Record<string, unknown>;
   /**
    * a list of resource items of the captured virtual machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resources?: any[];
+  readonly resources?: Record<string, unknown>[];
 }
 
 /** Virtual machine image resource information. */
@@ -4505,9 +4505,9 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4518,7 +4518,7 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** Describes a Virtual Machine Scale Set Extension. */
@@ -4547,9 +4547,9 @@ export interface VirtualMachineScaleSetExtensionUpdate
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4560,7 +4560,7 @@ export interface VirtualMachineScaleSetExtensionUpdate
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** Describes a VMSS VM Extension. */
@@ -4588,9 +4588,9 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4601,7 +4601,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** Describes a VMSS VM Extension. */
@@ -4630,13 +4630,13 @@ export interface VirtualMachineScaleSetVMExtensionUpdate
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** Describes a Virtual Machine Scale Set. */
@@ -5515,13 +5515,13 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** Describes a Virtual Machine Update. */
@@ -5830,9 +5830,9 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
   enableAutomaticUpgrade?: boolean;
   /** Json formatted public settings for the extension. */
-  settings?: any;
+  settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: any;
+  protectedSettings?: Record<string, unknown>;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5843,7 +5843,7 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
   /** Indicates whether failures stemming from the extension will be suppressed (Operational failures such as not connecting to the VM will not be suppressed regardless of this value). The default is false. */
   suppressFailures?: boolean;
   /** The extensions protected settings that are passed by reference, and consumed from key vault */
-  protectedSettingsFromKeyVault?: any;
+  protectedSettingsFromKeyVault?: Record<string, unknown>;
 }
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
