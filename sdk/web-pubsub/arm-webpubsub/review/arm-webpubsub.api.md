@@ -58,131 +58,88 @@ export { KeyType_2 as KeyType }
 
 // @public
 export enum KnownACLAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     Primary = "Primary",
-    // (undocumented)
     Salt = "Salt",
-    // (undocumented)
     Secondary = "Secondary"
 }
 
 // @public
 export enum KnownManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownScaleType {
-    // (undocumented)
     Automatic = "Automatic",
-    // (undocumented)
     Manual = "Manual",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSharedPrivateLinkResourceStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected",
-    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
 export enum KnownUpstreamAuthType {
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownWebPubSubRequestType {
-    // (undocumented)
     ClientConnection = "ClientConnection",
-    // (undocumented)
     Restapi = "RESTAPI",
-    // (undocumented)
     ServerConnection = "ServerConnection",
-    // (undocumented)
     Trace = "Trace"
 }
 
 // @public
 export enum KnownWebPubSubSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -306,18 +263,18 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointACL = NetworkACL & {
+export interface PrivateEndpointACL extends NetworkACL {
     name: string;
-};
+}
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    privateEndpoint?: PrivateEndpoint;
+export interface PrivateEndpointConnection extends ProxyResource {
     readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionList {
@@ -326,12 +283,12 @@ export interface PrivateEndpointConnectionList {
 }
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     groupId?: string;
     requiredMembers?: string[];
     requiredZoneNames?: string[];
     shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceList {
@@ -353,7 +310,8 @@ export type PrivateLinkServiceConnectionStatus = string;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface RegenerateKeyParameters {
@@ -410,14 +368,14 @@ export interface ShareablePrivateLinkResourceType {
 }
 
 // @public
-export type SharedPrivateLinkResource = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface SharedPrivateLinkResource extends ProxyResource {
     groupId?: string;
     privateLinkResourceId?: string;
     readonly provisioningState?: ProvisioningState;
     requestMessage?: string;
     readonly status?: SharedPrivateLinkResourceStatus;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface SharedPrivateLinkResourceList {
@@ -482,12 +440,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface UpstreamAuthSettings {
@@ -573,10 +531,10 @@ export interface WebPubSubGetOptionalParams extends coreClient.OperationOptions 
 export type WebPubSubGetResponse = WebPubSubResource;
 
 // @public
-export type WebPubSubHub = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface WebPubSubHub extends ProxyResource {
     properties: WebPubSubHubProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface WebPubSubHubList {
@@ -800,27 +758,27 @@ export type WebPubSubRegenerateKeyResponse = WebPubSubKeys;
 export type WebPubSubRequestType = string;
 
 // @public
-export type WebPubSubResource = TrackedResource & {
-    sku?: ResourceSku;
-    identity?: ManagedIdentity;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
+export interface WebPubSubResource extends TrackedResource {
+    disableAadAuth?: boolean;
+    disableLocalAuth?: boolean;
     readonly externalIP?: string;
     readonly hostName?: string;
-    readonly publicPort?: number;
-    readonly serverPort?: number;
-    readonly version?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-    tls?: WebPubSubTlsSettings;
     readonly hostNamePrefix?: string;
+    identity?: ManagedIdentity;
     liveTraceConfiguration?: LiveTraceConfiguration;
-    resourceLogConfiguration?: ResourceLogConfiguration;
     networkACLs?: WebPubSubNetworkACLs;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: string;
-    disableLocalAuth?: boolean;
-    disableAadAuth?: boolean;
-};
+    readonly publicPort?: number;
+    resourceLogConfiguration?: ResourceLogConfiguration;
+    readonly serverPort?: number;
+    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    sku?: ResourceSku;
+    readonly systemData?: SystemData;
+    tls?: WebPubSubTlsSettings;
+    readonly version?: string;
+}
 
 // @public
 export interface WebPubSubResourceList {
