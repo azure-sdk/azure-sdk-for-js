@@ -8,20 +8,18 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  EligibleChildResource,
-  EligibleChildResourcesGetOptionalParams
+  ClassicAdministrator,
+  ClassicAdministratorsListOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a EligibleChildResources. */
-export interface EligibleChildResources {
+/** Interface representing a ClassicAdministrators. */
+export interface ClassicAdministrators {
   /**
-   * Get the child resources of a resource on which user has eligible access
-   * @param scope The scope of the role management policy.
+   * Gets service administrator, account administrator, and co-administrators for the subscription.
    * @param options The options parameters.
    */
   list(
-    scope: string,
-    options?: EligibleChildResourcesGetOptionalParams
-  ): PagedAsyncIterableIterator<EligibleChildResource>;
+    options?: ClassicAdministratorsListOptionalParams
+  ): PagedAsyncIterableIterator<ClassicAdministrator>;
 }
