@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure iotDps client.
 
-API for using the Azure IoT Hub Device Provisioning Service features.
+API for using the Azure IoT Hub Device Provisioning Service features testing.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceprovisioningservices) |
