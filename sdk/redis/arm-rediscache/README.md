@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure RedisManagement client.
 
-REST API for Azure Redis Cache Service.
+REST API for Azure Redis Cache Service for testing.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redis/arm-rediscache) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-rediscache) |
