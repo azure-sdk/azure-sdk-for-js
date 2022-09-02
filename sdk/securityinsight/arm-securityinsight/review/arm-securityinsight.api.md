@@ -7,6 +7,8 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AADCheckRequirements extends DataConnectorsCheckRequirements {
@@ -458,13 +460,24 @@ export interface AutomationRuleAction {
 // @public (undocumented)
 export type AutomationRuleActionUnion = AutomationRuleAction | AutomationRuleModifyPropertiesAction | AutomationRuleRunPlaybookAction;
 
+// @public (undocumented)
+export interface AutomationRuleBooleanCondition {
+    // (undocumented)
+    innerConditions?: AutomationRuleConditionUnion[];
+    // (undocumented)
+    operator?: AutomationRuleBooleanConditionSupportedOperator;
+}
+
+// @public
+export type AutomationRuleBooleanConditionSupportedOperator = string;
+
 // @public
 export interface AutomationRuleCondition {
-    conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
+    conditionType: "Boolean" | "PropertyArrayChanged" | "PropertyArray" | "PropertyChanged" | "Property";
 }
 
 // @public (undocumented)
-export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyArrayChangedConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
+export type AutomationRuleConditionUnion = AutomationRuleCondition | BooleanConditionProperties | PropertyArrayChangedConditionProperties | PropertyArrayConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
 
 // @public
 export interface AutomationRuleModifyPropertiesAction extends AutomationRuleAction {
@@ -485,6 +498,22 @@ export interface AutomationRulePropertyArrayChangedValuesCondition {
     arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
     // (undocumented)
     changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+// @public
+export type AutomationRulePropertyArrayConditionSupportedArrayConditionType = string;
+
+// @public
+export type AutomationRulePropertyArrayConditionSupportedArrayType = string;
+
+// @public (undocumented)
+export interface AutomationRulePropertyArrayValuesCondition {
+    // (undocumented)
+    arrayConditionType?: AutomationRulePropertyArrayConditionSupportedArrayConditionType;
+    // (undocumented)
+    arrayType?: AutomationRulePropertyArrayConditionSupportedArrayType;
+    // (undocumented)
+    itemConditions?: AutomationRuleConditionUnion[];
 }
 
 // @public
@@ -825,6 +854,13 @@ export interface BookmarkTimelineItem extends EntityTimelineItem {
 }
 
 // @public
+export interface BooleanConditionProperties extends AutomationRuleCondition {
+    // (undocumented)
+    conditionProperties?: AutomationRuleBooleanCondition;
+    conditionType: "Boolean";
+}
+
+// @public
 export interface ClientInfo {
     email?: string;
     name?: string;
@@ -1005,10 +1041,106 @@ export interface ConnectorInstructionModelBase {
 }
 
 // @public
+export interface ContentPackage {
+    get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, packageId: string, options?: ContentPackageGetOptionalParams): Promise<ContentPackageGetResponse>;
+    install(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, packageId: string, packageInstallationProperties: PackageInstallationProperties, options?: ContentPackageInstallOptionalParams): Promise<ContentPackageInstallResponse>;
+    uninstall(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, packageId: string, options?: ContentPackageUninstallOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ContentPackageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContentPackageGetResponse = PackageModel;
+
+// @public
+export interface ContentPackageInstallOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContentPackageInstallResponse = PackageModel;
+
+// @public
+export interface ContentPackages {
+    list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: ContentPackagesListOptionalParams): PagedAsyncIterableIterator<PackageModel>;
+}
+
+// @public
+export interface ContentPackagesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ContentPackagesListNextResponse = PackageList;
+
+// @public
+export interface ContentPackagesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ContentPackagesListResponse = PackageList;
+
+// @public
+export interface ContentPackageUninstallOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface ContentPathMap {
     contentType?: ContentType;
     path?: string;
 }
+
+// @public
+export interface ContentTemplate {
+    delete(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, templateId: string, options?: ContentTemplateDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, templateId: string, options?: ContentTemplateGetOptionalParams): Promise<ContentTemplateGetResponse>;
+}
+
+// @public
+export interface ContentTemplateDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContentTemplateGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContentTemplateGetResponse = TemplateModel;
+
+// @public
+export interface ContentTemplates {
+    list(resourceGroupName: string, operationalInsightsResourceProvider: string, workspaceName: string, options?: ContentTemplatesListOptionalParams): PagedAsyncIterableIterator<TemplateModel>;
+}
+
+// @public
+export interface ContentTemplatesListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ContentTemplatesListNextResponse = TemplateList;
+
+// @public
+export interface ContentTemplatesListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type ContentTemplatesListResponse = TemplateList;
 
 // @public
 export type ContentType = string;
@@ -1174,6 +1306,9 @@ export interface DataTypeDefinitions {
 
 // @public
 export type DataTypeState = string;
+
+// @public
+export type DeleteStatus = string;
 
 // @public
 export type DeliveryAction = "Unknown" | "DeliveredAsSpam" | "Delivered" | "Blocked" | "Replaced";
@@ -1774,6 +1909,9 @@ export interface FileEntityProperties extends EntityCommonProperties {
 }
 
 // @public
+export type FileFormat = string;
+
+// @public
 export type FileHashAlgorithm = string;
 
 // @public
@@ -1791,6 +1929,101 @@ export interface FileHashEntityProperties extends EntityCommonProperties {
     readonly algorithm?: FileHashAlgorithm;
     readonly hashValue?: string;
 }
+
+// @public
+export interface FileImport extends Resource {
+    contentType?: FileImportContentType;
+    readonly createdTimeUTC?: Date;
+    readonly errorFile?: FileMetadata;
+    readonly errorsPreview?: ValidationError[];
+    readonly filesValidUntilTimeUTC?: Date;
+    importFile?: FileMetadata;
+    readonly importValidUntilTimeUTC?: Date;
+    readonly ingestedRecordCount?: number;
+    ingestionMode?: IngestionMode;
+    source?: string;
+    readonly state?: FileImportState;
+    readonly totalRecordCount?: number;
+    readonly validRecordCount?: number;
+}
+
+// @public
+export type FileImportContentType = string;
+
+// @public
+export interface FileImportList {
+    readonly nextLink?: string;
+    value: FileImport[];
+}
+
+// @public
+export interface FileImports {
+    beginDelete(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams): Promise<PollerLike<PollOperationState<FileImportsDeleteResponse>, FileImportsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams): Promise<FileImportsDeleteResponse>;
+    create(resourceGroupName: string, workspaceName: string, fileImportId: string, fileImport: FileImport, options?: FileImportsCreateOptionalParams): Promise<FileImportsCreateResponse>;
+    get(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsGetOptionalParams): Promise<FileImportsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: FileImportsListOptionalParams): PagedAsyncIterableIterator<FileImport>;
+}
+
+// @public
+export interface FileImportsCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileImportsCreateResponse = FileImport;
+
+// @public
+export interface FileImportsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FileImportsDeleteResponse = FileImport;
+
+// @public
+export interface FileImportsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileImportsGetResponse = FileImport;
+
+// @public
+export interface FileImportsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type FileImportsListNextResponse = FileImportList;
+
+// @public
+export interface FileImportsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type FileImportsListResponse = FileImportList;
+
+// @public
+export type FileImportState = string;
+
+// @public
+export interface FileMetadata {
+    readonly deleteStatus?: DeleteStatus;
+    readonly fileContentUri?: string;
+    fileFormat?: FileFormat;
+    fileName?: string;
+    fileSize?: number;
+}
+
+// @public
+export type Flag = string;
 
 // @public
 export interface FusionAlertRule extends AlertRule {
@@ -2311,6 +2544,9 @@ export type IncidentsRunPlaybookResponse = Record<string, unknown>;
 export type IncidentStatus = string;
 
 // @public
+export type IngestionMode = string;
+
+// @public
 export interface InsightQueryItem extends EntityQueryItem {
     kind: "Insight";
     properties?: InsightQueryItemProperties;
@@ -2585,6 +2821,12 @@ export enum KnownAttackTactic {
 }
 
 // @public
+export enum KnownAutomationRuleBooleanConditionSupportedOperator {
+    And = "And",
+    Or = "Or"
+}
+
+// @public
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
     Alerts = "Alerts",
     Comments = "Comments",
@@ -2595,6 +2837,17 @@ export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
 // @public
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
     Added = "Added"
+}
+
+// @public
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType {
+    AnyItem = "AnyItem"
+}
+
+// @public
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayType {
+    CustomDetails = "CustomDetails",
+    CustomDetailValues = "CustomDetailValues"
 }
 
 // @public
@@ -2647,6 +2900,8 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
     HostNetBiosName = "HostNetBiosName",
     HostNTDomain = "HostNTDomain",
     HostOSVersion = "HostOSVersion",
+    IncidentCustomDetailsKey = "IncidentCustomDetailsKey",
+    IncidentCustomDetailsValue = "IncidentCustomDetailsValue",
     IncidentDescription = "IncidentDescription",
     IncidentLabel = "IncidentLabel",
     IncidentProviderName = "IncidentProviderName",
@@ -2655,6 +2910,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
     IncidentStatus = "IncidentStatus",
     IncidentTactics = "IncidentTactics",
     IncidentTitle = "IncidentTitle",
+    IncidentUpdatedBySource = "IncidentUpdatedBySource",
     IoTDeviceId = "IoTDeviceId",
     IoTDeviceModel = "IoTDeviceModel",
     IoTDeviceName = "IoTDeviceName",
@@ -2683,7 +2939,9 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
 
 // @public
 export enum KnownConditionType {
+    Boolean = "Boolean",
     Property = "Property",
+    PropertyArray = "PropertyArray",
     PropertyArrayChanged = "PropertyArrayChanged",
     PropertyChanged = "PropertyChanged"
 }
@@ -2775,6 +3033,13 @@ export enum KnownDataConnectorLicenseState {
 export enum KnownDataTypeState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDeleteStatus {
+    Deleted = "Deleted",
+    NotDeleted = "NotDeleted",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -2925,12 +3190,43 @@ export enum KnownEventGroupingAggregationKind {
 }
 
 // @public
+export enum KnownFileFormat {
+    CSV = "CSV",
+    Json = "JSON",
+    Unspecified = "Unspecified"
+}
+
+// @public
 export enum KnownFileHashAlgorithm {
     MD5 = "MD5",
     SHA1 = "SHA1",
     SHA256 = "SHA256",
     SHA256AC = "SHA256AC",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownFileImportContentType {
+    BasicIndicator = "BasicIndicator",
+    StixIndicator = "StixIndicator",
+    Unspecified = "Unspecified"
+}
+
+// @public
+export enum KnownFileImportState {
+    FatalError = "FatalError",
+    Ingested = "Ingested",
+    IngestedWithErrors = "IngestedWithErrors",
+    InProgress = "InProgress",
+    Invalid = "Invalid",
+    Unspecified = "Unspecified",
+    WaitingForUpload = "WaitingForUpload"
+}
+
+// @public
+export enum KnownFlag {
+    False = "false",
+    True = "true"
 }
 
 // @public
@@ -2973,6 +3269,13 @@ export enum KnownIncidentStatus {
     Active = "Active",
     Closed = "Closed",
     New = "New"
+}
+
+// @public
+export enum KnownIngestionMode {
+    IngestAnyValidRecords = "IngestAnyValidRecords",
+    IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -3051,6 +3354,12 @@ export enum KnownOwnerType {
     Group = "Group",
     Unknown = "Unknown",
     User = "User"
+}
+
+// @public
+export enum KnownPackageKind {
+    Solution = "Solution",
+    Standalone = "Standalone"
 }
 
 // @public
@@ -3737,6 +4046,7 @@ export interface NrtAlertRule extends AlertRule {
     displayName?: string;
     enabled?: boolean;
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     incidentConfiguration?: IncidentConfiguration;
     readonly lastModifiedUtc?: Date;
     query?: string;
@@ -3759,6 +4069,7 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     description?: string;
     displayName?: string;
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
@@ -4001,6 +4312,49 @@ export type OutputType = string;
 export type OwnerType = string;
 
 // @public
+export interface PackageInstallationProperties {
+    packageKind?: PackageKind;
+    version?: string;
+}
+
+// @public
+export type PackageKind = string;
+
+// @public
+export interface PackageList {
+    readonly nextLink?: string;
+    value: PackageModel[];
+}
+
+// @public
+export interface PackageModel extends ResourceWithEtag {
+    author?: MetadataAuthor;
+    categories?: MetadataCategories;
+    contentSchemaVersion?: string;
+    dependencies?: MetadataDependencies;
+    description?: string;
+    displayName?: string;
+    firstPublishDate?: Date;
+    icon?: string;
+    installedVersion?: string;
+    isFeatured?: Flag;
+    isNew?: Flag;
+    isPreview?: Flag;
+    lastPublishDate?: Date;
+    packageId?: string;
+    packageItems?: string;
+    packageKind?: PackageKind;
+    providers?: string[];
+    publisherDisplayName?: string;
+    resourceId?: string;
+    source?: MetadataSource;
+    support?: MetadataSupport;
+    threatAnalysisTactics?: string[];
+    threatAnalyticsTechniques?: string[];
+    version?: string;
+}
+
+// @public
 export type PermissionProviderScope = string;
 
 // @public
@@ -4098,6 +4452,13 @@ export interface PropertyArrayChangedConditionProperties extends AutomationRuleC
 }
 
 // @public
+export interface PropertyArrayConditionProperties extends AutomationRuleCondition {
+    // (undocumented)
+    conditionProperties?: AutomationRulePropertyArrayValuesCondition;
+    conditionType: "PropertyArray";
+}
+
+// @public
 export interface PropertyChangedConditionProperties extends AutomationRuleCondition {
     // (undocumented)
     conditionProperties?: AutomationRulePropertyValuesChangedCondition;
@@ -4121,6 +4482,7 @@ export interface QueryBasedAlertRuleTemplateProperties {
         [propertyName: string]: string;
     };
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     query?: string;
     severity?: AlertSeverity;
     version?: string;
@@ -4456,6 +4818,14 @@ export class SecurityInsights extends coreClient.ServiceClient {
     // (undocumented)
     bookmarks: Bookmarks;
     // (undocumented)
+    contentPackage: ContentPackage;
+    // (undocumented)
+    contentPackages: ContentPackages;
+    // (undocumented)
+    contentTemplate: ContentTemplate;
+    // (undocumented)
+    contentTemplates: ContentTemplates;
+    // (undocumented)
     dataConnectors: DataConnectors;
     // (undocumented)
     dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
@@ -4473,6 +4843,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     entityQueryTemplates: EntityQueryTemplates;
     // (undocumented)
     entityRelations: EntityRelations;
+    // (undocumented)
+    fileImports: FileImports;
     // (undocumented)
     incidentComments: IncidentComments;
     // (undocumented)
@@ -4791,6 +5163,37 @@ export interface TeamProperties {
     memberIds?: string[];
     teamDescription?: string;
     teamName: string;
+}
+
+// @public
+export interface TemplateList {
+    readonly nextLink?: string;
+    value: TemplateModel[];
+}
+
+// @public
+export interface TemplateModel extends ResourceWithEtag {
+    author?: MetadataAuthor;
+    categories?: MetadataCategories;
+    contentId?: string;
+    contentKind?: Kind;
+    contentSchemaVersion?: string;
+    customVersion?: string;
+    dependencies?: MetadataDependencies;
+    displayName?: string;
+    firstPublishDate?: Date;
+    icon?: string;
+    lastPublishDate?: Date;
+    mainTemplate?: string;
+    parentId?: string;
+    previewImages?: string[];
+    previewImagesDark?: string[];
+    providers?: string[];
+    source?: MetadataSource;
+    support?: MetadataSupport;
+    threatAnalysisTactics?: string[];
+    threatAnalysisTechniques?: string[];
+    version?: string;
 }
 
 // @public
@@ -5251,6 +5654,12 @@ export interface UserInfo {
     readonly email?: string;
     readonly name?: string;
     objectId?: string;
+}
+
+// @public
+export interface ValidationError {
+    readonly errorMessages?: string[];
+    recordIndex?: number;
 }
 
 // @public

@@ -10,7 +10,9 @@ import * as coreClient from "@azure/core-client";
 
 export type AutomationRuleConditionUnion =
   | AutomationRuleCondition
+  | BooleanConditionProperties
   | PropertyArrayChangedConditionProperties
+  | PropertyArrayConditionProperties
   | PropertyChangedConditionProperties
   | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
@@ -242,7 +244,12 @@ export interface AutomationRuleTriggeringLogic {
 /** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
+  conditionType:
+    | "Boolean"
+    | "PropertyArrayChanged"
+    | "PropertyArray"
+    | "PropertyChanged"
+    | "Property";
 }
 
 /** Describes an automation rule action. */
@@ -723,6 +730,48 @@ export interface EntityQueryTemplateList {
   readonly nextLink?: string;
   /** Array of entity query templates. */
   value: EntityQueryTemplateUnion[];
+}
+
+/** List all the file imports. */
+export interface FileImportList {
+  /**
+   * URL to fetch the next set of file imports.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of file imports. */
+  value: FileImport[];
+}
+
+/** Represents a file. */
+export interface FileMetadata {
+  /** The format of the file */
+  fileFormat?: FileFormat;
+  /** The name of the file. */
+  fileName?: string;
+  /** The size of the file. */
+  fileSize?: number;
+  /**
+   * A URI with a valid SAS token to allow uploading / downloading the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileContentUri?: string;
+  /**
+   * Indicates whether the file was deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deleteStatus?: DeleteStatus;
+}
+
+/** Describes an error encountered in the file during validation. */
+export interface ValidationError {
+  /** The number of the record that has the error. */
+  recordIndex?: number;
+  /**
+   * A list of descriptions of the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorMessages?: string[];
 }
 
 /** List all the incidents. */
@@ -1382,6 +1431,36 @@ export interface OperationDisplay {
   resource?: string;
 }
 
+/** List available packages. */
+export interface PackageList {
+  /**
+   * URL to fetch the next set of packages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** Array of packages. */
+  value: PackageModel[];
+}
+
+/** Package installation properties. */
+export interface PackageInstallationProperties {
+  /** package kind. */
+  packageKind?: PackageKind;
+  /** version of the package to be installed. */
+  version?: string;
+}
+
+/** List of all the template. */
+export interface TemplateList {
+  /** Array of templates. */
+  value: TemplateModel[];
+  /**
+   * URL to fetch the next page of template.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** alert rule template data sources */
 export interface AlertRuleTemplateDataSource {
   /** The connector id that provides the following data types */
@@ -1428,6 +1507,8 @@ export interface QueryBasedAlertRuleTemplateProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** The event grouping settings. */
+  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Single entity mapping for the alert rule */
@@ -1456,6 +1537,12 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
+}
+
+/** Event grouping settings property bag. */
+export interface EventGroupingSettings {
+  /** The event grouping aggregation kinds */
+  aggregationKind?: EventGroupingAggregationKind;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1601,10 +1688,9 @@ export interface ScheduledAlertRuleCommonProperties {
   alertDetailsOverride?: AlertDetailsOverride;
 }
 
-/** Event grouping settings property bag. */
-export interface EventGroupingSettings {
-  /** The event grouping aggregation kinds */
-  aggregationKind?: EventGroupingAggregationKind;
+export interface AutomationRuleBooleanCondition {
+  operator?: AutomationRuleBooleanConditionSupportedOperator;
+  innerConditions?: AutomationRuleConditionUnion[];
 }
 
 export interface IncidentPropertiesAction {
@@ -1627,6 +1713,12 @@ export interface IncidentPropertiesAction {
 export interface AutomationRulePropertyArrayChangedValuesCondition {
   arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
   changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+export interface AutomationRulePropertyArrayValuesCondition {
+  arrayType?: AutomationRulePropertyArrayConditionSupportedArrayType;
+  arrayConditionType?: AutomationRulePropertyArrayConditionSupportedArrayConditionType;
+  itemConditions?: AutomationRuleConditionUnion[];
 }
 
 export interface AutomationRulePropertyValuesChangedCondition {
@@ -2175,6 +2267,63 @@ export interface EntityQueryTemplate extends Resource {
   kind: EntityQueryTemplateKind;
 }
 
+/** Represents a file import in Azure Security Insights. */
+export interface FileImport extends Resource {
+  /** Describes how to ingest the records in the file. */
+  ingestionMode?: IngestionMode;
+  /** The content type of this file. */
+  contentType?: FileImportContentType;
+  /**
+   * The time the file was imported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeUTC?: Date;
+  /**
+   * Represents the error file (if the import was ingested with errors or failed the validation).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorFile?: FileMetadata;
+  /**
+   * An ordered list of some of the errors that were encountered during validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errorsPreview?: ValidationError[];
+  /** Represents the imported file. */
+  importFile?: FileMetadata;
+  /**
+   * The number of records that have been successfully ingested.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ingestedRecordCount?: number;
+  /** The source for the data in the file. */
+  source?: string;
+  /**
+   * The state of the file import.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: FileImportState;
+  /**
+   * The number of records in the file.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalRecordCount?: number;
+  /**
+   * The number of records that have passed validation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly validRecordCount?: number;
+  /**
+   * The time the files associated with this import are deleted from the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly filesValidUntilTimeUTC?: Date;
+  /**
+   * The time the file import record is soft deleted from the database and history.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly importValidUntilTimeUTC?: Date;
+}
+
 /** Consent for Office365 tenant that already made. */
 export interface OfficeConsent extends Resource {
   /** The tenantId of the Office365 with the consent. */
@@ -2195,12 +2344,27 @@ export interface ActionRequestProperties extends ActionPropertiesBase {
   triggerUri: string;
 }
 
+/** Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to conditions */
+export interface BooleanConditionProperties extends AutomationRuleCondition {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "Boolean";
+  conditionProperties?: AutomationRuleBooleanCondition;
+}
+
 /** Describes an automation rule condition that evaluates an array property's value change */
 export interface PropertyArrayChangedConditionProperties
   extends AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "PropertyArrayChanged";
   conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
+}
+
+/** Describes an automation rule condition that evaluates an array property's value */
+export interface PropertyArrayConditionProperties
+  extends AutomationRuleCondition {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  conditionType: "PropertyArray";
+  conditionProperties?: AutomationRulePropertyArrayValuesCondition;
 }
 
 /** Describes an automation rule condition that evaluates a property's value change */
@@ -4229,6 +4393,104 @@ export interface DataConnector extends ResourceWithEtag {
   kind: DataConnectorKind;
 }
 
+/** Represents a Package in Azure Security Insights. */
+export interface PackageModel extends ResourceWithEtag {
+  /** The package id */
+  packageId?: string;
+  /** The package kind */
+  packageKind?: PackageKind;
+  /** The version of the installed package, null or absent means not installed. */
+  installedVersion?: string;
+  /** The version of the content schema. */
+  contentSchemaVersion?: string;
+  /** The metadata resource id. */
+  resourceId?: string;
+  /** Flag indicates if this is a newly published package. */
+  isNew?: Flag;
+  /** Flag indicates if this package is in preview. */
+  isPreview?: Flag;
+  /** Flag indicates if this package is among the featured list. */
+  isFeatured?: Flag;
+  /** the latest version number of the package */
+  version?: string;
+  /** The display name of the package */
+  displayName?: string;
+  /** The description of the package */
+  description?: string;
+  /** The publisher display name of the package */
+  publisherDisplayName?: string;
+  /** The source of the package */
+  source?: MetadataSource;
+  /** The author of the package */
+  author?: MetadataAuthor;
+  /** The support tier of the package */
+  support?: MetadataSupport;
+  /** The support tier of the package */
+  dependencies?: MetadataDependencies;
+  /** Providers for the package item */
+  providers?: string[];
+  /** first publish date package item */
+  firstPublishDate?: Date;
+  /** last publish date for the package item */
+  lastPublishDate?: Date;
+  /** The categories of the package */
+  categories?: MetadataCategories;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalyticsTechniques?: string[];
+  /** the icon identifier. this id can later be fetched from the content metadata */
+  icon?: string;
+  /** The JSON string of the package. */
+  packageItems?: string;
+}
+
+/** Template resource definition. */
+export interface TemplateModel extends ResourceWithEtag {
+  /** Static ID for the content.  Used to identify dependencies and content from solutions or community.  Hard-coded/static for out of the box content and solutions. Dynamic for user-created.  This is the resource name */
+  contentId?: string;
+  /** Full parent resource ID of the content item the template is for.  This is the full resource ID including the scope (subscription and resource group) */
+  parentId?: string;
+  /** Version of the content.  Default and recommended format is numeric (e.g. 1, 1.0, 1.0.0, 1.0.0.0), following ARM metadata best practices.  Can also be any string, but then we cannot guarantee any version checks */
+  version?: string;
+  /** The display name of the template */
+  displayName?: string;
+  /** The kind of content the template is for. */
+  contentKind?: Kind;
+  /** Source of the content.  This is where/how it was created. */
+  source?: MetadataSource;
+  /** The creator of the content item. */
+  author?: MetadataAuthor;
+  /** Support information for the template - type, name, contact information */
+  support?: MetadataSupport;
+  /** Dependencies for the content item, what other content items it requires to work.  Can describe more complex dependencies using a recursive/nested structure. For a single dependency an id/kind/version can be supplied or operator/criteria for complex formats. */
+  dependencies?: MetadataDependencies;
+  /** Categories for the  item */
+  categories?: MetadataCategories;
+  /** Providers for the content item */
+  providers?: string[];
+  /** first publish date content item */
+  firstPublishDate?: Date;
+  /** last publish date for the content item */
+  lastPublishDate?: Date;
+  /** The custom version of the content. A optional free text */
+  customVersion?: string;
+  /** Schema version of the content. Can be used to distinguish between different flow based on the schema version */
+  contentSchemaVersion?: string;
+  /** the icon identifier. this id can later be fetched from the content metadata */
+  icon?: string;
+  /** the tactics the resource covers */
+  threatAnalysisTactics?: string[];
+  /** the techniques the resource covers, these have to be aligned with the tactics being used */
+  threatAnalysisTechniques?: string[];
+  /** preview image file names. These will be taken from the solution artifacts */
+  previewImages?: string[];
+  /** preview image file names. These will be taken from the solution artifacts. used for dark theme support */
+  previewImagesDark?: string[];
+  /** The JSON string of the template */
+  mainTemplate?: string;
+}
+
 /** Represents MLBehaviorAnalytics alert rule template. */
 export interface MLBehaviorAnalyticsAlertRuleTemplate
   extends AlertRuleTemplate {
@@ -4443,6 +4705,8 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** The event grouping settings. */
+  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Represents a security alert entity. */
@@ -5864,6 +6128,8 @@ export interface NrtAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
+  /** The event grouping settings. */
+  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Represents Expansion entity query. */
@@ -6369,10 +6635,14 @@ export type TriggersWhen = string;
 export enum KnownConditionType {
   /** Evaluate an object property value */
   Property = "Property",
+  /** Evaluate an object array property value */
+  PropertyArray = "PropertyArray",
   /** Evaluate an object property changed value */
   PropertyChanged = "PropertyChanged",
   /** Evaluate an object array property changed value */
-  PropertyArrayChanged = "PropertyArrayChanged"
+  PropertyArrayChanged = "PropertyArrayChanged",
+  /** Apply a boolean operator (e.g AND, OR) to conditions */
+  Boolean = "Boolean"
 }
 
 /**
@@ -6381,8 +6651,10 @@ export enum KnownConditionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Property**: Evaluate an object property value \
+ * **PropertyArray**: Evaluate an object array property value \
  * **PropertyChanged**: Evaluate an object property changed value \
- * **PropertyArrayChanged**: Evaluate an object array property changed value
+ * **PropertyArrayChanged**: Evaluate an object array property changed value \
+ * **Boolean**: Apply a boolean operator (e.g AND, OR) to conditions
  */
 export type ConditionType = string;
 
@@ -6691,6 +6963,123 @@ export enum KnownEntityQueryTemplateKind {
  * **Activity**
  */
 export type EntityQueryTemplateKind = string;
+
+/** Known values of {@link IngestionMode} that the service accepts. */
+export enum KnownIngestionMode {
+  /** No records should be ingested when invalid records are detected. */
+  IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
+  /** Valid records should still be ingested when invalid records are detected. */
+  IngestAnyValidRecords = "IngestAnyValidRecords",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for IngestionMode. \
+ * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IngestOnlyIfAllAreValid**: No records should be ingested when invalid records are detected. \
+ * **IngestAnyValidRecords**: Valid records should still be ingested when invalid records are detected. \
+ * **Unspecified**: Unspecified
+ */
+export type IngestionMode = string;
+
+/** Known values of {@link FileImportContentType} that the service accepts. */
+export enum KnownFileImportContentType {
+  /** File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. */
+  BasicIndicator = "BasicIndicator",
+  /** File containing STIX indicators. */
+  StixIndicator = "StixIndicator",
+  /** File containing other records. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportContentType. \
+ * {@link KnownFileImportContentType} can be used interchangeably with FileImportContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BasicIndicator**: File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. \
+ * **StixIndicator**: File containing STIX indicators. \
+ * **Unspecified**: File containing other records.
+ */
+export type FileImportContentType = string;
+
+/** Known values of {@link FileFormat} that the service accepts. */
+export enum KnownFileFormat {
+  /** A CSV file. */
+  CSV = "CSV",
+  /** A JSON file. */
+  Json = "JSON",
+  /** A file of other format. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileFormat. \
+ * {@link KnownFileFormat} can be used interchangeably with FileFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CSV**: A CSV file. \
+ * **JSON**: A JSON file. \
+ * **Unspecified**: A file of other format.
+ */
+export type FileFormat = string;
+
+/** Known values of {@link DeleteStatus} that the service accepts. */
+export enum KnownDeleteStatus {
+  /** The file was deleted. */
+  Deleted = "Deleted",
+  /** The file was not deleted. */
+  NotDeleted = "NotDeleted",
+  /** Unspecified */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for DeleteStatus. \
+ * {@link KnownDeleteStatus} can be used interchangeably with DeleteStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Deleted**: The file was deleted. \
+ * **NotDeleted**: The file was not deleted. \
+ * **Unspecified**: Unspecified
+ */
+export type DeleteStatus = string;
+
+/** Known values of {@link FileImportState} that the service accepts. */
+export enum KnownFileImportState {
+  /** A fatal error has occurred while ingesting the file. */
+  FatalError = "FatalError",
+  /** The file has been ingested. */
+  Ingested = "Ingested",
+  /** The file has been ingested with errors. */
+  IngestedWithErrors = "IngestedWithErrors",
+  /** The file ingestion is in progress. */
+  InProgress = "InProgress",
+  /** The file is invalid. */
+  Invalid = "Invalid",
+  /** Waiting for the file to be uploaded. */
+  WaitingForUpload = "WaitingForUpload",
+  /** Unspecified state. */
+  Unspecified = "Unspecified"
+}
+
+/**
+ * Defines values for FileImportState. \
+ * {@link KnownFileImportState} can be used interchangeably with FileImportState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FatalError**: A fatal error has occurred while ingesting the file. \
+ * **Ingested**: The file has been ingested. \
+ * **IngestedWithErrors**: The file has been ingested with errors. \
+ * **InProgress**: The file ingestion is in progress. \
+ * **Invalid**: The file is invalid. \
+ * **WaitingForUpload**: Waiting for the file to be uploaded. \
+ * **Unspecified**: Unspecified state.
+ */
+export type FileImportState = string;
 
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
@@ -7421,6 +7810,42 @@ export enum KnownDataConnectorLicenseState {
  */
 export type DataConnectorLicenseState = string;
 
+/** Known values of {@link PackageKind} that the service accepts. */
+export enum KnownPackageKind {
+  /** Solution */
+  Solution = "Solution",
+  /** Standalone */
+  Standalone = "Standalone"
+}
+
+/**
+ * Defines values for PackageKind. \
+ * {@link KnownPackageKind} can be used interchangeably with PackageKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Solution** \
+ * **Standalone**
+ */
+export type PackageKind = string;
+
+/** Known values of {@link Flag} that the service accepts. */
+export enum KnownFlag {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for Flag. \
+ * {@link KnownFlag} can be used interchangeably with Flag,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type Flag = string;
+
 /** Known values of {@link TemplateStatus} that the service accepts. */
 export enum KnownTemplateStatus {
   /** Alert rule template installed. and can not use more then once */
@@ -7508,6 +7933,24 @@ export enum KnownEntityMappingType {
  */
 export type EntityMappingType = string;
 
+/** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
+export enum KnownEventGroupingAggregationKind {
+  /** SingleAlert */
+  SingleAlert = "SingleAlert",
+  /** AlertPerResult */
+  AlertPerResult = "AlertPerResult"
+}
+
+/**
+ * Defines values for EventGroupingAggregationKind. \
+ * {@link KnownEventGroupingAggregationKind} can be used interchangeably with EventGroupingAggregationKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleAlert** \
+ * **AlertPerResult**
+ */
+export type EventGroupingAggregationKind = string;
+
 /** Known values of {@link MicrosoftSecurityProductName} that the service accepts. */
 export enum KnownMicrosoftSecurityProductName {
   /** MicrosoftCloudAppSecurity */
@@ -7580,23 +8023,23 @@ export enum KnownAlertDetail {
  */
 export type AlertDetail = string;
 
-/** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
-export enum KnownEventGroupingAggregationKind {
-  /** SingleAlert */
-  SingleAlert = "SingleAlert",
-  /** AlertPerResult */
-  AlertPerResult = "AlertPerResult"
+/** Known values of {@link AutomationRuleBooleanConditionSupportedOperator} that the service accepts. */
+export enum KnownAutomationRuleBooleanConditionSupportedOperator {
+  /** Evaluates as true if all the item conditions are evaluated as true */
+  And = "And",
+  /** Evaluates as true if at least one of the item conditions are evaluated as true */
+  Or = "Or"
 }
 
 /**
- * Defines values for EventGroupingAggregationKind. \
- * {@link KnownEventGroupingAggregationKind} can be used interchangeably with EventGroupingAggregationKind,
+ * Defines values for AutomationRuleBooleanConditionSupportedOperator. \
+ * {@link KnownAutomationRuleBooleanConditionSupportedOperator} can be used interchangeably with AutomationRuleBooleanConditionSupportedOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **SingleAlert** \
- * **AlertPerResult**
+ * **And**: Evaluates as true if all the item conditions are evaluated as true \
+ * **Or**: Evaluates as true if at least one of the item conditions are evaluated as true
  */
-export type EventGroupingAggregationKind = string;
+export type AutomationRuleBooleanConditionSupportedOperator = string;
 
 /** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedArrayType} that the service accepts. */
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
@@ -7636,6 +8079,39 @@ export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType 
  * **Added**: Evaluate the condition on items added to the array
  */
 export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
+
+/** Known values of {@link AutomationRulePropertyArrayConditionSupportedArrayType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayType {
+  /** Evaluate the condition on the custom detail keys */
+  CustomDetails = "CustomDetails",
+  /** Evaluate the condition on a custom detail's values */
+  CustomDetailValues = "CustomDetailValues"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayConditionSupportedArrayType. \
+ * {@link KnownAutomationRulePropertyArrayConditionSupportedArrayType} can be used interchangeably with AutomationRulePropertyArrayConditionSupportedArrayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CustomDetails**: Evaluate the condition on the custom detail keys \
+ * **CustomDetailValues**: Evaluate the condition on a custom detail's values
+ */
+export type AutomationRulePropertyArrayConditionSupportedArrayType = string;
+
+/** Known values of {@link AutomationRulePropertyArrayConditionSupportedArrayConditionType} that the service accepts. */
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType {
+  /** Evaluate the condition as true if any item fulfills it */
+  AnyItem = "AnyItem"
+}
+
+/**
+ * Defines values for AutomationRulePropertyArrayConditionSupportedArrayConditionType. \
+ * {@link KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType} can be used interchangeably with AutomationRulePropertyArrayConditionSupportedArrayConditionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AnyItem**: Evaluate the condition as true if any item fulfills it
+ */
+export type AutomationRulePropertyArrayConditionSupportedArrayConditionType = string;
 
 /** Known values of {@link AutomationRulePropertyChangedConditionSupportedPropertyType} that the service accepts. */
 export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
@@ -7730,6 +8206,12 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   IncidentLabel = "IncidentLabel",
   /** The provider name of the incident */
   IncidentProviderName = "IncidentProviderName",
+  /** The update source of the incident */
+  IncidentUpdatedBySource = "IncidentUpdatedBySource",
+  /** The incident custom detail key */
+  IncidentCustomDetailsKey = "IncidentCustomDetailsKey",
+  /** The incident custom detail value */
+  IncidentCustomDetailsValue = "IncidentCustomDetailsValue",
   /** The account Azure Active Directory tenant id */
   AccountAadTenantId = "AccountAadTenantId",
   /** The account Azure Active Directory user id */
@@ -7839,6 +8321,9 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **IncidentTactics**: The tactics of the incident \
  * **IncidentLabel**: The labels of the incident \
  * **IncidentProviderName**: The provider name of the incident \
+ * **IncidentUpdatedBySource**: The update source of the incident \
+ * **IncidentCustomDetailsKey**: The incident custom detail key \
+ * **IncidentCustomDetailsValue**: The incident custom detail value \
  * **AccountAadTenantId**: The account Azure Active Directory tenant id \
  * **AccountAadUserId**: The account Azure Active Directory user id \
  * **AccountName**: The account name \
@@ -8814,6 +9299,64 @@ export interface EntityQueryTemplatesListNextOptionalParams
 export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
 
 /** Optional parameters. */
+export interface FileImportsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type FileImportsListResponse = FileImportList;
+
+/** Optional parameters. */
+export interface FileImportsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FileImportsGetResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type FileImportsCreateResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type FileImportsDeleteResponse = FileImport;
+
+/** Optional parameters. */
+export interface FileImportsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type FileImportsListNextResponse = FileImportList;
+
+/** Optional parameters. */
 export interface IncidentCommentsListOptionalParams
   extends coreClient.OperationOptions {
   /** Filters the results, based on a Boolean condition. Optional. */
@@ -9354,6 +9897,99 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationsList;
+
+/** Optional parameters. */
+export interface ContentPackagesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ContentPackagesListResponse = PackageList;
+
+/** Optional parameters. */
+export interface ContentPackagesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ContentPackagesListNextResponse = PackageList;
+
+/** Optional parameters. */
+export interface ContentPackageGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContentPackageGetResponse = PackageModel;
+
+/** Optional parameters. */
+export interface ContentPackageInstallOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the install operation. */
+export type ContentPackageInstallResponse = PackageModel;
+
+/** Optional parameters. */
+export interface ContentPackageUninstallOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContentTemplatesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ContentTemplatesListResponse = TemplateList;
+
+/** Optional parameters. */
+export interface ContentTemplatesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Filters the results, based on a Boolean condition. Optional. */
+  filter?: string;
+  /** Sorts the results. Optional. */
+  orderby?: string;
+  /** Returns only the first n results. Optional. */
+  top?: number;
+  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
+  skipToken?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ContentTemplatesListNextResponse = TemplateList;
+
+/** Optional parameters. */
+export interface ContentTemplateGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContentTemplateGetResponse = TemplateModel;
+
+/** Optional parameters. */
+export interface ContentTemplateDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SecurityInsightsOptionalParams

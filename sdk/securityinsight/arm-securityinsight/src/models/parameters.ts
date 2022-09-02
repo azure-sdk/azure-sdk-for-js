@@ -25,6 +25,7 @@ import {
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
+  FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
@@ -39,7 +40,8 @@ import {
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
   DataConnectorConnectBody as DataConnectorConnectBodyMapper,
-  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper
+  DataConnectorsCheckRequirements as DataConnectorsCheckRequirementsMapper,
+  PackageInstallationProperties as PackageInstallationPropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -69,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -427,6 +429,22 @@ export const entityQueryTemplateId: OperationURLParameter = {
   }
 };
 
+export const fileImportId: OperationURLParameter = {
+  parameterPath: "fileImportId",
+  mapper: {
+    serializedName: "fileImportId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileImport: OperationParameter = {
+  parameterPath: "fileImport",
+  mapper: FileImportMapper
+};
+
 export const incidentCommentId: OperationURLParameter = {
   parameterPath: "incidentCommentId",
   mapper: {
@@ -647,4 +665,42 @@ export const connectBody: OperationParameter = {
 export const dataConnectorsCheckRequirements: OperationParameter = {
   parameterPath: "dataConnectorsCheckRequirements",
   mapper: DataConnectorsCheckRequirementsMapper
+};
+
+export const operationalInsightsResourceProvider: OperationURLParameter = {
+  parameterPath: "operationalInsightsResourceProvider",
+  mapper: {
+    serializedName: "operationalInsightsResourceProvider",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageId: OperationURLParameter = {
+  parameterPath: "packageId",
+  mapper: {
+    serializedName: "packageId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const packageInstallationProperties: OperationParameter = {
+  parameterPath: "packageInstallationProperties",
+  mapper: PackageInstallationPropertiesMapper
+};
+
+export const templateId: OperationURLParameter = {
+  parameterPath: "templateId",
+  mapper: {
+    serializedName: "templateId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
