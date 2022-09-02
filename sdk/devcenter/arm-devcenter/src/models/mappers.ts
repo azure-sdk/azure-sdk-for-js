@@ -632,6 +632,35 @@ export const EnvironmentTypeUpdate: coreClient.CompositeMapper = {
   }
 };
 
+export const AllowedEnvironmentTypeListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AllowedEnvironmentTypeListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AllowedEnvironmentType"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProjectEnvironmentTypeListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1742,6 +1771,23 @@ export const EnvironmentType: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AllowedEnvironmentType: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AllowedEnvironmentType",
+    modelProperties: {
+      ...Resource.type.modelProperties,
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
