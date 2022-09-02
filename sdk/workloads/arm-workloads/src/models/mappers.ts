@@ -4401,6 +4401,12 @@ export const Monitor: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      zoneRedundancyPreference: {
+        serializedName: "properties.zoneRedundancyPreference",
+        type: {
+          name: "String"
+        }
+      },
       managedResourceGroupConfiguration: {
         serializedName: "properties.managedResourceGroupConfiguration",
         type: {
