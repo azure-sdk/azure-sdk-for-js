@@ -1840,6 +1840,11 @@
       "packageName": "@azure/arm-agrifood",
       "projectFolder": "sdk/agrifood/arm-agrifood",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-recommendationsservice",
+      "projectFolder": "sdk/recommendationsservice/arm-recommendationsservice",
+      "versionPolicyName": "management"
     }
   ]
 }
