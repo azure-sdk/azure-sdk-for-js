@@ -94,6 +94,7 @@ export interface NginxConfiguration {
 export interface NginxConfigurationProperties {
   provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationFile[];
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }

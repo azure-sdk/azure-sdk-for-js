@@ -332,6 +332,18 @@ export const NginxConfigurationProperties: coreClient.CompositeMapper = {
           }
         }
       },
+      protectedFiles: {
+        serializedName: "protectedFiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxConfigurationFile"
+            }
+          }
+        }
+      },
       package: {
         serializedName: "package",
         type: {

@@ -321,6 +321,8 @@ export interface NginxConfigurationProperties {
     // (undocumented)
     package?: NginxConfigurationPackage;
     // (undocumented)
+    protectedFiles?: NginxConfigurationFile[];
+    // (undocumented)
     provisioningState?: ProvisioningState;
     // (undocumented)
     rootFile?: string;
