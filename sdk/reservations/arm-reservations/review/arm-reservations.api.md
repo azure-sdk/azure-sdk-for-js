@@ -386,449 +386,263 @@ export type InstanceFlexibility = string;
 
 // @public
 export enum KnownAppliedScopeType {
-    // (undocumented)
     Shared = "Shared",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
 export enum KnownCalculateExchangeOperationResultStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDisplayProvisioningState {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Expiring = "Expiring",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Processing = "Processing",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownErrorResponseCode {
-    // (undocumented)
     ActivateQuoteFailed = "ActivateQuoteFailed",
-    // (undocumented)
     AppliedScopesNotAssociatedWithCommerceAccount = "AppliedScopesNotAssociatedWithCommerceAccount",
-    // (undocumented)
     AppliedScopesSameAsExisting = "AppliedScopesSameAsExisting",
-    // (undocumented)
     AuthorizationFailed = "AuthorizationFailed",
-    // (undocumented)
     BadRequest = "BadRequest",
-    // (undocumented)
     BillingCustomerInputError = "BillingCustomerInputError",
-    // (undocumented)
     BillingError = "BillingError",
-    // (undocumented)
     BillingPaymentInstrumentHardError = "BillingPaymentInstrumentHardError",
-    // (undocumented)
     BillingPaymentInstrumentSoftError = "BillingPaymentInstrumentSoftError",
-    // (undocumented)
     BillingScopeIdCannotBeChanged = "BillingScopeIdCannotBeChanged",
-    // (undocumented)
     BillingTransientError = "BillingTransientError",
-    // (undocumented)
     CalculatePriceFailed = "CalculatePriceFailed",
-    // (undocumented)
     CapacityUpdateScopesFailed = "CapacityUpdateScopesFailed",
-    // (undocumented)
     ClientCertificateThumbprintNotSet = "ClientCertificateThumbprintNotSet",
-    // (undocumented)
     CreateQuoteFailed = "CreateQuoteFailed",
-    // (undocumented)
     Forbidden = "Forbidden",
-    // (undocumented)
     FulfillmentConfigurationError = "FulfillmentConfigurationError",
-    // (undocumented)
     FulfillmentError = "FulfillmentError",
-    // (undocumented)
     FulfillmentOutOfStockError = "FulfillmentOutOfStockError",
-    // (undocumented)
     FulfillmentTransientError = "FulfillmentTransientError",
-    // (undocumented)
     HttpMethodNotSupported = "HttpMethodNotSupported",
-    // (undocumented)
     InternalServerError = "InternalServerError",
-    // (undocumented)
     InvalidAccessToken = "InvalidAccessToken",
-    // (undocumented)
     InvalidFulfillmentRequestParameters = "InvalidFulfillmentRequestParameters",
-    // (undocumented)
     InvalidHealthCheckType = "InvalidHealthCheckType",
-    // (undocumented)
     InvalidLocationId = "InvalidLocationId",
-    // (undocumented)
     InvalidRefundQuantity = "InvalidRefundQuantity",
-    // (undocumented)
     InvalidRequestContent = "InvalidRequestContent",
-    // (undocumented)
     InvalidRequestUri = "InvalidRequestUri",
-    // (undocumented)
     InvalidReservationId = "InvalidReservationId",
-    // (undocumented)
     InvalidReservationOrderId = "InvalidReservationOrderId",
-    // (undocumented)
     InvalidSingleAppliedScopesCount = "InvalidSingleAppliedScopesCount",
-    // (undocumented)
     InvalidSubscriptionId = "InvalidSubscriptionId",
-    // (undocumented)
     InvalidTenantId = "InvalidTenantId",
-    // (undocumented)
     MissingAppliedScopesForSingle = "MissingAppliedScopesForSingle",
-    // (undocumented)
     MissingTenantId = "MissingTenantId",
-    // (undocumented)
     NonsupportedAccountId = "NonsupportedAccountId",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     NotSupportedCountry = "NotSupportedCountry",
-    // (undocumented)
     NoValidReservationsToReRate = "NoValidReservationsToReRate",
-    // (undocumented)
     OperationCannotBePerformedInCurrentState = "OperationCannotBePerformedInCurrentState",
-    // (undocumented)
     OperationFailed = "OperationFailed",
-    // (undocumented)
     PatchValuesSameAsExisting = "PatchValuesSameAsExisting",
-    // (undocumented)
     PaymentInstrumentNotFound = "PaymentInstrumentNotFound",
-    // (undocumented)
     PurchaseError = "PurchaseError",
-    // (undocumented)
     ReRateOnlyAllowedForEA = "ReRateOnlyAllowedForEA",
-    // (undocumented)
     ReservationIdNotInReservationOrder = "ReservationIdNotInReservationOrder",
-    // (undocumented)
     ReservationOrderCreationFailed = "ReservationOrderCreationFailed",
-    // (undocumented)
     ReservationOrderIdAlreadyExists = "ReservationOrderIdAlreadyExists",
-    // (undocumented)
     ReservationOrderNotEnabled = "ReservationOrderNotEnabled",
-    // (undocumented)
     ReservationOrderNotFound = "ReservationOrderNotFound",
-    // (undocumented)
     RiskCheckFailed = "RiskCheckFailed",
-    // (undocumented)
     RoleAssignmentCreationFailed = "RoleAssignmentCreationFailed",
-    // (undocumented)
     ServerTimeout = "ServerTimeout",
-    // (undocumented)
     UnauthenticatedRequestsThrottled = "UnauthenticatedRequestsThrottled",
-    // (undocumented)
     UnsupportedReservationTerm = "UnsupportedReservationTerm"
 }
 
 // @public
 export enum KnownExchangeOperationResultStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     PendingPurchases = "PendingPurchases",
-    // (undocumented)
     PendingRefunds = "PendingRefunds",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownInstanceFlexibility {
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On"
 }
 
 // @public
 export enum KnownLocation {
-    // (undocumented)
     Australiaeast = "australiaeast",
-    // (undocumented)
     Australiasoutheast = "australiasoutheast",
-    // (undocumented)
     Brazilsouth = "brazilsouth",
-    // (undocumented)
     Canadacentral = "canadacentral",
-    // (undocumented)
     Canadaeast = "canadaeast",
-    // (undocumented)
     Centralindia = "centralindia",
-    // (undocumented)
     Centralus = "centralus",
-    // (undocumented)
     Eastasia = "eastasia",
-    // (undocumented)
     Eastus = "eastus",
-    // (undocumented)
     Eastus2 = "eastus2",
-    // (undocumented)
     Japaneast = "japaneast",
-    // (undocumented)
     Japanwest = "japanwest",
-    // (undocumented)
     Northcentralus = "northcentralus",
-    // (undocumented)
     Northeurope = "northeurope",
-    // (undocumented)
     Southcentralus = "southcentralus",
-    // (undocumented)
     Southeastasia = "southeastasia",
-    // (undocumented)
     Southindia = "southindia",
-    // (undocumented)
     Uksouth = "uksouth",
-    // (undocumented)
     Ukwest = "ukwest",
-    // (undocumented)
     Westcentralus = "westcentralus",
-    // (undocumented)
     Westeurope = "westeurope",
-    // (undocumented)
     Westindia = "westindia",
-    // (undocumented)
     Westus = "westus",
-    // (undocumented)
     Westus2 = "westus2"
 }
 
 // @public
 export enum KnownOperationStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPaymentStatus {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     BillingFailed = "BillingFailed",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     ConfirmedBilling = "ConfirmedBilling",
-    // (undocumented)
     ConfirmedResourceHold = "ConfirmedResourceHold",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Merged = "Merged",
-    // (undocumented)
     PendingBilling = "PendingBilling",
-    // (undocumented)
     PendingResourceHold = "PendingResourceHold",
-    // (undocumented)
     Split = "Split",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownQuotaRequestState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReservationBillingPlan {
-    // (undocumented)
     Monthly = "Monthly",
-    // (undocumented)
     Upfront = "Upfront"
 }
 
 // @public
 export enum KnownReservationStatusCode {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Expired = "Expired",
-    // (undocumented)
     Merged = "Merged",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     PaymentInstrumentError = "PaymentInstrumentError",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Processing = "Processing",
-    // (undocumented)
     PurchaseError = "PurchaseError",
-    // (undocumented)
     Split = "Split",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownReservationTerm {
-    // (undocumented)
     P1Y = "P1Y",
-    // (undocumented)
     P3Y = "P3Y",
-    // (undocumented)
     P5Y = "P5Y"
 }
 
 // @public
 export enum KnownReservedResourceType {
-    // (undocumented)
     AppService = "AppService",
-    // (undocumented)
     AVS = "AVS",
-    // (undocumented)
     AzureDataExplorer = "AzureDataExplorer",
-    // (undocumented)
     AzureFiles = "AzureFiles",
-    // (undocumented)
     BlockBlob = "BlockBlob",
-    // (undocumented)
     CosmosDb = "CosmosDb",
-    // (undocumented)
     Databricks = "Databricks",
-    // (undocumented)
     DataFactory = "DataFactory",
-    // (undocumented)
     DedicatedHost = "DedicatedHost",
-    // (undocumented)
     ManagedDisk = "ManagedDisk",
-    // (undocumented)
     MariaDb = "MariaDb",
-    // (undocumented)
     MySql = "MySql",
-    // (undocumented)
     NetAppStorage = "NetAppStorage",
-    // (undocumented)
     PostgreSql = "PostgreSql",
-    // (undocumented)
     RedHat = "RedHat",
-    // (undocumented)
     RedHatOsa = "RedHatOsa",
-    // (undocumented)
     RedisCache = "RedisCache",
-    // (undocumented)
     SapHana = "SapHana",
-    // (undocumented)
     SqlAzureHybridBenefit = "SqlAzureHybridBenefit",
-    // (undocumented)
     SqlDatabases = "SqlDatabases",
-    // (undocumented)
     SqlDataWarehouse = "SqlDataWarehouse",
-    // (undocumented)
     SqlEdge = "SqlEdge",
-    // (undocumented)
     SuseLinux = "SuseLinux",
-    // (undocumented)
     VirtualMachines = "VirtualMachines",
-    // (undocumented)
     VirtualMachineSoftware = "VirtualMachineSoftware",
-    // (undocumented)
     VMwareCloudSimple = "VMwareCloudSimple"
 }
 
 // @public
 export enum KnownResourceType {
-    // (undocumented)
     Dedicated = "dedicated",
-    // (undocumented)
     LowPriority = "lowPriority",
-    // (undocumented)
     ServiceSpecific = "serviceSpecific",
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     Standard = "standard"
 }
 
 // @public
 export enum KnownUserFriendlyAppliedScopeType {
-    // (undocumented)
     ManagementGroup = "ManagementGroup",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ResourceGroup = "ResourceGroup",
-    // (undocumented)
     Shared = "Shared",
-    // (undocumented)
     Single = "Single"
 }
 
 // @public
 export enum KnownUserFriendlyRenewState {
-    // (undocumented)
     NotApplicable = "NotApplicable",
-    // (undocumented)
     NotRenewed = "NotRenewed",
-    // (undocumented)
     Off = "Off",
-    // (undocumented)
     On = "On",
-    // (undocumented)
     Renewed = "Renewed"
 }
 
@@ -1164,6 +978,7 @@ export interface RenewPropertiesResponsePricingCurrencyTotal {
 
 // @public
 export interface Reservation {
+    archive(reservationOrderId: string, reservationId: string, options?: ReservationArchiveOptionalParams): Promise<void>;
     beginAvailableScopes(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<PollerLike<PollOperationState<ReservationAvailableScopesResponse>, ReservationAvailableScopesResponse>>;
     beginAvailableScopesAndWait(reservationOrderId: string, reservationId: string, body: AvailableScopeRequest, options?: ReservationAvailableScopesOptionalParams): Promise<ReservationAvailableScopesResponse>;
     beginMerge(reservationOrderId: string, body: MergeRequest, options?: ReservationMergeOptionalParams): Promise<PollerLike<PollOperationState<ReservationMergeResponse>, ReservationMergeResponse>>;
@@ -1176,6 +991,11 @@ export interface Reservation {
     list(reservationOrderId: string, options?: ReservationListOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
     listAll(options?: ReservationListAllOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
     listRevisions(reservationId: string, reservationOrderId: string, options?: ReservationListRevisionsOptionalParams): PagedAsyncIterableIterator<ReservationResponse>;
+    unarchive(reservationOrderId: string, reservationId: string, options?: ReservationUnarchiveOptionalParams): Promise<void>;
+}
+
+// @public
+export interface ReservationArchiveOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1505,6 +1325,10 @@ export interface ReservationToReturnForExchange {
     quantity?: number;
     reservationId?: string;
     status?: OperationStatus;
+}
+
+// @public
+export interface ReservationUnarchiveOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public

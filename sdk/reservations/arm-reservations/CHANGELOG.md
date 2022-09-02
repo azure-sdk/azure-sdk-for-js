@@ -1,5 +1,15 @@
 # Release History
     
+## 7.2.0 (2022-09-02)
+    
+**Features**
+
+  - Added operation Reservation.archive
+  - Added operation Reservation.unarchive
+  - Added Interface ReservationArchiveOptionalParams
+  - Added Interface ReservationUnarchiveOptionalParams
+    
+    
 ## 7.1.0 (2022-04-20)
     
 **Features**
