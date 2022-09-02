@@ -143,6 +143,19 @@ export interface ClusterList {
   readonly nextLink?: string;
 }
 
+/** Software Assurance properties of the cluster. */
+export interface SoftwareAssuranceProperties {
+  /** Status of the Software Assurance for the cluster. */
+  softwareAssuranceStatus?: SoftwareAssuranceStatus;
+  /** Customer Intent for Software Assurance Benefit. */
+  softwareAssuranceIntent?: SoftwareAssuranceIntent;
+  /**
+   * TimeStamp denoting the latest SA benefit applicability is validated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdated?: Date;
+}
+
 /** Desired properties of the cluster. */
 export interface ClusterDesiredProperties {
   /** Desired state of Windows Server Subscription. */
@@ -205,6 +218,11 @@ export interface ClusterNode {
    */
   readonly windowsServerSubscription?: WindowsServerSubscription;
   /**
+   * Type of the cluster node hardware.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeType?: ClusterNodeType;
+  /**
    * Manufacturer of the cluster node hardware.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -224,6 +242,11 @@ export interface ClusterNode {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
+  /**
+   * Display version of the operating system running on the cluster node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osDisplayVersion?: string;
   /**
    * Immutable id of the cluster node.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -269,6 +292,15 @@ export interface ClusterIdentityResponse {
   aadTenantId?: string;
   aadServicePrincipalObjectId?: string;
   aadApplicationObjectId?: string;
+}
+
+export interface SoftwareAssuranceChangeRequest {
+  properties?: SoftwareAssuranceChangeRequestProperties;
+}
+
+export interface SoftwareAssuranceChangeRequestProperties {
+  /** Customer Intent for Software Assurance Benefit. */
+  softwareAssuranceIntent?: SoftwareAssuranceIntent;
 }
 
 /** List of Extensions in HCI cluster. */
@@ -375,18 +407,18 @@ export interface ArcConnectivityProperties {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** ArcSetting details. */
-export type ArcSetting = ProxyResource & {
+export interface ArcSetting extends ProxyResource {
   /**
    * Provisioning state of the ArcSetting proxy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -426,10 +458,10 @@ export type ArcSetting = ProxyResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Details of a particular extension in HCI Cluster. */
-export type Extension = ProxyResource & {
+export interface Extension extends ProxyResource {
   /**
    * Provisioning state of the Extension proxy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -471,10 +503,10 @@ export type Extension = ProxyResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Cluster details. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /**
    * Provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -500,6 +532,8 @@ export type Cluster = TrackedResource & {
   aadApplicationObjectId?: string;
   /** Id of cluster identity service principal. */
   aadServicePrincipalObjectId?: string;
+  /** Software Assurance properties of the cluster. */
+  softwareAssuranceProperties?: SoftwareAssuranceProperties;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
   /**
@@ -549,13 +583,17 @@ export type Cluster = TrackedResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -573,10 +611,15 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Provisioning */
   Provisioning = "Provisioning"
 }
 
@@ -595,20 +638,35 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ArcSettingAggregateState} that the service accepts. */
 export enum KnownArcSettingAggregateState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** PartiallySucceeded */
   PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -637,17 +695,29 @@ export type ArcSettingAggregateState = string;
 
 /** Known values of {@link NodeArcState} that the service accepts. */
 export enum KnownNodeArcState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -673,10 +743,15 @@ export type NodeArcState = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** NotYetRegistered */
   NotYetRegistered = "NotYetRegistered",
+  /** ConnectedRecently */
   ConnectedRecently = "ConnectedRecently",
+  /** NotConnectedRecently */
   NotConnectedRecently = "NotConnectedRecently",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Error */
   Error = "Error"
 }
 
@@ -693,9 +768,47 @@ export enum KnownStatus {
  */
 export type Status = string;
 
+/** Known values of {@link SoftwareAssuranceStatus} that the service accepts. */
+export enum KnownSoftwareAssuranceStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for SoftwareAssuranceStatus. \
+ * {@link KnownSoftwareAssuranceStatus} can be used interchangeably with SoftwareAssuranceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type SoftwareAssuranceStatus = string;
+
+/** Known values of {@link SoftwareAssuranceIntent} that the service accepts. */
+export enum KnownSoftwareAssuranceIntent {
+  /** Enable */
+  Enable = "Enable",
+  /** Disable */
+  Disable = "Disable"
+}
+
+/**
+ * Defines values for SoftwareAssuranceIntent. \
+ * {@link KnownSoftwareAssuranceIntent} can be used interchangeably with SoftwareAssuranceIntent,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enable** \
+ * **Disable**
+ */
+export type SoftwareAssuranceIntent = string;
+
 /** Known values of {@link WindowsServerSubscription} that the service accepts. */
 export enum KnownWindowsServerSubscription {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -711,8 +824,11 @@ export type WindowsServerSubscription = string;
 
 /** Known values of {@link DiagnosticLevel} that the service accepts. */
 export enum KnownDiagnosticLevel {
+  /** Off */
   Off = "Off",
+  /** Basic */
   Basic = "Basic",
+  /** Enhanced */
   Enhanced = "Enhanced"
 }
 
@@ -727,9 +843,29 @@ export enum KnownDiagnosticLevel {
  */
 export type DiagnosticLevel = string;
 
+/** Known values of {@link ClusterNodeType} that the service accepts. */
+export enum KnownClusterNodeType {
+  /** FirstParty */
+  FirstParty = "FirstParty",
+  /** ThirdParty */
+  ThirdParty = "ThirdParty"
+}
+
+/**
+ * Defines values for ClusterNodeType. \
+ * {@link KnownClusterNodeType} can be used interchangeably with ClusterNodeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FirstParty** \
+ * **ThirdParty**
+ */
+export type ClusterNodeType = string;
+
 /** Known values of {@link ImdsAttestation} that the service accepts. */
 export enum KnownImdsAttestation {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -745,20 +881,35 @@ export type ImdsAttestation = string;
 
 /** Known values of {@link ExtensionAggregateState} that the service accepts. */
 export enum KnownExtensionAggregateState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** PartiallySucceeded */
   PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -787,17 +938,29 @@ export type ExtensionAggregateState = string;
 
 /** Known values of {@link NodeExtensionState} that the service accepts. */
 export enum KnownNodeExtensionState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -823,8 +986,11 @@ export type NodeExtensionState = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -841,6 +1007,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -980,6 +1147,18 @@ export interface ClustersCreateIdentityOptionalParams
 
 /** Contains response data for the createIdentity operation. */
 export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
+
+/** Optional parameters. */
+export interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the extendSoftwareAssuranceBenefit operation. */
+export type ClustersExtendSoftwareAssuranceBenefitResponse = Cluster;
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams

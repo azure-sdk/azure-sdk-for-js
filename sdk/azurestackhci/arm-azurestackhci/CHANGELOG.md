@@ -1,15 +1,31 @@
 # Release History
+    
+## 3.1.0 (2022-09-02)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Clusters.beginExtendSoftwareAssuranceBenefit
+  - Added operation Clusters.beginExtendSoftwareAssuranceBenefitAndWait
+  - Added Interface ArcSetting
+  - Added Interface Cluster
+  - Added Interface ClustersExtendSoftwareAssuranceBenefitOptionalParams
+  - Added Interface Extension
+  - Added Interface ProxyResource
+  - Added Interface SoftwareAssuranceChangeRequest
+  - Added Interface SoftwareAssuranceChangeRequestProperties
+  - Added Interface SoftwareAssuranceProperties
+  - Added Interface TrackedResource
+  - Added Type Alias ClusterNodeType
+  - Added Type Alias ClustersExtendSoftwareAssuranceBenefitResponse
+  - Added Type Alias SoftwareAssuranceIntent
+  - Added Type Alias SoftwareAssuranceStatus
+  - Interface ClusterNode has a new optional parameter nodeType
+  - Interface ClusterNode has a new optional parameter osDisplayVersion
+  - Added Enum KnownClusterNodeType
+  - Added Enum KnownSoftwareAssuranceIntent
+  - Added Enum KnownSoftwareAssuranceStatus
+    
+    
 ## 3.0.0 (2022-05-17)
     
 **Features**
