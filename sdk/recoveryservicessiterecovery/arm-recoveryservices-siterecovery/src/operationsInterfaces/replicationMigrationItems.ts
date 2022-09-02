@@ -24,6 +24,12 @@ import {
   MigrateInput,
   ReplicationMigrationItemsMigrateOptionalParams,
   ReplicationMigrationItemsMigrateResponse,
+  PauseReplicationInput,
+  ReplicationMigrationItemsPauseReplicationOptionalParams,
+  ReplicationMigrationItemsPauseReplicationResponse,
+  ResumeReplicationInput,
+  ReplicationMigrationItemsResumeReplicationOptionalParams,
+  ReplicationMigrationItemsResumeReplicationResponse,
   ResyncInput,
   ReplicationMigrationItemsResyncOptionalParams,
   ReplicationMigrationItemsResyncResponse,
@@ -200,6 +206,76 @@ export interface ReplicationMigrationItems {
     migrateInput: MigrateInput,
     options?: ReplicationMigrationItemsMigrateOptionalParams
   ): Promise<ReplicationMigrationItemsMigrateResponse>;
+  /**
+   * The operation to initiate pause replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param pauseReplicationInput Pause replication input.
+   * @param options The options parameters.
+   */
+  beginPauseReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    pauseReplicationInput: PauseReplicationInput,
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationMigrationItemsPauseReplicationResponse>,
+      ReplicationMigrationItemsPauseReplicationResponse
+    >
+  >;
+  /**
+   * The operation to initiate pause replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param pauseReplicationInput Pause replication input.
+   * @param options The options parameters.
+   */
+  beginPauseReplicationAndWait(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    pauseReplicationInput: PauseReplicationInput,
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+  ): Promise<ReplicationMigrationItemsPauseReplicationResponse>;
+  /**
+   * The operation to initiate resume replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param resumeReplicationInput Resume replication input.
+   * @param options The options parameters.
+   */
+  beginResumeReplication(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    resumeReplicationInput: ResumeReplicationInput,
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationMigrationItemsResumeReplicationResponse>,
+      ReplicationMigrationItemsResumeReplicationResponse
+    >
+  >;
+  /**
+   * The operation to initiate resume replication of the item.
+   * @param fabricName Fabric name.
+   * @param protectionContainerName Protection container name.
+   * @param migrationItemName Migration item name.
+   * @param resumeReplicationInput Resume replication input.
+   * @param options The options parameters.
+   */
+  beginResumeReplicationAndWait(
+    fabricName: string,
+    protectionContainerName: string,
+    migrationItemName: string,
+    resumeReplicationInput: ResumeReplicationInput,
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+  ): Promise<ReplicationMigrationItemsResumeReplicationResponse>;
   /**
    * The operation to resynchronize replication of an ASR migration item.
    * @param fabricName Fabric name.
