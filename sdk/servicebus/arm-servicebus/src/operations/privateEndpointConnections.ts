@@ -316,6 +316,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.PrivateEndpointConnection
     },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnection
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
