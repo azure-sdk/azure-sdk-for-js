@@ -4196,6 +4196,34 @@ export const ExpressRoutePortAuthorizationListResult: coreClient.CompositeMapper
   }
 };
 
+export const ExpressRouteProviderPortListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteProviderPortListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteProviderPort"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FirewallPolicyThreatIntelWhitelist: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -13784,6 +13812,20 @@ export const RoutingConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "VnetRoute"
         }
+      },
+      inboundRouteMap: {
+        serializedName: "inboundRouteMap",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
+      },
+      outboundRouteMap: {
+        serializedName: "outboundRouteMap",
+        type: {
+          name: "Composite",
+          className: "SubResource"
+        }
       }
     }
   }
@@ -13826,6 +13868,13 @@ export const VnetRoute: coreClient.CompositeMapper = {
     name: "Composite",
     className: "VnetRoute",
     modelProperties: {
+      staticRoutesConfig: {
+        serializedName: "staticRoutesConfig",
+        type: {
+          name: "Composite",
+          className: "StaticRoutesConfig"
+        }
+      },
       staticRoutes: {
         serializedName: "staticRoutes",
         type: {
@@ -13849,6 +13898,28 @@ export const VnetRoute: coreClient.CompositeMapper = {
               className: "SubResource"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const StaticRoutesConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StaticRoutesConfig",
+    modelProperties: {
+      propagateStaticRoutes: {
+        serializedName: "propagateStaticRoutes",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      vnetLocalRouteOverrideCriteria: {
+        serializedName: "vnetLocalRouteOverrideCriteria",
+        type: {
+          name: "String"
         }
       }
     }
@@ -14129,6 +14200,195 @@ export const ListVirtualHubsResult: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "VirtualHub"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RouteMapRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RouteMapRule",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      matchCriteria: {
+        serializedName: "matchCriteria",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Criterion"
+            }
+          }
+        }
+      },
+      actions: {
+        serializedName: "actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Action"
+            }
+          }
+        }
+      },
+      nextStepIfMatched: {
+        serializedName: "nextStepIfMatched",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Criterion: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Criterion",
+    modelProperties: {
+      routePrefix: {
+        serializedName: "routePrefix",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      community: {
+        serializedName: "community",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      asPath: {
+        serializedName: "asPath",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      matchCondition: {
+        serializedName: "matchCondition",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Action: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Action",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Parameter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Parameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Parameter",
+    modelProperties: {
+      routePrefix: {
+        serializedName: "routePrefix",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      community: {
+        serializedName: "community",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      asPath: {
+        serializedName: "asPath",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ListRouteMapsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListRouteMapsResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RouteMap"
             }
           }
         }
@@ -14892,6 +15152,48 @@ export const EffectiveRoutesParameters: coreClient.CompositeMapper = {
   }
 };
 
+export const GetInboundRoutesParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetInboundRoutesParameters",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        type: {
+          name: "String"
+        }
+      },
+      connectionType: {
+        serializedName: "connectionType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GetOutboundRoutesParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetOutboundRoutesParameters",
+    modelProperties: {
+      resourceUri: {
+        serializedName: "resourceUri",
+        type: {
+          name: "String"
+        }
+      },
+      connectionType: {
+        serializedName: "connectionType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RoutingPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -15407,10 +15709,63 @@ export const ManagedRuleOverride: coreClient.CompositeMapper = {
   }
 };
 
-export const ExpressRouteProviderPortListResult: coreClient.CompositeMapper = {
+export const SwapResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExpressRouteProviderPortListResult",
+    className: "SwapResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SwapResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceProperties",
+    modelProperties: {
+      slotType: {
+        serializedName: "slotType",
+        type: {
+          name: "Enum",
+          allowedValues: ["Production", "Staging"]
+        }
+      }
+    }
+  }
+};
+
+export const SwapResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SwapResourceListResult",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -15419,16 +15774,9 @@ export const ExpressRouteProviderPortListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExpressRouteProviderPort"
+              className: "SwapResource"
             }
           }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -15644,6 +15992,38 @@ export const VirtualHubEffectiveRoute: coreClient.CompositeMapper = {
       },
       routeOrigin: {
         serializedName: "routeOrigin",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EffectiveRouteMapRoute: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EffectiveRouteMapRoute",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      bgpCommunities: {
+        serializedName: "bgpCommunities",
+        type: {
+          name: "String"
+        }
+      },
+      asPath: {
+        serializedName: "asPath",
         type: {
           name: "String"
         }
@@ -21417,6 +21797,78 @@ export const VirtualHubRouteTableV2: coreClient.CompositeMapper = {
   }
 };
 
+export const RouteMap: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RouteMap",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      associatedInboundConnections: {
+        serializedName: "properties.associatedInboundConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      associatedOutboundConnections: {
+        serializedName: "properties.associatedOutboundConnections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      rules: {
+        serializedName: "properties.rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RouteMapRule"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const HubVirtualNetworkConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -22737,6 +23189,12 @@ export const NetworkInterface: coreClient.CompositeMapper = {
       },
       enableAcceleratedNetworking: {
         serializedName: "properties.enableAcceleratedNetworking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      disableTcpStateTracking: {
+        serializedName: "properties.disableTcpStateTracking",
         type: {
           name: "Boolean"
         }
@@ -24910,6 +25368,80 @@ export const ExpressRoutePort: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      billingType: {
+        serializedName: "properties.billingType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteProviderPort: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExpressRouteProviderPort",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      portPairDescriptor: {
+        serializedName: "properties.portPairDescriptor",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primaryAzurePort: {
+        serializedName: "properties.primaryAzurePort",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      secondaryAzurePort: {
+        serializedName: "properties.secondaryAzurePort",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      peeringLocation: {
+        serializedName: "properties.peeringLocation",
+        type: {
+          name: "String"
+        }
+      },
+      overprovisionFactor: {
+        serializedName: "properties.overprovisionFactor",
+        type: {
+          name: "Number"
+        }
+      },
+      portBandwidthInMbps: {
+        serializedName: "properties.portBandwidthInMbps",
+        type: {
+          name: "Number"
+        }
+      },
+      usedBandwidthInMbps: {
+        serializedName: "properties.usedBandwidthInMbps",
+        type: {
+          name: "Number"
+        }
+      },
+      remainingBandwidthInMbps: {
+        serializedName: "properties.remainingBandwidthInMbps",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -27302,6 +27834,19 @@ export const VirtualHub: coreClient.CompositeMapper = {
           }
         }
       },
+      routeMaps: {
+        serializedName: "properties.routeMaps",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SubResource"
+            }
+          }
+        }
+      },
       virtualRouterAsn: {
         constraints: {
           InclusiveMaximum: 4294967295,
@@ -27585,74 +28130,6 @@ export const WebApplicationFirewallPolicy: coreClient.CompositeMapper = {
               className: "SubResource"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const ExpressRouteProviderPort: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExpressRouteProviderPort",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        serializedName: "etag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      portPairDescriptor: {
-        serializedName: "properties.portPairDescriptor",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      primaryAzurePort: {
-        serializedName: "properties.primaryAzurePort",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      secondaryAzurePort: {
-        serializedName: "properties.secondaryAzurePort",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      peeringLocation: {
-        serializedName: "properties.peeringLocation",
-        type: {
-          name: "String"
-        }
-      },
-      overprovisionFactor: {
-        serializedName: "properties.overprovisionFactor",
-        type: {
-          name: "Number"
-        }
-      },
-      portBandwidthInMbps: {
-        serializedName: "properties.portBandwidthInMbps",
-        type: {
-          name: "Number"
-        }
-      },
-      usedBandwidthInMbps: {
-        serializedName: "properties.usedBandwidthInMbps",
-        type: {
-          name: "Number"
-        }
-      },
-      remainingBandwidthInMbps: {
-        serializedName: "properties.remainingBandwidthInMbps",
-        type: {
-          name: "Number"
         }
       }
     }

@@ -1,15 +1,65 @@
 # Release History
+    
+## 29.1.0 (2022-09-05)
+    
+**Features**
 
-## 29.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group RouteMaps
+  - Added operation group VipSwap
+  - Added operation VirtualHubs.beginGetInboundRoutes
+  - Added operation VirtualHubs.beginGetInboundRoutesAndWait
+  - Added operation VirtualHubs.beginGetOutboundRoutes
+  - Added operation VirtualHubs.beginGetOutboundRoutesAndWait
+  - Added Interface Action
+  - Added Interface Criterion
+  - Added Interface EffectiveRouteMapRoute
+  - Added Interface GetInboundRoutesParameters
+  - Added Interface GetOutboundRoutesParameters
+  - Added Interface ListRouteMapsResult
+  - Added Interface Parameter
+  - Added Interface RouteMap
+  - Added Interface RouteMapRule
+  - Added Interface RouteMapsCreateOrUpdateOptionalParams
+  - Added Interface RouteMapsDeleteOptionalParams
+  - Added Interface RouteMapsGetOptionalParams
+  - Added Interface RouteMapsListNextOptionalParams
+  - Added Interface RouteMapsListOptionalParams
+  - Added Interface StaticRoutesConfig
+  - Added Interface SwapResource
+  - Added Interface SwapResourceListResult
+  - Added Interface SwapResourceProperties
+  - Added Interface VipSwapCreateOptionalParams
+  - Added Interface VipSwapGetOptionalParams
+  - Added Interface VipSwapListOptionalParams
+  - Added Interface VirtualHubsGetInboundRoutesOptionalParams
+  - Added Interface VirtualHubsGetOutboundRoutesOptionalParams
+  - Added Type Alias ExpressRoutePortsBillingType
+  - Added Type Alias NextStep
+  - Added Type Alias RouteMapActionType
+  - Added Type Alias RouteMapMatchCondition
+  - Added Type Alias RouteMapsCreateOrUpdateResponse
+  - Added Type Alias RouteMapsGetResponse
+  - Added Type Alias RouteMapsListNextResponse
+  - Added Type Alias RouteMapsListResponse
+  - Added Type Alias SlotType
+  - Added Type Alias VipSwapGetResponse
+  - Added Type Alias VipSwapListResponse
+  - Added Type Alias VnetLocalRouteOverrideCriteria
+  - Interface ExpressRoutePort has a new optional parameter billingType
+  - Interface NetworkInterface has a new optional parameter disableTcpStateTracking
+  - Interface RoutingConfiguration has a new optional parameter inboundRouteMap
+  - Interface RoutingConfiguration has a new optional parameter outboundRouteMap
+  - Interface VirtualHub has a new optional parameter routeMaps
+  - Interface VnetRoute has a new optional parameter staticRoutesConfig
+  - Class NetworkManagementClient has a new parameter routeMaps
+  - Class NetworkManagementClient has a new parameter vipSwap
+  - Added Enum KnownExpressRoutePortsBillingType
+  - Added Enum KnownNextStep
+  - Added Enum KnownRouteMapActionType
+  - Added Enum KnownRouteMapMatchCondition
+  - Added Enum KnownVnetLocalRouteOverrideCriteria
+    
+    
 ## 29.0.0 (2022-08-02)
     
 **Features**

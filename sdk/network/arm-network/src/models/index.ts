@@ -1527,6 +1527,17 @@ export interface ExpressRoutePortAuthorizationListResult {
   nextLink?: string;
 }
 
+/** Response for ListExpressRouteProviderPort API service call. */
+export interface ExpressRouteProviderPortListResult {
+  /** A list of ExpressRouteProviderPort resources. */
+  value?: ExpressRouteProviderPort[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** ThreatIntel Whitelist for Firewall Policy. */
 export interface FirewallPolicyThreatIntelWhitelist {
   /** List of IP addresses for the ThreatIntel Whitelist. */
@@ -4913,6 +4924,10 @@ export interface RoutingConfiguration {
   propagatedRouteTables?: PropagatedRouteTable;
   /** List of routes that control routing from VirtualHub into a virtual network connection. */
   vnetRoutes?: VnetRoute;
+  /** The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes. */
+  inboundRouteMap?: SubResource;
+  /** The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes. */
+  outboundRouteMap?: SubResource;
 }
 
 /** The list of RouteTables to advertise the routes to. */
@@ -4925,6 +4940,8 @@ export interface PropagatedRouteTable {
 
 /** List of routes that control routing from VirtualHub into a virtual network connection. */
 export interface VnetRoute {
+  /** Configuration for static routes on this HubVnetConnection. */
+  staticRoutesConfig?: StaticRoutesConfig;
   /** List of all Static Routes. */
   staticRoutes?: StaticRoute[];
   /**
@@ -4932,6 +4949,17 @@ export interface VnetRoute {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly bgpConnections?: SubResource[];
+}
+
+/** Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection. */
+export interface StaticRoutesConfig {
+  /**
+   * Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly propagateStaticRoutes?: boolean;
+  /** Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke. */
+  vnetLocalRouteOverrideCriteria?: VnetLocalRouteOverrideCriteria;
 }
 
 /** List of all Static Routes. */
@@ -5024,6 +5052,56 @@ export interface VirtualRouterAutoScaleConfiguration {
 export interface ListVirtualHubsResult {
   /** List of VirtualHubs. */
   value?: VirtualHub[];
+  /** URL to get the next set of operation list results if there are any. */
+  nextLink?: string;
+}
+
+/** A RouteMap Rule. */
+export interface RouteMapRule {
+  /** The unique name for the rule. */
+  name?: string;
+  /** List of matching criterion which will be applied to traffic. */
+  matchCriteria?: Criterion[];
+  /** List of actions which will be applied on a match. */
+  actions?: Action[];
+  /** Next step after rule is evaluated. Current supported behaviors are 'Continue'(to next rule) and 'Terminate'. */
+  nextStepIfMatched?: NextStep;
+}
+
+/** A matching criteria which matches routes based on route prefix, community, and AS path. */
+export interface Criterion {
+  /** List of route prefixes which this criteria matches. */
+  routePrefix?: string[];
+  /** List of BGP communities which this criteria matches. */
+  community?: string[];
+  /** List of AS paths which this criteria matches. */
+  asPath?: string[];
+  /** Match condition to apply RouteMap rules. */
+  matchCondition?: RouteMapMatchCondition;
+}
+
+/** Action to be taken on a route matching a RouteMap criterion. */
+export interface Action {
+  /** Type of action to be taken. Supported types are 'Remove', 'Add', 'Replace', and 'Drop.' */
+  type?: RouteMapActionType;
+  /** List of parameters relevant to the action.For instance if type is drop then parameters has list of prefixes to be dropped.If type is add, parameters would have list of ASN numbers to be added */
+  parameters?: Parameter[];
+}
+
+/** Parameters for an Action. */
+export interface Parameter {
+  /** List of route prefixes. */
+  routePrefix?: string[];
+  /** List of BGP communities. */
+  community?: string[];
+  /** List of AS paths. */
+  asPath?: string[];
+}
+
+/** List of RouteMaps and a URL nextLink to get the next set of results. */
+export interface ListRouteMapsResult {
+  /** List of RouteMaps. */
+  value?: RouteMap[];
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string;
 }
@@ -5291,6 +5369,22 @@ export interface EffectiveRoutesParameters {
   virtualWanResourceType?: string;
 }
 
+/** The parameters specifying the connection resource whose inbound routes are being requested. */
+export interface GetInboundRoutesParameters {
+  /** The connection resource whose inbound routes are being requested. */
+  resourceUri?: string;
+  /** The type of the specified connection resource like ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection. */
+  connectionType?: string;
+}
+
+/** The parameters specifying the connection resource whose outbound routes are being requested. */
+export interface GetOutboundRoutesParameters {
+  /** The connection resource whose outbound routes are being requested. */
+  resourceUri?: string;
+  /** The type of the specified connection resource like ExpressRouteConnection, HubVirtualNetworkConnection, VpnConnection and P2SConnection. */
+  connectionType?: string;
+}
+
 /** The routing policy object used in a RoutingIntent resource. */
 export interface RoutingPolicy {
   /** The unique name for the routing policy. */
@@ -5448,15 +5542,36 @@ export interface ManagedRuleOverride {
   state?: ManagedRuleEnabledState;
 }
 
-/** Response for ListExpressRouteProviderPort API service call. */
-export interface ExpressRouteProviderPortListResult {
-  /** A list of ExpressRouteProviderPort resources. */
-  value?: ExpressRouteProviderPort[];
+/** SwapResource to represent slot type on the specified cloud service. */
+export interface SwapResource {
   /**
-   * The URL to get the next set of results.
+   * Resource Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly id?: string;
+  /**
+   * Resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Swap resource properties */
+  properties?: SwapResourceProperties;
+}
+
+/** Swap resource properties */
+export interface SwapResourceProperties {
+  /** Specifies slot info on a cloud service */
+  slotType?: SlotType;
+}
+
+/** SwapResource List with single entry to represent slot type on the specified cloud service. */
+export interface SwapResourceListResult {
+  value?: SwapResource[];
 }
 
 /** Properties of the FirewallPolicyNatRuleCollectionAction. */
@@ -5532,6 +5647,16 @@ export interface VirtualHubEffectiveRoute {
   asPath?: string;
   /** The origin of this route. */
   routeOrigin?: string;
+}
+
+/** The effective RouteMap route configured on the connection resource. */
+export interface EffectiveRouteMapRoute {
+  /** The address prefix of the route. */
+  prefix?: string[];
+  /** BGP communities of the route. */
+  bgpCommunities?: string;
+  /** The ASPath of this route. */
+  asPath?: string;
 }
 
 /** IP configuration of an application gateway. Currently 1 public and 1 private IP configuration is allowed. */
@@ -8004,6 +8129,36 @@ export interface VirtualHubRouteTableV2 extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** The RouteMap child resource of a Virtual hub. */
+export interface RouteMap extends SubResource {
+  /**
+   * The name of the resource that is unique within a resource group. This name can be used to access the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * Resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** List of connections which have this RoutMap associated for inbound traffic. */
+  associatedInboundConnections?: string[];
+  /** List of connections which have this RoutMap associated for outbound traffic. */
+  associatedOutboundConnections?: string[];
+  /** List of RouteMap rules to be applied. */
+  rules?: RouteMapRule[];
+  /**
+   * The provisioning state of the RouteMap resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** HubVirtualNetworkConnection Resource. */
 export interface HubVirtualNetworkConnection extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -8545,6 +8700,8 @@ export interface NetworkInterface extends Resource {
   readonly vnetEncryptionSupported?: boolean;
   /** If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking. */
   enableAcceleratedNetworking?: boolean;
+  /** Indicates whether to disable tcp state tracking. */
+  disableTcpStateTracking?: boolean;
   /** Indicates whether IP forwarding is enabled on this network interface. */
   enableIPForwarding?: boolean;
   /**
@@ -9354,6 +9511,42 @@ export interface ExpressRoutePort extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resourceGuid?: string;
+  /** The billing type of the ExpressRoutePort resource. */
+  billingType?: ExpressRoutePortsBillingType;
+}
+
+/** ExpressRouteProviderPort resource. */
+export interface ExpressRouteProviderPort extends Resource {
+  /**
+   * A unique read-only string that changes whenever the resource is updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+  /**
+   * The name of the port pair.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly portPairDescriptor?: string;
+  /**
+   * The name of the primary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryAzurePort?: string;
+  /**
+   * The name of the secondary port.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryAzurePort?: string;
+  /** The peering location of the port pair. */
+  peeringLocation?: string;
+  /** Overprovisioning factor for the port pair. */
+  overprovisionFactor?: number;
+  /** Bandwidth of the port in Mbps */
+  portBandwidthInMbps?: number;
+  /** Used Bandwidth of the port in Mbps */
+  usedBandwidthInMbps?: number;
+  /** Remaining Bandwidth of the port in Mbps */
+  remainingBandwidthInMbps?: number;
 }
 
 /** FirewallPolicy Resource. */
@@ -10266,6 +10459,11 @@ export interface VirtualHub extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ipConfigurations?: SubResource[];
+  /**
+   * List of references to RouteMaps.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly routeMaps?: SubResource[];
   /** VirtualRouter ASN. */
   virtualRouterAsn?: number;
   /** VirtualRouter IPs. */
@@ -10371,40 +10569,6 @@ export interface WebApplicationFirewallPolicy extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly pathBasedRules?: SubResource[];
-}
-
-/** ExpressRouteProviderPort resource. */
-export interface ExpressRouteProviderPort extends Resource {
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The name of the port pair.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly portPairDescriptor?: string;
-  /**
-   * The name of the primary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryAzurePort?: string;
-  /**
-   * The name of the secondary port.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryAzurePort?: string;
-  /** The peering location of the port pair. */
-  peeringLocation?: string;
-  /** Overprovisioning factor for the port pair. */
-  overprovisionFactor?: number;
-  /** Bandwidth of the port in Mbps */
-  portBandwidthInMbps?: number;
-  /** Used Bandwidth of the port in Mbps */
-  usedBandwidthInMbps?: number;
-  /** Remaining Bandwidth of the port in Mbps */
-  remainingBandwidthInMbps?: number;
 }
 
 /** The visibility list of the private link service. */
@@ -12479,6 +12643,24 @@ export enum KnownExpressRouteLinkMacSecSciState {
  */
 export type ExpressRouteLinkMacSecSciState = string;
 
+/** Known values of {@link ExpressRoutePortsBillingType} that the service accepts. */
+export enum KnownExpressRoutePortsBillingType {
+  /** MeteredData */
+  MeteredData = "MeteredData",
+  /** UnlimitedData */
+  UnlimitedData = "UnlimitedData"
+}
+
+/**
+ * Defines values for ExpressRoutePortsBillingType. \
+ * {@link KnownExpressRoutePortsBillingType} can be used interchangeably with ExpressRoutePortsBillingType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MeteredData** \
+ * **UnlimitedData**
+ */
+export type ExpressRoutePortsBillingType = string;
+
 /** Known values of {@link ExpressRoutePortAuthorizationUseStatus} that the service accepts. */
 export enum KnownExpressRoutePortAuthorizationUseStatus {
   /** Available */
@@ -14528,6 +14710,24 @@ export enum KnownVpnGatewayTunnelingProtocol {
  */
 export type VpnGatewayTunnelingProtocol = string;
 
+/** Known values of {@link VnetLocalRouteOverrideCriteria} that the service accepts. */
+export enum KnownVnetLocalRouteOverrideCriteria {
+  /** Contains */
+  Contains = "Contains",
+  /** Equal */
+  Equal = "Equal"
+}
+
+/**
+ * Defines values for VnetLocalRouteOverrideCriteria. \
+ * {@link KnownVnetLocalRouteOverrideCriteria} can be used interchangeably with VnetLocalRouteOverrideCriteria,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Contains** \
+ * **Equal**
+ */
+export type VnetLocalRouteOverrideCriteria = string;
+
 /** Known values of {@link VpnPolicyMemberAttributeType} that the service accepts. */
 export enum KnownVpnPolicyMemberAttributeType {
   /** CertificateGroupId */
@@ -14614,6 +14814,81 @@ export enum KnownHubRoutingPreference {
  * **ASPath**
  */
 export type HubRoutingPreference = string;
+
+/** Known values of {@link RouteMapMatchCondition} that the service accepts. */
+export enum KnownRouteMapMatchCondition {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Contains */
+  Contains = "Contains",
+  /** Equals */
+  Equals = "Equals",
+  /** NotContains */
+  NotContains = "NotContains",
+  /** NotEquals */
+  NotEquals = "NotEquals"
+}
+
+/**
+ * Defines values for RouteMapMatchCondition. \
+ * {@link KnownRouteMapMatchCondition} can be used interchangeably with RouteMapMatchCondition,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Contains** \
+ * **Equals** \
+ * **NotContains** \
+ * **NotEquals**
+ */
+export type RouteMapMatchCondition = string;
+
+/** Known values of {@link RouteMapActionType} that the service accepts. */
+export enum KnownRouteMapActionType {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Remove */
+  Remove = "Remove",
+  /** Add */
+  Add = "Add",
+  /** Replace */
+  Replace = "Replace",
+  /** Drop */
+  Drop = "Drop"
+}
+
+/**
+ * Defines values for RouteMapActionType. \
+ * {@link KnownRouteMapActionType} can be used interchangeably with RouteMapActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Remove** \
+ * **Add** \
+ * **Replace** \
+ * **Drop**
+ */
+export type RouteMapActionType = string;
+
+/** Known values of {@link NextStep} that the service accepts. */
+export enum KnownNextStep {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Continue */
+  Continue = "Continue",
+  /** Terminate */
+  Terminate = "Terminate"
+}
+
+/**
+ * Defines values for NextStep. \
+ * {@link KnownNextStep} can be used interchangeably with NextStep,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Continue** \
+ * **Terminate**
+ */
+export type NextStep = string;
 
 /** Known values of {@link VpnConnectionStatus} that the service accepts. */
 export enum KnownVpnConnectionStatus {
@@ -15249,6 +15524,8 @@ export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
+/** Defines values for SlotType. */
+export type SlotType = "Production" | "Staging";
 
 /** Optional parameters. */
 export interface ApplicationGatewaysDeleteOptionalParams
@@ -15840,6 +16117,13 @@ export interface CheckDnsNameAvailabilityOptionalParams
 export type CheckDnsNameAvailabilityResponse = DnsNameAvailabilityResult;
 
 /** Optional parameters. */
+export interface ExpressRouteProviderPortOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the expressRouteProviderPort operation. */
+export type ExpressRouteProviderPortResponse = ExpressRouteProviderPort;
+
+/** Optional parameters. */
 export interface ListActiveConnectivityConfigurationsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -15885,13 +16169,6 @@ export interface GeneratevirtualwanvpnserverconfigurationvpnprofileOptionalParam
 
 /** Contains response data for the generatevirtualwanvpnserverconfigurationvpnprofile operation. */
 export type GeneratevirtualwanvpnserverconfigurationvpnprofileResponse = VpnProfileResponse;
-
-/** Optional parameters. */
-export interface ExpressRouteProviderPortOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the expressRouteProviderPort operation. */
-export type ExpressRouteProviderPortResponse = ExpressRouteProviderPort;
 
 /** Optional parameters. */
 export interface PutBastionShareableLinkNextOptionalParams
@@ -17052,6 +17329,16 @@ export interface ExpressRoutePortAuthorizationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ExpressRoutePortAuthorizationsListNextResponse = ExpressRoutePortAuthorizationListResult;
+
+/** Optional parameters. */
+export interface ExpressRouteProviderPortsLocationListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. For example, you can use $filter=location eq '{state}'. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
 
 /** Optional parameters. */
 export interface FirewallPoliciesDeleteOptionalParams
@@ -20957,6 +21244,24 @@ export interface VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams
 }
 
 /** Optional parameters. */
+export interface VirtualHubsGetInboundRoutesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualHubsGetOutboundRoutesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface VirtualHubsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -20969,6 +21274,48 @@ export interface VirtualHubsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type VirtualHubsListNextResponse = ListVirtualHubsResult;
+
+/** Optional parameters. */
+export interface RouteMapsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RouteMapsGetResponse = RouteMap;
+
+/** Optional parameters. */
+export interface RouteMapsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type RouteMapsCreateOrUpdateResponse = RouteMap;
+
+/** Optional parameters. */
+export interface RouteMapsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface RouteMapsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RouteMapsListResponse = ListRouteMapsResult;
+
+/** Optional parameters. */
+export interface RouteMapsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RouteMapsListNextResponse = ListRouteMapsResult;
 
 /** Optional parameters. */
 export interface HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams
@@ -21801,14 +22148,26 @@ export interface WebApplicationFirewallPoliciesListAllNextOptionalParams
 export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult;
 
 /** Optional parameters. */
-export interface ExpressRouteProviderPortsLocationListOptionalParams
+export interface VipSwapGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VipSwapGetResponse = SwapResource;
+
+/** Optional parameters. */
+export interface VipSwapCreateOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For example, you can use $filter=location eq '{state}'. */
-  filter?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
+/** Optional parameters. */
+export interface VipSwapListOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the list operation. */
-export type ExpressRouteProviderPortsLocationListResponse = ExpressRouteProviderPortListResult;
+export type VipSwapListResponse = SwapResourceListResult;
 
 /** Optional parameters. */
 export interface NetworkManagementClientOptionalParams
