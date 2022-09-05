@@ -20,6 +20,9 @@ import {
   ClustersListByResourceGroupOptionalParams,
   ClustersListNextOptionalParams,
   ClustersListOptionalParams,
+  OutboundNetworkDependenciesEndpoint,
+  ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
+  ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ClusterCreateParametersExtended,
   ClustersCreateOptionalParams,
   ClustersCreateResponse,
@@ -46,10 +49,12 @@ import {
   ClustersGetAzureAsyncOperationStatusResponse,
   UpdateClusterIdentityCertificateParameters,
   ClustersUpdateIdentityCertificateOptionalParams,
+  ClustersListOutboundNetworkDependenciesEndpointsResponse,
   ExecuteScriptActionParameters,
   ClustersExecuteScriptActionsOptionalParams,
   ClustersListByResourceGroupNextResponse,
-  ClustersListNextResponse
+  ClustersListNextResponse,
+  ClustersListOutboundNetworkDependenciesEndpointsNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -156,6 +161,77 @@ export class ClustersImpl implements Clusters {
     options?: ClustersListOptionalParams
   ): AsyncIterableIterator<Cluster> {
     for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get all the outbound network dependencies endpoints in a HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  public listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint> {
+    const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
+      resourceGroupName,
+      clusterName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listOutboundNetworkDependenciesEndpointsPagingPage(
+          resourceGroupName,
+          clusterName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listOutboundNetworkDependenciesEndpointsPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): AsyncIterableIterator<OutboundNetworkDependenciesEndpoint[]> {
+    let result = await this._listOutboundNetworkDependenciesEndpoints(
+      resourceGroupName,
+      clusterName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpointsNext(
+        resourceGroupName,
+        clusterName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listOutboundNetworkDependenciesEndpointsPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): AsyncIterableIterator<OutboundNetworkDependenciesEndpoint> {
+    for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
+      resourceGroupName,
+      clusterName,
+      options
+    )) {
       yield* page;
     }
   }
@@ -884,6 +960,23 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
+   * Get all the outbound network dependencies endpoints in a HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  private _listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): Promise<ClustersListOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, options },
+      listOutboundNetworkDependenciesEndpointsOperationSpec
+    );
+  }
+
+  /**
    * Executes script actions on the specified HDInsight cluster.
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
@@ -1002,6 +1095,26 @@ export class ClustersImpl implements Clusters {
       listNextOperationSpec
     );
   }
+
+  /**
+   * ListOutboundNetworkDependenciesEndpointsNext
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListOutboundNetworkDependenciesEndpoints method.
+   * @param options The options parameters.
+   */
+  private _listOutboundNetworkDependenciesEndpointsNext(
+    resourceGroupName: string,
+    clusterName: string,
+    nextLink: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  ): Promise<ClustersListOutboundNetworkDependenciesEndpointsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, nextLink, options },
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -1027,7 +1140,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1035,7 +1148,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1051,7 +1164,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1059,7 +1172,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1142,7 +1255,7 @@ const resizeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1151,7 +1264,7 @@ const resizeOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.roleName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1168,7 +1281,7 @@ const updateAutoScaleConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1177,7 +1290,7 @@ const updateAutoScaleConfigurationOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.roleName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1211,7 +1324,7 @@ const rotateDiskEncryptionKeyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1219,7 +1332,7 @@ const rotateDiskEncryptionKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1258,7 +1371,7 @@ const updateGatewaySettingsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1266,7 +1379,7 @@ const updateGatewaySettingsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1306,7 +1419,7 @@ const updateIdentityCertificateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1314,8 +1427,30 @@ const updateIdentityCertificateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const executeScriptActionsOperationSpec: coreClient.OperationSpec = {
@@ -1334,7 +1469,7 @@ const executeScriptActionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1342,7 +1477,7 @@ const executeScriptActionsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1382,6 +1517,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OutboundNetworkDependenciesEndpointListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

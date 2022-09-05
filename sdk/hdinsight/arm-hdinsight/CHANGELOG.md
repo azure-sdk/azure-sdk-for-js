@@ -1,15 +1,20 @@
 # Release History
+    
+## 1.3.0-beta.1 (2022-09-05)
+    
+**Features**
 
-## 1.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Clusters.listOutboundNetworkDependenciesEndpoints
+  - Added Interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
+  - Added Interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface OutboundNetworkDependenciesEndpoint
+  - Added Interface OutboundNetworkDependenciesEndpointDetail
+  - Added Interface OutboundNetworkDependenciesEndpointListResult
+  - Added Interface OutboundNetworkDependenciesEndpointProperties
+  - Added Type Alias ClustersListOutboundNetworkDependenciesEndpointsNextResponse
+  - Added Type Alias ClustersListOutboundNetworkDependenciesEndpointsResponse
+    
+    
 ## 1.2.0 (2022-08-01)
     
 **Features**

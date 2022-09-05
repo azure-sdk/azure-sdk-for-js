@@ -424,7 +424,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.clusterName,
     Parameters.privateEndpointConnectionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

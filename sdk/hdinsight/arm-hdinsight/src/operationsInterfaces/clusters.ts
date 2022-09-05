@@ -12,6 +12,8 @@ import {
   Cluster,
   ClustersListByResourceGroupOptionalParams,
   ClustersListOptionalParams,
+  OutboundNetworkDependenciesEndpoint,
+  ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ClusterCreateParametersExtended,
   ClustersCreateOptionalParams,
   ClustersCreateResponse,
@@ -59,6 +61,17 @@ export interface Clusters {
   list(
     options?: ClustersListOptionalParams
   ): PagedAsyncIterableIterator<Cluster>;
+  /**
+   * Get all the outbound network dependencies endpoints in a HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+  ): PagedAsyncIterableIterator<OutboundNetworkDependenciesEndpoint>;
   /**
    * Creates a new HDInsight cluster with the specified parameters.
    * @param resourceGroupName The name of the resource group.
