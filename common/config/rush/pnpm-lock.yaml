@@ -4092,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220902
+      typescript: 4.9.0-dev.20220905
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9095,8 +9095,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220902:
-    resolution: {integrity: sha512-K1iMNFhcRuYtQxDQD2JHECQ0x24OzwOD09TBFuRsIhnxzOG6XUU01tkKcCYgb//DkNDD6Jy+MpHf8SxzvPCnIA==}
+  /typescript/4.9.0-dev.20220905:
+    resolution: {integrity: sha512-Y3m8ommI+wTpwdh1vNdp5a2AvvD7UYkUfuUJkB+DrM/7z4XMTCEVcZXjiH5OwICNHy9k9N6ZeaTTokpcNj4kVg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15151,7 +15151,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-R4G43D3BrXJR8mSoWwJo2pHwmAKHM+1D6OqoPnm9iTY/S2R/U5v3LEuKnSWwO1ApFSfc+kOFyxMinoZTr182Ww==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-8QprjgDHhkTmuEtmmte1JCUYYl4roFZA/sghR96UIfq7PL6eWVCyriAlPsK2QXKOJ924r8oM/LZlGfTVvvC4/w==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -15163,6 +15163,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15174,7 +15176,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
