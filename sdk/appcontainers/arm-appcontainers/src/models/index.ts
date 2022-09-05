@@ -840,7 +840,7 @@ export interface CustomHostnameAnalysisResult {
    * Raw failure information if DNS verification fails.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly customDomainVerificationFailureInfo?: DefaultErrorResponse;
+  readonly customDomainVerificationFailureInfo?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo;
   /**
    * <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -861,6 +861,46 @@ export interface CustomHostnameAnalysisResult {
   alternateCNameRecords?: string[];
   /** Alternate TXT records visible for this hostname. */
   alternateTxtRecords?: string[];
+}
+
+/** Raw failure information if DNS verification fails. */
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /** Details or the error */
+  details?: CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem[];
+}
+
+/** Detailed errors. */
+export interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
 }
 
 /** Container App Secrets Collection ARM resource. */

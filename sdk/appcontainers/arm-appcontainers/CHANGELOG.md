@@ -1,15 +1,13 @@
 # Release History
+    
+## 1.2.0 (2022-09-05)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfo
+  - Added Interface CustomHostnameAnalysisResultCustomDomainVerificationFailureInfoDetailsItem
+    
+    
 ## 1.1.0 (2022-08-02)
     
 **Features**

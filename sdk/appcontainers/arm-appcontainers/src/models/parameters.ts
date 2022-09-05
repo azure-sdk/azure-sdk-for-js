@@ -90,7 +90,7 @@ export const containerAppName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-03-01",
+    defaultValue: "2022-01-09",
     isConstant: true,
     serializedName: "api-version",
     type: {
