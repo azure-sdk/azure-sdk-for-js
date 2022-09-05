@@ -214,7 +214,6 @@ export interface AutoScaleProperties {
 export interface AzureBlobDatastore extends DatastoreProperties {
     accountName?: string;
     containerName?: string;
-    datastoreType: "AzureBlob";
     endpoint?: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
@@ -222,7 +221,6 @@ export interface AzureBlobDatastore extends DatastoreProperties {
 
 // @public
 export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
-    datastoreType: "AzureDataLakeGen1";
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
     storeName: string;
 }
@@ -230,7 +228,6 @@ export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
 // @public
 export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureDataLakeGen2";
     endpoint?: string;
     filesystem: string;
     protocol?: string;
@@ -240,7 +237,6 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
 // @public
 export interface AzureFileDatastore extends DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureFile";
     endpoint?: string;
     fileShareName: string;
     protocol?: string;
@@ -741,7 +737,6 @@ export interface CommandJob extends JobBaseProperties {
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
     };
-    jobType: "Command";
     limits?: CommandJobLimits;
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
@@ -884,7 +879,7 @@ export interface Compute {
     computeType: "AKS" | "Kubernetes" | "AmlCompute" | "ComputeInstance" | "VirtualMachine" | "HDInsight" | "DataFactory" | "Databricks" | "DataLakeAnalytics" | "SynapseSpark";
     readonly createdOn?: Date;
     description?: string;
-    disableLocalAuth?: boolean;
+    readonly disableLocalAuth?: boolean;
     readonly isAttachedCompute?: boolean;
     readonly modifiedOn?: Date;
     readonly provisioningErrors?: ErrorResponse[];
@@ -2729,7 +2724,6 @@ export interface Kubernetes extends Compute, KubernetesSchema {
 // @public
 export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
     containerResourceRequirements?: ContainerResourceRequirements;
-    endpointComputeType: "Kubernetes";
 }
 
 // @public
@@ -2818,7 +2812,6 @@ export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties extends Wo
 
 // @public
 export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
-    endpointComputeType: "Managed";
 }
 
 // @public
@@ -2849,7 +2842,6 @@ export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {
 
 // @public
 export interface MLTableData extends DataVersionBaseProperties {
-    dataType: "mltable";
     referencedUris?: string[];
 }
 
@@ -3494,7 +3486,6 @@ export interface PipelineJob extends JobBaseProperties {
     jobs?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    jobType: "Pipeline";
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
     };
@@ -3943,7 +3934,6 @@ export interface SweepJob extends JobBaseProperties {
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
     };
-    jobType: "Sweep";
     limits?: SweepJobLimits;
     objective: Objective;
     outputs?: {
@@ -4073,7 +4063,6 @@ export interface UpdateWorkspaceQuotasResult {
 
 // @public
 export interface UriFileDataVersion extends DataVersionBaseProperties {
-    dataType: "uri_file";
 }
 
 // @public (undocumented)
@@ -4086,7 +4075,6 @@ export interface UriFileJobOutput extends AssetJobOutput, JobOutput {
 
 // @public
 export interface UriFolderDataVersion extends DataVersionBaseProperties {
-    dataType: "uri_folder";
 }
 
 // @public (undocumented)

@@ -1,15 +1,23 @@
 # Release History
+    
+## 3.0.0 (2022-09-05)
+    
+**Breaking Changes**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureBlobDatastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen1Datastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen2Datastore no longer has parameter datastoreType
+  - Interface AzureFileDatastore no longer has parameter datastoreType
+  - Interface CommandJob no longer has parameter jobType
+  - Interface KubernetesOnlineDeployment no longer has parameter endpointComputeType
+  - Interface ManagedOnlineDeployment no longer has parameter endpointComputeType
+  - Interface MLTableData no longer has parameter dataType
+  - Interface PipelineJob no longer has parameter jobType
+  - Interface SweepJob no longer has parameter jobType
+  - Interface UriFileDataVersion no longer has parameter dataType
+  - Interface UriFolderDataVersion no longer has parameter dataType
+    
+    
 ## 2.0.0 (2022-08-05)
     
 **Breaking Changes**
