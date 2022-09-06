@@ -62,6 +62,20 @@ export interface HealthBotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly botManagementPortalLink?: string;
+  /** KeyVault properties for the resource encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/** Properties of the key vault. */
+export interface KeyVaultProperties {
+  /** The name of the key vault key. */
+  keyName: string;
+  /** The version of the key vault key. */
+  keyVersion?: string;
+  /** The Uri of the key vault. */
+  keyVaultUri: string;
+  /** The user assigned identity (ARM resource id) that has access to the key. */
+  userIdentity?: string;
 }
 
 /** The resource model definition for a ARM tracked top level resource */
@@ -155,6 +169,8 @@ export interface ErrorAdditionalInfo {
 
 /** Parameters for updating a Azure Health Bot. */
 export interface HealthBotUpdateParameters {
+  /** Properties of Azure Health Bot. */
+  properties?: HealthBotProperties;
   /** Tags for a Azure Health Bot. */
   tags?: { [propertyName: string]: string };
   /** SKU of the Azure Health Bot. */
@@ -162,6 +178,20 @@ export interface HealthBotUpdateParameters {
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
   location?: string;
+}
+
+/** Health Bot Keys Response. */
+export interface HealthBotKeysResponse {
+  /** Array of Azure Health Bot Secrets. */
+  secrets?: HealthBotKey[];
+}
+
+/** An entry of HealthBotKeysResponse */
+export interface HealthBotKey {
+  /** The name of the key. */
+  keyName?: string;
+  /** The value of the key. */
+  value?: string;
 }
 
 /** The list of Azure Health Bot operation response. */
@@ -222,28 +252,32 @@ export interface ValidationResult {
 }
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** Azure Health Bot resource definition */
-export type HealthBot = TrackedResource & {
+export interface HealthBot extends TrackedResource {
   /** SKU of the Azure Health Bot. */
   sku: Sku;
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
   /** The set of properties specific to Azure Health Bot resource. */
   properties?: HealthBotProperties;
-};
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -297,6 +331,20 @@ export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface BotsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecrets operation. */
+export type BotsListSecretsResponse = HealthBotKeysResponse;
+
+/** Optional parameters. */
+export interface BotsRegenerateApiJwtSecretOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateApiJwtSecret operation. */
+export type BotsRegenerateApiJwtSecretResponse = HealthBotKey;
 
 /** Optional parameters. */
 export interface BotsListByResourceGroupOptionalParams

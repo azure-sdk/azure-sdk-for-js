@@ -103,7 +103,7 @@ export const botName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-10",
+    defaultValue: "2022-08-08",
     isConstant: true,
     serializedName: "api-version",
     type: {

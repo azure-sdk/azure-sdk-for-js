@@ -31,6 +31,8 @@ export interface Bots {
     get(resourceGroupName: string, botName: string, options?: BotsGetOptionalParams): Promise<BotsGetResponse>;
     list(options?: BotsListOptionalParams): PagedAsyncIterableIterator<HealthBot>;
     listByResourceGroup(resourceGroupName: string, options?: BotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HealthBot>;
+    listSecrets(resourceGroupName: string, botName: string, options?: BotsListSecretsOptionalParams): Promise<BotsListSecretsResponse>;
+    regenerateApiJwtSecret(resourceGroupName: string, botName: string, options?: BotsRegenerateApiJwtSecretOptionalParams): Promise<BotsRegenerateApiJwtSecretResponse>;
     update(resourceGroupName: string, botName: string, parameters: HealthBotUpdateParameters, options?: BotsUpdateOptionalParams): Promise<BotsUpdateResponse>;
 }
 
@@ -85,6 +87,20 @@ export interface BotsListOptionalParams extends coreClient.OperationOptions {
 export type BotsListResponse = BotResponseList;
 
 // @public
+export interface BotsListSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BotsListSecretsResponse = HealthBotKeysResponse;
+
+// @public
+export interface BotsRegenerateApiJwtSecretOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BotsRegenerateApiJwtSecretResponse = HealthBotKey;
+
+// @public
 export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -112,11 +128,11 @@ export interface ErrorModel {
 }
 
 // @public
-export type HealthBot = TrackedResource & {
-    sku: Sku;
+export interface HealthBot extends TrackedResource {
     identity?: Identity;
     properties?: HealthBotProperties;
-};
+    sku: Sku;
+}
 
 // @public (undocumented)
 export class HealthbotClient extends coreClient.ServiceClient {
@@ -141,8 +157,20 @@ export interface HealthbotClientOptionalParams extends coreClient.ServiceClientO
 }
 
 // @public
+export interface HealthBotKey {
+    keyName?: string;
+    value?: string;
+}
+
+// @public
+export interface HealthBotKeysResponse {
+    secrets?: HealthBotKey[];
+}
+
+// @public
 export interface HealthBotProperties {
     readonly botManagementPortalLink?: string;
+    keyVaultProperties?: KeyVaultProperties;
     readonly provisioningState?: string;
 }
 
@@ -151,6 +179,7 @@ export interface HealthBotUpdateParameters {
     identity?: Identity;
     // (undocumented)
     location?: string;
+    properties?: HealthBotProperties;
     sku?: Sku;
     tags?: {
         [propertyName: string]: string;
@@ -171,14 +200,18 @@ export interface Identity {
 export type IdentityType = string;
 
 // @public
+export interface KeyVaultProperties {
+    keyName: string;
+    keyVaultUri: string;
+    keyVersion?: string;
+    userIdentity?: string;
+}
+
+// @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -248,12 +281,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserAssignedIdentity {

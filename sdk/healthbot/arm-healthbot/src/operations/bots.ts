@@ -28,6 +28,10 @@ import {
   BotsUpdateOptionalParams,
   BotsUpdateResponse,
   BotsDeleteOptionalParams,
+  BotsListSecretsOptionalParams,
+  BotsListSecretsResponse,
+  BotsRegenerateApiJwtSecretOptionalParams,
+  BotsRegenerateApiJwtSecretResponse,
   BotsListByResourceGroupResponse,
   BotsListResponse,
   BotsListByResourceGroupNextResponse,
@@ -347,6 +351,40 @@ export class BotsImpl implements Bots {
   }
 
   /**
+   * List all secrets of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsListSecretsOptionalParams
+  ): Promise<BotsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, botName, options },
+      listSecretsOperationSpec
+    );
+  }
+
+  /**
+   * Regenerate the API JWT Secret of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  regenerateApiJwtSecret(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsRegenerateApiJwtSecretOptionalParams
+  ): Promise<BotsRegenerateApiJwtSecretResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, botName, options },
+      regenerateApiJwtSecretOperationSpec
+    );
+  }
+
+  /**
    * Returns all the resources of a particular type belonging to a resource group
    * @param resourceGroupName The name of the Bot resource group in the user subscription.
    * @param options The options parameters.
@@ -495,6 +533,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.botName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthBot/healthBots/{botName}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HealthBotKeysResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.botName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const regenerateApiJwtSecretOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthBot/healthBots/{botName}/regenerateApiJwtSecret",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HealthBotKey
+    },
     default: {
       bodyMapper: Mappers.ErrorModel
     }

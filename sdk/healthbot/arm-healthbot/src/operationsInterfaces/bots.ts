@@ -19,7 +19,11 @@ import {
   HealthBotUpdateParameters,
   BotsUpdateOptionalParams,
   BotsUpdateResponse,
-  BotsDeleteOptionalParams
+  BotsDeleteOptionalParams,
+  BotsListSecretsOptionalParams,
+  BotsListSecretsResponse,
+  BotsRegenerateApiJwtSecretOptionalParams,
+  BotsRegenerateApiJwtSecretResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -113,4 +117,26 @@ export interface Bots {
     botName: string,
     options?: BotsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * List all secrets of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsListSecretsOptionalParams
+  ): Promise<BotsListSecretsResponse>;
+  /**
+   * Regenerate the API JWT Secret of a HealthBot.
+   * @param resourceGroupName The name of the Bot resource group in the user subscription.
+   * @param botName The name of the Bot resource.
+   * @param options The options parameters.
+   */
+  regenerateApiJwtSecret(
+    resourceGroupName: string,
+    botName: string,
+    options?: BotsRegenerateApiJwtSecretOptionalParams
+  ): Promise<BotsRegenerateApiJwtSecretResponse>;
 }

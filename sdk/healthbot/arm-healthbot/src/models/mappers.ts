@@ -110,6 +110,48 @@ export const HealthBotProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyName: {
+        serializedName: "keyName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVersion: {
+        serializedName: "keyVersion",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultUri: {
+        serializedName: "keyVaultUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userIdentity: {
+        serializedName: "userIdentity",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -298,6 +340,13 @@ export const HealthBotUpdateParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "HealthBotUpdateParameters",
     modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "HealthBotProperties"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -321,6 +370,48 @@ export const HealthBotUpdateParameters: coreClient.CompositeMapper = {
       },
       location: {
         serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HealthBotKeysResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthBotKeysResponse",
+    modelProperties: {
+      secrets: {
+        serializedName: "secrets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HealthBotKey"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const HealthBotKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthBotKey",
+    modelProperties: {
+      keyName: {
+        serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
         type: {
           name: "String"
         }
