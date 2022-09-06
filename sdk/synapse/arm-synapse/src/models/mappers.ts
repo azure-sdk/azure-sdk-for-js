@@ -2564,14 +2564,22 @@ export const ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToMa
       desiredState: {
         serializedName: "desiredState",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"]
         }
       },
       actualState: {
         serializedName: "actualState",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Enabling",
+            "Enabled",
+            "Disabling",
+            "Disabled",
+            "Unknown"
+          ]
         }
       }
     }
@@ -8328,6 +8336,13 @@ export const ClusterPrincipalAssignment: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      aadObjectId: {
+        serializedName: "properties.aadObjectId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -8386,6 +8401,13 @@ export const DatabasePrincipalAssignment: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      aadObjectId: {
+        serializedName: "properties.aadObjectId",
         readOnly: true,
         type: {
           name: "String"
@@ -8715,6 +8737,12 @@ export const BigDataPoolResourceInfo: coreClient.CompositeMapper = {
       },
       isComputeIsolationEnabled: {
         serializedName: "properties.isComputeIsolationEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAutotuneEnabled: {
+        serializedName: "properties.isAutotuneEnabled",
         type: {
           name: "Boolean"
         }
@@ -9354,6 +9382,13 @@ export const SparkConfigurationResource: coreClient.CompositeMapper = {
         serializedName: "properties.created",
         type: {
           name: "DateTime"
+        }
+      },
+      configMergeRule: {
+        serializedName: "properties.configMergeRule",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
