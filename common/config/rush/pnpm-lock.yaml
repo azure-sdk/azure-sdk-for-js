@@ -4092,7 +4092,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220904
+      typescript: 4.9.0-dev.20220905
     dev: false
 
   /downlevel-dts/0.4.0:
@@ -9095,8 +9095,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220904:
-    resolution: {integrity: sha512-zUWjUShDSE1RGYlcSbiHF/VgqEl9mGMw07z6qhsRjtYLyRftM65b4WPk/EziV/TwN3uf8kAJcoyIxuDrxlt8tg==}
+  /typescript/4.9.0-dev.20220905:
+    resolution: {integrity: sha512-Y3m8ommI+wTpwdh1vNdp5a2AvvD7UYkUfuUJkB+DrM/7z4XMTCEVcZXjiH5OwICNHy9k9N6ZeaTTokpcNj4kVg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13497,7 +13497,7 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-eZYlpqpVKcLHW+51jRluEMrmNwUcMgj5O50EEmWFVlZyFMsNAO/FRkI9UqJd6Ez+gB5sR0Su/mIbOn3OCxs0IQ==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-OYruJktfIM9ck8IUD3gvmUQJF6fe45qIPVK/fHDppjX5tU3l2RzyTMGE88R3O3rgF0vq8IYLnEos7JRKc85ttw==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -13518,7 +13518,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'

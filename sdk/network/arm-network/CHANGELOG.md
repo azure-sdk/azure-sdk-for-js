@@ -1,15 +1,112 @@
 # Release History
+    
+## 30.0.0 (2022-09-06)
+    
+**Features**
 
-## 29.0.1 (Unreleased)
+  - Added operation group ApplicationGatewayWafDynamicManifests
+  - Added operation group ApplicationGatewayWafDynamicManifestsDefault
+  - Added operation group VipSwap
+  - Added operation PublicIPAddresses.beginDdosProtectionStatus
+  - Added operation PublicIPAddresses.beginDdosProtectionStatusAndWait
+  - Added operation VirtualNetworks.beginListDdosProtectionStatusAndWait
+  - Added Interface ApplicationGatewayFirewallManifestRuleSet
+  - Added Interface ApplicationGatewayWafDynamicManifestResult
+  - Added Interface ApplicationGatewayWafDynamicManifestResultList
+  - Added Interface ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams
+  - Added Interface ApplicationGatewayWafDynamicManifestsGetNextOptionalParams
+  - Added Interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
+  - Added Interface PublicIPAddressesDdosProtectionStatusOptionalParams
+  - Added Interface PublicIpDdosProtectionStatusResult
+  - Added Interface SwapResource
+  - Added Interface SwapResourceListResult
+  - Added Interface SwapResourceProperties
+  - Added Interface VipSwapCreateOptionalParams
+  - Added Interface VipSwapGetOptionalParams
+  - Added Interface VipSwapListOptionalParams
+  - Added Interface VirtualNetworkDdosProtectionStatusResult
+  - Added Interface VirtualNetworkGatewayPolicyGroup
+  - Added Interface VirtualNetworkGatewayPolicyGroupMember
+  - Added Interface VirtualNetworksListDdosProtectionStatusNextOptionalParams
+  - Added Interface VirtualNetworksListDdosProtectionStatusOptionalParams
+  - Added Interface VngClientConnectionConfiguration
+  - Added Type Alias ActionType
+  - Added Type Alias ApplicationGatewayClientRevocationOptions
+  - Added Type Alias ApplicationGatewayRuleSetStatusOptions
+  - Added Type Alias ApplicationGatewayTierTypes
+  - Added Type Alias ApplicationGatewayWafDynamicManifestsDefaultGetResponse
+  - Added Type Alias ApplicationGatewayWafDynamicManifestsGetNextResponse
+  - Added Type Alias ApplicationGatewayWafDynamicManifestsGetResponse
+  - Added Type Alias ApplicationGatewayWafRuleActionTypes
+  - Added Type Alias ApplicationGatewayWafRuleStateTypes
+  - Added Type Alias CustomIpPrefixType
+  - Added Type Alias DdosSettingsProtectionMode
+  - Added Type Alias ExpressRoutePortsBillingType
+  - Added Type Alias Geo
+  - Added Type Alias IsWorkloadProtected
+  - Added Type Alias PublicIPAddressesDdosProtectionStatusResponse
+  - Added Type Alias SlotType
+  - Added Type Alias VipSwapGetResponse
+  - Added Type Alias VipSwapListResponse
+  - Added Type Alias VirtualNetworksListDdosProtectionStatusNextResponse
+  - Added Type Alias VirtualNetworksListDdosProtectionStatusResponse
+  - Interface ApplicationGatewayClientAuthConfiguration has a new optional parameter verifyClientRevocation
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter action
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter ruleIdString
+  - Interface ApplicationGatewayFirewallRule has a new optional parameter state
+  - Interface ApplicationGatewayFirewallRuleSet has a new optional parameter tiers
+  - Interface CustomIpPrefix has a new optional parameter asn
+  - Interface CustomIpPrefix has a new optional parameter expressRouteAdvertise
+  - Interface CustomIpPrefix has a new optional parameter geo
+  - Interface CustomIpPrefix has a new optional parameter prefixType
+  - Interface DdosProtectionPlan has a new optional parameter publicIpAddresses
+  - Interface DdosSettings has a new optional parameter ddosProtectionPlan
+  - Interface DdosSettings has a new optional parameter protectionMode
+  - Interface ExpressRouteConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface ExpressRouteLink has a new optional parameter coloLocation
+  - Interface ExpressRoutePort has a new optional parameter billingType
+  - Interface ListActiveConnectivityConfigurationsOptionalParams has a new optional parameter top
+  - Interface ListActiveSecurityAdminRulesOptionalParams has a new optional parameter top
+  - Interface ListNetworkManagerEffectiveConnectivityConfigurationsOptionalParams has a new optional parameter top
+  - Interface ListNetworkManagerEffectiveSecurityAdminRulesOptionalParams has a new optional parameter top
+  - Interface ManagedRuleOverride has a new optional parameter action
+  - Interface NetworkInterface has a new optional parameter disableTcpStateTracking
+  - Interface NetworkManagerDeploymentStatusListOptionalParams has a new optional parameter top
+  - Interface Probe has a new optional parameter probeThreshold
+  - Interface VirtualNetworkGateway has a new optional parameter virtualNetworkGatewayPolicyGroups
+  - Interface VirtualNetworkGatewayConnection has a new optional parameter enablePrivateLinkFastPath
+  - Interface VirtualNetworkGatewayConnectionListEntity has a new optional parameter enablePrivateLinkFastPath
+  - Interface VpnClientConfiguration has a new optional parameter vngClientConnectionConfigurations
+  - Class NetworkManagementClient has a new parameter applicationGatewayWafDynamicManifests
+  - Class NetworkManagementClient has a new parameter applicationGatewayWafDynamicManifestsDefault
+  - Class NetworkManagementClient has a new parameter vipSwap
+  - Added Enum KnownActionType
+  - Added Enum KnownApplicationGatewayClientRevocationOptions
+  - Added Enum KnownApplicationGatewayRuleSetStatusOptions
+  - Added Enum KnownApplicationGatewayTierTypes
+  - Added Enum KnownApplicationGatewayWafRuleActionTypes
+  - Added Enum KnownApplicationGatewayWafRuleStateTypes
+  - Added Enum KnownCustomIpPrefixType
+  - Added Enum KnownDdosSettingsProtectionMode
+  - Added Enum KnownExpressRoutePortsBillingType
+  - Added Enum KnownGeo
+  - Added Enum KnownIsWorkloadProtected
+  - Enum KnownCommissionedState has a new value Deprovisioned
+  - Enum KnownManagedRuleEnabledState has a new value Enabled
+  - Enum KnownNetworkIntentPolicyBasedService has a new value AllowRulesOnly
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface DdosCustomPolicy no longer has parameter protocolCustomSettings
+  - Interface DdosCustomPolicy no longer has parameter publicIPAddresses
+  - Interface DdosSettings no longer has parameter ddosCustomPolicy
+  - Interface DdosSettings no longer has parameter protectedIP
+  - Interface DdosSettings no longer has parameter protectionCoverage
+  - Removed Enum KnownDdosCustomPolicyProtocol
+  - Removed Enum KnownDdosCustomPolicyTriggerSensitivityOverride
+  - Removed Enum KnownDdosSettingsProtectionCoverage
+    
+    
 ## 29.0.0 (2022-08-02)
     
 **Features**
