@@ -817,8 +817,11 @@ export interface Compute {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isAttachedCompute?: boolean;
-  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  /**
+   * Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly disableLocalAuth?: boolean;
 }
 
 /** AmlCompute update parameters. */
@@ -914,6 +917,89 @@ export interface NotebookAccessTokenResult {
 export interface ComputeSecrets {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "AKS" | "VirtualMachine" | "Databricks";
+}
+
+/** The list of schedules to be applied on the computes */
+export interface ComputeSchedules {
+  /** The list of compute start stop schedules to be applied. */
+  computeStartStop?: ComputeStartStopSchedule[];
+}
+
+/** Compute start stop schedule properties */
+export interface ComputeStartStopSchedule {
+  /**
+   * A system assigned id for the schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The current deployment state of schedule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningStatus?: ProvisioningStatus;
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus;
+  /** [Required] The compute power action. */
+  action?: ComputePowerAction;
+  /** [Required] The schedule trigger type. */
+  triggerType?: TriggerType;
+  /** Required if triggerType is Recurrence. */
+  recurrence?: Recurrence;
+  /** Required if triggerType is Cron. */
+  cron?: Cron;
+  /** [Deprecated] Not used any more. */
+  schedule?: ScheduleBase;
+}
+
+/** The workflow trigger recurrence for ComputeStartStop schedule type. */
+export interface Recurrence {
+  /** [Required] The frequency to trigger schedule. */
+  frequency?: RecurrenceFrequency;
+  /** [Required] Specifies schedule interval in conjunction with frequency */
+  interval?: number;
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /** [Required] The recurrence schedule. */
+  schedule?: RecurrenceSchedule;
+}
+
+export interface RecurrenceSchedule {
+  /** [Required] List of minutes for the schedule. */
+  minutes?: number[];
+  /** [Required] List of hours for the schedule. */
+  hours?: number[];
+  /** List of days for the schedule. */
+  weekDays?: DaysOfWeek[];
+}
+
+/** The workflow trigger cron for ComputeStartStop schedule type. */
+export interface Cron {
+  /** The start time in yyyy-MM-ddTHH:mm:ss format. */
+  startTime?: string;
+  /**
+   * Specifies time zone in which the schedule runs.
+   * TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11
+   */
+  timeZone?: string;
+  /**
+   * [Required] Specifies cron expression of schedule.
+   * The expression should follow NCronTab format.
+   */
+  expression?: string;
+}
+
+export interface ScheduleBase {
+  /** A system assigned id for the schedule. */
+  id?: string;
+  /** The current deployment state of schedule. */
+  provisioningStatus?: ScheduleProvisioningState;
+  /** Is the schedule enabled or disabled? */
+  status?: ScheduleStatus;
 }
 
 /** List of private endpoint connection associated with the specified workspace */
@@ -1872,35 +1958,6 @@ export interface ComputeInstanceLastOperation {
   operationStatus?: OperationStatus;
   /** Trigger of operation. */
   operationTrigger?: OperationTrigger;
-}
-
-/** The list of schedules to be applied on the computes */
-export interface ComputeSchedules {
-  /** The list of compute start stop schedules to be applied. */
-  computeStartStop?: ComputeStartStopSchedule[];
-}
-
-/** Compute start stop schedule properties */
-export interface ComputeStartStopSchedule {
-  /**
-   * Schedule id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The current deployment state of schedule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningStatus?: ProvisioningStatus;
-  /** The compute power action. */
-  action?: ComputePowerAction;
-  schedule?: ScheduleBase;
-}
-
-export interface ScheduleBase {
-  id?: string;
-  provisioningStatus?: ScheduleProvisioningState;
-  status?: ScheduleStatus;
 }
 
 /** Defines an Aml Instance container. */
@@ -3105,17 +3162,12 @@ export interface OnlineDeployment extends TrackedResource {
 
 /** Properties specific to a KubernetesOnlineDeployment. */
 export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointComputeType: "Kubernetes";
   /** The resource requirements for the container (cpu and memory). */
   containerResourceRequirements?: ContainerResourceRequirements;
 }
 
 /** Properties specific to a ManagedOnlineDeployment. */
-export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointComputeType: "Managed";
-}
+export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {}
 
 /** Container for code asset versions. */
 export interface CodeContainerProperties extends AssetContainer {}
@@ -3200,8 +3252,6 @@ export interface ModelVersionProperties extends AssetBase {
 
 /** Azure Blob datastore configuration. */
 export interface AzureBlobDatastore extends DatastoreProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureBlob";
   /** Storage account name. */
   accountName?: string;
   /** Storage account container name. */
@@ -3216,8 +3266,6 @@ export interface AzureBlobDatastore extends DatastoreProperties {
 
 /** Azure Data Lake Gen1 datastore configuration. */
 export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureDataLakeGen1";
   /** Indicates which identity to use to authenticate service data access to customer's storage. */
   serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
   /** [Required] Azure Data Lake store name. */
@@ -3226,8 +3274,6 @@ export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
 
 /** Azure Data Lake Gen2 datastore configuration. */
 export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureDataLakeGen2";
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3242,8 +3288,6 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
 
 /** Azure File datastore configuration. */
 export interface AzureFileDatastore extends DatastoreProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  datastoreType: "AzureFile";
   /** [Required] Storage account name. */
   accountName: string;
   /** Azure cloud endpoint for the storage account. */
@@ -3258,8 +3302,6 @@ export interface AzureFileDatastore extends DatastoreProperties {
 
 /** Command job definition. */
 export interface CommandJob extends JobBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobType: "Command";
   /** ARM resource ID of the code asset. */
   codeId?: string;
   /** [Required] The command to execute on startup of the job. eg. "python train.py" */
@@ -3287,8 +3329,6 @@ export interface CommandJob extends JobBaseProperties {
 
 /** Pipeline Job definition: defines generic to MFE attributes. */
 export interface PipelineJob extends JobBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobType: "Pipeline";
   /** Inputs for the pipeline job. */
   inputs?: { [propertyName: string]: JobInputUnion | null };
   /** Jobs construct the Pipeline Job. */
@@ -3301,8 +3341,6 @@ export interface PipelineJob extends JobBaseProperties {
 
 /** Sweep job definition. */
 export interface SweepJob extends JobBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  jobType: "Sweep";
   /** Early termination policies enable canceling poor-performing runs before they complete */
   earlyTermination?: EarlyTerminationPolicyUnion;
   /** Mapping of input data bindings used in the job. */
@@ -3323,23 +3361,15 @@ export interface SweepJob extends JobBaseProperties {
 
 /** MLTable data definition */
 export interface MLTableData extends DataVersionBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataType: "mltable";
   /** Uris referenced in the MLTable definition (required for lineage) */
   referencedUris?: string[];
 }
 
 /** uri-file data version entity */
-export interface UriFileDataVersion extends DataVersionBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataType: "uri_file";
-}
+export interface UriFileDataVersion extends DataVersionBaseProperties {}
 
 /** uri-folder data version entity */
-export interface UriFolderDataVersion extends DataVersionBaseProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dataType: "uri_folder";
-}
+export interface UriFolderDataVersion extends DataVersionBaseProperties {}
 
 /** Defines headers for Workspaces_diagnose operation. */
 export interface WorkspacesDiagnoseHeaders {
@@ -3914,6 +3944,129 @@ export enum KnownNodeState {
  * **preempted**
  */
 export type NodeState = string;
+
+/** Known values of {@link ProvisioningStatus} that the service accepts. */
+export enum KnownProvisioningStatus {
+  /** Completed */
+  Completed = "Completed",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ProvisioningStatus. \
+ * {@link KnownProvisioningStatus} can be used interchangeably with ProvisioningStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Completed** \
+ * **Provisioning** \
+ * **Failed**
+ */
+export type ProvisioningStatus = string;
+
+/** Known values of {@link ScheduleStatus} that the service accepts. */
+export enum KnownScheduleStatus {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ScheduleStatus. \
+ * {@link KnownScheduleStatus} can be used interchangeably with ScheduleStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ScheduleStatus = string;
+
+/** Known values of {@link ComputePowerAction} that the service accepts. */
+export enum KnownComputePowerAction {
+  /** Start */
+  Start = "Start",
+  /** Stop */
+  Stop = "Stop"
+}
+
+/**
+ * Defines values for ComputePowerAction. \
+ * {@link KnownComputePowerAction} can be used interchangeably with ComputePowerAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Start** \
+ * **Stop**
+ */
+export type ComputePowerAction = string;
+
+/** Known values of {@link TriggerType} that the service accepts. */
+export enum KnownTriggerType {
+  /** Recurrence */
+  Recurrence = "Recurrence",
+  /** Cron */
+  Cron = "Cron"
+}
+
+/**
+ * Defines values for TriggerType. \
+ * {@link KnownTriggerType} can be used interchangeably with TriggerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Recurrence** \
+ * **Cron**
+ */
+export type TriggerType = string;
+
+/** Known values of {@link RecurrenceFrequency} that the service accepts. */
+export enum KnownRecurrenceFrequency {
+  /** Minute */
+  Minute = "Minute",
+  /** Hour */
+  Hour = "Hour",
+  /** Day */
+  Day = "Day",
+  /** Week */
+  Week = "Week",
+  /** Month */
+  Month = "Month"
+}
+
+/**
+ * Defines values for RecurrenceFrequency. \
+ * {@link KnownRecurrenceFrequency} can be used interchangeably with RecurrenceFrequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Minute** \
+ * **Hour** \
+ * **Day** \
+ * **Week** \
+ * **Month**
+ */
+export type RecurrenceFrequency = string;
+
+/** Known values of {@link ScheduleProvisioningState} that the service accepts. */
+export enum KnownScheduleProvisioningState {
+  /** Completed */
+  Completed = "Completed",
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ScheduleProvisioningState. \
+ * {@link KnownScheduleProvisioningState} can be used interchangeably with ScheduleProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Completed** \
+ * **Provisioning** \
+ * **Failed**
+ */
+export type ScheduleProvisioningState = string;
 
 /** Known values of {@link ConnectionAuthType} that the service accepts. */
 export enum KnownConnectionAuthType {
@@ -4825,84 +4978,6 @@ export enum KnownOperationTrigger {
  */
 export type OperationTrigger = string;
 
-/** Known values of {@link ProvisioningStatus} that the service accepts. */
-export enum KnownProvisioningStatus {
-  /** Completed */
-  Completed = "Completed",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for ProvisioningStatus. \
- * {@link KnownProvisioningStatus} can be used interchangeably with ProvisioningStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Completed** \
- * **Provisioning** \
- * **Failed**
- */
-export type ProvisioningStatus = string;
-
-/** Known values of {@link ComputePowerAction} that the service accepts. */
-export enum KnownComputePowerAction {
-  /** Start */
-  Start = "Start",
-  /** Stop */
-  Stop = "Stop"
-}
-
-/**
- * Defines values for ComputePowerAction. \
- * {@link KnownComputePowerAction} can be used interchangeably with ComputePowerAction,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Start** \
- * **Stop**
- */
-export type ComputePowerAction = string;
-
-/** Known values of {@link ScheduleProvisioningState} that the service accepts. */
-export enum KnownScheduleProvisioningState {
-  /** Completed */
-  Completed = "Completed",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for ScheduleProvisioningState. \
- * {@link KnownScheduleProvisioningState} can be used interchangeably with ScheduleProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Completed** \
- * **Provisioning** \
- * **Failed**
- */
-export type ScheduleProvisioningState = string;
-
-/** Known values of {@link ScheduleStatus} that the service accepts. */
-export enum KnownScheduleStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled"
-}
-
-/**
- * Defines values for ScheduleStatus. \
- * {@link KnownScheduleStatus} can be used interchangeably with ScheduleStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type ScheduleStatus = string;
-
 /** Known values of {@link Autosave} that the service accepts. */
 export enum KnownAutosave {
   /** None */
@@ -5300,6 +5375,15 @@ export enum KnownRandomSamplingAlgorithmRule {
 export type RandomSamplingAlgorithmRule = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+/** Defines values for DaysOfWeek. */
+export type DaysOfWeek =
+  | "Sunday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -5584,6 +5668,13 @@ export interface ComputeRestartOptionalParams
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ComputeUpdateSchedulesOptionalParams
+  extends coreClient.OperationOptions {
+  /** The object for updating schedules of specified ComputeInstance. */
+  parameters?: ComputeSchedules;
 }
 
 /** Optional parameters. */

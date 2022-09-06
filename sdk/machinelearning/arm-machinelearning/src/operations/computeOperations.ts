@@ -37,6 +37,7 @@ import {
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  ComputeUpdateSchedulesOptionalParams,
   ComputeListNextResponse,
   ComputeListNodesNextResponse
 } from "../models";
@@ -827,6 +828,25 @@ export class ComputeOperationsImpl implements ComputeOperations {
   }
 
   /**
+   * Updates schedules of a compute instance
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The options parameters.
+   */
+  updateSchedules(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    options?: ComputeUpdateSchedulesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, computeName, options },
+      updateSchedulesOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -1122,6 +1142,29 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.computeName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateSchedulesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/updateSchedules",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.computeName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

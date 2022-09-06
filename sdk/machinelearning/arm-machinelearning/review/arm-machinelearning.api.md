@@ -214,7 +214,6 @@ export interface AutoScaleProperties {
 export interface AzureBlobDatastore extends DatastoreProperties {
     accountName?: string;
     containerName?: string;
-    datastoreType: "AzureBlob";
     endpoint?: string;
     protocol?: string;
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
@@ -222,7 +221,6 @@ export interface AzureBlobDatastore extends DatastoreProperties {
 
 // @public
 export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
-    datastoreType: "AzureDataLakeGen1";
     serviceDataAccessAuthIdentity?: ServiceDataAccessAuthIdentity;
     storeName: string;
 }
@@ -230,7 +228,6 @@ export interface AzureDataLakeGen1Datastore extends DatastoreProperties {
 // @public
 export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureDataLakeGen2";
     endpoint?: string;
     filesystem: string;
     protocol?: string;
@@ -240,7 +237,6 @@ export interface AzureDataLakeGen2Datastore extends DatastoreProperties {
 // @public
 export interface AzureFileDatastore extends DatastoreProperties {
     accountName: string;
-    datastoreType: "AzureFile";
     endpoint?: string;
     fileShareName: string;
     protocol?: string;
@@ -741,7 +737,6 @@ export interface CommandJob extends JobBaseProperties {
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
     };
-    jobType: "Command";
     limits?: CommandJobLimits;
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
@@ -884,7 +879,7 @@ export interface Compute {
     computeType: "AKS" | "Kubernetes" | "AmlCompute" | "ComputeInstance" | "VirtualMachine" | "HDInsight" | "DataFactory" | "Databricks" | "DataLakeAnalytics" | "SynapseSpark";
     readonly createdOn?: Date;
     description?: string;
-    disableLocalAuth?: boolean;
+    readonly disableLocalAuth?: boolean;
     readonly isAttachedCompute?: boolean;
     readonly modifiedOn?: Date;
     readonly provisioningErrors?: ErrorResponse[];
@@ -1096,6 +1091,7 @@ export interface ComputeOperations {
     list(resourceGroupName: string, workspaceName: string, options?: ComputeListOptionalParams): PagedAsyncIterableIterator<ComputeResource>;
     listKeys(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListKeysOptionalParams): Promise<ComputeListKeysResponse>;
     listNodes(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListNodesOptionalParams): PagedAsyncIterableIterator<AmlComputeNodeInformation>;
+    updateSchedules(resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeUpdateSchedulesOptionalParams): Promise<void>;
 }
 
 // @public
@@ -1144,10 +1140,13 @@ export interface ComputeStartOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ComputeStartStopSchedule {
     action?: ComputePowerAction;
+    cron?: Cron;
     readonly id?: string;
     readonly provisioningStatus?: ProvisioningStatus;
-    // (undocumented)
+    recurrence?: Recurrence;
     schedule?: ScheduleBase;
+    status?: ScheduleStatus;
+    triggerType?: TriggerType;
 }
 
 // @public
@@ -1170,6 +1169,11 @@ export interface ComputeUpdateOptionalParams extends coreClient.OperationOptions
 
 // @public
 export type ComputeUpdateResponse = ComputeResource;
+
+// @public
+export interface ComputeUpdateSchedulesOptionalParams extends coreClient.OperationOptions {
+    parameters?: ComputeSchedules;
+}
 
 // @public
 export type ConnectionAuthType = string;
@@ -1203,6 +1207,13 @@ export type CreatedByType = string;
 
 // @public
 export type CredentialsType = string;
+
+// @public
+export interface Cron {
+    expression?: string;
+    startTime?: string;
+    timeZone?: string;
+}
 
 // @public (undocumented)
 export interface CustomModelJobInput extends AssetJobInput, JobInput {
@@ -1501,6 +1512,9 @@ export interface DataVersionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type DataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult;
+
+// @public
+export type DaysOfWeek = "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 // @public (undocumented)
 export interface DefaultScaleSettings extends OnlineScaleSettings {
@@ -2582,6 +2596,15 @@ export enum KnownRandomSamplingAlgorithmRule {
 }
 
 // @public
+export enum KnownRecurrenceFrequency {
+    Day = "Day",
+    Hour = "Hour",
+    Minute = "Minute",
+    Month = "Month",
+    Week = "Week"
+}
+
+// @public
 export enum KnownReferenceType {
     DataPath = "DataPath",
     Id = "Id",
@@ -2682,6 +2705,12 @@ export enum KnownStorageAccountType {
 }
 
 // @public
+export enum KnownTriggerType {
+    Cron = "Cron",
+    Recurrence = "Recurrence"
+}
+
+// @public
 export enum KnownUnderlyingResourceAction {
     Delete = "Delete",
     Detach = "Detach"
@@ -2729,7 +2758,6 @@ export interface Kubernetes extends Compute, KubernetesSchema {
 // @public
 export interface KubernetesOnlineDeployment extends OnlineDeploymentProperties {
     containerResourceRequirements?: ContainerResourceRequirements;
-    endpointComputeType: "Kubernetes";
 }
 
 // @public
@@ -2818,7 +2846,6 @@ export interface ManagedIdentityAuthTypeWorkspaceConnectionProperties extends Wo
 
 // @public
 export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
-    endpointComputeType: "Managed";
 }
 
 // @public
@@ -2849,7 +2876,6 @@ export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {
 
 // @public
 export interface MLTableData extends DataVersionBaseProperties {
-    dataType: "mltable";
     referencedUris?: string[];
 }
 
@@ -3494,7 +3520,6 @@ export interface PipelineJob extends JobBaseProperties {
     jobs?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    jobType: "Pipeline";
     outputs?: {
         [propertyName: string]: JobOutputUnion | null;
     };
@@ -3680,6 +3705,25 @@ export interface RandomSamplingAlgorithm extends SamplingAlgorithm {
 export type RandomSamplingAlgorithmRule = string;
 
 // @public
+export interface Recurrence {
+    frequency?: RecurrenceFrequency;
+    interval?: number;
+    schedule?: RecurrenceSchedule;
+    startTime?: string;
+    timeZone?: string;
+}
+
+// @public
+export type RecurrenceFrequency = string;
+
+// @public (undocumented)
+export interface RecurrenceSchedule {
+    hours?: number[];
+    minutes?: number[];
+    weekDays?: DaysOfWeek[];
+}
+
+// @public
 export type ReferenceType = string;
 
 // @public (undocumented)
@@ -3801,11 +3845,8 @@ export type ScaleType = string;
 
 // @public (undocumented)
 export interface ScheduleBase {
-    // (undocumented)
     id?: string;
-    // (undocumented)
     provisioningStatus?: ScheduleProvisioningState;
-    // (undocumented)
     status?: ScheduleStatus;
 }
 
@@ -3943,7 +3984,6 @@ export interface SweepJob extends JobBaseProperties {
     inputs?: {
         [propertyName: string]: JobInputUnion | null;
     };
-    jobType: "Sweep";
     limits?: SweepJobLimits;
     objective: Objective;
     outputs?: {
@@ -4036,6 +4076,9 @@ export interface TrialComponent {
     resources?: ResourceConfiguration;
 }
 
+// @public
+export type TriggerType = string;
+
 // @public (undocumented)
 export interface TritonModelJobInput extends AssetJobInput, JobInput {
 }
@@ -4073,7 +4116,6 @@ export interface UpdateWorkspaceQuotasResult {
 
 // @public
 export interface UriFileDataVersion extends DataVersionBaseProperties {
-    dataType: "uri_file";
 }
 
 // @public (undocumented)
@@ -4086,7 +4128,6 @@ export interface UriFileJobOutput extends AssetJobOutput, JobOutput {
 
 // @public
 export interface UriFolderDataVersion extends DataVersionBaseProperties {
-    dataType: "uri_folder";
 }
 
 // @public (undocumented)

@@ -1,15 +1,40 @@
 # Release History
+    
+## 3.0.0 (2022-09-06)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
+  - Added operation ComputeOperations.updateSchedules
+  - Added Interface ComputeUpdateSchedulesOptionalParams
+  - Added Interface Cron
+  - Added Interface Recurrence
+  - Added Interface RecurrenceSchedule
+  - Added Type Alias DaysOfWeek
+  - Added Type Alias RecurrenceFrequency
+  - Added Type Alias TriggerType
+  - Interface ComputeStartStopSchedule has a new optional parameter cron
+  - Interface ComputeStartStopSchedule has a new optional parameter recurrence
+  - Interface ComputeStartStopSchedule has a new optional parameter status
+  - Interface ComputeStartStopSchedule has a new optional parameter triggerType
+  - Added Enum KnownRecurrenceFrequency
+  - Added Enum KnownTriggerType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AzureBlobDatastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen1Datastore no longer has parameter datastoreType
+  - Interface AzureDataLakeGen2Datastore no longer has parameter datastoreType
+  - Interface AzureFileDatastore no longer has parameter datastoreType
+  - Interface CommandJob no longer has parameter jobType
+  - Interface KubernetesOnlineDeployment no longer has parameter endpointComputeType
+  - Interface ManagedOnlineDeployment no longer has parameter endpointComputeType
+  - Interface MLTableData no longer has parameter dataType
+  - Interface PipelineJob no longer has parameter jobType
+  - Interface SweepJob no longer has parameter jobType
+  - Interface UriFileDataVersion no longer has parameter dataType
+  - Interface UriFolderDataVersion no longer has parameter dataType
+    
+    
 ## 2.0.0 (2022-08-05)
     
 **Breaking Changes**

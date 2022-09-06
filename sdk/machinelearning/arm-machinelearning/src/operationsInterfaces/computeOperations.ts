@@ -26,7 +26,8 @@ import {
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
-  ComputeRestartOptionalParams
+  ComputeRestartOptionalParams,
+  ComputeUpdateSchedulesOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -265,5 +266,18 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
+  ): Promise<void>;
+  /**
+   * Updates schedules of a compute instance
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The options parameters.
+   */
+  updateSchedules(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    options?: ComputeUpdateSchedulesOptionalParams
   ): Promise<void>;
 }
