@@ -8,6 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -25,27 +41,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -141,72 +136,12 @@ export interface UnitSystemsInfo {
   values: string[];
 }
 
-/** Identity for the resource. */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: "SystemAssigned";
-}
-
-/** Sensor integration request model. */
-export interface SensorIntegration {
-  /** Sensor integration enable state. Allowed values are True, None */
-  enabled?: string;
-  /**
-   * Sensor integration instance provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-  provisioningInfo?: ErrorResponse;
-}
-
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
 /** FarmBeats update request. */
 export interface FarmBeatsUpdateRequestModel {
   /** Geo-location where the resource lives. */
   location?: string;
-  /** Identity for the resource. */
-  identity?: Identity;
-  /** FarmBeats ARM Resource properties. */
-  properties?: FarmBeatsUpdateProperties;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-}
-
-/** FarmBeats ARM Resource properties. */
-export interface FarmBeatsUpdateProperties {
-  /** Sensor integration request model. */
-  sensorIntegration?: SensorIntegration;
-  /** Property to allow or block public traffic for an Azure FarmBeats resource. */
-  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Paged response contains list of requested objects and a URL link to get the next set of results. */
@@ -218,15 +153,6 @@ export interface FarmBeatsListResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/**
- * Arm async operation class.
- * Ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations.
- */
-export interface ArmAsyncOperation {
-  /** Status of the async operation. */
-  status?: string;
 }
 
 /** The check availability request body. */
@@ -311,33 +237,8 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** List of private endpoint connection associated with the specified storage account */
-export interface PrivateEndpointConnectionListResult {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
-}
-
-/** A list of private link resources */
-export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResource[];
-}
-
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
-
-/** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends Resource {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -347,24 +248,13 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-/** A private link resource */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredMembers?: string[];
-  /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
 /** Extension resource. */
 export interface Extension extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * The ETag value to implement optimistic concurrency.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -399,6 +289,11 @@ export interface Extension extends ProxyResource {
 
 /** FarmBeats extension resource. */
 export interface FarmBeatsExtension extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Target ResourceType of the farmBeatsExtension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -456,8 +351,11 @@ export interface FarmBeatsExtension extends ProxyResource {
 
 /** FarmBeats ARM Resource. */
 export interface FarmBeats extends TrackedResource {
-  /** Identity for the resource. */
-  identity?: Identity;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /**
    * Uri of the FarmBeats instance.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -468,25 +366,6 @@ export interface FarmBeats extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Sensor integration request model. */
-  sensorIntegration?: SensorIntegration;
-  /** Property to allow or block public traffic for an Azure FarmBeats resource. */
-  publicNetworkAccess?: PublicNetworkAccess;
-  /**
-   * The Private Endpoint Connection resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection;
-}
-
-/** Defines headers for FarmBeatsModels_update operation. */
-export interface FarmBeatsModelsUpdateHeaders {
-  location?: string;
-}
-
-/** Defines headers for PrivateEndpointConnections_delete operation. */
-export interface PrivateEndpointConnectionsDeleteHeaders {
-  location?: string;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -515,12 +394,6 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Creating */
-  Creating = "Creating",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
@@ -532,76 +405,10 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Deleting** \
  * **Succeeded** \
  * **Failed**
  */
 export type ProvisioningState = string;
-
-/** Known values of {@link PublicNetworkAccess} that the service accepts. */
-export enum KnownPublicNetworkAccess {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Hybrid */
-  Hybrid = "Hybrid"
-}
-
-/**
- * Defines values for PublicNetworkAccess. \
- * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Hybrid**
- */
-export type PublicNetworkAccess = string;
-
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
-  Pending = "Pending",
-  /** Approved */
-  Approved = "Approved",
-  /** Rejected */
-  Rejected = "Rejected"
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Creating */
-  Creating = "Creating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Failed */
-  Failed = "Failed"
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
@@ -785,12 +592,7 @@ export type FarmBeatsModelsCreateOrUpdateResponse = FarmBeats;
 
 /** Optional parameters. */
 export interface FarmBeatsModelsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type FarmBeatsModelsUpdateResponse = FarmBeats;
@@ -828,13 +630,6 @@ export interface FarmBeatsModelsListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type FarmBeatsModelsListByResourceGroupResponse = FarmBeatsListResponse;
-
-/** Optional parameters. */
-export interface FarmBeatsModelsGetOperationResultOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getOperationResult operation. */
-export type FarmBeatsModelsGetOperationResultResponse = ArmAsyncOperation;
 
 /** Optional parameters. */
 export interface FarmBeatsModelsListBySubscriptionNextOptionalParams
@@ -888,51 +683,7 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListByResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResource operation. */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesListByResourceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResource operation. */
-export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-/** Optional parameters. */
-export interface AgriFoodMgmtClientOptionalParams
+export interface AzureAgriFoodRPServiceOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

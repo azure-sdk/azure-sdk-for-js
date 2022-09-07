@@ -14,8 +14,7 @@ import {
 import {
   FarmBeats as FarmBeatsMapper,
   FarmBeatsUpdateRequestModel as FarmBeatsUpdateRequestModelMapper,
-  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -42,13 +41,21 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
+export const extensionId: OperationURLParameter = {
+  parameterPath: "extensionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "subscriptionId",
+    serializedName: "extensionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const farmBeatsResourceName: OperationURLParameter = {
+  parameterPath: "farmBeatsResourceName",
+  mapper: {
+    serializedName: "farmBeatsResourceName",
     required: true,
     type: {
       name: "String"
@@ -71,21 +78,13 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const farmBeatsResourceName: OperationURLParameter = {
-  parameterPath: "farmBeatsResourceName",
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
   mapper: {
-    serializedName: "farmBeatsResourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extensionId: OperationURLParameter = {
-  parameterPath: "extensionId",
-  mapper: {
-    serializedName: "extensionId",
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "subscriptionId",
     required: true,
     type: {
       name: "String"
@@ -96,7 +95,7 @@ export const extensionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2020-05-12-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -258,48 +257,7 @@ export const body1: OperationParameter = {
   mapper: FarmBeatsUpdateRequestModelMapper
 };
 
-export const operationResultsId: OperationURLParameter = {
-  parameterPath: "operationResultsId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z0-9]+(-[A-Za-z0-9]+)*$")
-    },
-    serializedName: "operationResultsId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const body2: OperationParameter = {
   parameterPath: "body",
   mapper: CheckNameAvailabilityRequestMapper
-};
-
-export const body3: OperationParameter = {
-  parameterPath: "body",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const privateEndpointConnectionName: OperationURLParameter = {
-  parameterPath: "privateEndpointConnectionName",
-  mapper: {
-    serializedName: "privateEndpointConnectionName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subResourceName: OperationURLParameter = {
-  parameterPath: "subResourceName",
-  mapper: {
-    serializedName: "subResourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

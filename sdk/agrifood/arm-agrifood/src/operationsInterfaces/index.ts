@@ -11,5 +11,3 @@ export * from "./farmBeatsExtensions";
 export * from "./farmBeatsModels";
 export * from "./locations";
 export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
