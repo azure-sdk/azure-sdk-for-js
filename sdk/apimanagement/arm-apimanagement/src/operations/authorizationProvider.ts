@@ -7,31 +7,31 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { GatewayApi } from "../operationsInterfaces";
+import { AuthorizationProvider } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClient } from "../apiManagementClient";
 import {
-  ApiContract,
-  GatewayApiListByServiceNextOptionalParams,
-  GatewayApiListByServiceOptionalParams,
-  GatewayApiListByServiceResponse,
-  GatewayApiGetEntityTagOptionalParams,
-  GatewayApiGetEntityTagResponse,
-  GatewayApiCreateOrUpdateOptionalParams,
-  GatewayApiCreateOrUpdateResponse,
-  GatewayApiDeleteOptionalParams,
-  GatewayApiListByServiceNextResponse
+  AuthorizationProviderContract,
+  AuthorizationProviderListByServiceNextOptionalParams,
+  AuthorizationProviderListByServiceOptionalParams,
+  AuthorizationProviderListByServiceResponse,
+  AuthorizationProviderGetOptionalParams,
+  AuthorizationProviderGetResponse,
+  AuthorizationProviderCreateOrUpdateOptionalParams,
+  AuthorizationProviderCreateOrUpdateResponse,
+  AuthorizationProviderDeleteOptionalParams,
+  AuthorizationProviderListByServiceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing GatewayApi operations. */
-export class GatewayApiImpl implements GatewayApi {
+/** Class containing AuthorizationProvider operations. */
+export class AuthorizationProviderImpl implements AuthorizationProvider {
   private readonly client: ApiManagementClient;
 
   /**
-   * Initialize a new instance of the class GatewayApi class.
+   * Initialize a new instance of the class AuthorizationProvider class.
    * @param client Reference to the service client
    */
   constructor(client: ApiManagementClient) {
@@ -39,23 +39,19 @@ export class GatewayApiImpl implements GatewayApi {
   }
 
   /**
-   * Lists a collection of the APIs associated with a gateway.
+   * Lists a collection of authorization providers defined within a service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param options The options parameters.
    */
   public listByService(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<ApiContract> {
+    options?: AuthorizationProviderListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<AuthorizationProviderContract> {
     const iter = this.listByServicePagingAll(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     );
     return {
@@ -69,7 +65,6 @@ export class GatewayApiImpl implements GatewayApi {
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          gatewayId,
           options
         );
       }
@@ -79,13 +74,11 @@ export class GatewayApiImpl implements GatewayApi {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
-  ): AsyncIterableIterator<ApiContract[]> {
+    options?: AuthorizationProviderListByServiceOptionalParams
+  ): AsyncIterableIterator<AuthorizationProviderContract[]> {
     let result = await this._listByService(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     );
     yield result.value || [];
@@ -94,7 +87,6 @@ export class GatewayApiImpl implements GatewayApi {
       result = await this._listByServiceNext(
         resourceGroupName,
         serviceName,
-        gatewayId,
         continuationToken,
         options
       );
@@ -106,13 +98,11 @@ export class GatewayApiImpl implements GatewayApi {
   private async *listByServicePagingAll(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
-  ): AsyncIterableIterator<ApiContract> {
+    options?: AuthorizationProviderListByServiceOptionalParams
+  ): AsyncIterableIterator<AuthorizationProviderContract> {
     for await (const page of this.listByServicePagingPage(
       resourceGroupName,
       serviceName,
-      gatewayId,
       options
     )) {
       yield* page;
@@ -120,87 +110,92 @@ export class GatewayApiImpl implements GatewayApi {
   }
 
   /**
-   * Lists a collection of the APIs associated with a gateway.
+   * Lists a collection of authorization providers defined within a service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param options The options parameters.
    */
   private _listByService(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    options?: GatewayApiListByServiceOptionalParams
-  ): Promise<GatewayApiListByServiceResponse> {
+    options?: AuthorizationProviderListByServiceOptionalParams
+  ): Promise<AuthorizationProviderListByServiceResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, options },
+      { resourceGroupName, serviceName, options },
       listByServiceOperationSpec
     );
   }
 
   /**
-   * Checks that API entity specified by identifier is associated with the Gateway entity.
+   * Gets the details of the authorization provider specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param authorizationProviderId Identifier of the authorization provider.
    * @param options The options parameters.
    */
-  getEntityTag(
+  get(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    apiId: string,
-    options?: GatewayApiGetEntityTagOptionalParams
-  ): Promise<GatewayApiGetEntityTagResponse> {
+    authorizationProviderId: string,
+    options?: AuthorizationProviderGetOptionalParams
+  ): Promise<AuthorizationProviderGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, apiId, options },
-      getEntityTagOperationSpec
+      { resourceGroupName, serviceName, authorizationProviderId, options },
+      getOperationSpec
     );
   }
 
   /**
-   * Adds an API to the specified Gateway.
+   * Creates or updates authorization provider.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param parameters Create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    apiId: string,
-    options?: GatewayApiCreateOrUpdateOptionalParams
-  ): Promise<GatewayApiCreateOrUpdateResponse> {
+    authorizationProviderId: string,
+    parameters: AuthorizationProviderContract,
+    options?: AuthorizationProviderCreateOrUpdateOptionalParams
+  ): Promise<AuthorizationProviderCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, apiId, options },
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        parameters,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Deletes the specified API from the specified Gateway.
+   * Deletes specific authorization provider from the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
+   * @param authorizationProviderId Identifier of the authorization provider.
+   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+   *                response of the GET request or it should be * for unconditional update.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
-    apiId: string,
-    options?: GatewayApiDeleteOptionalParams
+    authorizationProviderId: string,
+    ifMatch: string,
+    options?: AuthorizationProviderDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, apiId, options },
+      {
+        resourceGroupName,
+        serviceName,
+        authorizationProviderId,
+        ifMatch,
+        options
+      },
       deleteOperationSpec
     );
   }
@@ -209,20 +204,17 @@ export class GatewayApiImpl implements GatewayApi {
    * ListByServiceNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param gatewayId Gateway entity identifier. Must be unique in the current API Management service
-   *                  instance. Must not have value 'managed'
    * @param nextLink The nextLink from the previous successful call to the ListByService method.
    * @param options The options parameters.
    */
   private _listByServiceNext(
     resourceGroupName: string,
     serviceName: string,
-    gatewayId: string,
     nextLink: string,
-    options?: GatewayApiListByServiceNextOptionalParams
-  ): Promise<GatewayApiListByServiceNextResponse> {
+    options?: AuthorizationProviderListByServiceNextOptionalParams
+  ): Promise<AuthorizationProviderListByServiceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, gatewayId, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByServiceNextOperationSpec
     );
   }
@@ -232,11 +224,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollection
+      bodyMapper: Mappers.AuthorizationProviderCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -252,19 +244,19 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.gatewayId
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getEntityTagOperationSpec: coreClient.OperationSpec = {
+const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
-  httpMethod: "HEAD",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}",
+  httpMethod: "GET",
   responses: {
     200: {
-      headersMapper: Mappers.GatewayApiGetEntityTagHeaders
+      bodyMapper: Mappers.AuthorizationProviderContract,
+      headersMapper: Mappers.AuthorizationProviderGetHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -276,44 +268,44 @@ const getEntityTagOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.authorizationProviderId
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiContract
-    },
-    201: {
-      bodyMapper: Mappers.ApiContract
+      bodyMapper: Mappers.AuthorizationProviderContract,
+      headersMapper: Mappers.AuthorizationProviderCreateOrUpdateHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.authorizationProviderId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch
+  ],
   mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}/apis/{apiId}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/authorizationProviders/{authorizationProviderId}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -328,10 +320,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.gatewayId
+    Parameters.authorizationProviderId
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch1],
   serializer
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
@@ -339,7 +330,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiCollection
+      bodyMapper: Mappers.AuthorizationProviderCollection
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -356,8 +347,7 @@ const listByServiceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.gatewayId
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
