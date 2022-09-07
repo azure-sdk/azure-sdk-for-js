@@ -1234,8 +1234,8 @@ const listByApiOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1262,8 +1262,8 @@ const listByUserOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1290,8 +1290,8 @@ const listByOperationOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1318,8 +1318,8 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1373,8 +1373,8 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1401,8 +1401,8 @@ const listByTimeOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.orderby,
+    Parameters.filter1,
     Parameters.interval
   ],
   urlParameters: [
@@ -1456,8 +1456,8 @@ const listByApiNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1484,8 +1484,8 @@ const listByUserNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1512,8 +1512,8 @@ const listByOperationNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1540,8 +1540,8 @@ const listByProductNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1595,8 +1595,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
+    Parameters.orderby,
+    Parameters.filter1
   ],
   urlParameters: [
     Parameters.$host,
@@ -1623,8 +1623,8 @@ const listByTimeNextOperationSpec: coreClient.OperationSpec = {
     Parameters.top,
     Parameters.skip,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.orderby,
+    Parameters.filter1,
     Parameters.interval
   ],
   urlParameters: [
