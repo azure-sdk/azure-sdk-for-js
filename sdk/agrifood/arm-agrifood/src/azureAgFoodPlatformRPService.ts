@@ -32,15 +32,15 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources
 } from "./operationsInterfaces";
-import { AgriFoodMgmtClientOptionalParams } from "./models";
+import { AzureAgFoodPlatformRPServiceOptionalParams } from "./models";
 
-export class AgriFoodMgmtClient extends coreClient.ServiceClient {
+export class AzureAgFoodPlatformRPService extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the AgriFoodMgmtClient class.
+   * Initializes a new instance of the AzureAgFoodPlatformRPService class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -48,7 +48,7 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AgriFoodMgmtClientOptionalParams
+    options?: AzureAgFoodPlatformRPServiceOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,12 +61,12 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AgriFoodMgmtClientOptionalParams = {
+    const defaults: AzureAgFoodPlatformRPServiceOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-agrifood/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -86,34 +86,27 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;

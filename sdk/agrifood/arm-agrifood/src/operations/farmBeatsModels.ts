@@ -11,7 +11,7 @@ import { FarmBeatsModels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,13 +39,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FarmBeatsModels operations. */
 export class FarmBeatsModelsImpl implements FarmBeatsModels {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class FarmBeatsModels class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 
