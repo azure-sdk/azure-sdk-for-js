@@ -11,19 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type App = TrackedResource & {
-    sku: AppSkuInfo;
-    identity?: SystemAssignedServiceIdentity;
-    readonly provisioningState?: ProvisioningState;
+export interface App extends TrackedResource {
     readonly applicationId?: string;
     displayName?: string;
-    subdomain?: string;
-    template?: string;
-    readonly state?: AppState;
-    publicNetworkAccess?: PublicNetworkAccess;
+    identity?: SystemAssignedServiceIdentity;
     networkRuleSets?: NetworkRuleSets;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku: AppSkuInfo;
+    readonly state?: AppState;
+    subdomain?: string;
+    template?: string;
+}
 
 // @public
 export interface AppAvailabilityInfo {
@@ -267,94 +267,74 @@ export interface IotCentralClientOptionalParams extends coreClient.ServiceClient
 }
 
 // @public
+export type IpRuleAction = string;
+
+// @public
 export enum KnownAppSku {
-    // (undocumented)
     ST0 = "ST0",
-    // (undocumented)
     ST1 = "ST1",
-    // (undocumented)
     ST2 = "ST2"
 }
 
 // @public
 export enum KnownAppState {
-    // (undocumented)
     Created = "created",
-    // (undocumented)
     Suspended = "suspended"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
+export enum KnownIpRuleAction {
+    Allow = "Allow"
+}
+
+// @public
 export enum KnownNetworkAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSystemAssignedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
@@ -363,6 +343,7 @@ export type NetworkAction = string;
 
 // @public
 export interface NetworkRuleSetIpRule {
+    readonly action?: IpRuleAction;
     filterName?: string;
     ipMask?: string;
 }
@@ -428,12 +409,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -502,11 +483,11 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -575,12 +556,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 
