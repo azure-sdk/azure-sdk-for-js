@@ -404,13 +404,6 @@ export interface AudioOverlay extends Overlay {
 
 // @public
 export interface AudioTrack extends TrackBase {
-    readonly bitRate?: number;
-    dashSettings?: DashSettings;
-    displayName?: string;
-    fileName?: string;
-    hlsSettings?: HlsSettings;
-    languageCode?: string;
-    mpeg4TrackId?: number;
     odataType: "#Microsoft.Media.AudioTrack";
 }
 
@@ -516,11 +509,6 @@ export interface CheckNameAvailabilityInput {
 }
 
 // @public
-export interface ClearKeyEncryptionConfiguration {
-    customKeysAcquisitionUrlTemplate?: string;
-}
-
-// @public
 export interface ClipTime {
     odataType: "#Microsoft.Media.AbsoluteClipTime" | "#Microsoft.Media.UtcClipTime";
 }
@@ -539,7 +527,6 @@ export type CodecUnion = Codec | AudioUnion | VideoUnion | CopyVideo | CopyAudio
 
 // @public
 export interface CommonEncryptionCbcs {
-    clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
     clearTracks?: TrackSelection[];
     contentKeys?: StreamingPolicyContentKeys;
     drm?: CbcsDrmConfiguration;
@@ -548,7 +535,6 @@ export interface CommonEncryptionCbcs {
 
 // @public
 export interface CommonEncryptionCenc {
-    clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
     clearTracks?: TrackSelection[];
     contentKeys?: StreamingPolicyContentKeys;
     drm?: CencDrmConfiguration;
@@ -729,7 +715,6 @@ export interface ContentKeyPolicyPlayReadyLicense {
     playRight?: ContentKeyPolicyPlayReadyPlayRight;
     relativeBeginDate?: string;
     relativeExpirationDate?: string;
-    securityLevel?: SecurityLevel;
 }
 
 // @public
@@ -809,7 +794,7 @@ export interface ContentKeyPolicyTokenRestriction extends ContentKeyPolicyRestri
     issuer: string;
     odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction";
     openIdConnectDiscoveryDocument?: string;
-    primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion | null;
+    primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion;
     requiredClaims?: ContentKeyPolicyTokenClaim[];
     restrictionTokenType: ContentKeyPolicyRestrictionTokenType;
 }
@@ -853,11 +838,6 @@ export type CreatedByType = string;
 export interface CrossSiteAccessPolicies {
     clientAccessPolicy?: string;
     crossDomainPolicy?: string;
-}
-
-// @public
-export interface DashSettings {
-    role?: string;
 }
 
 // @public
@@ -1740,14 +1720,6 @@ export enum KnownRotation {
     Rotate180 = "Rotate180",
     Rotate270 = "Rotate270",
     Rotate90 = "Rotate90"
-}
-
-// @public
-export enum KnownSecurityLevel {
-    SL150 = "SL150",
-    SL2000 = "SL2000",
-    SL3000 = "SL3000",
-    Unknown = "Unknown"
 }
 
 // @public
@@ -2682,9 +2654,6 @@ export interface ResourceIdentity {
 
 // @public
 export type Rotation = string;
-
-// @public
-export type SecurityLevel = string;
 
 // @public
 export interface SelectAudioTrackByAttribute extends AudioTrackDescriptor {

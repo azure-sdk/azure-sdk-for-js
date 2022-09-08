@@ -1,15 +1,22 @@
 # Release History
+    
+## 14.0.0 (2022-09-08)
+    
+**Breaking Changes**
 
-## 13.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AudioTrack no longer has parameter bitRate
+  - Interface AudioTrack no longer has parameter dashSettings
+  - Interface AudioTrack no longer has parameter displayName
+  - Interface AudioTrack no longer has parameter fileName
+  - Interface AudioTrack no longer has parameter hlsSettings
+  - Interface AudioTrack no longer has parameter languageCode
+  - Interface AudioTrack no longer has parameter mpeg4TrackId
+  - Interface CommonEncryptionCbcs no longer has parameter clearKeyEncryptionConfiguration
+  - Interface CommonEncryptionCenc no longer has parameter clearKeyEncryptionConfiguration
+  - Interface ContentKeyPolicyPlayReadyLicense no longer has parameter securityLevel
+  - Removed Enum KnownSecurityLevel
+    
+    
 ## 13.0.0 (2022-09-06)
     
 **Features**

@@ -1005,8 +1005,6 @@ export interface CommonEncryptionCenc {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for CommonEncryptionCenc encryption scheme */
   drm?: CencDrmConfiguration;
-  /** Optional configuration supporting ClearKey in CommonEncryptionCenc encryption scheme. */
-  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCenc scheme in Streaming Policy */
@@ -1031,12 +1029,6 @@ export interface StreamingPolicyWidevineConfiguration {
   customLicenseAcquisitionUrlTemplate?: string;
 }
 
-/** Class to specify ClearKey configuration of common encryption schemes in Streaming Policy */
-export interface ClearKeyEncryptionConfiguration {
-  /** Template for the URL of the custom service delivering content keys to end user players. Not required when using Azure Media Services for issuing licenses. The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token value is {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId. */
-  customKeysAcquisitionUrlTemplate?: string;
-}
-
 /** Class for CommonEncryptionCbcs encryption scheme */
 export interface CommonEncryptionCbcs {
   /** Representing supported protocols */
@@ -1047,8 +1039,6 @@ export interface CommonEncryptionCbcs {
   contentKeys?: StreamingPolicyContentKeys;
   /** Configuration of DRMs for current encryption scheme */
   drm?: CbcsDrmConfiguration;
-  /** Optional configuration supporting ClearKey in CommonEncryptionCbcs encryption scheme. */
-  clearKeyEncryptionConfiguration?: ClearKeyEncryptionConfiguration;
 }
 
 /** Class to specify DRM configurations of CommonEncryptionCbcs scheme in Streaming Policy */
@@ -1369,7 +1359,7 @@ export interface StreamingEntityScaleUnit {
   scaleUnit?: number;
 }
 
-/** The HLS setting for a track. */
+/** The HLS setting for a text track. */
 export interface HlsSettings {
   /** The default for the HLS setting. */
   default?: boolean;
@@ -1377,12 +1367,6 @@ export interface HlsSettings {
   forced?: boolean;
   /** The characteristics for the HLS setting. */
   characteristics?: string;
-}
-
-/** The DASH setting for a track. */
-export interface DashSettings {
-  /** The role for the DASH setting. */
-  role?: string;
 }
 
 /** Configures the Explicit Analog Television Output Restriction control bits. For further details see the PlayReady Compliance Rules. */
@@ -1443,8 +1427,6 @@ export interface ContentKeyPolicyTokenClaim {
 export interface ContentKeyPolicyPlayReadyLicense {
   /** A flag indicating whether test devices can use the license. */
   allowTestDevices: boolean;
-  /** The security level. */
-  securityLevel?: SecurityLevel;
   /** The begin date of license */
   beginDate?: Date;
   /** The expiration date of license. */
@@ -1674,23 +1656,6 @@ export interface PrivateLinkResource extends Resource {
 export interface AudioTrack extends TrackBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.AudioTrack";
-  /** The file name to the source file. This file is located in the storage container of the asset. */
-  fileName?: string;
-  /** The display name of the audio track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA. */
-  displayName?: string;
-  /** The RFC5646 language code for the audio track. */
-  languageCode?: string;
-  /** The HLS specific setting for the audio track. */
-  hlsSettings?: HlsSettings;
-  /** The DASH specific setting for the audio track. */
-  dashSettings?: DashSettings;
-  /** The MPEG-4 audio track ID for the audio track. */
-  mpeg4TrackId?: number;
-  /**
-   * The stream bit rate for the audio track.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly bitRate?: number;
 }
 
 /** Represents a video track in the asset. */
@@ -1795,7 +1760,7 @@ export interface ContentKeyPolicyTokenRestriction
   /** The audience for the token. */
   audience: string;
   /** The primary verification key. */
-  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion | null;
+  primaryVerificationKey: ContentKeyPolicyRestrictionTokenKeyUnion;
   /** A list of alternative verification keys. */
   alternateVerificationKeys?: ContentKeyPolicyRestrictionTokenKeyUnion[];
   /** A list of required token claims. */
@@ -3619,30 +3584,6 @@ export enum KnownContentKeyPolicyPlayReadyUnknownOutputPassingOption {
  * **AllowedWithVideoConstriction**: Passing the video portion of protected content to an Unknown Output is allowed but with constrained resolution.
  */
 export type ContentKeyPolicyPlayReadyUnknownOutputPassingOption = string;
-
-/** Known values of {@link SecurityLevel} that the service accepts. */
-export enum KnownSecurityLevel {
-  /** Represents a SecurityLevel that is unavailable in current API version. */
-  Unknown = "Unknown",
-  /** For clients under development or test. No protection against unauthorized use. */
-  SL150 = "SL150",
-  /** For hardened devices and applications consuming commercial content. Software or hardware protection. */
-  SL2000 = "SL2000",
-  /** For hardened devices only. Hardware protection. */
-  SL3000 = "SL3000"
-}
-
-/**
- * Defines values for SecurityLevel. \
- * {@link KnownSecurityLevel} can be used interchangeably with SecurityLevel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown**: Represents a SecurityLevel that is unavailable in current API version. \
- * **SL150**: For clients under development or test. No protection against unauthorized use. \
- * **SL2000**: For hardened devices and applications consuming commercial content. Software or hardware protection. \
- * **SL3000**: For hardened devices only. Hardware protection.
- */
-export type SecurityLevel = string;
 
 /** Known values of {@link ContentKeyPolicyPlayReadyLicenseType} that the service accepts. */
 export enum KnownContentKeyPolicyPlayReadyLicenseType {

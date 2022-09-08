@@ -231,7 +231,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby
   ],
@@ -256,7 +256,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -283,7 +283,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters12,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -306,7 +306,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -330,7 +330,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters12,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -354,7 +354,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion,
     Parameters.filter,
     Parameters.orderby
   ],
