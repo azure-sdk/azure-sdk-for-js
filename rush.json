@@ -1845,6 +1845,11 @@
       "packageName": "@azure/arm-agrifood",
       "projectFolder": "sdk/agrifood/arm-agrifood",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-elasticsan",
+      "projectFolder": "sdk/elasticsans/arm-elasticsan",
+      "versionPolicyName": "management"
     }
   ]
 }
