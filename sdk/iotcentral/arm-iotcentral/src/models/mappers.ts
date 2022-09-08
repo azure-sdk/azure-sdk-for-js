@@ -14,18 +14,21 @@ export const NetworkRuleSets: coreClient.CompositeMapper = {
     className: "NetworkRuleSets",
     modelProperties: {
       applyToDevices: {
+        defaultValue: false,
         serializedName: "applyToDevices",
         type: {
           name: "Boolean"
         }
       },
       applyToIoTCentral: {
+        defaultValue: false,
         serializedName: "applyToIoTCentral",
         type: {
           name: "Boolean"
         }
       },
       defaultAction: {
+        defaultValue: "Allow",
         serializedName: "defaultAction",
         type: {
           name: "String"
@@ -52,6 +55,13 @@ export const NetworkRuleSetIpRule: coreClient.CompositeMapper = {
     name: "Composite",
     className: "NetworkRuleSetIpRule",
     modelProperties: {
+      action: {
+        serializedName: "action",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       filterName: {
         serializedName: "filterName",
         type: {
@@ -401,6 +411,7 @@ export const AppPatch: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
@@ -944,6 +955,7 @@ export const App: coreClient.CompositeMapper = {
         }
       },
       publicNetworkAccess: {
+        defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
