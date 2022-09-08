@@ -23,7 +23,11 @@ import {
   ManagedHsmsGetResponse,
   ManagedHsmsGetDeletedOptionalParams,
   ManagedHsmsGetDeletedResponse,
-  ManagedHsmsPurgeDeletedOptionalParams
+  ManagedHsmsPurgeDeletedOptionalParams,
+  ManagedHsmsPurgeDeletedResponse,
+  CheckMhsmNameAvailabilityParameters,
+  ManagedHsmsCheckMhsmNameAvailabilityOptionalParams,
+  ManagedHsmsCheckMhsmNameAvailabilityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -169,7 +173,12 @@ export interface ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedHsmsPurgeDeletedResponse>,
+      ManagedHsmsPurgeDeletedResponse
+    >
+  >;
   /**
    * Permanently deletes the specified managed HSM.
    * @param name The name of the soft-deleted managed HSM.
@@ -180,5 +189,14 @@ export interface ManagedHsms {
     name: string,
     location: string,
     options?: ManagedHsmsPurgeDeletedOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedHsmsPurgeDeletedResponse>;
+  /**
+   * Checks that the managed hsm name is valid and is not already in use.
+   * @param mhsmName The name of the managed hsm.
+   * @param options The options parameters.
+   */
+  checkMhsmNameAvailability(
+    mhsmName: CheckMhsmNameAvailabilityParameters,
+    options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
+  ): Promise<ManagedHsmsCheckMhsmNameAvailabilityResponse>;
 }
