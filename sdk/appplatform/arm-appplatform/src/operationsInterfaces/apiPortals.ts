@@ -9,137 +9,126 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  BuilderResource,
-  BuildServiceBuilderListOptionalParams,
-  BuildServiceBuilderGetOptionalParams,
-  BuildServiceBuilderGetResponse,
-  BuildServiceBuilderCreateOrUpdateOptionalParams,
-  BuildServiceBuilderCreateOrUpdateResponse,
-  BuildServiceBuilderDeleteOptionalParams,
-  BuildServiceBuilderListDeploymentsOptionalParams,
-  BuildServiceBuilderListDeploymentsResponse
+  ApiPortalResource,
+  ApiPortalsListOptionalParams,
+  ApiPortalsGetOptionalParams,
+  ApiPortalsGetResponse,
+  ApiPortalsCreateOrUpdateOptionalParams,
+  ApiPortalsCreateOrUpdateResponse,
+  ApiPortalsDeleteOptionalParams,
+  CustomDomainValidatePayload,
+  ApiPortalsValidateDomainOptionalParams,
+  ApiPortalsValidateDomainResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a BuildServiceBuilder. */
-export interface BuildServiceBuilder {
+/** Interface representing a ApiPortals. */
+export interface ApiPortals {
   /**
-   * List KPack builders result.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): PagedAsyncIterableIterator<BuilderResource>;
+    options?: ApiPortalsListOptionalParams
+  ): PagedAsyncIterableIterator<ApiPortalResource>;
   /**
-   * Get a KPack builder.
+   * Get the API portal and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderGetOptionalParams
-  ): Promise<BuildServiceBuilderGetResponse>;
+    apiPortalName: string,
+    options?: ApiPortalsGetOptionalParams
+  ): Promise<ApiPortalsGetResponse>;
   /**
-   * Create or update a KPack builder.
+   * Create the default API portal or update the existing API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param apiPortalName The name of API portal.
+   * @param apiPortalResource The API portal for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    apiPortalName: string,
+    apiPortalResource: ApiPortalResource,
+    options?: ApiPortalsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
-      BuildServiceBuilderCreateOrUpdateResponse
+      PollOperationState<ApiPortalsCreateOrUpdateResponse>,
+      ApiPortalsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update a KPack builder.
+   * Create the default API portal or update the existing API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param apiPortalName The name of API portal.
+   * @param apiPortalResource The API portal for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
-  ): Promise<BuildServiceBuilderCreateOrUpdateResponse>;
+    apiPortalName: string,
+    apiPortalResource: ApiPortalResource,
+    options?: ApiPortalsCreateOrUpdateOptionalParams
+  ): Promise<ApiPortalsCreateOrUpdateResponse>;
   /**
-   * Delete a KPack builder.
+   * Delete the default API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    apiPortalName: string,
+    options?: ApiPortalsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete a KPack builder.
+   * Delete the default API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    apiPortalName: string,
+    options?: ApiPortalsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * List deployments that are using the builder.
+   * Check the domains are valid as well as not in use.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
+   * @param validatePayload Custom domain payload to be validated
    * @param options The options parameters.
    */
-  listDeployments(
+  validateDomain(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderListDeploymentsOptionalParams
-  ): Promise<BuildServiceBuilderListDeploymentsResponse>;
+    apiPortalName: string,
+    validatePayload: CustomDomainValidatePayload,
+    options?: ApiPortalsValidateDomainOptionalParams
+  ): Promise<ApiPortalsValidateDomainResponse>;
 }

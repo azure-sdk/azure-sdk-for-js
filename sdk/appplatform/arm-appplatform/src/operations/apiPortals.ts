@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BuildServiceBuilder } from "../operationsInterfaces";
+import { ApiPortals } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,28 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BuilderResource,
-  BuildServiceBuilderListNextOptionalParams,
-  BuildServiceBuilderListOptionalParams,
-  BuildServiceBuilderGetOptionalParams,
-  BuildServiceBuilderGetResponse,
-  BuildServiceBuilderCreateOrUpdateOptionalParams,
-  BuildServiceBuilderCreateOrUpdateResponse,
-  BuildServiceBuilderDeleteOptionalParams,
-  BuildServiceBuilderListResponse,
-  BuildServiceBuilderListDeploymentsOptionalParams,
-  BuildServiceBuilderListDeploymentsResponse,
-  BuildServiceBuilderListNextResponse
+  ApiPortalResource,
+  ApiPortalsListNextOptionalParams,
+  ApiPortalsListOptionalParams,
+  ApiPortalsGetOptionalParams,
+  ApiPortalsGetResponse,
+  ApiPortalsCreateOrUpdateOptionalParams,
+  ApiPortalsCreateOrUpdateResponse,
+  ApiPortalsDeleteOptionalParams,
+  ApiPortalsListResponse,
+  CustomDomainValidatePayload,
+  ApiPortalsValidateDomainOptionalParams,
+  ApiPortalsValidateDomainResponse,
+  ApiPortalsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BuildServiceBuilder operations. */
-export class BuildServiceBuilderImpl implements BuildServiceBuilder {
+/** Class containing ApiPortals operations. */
+export class ApiPortalsImpl implements ApiPortals {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class BuildServiceBuilder class.
+   * Initialize a new instance of the class ApiPortals class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -43,25 +44,18 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * List KPack builders result.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): PagedAsyncIterableIterator<BuilderResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      options
-    );
+    options?: ApiPortalsListOptionalParams
+  ): PagedAsyncIterableIterator<ApiPortalResource> {
+    const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -70,12 +64,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          buildServiceName,
-          options
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, options);
       }
     };
   }
@@ -83,22 +72,15 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): AsyncIterableIterator<BuilderResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      options
-    );
+    options?: ApiPortalsListOptionalParams
+  ): AsyncIterableIterator<ApiPortalResource[]> {
+    let result = await this._list(resourceGroupName, serviceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
         serviceName,
-        buildServiceName,
         continuationToken,
         options
       );
@@ -110,13 +92,11 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): AsyncIterableIterator<BuilderResource> {
+    options?: ApiPortalsListOptionalParams
+  ): AsyncIterableIterator<ApiPortalResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      buildServiceName,
       options
     )) {
       yield* page;
@@ -124,60 +104,50 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Get a KPack builder.
+   * Get the API portal and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderGetOptionalParams
-  ): Promise<BuildServiceBuilderGetResponse> {
+    apiPortalName: string,
+    options?: ApiPortalsGetOptionalParams
+  ): Promise<ApiPortalsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        builderName,
-        options
-      },
+      { resourceGroupName, serviceName, apiPortalName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a KPack builder.
+   * Create the default API portal or update the existing API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param apiPortalName The name of API portal.
+   * @param apiPortalResource The API portal for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    apiPortalName: string,
+    apiPortalResource: ApiPortalResource,
+    options?: ApiPortalsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
-      BuildServiceBuilderCreateOrUpdateResponse
+      PollOperationState<ApiPortalsCreateOrUpdateResponse>,
+      ApiPortalsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BuildServiceBuilderCreateOrUpdateResponse> => {
+    ): Promise<ApiPortalsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -218,9 +188,8 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
       {
         resourceGroupName,
         serviceName,
-        buildServiceName,
-        builderName,
-        builderResource,
+        apiPortalName,
+        apiPortalResource,
         options
       },
       createOrUpdateOperationSpec
@@ -234,49 +203,44 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Create or update a KPack builder.
+   * Create the default API portal or update the existing API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param apiPortalName The name of API portal.
+   * @param apiPortalResource The API portal for the create or update operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
-  ): Promise<BuildServiceBuilderCreateOrUpdateResponse> {
+    apiPortalName: string,
+    apiPortalResource: ApiPortalResource,
+    options?: ApiPortalsCreateOrUpdateOptionalParams
+  ): Promise<ApiPortalsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      buildServiceName,
-      builderName,
-      builderResource,
+      apiPortalName,
+      apiPortalResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a KPack builder.
+   * Delete the default API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    apiPortalName: string,
+    options?: ApiPortalsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -319,13 +283,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        builderName,
-        options
-      },
+      { resourceGroupName, serviceName, apiPortalName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -337,76 +295,71 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Delete a KPack builder.
+   * Delete the default API portal.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    apiPortalName: string,
+    options?: ApiPortalsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      buildServiceName,
-      builderName,
+      apiPortalName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List KPack builders result.
+   * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): Promise<BuildServiceBuilderListResponse> {
+    options?: ApiPortalsListOptionalParams
+  ): Promise<ApiPortalsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, options },
+      { resourceGroupName, serviceName, options },
       listOperationSpec
     );
   }
 
   /**
-   * List deployments that are using the builder.
+   * Check the domains are valid as well as not in use.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param apiPortalName The name of API portal.
+   * @param validatePayload Custom domain payload to be validated
    * @param options The options parameters.
    */
-  listDeployments(
+  validateDomain(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderListDeploymentsOptionalParams
-  ): Promise<BuildServiceBuilderListDeploymentsResponse> {
+    apiPortalName: string,
+    validatePayload: CustomDomainValidatePayload,
+    options?: ApiPortalsValidateDomainOptionalParams
+  ): Promise<ApiPortalsValidateDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        buildServiceName,
-        builderName,
+        apiPortalName,
+        validatePayload,
         options
       },
-      listDeploymentsOperationSpec
+      validateDomainOperationSpec
     );
   }
 
@@ -415,19 +368,17 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
     nextLink: string,
-    options?: BuildServiceBuilderListNextOptionalParams
-  ): Promise<BuildServiceBuilderListNextResponse> {
+    options?: ApiPortalsListNextOptionalParams
+  ): Promise<ApiPortalsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -437,11 +388,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.ApiPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -453,42 +404,40 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.apiPortalName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.ApiPortalResource
     },
     201: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.ApiPortalResource
     },
     202: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.ApiPortalResource
     },
     204: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.ApiPortalResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.builderResource,
+  requestBody: Parameters.apiPortalResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.apiPortalName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -496,7 +445,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -513,19 +462,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.apiPortalName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResourceCollection
+      bodyMapper: Mappers.ApiPortalResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -536,34 +484,34 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName
+    Parameters.serviceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listDeploymentsOperationSpec: coreClient.OperationSpec = {
+const validateDomainOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/listUsingDeployments",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/validateDomain",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentList
+      bodyMapper: Mappers.CustomDomainValidateResult
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.validatePayload,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.apiPortalName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -571,7 +519,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResourceCollection
+      bodyMapper: Mappers.ApiPortalResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -583,8 +531,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink,
-    Parameters.buildServiceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
