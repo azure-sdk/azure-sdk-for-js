@@ -1136,6 +1136,7 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
         }
       },
       adxTableName: {
+        defaultValue: "AdtPropertyEvents",
         serializedName: "adxTableName",
         nullable: true,
         type: {
@@ -1164,6 +1165,7 @@ export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper =
         }
       },
       eventHubConsumerGroup: {
+        defaultValue: "$Default",
         serializedName: "eventHubConsumerGroup",
         nullable: true,
         type: {

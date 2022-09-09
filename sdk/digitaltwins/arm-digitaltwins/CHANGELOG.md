@@ -1,15 +1,19 @@
 # Release History
+    
+## 3.2.0 (2022-09-09)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AzureDataExplorerConnectionProperties
+  - Added Interface ConnectionPropertiesPrivateLinkServiceConnectionState
+  - Added Interface DigitalTwinsDescription
+  - Added Interface DigitalTwinsEndpointResource
+  - Added Interface EventGrid
+  - Added Interface EventHub
+  - Added Interface ServiceBus
+  - Added Interface TimeSeriesDatabaseConnection
+    
+    
 ## 3.1.0 (2022-06-22)
     
 **Features**
