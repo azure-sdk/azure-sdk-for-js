@@ -310,6 +310,34 @@ export const ClusterList: coreClient.CompositeMapper = {
   }
 };
 
+export const SoftwareAssuranceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftwareAssuranceProperties",
+    modelProperties: {
+      softwareAssuranceStatus: {
+        serializedName: "softwareAssuranceStatus",
+        type: {
+          name: "String"
+        }
+      },
+      softwareAssuranceIntent: {
+        serializedName: "softwareAssuranceIntent",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdated: {
+        serializedName: "lastUpdated",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const ClusterDesiredProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -420,6 +448,13 @@ export const ClusterNode: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      nodeType: {
+        serializedName: "nodeType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       manufacturer: {
         serializedName: "manufacturer",
         readOnly: true,
@@ -443,6 +478,13 @@ export const ClusterNode: coreClient.CompositeMapper = {
       },
       osVersion: {
         serializedName: "osVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      osDisplayVersion: {
+        serializedName: "osDisplayVersion",
         readOnly: true,
         type: {
           name: "String"
@@ -575,6 +617,37 @@ export const ClusterIdentityResponse: coreClient.CompositeMapper = {
       },
       aadApplicationObjectId: {
         serializedName: "properties.aadApplicationObjectId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SoftwareAssuranceChangeRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftwareAssuranceChangeRequest",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SoftwareAssuranceChangeRequestProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SoftwareAssuranceChangeRequestProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SoftwareAssuranceChangeRequestProperties",
+    modelProperties: {
+      softwareAssuranceIntent: {
+        serializedName: "softwareAssuranceIntent",
         type: {
           name: "String"
         }
@@ -1084,6 +1157,13 @@ export const Cluster: coreClient.CompositeMapper = {
         serializedName: "properties.aadServicePrincipalObjectId",
         type: {
           name: "String"
+        }
+      },
+      softwareAssuranceProperties: {
+        serializedName: "properties.softwareAssuranceProperties",
+        type: {
+          name: "Composite",
+          className: "SoftwareAssuranceProperties"
         }
       },
       desiredProperties: {
