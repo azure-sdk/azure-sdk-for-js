@@ -53,14 +53,12 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -73,14 +71,12 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<UsersCreateOrUpdateResponse>;
   /**
@@ -114,7 +110,7 @@ export interface Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
+   * @param user Allows modifying tags of user profiles. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

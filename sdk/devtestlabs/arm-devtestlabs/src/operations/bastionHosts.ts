@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ServiceFabricSchedules } from "../operationsInterfaces";
+import { BastionHosts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,29 +15,28 @@ import { DevTestLabsClient } from "../devTestLabsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Schedule,
-  ServiceFabricSchedulesListNextOptionalParams,
-  ServiceFabricSchedulesListOptionalParams,
-  ServiceFabricSchedulesListResponse,
-  ServiceFabricSchedulesGetOptionalParams,
-  ServiceFabricSchedulesGetResponse,
-  ServiceFabricSchedulesCreateOrUpdateOptionalParams,
-  ServiceFabricSchedulesCreateOrUpdateResponse,
-  ServiceFabricSchedulesDeleteOptionalParams,
-  ScheduleFragment,
-  ServiceFabricSchedulesUpdateOptionalParams,
-  ServiceFabricSchedulesUpdateResponse,
-  ServiceFabricSchedulesExecuteOptionalParams,
-  ServiceFabricSchedulesListNextResponse
+  BastionHost,
+  BastionHostsListNextOptionalParams,
+  BastionHostsListOptionalParams,
+  BastionHostsListResponse,
+  BastionHostsGetOptionalParams,
+  BastionHostsGetResponse,
+  BastionHostsCreateOrUpdateOptionalParams,
+  BastionHostsCreateOrUpdateResponse,
+  BastionHostsDeleteOptionalParams,
+  BastionHostFragment,
+  BastionHostsUpdateOptionalParams,
+  BastionHostsUpdateResponse,
+  BastionHostsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ServiceFabricSchedules operations. */
-export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
+/** Class containing BastionHosts operations. */
+export class BastionHostsImpl implements BastionHosts {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class ServiceFabricSchedules class.
+   * Initialize a new instance of the class BastionHosts class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -45,25 +44,22 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   }
 
   /**
-   * List schedules in a given service fabric.
+   * List bastionhosts in a given virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
+   * @param virtualNetworkName The name of the virtual network.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
-    options?: ServiceFabricSchedulesListOptionalParams
-  ): PagedAsyncIterableIterator<Schedule> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): PagedAsyncIterableIterator<BastionHost> {
     const iter = this.listPagingAll(
       resourceGroupName,
       labName,
-      userName,
-      serviceFabricName,
+      virtualNetworkName,
       options
     );
     return {
@@ -77,8 +73,7 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
         return this.listPagingPage(
           resourceGroupName,
           labName,
-          userName,
-          serviceFabricName,
+          virtualNetworkName,
           options
         );
       }
@@ -88,15 +83,13 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
-    options?: ServiceFabricSchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule[]> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): AsyncIterableIterator<BastionHost[]> {
     let result = await this._list(
       resourceGroupName,
       labName,
-      userName,
-      serviceFabricName,
+      virtualNetworkName,
       options
     );
     yield result.value || [];
@@ -105,8 +98,7 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
       result = await this._listNext(
         resourceGroupName,
         labName,
-        userName,
-        serviceFabricName,
+        virtualNetworkName,
         continuationToken,
         options
       );
@@ -118,15 +110,13 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
-    options?: ServiceFabricSchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): AsyncIterableIterator<BastionHost> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
-      userName,
-      serviceFabricName,
+      virtualNetworkName,
       options
     )) {
       yield* page;
@@ -134,168 +124,168 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   }
 
   /**
-   * List schedules in a given service fabric.
+   * List bastionhosts in a given virtual network.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
+   * @param virtualNetworkName The name of the virtual network.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
-    options?: ServiceFabricSchedulesListOptionalParams
-  ): Promise<ServiceFabricSchedulesListResponse> {
+    virtualNetworkName: string,
+    options?: BastionHostsListOptionalParams
+  ): Promise<BastionHostsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, userName, serviceFabricName, options },
+      { resourceGroupName, labName, virtualNetworkName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get schedule.
+   * Get bastionhost.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     name: string,
-    options?: ServiceFabricSchedulesGetOptionalParams
-  ): Promise<ServiceFabricSchedulesGetResponse> {
+    options?: BastionHostsGetOptionalParams
+  ): Promise<BastionHostsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        serviceFabricName,
-        name,
-        options
-      },
+      { resourceGroupName, labName, virtualNetworkName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or replace an existing schedule.
+   * Create or replace an existing bastionHost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Profile of a Bastion Host
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     name: string,
-    schedule: Schedule,
-    options?: ServiceFabricSchedulesCreateOrUpdateOptionalParams
-  ): Promise<ServiceFabricSchedulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
+    bastionHost: BastionHost,
+    options?: BastionHostsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<BastionHostsCreateOrUpdateResponse>,
+      BastionHostsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<BastionHostsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         labName,
-        userName,
-        serviceFabricName,
+        virtualNetworkName,
         name,
-        schedule,
+        bastionHost,
         options
       },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete schedule.
+   * Create or replace an existing bastionHost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Profile of a Bastion Host
    * @param options The options parameters.
    */
-  delete(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     name: string,
-    options?: ServiceFabricSchedulesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        serviceFabricName,
-        name,
-        options
-      },
-      deleteOperationSpec
+    bastionHost: BastionHost,
+    options?: BastionHostsCreateOrUpdateOptionalParams
+  ): Promise<BastionHostsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      labName,
+      virtualNetworkName,
+      name,
+      bastionHost,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Allows modifying tags of schedules. All other properties will be ignored.
+   * Delete bastionhost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
-   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
    * @param options The options parameters.
    */
-  update(
+  async beginDelete(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     name: string,
-    schedule: ScheduleFragment,
-    options?: ServiceFabricSchedulesUpdateOptionalParams
-  ): Promise<ServiceFabricSchedulesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        serviceFabricName,
-        name,
-        schedule,
-        options
-      },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
-   * @param options The options parameters.
-   */
-  async beginExecute(
-    resourceGroupName: string,
-    labName: string,
-    userName: string,
-    serviceFabricName: string,
-    name: string,
-    options?: ServiceFabricSchedulesExecuteOptionalParams
+    options?: BastionHostsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -338,15 +328,8 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        serviceFabricName,
-        name,
-        options
-      },
-      executeOperationSpec
+      { resourceGroupName, labName, virtualNetworkName, name, options },
+      deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -357,27 +340,24 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   }
 
   /**
-   * Execute a schedule. This operation can take a while to complete.
+   * Delete bastionhost. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
-   * @param name The name of the schedule.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
    * @param options The options parameters.
    */
-  async beginExecuteAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     name: string,
-    options?: ServiceFabricSchedulesExecuteOptionalParams
+    options?: BastionHostsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginExecute(
+    const poller = await this.beginDelete(
       resourceGroupName,
       labName,
-      userName,
-      serviceFabricName,
+      virtualNetworkName,
       name,
       options
     );
@@ -385,31 +365,52 @@ export class ServiceFabricSchedulesImpl implements ServiceFabricSchedules {
   }
 
   /**
+   * Allows modifying tags of bastionhosts. All other properties will be ignored.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param virtualNetworkName The name of the virtual network.
+   * @param name The name of the bastionhost.
+   * @param bastionHost Allows modifying tags of bastionhosts. All other properties will be ignored.
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    labName: string,
+    virtualNetworkName: string,
+    name: string,
+    bastionHost: BastionHostFragment,
+    options?: BastionHostsUpdateOptionalParams
+  ): Promise<BastionHostsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        labName,
+        virtualNetworkName,
+        name,
+        bastionHost,
+        options
+      },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param userName The name of the user profile.
-   * @param serviceFabricName The name of the service fabric.
+   * @param virtualNetworkName The name of the virtual network.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     labName: string,
-    userName: string,
-    serviceFabricName: string,
+    virtualNetworkName: string,
     nextLink: string,
-    options?: ServiceFabricSchedulesListNextOptionalParams
-  ): Promise<ServiceFabricSchedulesListNextResponse> {
+    options?: BastionHostsListNextOptionalParams
+  ): Promise<BastionHostsListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        labName,
-        userName,
-        serviceFabricName,
-        nextLink,
-        options
-      },
+      { resourceGroupName, labName, virtualNetworkName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -419,11 +420,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.BastionHostList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -431,7 +432,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -441,53 +441,23 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.BastionHost
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Schedule
-    },
-    201: {
-      bodyMapper: Mappers.Schedule
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.schedule,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -495,8 +465,41 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BastionHost
+    },
+    201: {
+      bodyMapper: Mappers.BastionHost
+    },
+    202: {
+      bodyMapper: Mappers.BastionHost
+    },
+    204: {
+      bodyMapper: Mappers.BastionHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.bastionHost,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName,
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -504,59 +507,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Schedule
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.schedule1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/users/{userName}/servicefabrics/{serviceFabricName}/schedules/{name}/execute",
-  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -573,10 +525,35 @@ const executeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualnetworks/{virtualNetworkName}/bastionhosts/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BastionHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.bastionHost1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName,
+    Parameters.virtualNetworkName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -584,7 +561,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.BastionHostList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -592,7 +569,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -603,8 +579,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.labName,
-    Parameters.userName,
-    Parameters.serviceFabricName
+    Parameters.virtualNetworkName
   ],
   headerParameters: [Parameters.accept],
   serializer

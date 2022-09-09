@@ -6,17 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PolicySets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
 import {
+  PolicySet,
+  PolicySetsListNextOptionalParams,
+  PolicySetsListOptionalParams,
+  PolicySetsListResponse,
   EvaluatePoliciesRequest,
   PolicySetsEvaluatePoliciesOptionalParams,
-  PolicySetsEvaluatePoliciesResponse
+  PolicySetsEvaluatePoliciesResponse,
+  PolicySetsListNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing PolicySets operations. */
 export class PolicySetsImpl implements PolicySets {
   private readonly client: DevTestLabsClient;
@@ -27,6 +34,82 @@ export class PolicySetsImpl implements PolicySets {
    */
   constructor(client: DevTestLabsClient) {
     this.client = client;
+  }
+
+  /**
+   * List policy sets in a given lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    labName: string,
+    options?: PolicySetsListOptionalParams
+  ): PagedAsyncIterableIterator<PolicySet> {
+    const iter = this.listPagingAll(resourceGroupName, labName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, labName, options);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    labName: string,
+    options?: PolicySetsListOptionalParams
+  ): AsyncIterableIterator<PolicySet[]> {
+    let result = await this._list(resourceGroupName, labName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        labName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    labName: string,
+    options?: PolicySetsListOptionalParams
+  ): AsyncIterableIterator<PolicySet> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      labName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * List policy sets in a given lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    labName: string,
+    options?: PolicySetsListOptionalParams
+  ): Promise<PolicySetsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, options },
+      listOperationSpec
+    );
   }
 
   /**
@@ -49,10 +132,56 @@ export class PolicySetsImpl implements PolicySets {
       evaluatePoliciesOperationSpec
     );
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    labName: string,
+    nextLink: string,
+    options?: PolicySetsListNextOptionalParams
+  ): Promise<PolicySetsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicySetList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.orderby
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const evaluatePoliciesOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/policysets/{name}/evaluatePolicies",
@@ -76,5 +205,32 @@ const evaluatePoliciesOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PolicySetList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top,
+    Parameters.orderby
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };

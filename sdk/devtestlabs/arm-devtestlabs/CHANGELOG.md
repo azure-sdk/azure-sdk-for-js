@@ -1,15 +1,333 @@
 # Release History
+    
+## 5.0.0 (2022-09-09)
+    
+**Features**
 
-## 4.0.2 (Unreleased)
+  - Added operation group BastionHosts
+  - Added operation group LabSecrets
+  - Added operation group SharedGalleries
+  - Added operation group SharedImages
+  - Added operation GalleryImages.get
+  - Added operation Labs.ensureCurrentUserProfile
+  - Added operation PolicySets.list
+  - Added operation ServiceRunners.beginCreateOrUpdate
+  - Added operation ServiceRunners.beginCreateOrUpdateAndWait
+  - Added operation ServiceRunners.beginDelete
+  - Added operation ServiceRunners.beginDeleteAndWait
+  - Added operation ServiceRunners.list
+  - Added operation VirtualMachines.clearArtifactResults
+  - Added Interface ApplicableSchedule
+  - Added Interface ArmTemplate
+  - Added Interface Artifact
+  - Added Interface ArtifactSource
+  - Added Interface ArtifactSourceFragment
+  - Added Interface AzureEntityResource
+  - Added Interface BastionHost
+  - Added Interface BastionHostFragment
+  - Added Interface BastionHostList
+  - Added Interface BastionHostsCreateOrUpdateOptionalParams
+  - Added Interface BastionHostsDeleteOptionalParams
+  - Added Interface BastionHostsGetOptionalParams
+  - Added Interface BastionHostsListNextOptionalParams
+  - Added Interface BastionHostsListOptionalParams
+  - Added Interface BastionHostsUpdateOptionalParams
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface Cost
+  - Added Interface CustomImage
+  - Added Interface CustomImageFragment
+  - Added Interface CustomImagePropertiesFromPlanFragment
+  - Added Interface Disk
+  - Added Interface DiskFragment
+  - Added Interface DtlEnvironment
+  - Added Interface DtlEnvironmentFragment
+  - Added Interface EncryptionProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Formula
+  - Added Interface FormulaFragment
+  - Added Interface GalleryImage
+  - Added Interface GalleryImagesGetOptionalParams
+  - Added Interface Identity
+  - Added Interface ImageVersionProperties
+  - Added Interface KeyVaultProperties
+  - Added Interface Lab
+  - Added Interface LabCost
+  - Added Interface LabCostList
+  - Added Interface LabFragment
+  - Added Interface LabSecret
+  - Added Interface LabSecretFragment
+  - Added Interface LabSecretList
+  - Added Interface LabSecretsCreateOrUpdateOptionalParams
+  - Added Interface LabSecretsDeleteOptionalParams
+  - Added Interface LabSecretsGetOptionalParams
+  - Added Interface LabSecretsListNextOptionalParams
+  - Added Interface LabSecretsListOptionalParams
+  - Added Interface LabSecretsUpdateOptionalParams
+  - Added Interface LabsEnsureCurrentUserProfileOptionalParams
+  - Added Interface LabVirtualMachine
+  - Added Interface LabVirtualMachineFragment
+  - Added Interface LocationData
+  - Added Interface NotificationChannel
+  - Added Interface NotificationChannelFragment
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationListResult
+  - Added Interface OperationStatusResult
+  - Added Interface Plan
+  - Added Interface Policy
+  - Added Interface PolicyFragment
+  - Added Interface PolicySet
+  - Added Interface PolicySetList
+  - Added Interface PolicySetsListNextOptionalParams
+  - Added Interface PolicySetsListOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ResourceModelWithAllowedPropertySet
+  - Added Interface ResourceModelWithAllowedPropertySetIdentity
+  - Added Interface ResourceModelWithAllowedPropertySetPlan
+  - Added Interface ResourceModelWithAllowedPropertySetSku
+  - Added Interface Schedule
+  - Added Interface ScheduleFragment
+  - Added Interface Secret
+  - Added Interface SecretFragment
+  - Added Interface ServiceFabric
+  - Added Interface ServiceFabricFragment
+  - Added Interface ServiceRunner
+  - Added Interface ServiceRunnersListNextOptionalParams
+  - Added Interface ServiceRunnersListOptionalParams
+  - Added Interface SharedGalleriesCreateOrUpdateOptionalParams
+  - Added Interface SharedGalleriesDeleteOptionalParams
+  - Added Interface SharedGalleriesGetOptionalParams
+  - Added Interface SharedGalleriesListNextOptionalParams
+  - Added Interface SharedGalleriesListOptionalParams
+  - Added Interface SharedGalleriesUpdateOptionalParams
+  - Added Interface SharedGallery
+  - Added Interface SharedGalleryFragment
+  - Added Interface SharedGalleryList
+  - Added Interface SharedImage
+  - Added Interface SharedImageFragment
+  - Added Interface SharedImageList
+  - Added Interface SharedImagesCreateOrUpdateOptionalParams
+  - Added Interface SharedImagesDeleteOptionalParams
+  - Added Interface SharedImagesGetOptionalParams
+  - Added Interface SharedImagesListNextOptionalParams
+  - Added Interface SharedImagesListOptionalParams
+  - Added Interface SharedImagesUpdateOptionalParams
+  - Added Interface Sku
+  - Added Interface SystemData
+  - Added Interface User
+  - Added Interface UserFragment
+  - Added Interface VirtualMachinesClearArtifactResultsOptionalParams
+  - Added Interface VirtualNetwork
+  - Added Interface VirtualNetworkFragment
+  - Added Interface WeekDetailsFragment
+  - Added Type Alias ActionType
+  - Added Type Alias BastionHostsCreateOrUpdateResponse
+  - Added Type Alias BastionHostsGetResponse
+  - Added Type Alias BastionHostsListNextResponse
+  - Added Type Alias BastionHostsListResponse
+  - Added Type Alias BastionHostsUpdateResponse
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias CreatedByType
+  - Added Type Alias EnableState
+  - Added Type Alias EncryptionStatus
+  - Added Type Alias EncryptionType
+  - Added Type Alias GalleryImagesGetResponse
+  - Added Type Alias ImageType
+  - Added Type Alias LabSecretsCreateOrUpdateResponse
+  - Added Type Alias LabSecretsGetResponse
+  - Added Type Alias LabSecretsListNextResponse
+  - Added Type Alias LabSecretsListResponse
+  - Added Type Alias LabSecretsUpdateResponse
+  - Added Type Alias Origin
+  - Added Type Alias OsType
+  - Added Type Alias PolicySetsListNextResponse
+  - Added Type Alias PolicySetsListResponse
+  - Added Type Alias ServiceRunnersListNextResponse
+  - Added Type Alias ServiceRunnersListResponse
+  - Added Type Alias SharedGalleriesCreateOrUpdateResponse
+  - Added Type Alias SharedGalleriesGetResponse
+  - Added Type Alias SharedGalleriesListNextResponse
+  - Added Type Alias SharedGalleriesListResponse
+  - Added Type Alias SharedGalleriesUpdateResponse
+  - Added Type Alias SharedImagesCreateOrUpdateResponse
+  - Added Type Alias SharedImagesGetResponse
+  - Added Type Alias SharedImagesListNextResponse
+  - Added Type Alias SharedImagesListResponse
+  - Added Type Alias SharedImagesUpdateResponse
+  - Added Type Alias SkuTier
+  - Added Type Alias StorageTypes
+  - Interface CostThresholdProperties has a new optional parameter thresholdValue
+  - Interface DataDiskProperties has a new optional parameter diskName
+  - Interface DataDiskProperties has a new optional parameter diskSizeGiB
+  - Interface DataDiskProperties has a new optional parameter diskType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter artifactsApplied
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter canApplyArtifacts
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter computeId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter createdByUser
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter createdByUserId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter createdDatePropertiesCreatedDate
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter dataDiskIds
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter dataDisks
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter deploymentStatus
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter dnsName
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter fqdn
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter galleryImageVersionId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter idPropertiesApplicableScheduleId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter idPropertiesApplicableSchedulePropertiesLabVmsShutdownId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter idPropertiesApplicableSchedulePropertiesLabVmsStartupId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter inboundNatRules
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter instanceCount
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter lastKnownPowerState
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter locationPropertiesApplicableScheduleLocation
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter namePropertiesApplicableScheduleName
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter namePropertiesApplicableSchedulePropertiesLabVmsShutdownName
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter namePropertiesApplicableSchedulePropertiesLabVmsStartupName
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter networkInterfaceId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter offer
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter osDiskId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter osDiskSizeGb
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter osTypePropertiesComputeVmOsType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter osTypePropertiesGalleryImageReferenceOsType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter osTypePropertiesOsType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter privateIpAddress
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter provisioningStatePropertiesProvisioningState
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter publicIpAddress
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter publicIpAddressId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter publisher
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter rdpAuthority
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter sharedImageId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter sharedImageVersion
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter sku
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter sshAuthority
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter statuses
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter subnetId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter systemDataPropertiesApplicableScheduleSystemData
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter tagsPropertiesApplicableScheduleTags
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter totalArtifacts
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter typePropertiesApplicableSchedulePropertiesLabVmsShutdownType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter typePropertiesApplicableSchedulePropertiesLabVmsStartupType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter typePropertiesApplicableScheduleType
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter uniqueIdentifierPropertiesUniqueIdentifier
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter version
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter virtualMachineCreationSource
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter virtualNetworkId
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter vmSize
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays
+  - Interface LabVirtualMachineCreationParameter has a new optional parameter weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays
+  - Interface OperationResult has a new optional parameter code
+  - Interface OperationResult has a new optional parameter message
+  - Interface ScheduleCreationParameter has a new optional parameter createdDate
+  - Interface ScheduleCreationParameter has a new optional parameter emailRecipient
+  - Interface ScheduleCreationParameter has a new optional parameter minute
+  - Interface ScheduleCreationParameter has a new optional parameter notificationLocale
+  - Interface ScheduleCreationParameter has a new optional parameter provisioningState
+  - Interface ScheduleCreationParameter has a new optional parameter statusPropertiesNotificationSettingsStatus
+  - Interface ScheduleCreationParameter has a new optional parameter statusPropertiesStatus
+  - Interface ScheduleCreationParameter has a new optional parameter timeInMinutes
+  - Interface ScheduleCreationParameter has a new optional parameter timePropertiesDailyRecurrenceTime
+  - Interface ScheduleCreationParameter has a new optional parameter timePropertiesWeeklyRecurrenceTime
+  - Interface ScheduleCreationParameter has a new optional parameter uniqueIdentifier
+  - Interface ScheduleCreationParameter has a new optional parameter webhookUrl
+  - Interface ScheduleCreationParameter has a new optional parameter weekdays
+  - Interface ServiceRunnersCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface ServiceRunnersCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface ServiceRunnersDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface ServiceRunnersDeleteOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface SubnetOverride has a new optional parameter allowedPorts
+  - Interface UsersCreateOrUpdateOptionalParams has a new optional parameter user
+  - Class DevTestLabsClient has a new parameter bastionHosts
+  - Class DevTestLabsClient has a new parameter labSecrets
+  - Class DevTestLabsClient has a new parameter sharedGalleries
+  - Class DevTestLabsClient has a new parameter sharedImages
+  - Added Enum KnownActionType
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEnableState
+  - Added Enum KnownEncryptionStatus
+  - Added Enum KnownEncryptionType
+  - Added Enum KnownImageType
+  - Added Enum KnownOrigin
+  - Added Enum KnownOsType
+  - Added Enum KnownStorageTypes
+  - Enum KnownHttpStatusCode has a new value AlreadyReported
+  - Enum KnownHttpStatusCode has a new value EarlyHints
+  - Enum KnownHttpStatusCode has a new value FailedDependency
+  - Enum KnownHttpStatusCode has a new value IMUsed
+  - Enum KnownHttpStatusCode has a new value InsufficientStorage
+  - Enum KnownHttpStatusCode has a new value Locked
+  - Enum KnownHttpStatusCode has a new value LoopDetected
+  - Enum KnownHttpStatusCode has a new value MisdirectedRequest
+  - Enum KnownHttpStatusCode has a new value MultiStatus
+  - Enum KnownHttpStatusCode has a new value NetworkAuthenticationRequired
+  - Enum KnownHttpStatusCode has a new value NotExtended
+  - Enum KnownHttpStatusCode has a new value PermanentRedirect
+  - Enum KnownHttpStatusCode has a new value PreconditionRequired
+  - Enum KnownHttpStatusCode has a new value Processing
+  - Enum KnownHttpStatusCode has a new value RequestHeaderFieldsTooLarge
+  - Enum KnownHttpStatusCode has a new value TooManyRequests
+  - Enum KnownHttpStatusCode has a new value UnavailableForLegalReasons
+  - Enum KnownHttpStatusCode has a new value UnprocessableEntity
+  - Enum KnownHttpStatusCode has a new value VariantAlsoNegotiates
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation ServiceRunners.createOrUpdate
+  - Removed operation ServiceRunners.delete
+  - Operation Users.beginCreateOrUpdate has a new signature
+  - Operation Users.beginCreateOrUpdateAndWait has a new signature
+  - Interface CostThresholdProperties no longer has parameter percentageThreshold
+  - Interface DataDiskProperties no longer has parameter attachNewDataDiskOptions
+  - Interface LabVirtualMachineCreationParameter no longer has parameter bulkCreationParameters
+  - Interface LabVirtualMachineCreationParameter no longer has parameter createdDate
+  - Interface LabVirtualMachineCreationParameter no longer has parameter galleryImageReference
+  - Interface LabVirtualMachineCreationParameter no longer has parameter networkInterface
+  - Interface OperationResult no longer has parameter error
+  - Interface ScheduleCreationParameter no longer has parameter dailyRecurrence
+  - Interface ScheduleCreationParameter no longer has parameter hourlyRecurrence
+  - Interface ScheduleCreationParameter no longer has parameter notificationSettings
+  - Interface ScheduleCreationParameter no longer has parameter status
+  - Interface ScheduleCreationParameter no longer has parameter weeklyRecurrence
+  - Interface SubnetOverride no longer has parameter sharedPublicIpAddressConfiguration
+    
 ## 4.0.1 (2022-04-18)
 
 **features**

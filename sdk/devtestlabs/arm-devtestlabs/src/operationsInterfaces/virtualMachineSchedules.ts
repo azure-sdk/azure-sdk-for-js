@@ -91,7 +91,7 @@ export interface VirtualMachineSchedules {
    * @param labName The name of the lab.
    * @param virtualMachineName The name of the virtual machine.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

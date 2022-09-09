@@ -143,14 +143,12 @@ export class UsersImpl implements Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -199,7 +197,7 @@ export class UsersImpl implements Users {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, labName, name, user, options },
+      { resourceGroupName, labName, name, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -215,21 +213,18 @@ export class UsersImpl implements Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    user: User,
     options?: UsersCreateOrUpdateOptionalParams
   ): Promise<UsersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       labName,
       name,
-      user,
       options
     );
     return poller.pollUntilDone();
@@ -327,7 +322,7 @@ export class UsersImpl implements Users {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the user profile.
-   * @param user Profile of a lab user.
+   * @param user Allows modifying tags of user profiles. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

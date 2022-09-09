@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Schedules } from "../operationsInterfaces";
+import { LabSecrets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,33 +15,28 @@ import { DevTestLabsClient } from "../devTestLabsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  Schedule,
-  SchedulesListNextOptionalParams,
-  SchedulesListOptionalParams,
-  SchedulesListApplicableNextOptionalParams,
-  SchedulesListApplicableOptionalParams,
-  SchedulesListResponse,
-  SchedulesGetOptionalParams,
-  SchedulesGetResponse,
-  SchedulesCreateOrUpdateOptionalParams,
-  SchedulesCreateOrUpdateResponse,
-  SchedulesDeleteOptionalParams,
-  ScheduleFragment,
-  SchedulesUpdateOptionalParams,
-  SchedulesUpdateResponse,
-  SchedulesExecuteOptionalParams,
-  SchedulesListApplicableResponse,
-  SchedulesListNextResponse,
-  SchedulesListApplicableNextResponse
+  LabSecret,
+  LabSecretsListNextOptionalParams,
+  LabSecretsListOptionalParams,
+  LabSecretsListResponse,
+  LabSecretsGetOptionalParams,
+  LabSecretsGetResponse,
+  LabSecretsCreateOrUpdateOptionalParams,
+  LabSecretsCreateOrUpdateResponse,
+  LabSecretsDeleteOptionalParams,
+  SecretFragment,
+  LabSecretsUpdateOptionalParams,
+  LabSecretsUpdateResponse,
+  LabSecretsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Schedules operations. */
-export class SchedulesImpl implements Schedules {
+/** Class containing LabSecrets operations. */
+export class LabSecretsImpl implements LabSecrets {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class Schedules class.
+   * Initialize a new instance of the class LabSecrets class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -49,7 +44,7 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * List schedules in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -57,8 +52,8 @@ export class SchedulesImpl implements Schedules {
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: SchedulesListOptionalParams
-  ): PagedAsyncIterableIterator<Schedule> {
+    options?: LabSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<LabSecret> {
     const iter = this.listPagingAll(resourceGroupName, labName, options);
     return {
       next() {
@@ -76,8 +71,8 @@ export class SchedulesImpl implements Schedules {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: SchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule[]> {
+    options?: LabSecretsListOptionalParams
+  ): AsyncIterableIterator<LabSecret[]> {
     let result = await this._list(resourceGroupName, labName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -96,8 +91,8 @@ export class SchedulesImpl implements Schedules {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: SchedulesListOptionalParams
-  ): AsyncIterableIterator<Schedule> {
+    options?: LabSecretsListOptionalParams
+  ): AsyncIterableIterator<LabSecret> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
@@ -108,87 +103,7 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists all applicable schedules
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the schedule.
-   * @param options The options parameters.
-   */
-  public listApplicable(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    options?: SchedulesListApplicableOptionalParams
-  ): PagedAsyncIterableIterator<Schedule> {
-    const iter = this.listApplicablePagingAll(
-      resourceGroupName,
-      labName,
-      name,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listApplicablePagingPage(
-          resourceGroupName,
-          labName,
-          name,
-          options
-        );
-      }
-    };
-  }
-
-  private async *listApplicablePagingPage(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    options?: SchedulesListApplicableOptionalParams
-  ): AsyncIterableIterator<Schedule[]> {
-    let result = await this._listApplicable(
-      resourceGroupName,
-      labName,
-      name,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listApplicableNext(
-        resourceGroupName,
-        labName,
-        name,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listApplicablePagingAll(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    options?: SchedulesListApplicableOptionalParams
-  ): AsyncIterableIterator<Schedule> {
-    for await (const page of this.listApplicablePagingPage(
-      resourceGroupName,
-      labName,
-      name,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List schedules in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -196,8 +111,8 @@ export class SchedulesImpl implements Schedules {
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: SchedulesListOptionalParams
-  ): Promise<SchedulesListResponse> {
+    options?: LabSecretsListOptionalParams
+  ): Promise<LabSecretsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, options },
       listOperationSpec
@@ -205,18 +120,18 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Get schedule.
+   * Get lab secret.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: SchedulesGetOptionalParams
-  ): Promise<SchedulesGetResponse> {
+    options?: LabSecretsGetOptionalParams
+  ): Promise<LabSecretsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, name, options },
       getOperationSpec
@@ -224,78 +139,114 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Create or replace an existing schedule.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    schedule: Schedule,
-    options?: SchedulesCreateOrUpdateOptionalParams
-  ): Promise<SchedulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, schedule, options },
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LabSecretsCreateOrUpdateResponse>,
+      LabSecretsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LabSecretsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, labName, name, labSecret, options },
       createOrUpdateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete schedule.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
-  delete(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: SchedulesDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
-      deleteOperationSpec
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<LabSecretsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      labName,
+      name,
+      labSecret,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Allows modifying tags of schedules. All other properties will be ignored.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
-   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
-  update(
+  async beginDelete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    schedule: ScheduleFragment,
-    options?: SchedulesUpdateOptionalParams
-  ): Promise<SchedulesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, schedule, options },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Execute a schedule. This operation can take a while to complete.
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the schedule.
-   * @param options The options parameters.
-   */
-  async beginExecute(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    options?: SchedulesExecuteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -339,7 +290,7 @@ export class SchedulesImpl implements Schedules {
     const lro = new LroImpl(
       sendOperation,
       { resourceGroupName, labName, name, options },
-      executeOperationSpec
+      deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
@@ -350,19 +301,19 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Execute a schedule. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
-  async beginExecuteAndWait(
+  async beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: SchedulesExecuteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<void> {
-    const poller = await this.beginExecute(
+    const poller = await this.beginDelete(
       resourceGroupName,
       labName,
       name,
@@ -372,21 +323,23 @@ export class SchedulesImpl implements Schedules {
   }
 
   /**
-   * Lists all applicable schedules
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the schedule.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
-  private _listApplicable(
+  update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: SchedulesListApplicableOptionalParams
-  ): Promise<SchedulesListApplicableResponse> {
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<LabSecretsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
-      listApplicableOperationSpec
+      { resourceGroupName, labName, name, secret, options },
+      updateOperationSpec
     );
   }
 
@@ -401,32 +354,11 @@ export class SchedulesImpl implements Schedules {
     resourceGroupName: string,
     labName: string,
     nextLink: string,
-    options?: SchedulesListNextOptionalParams
-  ): Promise<SchedulesListNextResponse> {
+    options?: LabSecretsListNextOptionalParams
+  ): Promise<LabSecretsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, labName, nextLink, options },
       listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListApplicableNext
-   * @param resourceGroupName The name of the resource group.
-   * @param labName The name of the lab.
-   * @param name The name of the schedule.
-   * @param nextLink The nextLink from the previous successful call to the ListApplicable method.
-   * @param options The options parameters.
-   */
-  private _listApplicableNext(
-    resourceGroupName: string,
-    labName: string,
-    name: string,
-    nextLink: string,
-    options?: SchedulesListApplicableNextOptionalParams
-  ): Promise<SchedulesListApplicableNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, nextLink, options },
-      listApplicableNextOperationSpec
     );
   }
 }
@@ -435,11 +367,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -447,7 +379,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -463,17 +394,17 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -486,20 +417,26 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.LabSecret
     },
     201: {
-      bodyMapper: Mappers.Schedule
+      bodyMapper: Mappers.LabSecret
+    },
+    202: {
+      bodyMapper: Mappers.LabSecret
+    },
+    204: {
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.schedule,
+  requestBody: Parameters.labSecret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -514,55 +451,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Schedule
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.schedule1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const executeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/execute",
-  httpMethod: "POST",
   responses: {
     200: {},
     201: {},
@@ -583,18 +473,19 @@ const executeOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listApplicableOperationSpec: coreClient.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{name}/listApplicable",
-  httpMethod: "POST",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/secrets/{name}",
+  httpMethod: "PATCH",
   responses: {
-    200: {
-      bodyMapper: Mappers.ScheduleList
+    201: {
+      bodyMapper: Mappers.LabSecret
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -603,7 +494,8 @@ const listApplicableOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.labName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -611,7 +503,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScheduleList
+      bodyMapper: Mappers.LabSecretList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -619,7 +511,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -629,29 +520,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listApplicableNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ScheduleList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.name,
     Parameters.labName
   ],
   headerParameters: [Parameters.accept],

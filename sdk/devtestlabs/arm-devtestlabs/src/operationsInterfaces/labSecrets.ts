@@ -9,23 +9,23 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  VirtualNetwork,
-  VirtualNetworksListOptionalParams,
-  VirtualNetworksGetOptionalParams,
-  VirtualNetworksGetResponse,
-  VirtualNetworksCreateOrUpdateOptionalParams,
-  VirtualNetworksCreateOrUpdateResponse,
-  VirtualNetworksDeleteOptionalParams,
-  VirtualNetworkFragment,
-  VirtualNetworksUpdateOptionalParams,
-  VirtualNetworksUpdateResponse
+  LabSecret,
+  LabSecretsListOptionalParams,
+  LabSecretsGetOptionalParams,
+  LabSecretsGetResponse,
+  LabSecretsCreateOrUpdateOptionalParams,
+  LabSecretsCreateOrUpdateResponse,
+  LabSecretsDeleteOptionalParams,
+  SecretFragment,
+  LabSecretsUpdateOptionalParams,
+  LabSecretsUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a VirtualNetworks. */
-export interface VirtualNetworks {
+/** Interface representing a LabSecrets. */
+export interface LabSecrets {
   /**
-   * List virtual networks in a given lab.
+   * List lab secrets in a given lab.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param options The options parameters.
@@ -33,96 +33,95 @@ export interface VirtualNetworks {
   list(
     resourceGroupName: string,
     labName: string,
-    options?: VirtualNetworksListOptionalParams
-  ): PagedAsyncIterableIterator<VirtualNetwork>;
+    options?: LabSecretsListOptionalParams
+  ): PagedAsyncIterableIterator<LabSecret>;
   /**
-   * Get virtual network.
+   * Get lab secret.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksGetOptionalParams
-  ): Promise<VirtualNetworksGetResponse>;
+    options?: LabSecretsGetOptionalParams
+  ): Promise<LabSecretsGetResponse>;
   /**
-   * Create or replace an existing virtual network. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
-      VirtualNetworksCreateOrUpdateResponse
+      PollOperationState<LabSecretsCreateOrUpdateResponse>,
+      LabSecretsCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or replace an existing virtual network. This operation can take a while to complete.
+   * Create or replace an existing Lab Secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param name The name of the lab secret.
+   * @param labSecret A shared secret in a lab.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetwork,
-    options?: VirtualNetworksCreateOrUpdateOptionalParams
-  ): Promise<VirtualNetworksCreateOrUpdateResponse>;
+    labSecret: LabSecret,
+    options?: LabSecretsCreateOrUpdateOptionalParams
+  ): Promise<LabSecretsCreateOrUpdateResponse>;
   /**
-   * Delete virtual network. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Delete virtual network. This operation can take a while to complete.
+   * Delete lab secret. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
+   * @param name The name of the lab secret.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
-    options?: VirtualNetworksDeleteOptionalParams
+    options?: LabSecretsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Allows modifying tags of virtual networks. All other properties will be ignored.
+   * Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the virtual network.
-   * @param virtualNetwork Allows modifying tags of virtual networks. All other properties will be
-   *                       ignored.
+   * @param name The name of the lab secret.
+   * @param secret Allows modifying tags of lab secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
     name: string,
-    virtualNetwork: VirtualNetworkFragment,
-    options?: VirtualNetworksUpdateOptionalParams
-  ): Promise<VirtualNetworksUpdateResponse>;
+    secret: SecretFragment,
+    options?: LabSecretsUpdateOptionalParams
+  ): Promise<LabSecretsUpdateResponse>;
 }

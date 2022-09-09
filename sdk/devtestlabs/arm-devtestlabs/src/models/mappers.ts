@@ -173,74 +173,45 @@ export const LabList: coreClient.CompositeMapper = {
   }
 };
 
-export const LabAnnouncementProperties: coreClient.CompositeMapper = {
+export const SystemData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LabAnnouncementProperties",
+    className: "SystemData",
     modelProperties: {
-      title: {
-        serializedName: "title",
+      createdBy: {
+        serializedName: "createdBy",
         type: {
           name: "String"
         }
       },
-      markdown: {
-        serializedName: "markdown",
+      createdByType: {
+        serializedName: "createdByType",
         type: {
           name: "String"
         }
       },
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "String"
-        }
-      },
-      expirationDate: {
-        serializedName: "expirationDate",
+      createdAt: {
+        serializedName: "createdAt",
         type: {
           name: "DateTime"
         }
       },
-      expired: {
-        serializedName: "expired",
-        type: {
-          name: "Boolean"
-        }
-      },
-      provisioningState: {
-        serializedName: "provisioningState",
-        readOnly: true,
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
         type: {
           name: "String"
         }
       },
-      uniqueIdentifier: {
-        serializedName: "uniqueIdentifier",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LabSupportProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LabSupportProperties",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
         type: {
           name: "String"
         }
       },
-      markdown: {
-        serializedName: "markdown",
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       }
     }
@@ -273,17 +244,17 @@ export const Resource: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }
@@ -307,30 +278,14 @@ export const OperationResult: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "OperationError"
-        }
-      }
-    }
-  }
-};
-
-export const OperationError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationError",
-    modelProperties: {
       code: {
-        serializedName: "code",
+        serializedName: "error.code",
         type: {
           name: "String"
         }
       },
       message: {
-        serializedName: "message",
+        serializedName: "error.message",
         type: {
           name: "String"
         }
@@ -358,101 +313,6 @@ export const ScheduleList: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const WeekDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WeekDetails",
-    modelProperties: {
-      weekdays: {
-        serializedName: "weekdays",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      time: {
-        serializedName: "time",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DayDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DayDetails",
-    modelProperties: {
-      time: {
-        serializedName: "time",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HourDetails: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "HourDetails",
-    modelProperties: {
-      minute: {
-        serializedName: "minute",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const NotificationSettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NotificationSettings",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      timeInMinutes: {
-        serializedName: "timeInMinutes",
-        type: {
-          name: "Number"
-        }
-      },
-      webhookUrl: {
-        serializedName: "webhookUrl",
-        type: {
-          name: "String"
-        }
-      },
-      emailRecipient: {
-        serializedName: "emailRecipient",
-        type: {
-          name: "String"
-        }
-      },
-      notificationLocale: {
-        serializedName: "notificationLocale",
         type: {
           name: "String"
         }
@@ -663,57 +523,6 @@ export const UpdateResource: coreClient.CompositeMapper = {
   }
 };
 
-export const TargetCostProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TargetCostProperties",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        type: {
-          name: "Number"
-        }
-      },
-      costThresholds: {
-        serializedName: "costThresholds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CostThresholdProperties"
-            }
-          }
-        }
-      },
-      cycleStartDateTime: {
-        serializedName: "cycleStartDateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      cycleEndDateTime: {
-        serializedName: "cycleEndDateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      cycleType: {
-        serializedName: "cycleType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const CostThresholdProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -723,13 +532,6 @@ export const CostThresholdProperties: coreClient.CompositeMapper = {
         serializedName: "thresholdId",
         type: {
           name: "String"
-        }
-      },
-      percentageThreshold: {
-        serializedName: "percentageThreshold",
-        type: {
-          name: "Composite",
-          className: "PercentageCostThresholdProperties"
         }
       },
       displayOnChart: {
@@ -749,33 +551,9 @@ export const CostThresholdProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const PercentageCostThresholdProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PercentageCostThresholdProperties",
-    modelProperties: {
+      },
       thresholdValue: {
-        serializedName: "thresholdValue",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const LabCostSummaryProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LabCostSummaryProperties",
-    modelProperties: {
-      estimatedLabCost: {
-        serializedName: "estimatedLabCost",
+        serializedName: "percentageThreshold.thresholdValue",
         type: {
           name: "Number"
         }
@@ -901,93 +679,6 @@ export const CustomImageList: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomImagePropertiesFromVm: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomImagePropertiesFromVm",
-    modelProperties: {
-      sourceVmId: {
-        serializedName: "sourceVmId",
-        type: {
-          name: "String"
-        }
-      },
-      windowsOsInfo: {
-        serializedName: "windowsOsInfo",
-        type: {
-          name: "Composite",
-          className: "WindowsOsInfo"
-        }
-      },
-      linuxOsInfo: {
-        serializedName: "linuxOsInfo",
-        type: {
-          name: "Composite",
-          className: "LinuxOsInfo"
-        }
-      }
-    }
-  }
-};
-
-export const WindowsOsInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WindowsOsInfo",
-    modelProperties: {
-      windowsOsState: {
-        serializedName: "windowsOsState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinuxOsInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinuxOsInfo",
-    modelProperties: {
-      linuxOsState: {
-        serializedName: "linuxOsState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CustomImagePropertiesCustom: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomImagePropertiesCustom",
-    modelProperties: {
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      sysPrep: {
-        serializedName: "sysPrep",
-        type: {
-          name: "Boolean"
-        }
-      },
-      osType: {
-        serializedName: "osType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DataDiskStorageTypeInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1001,33 +692,6 @@ export const DataDiskStorageTypeInfo: coreClient.CompositeMapper = {
       },
       storageType: {
         serializedName: "storageType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CustomImagePropertiesFromPlan: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CustomImagePropertiesFromPlan",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      publisher: {
-        serializedName: "publisher",
-        type: {
-          name: "String"
-        }
-      },
-      offer: {
-        serializedName: "offer",
         type: {
           name: "String"
         }
@@ -1087,13 +751,6 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      bulkCreationParameters: {
-        serializedName: "properties.bulkCreationParameters",
-        type: {
-          name: "Composite",
-          className: "BulkCreationParameters"
-        }
-      },
       notes: {
         serializedName: "properties.notes",
         type: {
@@ -1113,14 +770,60 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      createdDate: {
+      createdByUserId: {
+        serializedName: "properties.createdByUserId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdByUser: {
+        serializedName: "properties.createdByUser",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesCreatedDate: {
         serializedName: "properties.createdDate",
         type: {
           name: "DateTime"
         }
       },
+      computeId: {
+        serializedName: "properties.computeId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       customImageId: {
         serializedName: "properties.customImageId",
+        type: {
+          name: "String"
+        }
+      },
+      galleryImageVersionId: {
+        serializedName: "properties.galleryImageVersionId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageId: {
+        serializedName: "properties.sharedImageId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageVersion: {
+        serializedName: "properties.sharedImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesOsType: {
+        serializedName: "properties.osType",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1155,6 +858,13 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fqdn: {
+        serializedName: "properties.fqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       labSubnetName: {
         serializedName: "properties.labSubnetName",
         type: {
@@ -1186,24 +896,16 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
           }
         }
       },
-      galleryImageReference: {
-        serializedName: "properties.galleryImageReference",
-        type: {
-          name: "Composite",
-          className: "GalleryImageReference"
-        }
-      },
       planId: {
         serializedName: "properties.planId",
         type: {
           name: "String"
         }
       },
-      networkInterface: {
-        serializedName: "properties.networkInterface",
+      osDiskSizeGb: {
+        serializedName: "properties.osDiskSizeGb",
         type: {
-          name: "Composite",
-          className: "NetworkInterfaceProperties"
+          name: "Number"
         }
       },
       expirationDate: {
@@ -1220,8 +922,14 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
         }
       },
       storageType: {
-        defaultValue: "labStorageType",
         serializedName: "properties.storageType",
+        type: {
+          name: "String"
+        }
+      },
+      virtualMachineCreationSource: {
+        serializedName: "properties.virtualMachineCreationSource",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1255,18 +963,580 @@ export const LabVirtualMachineCreationParameter: coreClient.CompositeMapper = {
             }
           }
         }
-      }
-    }
-  }
-};
-
-export const BulkCreationParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BulkCreationParameters",
-    modelProperties: {
+      },
+      lastKnownPowerState: {
+        serializedName: "properties.lastKnownPowerState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      canApplyArtifacts: {
+        serializedName: "properties.canApplyArtifacts",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningStatePropertiesProvisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesUniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesApplicableScheduleId: {
+        serializedName: "properties.applicableSchedule.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableScheduleName: {
+        serializedName: "properties.applicableSchedule.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableScheduleType: {
+        serializedName: "properties.applicableSchedule.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableScheduleTags: {
+        serializedName: "properties.applicableSchedule.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableScheduleLocation: {
+        serializedName: "properties.applicableSchedule.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableScheduleSystemData: {
+        serializedName: "properties.applicableSchedule.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsStartupId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsStartupName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsStartupType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsShutdownId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsShutdownName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsShutdownType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkId: {
+        serializedName: "properties.networkInterface.virtualNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        serializedName: "properties.networkInterface.subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddressId: {
+        serializedName: "properties.networkInterface.publicIpAddressId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddress: {
+        serializedName: "properties.networkInterface.publicIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      privateIpAddress: {
+        serializedName: "properties.networkInterface.privateIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      dnsName: {
+        serializedName: "properties.networkInterface.dnsName",
+        type: {
+          name: "String"
+        }
+      },
+      rdpAuthority: {
+        serializedName: "properties.networkInterface.rdpAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      sshAuthority: {
+        serializedName: "properties.networkInterface.sshAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      inboundNatRules: {
+        serializedName:
+          "properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundNatRule"
+            }
+          }
+        }
+      },
+      statuses: {
+        serializedName: "properties.computeVm.statuses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeVmInstanceViewStatus"
+            }
+          }
+        }
+      },
+      osTypePropertiesComputeVmOsType: {
+        serializedName: "properties.computeVm.osType",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        serializedName: "properties.computeVm.vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      networkInterfaceId: {
+        serializedName: "properties.computeVm.networkInterfaceId",
+        type: {
+          name: "String"
+        }
+      },
+      osDiskId: {
+        serializedName: "properties.computeVm.osDiskId",
+        type: {
+          name: "String"
+        }
+      },
+      dataDiskIds: {
+        serializedName: "properties.computeVm.dataDiskIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataDisks: {
+        serializedName: "properties.computeVm.dataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeDataDisk"
+            }
+          }
+        }
+      },
+      offer: {
+        serializedName: "properties.galleryImageReference.offer",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.galleryImageReference.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "properties.galleryImageReference.sku",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesGalleryImageReferenceOsType: {
+        serializedName: "properties.galleryImageReference.osType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "properties.galleryImageReference.version",
+        type: {
+          name: "String"
+        }
+      },
+      deploymentStatus: {
+        serializedName: "properties.artifactDeploymentStatus.deploymentStatus",
+        type: {
+          name: "String"
+        }
+      },
+      artifactsApplied: {
+        serializedName: "properties.artifactDeploymentStatus.artifactsApplied",
+        type: {
+          name: "Number"
+        }
+      },
+      totalArtifacts: {
+        serializedName: "properties.artifactDeploymentStatus.totalArtifacts",
+        type: {
+          name: "Number"
+        }
+      },
       instanceCount: {
-        serializedName: "instanceCount",
+        serializedName: "properties.bulkCreationParameters.instanceCount",
         type: {
           name: "Number"
         }
@@ -1353,37 +1623,25 @@ export const ArtifactParameterProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const GalleryImageReference: coreClient.CompositeMapper = {
+export const ComputeVmInstanceViewStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GalleryImageReference",
+    className: "ComputeVmInstanceViewStatus",
     modelProperties: {
-      offer: {
-        serializedName: "offer",
+      code: {
+        serializedName: "code",
         type: {
           name: "String"
         }
       },
-      publisher: {
-        serializedName: "publisher",
+      displayStatus: {
+        serializedName: "displayStatus",
         type: {
           name: "String"
         }
       },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "String"
-        }
-      },
-      osType: {
-        serializedName: "osType",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        serializedName: "version",
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
         }
@@ -1392,85 +1650,33 @@ export const GalleryImageReference: coreClient.CompositeMapper = {
   }
 };
 
-export const NetworkInterfaceProperties: coreClient.CompositeMapper = {
+export const ComputeDataDisk: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "NetworkInterfaceProperties",
+    className: "ComputeDataDisk",
     modelProperties: {
-      virtualNetworkId: {
-        serializedName: "virtualNetworkId",
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
       },
-      subnetId: {
-        serializedName: "subnetId",
+      diskUri: {
+        serializedName: "diskUri",
         type: {
           name: "String"
         }
       },
-      publicIpAddressId: {
-        serializedName: "publicIpAddressId",
+      managedDiskId: {
+        serializedName: "managedDiskId",
         type: {
           name: "String"
         }
       },
-      publicIpAddress: {
-        serializedName: "publicIpAddress",
+      diskSizeGiB: {
+        serializedName: "diskSizeGiB",
         type: {
-          name: "String"
-        }
-      },
-      privateIpAddress: {
-        serializedName: "privateIpAddress",
-        type: {
-          name: "String"
-        }
-      },
-      dnsName: {
-        serializedName: "dnsName",
-        type: {
-          name: "String"
-        }
-      },
-      rdpAuthority: {
-        serializedName: "rdpAuthority",
-        type: {
-          name: "String"
-        }
-      },
-      sshAuthority: {
-        serializedName: "sshAuthority",
-        type: {
-          name: "String"
-        }
-      },
-      sharedPublicIpAddressConfiguration: {
-        serializedName: "sharedPublicIpAddressConfiguration",
-        type: {
-          name: "Composite",
-          className: "SharedPublicIpAddressConfiguration"
-        }
-      }
-    }
-  }
-};
-
-export const SharedPublicIpAddressConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SharedPublicIpAddressConfiguration",
-    modelProperties: {
-      inboundNatRules: {
-        serializedName: "inboundNatRules",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "InboundNatRule"
-            }
-          }
+          name: "Number"
         }
       }
     }
@@ -1509,13 +1715,6 @@ export const DataDiskProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DataDiskProperties",
     modelProperties: {
-      attachNewDataDiskOptions: {
-        serializedName: "attachNewDataDiskOptions",
-        type: {
-          name: "Composite",
-          className: "AttachNewDataDiskOptions"
-        }
-      },
       existingLabDiskId: {
         serializedName: "existingLabDiskId",
         type: {
@@ -1527,30 +1726,21 @@ export const DataDiskProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const AttachNewDataDiskOptions: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AttachNewDataDiskOptions",
-    modelProperties: {
+      },
       diskSizeGiB: {
-        serializedName: "diskSizeGiB",
+        serializedName: "attachNewDataDiskOptions.diskSizeGiB",
         type: {
           name: "Number"
         }
       },
       diskName: {
-        serializedName: "diskName",
+        serializedName: "attachNewDataDiskOptions.diskName",
         type: {
           name: "String"
         }
       },
       diskType: {
-        serializedName: "diskType",
+        serializedName: "attachNewDataDiskOptions.diskType",
         type: {
           name: "String"
         }
@@ -1584,7 +1774,7 @@ export const ScheduleCreationParameter: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      status: {
+      statusPropertiesStatus: {
         serializedName: "properties.status",
         type: {
           name: "String"
@@ -1596,38 +1786,17 @@ export const ScheduleCreationParameter: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      weeklyRecurrence: {
-        serializedName: "properties.weeklyRecurrence",
-        type: {
-          name: "Composite",
-          className: "WeekDetails"
-        }
-      },
-      dailyRecurrence: {
-        serializedName: "properties.dailyRecurrence",
-        type: {
-          name: "Composite",
-          className: "DayDetails"
-        }
-      },
-      hourlyRecurrence: {
-        serializedName: "properties.hourlyRecurrence",
-        type: {
-          name: "Composite",
-          className: "HourDetails"
-        }
-      },
       timeZoneId: {
         serializedName: "properties.timeZoneId",
         type: {
           name: "String"
         }
       },
-      notificationSettings: {
-        serializedName: "properties.notificationSettings",
+      createdDate: {
+        serializedName: "properties.createdDate",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "NotificationSettings"
+          name: "DateTime"
         }
       },
       targetResourceId: {
@@ -1635,18 +1804,76 @@ export const ScheduleCreationParameter: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const FormulaPropertiesFromVm: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FormulaPropertiesFromVm",
-    modelProperties: {
-      labVmId: {
-        serializedName: "labVmId",
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesNotificationSettingsStatus: {
+        serializedName: "properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutes: {
+        serializedName: "properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrl: {
+        serializedName: "properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipient: {
+        serializedName: "properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocale: {
+        serializedName: "properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minute: {
+        serializedName: "properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesDailyRecurrenceTime: {
+        serializedName: "properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdays: {
+        serializedName: "properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesWeeklyRecurrenceTime: {
+        serializedName: "properties.weeklyRecurrence.time",
         type: {
           name: "String"
         }
@@ -1737,6 +1964,34 @@ export const NotifyParameters: coreClient.CompositeMapper = {
       },
       jsonPayload: {
         serializedName: "jsonPayload",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicySetList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicySetList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PolicySet"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
@@ -1895,31 +2150,121 @@ export const PolicyList: coreClient.CompositeMapper = {
   }
 };
 
-export const IdentityProperties: coreClient.CompositeMapper = {
+export const LabSecretList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "IdentityProperties",
+    className: "LabSecretList",
     modelProperties: {
-      type: {
-        serializedName: "type",
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LabSecret"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
+      }
+    }
+  }
+};
+
+export const ServiceRunnerList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceRunnerList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceRunner"
+            }
+          }
+        }
       },
-      principalId: {
-        serializedName: "principalId",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
+      }
+    }
+  }
+};
+
+export const SharedGalleryList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SharedGallery"
+            }
+          }
+        }
       },
-      tenantId: {
-        serializedName: "tenantId",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String"
         }
+      }
+    }
+  }
+};
+
+export const SharedImageList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedImageList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SharedImage"
+            }
+          }
+        }
       },
-      clientSecretUrl: {
-        serializedName: "clientSecretUrl",
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ImageVersionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageVersionProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         type: {
           name: "String"
         }
@@ -1947,66 +2292,6 @@ export const UserList: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UserIdentity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserIdentity",
-    modelProperties: {
-      principalName: {
-        serializedName: "principalName",
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        serializedName: "principalId",
-        type: {
-          name: "String"
-        }
-      },
-      tenantId: {
-        serializedName: "tenantId",
-        type: {
-          name: "String"
-        }
-      },
-      objectId: {
-        serializedName: "objectId",
-        type: {
-          name: "String"
-        }
-      },
-      appId: {
-        serializedName: "appId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UserSecretStore: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UserSecretStore",
-    modelProperties: {
-      keyVaultUri: {
-        serializedName: "keyVaultUri",
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultId: {
-        serializedName: "keyVaultId",
         type: {
           name: "String"
         }
@@ -2093,33 +2378,6 @@ export const DtlEnvironmentList: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EnvironmentDeploymentProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EnvironmentDeploymentProperties",
-    modelProperties: {
-      armTemplateId: {
-        serializedName: "armTemplateId",
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ArmTemplateParameterProperties"
-            }
-          }
         }
       }
     }
@@ -2222,161 +2480,6 @@ export const LabVirtualMachineList: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ArtifactDeploymentStatusProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ArtifactDeploymentStatusProperties",
-    modelProperties: {
-      deploymentStatus: {
-        serializedName: "deploymentStatus",
-        type: {
-          name: "String"
-        }
-      },
-      artifactsApplied: {
-        serializedName: "artifactsApplied",
-        type: {
-          name: "Number"
-        }
-      },
-      totalArtifacts: {
-        serializedName: "totalArtifacts",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ComputeVmProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeVmProperties",
-    modelProperties: {
-      statuses: {
-        serializedName: "statuses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ComputeVmInstanceViewStatus"
-            }
-          }
-        }
-      },
-      osType: {
-        serializedName: "osType",
-        type: {
-          name: "String"
-        }
-      },
-      vmSize: {
-        serializedName: "vmSize",
-        type: {
-          name: "String"
-        }
-      },
-      networkInterfaceId: {
-        serializedName: "networkInterfaceId",
-        type: {
-          name: "String"
-        }
-      },
-      osDiskId: {
-        serializedName: "osDiskId",
-        type: {
-          name: "String"
-        }
-      },
-      dataDiskIds: {
-        serializedName: "dataDiskIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      dataDisks: {
-        serializedName: "dataDisks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ComputeDataDisk"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ComputeVmInstanceViewStatus: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeVmInstanceViewStatus",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      displayStatus: {
-        serializedName: "displayStatus",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ComputeDataDisk: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ComputeDataDisk",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      diskUri: {
-        serializedName: "diskUri",
-        type: {
-          name: "String"
-        }
-      },
-      managedDiskId: {
-        serializedName: "managedDiskId",
-        type: {
-          name: "String"
-        }
-      },
-      diskSizeGiB: {
-        serializedName: "diskSizeGiB",
-        type: {
-          name: "Number"
         }
       }
     }
@@ -2553,30 +2656,14 @@ export const SubnetOverride: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      sharedPublicIpAddressConfiguration: {
-        serializedName: "sharedPublicIpAddressConfiguration",
-        type: {
-          name: "Composite",
-          className: "SubnetSharedPublicIpAddressConfiguration"
-        }
-      },
       virtualNetworkPoolName: {
         serializedName: "virtualNetworkPoolName",
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const SubnetSharedPublicIpAddressConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SubnetSharedPublicIpAddressConfiguration",
-    modelProperties: {
+      },
       allowedPorts: {
-        serializedName: "allowedPorts",
+        serializedName: "sharedPublicIpAddressConfiguration.allowedPorts",
         type: {
           name: "Sequence",
           element: {
@@ -2606,6 +2693,33 @@ export const Port: coreClient.CompositeMapper = {
         serializedName: "backendPort",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const BastionHostList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHostList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BastionHost"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2747,10 +2861,37 @@ export const RetargetScheduleProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const ServiceRunnerList: coreClient.CompositeMapper = {
+export const CustomImagePropertiesFromPlanFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ServiceRunnerList",
+    className: "CustomImagePropertiesFromPlanFragment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "publisher",
+        type: {
+          name: "String"
+        }
+      },
+      offer: {
+        serializedName: "offer",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LabCostList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabCostList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -2759,7 +2900,7 @@ export const ServiceRunnerList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ServiceRunner"
+              className: "LabCost"
             }
           }
         }
@@ -2774,85 +2915,627 @@ export const ServiceRunnerList: coreClient.CompositeMapper = {
   }
 };
 
-export const ShutdownNotificationContent: coreClient.CompositeMapper = {
+export const WeekDetailsFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ShutdownNotificationContent",
+    className: "WeekDetailsFragment",
     modelProperties: {
-      skipUrl: {
-        serializedName: "skipUrl",
+      weekdays: {
+        serializedName: "weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      time: {
+        serializedName: "time",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceModelWithAllowedPropertySet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceModelWithAllowedPropertySet",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      delayUrl60: {
-        serializedName: "delayUrl60",
+      name: {
+        serializedName: "name",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      delayUrl120: {
-        serializedName: "delayUrl120",
+      type: {
+        serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      vmName: {
-        serializedName: "vmName",
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
       },
-      guid: {
-        serializedName: "guid",
+      managedBy: {
+        serializedName: "managedBy",
         type: {
           name: "String"
         }
       },
-      owner: {
-        serializedName: "owner",
+      kind: {
+        constraints: {
+          Pattern: new RegExp("^[-\\w\\._,\\(\\)]+$")
+        },
+        serializedName: "kind",
         type: {
           name: "String"
         }
       },
-      vmUrl: {
-        serializedName: "vmUrl",
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      minutesUntilShutdown: {
-        serializedName: "minutesUntilShutdown",
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ResourceModelWithAllowedPropertySetIdentity"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceModelWithAllowedPropertySetSku"
+        }
+      },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "Composite",
+          className: "ResourceModelWithAllowedPropertySetPlan"
+        }
+      }
+    }
+  }
+};
+
+export const Identity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Identity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      eventType: {
-        serializedName: "eventType",
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      text: {
-        serializedName: "text",
+      type: {
+        defaultValue: "SystemAssigned",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
-      subscriptionId: {
-        serializedName: "subscriptionId",
+      tier: {
+        serializedName: "tier",
+        type: {
+          name: "Enum",
+          allowedValues: ["Free", "Basic", "Standard", "Premium"]
+        }
+      },
+      size: {
+        serializedName: "size",
         type: {
           name: "String"
         }
       },
-      resourceGroupName: {
-        serializedName: "resourceGroupName",
+      family: {
+        serializedName: "family",
         type: {
           name: "String"
         }
       },
-      labName: {
-        serializedName: "labName",
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Plan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Plan",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "publisher",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      product: {
+        serializedName: "product",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      promotionCode: {
+        serializedName: "promotionCode",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay"
+        }
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Operation"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatusResult",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      percentComplete: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        serializedName: "percentComplete",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      operations: {
+        serializedName: "operations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationStatusResult"
+            }
+          }
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const LocationData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LocationData",
+    modelProperties: {
+      name: {
+        constraints: {
+          MaxLength: 256
+        },
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      city: {
+        serializedName: "city",
+        type: {
+          name: "String"
+        }
+      },
+      district: {
+        serializedName: "district",
+        type: {
+          name: "String"
+        }
+      },
+      countryOrRegion: {
+        serializedName: "countryOrRegion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionProperties",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Composite",
+          className: "KeyVaultProperties"
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityRequest",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CheckNameAvailabilityResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CheckNameAvailabilityResponse",
+    modelProperties: {
+      nameAvailable: {
+        serializedName: "nameAvailable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      reason: {
+        serializedName: "reason",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
         type: {
           name: "String"
         }
@@ -2867,6 +3550,46 @@ export const Lab: coreClient.CompositeMapper = {
     className: "Lab",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      typeIdentityType: {
+        serializedName: "identity.type",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "identity.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "identity.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecretUrl: {
+        serializedName: "identity.clientSecretUrl",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "identity.userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
       defaultStorageAccount: {
         serializedName: "properties.defaultStorageAccount",
         readOnly: true,
@@ -2949,20 +3672,6 @@ export const Lab: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      announcement: {
-        serializedName: "properties.announcement",
-        type: {
-          name: "Composite",
-          className: "LabAnnouncementProperties"
-        }
-      },
-      support: {
-        serializedName: "properties.support",
-        type: {
-          name: "Composite",
-          className: "LabSupportProperties"
-        }
-      },
       vmCreationResourceGroup: {
         serializedName: "properties.vmCreationResourceGroup",
         readOnly: true,
@@ -2998,15 +3707,116 @@ export const Lab: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
-      provisioningState: {
+      browserConnect: {
+        serializedName: "properties.browserConnect",
+        type: {
+          name: "String"
+        }
+      },
+      disableAutoUpgradeCseMinorVersion: {
+        serializedName: "properties.disableAutoUpgradeCseMinorVersion",
+        type: {
+          name: "Boolean"
+        }
+      },
+      managementIdentities: {
+        serializedName: "properties.managementIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
+      isolateLabResources: {
+        serializedName: "properties.isolateLabResources",
+        type: {
+          name: "String"
+        }
+      },
+      defaultSecretName: {
+        serializedName: "properties.defaultSecretName",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesProvisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      uniqueIdentifier: {
+      uniqueIdentifierPropertiesUniqueIdentifier: {
         serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      diskEncryptionSetId: {
+        serializedName: "properties.encryption.diskEncryptionSetId",
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesEncryptionType: {
+        serializedName: "properties.encryption.type",
+        type: {
+          name: "String"
+        }
+      },
+      enabledPropertiesSupportEnabled: {
+        serializedName: "properties.support.enabled",
+        type: {
+          name: "String"
+        }
+      },
+      markdownPropertiesSupportMarkdown: {
+        serializedName: "properties.support.markdown",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "properties.announcement.title",
+        type: {
+          name: "String"
+        }
+      },
+      markdownPropertiesAnnouncementMarkdown: {
+        serializedName: "properties.announcement.markdown",
+        type: {
+          name: "String"
+        }
+      },
+      enabledPropertiesAnnouncementEnabled: {
+        serializedName: "properties.announcement.enabled",
+        type: {
+          name: "String"
+        }
+      },
+      expirationDate: {
+        serializedName: "properties.announcement.expirationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      expired: {
+        serializedName: "properties.announcement.expired",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningStatePropertiesAnnouncementProvisioningState: {
+        serializedName: "properties.announcement.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesAnnouncementUniqueIdentifier: {
+        serializedName: "properties.announcement.uniqueIdentifier",
         readOnly: true,
         type: {
           name: "String"
@@ -3022,7 +3832,14 @@ export const Schedule: coreClient.CompositeMapper = {
     className: "Schedule",
     modelProperties: {
       ...Resource.type.modelProperties,
-      status: {
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesStatus: {
         serializedName: "properties.status",
         type: {
           name: "String"
@@ -3034,38 +3851,10 @@ export const Schedule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      weeklyRecurrence: {
-        serializedName: "properties.weeklyRecurrence",
-        type: {
-          name: "Composite",
-          className: "WeekDetails"
-        }
-      },
-      dailyRecurrence: {
-        serializedName: "properties.dailyRecurrence",
-        type: {
-          name: "Composite",
-          className: "DayDetails"
-        }
-      },
-      hourlyRecurrence: {
-        serializedName: "properties.hourlyRecurrence",
-        type: {
-          name: "Composite",
-          className: "HourDetails"
-        }
-      },
       timeZoneId: {
         serializedName: "properties.timeZoneId",
         type: {
           name: "String"
-        }
-      },
-      notificationSettings: {
-        serializedName: "properties.notificationSettings",
-        type: {
-          name: "Composite",
-          className: "NotificationSettings"
         }
       },
       createdDate: {
@@ -3094,6 +3883,65 @@ export const Schedule: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      statusPropertiesNotificationSettingsStatus: {
+        serializedName: "properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutes: {
+        serializedName: "properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrl: {
+        serializedName: "properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipient: {
+        serializedName: "properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocale: {
+        serializedName: "properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minute: {
+        serializedName: "properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesDailyRecurrenceTime: {
+        serializedName: "properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdays: {
+        serializedName: "properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesWeeklyRecurrenceTime: {
+        serializedName: "properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3105,6 +3953,13 @@ export const ArtifactSource: coreClient.CompositeMapper = {
     className: "ArtifactSource",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       displayName: {
         serializedName: "properties.displayName",
         type: {
@@ -3184,6 +4039,13 @@ export const ArmTemplate: coreClient.CompositeMapper = {
     className: "ArmTemplate",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       displayName: {
         serializedName: "properties.displayName",
         readOnly: true,
@@ -3257,6 +4119,13 @@ export const Artifact: coreClient.CompositeMapper = {
     className: "Artifact",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       title: {
         serializedName: "properties.title",
         readOnly: true,
@@ -3324,18 +4193,11 @@ export const LabCost: coreClient.CompositeMapper = {
     className: "LabCost",
     modelProperties: {
       ...Resource.type.modelProperties,
-      targetCost: {
-        serializedName: "properties.targetCost",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "TargetCostProperties"
-        }
-      },
-      labCostSummary: {
-        serializedName: "properties.labCostSummary",
-        type: {
-          name: "Composite",
-          className: "LabCostSummaryProperties"
+          className: "SystemData"
         }
       },
       labCostDetails: {
@@ -3401,6 +4263,54 @@ export const LabCost: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      estimatedLabCost: {
+        serializedName: "properties.labCostSummary.estimatedLabCost",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "properties.targetCost.status",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "properties.targetCost.target",
+        type: {
+          name: "Number"
+        }
+      },
+      costThresholds: {
+        serializedName: "properties.targetCost.costThresholds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CostThresholdProperties"
+            }
+          }
+        }
+      },
+      cycleStartDateTime: {
+        serializedName: "properties.targetCost.cycleStartDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cycleEndDateTime: {
+        serializedName: "properties.targetCost.cycleEndDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cycleType: {
+        serializedName: "properties.targetCost.cycleType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3412,18 +4322,11 @@ export const CustomImage: coreClient.CompositeMapper = {
     className: "CustomImage",
     modelProperties: {
       ...Resource.type.modelProperties,
-      vm: {
-        serializedName: "properties.vm",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "CustomImagePropertiesFromVm"
-        }
-      },
-      vhd: {
-        serializedName: "properties.vhd",
-        type: {
-          name: "Composite",
-          className: "CustomImagePropertiesCustom"
+          className: "SystemData"
         }
       },
       description: {
@@ -3469,13 +4372,6 @@ export const CustomImage: coreClient.CompositeMapper = {
           }
         }
       },
-      customImagePlan: {
-        serializedName: "properties.customImagePlan",
-        type: {
-          name: "Composite",
-          className: "CustomImagePropertiesFromPlan"
-        }
-      },
       isPlanAuthorized: {
         serializedName: "properties.isPlanAuthorized",
         type: {
@@ -3495,6 +4391,386 @@ export const CustomImage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      idPropertiesCustomImagePlanId: {
+        serializedName: "properties.customImagePlan.id",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.customImagePlan.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      offer: {
+        serializedName: "properties.customImagePlan.offer",
+        type: {
+          name: "String"
+        }
+      },
+      imageName: {
+        serializedName: "properties.vhd.imageName",
+        type: {
+          name: "String"
+        }
+      },
+      sysPrep: {
+        serializedName: "properties.vhd.sysPrep",
+        type: {
+          name: "Boolean"
+        }
+      },
+      osType: {
+        serializedName: "properties.vhd.osType",
+        type: {
+          name: "String"
+        }
+      },
+      sourceVmId: {
+        serializedName: "properties.vm.sourceVmId",
+        type: {
+          name: "String"
+        }
+      },
+      linuxOsState: {
+        serializedName: "properties.vm.linuxOsInfo.linuxOsState",
+        type: {
+          name: "String"
+        }
+      },
+      windowsOsState: {
+        serializedName: "properties.vm.windowsOsInfo.windowsOsState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApplicableSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ApplicableSchedule",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      idPropertiesLabVmsStartupId: {
+        serializedName: "properties.labVmsStartup.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesLabVmsStartupName: {
+        serializedName: "properties.labVmsStartup.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesLabVmsStartupType: {
+        serializedName: "properties.labVmsStartup.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesLabVmsStartupTags: {
+        serializedName: "properties.labVmsStartup.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesLabVmsStartupLocation: {
+        serializedName: "properties.labVmsStartup.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesLabVmsStartupSystemData: {
+        serializedName: "properties.labVmsStartup.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesLabVmsStartupPropertiesStatus: {
+        serializedName: "properties.labVmsStartup.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesLabVmsStartupPropertiesTaskType: {
+        serializedName: "properties.labVmsStartup.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesLabVmsStartupPropertiesTimeZoneId: {
+        serializedName: "properties.labVmsStartup.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesLabVmsStartupPropertiesCreatedDate: {
+        serializedName: "properties.labVmsStartup.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesLabVmsStartupPropertiesTargetResourceId: {
+        serializedName: "properties.labVmsStartup.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesLabVmsStartupPropertiesProvisioningState: {
+        serializedName: "properties.labVmsStartup.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesLabVmsStartupPropertiesUniqueIdentifier: {
+        serializedName: "properties.labVmsStartup.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesLabVmsStartupPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.labVmsStartup.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.labVmsStartup.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesLabVmsStartupPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.labVmsStartup.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.labVmsStartup.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesLabVmsShutdownId: {
+        serializedName: "properties.labVmsShutdown.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesLabVmsShutdownName: {
+        serializedName: "properties.labVmsShutdown.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesLabVmsShutdownType: {
+        serializedName: "properties.labVmsShutdown.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesLabVmsShutdownTags: {
+        serializedName: "properties.labVmsShutdown.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesLabVmsShutdownLocation: {
+        serializedName: "properties.labVmsShutdown.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesLabVmsShutdownSystemData: {
+        serializedName: "properties.labVmsShutdown.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesLabVmsShutdownPropertiesStatus: {
+        serializedName: "properties.labVmsShutdown.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesLabVmsShutdownPropertiesTaskType: {
+        serializedName: "properties.labVmsShutdown.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesLabVmsShutdownPropertiesTimeZoneId: {
+        serializedName: "properties.labVmsShutdown.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesLabVmsShutdownPropertiesCreatedDate: {
+        serializedName: "properties.labVmsShutdown.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesLabVmsShutdownPropertiesTargetResourceId: {
+        serializedName: "properties.labVmsShutdown.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesLabVmsShutdownPropertiesProvisioningState: {
+        serializedName:
+          "properties.labVmsShutdown.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesLabVmsShutdownPropertiesUniqueIdentifier: {
+        serializedName: "properties.labVmsShutdown.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesLabVmsShutdownPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.labVmsShutdown.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.labVmsShutdown.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.labVmsShutdown.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3506,6 +4782,13 @@ export const Formula: coreClient.CompositeMapper = {
     className: "Formula",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -3519,7 +4802,7 @@ export const Formula: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      osType: {
+      osTypePropertiesOsType: {
         serializedName: "properties.osType",
         type: {
           name: "String"
@@ -3532,32 +4815,873 @@ export const Formula: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      formulaContent: {
-        serializedName: "properties.formulaContent",
-        type: {
-          name: "Composite",
-          className: "LabVirtualMachineCreationParameter"
-        }
-      },
-      vm: {
-        serializedName: "properties.vm",
-        type: {
-          name: "Composite",
-          className: "FormulaPropertiesFromVm"
-        }
-      },
-      provisioningState: {
+      provisioningStatePropertiesProvisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      uniqueIdentifier: {
+      uniqueIdentifierPropertiesUniqueIdentifier: {
         serializedName: "properties.uniqueIdentifier",
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      labVmId: {
+        serializedName: "properties.vm.labVmId",
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesFormulaContentName: {
+        serializedName: "properties.formulaContent.name",
+        type: {
+          name: "String"
+        }
+      },
+      locationPropertiesFormulaContentLocation: {
+        serializedName: "properties.formulaContent.location",
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesFormulaContentTags: {
+        serializedName: "properties.formulaContent.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      notes: {
+        serializedName: "properties.formulaContent.properties.notes",
+        type: {
+          name: "String"
+        }
+      },
+      ownerObjectId: {
+        defaultValue: "dynamicValue",
+        serializedName: "properties.formulaContent.properties.ownerObjectId",
+        type: {
+          name: "String"
+        }
+      },
+      ownerUserPrincipalName: {
+        serializedName:
+          "properties.formulaContent.properties.ownerUserPrincipalName",
+        type: {
+          name: "String"
+        }
+      },
+      createdByUserId: {
+        serializedName: "properties.formulaContent.properties.createdByUserId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdByUser: {
+        serializedName: "properties.formulaContent.properties.createdByUser",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesFormulaContentPropertiesCreatedDate: {
+        serializedName: "properties.formulaContent.properties.createdDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      computeId: {
+        serializedName: "properties.formulaContent.properties.computeId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      customImageId: {
+        serializedName: "properties.formulaContent.properties.customImageId",
+        type: {
+          name: "String"
+        }
+      },
+      galleryImageVersionId: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageVersionId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageId: {
+        serializedName: "properties.formulaContent.properties.sharedImageId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageVersion: {
+        serializedName:
+          "properties.formulaContent.properties.sharedImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesFormulaContentPropertiesOsType: {
+        serializedName: "properties.formulaContent.properties.osType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "properties.formulaContent.properties.size",
+        type: {
+          name: "String"
+        }
+      },
+      userName: {
+        serializedName: "properties.formulaContent.properties.userName",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "properties.formulaContent.properties.password",
+        type: {
+          name: "String"
+        }
+      },
+      sshKey: {
+        serializedName: "properties.formulaContent.properties.sshKey",
+        type: {
+          name: "String"
+        }
+      },
+      isAuthenticationWithSshKey: {
+        serializedName:
+          "properties.formulaContent.properties.isAuthenticationWithSshKey",
+        type: {
+          name: "Boolean"
+        }
+      },
+      fqdn: {
+        serializedName: "properties.formulaContent.properties.fqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      labSubnetName: {
+        serializedName: "properties.formulaContent.properties.labSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      labVirtualNetworkId: {
+        serializedName:
+          "properties.formulaContent.properties.labVirtualNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      disallowPublicIpAddress: {
+        defaultValue: false,
+        serializedName:
+          "properties.formulaContent.properties.disallowPublicIpAddress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      artifacts: {
+        serializedName: "properties.formulaContent.properties.artifacts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArtifactInstallProperties"
+            }
+          }
+        }
+      },
+      planId: {
+        serializedName: "properties.formulaContent.properties.planId",
+        type: {
+          name: "String"
+        }
+      },
+      osDiskSizeGb: {
+        serializedName: "properties.formulaContent.properties.osDiskSizeGb",
+        type: {
+          name: "Number"
+        }
+      },
+      expirationDate: {
+        serializedName: "properties.formulaContent.properties.expirationDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      allowClaim: {
+        defaultValue: false,
+        serializedName: "properties.formulaContent.properties.allowClaim",
+        type: {
+          name: "Boolean"
+        }
+      },
+      storageType: {
+        serializedName: "properties.formulaContent.properties.storageType",
+        type: {
+          name: "String"
+        }
+      },
+      virtualMachineCreationSource: {
+        serializedName:
+          "properties.formulaContent.properties.virtualMachineCreationSource",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      environmentId: {
+        serializedName: "properties.formulaContent.properties.environmentId",
+        type: {
+          name: "String"
+        }
+      },
+      dataDiskParameters: {
+        serializedName:
+          "properties.formulaContent.properties.dataDiskParameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataDiskProperties"
+            }
+          }
+        }
+      },
+      scheduleParameters: {
+        serializedName:
+          "properties.formulaContent.properties.scheduleParameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ScheduleCreationParameter"
+            }
+          }
+        }
+      },
+      lastKnownPowerState: {
+        serializedName:
+          "properties.formulaContent.properties.lastKnownPowerState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      canApplyArtifacts: {
+        serializedName:
+          "properties.formulaContent.properties.canApplyArtifacts",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningStatePropertiesFormulaContentPropertiesProvisioningState: {
+        serializedName:
+          "properties.formulaContent.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesFormulaContentPropertiesUniqueIdentifier: {
+        serializedName: "properties.formulaContent.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesFormulaContentPropertiesApplicableScheduleId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesFormulaContentPropertiesApplicableScheduleName: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesFormulaContentPropertiesApplicableScheduleType: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesFormulaContentPropertiesApplicableScheduleTags: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesFormulaContentPropertiesApplicableScheduleLocation: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesFormulaContentPropertiesApplicableScheduleSystemData: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupName: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupType: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupTags: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupLocation: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownName: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownType: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownTags: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.formulaContent.properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkId: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.virtualNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddressId: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.publicIpAddressId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddress: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.publicIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      privateIpAddress: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.privateIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      dnsName: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.dnsName",
+        type: {
+          name: "String"
+        }
+      },
+      rdpAuthority: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.rdpAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      sshAuthority: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.sshAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      inboundNatRules: {
+        serializedName:
+          "properties.formulaContent.properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundNatRule"
+            }
+          }
+        }
+      },
+      statuses: {
+        serializedName:
+          "properties.formulaContent.properties.computeVm.statuses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeVmInstanceViewStatus"
+            }
+          }
+        }
+      },
+      osTypePropertiesFormulaContentPropertiesComputeVmOsType: {
+        serializedName: "properties.formulaContent.properties.computeVm.osType",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        serializedName: "properties.formulaContent.properties.computeVm.vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      networkInterfaceId: {
+        serializedName:
+          "properties.formulaContent.properties.computeVm.networkInterfaceId",
+        type: {
+          name: "String"
+        }
+      },
+      osDiskId: {
+        serializedName:
+          "properties.formulaContent.properties.computeVm.osDiskId",
+        type: {
+          name: "String"
+        }
+      },
+      dataDiskIds: {
+        serializedName:
+          "properties.formulaContent.properties.computeVm.dataDiskIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataDisks: {
+        serializedName:
+          "properties.formulaContent.properties.computeVm.dataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeDataDisk"
+            }
+          }
+        }
+      },
+      offer: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageReference.offer",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageReference.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageReference.sku",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesFormulaContentPropertiesGalleryImageReferenceOsType: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageReference.osType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName:
+          "properties.formulaContent.properties.galleryImageReference.version",
+        type: {
+          name: "String"
+        }
+      },
+      deploymentStatus: {
+        serializedName:
+          "properties.formulaContent.properties.artifactDeploymentStatus.deploymentStatus",
+        type: {
+          name: "String"
+        }
+      },
+      artifactsApplied: {
+        serializedName:
+          "properties.formulaContent.properties.artifactDeploymentStatus.artifactsApplied",
+        type: {
+          name: "Number"
+        }
+      },
+      totalArtifacts: {
+        serializedName:
+          "properties.formulaContent.properties.artifactDeploymentStatus.totalArtifacts",
+        type: {
+          name: "Number"
+        }
+      },
+      instanceCount: {
+        serializedName:
+          "properties.formulaContent.properties.bulkCreationParameters.instanceCount",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3570,6 +5694,13 @@ export const GalleryImage: coreClient.CompositeMapper = {
     className: "GalleryImage",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       author: {
         serializedName: "properties.author",
         type: {
@@ -3587,13 +5718,6 @@ export const GalleryImage: coreClient.CompositeMapper = {
         serializedName: "properties.description",
         type: {
           name: "String"
-        }
-      },
-      imageReference: {
-        serializedName: "properties.imageReference",
-        type: {
-          name: "Composite",
-          className: "GalleryImageReference"
         }
       },
       icon: {
@@ -3619,6 +5743,36 @@ export const GalleryImage: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      offer: {
+        serializedName: "properties.imageReference.offer",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.imageReference.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "properties.imageReference.sku",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        serializedName: "properties.imageReference.osType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "properties.imageReference.version",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3630,6 +5784,13 @@ export const NotificationChannel: coreClient.CompositeMapper = {
     className: "NotificationChannel",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       webHookUrl: {
         serializedName: "properties.webHookUrl",
         type: {
@@ -3691,12 +5852,50 @@ export const NotificationChannel: coreClient.CompositeMapper = {
   }
 };
 
+export const PolicySet: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicySet",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Policy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Policy",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       description: {
         serializedName: "properties.description",
         type: {
@@ -3758,17 +5957,248 @@ export const Policy: coreClient.CompositeMapper = {
   }
 };
 
+export const LabSecret: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LabSecret",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      value: {
+        serializedName: "properties.value",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultEntry: {
+        serializedName: "properties.keyVaultEntry",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      enabledForArtifacts: {
+        serializedName: "properties.enabledForArtifacts",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabledForVmCreation: {
+        serializedName: "properties.enabledForVmCreation",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabledForArmEnvironments: {
+        serializedName: "properties.enabledForArmEnvironments",
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceRunner: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceRunner",
     modelProperties: {
       ...Resource.type.modelProperties,
-      identity: {
-        serializedName: "identity",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "IdentityProperties"
+          className: "SystemData"
+        }
+      },
+      typeIdentityType: {
+        serializedName: "identity.type",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "identity.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "identity.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      clientSecretUrl: {
+        serializedName: "identity.clientSecretUrl",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "identity.userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
+        }
+      },
+      identityUsageType: {
+        serializedName: "properties.identityUsageType",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SharedGallery: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGallery",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      galleryId: {
+        serializedName: "properties.galleryId",
+        type: {
+          name: "String"
+        }
+      },
+      allowAllImages: {
+        serializedName: "properties.allowAllImages",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SharedImage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedImage",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      definitionName: {
+        serializedName: "properties.definitionName",
+        type: {
+          name: "String"
+        }
+      },
+      osType: {
+        serializedName: "properties.osType",
+        type: {
+          name: "String"
+        }
+      },
+      imageType: {
+        serializedName: "properties.imageType",
+        type: {
+          name: "String"
+        }
+      },
+      enableState: {
+        serializedName: "properties.enableState",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "properties.displayName",
+        type: {
+          name: "String"
+        }
+      },
+      versions: {
+        serializedName: "properties.versions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageVersionProperties"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -3781,18 +6211,11 @@ export const User: coreClient.CompositeMapper = {
     className: "User",
     modelProperties: {
       ...Resource.type.modelProperties,
-      identity: {
-        serializedName: "properties.identity",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "UserIdentity"
-        }
-      },
-      secretStore: {
-        serializedName: "properties.secretStore",
-        type: {
-          name: "Composite",
-          className: "UserSecretStore"
+          className: "SystemData"
         }
       },
       createdDate: {
@@ -3815,6 +6238,48 @@ export const User: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      keyVaultUri: {
+        serializedName: "properties.secretStore.keyVaultUri",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultId: {
+        serializedName: "properties.secretStore.keyVaultId",
+        type: {
+          name: "String"
+        }
+      },
+      principalName: {
+        serializedName: "properties.identity.principalName",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.identity.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "properties.identity.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      objectId: {
+        serializedName: "properties.identity.objectId",
+        type: {
+          name: "String"
+        }
+      },
+      appId: {
+        serializedName: "properties.identity.appId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3826,6 +6291,13 @@ export const Disk: coreClient.CompositeMapper = {
     className: "Disk",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       diskType: {
         serializedName: "properties.diskType",
         type: {
@@ -3905,11 +6377,11 @@ export const DtlEnvironment: coreClient.CompositeMapper = {
     className: "DtlEnvironment",
     modelProperties: {
       ...Resource.type.modelProperties,
-      deploymentProperties: {
-        serializedName: "properties.deploymentProperties",
+      systemData: {
+        serializedName: "systemData",
         type: {
           name: "Composite",
-          className: "EnvironmentDeploymentProperties"
+          className: "SystemData"
         }
       },
       armTemplateDisplayName: {
@@ -3945,6 +6417,24 @@ export const DtlEnvironment: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      armTemplateId: {
+        serializedName: "properties.deploymentProperties.armTemplateId",
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "properties.deploymentProperties.parameters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ArmTemplateParameterProperties"
+            }
+          }
+        }
       }
     }
   }
@@ -3956,6 +6446,13 @@ export const Secret: coreClient.CompositeMapper = {
     className: "Secret",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       value: {
         serializedName: "properties.value",
         type: {
@@ -3980,36 +6477,19 @@ export const Secret: coreClient.CompositeMapper = {
   }
 };
 
-export const ApplicableSchedule: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ApplicableSchedule",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      labVmsShutdown: {
-        serializedName: "properties.labVmsShutdown",
-        type: {
-          name: "Composite",
-          className: "Schedule"
-        }
-      },
-      labVmsStartup: {
-        serializedName: "properties.labVmsStartup",
-        type: {
-          name: "Composite",
-          className: "Schedule"
-        }
-      }
-    }
-  }
-};
-
 export const ServiceFabric: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ServiceFabric",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       externalServiceFabricId: {
         serializedName: "properties.externalServiceFabricId",
         type: {
@@ -4022,23 +6502,391 @@ export const ServiceFabric: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      applicableSchedule: {
-        serializedName: "properties.applicableSchedule",
-        type: {
-          name: "Composite",
-          className: "ApplicableSchedule"
-        }
-      },
-      provisioningState: {
+      provisioningStatePropertiesProvisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      uniqueIdentifier: {
+      uniqueIdentifierPropertiesUniqueIdentifier: {
         serializedName: "properties.uniqueIdentifier",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesApplicableScheduleId: {
+        serializedName: "properties.applicableSchedule.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableScheduleName: {
+        serializedName: "properties.applicableSchedule.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableScheduleType: {
+        serializedName: "properties.applicableSchedule.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableScheduleTags: {
+        serializedName: "properties.applicableSchedule.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableScheduleLocation: {
+        serializedName: "properties.applicableSchedule.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableScheduleSystemData: {
+        serializedName: "properties.applicableSchedule.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsStartupId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsStartupName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsStartupType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsShutdownId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsShutdownName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsShutdownType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
         type: {
           name: "String"
         }
@@ -4053,6 +6901,13 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
     className: "LabVirtualMachine",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       notes: {
         serializedName: "properties.notes",
         type: {
@@ -4086,7 +6941,7 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      createdDate: {
+      createdDatePropertiesCreatedDate: {
         serializedName: "properties.createdDate",
         type: {
           name: "DateTime"
@@ -4105,7 +6960,25 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      osType: {
+      galleryImageVersionId: {
+        serializedName: "properties.galleryImageVersionId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageId: {
+        serializedName: "properties.sharedImageId",
+        type: {
+          name: "String"
+        }
+      },
+      sharedImageVersion: {
+        serializedName: "properties.sharedImageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesOsType: {
         serializedName: "properties.osType",
         readOnly: true,
         type: {
@@ -4180,45 +7053,16 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
           }
         }
       },
-      artifactDeploymentStatus: {
-        serializedName: "properties.artifactDeploymentStatus",
-        type: {
-          name: "Composite",
-          className: "ArtifactDeploymentStatusProperties"
-        }
-      },
-      galleryImageReference: {
-        serializedName: "properties.galleryImageReference",
-        type: {
-          name: "Composite",
-          className: "GalleryImageReference"
-        }
-      },
       planId: {
         serializedName: "properties.planId",
         type: {
           name: "String"
         }
       },
-      computeVm: {
-        serializedName: "properties.computeVm",
+      osDiskSizeGb: {
+        serializedName: "properties.osDiskSizeGb",
         type: {
-          name: "Composite",
-          className: "ComputeVmProperties"
-        }
-      },
-      networkInterface: {
-        serializedName: "properties.networkInterface",
-        type: {
-          name: "Composite",
-          className: "NetworkInterfaceProperties"
-        }
-      },
-      applicableSchedule: {
-        serializedName: "properties.applicableSchedule",
-        type: {
-          name: "Composite",
-          className: "ApplicableSchedule"
+          name: "Number"
         }
       },
       expirationDate: {
@@ -4235,7 +7079,7 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
         }
       },
       storageType: {
-        defaultValue: "labStorageType",
+        defaultValue: "Standard",
         serializedName: "properties.storageType",
         type: {
           name: "String"
@@ -4285,18 +7129,568 @@ export const LabVirtualMachine: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      provisioningState: {
+      canApplyArtifacts: {
+        serializedName: "properties.canApplyArtifacts",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      provisioningStatePropertiesProvisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
-      uniqueIdentifier: {
+      uniqueIdentifierPropertiesUniqueIdentifier: {
         serializedName: "properties.uniqueIdentifier",
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      idPropertiesApplicableScheduleId: {
+        serializedName: "properties.applicableSchedule.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableScheduleName: {
+        serializedName: "properties.applicableSchedule.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableScheduleType: {
+        serializedName: "properties.applicableSchedule.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableScheduleTags: {
+        serializedName: "properties.applicableSchedule.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableScheduleLocation: {
+        serializedName: "properties.applicableSchedule.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableScheduleSystemData: {
+        serializedName: "properties.applicableSchedule.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsStartupId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsStartupName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsStartupType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsStartup.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      idPropertiesApplicableSchedulePropertiesLabVmsShutdownId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      namePropertiesApplicableSchedulePropertiesLabVmsShutdownName: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesApplicableSchedulePropertiesLabVmsShutdownType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.location",
+        type: {
+          name: "String"
+        }
+      },
+      systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.status",
+        type: {
+          name: "String"
+        }
+      },
+      taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.taskType",
+        type: {
+          name: "String"
+        }
+      },
+      timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.timeZoneId",
+        type: {
+          name: "String"
+        }
+      },
+      createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.createdDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.status",
+        type: {
+          name: "String"
+        }
+      },
+      timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.timeInMinutes",
+        type: {
+          name: "Number"
+        }
+      },
+      webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.webhookUrl",
+        type: {
+          name: "String"
+        }
+      },
+      emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.emailRecipient",
+        type: {
+          name: "String"
+        }
+      },
+      notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.notificationSettings.notificationLocale",
+        type: {
+          name: "String"
+        }
+      },
+      minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.hourlyRecurrence.minute",
+        type: {
+          name: "Number"
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.dailyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.weekdays",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime: {
+        serializedName:
+          "properties.applicableSchedule.properties.labVmsShutdown.properties.weeklyRecurrence.time",
+        type: {
+          name: "String"
+        }
+      },
+      virtualNetworkId: {
+        serializedName: "properties.networkInterface.virtualNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      subnetId: {
+        serializedName: "properties.networkInterface.subnetId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddressId: {
+        serializedName: "properties.networkInterface.publicIpAddressId",
+        type: {
+          name: "String"
+        }
+      },
+      publicIpAddress: {
+        serializedName: "properties.networkInterface.publicIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      privateIpAddress: {
+        serializedName: "properties.networkInterface.privateIpAddress",
+        type: {
+          name: "String"
+        }
+      },
+      dnsName: {
+        serializedName: "properties.networkInterface.dnsName",
+        type: {
+          name: "String"
+        }
+      },
+      rdpAuthority: {
+        serializedName: "properties.networkInterface.rdpAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      sshAuthority: {
+        serializedName: "properties.networkInterface.sshAuthority",
+        type: {
+          name: "String"
+        }
+      },
+      inboundNatRules: {
+        serializedName:
+          "properties.networkInterface.sharedPublicIpAddressConfiguration.inboundNatRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InboundNatRule"
+            }
+          }
+        }
+      },
+      statuses: {
+        serializedName: "properties.computeVm.statuses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeVmInstanceViewStatus"
+            }
+          }
+        }
+      },
+      osTypePropertiesComputeVmOsType: {
+        serializedName: "properties.computeVm.osType",
+        type: {
+          name: "String"
+        }
+      },
+      vmSize: {
+        serializedName: "properties.computeVm.vmSize",
+        type: {
+          name: "String"
+        }
+      },
+      networkInterfaceId: {
+        serializedName: "properties.computeVm.networkInterfaceId",
+        type: {
+          name: "String"
+        }
+      },
+      osDiskId: {
+        serializedName: "properties.computeVm.osDiskId",
+        type: {
+          name: "String"
+        }
+      },
+      dataDiskIds: {
+        serializedName: "properties.computeVm.dataDiskIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      dataDisks: {
+        serializedName: "properties.computeVm.dataDisks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ComputeDataDisk"
+            }
+          }
+        }
+      },
+      offer: {
+        serializedName: "properties.galleryImageReference.offer",
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "properties.galleryImageReference.publisher",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "properties.galleryImageReference.sku",
+        type: {
+          name: "String"
+        }
+      },
+      osTypePropertiesGalleryImageReferenceOsType: {
+        serializedName: "properties.galleryImageReference.osType",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "properties.galleryImageReference.version",
+        type: {
+          name: "String"
+        }
+      },
+      deploymentStatus: {
+        serializedName: "properties.artifactDeploymentStatus.deploymentStatus",
+        type: {
+          name: "String"
+        }
+      },
+      artifactsApplied: {
+        serializedName: "properties.artifactDeploymentStatus.artifactsApplied",
+        type: {
+          name: "Number"
+        }
+      },
+      totalArtifacts: {
+        serializedName: "properties.artifactDeploymentStatus.totalArtifacts",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -4309,6 +7703,13 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
     className: "VirtualNetwork",
     modelProperties: {
       ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
       allowedSubnets: {
         serializedName: "properties.allowedSubnets",
         type: {
@@ -4383,6 +7784,207 @@ export const VirtualNetwork: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionHost: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHost",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      externalBastionHostId: {
+        serializedName: "properties.externalBastionHostId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      ipAddressId: {
+        serializedName: "properties.ipAddressId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Cost: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Cost",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      labCostDetails: {
+        serializedName: "properties.labCostDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LabCostDetailsProperties"
+            }
+          }
+        }
+      },
+      resourceCosts: {
+        serializedName: "properties.resourceCosts",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LabResourceCostProperties"
+            }
+          }
+        }
+      },
+      currencyCode: {
+        serializedName: "properties.currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      startDateTime: {
+        serializedName: "properties.startDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      endDateTime: {
+        serializedName: "properties.endDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      createdDate: {
+        serializedName: "properties.createdDate",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uniqueIdentifier: {
+        serializedName: "properties.uniqueIdentifier",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      estimatedLabCost: {
+        serializedName: "properties.labCostSummary.estimatedLabCost",
+        type: {
+          name: "Number"
+        }
+      },
+      status: {
+        serializedName: "properties.targetCost.status",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "properties.targetCost.target",
+        type: {
+          name: "Number"
+        }
+      },
+      costThresholds: {
+        serializedName: "properties.targetCost.costThresholds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CostThresholdProperties"
+            }
+          }
+        }
+      },
+      cycleStartDateTime: {
+        serializedName: "properties.targetCost.cycleStartDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cycleEndDateTime: {
+        serializedName: "properties.targetCost.cycleEndDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cycleType: {
+        serializedName: "properties.targetCost.cycleType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureEntityResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureEntityResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
 export const ArtifactSourceFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4443,6 +8045,36 @@ export const ScheduleFragment: coreClient.CompositeMapper = {
   }
 };
 
+export const SecretFragment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecretFragment",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties
+    }
+  }
+};
+
+export const SharedGalleryFragment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedGalleryFragment",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties
+    }
+  }
+};
+
+export const SharedImageFragment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedImageFragment",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties
+    }
+  }
+};
+
 export const UserFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4467,16 +8099,6 @@ export const DtlEnvironmentFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DtlEnvironmentFragment",
-    modelProperties: {
-      ...UpdateResource.type.modelProperties
-    }
-  }
-};
-
-export const SecretFragment: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecretFragment",
     modelProperties: {
       ...UpdateResource.type.modelProperties
     }
@@ -4513,6 +8135,16 @@ export const VirtualNetworkFragment: coreClient.CompositeMapper = {
   }
 };
 
+export const BastionHostFragment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BastionHostFragment",
+    modelProperties: {
+      ...UpdateResource.type.modelProperties
+    }
+  }
+};
+
 export const LabFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4523,12 +8155,42 @@ export const LabFragment: coreClient.CompositeMapper = {
   }
 };
 
-export const ApplicableScheduleFragment: coreClient.CompositeMapper = {
+export const LabSecretFragment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ApplicableScheduleFragment",
+    className: "LabSecretFragment",
     modelProperties: {
       ...UpdateResource.type.modelProperties
+    }
+  }
+};
+
+export const ResourceModelWithAllowedPropertySetIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceModelWithAllowedPropertySetIdentity",
+    modelProperties: {
+      ...Identity.type.modelProperties
+    }
+  }
+};
+
+export const ResourceModelWithAllowedPropertySetSku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceModelWithAllowedPropertySetSku",
+    modelProperties: {
+      ...Sku.type.modelProperties
+    }
+  }
+};
+
+export const ResourceModelWithAllowedPropertySetPlan: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceModelWithAllowedPropertySetPlan",
+    modelProperties: {
+      ...Plan.type.modelProperties
     }
   }
 };
