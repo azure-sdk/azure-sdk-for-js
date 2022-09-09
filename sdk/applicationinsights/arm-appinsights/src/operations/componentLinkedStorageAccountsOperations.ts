@@ -150,11 +150,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseLinkedStorage
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.storageType
   ],
@@ -174,11 +174,11 @@ const createAndUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.linkedStorageAccountsProperties,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.storageType
   ],
@@ -199,11 +199,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.linkedStorageAccountsProperties1,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.storageType
   ],
@@ -222,11 +222,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseLinkedStorage
     }
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.storageType
   ],
