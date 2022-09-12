@@ -13,6 +13,8 @@ import {
   ReservationImpl,
   ReservationOrderImpl,
   OperationImpl,
+  CalculateRefundImpl,
+  ReturnImpl,
   CalculateExchangeImpl,
   ExchangeImpl,
   QuotaImpl,
@@ -22,6 +24,8 @@ import {
   Reservation,
   ReservationOrder,
   Operation,
+  CalculateRefund,
+  Return,
   CalculateExchange,
   Exchange,
   Quota,
@@ -62,7 +66,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-reservations/7.1.0`;
+    const packageDetails = `azsdk-js-arm-reservations/7.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -110,6 +114,8 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     this.reservation = new ReservationImpl(this);
     this.reservationOrder = new ReservationOrderImpl(this);
     this.operation = new OperationImpl(this);
+    this.calculateRefund = new CalculateRefundImpl(this);
+    this.return = new ReturnImpl(this);
     this.calculateExchange = new CalculateExchangeImpl(this);
     this.exchange = new ExchangeImpl(this);
     this.quota = new QuotaImpl(this);
@@ -150,6 +156,8 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
   reservation: Reservation;
   reservationOrder: ReservationOrder;
   operation: Operation;
+  calculateRefund: CalculateRefund;
+  return: Return;
   calculateExchange: CalculateExchange;
   exchange: Exchange;
   quota: Quota;
