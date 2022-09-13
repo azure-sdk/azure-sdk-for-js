@@ -23,6 +23,7 @@ import {
   BookmarksImpl,
   BookmarkRelationsImpl,
   BookmarkOperationsImpl,
+  BulkActionsImpl,
   IPGeodataImpl,
   DomainWhoisImpl,
   EntitiesImpl,
@@ -31,6 +32,7 @@ import {
   EntityRelationsImpl,
   EntityQueriesImpl,
   EntityQueryTemplatesImpl,
+  FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
   MetadataImpl,
@@ -58,6 +60,7 @@ import {
   Bookmarks,
   BookmarkRelations,
   BookmarkOperations,
+  BulkActions,
   IPGeodata,
   DomainWhois,
   Entities,
@@ -66,6 +69,7 @@ import {
   EntityRelations,
   EntityQueries,
   EntityQueryTemplates,
+  FileImports,
   IncidentComments,
   IncidentRelations,
   Metadata,
@@ -138,41 +142,34 @@ export class SecurityInsights extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -181,6 +178,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.bookmarks = new BookmarksImpl(this);
     this.bookmarkRelations = new BookmarkRelationsImpl(this);
     this.bookmarkOperations = new BookmarkOperationsImpl(this);
+    this.bulkActions = new BulkActionsImpl(this);
     this.iPGeodata = new IPGeodataImpl(this);
     this.domainWhois = new DomainWhoisImpl(this);
     this.entities = new EntitiesImpl(this);
@@ -189,6 +187,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.entityRelations = new EntityRelationsImpl(this);
     this.entityQueries = new EntityQueriesImpl(this);
     this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
     this.metadata = new MetadataImpl(this);
@@ -255,6 +254,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   bookmarks: Bookmarks;
   bookmarkRelations: BookmarkRelations;
   bookmarkOperations: BookmarkOperations;
+  bulkActions: BulkActions;
   iPGeodata: IPGeodata;
   domainWhois: DomainWhois;
   entities: Entities;
@@ -263,6 +263,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   entityRelations: EntityRelations;
   entityQueries: EntityQueries;
   entityQueryTemplates: EntityQueryTemplates;
+  fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
   metadata: Metadata;

@@ -21,10 +21,12 @@ import {
   Bookmark as BookmarkMapper,
   Relation as RelationMapper,
   BookmarkExpandParameters as BookmarkExpandParametersMapper,
+  BulkAction as BulkActionMapper,
   EntityExpandParameters as EntityExpandParametersMapper,
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
+  FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
@@ -69,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -319,6 +321,22 @@ export const parameters: OperationParameter = {
   mapper: BookmarkExpandParametersMapper
 };
 
+export const bulkActionId: OperationURLParameter = {
+  parameterPath: "bulkActionId",
+  mapper: {
+    serializedName: "bulkActionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const bulkAction: OperationParameter = {
+  parameterPath: "bulkAction",
+  mapper: BulkActionMapper
+};
+
 export const ipAddress: OperationQueryParameter = {
   parameterPath: "ipAddress",
   mapper: {
@@ -425,6 +443,22 @@ export const entityQueryTemplateId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const fileImportId: OperationURLParameter = {
+  parameterPath: "fileImportId",
+  mapper: {
+    serializedName: "fileImportId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileImport: OperationParameter = {
+  parameterPath: "fileImport",
+  mapper: FileImportMapper
 };
 
 export const incidentCommentId: OperationURLParameter = {
