@@ -22,7 +22,13 @@ import {
   ThreatIntelligenceAppendTags,
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
-  ThreatIntelligenceIndicatorReplaceTagsResponse
+  ThreatIntelligenceIndicatorReplaceTagsResponse,
+  ThreatIntelligenceQueryByCondition,
+  ThreatIntelligenceIndicatorQueryFromConditionOptionalParams,
+  ThreatIntelligenceIndicatorQueryFromConditionResponse,
+  ThreatIntelligenceCountByCondition,
+  ThreatIntelligenceIndicatorCountFromConditionOptionalParams,
+  ThreatIntelligenceIndicatorCountFromConditionResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -128,4 +134,30 @@ export interface ThreatIntelligenceIndicator {
     threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams
   ): Promise<ThreatIntelligenceIndicatorReplaceTagsResponse>;
+  /**
+   * Query Indicators from condition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param filterCriteria Filtering criteria for querying threat intelligence indicators by condition.
+   * @param options The options parameters.
+   */
+  queryFromCondition(
+    resourceGroupName: string,
+    workspaceName: string,
+    filterCriteria: ThreatIntelligenceQueryByCondition,
+    options?: ThreatIntelligenceIndicatorQueryFromConditionOptionalParams
+  ): Promise<ThreatIntelligenceIndicatorQueryFromConditionResponse>;
+  /**
+   * Count Indicators from condition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param filterCriteria Filtering criteria for counting threat intelligence indicators by condition.
+   * @param options The options parameters.
+   */
+  countFromCondition(
+    resourceGroupName: string,
+    workspaceName: string,
+    filterCriteria: ThreatIntelligenceCountByCondition,
+    options?: ThreatIntelligenceIndicatorCountFromConditionOptionalParams
+  ): Promise<ThreatIntelligenceIndicatorCountFromConditionResponse>;
 }

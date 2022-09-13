@@ -30,6 +30,12 @@ import {
   ThreatIntelligenceIndicatorAppendTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsResponse,
+  ThreatIntelligenceQueryByCondition,
+  ThreatIntelligenceIndicatorQueryFromConditionOptionalParams,
+  ThreatIntelligenceIndicatorQueryFromConditionResponse,
+  ThreatIntelligenceCountByCondition,
+  ThreatIntelligenceIndicatorCountFromConditionOptionalParams,
+  ThreatIntelligenceIndicatorCountFromConditionResponse,
   ThreatIntelligenceIndicatorQueryIndicatorsNextResponse
 } from "../models";
 
@@ -299,6 +305,44 @@ export class ThreatIntelligenceIndicatorImpl
   }
 
   /**
+   * Query Indicators from condition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param filterCriteria Filtering criteria for querying threat intelligence indicators by condition.
+   * @param options The options parameters.
+   */
+  queryFromCondition(
+    resourceGroupName: string,
+    workspaceName: string,
+    filterCriteria: ThreatIntelligenceQueryByCondition,
+    options?: ThreatIntelligenceIndicatorQueryFromConditionOptionalParams
+  ): Promise<ThreatIntelligenceIndicatorQueryFromConditionResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, filterCriteria, options },
+      queryFromConditionOperationSpec
+    );
+  }
+
+  /**
+   * Count Indicators from condition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param filterCriteria Filtering criteria for counting threat intelligence indicators by condition.
+   * @param options The options parameters.
+   */
+  countFromCondition(
+    resourceGroupName: string,
+    workspaceName: string,
+    filterCriteria: ThreatIntelligenceCountByCondition,
+    options?: ThreatIntelligenceIndicatorCountFromConditionOptionalParams
+  ): Promise<ThreatIntelligenceIndicatorCountFromConditionResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, filterCriteria, options },
+      countFromConditionOperationSpec
+    );
+  }
+
+  /**
    * QueryIndicatorsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -496,6 +540,54 @@ const replaceTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.name
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const queryFromConditionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/queryThreatIntelligenceIndicators",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThreatIntelligenceInformationList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.filterCriteria,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const countFromConditionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/countThreatIntelligenceIndicators",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThreatIntelligenceInformationCount
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.filterCriteria1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

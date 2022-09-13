@@ -25,6 +25,7 @@ import {
   EntityGetInsightsParameters as EntityGetInsightsParametersMapper,
   EntityTimelineParameters as EntityTimelineParametersMapper,
   CustomEntityQuery as CustomEntityQueryMapper,
+  FileImport as FileImportMapper,
   IncidentComment as IncidentCommentMapper,
   MetadataModel as MetadataModelMapper,
   MetadataPatch as MetadataPatchMapper,
@@ -35,6 +36,8 @@ import {
   ThreatIntelligenceIndicatorModel as ThreatIntelligenceIndicatorModelMapper,
   ThreatIntelligenceFilteringCriteria as ThreatIntelligenceFilteringCriteriaMapper,
   ThreatIntelligenceAppendTags as ThreatIntelligenceAppendTagsMapper,
+  ThreatIntelligenceQueryByCondition as ThreatIntelligenceQueryByConditionMapper,
+  ThreatIntelligenceCountByCondition as ThreatIntelligenceCountByConditionMapper,
   Watchlist as WatchlistMapper,
   WatchlistItem as WatchlistItemMapper,
   DataConnector as DataConnectorMapper,
@@ -69,7 +72,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-07-01-preview",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -427,6 +430,22 @@ export const entityQueryTemplateId: OperationURLParameter = {
   }
 };
 
+export const fileImportId: OperationURLParameter = {
+  parameterPath: "fileImportId",
+  mapper: {
+    serializedName: "fileImportId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileImport: OperationParameter = {
+  parameterPath: "fileImport",
+  mapper: FileImportMapper
+};
+
 export const incidentCommentId: OperationURLParameter = {
   parameterPath: "incidentCommentId",
   mapper: {
@@ -589,6 +608,16 @@ export const threatIntelligenceAppendTags: OperationParameter = {
 export const threatIntelligenceReplaceTags: OperationParameter = {
   parameterPath: "threatIntelligenceReplaceTags",
   mapper: ThreatIntelligenceIndicatorModelMapper
+};
+
+export const filterCriteria: OperationParameter = {
+  parameterPath: "filterCriteria",
+  mapper: ThreatIntelligenceQueryByConditionMapper
+};
+
+export const filterCriteria1: OperationParameter = {
+  parameterPath: "filterCriteria",
+  mapper: ThreatIntelligenceCountByConditionMapper
 };
 
 export const watchlistAlias: OperationURLParameter = {
