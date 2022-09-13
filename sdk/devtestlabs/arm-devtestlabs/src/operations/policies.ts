@@ -211,7 +211,7 @@ export class PoliciesImpl implements Policies {
    * @param labName The name of the lab.
    * @param policySetName The name of the policy set.
    * @param name The name of the policy.
-   * @param policy A Policy.
+   * @param policy Allows modifying tags of policies. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

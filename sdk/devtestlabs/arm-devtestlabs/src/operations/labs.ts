@@ -36,6 +36,7 @@ import {
   LabsClaimAnyVmOptionalParams,
   LabVirtualMachineCreationParameter,
   LabsCreateEnvironmentOptionalParams,
+  LabsEnsureCurrentUserProfileOptionalParams,
   ExportResourceUsageParameters,
   LabsExportResourceUsageOptionalParams,
   GenerateUploadUriParameter,
@@ -435,7 +436,7 @@ export class LabsImpl implements Labs {
    * Allows modifying tags of labs. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
-   * @param lab A lab.
+   * @param lab Allows modifying tags of labs. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -613,6 +614,23 @@ export class LabsImpl implements Labs {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Ensure the current user has a valid profile in the lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the lab.
+   * @param options The options parameters.
+   */
+  ensureCurrentUserProfile(
+    resourceGroupName: string,
+    name: string,
+    options?: LabsEnsureCurrentUserProfileOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      ensureCurrentUserProfileOperationSpec
+    );
   }
 
   /**
@@ -1078,6 +1096,26 @@ const createEnvironmentOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const ensureCurrentUserProfileOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{name}/ensureCurrentUserProfile",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const exportResourceUsageOperationSpec: coreClient.OperationSpec = {

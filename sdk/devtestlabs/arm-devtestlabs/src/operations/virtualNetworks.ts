@@ -327,7 +327,8 @@ export class VirtualNetworksImpl implements VirtualNetworks {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual network.
-   * @param virtualNetwork A virtual network.
+   * @param virtualNetwork Allows modifying tags of virtual networks. All other properties will be
+   *                       ignored.
    * @param options The options parameters.
    */
   update(

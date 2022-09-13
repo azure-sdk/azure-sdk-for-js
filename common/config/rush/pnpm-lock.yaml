@@ -11695,7 +11695,7 @@ packages:
     dev: false
 
   file:projects/arm-devtestlabs.tgz:
-    resolution: {integrity: sha512-UQSg4pR7Ox/kgU3tNMW0e7poF+VTmRgGM5FFcOy9E0LreTeN3liM8Kfhr6Zf3khnUwSXd3n9OV9sILikZe5Wdg==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-YVeUGEOF7SGLJyyu69IlX8QhU1InwyViJ1JyowHLlNf8/4qWgxcoTWgCHU4z4ipcUpbmAcFPAwz9+mJ0ymudJg==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
@@ -11706,6 +11706,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -11717,7 +11719,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

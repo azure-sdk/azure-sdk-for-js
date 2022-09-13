@@ -7,34 +7,34 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ArtifactSources } from "../operationsInterfaces";
+import { SharedImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DevTestLabsClient } from "../devTestLabsClient";
 import {
-  ArtifactSource,
-  ArtifactSourcesListNextOptionalParams,
-  ArtifactSourcesListOptionalParams,
-  ArtifactSourcesListResponse,
-  ArtifactSourcesGetOptionalParams,
-  ArtifactSourcesGetResponse,
-  ArtifactSourcesCreateOrUpdateOptionalParams,
-  ArtifactSourcesCreateOrUpdateResponse,
-  ArtifactSourcesDeleteOptionalParams,
-  ArtifactSourceFragment,
-  ArtifactSourcesUpdateOptionalParams,
-  ArtifactSourcesUpdateResponse,
-  ArtifactSourcesListNextResponse
+  SharedImage,
+  SharedImagesListNextOptionalParams,
+  SharedImagesListOptionalParams,
+  SharedImagesListResponse,
+  SharedImagesGetOptionalParams,
+  SharedImagesGetResponse,
+  SharedImagesCreateOrUpdateOptionalParams,
+  SharedImagesCreateOrUpdateResponse,
+  SharedImagesDeleteOptionalParams,
+  SharedImageFragment,
+  SharedImagesUpdateOptionalParams,
+  SharedImagesUpdateResponse,
+  SharedImagesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ArtifactSources operations. */
-export class ArtifactSourcesImpl implements ArtifactSources {
+/** Class containing SharedImages operations. */
+export class SharedImagesImpl implements SharedImages {
   private readonly client: DevTestLabsClient;
 
   /**
-   * Initialize a new instance of the class ArtifactSources class.
+   * Initialize a new instance of the class SharedImages class.
    * @param client Reference to the service client
    */
   constructor(client: DevTestLabsClient) {
@@ -42,17 +42,24 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * List artifact sources in a given lab.
+   * List shared images in a given shared gallery.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): PagedAsyncIterableIterator<ArtifactSource> {
-    const iter = this.listPagingAll(resourceGroupName, labName, options);
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): PagedAsyncIterableIterator<SharedImage> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      labName,
+      sharedGalleryName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -61,7 +68,12 @@ export class ArtifactSourcesImpl implements ArtifactSources {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, labName, options);
+        return this.listPagingPage(
+          resourceGroupName,
+          labName,
+          sharedGalleryName,
+          options
+        );
       }
     };
   }
@@ -69,15 +81,22 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   private async *listPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): AsyncIterableIterator<ArtifactSource[]> {
-    let result = await this._list(resourceGroupName, labName, options);
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): AsyncIterableIterator<SharedImage[]> {
+    let result = await this._list(
+      resourceGroupName,
+      labName,
+      sharedGalleryName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
         labName,
+        sharedGalleryName,
         continuationToken,
         options
       );
@@ -89,11 +108,13 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   private async *listPagingAll(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): AsyncIterableIterator<ArtifactSource> {
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): AsyncIterableIterator<SharedImage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       labName,
+      sharedGalleryName,
       options
     )) {
       yield* page;
@@ -101,99 +122,122 @@ export class ArtifactSourcesImpl implements ArtifactSources {
   }
 
   /**
-   * List artifact sources in a given lab.
+   * List shared images in a given shared gallery.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     labName: string,
-    options?: ArtifactSourcesListOptionalParams
-  ): Promise<ArtifactSourcesListResponse> {
+    sharedGalleryName: string,
+    options?: SharedImagesListOptionalParams
+  ): Promise<SharedImagesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, options },
+      { resourceGroupName, labName, sharedGalleryName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Get artifact source.
+   * Get shared image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    options?: ArtifactSourcesGetOptionalParams
-  ): Promise<ArtifactSourcesGetResponse> {
+    options?: SharedImagesGetOptionalParams
+  ): Promise<SharedImagesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
+      { resourceGroupName, labName, sharedGalleryName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or replace an existing artifact source.
+   * Create or replace an existing Shared Image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Properties of an artifact source.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
+   * @param sharedImage Properties of a shared image
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    artifactSource: ArtifactSource,
-    options?: ArtifactSourcesCreateOrUpdateOptionalParams
-  ): Promise<ArtifactSourcesCreateOrUpdateResponse> {
+    sharedImage: SharedImage,
+    options?: SharedImagesCreateOrUpdateOptionalParams
+  ): Promise<SharedImagesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, artifactSource, options },
+      {
+        resourceGroupName,
+        labName,
+        sharedGalleryName,
+        name,
+        sharedImage,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
 
   /**
-   * Delete artifact source.
+   * Delete shared image.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    options?: ArtifactSourcesDeleteOptionalParams
+    options?: SharedImagesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, options },
+      { resourceGroupName, labName, sharedGalleryName, name, options },
       deleteOperationSpec
     );
   }
 
   /**
-   * Allows modifying tags of artifact sources. All other properties will be ignored.
+   * Allows modifying tags of shared images. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
-   * @param name The name of the artifact source.
-   * @param artifactSource Allows modifying tags of artifact sources. All other properties will be
-   *                       ignored.
+   * @param sharedGalleryName The name of the shared gallery.
+   * @param name The name of the shared image.
+   * @param sharedImage Allows modifying tags of shared images. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     name: string,
-    artifactSource: ArtifactSourceFragment,
-    options?: ArtifactSourcesUpdateOptionalParams
-  ): Promise<ArtifactSourcesUpdateResponse> {
+    sharedImage: SharedImageFragment,
+    options?: SharedImagesUpdateOptionalParams
+  ): Promise<SharedImagesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, name, artifactSource, options },
+      {
+        resourceGroupName,
+        labName,
+        sharedGalleryName,
+        name,
+        sharedImage,
+        options
+      },
       updateOperationSpec
     );
   }
@@ -202,17 +246,19 @@ export class ArtifactSourcesImpl implements ArtifactSources {
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
+   * @param sharedGalleryName The name of the shared gallery.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     labName: string,
+    sharedGalleryName: string,
     nextLink: string,
-    options?: ArtifactSourcesListNextOptionalParams
-  ): Promise<ArtifactSourcesListNextResponse> {
+    options?: SharedImagesListNextOptionalParams
+  ): Promise<SharedImagesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, labName, nextLink, options },
+      { resourceGroupName, labName, sharedGalleryName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -222,11 +268,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.SharedImageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -243,18 +289,19 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -266,34 +313,36 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedImage
     },
     201: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.artifactSource,
+  requestBody: Parameters.sharedImage,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -301,7 +350,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -316,31 +365,33 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/sharedgalleries/{sharedGalleryName}/sharedimages/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSource
+      bodyMapper: Mappers.SharedImage
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.artifactSource1,
+  requestBody: Parameters.sharedImage1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -351,7 +402,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArtifactSourceList
+      bodyMapper: Mappers.SharedImageList
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -369,7 +420,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.labName
+    Parameters.labName,
+    Parameters.sharedGalleryName
   ],
   headerParameters: [Parameters.accept],
   serializer

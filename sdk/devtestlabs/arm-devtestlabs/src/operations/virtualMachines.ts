@@ -32,6 +32,7 @@ import {
   ApplyArtifactsRequest,
   VirtualMachinesApplyArtifactsOptionalParams,
   VirtualMachinesClaimOptionalParams,
+  VirtualMachinesClearArtifactResultsOptionalParams,
   DetachDataDiskProperties,
   VirtualMachinesDetachDataDiskOptionalParams,
   VirtualMachinesGetRdpFileContentsOptionalParams,
@@ -158,7 +159,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
@@ -230,7 +231,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
   }
 
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
@@ -346,7 +347,8 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
-   * @param labVirtualMachine A virtual machine.
+   * @param labVirtualMachine Allows modifying tags of virtual machines. All other properties will be
+   *                          ignored.
    * @param options The options parameters.
    */
   update(
@@ -631,6 +633,25 @@ export class VirtualMachinesImpl implements VirtualMachines {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Clears the artifact results of the virtual machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  clearArtifactResults(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: VirtualMachinesClearArtifactResultsOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, name, options },
+      clearArtifactResultsOperationSpec
+    );
   }
 
   /**
@@ -1602,6 +1623,27 @@ const claimOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const clearArtifactResultsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{name}/clearArtifactResults",
+  httpMethod: "POST",
+  responses: {
+    200: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
