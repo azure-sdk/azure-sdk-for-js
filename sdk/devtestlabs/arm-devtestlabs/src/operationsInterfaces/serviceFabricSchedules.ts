@@ -100,7 +100,7 @@ export interface ServiceFabricSchedules {
    * @param userName The name of the user profile.
    * @param serviceFabricName The name of the service fabric.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

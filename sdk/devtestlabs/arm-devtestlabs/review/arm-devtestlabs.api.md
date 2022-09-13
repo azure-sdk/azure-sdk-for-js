@@ -11,13 +11,60 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type ApplicableSchedule = Resource & {
-    labVmsShutdown?: Schedule;
-    labVmsStartup?: Schedule;
-};
+export type ActionType = string;
 
 // @public
-export type ApplicableScheduleFragment = UpdateResource & {};
+export interface ApplicableSchedule extends Resource {
+    readonly createdDatePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    emailRecipientPropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+    readonly idPropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesLabVmsStartupId?: string;
+    locationPropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesLabVmsStartupLocation?: string;
+    minutePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesLabVmsStartupName?: string;
+    notificationLocalePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    readonly provisioningStatePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    statusPropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesLabVmsStartupSystemData?: SystemData;
+    tagsPropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    readonly typePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesLabVmsStartupType?: string;
+    readonly uniqueIdentifierPropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    webhookUrlPropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+}
 
 // @public
 export interface ApplyArtifactsRequest {
@@ -25,16 +72,17 @@ export interface ApplyArtifactsRequest {
 }
 
 // @public
-export type ArmTemplate = Resource & {
-    readonly displayName?: string;
-    readonly description?: string;
-    readonly publisher?: string;
-    readonly icon?: string;
+export interface ArmTemplate extends Resource {
     readonly contents?: Record<string, unknown>;
     readonly createdDate?: Date;
-    readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+    readonly description?: string;
+    readonly displayName?: string;
     readonly enabled?: boolean;
-};
+    readonly icon?: string;
+    readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+    readonly publisher?: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ArmTemplateInfo {
@@ -91,22 +139,16 @@ export interface ArmTemplatesListOptionalParams extends coreClient.OperationOpti
 export type ArmTemplatesListResponse = ArmTemplateList;
 
 // @public
-export type Artifact = Resource & {
-    readonly title?: string;
+export interface Artifact extends Resource {
+    readonly createdDate?: Date;
     readonly description?: string;
-    readonly publisher?: string;
     readonly filePath?: string;
     readonly icon?: string;
-    readonly targetOsType?: string;
     readonly parameters?: Record<string, unknown>;
-    readonly createdDate?: Date;
-};
-
-// @public
-export interface ArtifactDeploymentStatusProperties {
-    artifactsApplied?: number;
-    deploymentStatus?: string;
-    totalArtifacts?: number;
+    readonly publisher?: string;
+    readonly systemData?: SystemData;
+    readonly targetOsType?: string;
+    readonly title?: string;
 }
 
 // @public
@@ -177,22 +219,24 @@ export interface ArtifactsListOptionalParams extends coreClient.OperationOptions
 export type ArtifactsListResponse = ArtifactList;
 
 // @public
-export type ArtifactSource = Resource & {
-    displayName?: string;
-    uri?: string;
-    sourceType?: SourceControlType;
-    folderPath?: string;
+export interface ArtifactSource extends Resource {
     armTemplateFolderPath?: string;
     branchRef?: string;
-    securityToken?: string;
-    status?: EnableStatus;
     readonly createdDate?: Date;
+    displayName?: string;
+    folderPath?: string;
     readonly provisioningState?: string;
+    securityToken?: string;
+    sourceType?: SourceControlType;
+    status?: EnableStatus;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+    uri?: string;
+}
 
 // @public
-export type ArtifactSourceFragment = UpdateResource & {};
+export interface ArtifactSourceFragment extends UpdateResource {
+}
 
 // @public
 export interface ArtifactSourceList {
@@ -263,15 +307,103 @@ export interface AttachDiskProperties {
 }
 
 // @public
-export interface AttachNewDataDiskOptions {
-    diskName?: string;
-    diskSizeGiB?: number;
-    diskType?: StorageType;
+export interface AzureEntityResource extends Resource {
+    readonly etag?: string;
 }
 
 // @public
-export interface BulkCreationParameters {
-    instanceCount?: number;
+export interface BastionHost extends Resource {
+    readonly externalBastionHostId?: string;
+    readonly ipAddressId?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface BastionHostFragment extends UpdateResource {
+}
+
+// @public
+export interface BastionHostList {
+    nextLink?: string;
+    value?: BastionHost[];
+}
+
+// @public
+export interface BastionHosts {
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BastionHostsCreateOrUpdateResponse>, BastionHostsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHost, options?: BastionHostsCreateOrUpdateOptionalParams): Promise<BastionHostsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, options?: BastionHostsGetOptionalParams): Promise<BastionHostsGetResponse>;
+    list(resourceGroupName: string, labName: string, virtualNetworkName: string, options?: BastionHostsListOptionalParams): PagedAsyncIterableIterator<BastionHost>;
+    update(resourceGroupName: string, labName: string, virtualNetworkName: string, name: string, bastionHost: BastionHostFragment, options?: BastionHostsUpdateOptionalParams): Promise<BastionHostsUpdateResponse>;
+}
+
+// @public
+export interface BastionHostsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BastionHostsCreateOrUpdateResponse = BastionHost;
+
+// @public
+export interface BastionHostsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BastionHostsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BastionHostsGetResponse = BastionHost;
+
+// @public
+export interface BastionHostsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type BastionHostsListNextResponse = BastionHostList;
+
+// @public
+export interface BastionHostsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type BastionHostsListResponse = BastionHostList;
+
+// @public
+export interface BastionHostsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BastionHostsUpdateResponse = BastionHost;
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
 }
 
 // @public
@@ -303,14 +435,23 @@ export interface ComputeVmInstanceViewStatus {
 }
 
 // @public
-export interface ComputeVmProperties {
-    dataDiskIds?: string[];
-    dataDisks?: ComputeDataDisk[];
-    networkInterfaceId?: string;
-    osDiskId?: string;
-    osType?: string;
-    statuses?: ComputeVmInstanceViewStatus[];
-    vmSize?: string;
+export interface Cost extends Resource {
+    costThresholds?: CostThresholdProperties[];
+    createdDate?: Date;
+    currencyCode?: string;
+    cycleEndDateTime?: Date;
+    cycleStartDateTime?: Date;
+    cycleType?: ReportingCycleType;
+    endDateTime?: Date;
+    estimatedLabCost?: number;
+    readonly labCostDetails?: LabCostDetailsProperties[];
+    readonly provisioningState?: string;
+    readonly resourceCosts?: LabResourceCostProperties[];
+    startDateTime?: Date;
+    status?: TargetCostStatus;
+    readonly systemData?: SystemData;
+    target?: number;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -338,9 +479,9 @@ export type CostsGetResponse = LabCost;
 export interface CostThresholdProperties {
     displayOnChart?: CostThresholdStatus;
     notificationSent?: string;
-    percentageThreshold?: PercentageCostThresholdProperties;
     sendNotificationWhenExceeded?: CostThresholdStatus;
     thresholdId?: string;
+    thresholdValue?: number;
 }
 
 // @public
@@ -350,23 +491,34 @@ export type CostThresholdStatus = string;
 export type CostType = string;
 
 // @public
-export type CustomImage = Resource & {
-    vm?: CustomImagePropertiesFromVm;
-    vhd?: CustomImagePropertiesCustom;
-    description?: string;
-    author?: string;
-    readonly creationDate?: Date;
-    managedImageId?: string;
-    managedSnapshotId?: string;
-    dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
-    customImagePlan?: CustomImagePropertiesFromPlan;
-    isPlanAuthorized?: boolean;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
+export type CreatedByType = string;
 
 // @public
-export type CustomImageFragment = UpdateResource & {};
+export interface CustomImage extends Resource {
+    author?: string;
+    readonly creationDate?: Date;
+    dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
+    description?: string;
+    idPropertiesCustomImagePlanId?: string;
+    imageName?: string;
+    isPlanAuthorized?: boolean;
+    linuxOsState?: LinuxOsState;
+    managedImageId?: string;
+    managedSnapshotId?: string;
+    offer?: string;
+    osType?: CustomImageOsType;
+    readonly provisioningState?: string;
+    publisher?: string;
+    sourceVmId?: string;
+    sysPrep?: boolean;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+    windowsOsState?: WindowsOsState;
+}
+
+// @public
+export interface CustomImageFragment extends UpdateResource {
+}
 
 // @public
 export interface CustomImageList {
@@ -378,24 +530,10 @@ export interface CustomImageList {
 export type CustomImageOsType = string;
 
 // @public
-export interface CustomImagePropertiesCustom {
-    imageName?: string;
-    osType: CustomImageOsType;
-    sysPrep?: boolean;
-}
-
-// @public
-export interface CustomImagePropertiesFromPlan {
+export interface CustomImagePropertiesFromPlanFragment {
     id?: string;
     offer?: string;
     publisher?: string;
-}
-
-// @public
-export interface CustomImagePropertiesFromVm {
-    linuxOsInfo?: LinuxOsInfo;
-    sourceVmId?: string;
-    windowsOsInfo?: WindowsOsInfo;
 }
 
 // @public
@@ -463,7 +601,9 @@ export type CustomImagesUpdateResponse = CustomImage;
 
 // @public
 export interface DataDiskProperties {
-    attachNewDataDiskOptions?: AttachNewDataDiskOptions;
+    diskName?: string;
+    diskSizeGiB?: number;
+    diskType?: StorageType;
     existingLabDiskId?: string;
     hostCaching?: HostCachingOptions;
 }
@@ -472,11 +612,6 @@ export interface DataDiskProperties {
 export interface DataDiskStorageTypeInfo {
     lun?: string;
     storageType?: StorageType;
-}
-
-// @public
-export interface DayDetails {
-    time?: string;
 }
 
 // @public
@@ -503,6 +638,8 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     // (undocumented)
     artifactSources: ArtifactSources;
     // (undocumented)
+    bastionHosts: BastionHosts;
+    // (undocumented)
     costs: Costs;
     // (undocumented)
     customImages: CustomImages;
@@ -518,6 +655,8 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     globalSchedules: GlobalSchedules;
     // (undocumented)
     labs: Labs;
+    // (undocumented)
+    labSecrets: LabSecrets;
     // (undocumented)
     notificationChannels: NotificationChannels;
     // (undocumented)
@@ -539,6 +678,10 @@ export class DevTestLabsClient extends coreClient.ServiceClient {
     // (undocumented)
     serviceRunners: ServiceRunners;
     // (undocumented)
+    sharedGalleries: SharedGalleries;
+    // (undocumented)
+    sharedImages: SharedImages;
+    // (undocumented)
     subscriptionId: string;
     // (undocumented)
     users: Users;
@@ -558,22 +701,24 @@ export interface DevTestLabsClientOptionalParams extends coreClient.ServiceClien
 }
 
 // @public
-export type Disk = Resource & {
-    diskType?: StorageType;
-    diskSizeGiB?: number;
-    leasedByLabVmId?: string;
-    diskBlobName?: string;
-    diskUri?: string;
-    storageAccountId?: string;
+export interface Disk extends Resource {
     readonly createdDate?: Date;
+    diskBlobName?: string;
+    diskSizeGiB?: number;
+    diskType?: StorageType;
+    diskUri?: string;
     hostCaching?: string;
+    leasedByLabVmId?: string;
     managedDiskId?: string;
     readonly provisioningState?: string;
+    storageAccountId?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type DiskFragment = UpdateResource & {};
+export interface DiskFragment extends UpdateResource {
+}
 
 // @public
 export interface DiskList {
@@ -661,17 +806,20 @@ export interface DisksUpdateOptionalParams extends coreClient.OperationOptions {
 export type DisksUpdateResponse = Disk;
 
 // @public
-export type DtlEnvironment = Resource & {
-    deploymentProperties?: EnvironmentDeploymentProperties;
+export interface DtlEnvironment extends Resource {
     armTemplateDisplayName?: string;
-    readonly resourceGroupId?: string;
+    armTemplateId?: string;
     readonly createdByUser?: string;
+    parameters?: ArmTemplateParameterProperties[];
     readonly provisioningState?: string;
+    readonly resourceGroupId?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type DtlEnvironmentFragment = UpdateResource & {};
+export interface DtlEnvironmentFragment extends UpdateResource {
+}
 
 // @public
 export interface DtlEnvironmentList {
@@ -680,13 +828,22 @@ export interface DtlEnvironmentList {
 }
 
 // @public
+export type EnableState = string;
+
+// @public
 export type EnableStatus = string;
 
 // @public
-export interface EnvironmentDeploymentProperties {
-    armTemplateId?: string;
-    parameters?: ArmTemplateParameterProperties[];
+export interface EncryptionProperties {
+    keyVaultProperties?: KeyVaultProperties;
+    status?: EncryptionStatus;
 }
+
+// @public
+export type EncryptionStatus = string;
+
+// @public
+export type EncryptionType = string;
 
 // @public
 export type EnvironmentPermission = string;
@@ -755,6 +912,26 @@ export interface EnvironmentsUpdateOptionalParams extends coreClient.OperationOp
 export type EnvironmentsUpdateResponse = DtlEnvironment;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface EvaluatePoliciesProperties {
     factData?: string;
     factName?: string;
@@ -794,29 +971,146 @@ export interface ExternalSubnet {
 export type FileUploadOptions = string;
 
 // @public
-export type Formula = Resource & {
-    description?: string;
+export interface Formula extends Resource {
+    allowClaim?: boolean;
+    artifacts?: ArtifactInstallProperties[];
+    artifactsApplied?: number;
     readonly author?: string;
-    osType?: string;
+    readonly canApplyArtifacts?: boolean;
+    readonly computeId?: string;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesFormulaContentPropertiesCreatedDate?: Date;
     readonly creationDate?: Date;
-    formulaContent?: LabVirtualMachineCreationParameter;
-    vm?: FormulaPropertiesFromVm;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
+    customImageId?: string;
+    dataDiskIds?: string[];
+    dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
+    description?: string;
+    disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+    environmentId?: string;
+    expirationDate?: Date;
+    readonly fqdn?: string;
+    galleryImageVersionId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
+    instanceCount?: number;
+    isAuthenticationWithSshKey?: boolean;
+    labSubnetName?: string;
+    labVirtualNetworkId?: string;
+    labVmId?: string;
+    readonly lastKnownPowerState?: string;
+    locationPropertiesFormulaContentLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    namePropertiesFormulaContentName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableScheduleName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
+    notes?: string;
+    notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesFormulaContentPropertiesComputeVmOsType?: string;
+    osTypePropertiesFormulaContentPropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesFormulaContentPropertiesOsType?: string;
+    osTypePropertiesOsType?: string;
+    ownerObjectId?: string;
+    ownerUserPrincipalName?: string;
+    password?: string;
+    planId?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesFormulaContentPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
+    scheduleParameters?: ScheduleCreationParameter[];
+    sharedImageId?: string;
+    sharedImageVersion?: string;
+    size?: string;
+    sku?: string;
+    sshAuthority?: string;
+    sshKey?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageType;
+    subnetId?: string;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesFormulaContentPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesFormulaContentTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesFormulaContentPropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesFormulaContentPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    userName?: string;
+    version?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesFormulaContentPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+}
 
 // @public
-export type FormulaFragment = UpdateResource & {};
+export interface FormulaFragment extends UpdateResource {
+}
 
 // @public
 export interface FormulaList {
     nextLink?: string;
     value?: Formula[];
-}
-
-// @public
-export interface FormulaPropertiesFromVm {
-    labVmId?: string;
 }
 
 // @public
@@ -880,16 +1174,21 @@ export interface FormulasUpdateOptionalParams extends coreClient.OperationOption
 export type FormulasUpdateResponse = Formula;
 
 // @public
-export type GalleryImage = Resource & {
+export interface GalleryImage extends Resource {
     author?: string;
     readonly createdDate?: Date;
     description?: string;
-    imageReference?: GalleryImageReference;
-    icon?: string;
     enabled?: boolean;
-    planId?: string;
+    icon?: string;
     isPlanAuthorized?: boolean;
-};
+    offer?: string;
+    osType?: string;
+    planId?: string;
+    publisher?: string;
+    sku?: string;
+    readonly systemData?: SystemData;
+    version?: string;
+}
 
 // @public
 export interface GalleryImageList {
@@ -898,18 +1197,17 @@ export interface GalleryImageList {
 }
 
 // @public
-export interface GalleryImageReference {
-    offer?: string;
-    osType?: string;
-    publisher?: string;
-    sku?: string;
-    version?: string;
+export interface GalleryImages {
+    get(resourceGroupName: string, labName: string, name: string, options?: GalleryImagesGetOptionalParams): Promise<GalleryImagesGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: GalleryImagesListOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
 }
 
 // @public
-export interface GalleryImages {
-    list(resourceGroupName: string, labName: string, options?: GalleryImagesListOptionalParams): PagedAsyncIterableIterator<GalleryImage>;
+export interface GalleryImagesGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type GalleryImagesGetResponse = GalleryImage;
 
 // @public
 export interface GalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
@@ -1051,19 +1349,21 @@ export type GlobalSchedulesUpdateResponse = Schedule;
 export type HostCachingOptions = string;
 
 // @public
-export interface HourDetails {
-    minute?: number;
-}
-
-// @public
 export type HttpStatusCode = string;
 
 // @public
-export interface IdentityProperties {
-    clientSecretUrl?: string;
-    principalId?: string;
-    tenantId?: string;
-    type?: ManagedIdentityType;
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: "SystemAssigned";
+}
+
+// @public
+export type ImageType = string;
+
+// @public
+export interface ImageVersionProperties {
+    name?: string;
 }
 
 // @public
@@ -1079,368 +1379,365 @@ export interface InboundNatRule {
     transportProtocol?: TransportProtocol;
 }
 
+// @public (undocumented)
+export interface KeyVaultProperties {
+    identity?: string;
+    keyIdentifier?: string;
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
 // @public
 export enum KnownCostThresholdStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownCostType {
-    // (undocumented)
     Projected = "Projected",
-    // (undocumented)
     Reported = "Reported",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownCustomImageOsType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
-export enum KnownEnableStatus {
-    // (undocumented)
+export enum KnownEnableState {
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
+export enum KnownEnableStatus {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownEncryptionStatus {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownEncryptionType {
+    EncryptionAtRestWithCustomerKey = "EncryptionAtRestWithCustomerKey",
+    EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
+}
+
+// @public
 export enum KnownEnvironmentPermission {
-    // (undocumented)
     Contributor = "Contributor",
-    // (undocumented)
     Reader = "Reader"
 }
 
 // @public
 export enum KnownFileUploadOptions {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     UploadFilesAndGenerateSasTokens = "UploadFilesAndGenerateSasTokens"
 }
 
 // @public
 export enum KnownHostCachingOptions {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownHttpStatusCode {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
+    AlreadyReported = "AlreadyReported",
     Ambiguous = "Ambiguous",
-    // (undocumented)
     BadGateway = "BadGateway",
-    // (undocumented)
     BadRequest = "BadRequest",
-    // (undocumented)
     Conflict = "Conflict",
-    // (undocumented)
     Continue = "Continue",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
+    EarlyHints = "EarlyHints",
     ExpectationFailed = "ExpectationFailed",
-    // (undocumented)
+    FailedDependency = "FailedDependency",
     Forbidden = "Forbidden",
-    // (undocumented)
     Found = "Found",
-    // (undocumented)
     GatewayTimeout = "GatewayTimeout",
-    // (undocumented)
     Gone = "Gone",
-    // (undocumented)
     HttpVersionNotSupported = "HttpVersionNotSupported",
-    // (undocumented)
+    IMUsed = "IMUsed",
+    InsufficientStorage = "InsufficientStorage",
     InternalServerError = "InternalServerError",
-    // (undocumented)
     LengthRequired = "LengthRequired",
-    // (undocumented)
+    Locked = "Locked",
+    LoopDetected = "LoopDetected",
     MethodNotAllowed = "MethodNotAllowed",
-    // (undocumented)
+    MisdirectedRequest = "MisdirectedRequest",
     Moved = "Moved",
-    // (undocumented)
     MovedPermanently = "MovedPermanently",
-    // (undocumented)
     MultipleChoices = "MultipleChoices",
-    // (undocumented)
+    MultiStatus = "MultiStatus",
+    NetworkAuthenticationRequired = "NetworkAuthenticationRequired",
     NoContent = "NoContent",
-    // (undocumented)
     NonAuthoritativeInformation = "NonAuthoritativeInformation",
-    // (undocumented)
     NotAcceptable = "NotAcceptable",
-    // (undocumented)
+    NotExtended = "NotExtended",
     NotFound = "NotFound",
-    // (undocumented)
     NotImplemented = "NotImplemented",
-    // (undocumented)
     NotModified = "NotModified",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     PartialContent = "PartialContent",
-    // (undocumented)
     PaymentRequired = "PaymentRequired",
-    // (undocumented)
+    PermanentRedirect = "PermanentRedirect",
     PreconditionFailed = "PreconditionFailed",
-    // (undocumented)
+    PreconditionRequired = "PreconditionRequired",
+    Processing = "Processing",
     ProxyAuthenticationRequired = "ProxyAuthenticationRequired",
-    // (undocumented)
     Redirect = "Redirect",
-    // (undocumented)
     RedirectKeepVerb = "RedirectKeepVerb",
-    // (undocumented)
     RedirectMethod = "RedirectMethod",
-    // (undocumented)
     RequestedRangeNotSatisfiable = "RequestedRangeNotSatisfiable",
-    // (undocumented)
     RequestEntityTooLarge = "RequestEntityTooLarge",
-    // (undocumented)
+    RequestHeaderFieldsTooLarge = "RequestHeaderFieldsTooLarge",
     RequestTimeout = "RequestTimeout",
-    // (undocumented)
     RequestUriTooLong = "RequestUriTooLong",
-    // (undocumented)
     ResetContent = "ResetContent",
-    // (undocumented)
     SeeOther = "SeeOther",
-    // (undocumented)
     ServiceUnavailable = "ServiceUnavailable",
-    // (undocumented)
     SwitchingProtocols = "SwitchingProtocols",
-    // (undocumented)
     TemporaryRedirect = "TemporaryRedirect",
-    // (undocumented)
+    TooManyRequests = "TooManyRequests",
     Unauthorized = "Unauthorized",
-    // (undocumented)
+    UnavailableForLegalReasons = "UnavailableForLegalReasons",
+    UnprocessableEntity = "UnprocessableEntity",
     UnsupportedMediaType = "UnsupportedMediaType",
-    // (undocumented)
     Unused = "Unused",
-    // (undocumented)
     UpgradeRequired = "UpgradeRequired",
-    // (undocumented)
-    UseProxy = "UseProxy"
+    UseProxy = "UseProxy",
+    VariantAlsoNegotiates = "VariantAlsoNegotiates"
+}
+
+// @public
+export enum KnownImageType {
+    Generalized = "Generalized",
+    Specialized = "Specialized"
 }
 
 // @public
 export enum KnownLinuxOsState {
-    // (undocumented)
     DeprovisionApplied = "DeprovisionApplied",
-    // (undocumented)
     DeprovisionRequested = "DeprovisionRequested",
-    // (undocumented)
     NonDeprovisioned = "NonDeprovisioned"
 }
 
 // @public
 export enum KnownManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownNotificationChannelEventType {
-    // (undocumented)
     AutoShutdown = "AutoShutdown",
-    // (undocumented)
     Cost = "Cost"
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownOsType {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownPolicyEvaluatorType {
-    // (undocumented)
     AllowedValuesPolicy = "AllowedValuesPolicy",
-    // (undocumented)
     MaxValuePolicy = "MaxValuePolicy"
 }
 
 // @public
 export enum KnownPolicyFactName {
-    // (undocumented)
     EnvironmentTemplate = "EnvironmentTemplate",
-    // (undocumented)
     GalleryImage = "GalleryImage",
-    // (undocumented)
     LabPremiumVmCount = "LabPremiumVmCount",
-    // (undocumented)
     LabTargetCost = "LabTargetCost",
-    // (undocumented)
     LabVmCount = "LabVmCount",
-    // (undocumented)
     LabVmSize = "LabVmSize",
-    // (undocumented)
     ScheduleEditPermission = "ScheduleEditPermission",
-    // (undocumented)
     UserOwnedLabPremiumVmCount = "UserOwnedLabPremiumVmCount",
-    // (undocumented)
     UserOwnedLabVmCount = "UserOwnedLabVmCount",
-    // (undocumented)
     UserOwnedLabVmCountInSubnet = "UserOwnedLabVmCountInSubnet"
 }
 
 // @public
 export enum KnownPolicyStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPremiumDataDisk {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReportingCycleType {
-    // (undocumented)
     CalendarMonth = "CalendarMonth",
-    // (undocumented)
     Custom = "Custom"
 }
 
 // @public
 export enum KnownSourceControlType {
-    // (undocumented)
     GitHub = "GitHub",
-    // (undocumented)
     StorageAccount = "StorageAccount",
-    // (undocumented)
     VsoGit = "VsoGit"
 }
 
 // @public
 export enum KnownStorageType {
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard",
-    // (undocumented)
+    StandardSSD = "StandardSSD"
+}
+
+// @public
+export enum KnownStorageTypes {
+    Premium = "Premium",
+    Standard = "Standard",
     StandardSSD = "StandardSSD"
 }
 
 // @public
 export enum KnownTargetCostStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTransportProtocol {
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownUsagePermissionType {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownVirtualMachineCreationSource {
-    // (undocumented)
     FromCustomImage = "FromCustomImage",
-    // (undocumented)
     FromGalleryImage = "FromGalleryImage",
-    // (undocumented)
     FromSharedGalleryImage = "FromSharedGalleryImage"
 }
 
 // @public
 export enum KnownWindowsOsState {
-    // (undocumented)
     NonSysprepped = "NonSysprepped",
-    // (undocumented)
     SysprepApplied = "SysprepApplied",
-    // (undocumented)
     SysprepRequested = "SysprepRequested"
 }
 
 // @public
-export type Lab = Resource & {
-    readonly defaultStorageAccount?: string;
-    readonly defaultPremiumStorageAccount?: string;
+export interface Lab extends Resource {
     readonly artifactsStorageAccount?: string;
-    readonly premiumDataDiskStorageAccount?: string;
-    readonly vaultName?: string;
-    labStorageType?: StorageType;
-    mandatoryArtifactsResourceIdsLinux?: string[];
-    mandatoryArtifactsResourceIdsWindows?: string[];
+    browserConnect?: EnableStatus;
+    clientSecretUrl?: string;
     readonly createdDate?: Date;
-    premiumDataDisks?: PremiumDataDisk;
+    readonly defaultPremiumStorageAccount?: string;
+    defaultSecretName?: string;
+    readonly defaultStorageAccount?: string;
+    disableAutoUpgradeCseMinorVersion?: boolean;
+    diskEncryptionSetId?: string;
+    enabledPropertiesAnnouncementEnabled?: EnableStatus;
+    enabledPropertiesSupportEnabled?: EnableStatus;
     environmentPermission?: EnvironmentPermission;
-    announcement?: LabAnnouncementProperties;
-    support?: LabSupportProperties;
-    readonly vmCreationResourceGroup?: string;
-    readonly publicIpId?: string;
-    readonly loadBalancerId?: string;
-    readonly networkSecurityGroupId?: string;
+    expirationDate?: Date;
+    expired?: boolean;
     extendedProperties?: {
         [propertyName: string]: string;
     };
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
-
-// @public
-export interface LabAnnouncementProperties {
-    enabled?: EnableStatus;
-    expirationDate?: Date;
-    expired?: boolean;
-    markdown?: string;
-    readonly provisioningState?: string;
+    isolateLabResources?: EnableStatus;
+    labStorageType?: StorageType;
+    readonly loadBalancerId?: string;
+    managementIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    mandatoryArtifactsResourceIdsLinux?: string[];
+    mandatoryArtifactsResourceIdsWindows?: string[];
+    markdownPropertiesAnnouncementMarkdown?: string;
+    markdownPropertiesSupportMarkdown?: string;
+    readonly networkSecurityGroupId?: string;
+    premiumDataDisks?: PremiumDataDisk;
+    readonly premiumDataDiskStorageAccount?: string;
+    principalId?: string;
+    readonly provisioningStatePropertiesAnnouncementProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    readonly publicIpId?: string;
+    readonly systemData?: SystemData;
+    tenantId?: string;
     title?: string;
-    readonly uniqueIdentifier?: string;
+    typeIdentityType?: ManagedIdentityType;
+    typePropertiesEncryptionType?: EncryptionType;
+    readonly uniqueIdentifierPropertiesAnnouncementUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+    readonly vaultName?: string;
+    readonly vmCreationResourceGroup?: string;
 }
 
 // @public
-export type LabCost = Resource & {
-    targetCost?: TargetCostProperties;
-    readonly labCostSummary?: LabCostSummaryProperties;
-    readonly labCostDetails?: LabCostDetailsProperties[];
-    readonly resourceCosts?: LabResourceCostProperties[];
-    currencyCode?: string;
-    startDateTime?: Date;
-    endDateTime?: Date;
+export interface LabCost extends Resource {
+    costThresholds?: CostThresholdProperties[];
     createdDate?: Date;
+    currencyCode?: string;
+    cycleEndDateTime?: Date;
+    cycleStartDateTime?: Date;
+    cycleType?: ReportingCycleType;
+    endDateTime?: Date;
+    estimatedLabCost?: number;
+    readonly labCostDetails?: LabCostDetailsProperties[];
     readonly provisioningState?: string;
+    readonly resourceCosts?: LabResourceCostProperties[];
+    startDateTime?: Date;
+    status?: TargetCostStatus;
+    readonly systemData?: SystemData;
+    target?: number;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
 export interface LabCostDetailsProperties {
@@ -1450,12 +1747,14 @@ export interface LabCostDetailsProperties {
 }
 
 // @public
-export interface LabCostSummaryProperties {
-    estimatedLabCost?: number;
+export interface LabCostList {
+    nextLink?: string;
+    value?: LabCost[];
 }
 
 // @public
-export type LabFragment = UpdateResource & {};
+export interface LabFragment extends UpdateResource {
+}
 
 // @public
 export interface LabList {
@@ -1490,6 +1789,7 @@ export interface Labs {
     beginExportResourceUsageAndWait(resourceGroupName: string, name: string, exportResourceUsageParameters: ExportResourceUsageParameters, options?: LabsExportResourceUsageOptionalParams): Promise<void>;
     beginImportVirtualMachine(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginImportVirtualMachineAndWait(resourceGroupName: string, name: string, importLabVirtualMachineRequest: ImportLabVirtualMachineRequest, options?: LabsImportVirtualMachineOptionalParams): Promise<void>;
+    ensureCurrentUserProfile(resourceGroupName: string, name: string, options?: LabsEnsureCurrentUserProfileOptionalParams): Promise<void>;
     generateUploadUri(resourceGroupName: string, name: string, generateUploadUriParameter: GenerateUploadUriParameter, options?: LabsGenerateUploadUriOptionalParams): Promise<LabsGenerateUploadUriResponse>;
     get(resourceGroupName: string, name: string, options?: LabsGetOptionalParams): Promise<LabsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LabsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Lab>;
@@ -1523,6 +1823,92 @@ export type LabsCreateOrUpdateResponse = Lab;
 export interface LabsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface LabSecret extends Resource {
+    enabledForArmEnvironments?: boolean;
+    enabledForArtifacts?: boolean;
+    enabledForVmCreation?: boolean;
+    readonly keyVaultEntry?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+    value?: string;
+}
+
+// @public
+export interface LabSecretFragment extends UpdateResource {
+}
+
+// @public
+export interface LabSecretList {
+    nextLink?: string;
+    value?: LabSecret[];
+}
+
+// @public
+export interface LabSecrets {
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, labSecret: LabSecret, options?: LabSecretsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LabSecretsCreateOrUpdateResponse>, LabSecretsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, labSecret: LabSecret, options?: LabSecretsCreateOrUpdateOptionalParams): Promise<LabSecretsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: LabSecretsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: LabSecretsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, name: string, options?: LabSecretsGetOptionalParams): Promise<LabSecretsGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: LabSecretsListOptionalParams): PagedAsyncIterableIterator<LabSecret>;
+    update(resourceGroupName: string, labName: string, name: string, secret: SecretFragment, options?: LabSecretsUpdateOptionalParams): Promise<LabSecretsUpdateResponse>;
+}
+
+// @public
+export interface LabSecretsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type LabSecretsCreateOrUpdateResponse = LabSecret;
+
+// @public
+export interface LabSecretsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface LabSecretsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LabSecretsGetResponse = LabSecret;
+
+// @public
+export interface LabSecretsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type LabSecretsListNextResponse = LabSecretList;
+
+// @public
+export interface LabSecretsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type LabSecretsListResponse = LabSecretList;
+
+// @public
+export interface LabSecretsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LabSecretsUpdateResponse = LabSecret;
+
+// @public
+export interface LabsEnsureCurrentUserProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -1618,12 +2004,6 @@ export interface LabsUpdateOptionalParams extends coreClient.OperationOptions {
 export type LabsUpdateResponse = Lab;
 
 // @public
-export interface LabSupportProperties {
-    enabled?: EnableStatus;
-    markdown?: string;
-}
-
-// @public
 export interface LabVhd {
     id?: string;
 }
@@ -1635,79 +2015,253 @@ export interface LabVhdList {
 }
 
 // @public
-export type LabVirtualMachine = Resource & {
-    notes?: string;
-    ownerObjectId?: string;
-    ownerUserPrincipalName?: string;
-    readonly createdByUserId?: string;
-    readonly createdByUser?: string;
-    createdDate?: Date;
+export interface LabVirtualMachine extends Resource {
+    allowClaim?: boolean;
+    artifacts?: ArtifactInstallProperties[];
+    artifactsApplied?: number;
+    readonly canApplyArtifacts?: boolean;
     readonly computeId?: string;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesCreatedDate?: Date;
     customImageId?: string;
-    readonly osType?: string;
-    size?: string;
-    userName?: string;
-    password?: string;
-    sshKey?: string;
-    isAuthenticationWithSshKey?: boolean;
+    dataDiskIds?: string[];
+    dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
+    disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
+    environmentId?: string;
+    expirationDate?: Date;
     readonly fqdn?: string;
+    galleryImageVersionId?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
+    isAuthenticationWithSshKey?: boolean;
     labSubnetName?: string;
     labVirtualNetworkId?: string;
-    disallowPublicIpAddress?: boolean;
-    artifacts?: ArtifactInstallProperties[];
-    readonly artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
-    galleryImageReference?: GalleryImageReference;
-    planId?: string;
-    readonly computeVm?: ComputeVmProperties;
-    networkInterface?: NetworkInterfaceProperties;
-    readonly applicableSchedule?: ApplicableSchedule;
-    expirationDate?: Date;
-    allowClaim?: boolean;
-    storageType?: string;
-    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
-    environmentId?: string;
-    dataDiskParameters?: DataDiskProperties[];
-    scheduleParameters?: ScheduleCreationParameter[];
     readonly lastKnownPowerState?: string;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
+    notes?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesComputeVmOsType?: string;
+    osTypePropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesOsType?: string;
+    ownerObjectId?: string;
+    ownerUserPrincipalName?: string;
+    password?: string;
+    planId?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
+    scheduleParameters?: ScheduleCreationParameter[];
+    sharedImageId?: string;
+    sharedImageVersion?: string;
+    size?: string;
+    sku?: string;
+    sshAuthority?: string;
+    sshKey?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageTypes;
+    subnetId?: string;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    userName?: string;
+    version?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+}
 
 // @public
 export interface LabVirtualMachineCreationParameter {
     allowClaim?: boolean;
     artifacts?: ArtifactInstallProperties[];
-    bulkCreationParameters?: BulkCreationParameters;
-    createdDate?: Date;
+    artifactsApplied?: number;
+    readonly canApplyArtifacts?: boolean;
+    readonly computeId?: string;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    createdDatePropertiesCreatedDate?: Date;
     customImageId?: string;
+    dataDiskIds?: string[];
     dataDiskParameters?: DataDiskProperties[];
+    dataDisks?: ComputeDataDisk[];
+    deploymentStatus?: string;
     disallowPublicIpAddress?: boolean;
+    dnsName?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
     environmentId?: string;
     expirationDate?: Date;
-    galleryImageReference?: GalleryImageReference;
+    readonly fqdn?: string;
+    galleryImageVersionId?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    inboundNatRules?: InboundNatRule[];
+    instanceCount?: number;
     isAuthenticationWithSshKey?: boolean;
     labSubnetName?: string;
     labVirtualNetworkId?: string;
+    readonly lastKnownPowerState?: string;
     location?: string;
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
     name?: string;
-    networkInterface?: NetworkInterfaceProperties;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    networkInterfaceId?: string;
     notes?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    offer?: string;
+    osDiskId?: string;
+    osDiskSizeGb?: number;
+    osTypePropertiesComputeVmOsType?: string;
+    osTypePropertiesGalleryImageReferenceOsType?: string;
+    readonly osTypePropertiesOsType?: string;
     ownerObjectId?: string;
     ownerUserPrincipalName?: string;
     password?: string;
     planId?: string;
+    privateIpAddress?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    publicIpAddress?: string;
+    publicIpAddressId?: string;
+    publisher?: string;
+    rdpAuthority?: string;
     scheduleParameters?: ScheduleCreationParameter[];
+    sharedImageId?: string;
+    sharedImageVersion?: string;
     size?: string;
+    sku?: string;
+    sshAuthority?: string;
     sshKey?: string;
-    storageType?: string;
+    statuses?: ComputeVmInstanceViewStatus[];
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    storageType?: StorageType;
+    subnetId?: string;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    totalArtifacts?: number;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
     userName?: string;
+    version?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+    virtualNetworkId?: string;
+    vmSize?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
 }
 
 // @public
-export type LabVirtualMachineFragment = UpdateResource & {};
+export interface LabVirtualMachineFragment extends UpdateResource {
+}
 
 // @public
 export interface LabVirtualMachineList {
@@ -1716,46 +2270,38 @@ export interface LabVirtualMachineList {
 }
 
 // @public
-export interface LinuxOsInfo {
-    linuxOsState?: LinuxOsState;
-}
+export type LinuxOsState = string;
 
 // @public
-export type LinuxOsState = string;
+export interface LocationData {
+    city?: string;
+    countryOrRegion?: string;
+    district?: string;
+    name: string;
+}
 
 // @public
 export type ManagedIdentityType = string;
 
 // @public
-export interface NetworkInterfaceProperties {
-    dnsName?: string;
-    privateIpAddress?: string;
-    publicIpAddress?: string;
-    publicIpAddressId?: string;
-    rdpAuthority?: string;
-    sharedPublicIpAddressConfiguration?: SharedPublicIpAddressConfiguration;
-    sshAuthority?: string;
-    subnetId?: string;
-    virtualNetworkId?: string;
-}
-
-// @public
-export type NotificationChannel = Resource & {
-    webHookUrl?: string;
-    emailRecipient?: string;
-    notificationLocale?: string;
-    description?: string;
-    events?: Event_2[];
+export interface NotificationChannel extends Resource {
     readonly createdDate?: Date;
+    description?: string;
+    emailRecipient?: string;
+    events?: Event_2[];
+    notificationLocale?: string;
     readonly provisioningState?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+    webHookUrl?: string;
+}
 
 // @public
 export type NotificationChannelEventType = string;
 
 // @public
-export type NotificationChannelFragment = UpdateResource & {};
+export interface NotificationChannelFragment extends UpdateResource {
+}
 
 // @public
 export interface NotificationChannelList {
@@ -1826,24 +2372,32 @@ export interface NotificationChannelsUpdateOptionalParams extends coreClient.Ope
 export type NotificationChannelsUpdateResponse = NotificationChannel;
 
 // @public
-export interface NotificationSettings {
-    emailRecipient?: string;
-    notificationLocale?: string;
-    status?: EnableStatus;
-    timeInMinutes?: number;
-    webhookUrl?: string;
-}
-
-// @public
 export interface NotifyParameters {
     eventName?: NotificationChannelEventType;
     jsonPayload?: string;
 }
 
 // @public
-export interface OperationError {
-    code?: string;
-    message?: string;
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
+}
+
+// @public
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
+}
+
+// @public
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
@@ -1862,7 +2416,8 @@ export interface OperationMetadataDisplay {
 
 // @public
 export interface OperationResult {
-    error?: OperationError;
+    code?: string;
+    message?: string;
     status?: string;
     statusCode?: HttpStatusCode;
 }
@@ -1880,6 +2435,24 @@ export interface OperationsGetOptionalParams extends coreClient.OperationOptions
 export type OperationsGetResponse = OperationResult;
 
 // @public
+export interface OperationStatusResult {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    operations?: OperationStatusResult[];
+    percentComplete?: number;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
+export type Origin = string;
+
+// @public
+export type OsType = string;
+
+// @public
 export interface ParameterInfo {
     name?: string;
     value?: string;
@@ -1892,8 +2465,12 @@ export interface ParametersValueFileInfo {
 }
 
 // @public
-export interface PercentageCostThresholdProperties {
-    thresholdValue?: number;
+export interface Plan {
+    name: string;
+    product: string;
+    promotionCode?: string;
+    publisher: string;
+    version?: string;
 }
 
 // @public
@@ -1954,17 +2531,18 @@ export interface PoliciesUpdateOptionalParams extends coreClient.OperationOption
 export type PoliciesUpdateResponse = Policy;
 
 // @public
-export type Policy = Resource & {
-    description?: string;
-    status?: PolicyStatus;
-    factName?: PolicyFactName;
-    factData?: string;
-    threshold?: string;
-    evaluatorType?: PolicyEvaluatorType;
+export interface Policy extends Resource {
     readonly createdDate?: Date;
+    description?: string;
+    evaluatorType?: PolicyEvaluatorType;
+    factData?: string;
+    factName?: PolicyFactName;
     readonly provisioningState?: string;
+    status?: PolicyStatus;
+    readonly systemData?: SystemData;
+    threshold?: string;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
 export type PolicyEvaluatorType = string;
@@ -1973,12 +2551,26 @@ export type PolicyEvaluatorType = string;
 export type PolicyFactName = string;
 
 // @public
-export type PolicyFragment = UpdateResource & {};
+export interface PolicyFragment extends UpdateResource {
+}
 
 // @public
 export interface PolicyList {
     nextLink?: string;
     value?: Policy[];
+}
+
+// @public
+export interface PolicySet extends Resource {
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface PolicySetList {
+    nextLink?: string;
+    readonly value?: PolicySet[];
 }
 
 // @public
@@ -1990,6 +2582,7 @@ export interface PolicySetResult {
 // @public
 export interface PolicySets {
     evaluatePolicies(resourceGroupName: string, labName: string, name: string, evaluatePoliciesRequest: EvaluatePoliciesRequest, options?: PolicySetsEvaluatePoliciesOptionalParams): Promise<PolicySetsEvaluatePoliciesResponse>;
+    list(resourceGroupName: string, labName: string, options?: PolicySetsListOptionalParams): PagedAsyncIterableIterator<PolicySet>;
 }
 
 // @public
@@ -1998,6 +2591,26 @@ export interface PolicySetsEvaluatePoliciesOptionalParams extends coreClient.Ope
 
 // @public
 export type PolicySetsEvaluatePoliciesResponse = EvaluatePoliciesResponse;
+
+// @public
+export interface PolicySetsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetsListNextResponse = PolicySetList;
+
+// @public
+export interface PolicySetsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type PolicySetsListResponse = PolicySetList;
 
 // @public
 export type PolicyStatus = string;
@@ -2043,6 +2656,10 @@ export interface ProviderOperationsListOptionalParams extends coreClient.Operati
 export type ProviderOperationsListResponse = ProviderOperationResult;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface RdpConnection {
     contents?: string;
 }
@@ -2067,45 +2684,92 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceModelWithAllowedPropertySet {
+    readonly etag?: string;
+    readonly id?: string;
+    // (undocumented)
+    identity?: ResourceModelWithAllowedPropertySetIdentity;
+    kind?: string;
+    location?: string;
+    managedBy?: string;
+    readonly name?: string;
+    // (undocumented)
+    plan?: ResourceModelWithAllowedPropertySetPlan;
+    // (undocumented)
+    sku?: ResourceModelWithAllowedPropertySetSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
+}
+
+// @public (undocumented)
+export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
+}
+
+// @public (undocumented)
+export interface ResourceModelWithAllowedPropertySetSku extends Sku {
+}
+
+// @public
 export interface RetargetScheduleProperties {
     currentResourceId?: string;
     targetResourceId?: string;
 }
 
 // @public
-export type Schedule = Resource & {
-    status?: EnableStatus;
-    taskType?: string;
-    weeklyRecurrence?: WeekDetails;
-    dailyRecurrence?: DayDetails;
-    hourlyRecurrence?: HourDetails;
-    timeZoneId?: string;
-    notificationSettings?: NotificationSettings;
+export interface Schedule extends Resource {
     readonly createdDate?: Date;
-    targetResourceId?: string;
+    emailRecipient?: string;
+    minute?: number;
+    notificationLocale?: string;
     readonly provisioningState?: string;
+    statusPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
+    targetResourceId?: string;
+    taskType?: string;
+    timeInMinutes?: number;
+    timePropertiesDailyRecurrenceTime?: string;
+    timePropertiesWeeklyRecurrenceTime?: string;
+    timeZoneId?: string;
     readonly uniqueIdentifier?: string;
-};
+    webhookUrl?: string;
+    weekdays?: string[];
+}
 
 // @public
 export interface ScheduleCreationParameter {
-    dailyRecurrence?: DayDetails;
-    hourlyRecurrence?: HourDetails;
+    readonly createdDate?: Date;
+    emailRecipient?: string;
     readonly location?: string;
+    minute?: number;
     name?: string;
-    notificationSettings?: NotificationSettings;
-    status?: EnableStatus;
+    notificationLocale?: string;
+    readonly provisioningState?: string;
+    statusPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesStatus?: EnableStatus;
     tags?: {
         [propertyName: string]: string;
     };
     targetResourceId?: string;
     taskType?: string;
+    timeInMinutes?: number;
+    timePropertiesDailyRecurrenceTime?: string;
+    timePropertiesWeeklyRecurrenceTime?: string;
     timeZoneId?: string;
-    weeklyRecurrence?: WeekDetails;
+    readonly uniqueIdentifier?: string;
+    webhookUrl?: string;
+    weekdays?: string[];
 }
 
 // @public
-export type ScheduleFragment = UpdateResource & {};
+export interface ScheduleFragment extends UpdateResource {
+}
 
 // @public
 export interface ScheduleList {
@@ -2194,14 +2858,16 @@ export interface SchedulesUpdateOptionalParams extends coreClient.OperationOptio
 export type SchedulesUpdateResponse = Schedule;
 
 // @public
-export type Secret = Resource & {
-    value?: string;
+export interface Secret extends Resource {
     readonly provisioningState?: string;
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+    value?: string;
+}
 
 // @public
-export type SecretFragment = UpdateResource & {};
+export interface SecretFragment extends UpdateResource {
+}
 
 // @public
 export interface SecretList {
@@ -2270,16 +2936,73 @@ export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions
 export type SecretsUpdateResponse = Secret;
 
 // @public
-export type ServiceFabric = Resource & {
-    externalServiceFabricId?: string;
+export interface ServiceFabric extends Resource {
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesCreatedDate?: Date;
+    readonly createdDatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesCreatedDate?: Date;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsEmailRecipient?: string;
+    emailRecipientPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsEmailRecipient?: string;
     environmentId?: string;
-    readonly applicableSchedule?: ApplicableSchedule;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
+    externalServiceFabricId?: string;
+    readonly idPropertiesApplicableScheduleId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsShutdownId?: string;
+    readonly idPropertiesApplicableSchedulePropertiesLabVmsStartupId?: string;
+    locationPropertiesApplicableScheduleLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsShutdownLocation?: string;
+    locationPropertiesApplicableSchedulePropertiesLabVmsStartupLocation?: string;
+    minutePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesHourlyRecurrenceMinute?: number;
+    minutePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesHourlyRecurrenceMinute?: number;
+    readonly namePropertiesApplicableScheduleName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsShutdownName?: string;
+    readonly namePropertiesApplicableSchedulePropertiesLabVmsStartupName?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsNotificationLocale?: string;
+    notificationLocalePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsNotificationLocale?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesProvisioningState?: string;
+    readonly provisioningStatePropertiesProvisioningState?: string;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsStatus?: EnableStatus;
+    statusPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesStatus?: EnableStatus;
+    readonly systemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsShutdownSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableSchedulePropertiesLabVmsStartupSystemData?: SystemData;
+    readonly systemDataPropertiesApplicableScheduleSystemData?: SystemData;
+    tagsPropertiesApplicableSchedulePropertiesLabVmsShutdownTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableSchedulePropertiesLabVmsStartupTags?: {
+        [propertyName: string]: string;
+    };
+    tagsPropertiesApplicableScheduleTags?: {
+        [propertyName: string]: string;
+    };
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTargetResourceId?: string;
+    targetResourceIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTargetResourceId?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTaskType?: string;
+    taskTypePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTaskType?: string;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsTimeInMinutes?: number;
+    timeInMinutesPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsTimeInMinutes?: number;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesDailyRecurrenceTime?: string;
+    timePropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceTime?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesTimeZoneId?: string;
+    timeZoneIdPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesTimeZoneId?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsShutdownType?: string;
+    readonly typePropertiesApplicableSchedulePropertiesLabVmsStartupType?: string;
+    readonly typePropertiesApplicableScheduleType?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesUniqueIdentifier?: string;
+    readonly uniqueIdentifierPropertiesUniqueIdentifier?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesNotificationSettingsWebhookUrl?: string;
+    webhookUrlPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesNotificationSettingsWebhookUrl?: string;
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsShutdownPropertiesWeeklyRecurrenceWeekdays?: string[];
+    weekdaysPropertiesApplicableSchedulePropertiesLabVmsStartupPropertiesWeeklyRecurrenceWeekdays?: string[];
+}
 
 // @public
-export type ServiceFabricFragment = UpdateResource & {};
+export interface ServiceFabricFragment extends UpdateResource {
+}
 
 // @public
 export interface ServiceFabricList {
@@ -2440,9 +3163,19 @@ export interface ServiceFabricsUpdateOptionalParams extends coreClient.Operation
 export type ServiceFabricsUpdateResponse = ServiceFabric;
 
 // @public
-export type ServiceRunner = Resource & {
-    identity?: IdentityProperties;
-};
+export interface ServiceRunner extends Resource {
+    clientSecretUrl?: string;
+    identityUsageType?: string;
+    principalId?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    tenantId?: string;
+    typeIdentityType?: ManagedIdentityType;
+    readonly uniqueIdentifier?: string;
+    userAssignedIdentities?: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
 
 // @public
 export interface ServiceRunnerList {
@@ -2452,13 +3185,18 @@ export interface ServiceRunnerList {
 
 // @public
 export interface ServiceRunners {
-    createOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: ServiceRunner, options?: ServiceRunnersCreateOrUpdateOptionalParams): Promise<ServiceRunnersCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, serviceRunner: ServiceRunner, options?: ServiceRunnersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServiceRunnersCreateOrUpdateResponse>, ServiceRunnersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, serviceRunner: ServiceRunner, options?: ServiceRunnersCreateOrUpdateOptionalParams): Promise<ServiceRunnersCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: ServiceRunnersGetOptionalParams): Promise<ServiceRunnersGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: ServiceRunnersListOptionalParams): PagedAsyncIterableIterator<ServiceRunner>;
 }
 
 // @public
 export interface ServiceRunnersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2466,6 +3204,8 @@ export type ServiceRunnersCreateOrUpdateResponse = ServiceRunner;
 
 // @public
 export interface ServiceRunnersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -2476,32 +3216,201 @@ export interface ServiceRunnersGetOptionalParams extends coreClient.OperationOpt
 export type ServiceRunnersGetResponse = ServiceRunner;
 
 // @public
-export interface SharedPublicIpAddressConfiguration {
-    inboundNatRules?: InboundNatRule[];
+export interface ServiceRunnersListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
 }
 
 // @public
-export interface ShutdownNotificationContent {
-    delayUrl120?: string;
-    delayUrl60?: string;
-    eventType?: string;
-    guid?: string;
-    labName?: string;
-    minutesUntilShutdown?: string;
-    owner?: string;
-    resourceGroupName?: string;
-    skipUrl?: string;
-    subscriptionId?: string;
-    text?: string;
-    vmName?: string;
-    vmUrl?: string;
+export type ServiceRunnersListNextResponse = ServiceRunnerList;
+
+// @public
+export interface ServiceRunnersListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    top?: number;
 }
+
+// @public
+export type ServiceRunnersListResponse = ServiceRunnerList;
+
+// @public
+export interface SharedGalleries {
+    createOrUpdate(resourceGroupName: string, labName: string, name: string, sharedGallery: SharedGallery, options?: SharedGalleriesCreateOrUpdateOptionalParams): Promise<SharedGalleriesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, labName: string, name: string, options?: SharedGalleriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, name: string, options?: SharedGalleriesGetOptionalParams): Promise<SharedGalleriesGetResponse>;
+    list(resourceGroupName: string, labName: string, options?: SharedGalleriesListOptionalParams): PagedAsyncIterableIterator<SharedGallery>;
+    update(resourceGroupName: string, labName: string, name: string, sharedGallery: SharedGalleryFragment, options?: SharedGalleriesUpdateOptionalParams): Promise<SharedGalleriesUpdateResponse>;
+}
+
+// @public
+export interface SharedGalleriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedGalleriesCreateOrUpdateResponse = SharedGallery;
+
+// @public
+export interface SharedGalleriesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SharedGalleriesGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SharedGalleriesGetResponse = SharedGallery;
+
+// @public
+export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedGalleriesListNextResponse = SharedGalleryList;
+
+// @public
+export interface SharedGalleriesListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedGalleriesListResponse = SharedGalleryList;
+
+// @public
+export interface SharedGalleriesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedGalleriesUpdateResponse = SharedGallery;
+
+// @public
+export interface SharedGallery extends Resource {
+    allowAllImages?: EnableState;
+    galleryId?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface SharedGalleryFragment extends UpdateResource {
+}
+
+// @public
+export interface SharedGalleryList {
+    nextLink?: string;
+    value?: SharedGallery[];
+}
+
+// @public
+export interface SharedImage extends Resource {
+    definitionName?: string;
+    displayName?: string;
+    enableState?: EnableState;
+    imageType?: ImageType;
+    osType?: OsType;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
+    readonly uniqueIdentifier?: string;
+    versions?: ImageVersionProperties[];
+}
+
+// @public
+export interface SharedImageFragment extends UpdateResource {
+}
+
+// @public
+export interface SharedImageList {
+    nextLink?: string;
+    value?: SharedImage[];
+}
+
+// @public
+export interface SharedImages {
+    createOrUpdate(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, sharedImage: SharedImage, options?: SharedImagesCreateOrUpdateOptionalParams): Promise<SharedImagesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, options?: SharedImagesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, options?: SharedImagesGetOptionalParams): Promise<SharedImagesGetResponse>;
+    list(resourceGroupName: string, labName: string, sharedGalleryName: string, options?: SharedImagesListOptionalParams): PagedAsyncIterableIterator<SharedImage>;
+    update(resourceGroupName: string, labName: string, sharedGalleryName: string, name: string, sharedImage: SharedImageFragment, options?: SharedImagesUpdateOptionalParams): Promise<SharedImagesUpdateResponse>;
+}
+
+// @public
+export interface SharedImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedImagesCreateOrUpdateResponse = SharedImage;
+
+// @public
+export interface SharedImagesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SharedImagesGetOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+}
+
+// @public
+export type SharedImagesGetResponse = SharedImage;
+
+// @public
+export interface SharedImagesListNextOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedImagesListNextResponse = SharedImageList;
+
+// @public
+export interface SharedImagesListOptionalParams extends coreClient.OperationOptions {
+    expand?: string;
+    filter?: string;
+    orderby?: string;
+    top?: number;
+}
+
+// @public
+export type SharedImagesListResponse = SharedImageList;
+
+// @public
+export interface SharedImagesUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SharedImagesUpdateResponse = SharedImage;
+
+// @public
+export interface Sku {
+    capacity?: number;
+    family?: string;
+    name: string;
+    size?: string;
+    tier?: SkuTier;
+}
+
+// @public
+export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
 export type SourceControlType = string;
 
 // @public
 export type StorageType = string;
+
+// @public
+export type StorageTypes = string;
 
 // @public
 export interface Subnet {
@@ -2512,27 +3421,22 @@ export interface Subnet {
 
 // @public
 export interface SubnetOverride {
+    allowedPorts?: Port[];
     labSubnetName?: string;
     resourceId?: string;
-    sharedPublicIpAddressConfiguration?: SubnetSharedPublicIpAddressConfiguration;
     useInVmCreationPermission?: UsagePermissionType;
     usePublicIpAddressPermission?: UsagePermissionType;
     virtualNetworkPoolName?: string;
 }
 
 // @public
-export interface SubnetSharedPublicIpAddressConfiguration {
-    allowedPorts?: Port[];
-}
-
-// @public
-export interface TargetCostProperties {
-    costThresholds?: CostThresholdProperties[];
-    cycleEndDateTime?: Date;
-    cycleStartDateTime?: Date;
-    cycleType?: ReportingCycleType;
-    status?: TargetCostStatus;
-    target?: number;
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public
@@ -2552,24 +3456,22 @@ export interface UpdateResource {
 export type UsagePermissionType = string;
 
 // @public
-export type User = Resource & {
-    identity?: UserIdentity;
-    secretStore?: UserSecretStore;
-    readonly createdDate?: Date;
-    readonly provisioningState?: string;
-    readonly uniqueIdentifier?: string;
-};
-
-// @public
-export type UserFragment = UpdateResource & {};
-
-// @public
-export interface UserIdentity {
+export interface User extends Resource {
     appId?: string;
+    readonly createdDate?: Date;
+    keyVaultId?: string;
+    keyVaultUri?: string;
     objectId?: string;
     principalId?: string;
     principalName?: string;
+    readonly provisioningState?: string;
+    readonly systemData?: SystemData;
     tenantId?: string;
+    readonly uniqueIdentifier?: string;
+}
+
+// @public
+export interface UserFragment extends UpdateResource {
 }
 
 // @public
@@ -2580,8 +3482,8 @@ export interface UserList {
 
 // @public
 export interface Users {
-    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, user: User, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, labName: string, name: string, options?: UsersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<UsersCreateOrUpdateResponse>, UsersCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, labName: string, name: string, options?: UsersCreateOrUpdateOptionalParams): Promise<UsersCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, labName: string, name: string, options?: UsersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: UsersGetOptionalParams): Promise<UsersGetResponse>;
@@ -2593,6 +3495,7 @@ export interface Users {
 export interface UsersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+    user?: User;
 }
 
 // @public
@@ -2602,12 +3505,6 @@ export type UsersCreateOrUpdateResponse = User;
 export interface UsersDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface UserSecretStore {
-    keyVaultId?: string;
-    keyVaultUri?: string;
 }
 
 // @public
@@ -2678,6 +3575,7 @@ export interface VirtualMachines {
     beginTransferDisksAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesTransferDisksOptionalParams): Promise<void>;
     beginUnClaim(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUnClaimAndWait(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesUnClaimOptionalParams): Promise<void>;
+    clearArtifactResults(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesClearArtifactResultsOptionalParams): Promise<void>;
     get(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
     getRdpFileContents(resourceGroupName: string, labName: string, name: string, options?: VirtualMachinesGetRdpFileContentsOptionalParams): Promise<VirtualMachinesGetRdpFileContentsResponse>;
     list(resourceGroupName: string, labName: string, options?: VirtualMachinesListOptionalParams): PagedAsyncIterableIterator<LabVirtualMachine>;
@@ -2766,6 +3664,10 @@ export type VirtualMachineSchedulesUpdateResponse = Schedule;
 export interface VirtualMachinesClaimOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface VirtualMachinesClearArtifactResultsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -2883,19 +3785,21 @@ export interface VirtualMachinesUpdateOptionalParams extends coreClient.Operatio
 export type VirtualMachinesUpdateResponse = LabVirtualMachine;
 
 // @public
-export type VirtualNetwork = Resource & {
+export interface VirtualNetwork extends Resource {
     allowedSubnets?: Subnet[];
+    readonly createdDate?: Date;
     description?: string;
     externalProviderResourceId?: string;
     readonly externalSubnets?: ExternalSubnet[];
-    subnetOverrides?: SubnetOverride[];
-    readonly createdDate?: Date;
     readonly provisioningState?: string;
+    subnetOverrides?: SubnetOverride[];
+    readonly systemData?: SystemData;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type VirtualNetworkFragment = UpdateResource & {};
+export interface VirtualNetworkFragment extends UpdateResource {
+}
 
 // @public
 export interface VirtualNetworkList {
@@ -2967,14 +3871,9 @@ export interface VirtualNetworksUpdateOptionalParams extends coreClient.Operatio
 export type VirtualNetworksUpdateResponse = VirtualNetwork;
 
 // @public
-export interface WeekDetails {
+export interface WeekDetailsFragment {
     time?: string;
     weekdays?: string[];
-}
-
-// @public
-export interface WindowsOsInfo {
-    windowsOsState?: WindowsOsState;
 }
 
 // @public

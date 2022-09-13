@@ -6,17 +6,32 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
+  ServiceRunner,
+  ServiceRunnersListOptionalParams,
   ServiceRunnersGetOptionalParams,
   ServiceRunnersGetResponse,
-  ServiceRunner,
   ServiceRunnersCreateOrUpdateOptionalParams,
   ServiceRunnersCreateOrUpdateResponse,
   ServiceRunnersDeleteOptionalParams
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ServiceRunners. */
 export interface ServiceRunners {
+  /**
+   * List service runners in a given lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    labName: string,
+    options?: ServiceRunnersListOptionalParams
+  ): PagedAsyncIterableIterator<ServiceRunner>;
   /**
    * Get service runner.
    * @param resourceGroupName The name of the resource group.
@@ -31,14 +46,34 @@ export interface ServiceRunners {
     options?: ServiceRunnersGetOptionalParams
   ): Promise<ServiceRunnersGetResponse>;
   /**
-   * Create or replace an existing service runner.
+   * Create or replace an existing Service runner. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the service runner.
    * @param serviceRunner A container for a managed identity to execute DevTest lab services.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    serviceRunner: ServiceRunner,
+    options?: ServiceRunnersCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ServiceRunnersCreateOrUpdateResponse>,
+      ServiceRunnersCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or replace an existing Service runner. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the service runner.
+   * @param serviceRunner A container for a managed identity to execute DevTest lab services.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,
@@ -46,13 +81,26 @@ export interface ServiceRunners {
     options?: ServiceRunnersCreateOrUpdateOptionalParams
   ): Promise<ServiceRunnersCreateOrUpdateResponse>;
   /**
-   * Delete service runner.
+   * Delete service runner. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the service runner.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: ServiceRunnersDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete service runner. This operation can take a while to complete.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the service runner.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
     resourceGroupName: string,
     labName: string,
     name: string,

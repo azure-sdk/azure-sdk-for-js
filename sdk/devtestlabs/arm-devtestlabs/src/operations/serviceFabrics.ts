@@ -168,7 +168,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
   }
 
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
@@ -242,7 +242,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
   }
 
   /**
-   * Create or replace an existing service fabric. This operation can take a while to complete.
+   * Create or replace an existing Service Fabric. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
@@ -367,7 +367,7 @@ export class ServiceFabricsImpl implements ServiceFabrics {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the service fabric.
-   * @param serviceFabric A Service Fabric.
+   * @param serviceFabric Allows modifying tags of service fabrics. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

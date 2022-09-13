@@ -83,7 +83,7 @@ export interface GlobalSchedules {
    * Allows modifying tags of schedules. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the schedule.
-   * @param schedule A schedule.
+   * @param schedule Allows modifying tags of schedules. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

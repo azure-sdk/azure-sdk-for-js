@@ -25,6 +25,7 @@ import {
   LabsClaimAnyVmOptionalParams,
   LabVirtualMachineCreationParameter,
   LabsCreateEnvironmentOptionalParams,
+  LabsEnsureCurrentUserProfileOptionalParams,
   ExportResourceUsageParameters,
   LabsExportResourceUsageOptionalParams,
   GenerateUploadUriParameter,
@@ -132,7 +133,7 @@ export interface Labs {
    * Allows modifying tags of labs. All other properties will be ignored.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the lab.
-   * @param lab A lab.
+   * @param lab Allows modifying tags of labs. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -188,6 +189,17 @@ export interface Labs {
     name: string,
     labVirtualMachineCreationParameter: LabVirtualMachineCreationParameter,
     options?: LabsCreateEnvironmentOptionalParams
+  ): Promise<void>;
+  /**
+   * Ensure the current user has a valid profile in the lab.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the lab.
+   * @param options The options parameters.
+   */
+  ensureCurrentUserProfile(
+    resourceGroupName: string,
+    name: string,
+    options?: LabsEnsureCurrentUserProfileOptionalParams
   ): Promise<void>;
   /**
    * Exports the lab resource usage into a storage account This operation can take a while to complete.

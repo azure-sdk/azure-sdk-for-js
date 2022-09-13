@@ -114,7 +114,7 @@ export interface CustomImages {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the custom image.
-   * @param customImage A custom image.
+   * @param customImage Allows modifying tags of custom images. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

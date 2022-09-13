@@ -292,7 +292,7 @@ export class SecretsImpl implements Secrets {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the secret.
-   * @param secret A secret.
+   * @param secret Allows modifying tags of secrets. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(
@@ -407,7 +407,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.secret,
+  requestBody: Parameters.secret1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -456,7 +456,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.secret1,
+  requestBody: Parameters.secret,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

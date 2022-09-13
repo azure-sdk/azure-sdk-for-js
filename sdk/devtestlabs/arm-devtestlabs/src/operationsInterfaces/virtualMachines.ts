@@ -24,6 +24,7 @@ import {
   ApplyArtifactsRequest,
   VirtualMachinesApplyArtifactsOptionalParams,
   VirtualMachinesClaimOptionalParams,
+  VirtualMachinesClearArtifactResultsOptionalParams,
   DetachDataDiskProperties,
   VirtualMachinesDetachDataDiskOptionalParams,
   VirtualMachinesGetRdpFileContentsOptionalParams,
@@ -68,7 +69,7 @@ export interface VirtualMachines {
     options?: VirtualMachinesGetOptionalParams
   ): Promise<VirtualMachinesGetResponse>;
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
@@ -88,7 +89,7 @@ export interface VirtualMachines {
     >
   >;
   /**
-   * Create or replace an existing virtual machine. This operation can take a while to complete.
+   * Create or replace an existing Virtual machine. This operation can take a while to complete.
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
@@ -133,7 +134,8 @@ export interface VirtualMachines {
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
    * @param name The name of the virtual machine.
-   * @param labVirtualMachine A virtual machine.
+   * @param labVirtualMachine Allows modifying tags of virtual machines. All other properties will be
+   *                          ignored.
    * @param options The options parameters.
    */
   update(
@@ -228,6 +230,19 @@ export interface VirtualMachines {
     labName: string,
     name: string,
     options?: VirtualMachinesClaimOptionalParams
+  ): Promise<void>;
+  /**
+   * Clears the artifact results of the virtual machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the virtual machine.
+   * @param options The options parameters.
+   */
+  clearArtifactResults(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: VirtualMachinesClearArtifactResultsOptionalParams
   ): Promise<void>;
   /**
    * Detach the specified disk from the virtual machine. This operation can take a while to complete.

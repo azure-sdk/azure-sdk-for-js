@@ -17,6 +17,8 @@ import {
   GalleryImagesListNextOptionalParams,
   GalleryImagesListOptionalParams,
   GalleryImagesListResponse,
+  GalleryImagesGetOptionalParams,
+  GalleryImagesGetResponse,
   GalleryImagesListNextResponse
 } from "../models";
 
@@ -110,6 +112,25 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
+   * Get gallery image.
+   * @param resourceGroupName The name of the resource group.
+   * @param labName The name of the lab.
+   * @param name The name of the gallery image.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    labName: string,
+    name: string,
+    options?: GalleryImagesGetOptionalParams
+  ): Promise<GalleryImagesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, labName, name, options },
+      getOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param labName The name of the lab.
@@ -154,6 +175,29 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.labName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/galleryimages/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
     Parameters.labName
   ],
   headerParameters: [Parameters.accept],

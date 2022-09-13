@@ -127,7 +127,7 @@ export interface Environments {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the environment.
-   * @param dtlEnvironment An environment, which is essentially an ARM template deployment.
+   * @param dtlEnvironment Allows modifying tags of environments. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

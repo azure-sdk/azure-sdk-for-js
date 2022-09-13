@@ -131,7 +131,7 @@ export interface Disks {
    * @param labName The name of the lab.
    * @param userName The name of the user profile.
    * @param name The name of the disk.
-   * @param disk A Disk.
+   * @param disk Allows modifying tags of disks. All other properties will be ignored.
    * @param options The options parameters.
    */
   update(

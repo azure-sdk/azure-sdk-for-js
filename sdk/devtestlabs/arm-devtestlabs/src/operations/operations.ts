@@ -64,8 +64,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.name,
-    Parameters.locationName
+    Parameters.locationName,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer
