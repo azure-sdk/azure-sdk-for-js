@@ -1,5 +1,37 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-09-13)
+    
+**Features**
 
+  - Added operation LoadTests.beginCreateOrUpdate
+  - Added operation LoadTests.beginCreateOrUpdateAndWait
+  - Added operation LoadTests.beginUpdate
+  - Added operation LoadTests.beginUpdateAndWait
+  - Added Interface EncryptionProperties
+  - Added Interface EncryptionPropertiesIdentity
+  - Added Interface LoadTestResource
+  - Added Interface ManagedServiceIdentity
+  - Added Interface TrackedResource
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias Type
+  - Interface LoadTestResourcePatchRequestBody has a new optional parameter description
+  - Interface LoadTestResourcePatchRequestBody has a new optional parameter encryption
+  - Interface LoadTestsCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface LoadTestsCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface LoadTestsUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface LoadTestsUpdateOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownType
+
+**Breaking Changes**
+
+  - Removed operation LoadTests.createOrUpdate
+  - Removed operation LoadTests.update
+  - Interface LoadTestResourcePatchRequestBody no longer has parameter properties
+  - Removed Enum KnownSystemAssignedServiceIdentityType
+    
 ## 1.0.0-beta.2 (2022-04-24)
 
 **Features**

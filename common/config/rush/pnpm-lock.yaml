@@ -12563,7 +12563,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtestservice.tgz:
-    resolution: {integrity: sha512-brHj43tfs4UlJEt65ld1LzuBasRcHqGcO0GCWqrzNO4kbMOydvnEq1lAhuye+6AA92VWV6MfMyn1Pld85VxgLw==, tarball: file:projects/arm-loadtestservice.tgz}
+    resolution: {integrity: sha512-benRcY/O8zsYhY+DlkitcIRM9Ht5lIvGKug3+S88We77Z48TwN9MiUj68aY9J3dBI6Pqsbi2YY36/YBx2OKYBg==, tarball: file:projects/arm-loadtestservice.tgz}
     name: '@rush-temp/arm-loadtestservice'
     version: 0.0.0
     dependencies:
@@ -12574,6 +12574,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12585,7 +12587,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

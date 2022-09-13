@@ -173,7 +173,7 @@ export class LoadTestsImpl implements LoadTests {
   /**
    * Get a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   get(
@@ -190,36 +190,155 @@ export class LoadTestsImpl implements LoadTests {
   /**
    * Create or update LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param loadTestResource LoadTest resource data
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResource: LoadTestResource,
+    options?: LoadTestsCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsCreateOrUpdateResponse>,
+      LoadTestsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LoadTestsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, loadTestName, loadTestResource, options },
+      createOrUpdateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update LoadTest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test resource name.
+   * @param loadTestResource LoadTest resource data
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResource: LoadTestResource,
     options?: LoadTestsCreateOrUpdateOptionalParams
   ): Promise<LoadTestsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, loadTestName, loadTestResource, options },
-      createOrUpdateOperationSpec
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      loadTestName,
+      loadTestResource,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * Update a loadtest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param loadTestResourcePatchRequestBody LoadTest resource update data
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     loadTestName: string,
     loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
     options?: LoadTestsUpdateOptionalParams
-  ): Promise<LoadTestsUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<
+    PollerLike<
+      PollOperationState<LoadTestsUpdateResponse>,
+      LoadTestsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<LoadTestsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       {
         resourceGroupName,
         loadTestName,
@@ -228,12 +347,41 @@ export class LoadTestsImpl implements LoadTests {
       },
       updateOperationSpec
     );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update a loadtest resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param loadTestName Load Test resource name.
+   * @param loadTestResourcePatchRequestBody LoadTest resource update data
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    loadTestName: string,
+    loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody,
+    options?: LoadTestsUpdateOptionalParams
+  ): Promise<LoadTestsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      loadTestName,
+      loadTestResourcePatchRequestBody,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
    * Delete a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -287,7 +435,8 @@ export class LoadTestsImpl implements LoadTests {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -296,7 +445,7 @@ export class LoadTestsImpl implements LoadTests {
   /**
    * Delete a LoadTest resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param loadTestName Load Test name.
+   * @param loadTestName Load Test resource name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -415,6 +564,15 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LoadTestResource
     },
+    201: {
+      bodyMapper: Mappers.LoadTestResource
+    },
+    202: {
+      bodyMapper: Mappers.LoadTestResource
+    },
+    204: {
+      bodyMapper: Mappers.LoadTestResource
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -437,6 +595,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.LoadTestResource
+    },
+    201: {
+      bodyMapper: Mappers.LoadTestResource
+    },
+    202: {
+      bodyMapper: Mappers.LoadTestResource
+    },
+    204: {
       bodyMapper: Mappers.LoadTestResource
     },
     default: {
