@@ -1,15 +1,13 @@
 # Release History
+    
+## 3.1.0 (2022-09-13)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfigurationStore
+  - Added Interface TrackedResource
+    
+    
 ## 3.0.0 (2022-06-10)
 
 The package of @azure/arm-appconfiguration is using our next generation design principles since version 3.0.0, which contains breaking changes.
