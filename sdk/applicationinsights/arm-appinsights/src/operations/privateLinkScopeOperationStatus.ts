@@ -6,22 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComponentQuotaStatus } from "../operationsInterfaces";
+import { PrivateLinkScopeOperationStatus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
 import {
-  ComponentQuotaStatusGetOptionalParams,
-  ComponentQuotaStatusGetResponse
+  PrivateLinkScopeOperationStatusGetOptionalParams,
+  PrivateLinkScopeOperationStatusGetResponse
 } from "../models";
 
-/** Class containing ComponentQuotaStatus operations. */
-export class ComponentQuotaStatusImpl implements ComponentQuotaStatus {
+/** Class containing PrivateLinkScopeOperationStatus operations. */
+export class PrivateLinkScopeOperationStatusImpl
+  implements PrivateLinkScopeOperationStatus {
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
-   * Initialize a new instance of the class ComponentQuotaStatus class.
+   * Initialize a new instance of the class PrivateLinkScopeOperationStatus class.
    * @param client Reference to the service client
    */
   constructor(client: ApplicationInsightsManagementClient) {
@@ -29,18 +30,18 @@ export class ComponentQuotaStatusImpl implements ComponentQuotaStatus {
   }
 
   /**
-   * Returns daily data volume cap (quota) status for an Application Insights component.
+   * Get the status of an azure asynchronous operation associated with a private link scope operation.
+   * @param asyncOperationId The operation Id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
    * @param options The options parameters.
    */
   get(
+    asyncOperationId: string,
     resourceGroupName: string,
-    resourceName: string,
-    options?: ComponentQuotaStatusGetOptionalParams
-  ): Promise<ComponentQuotaStatusGetResponse> {
+    options?: PrivateLinkScopeOperationStatusGetOptionalParams
+  ): Promise<PrivateLinkScopeOperationStatusGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { asyncOperationId, resourceGroupName, options },
       getOperationSpec
     );
   }
@@ -50,19 +51,22 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/quotastatus",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/privateLinkScopeOperationStatuses/{asyncOperationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentQuotaStatus
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.asyncOperationId
   ],
   headerParameters: [Parameters.accept],
   serializer

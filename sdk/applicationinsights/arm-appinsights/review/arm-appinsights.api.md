@@ -7,6 +7,25 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
+
+// @public
+export type AccessMode = string;
+
+// @public
+export interface AccessModeSettings {
+    exclusions?: AccessModeSettingsExclusion[];
+    ingestionAccessMode: AccessMode;
+    queryAccessMode: AccessMode;
+}
+
+// @public
+export interface AccessModeSettingsExclusion {
+    ingestionAccessMode?: AccessMode;
+    privateEndpointConnectionName?: string;
+    queryAccessMode?: AccessMode;
+}
 
 // @public
 export interface AnalyticsItems {
@@ -148,35 +167,35 @@ export interface APIKeysListOptionalParams extends coreClient.OperationOptions {
 export type APIKeysListResponse = ApplicationInsightsComponentAPIKeyListResult;
 
 // @public
-export type ApplicationInsightsComponent = ComponentsResource & {
-    kind: string;
-    etag?: string;
-    readonly applicationId?: string;
+export interface ApplicationInsightsComponent extends ComponentsResource {
     readonly appId?: string;
-    readonly namePropertiesName?: string;
+    readonly applicationId?: string;
     applicationType?: ApplicationType;
-    flowType?: FlowType;
-    requestSource?: RequestSource;
-    readonly instrumentationKey?: string;
+    readonly connectionString?: string;
     readonly creationDate?: Date;
-    readonly tenantId?: string;
+    disableIpMasking?: boolean;
+    disableLocalAuth?: boolean;
+    etag?: string;
+    flowType?: FlowType;
+    forceCustomerStorageForProfiler?: boolean;
     hockeyAppId?: string;
     readonly hockeyAppToken?: string;
-    readonly provisioningState?: string;
-    samplingPercentage?: number;
-    readonly connectionString?: string;
-    retentionInDays?: number;
-    disableIpMasking?: boolean;
     immediatePurgeDataOn30Days?: boolean;
-    workspaceResourceId?: string;
+    ingestionMode?: IngestionMode;
+    readonly instrumentationKey?: string;
+    kind: string;
     readonly laMigrationDate?: Date;
+    readonly namePropertiesName?: string;
     readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: string;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
-    ingestionMode?: IngestionMode;
-    disableLocalAuth?: boolean;
-    forceCustomerStorageForProfiler?: boolean;
-};
+    requestSource?: RequestSource;
+    retentionInDays?: number;
+    samplingPercentage?: number;
+    readonly tenantId?: string;
+    workspaceResourceId?: string;
+}
 
 // @public
 export interface ApplicationInsightsComponentAnalyticsItem {
@@ -399,6 +418,18 @@ export class ApplicationInsightsManagementClient extends coreClient.ServiceClien
     // (undocumented)
     myWorkbooks: MyWorkbooks;
     // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
+    // (undocumented)
+    privateLinkScopedResources: PrivateLinkScopedResources;
+    // (undocumented)
+    privateLinkScopeOperationStatus: PrivateLinkScopeOperationStatus;
+    // (undocumented)
+    privateLinkScopes: PrivateLinkScopes;
+    // (undocumented)
     proactiveDetectionConfigurations: ProactiveDetectionConfigurations;
     // (undocumented)
     subscriptionId: string;
@@ -427,6 +458,23 @@ export interface ApplicationInsightsWebTestLocationsListResult {
 
 // @public
 export type ApplicationType = string;
+
+// @public
+export interface AzureMonitorPrivateLinkScope extends TrackedResource {
+    accessModeSettings: AccessModeSettings;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: AzureMonitorPrivateLinkScopePropertiesProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface AzureMonitorPrivateLinkScopeListResult {
+    nextLink?: string;
+    value: AzureMonitorPrivateLinkScope[];
+}
+
+// @public
+export type AzureMonitorPrivateLinkScopePropertiesProvisioningState = string;
 
 // @public
 export type CategoryType = string;
@@ -476,9 +524,9 @@ export interface ComponentFeatureCapabilitiesGetOptionalParams extends coreClien
 export type ComponentFeatureCapabilitiesGetResponse = ApplicationInsightsComponentFeatureCapabilities;
 
 // @public
-export type ComponentLinkedStorageAccounts = ProxyResource & {
+export interface ComponentLinkedStorageAccounts extends ProxyResource {
     linkedStorageAccount?: string;
-};
+}
 
 // @public
 export interface ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams extends coreClient.OperationOptions {
@@ -648,6 +696,17 @@ export type ComponentsUpdateTagsResponse = ApplicationInsightsComponent;
 export type CreatedByType = string;
 
 // @public
+export interface DefaultErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
 export interface ErrorDefinition {
     readonly code?: string;
     readonly innererror?: any;
@@ -655,8 +714,25 @@ export interface ErrorDefinition {
 }
 
 // @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorFieldContract {
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
 export interface ErrorResponse {
     code?: string;
+    details?: ErrorFieldContract[];
     message?: string;
 }
 
@@ -781,6 +857,12 @@ export type FavoriteType = "shared" | "user";
 export type FlowType = string;
 
 // @public
+export interface HeaderField {
+    headerFieldName?: string;
+    headerFieldValue?: string;
+}
+
+// @public
 export type IngestionMode = string;
 
 // @public
@@ -810,141 +892,127 @@ export type ItemTypeParameter = string;
 export type Kind = string;
 
 // @public
+export enum KnownAccessMode {
+    Open = "Open",
+    PrivateOnly = "PrivateOnly"
+}
+
+// @public
 export enum KnownApplicationType {
-    // (undocumented)
     Other = "other",
-    // (undocumented)
     Web = "web"
 }
 
 // @public
+export enum KnownAzureMonitorPrivateLinkScopePropertiesProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownCategoryType {
-    // (undocumented)
     Performance = "performance",
-    // (undocumented)
     Retention = "retention",
-    // (undocumented)
     TSG = "TSG",
-    // (undocumented)
     Workbook = "workbook"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownFavoriteSourceType {
-    // (undocumented)
     Events = "events",
-    // (undocumented)
     Funnel = "funnel",
-    // (undocumented)
     Impact = "impact",
-    // (undocumented)
     Notebook = "notebook",
-    // (undocumented)
     Retention = "retention",
-    // (undocumented)
     Segmentation = "segmentation",
-    // (undocumented)
     Sessions = "sessions",
-    // (undocumented)
     Userflows = "userflows"
 }
 
 // @public
 export enum KnownFlowType {
-    // (undocumented)
     Bluefield = "Bluefield"
 }
 
 // @public
 export enum KnownIngestionMode {
-    // (undocumented)
     ApplicationInsights = "ApplicationInsights",
-    // (undocumented)
     ApplicationInsightsWithDiagnosticSettings = "ApplicationInsightsWithDiagnosticSettings",
-    // (undocumented)
     LogAnalytics = "LogAnalytics"
 }
 
 // @public
 export enum KnownItemScope {
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownItemScopePath {
-    // (undocumented)
     AnalyticsItems = "analyticsItems",
-    // (undocumented)
     MyanalyticsItems = "myanalyticsItems"
 }
 
 // @public
 export enum KnownItemType {
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Query = "query",
-    // (undocumented)
     Recent = "recent"
 }
 
 // @public
 export enum KnownItemTypeParameter {
-    // (undocumented)
     Folder = "folder",
-    // (undocumented)
     Function = "function",
-    // (undocumented)
     None = "none",
-    // (undocumented)
     Query = "query",
-    // (undocumented)
     Recent = "recent"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Shared = "shared",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownMyWorkbookManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     UserAssigned = "UserAssigned"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
 }
 
 // @public
@@ -955,33 +1023,35 @@ export enum KnownPublicNetworkAccessType {
 
 // @public
 export enum KnownPurgeState {
-    // (undocumented)
     Completed = "completed",
-    // (undocumented)
     Pending = "pending"
 }
 
 // @public
 export enum KnownRequestSource {
-    // (undocumented)
     Rest = "rest"
 }
 
 // @public
+export enum KnownScopedResourcePropertiesProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownStorageType {
-    // (undocumented)
     ServiceProfiler = "ServiceProfiler"
 }
 
 // @public
 export enum KnownWorkbookSharedTypeKind {
-    // (undocumented)
     Shared = "shared"
 }
 
 // @public
 export enum KnownWorkbookUpdateSharedTypeKind {
-    // (undocumented)
     Shared = "shared"
 }
 
@@ -1016,19 +1086,19 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export type MyWorkbook = MyWorkbookResource & {
-    kind?: Kind;
-    readonly systemData?: SystemData;
-    displayName?: string;
-    serializedData?: string;
-    version?: string;
-    readonly timeModified?: string;
+export interface MyWorkbook extends MyWorkbookResource {
     category?: string;
-    tagsPropertiesTags?: string[];
-    readonly userId?: string;
+    displayName?: string;
+    kind?: Kind;
+    serializedData?: string;
     sourceId?: string;
     storageUri?: string;
-};
+    readonly systemData?: SystemData;
+    tagsPropertiesTags?: string[];
+    readonly timeModified?: string;
+    readonly userId?: string;
+    version?: string;
+}
 
 // @public
 export interface MyWorkbookError {
@@ -1184,15 +1254,299 @@ export interface OperationLive {
 }
 
 // @public
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+}
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
+
+// @public
 export interface OperationsListResult {
     nextLink?: string;
     value?: OperationLive[];
 }
 
 // @public
+export interface OperationStatus {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name?: string;
+    startTime?: Date;
+    status?: string;
+}
+
+// @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends Resource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreateOrUpdate(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByPrivateLinkScopeResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export interface PrivateLinkResource extends Resource {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinkResourceListResult {
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    get(resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
+    listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams): Promise<PrivateLinkResourcesListByPrivateLinkScopeResponse>;
+}
+
+// @public
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListByPrivateLinkScopeResponse = PrivateLinkResourceListResult;
+
+// @public
 export interface PrivateLinkScopedResource {
     resourceId?: string;
     scopeId?: string;
+}
+
+// @public
+export interface PrivateLinkScopedResources {
+    beginCreateOrUpdate(resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateLinkScopedResourcesCreateOrUpdateResponse>, PrivateLinkScopedResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams): Promise<PrivateLinkScopedResourcesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesGetOptionalParams): Promise<PrivateLinkScopedResourcesGetResponse>;
+    listByPrivateLinkScope(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams): PagedAsyncIterableIterator<ScopedResource>;
+}
+
+// @public
+export interface PrivateLinkScopedResourcesCreateOrUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateLinkScopedResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateLinkScopedResourcesCreateOrUpdateResponse = ScopedResource;
+
+// @public
+export interface PrivateLinkScopedResourcesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateLinkScopedResourcesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateLinkScopedResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopedResourcesGetResponse = ScopedResource;
+
+// @public
+export interface PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse = ScopedResourceListResult;
+
+// @public
+export interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeResponse = ScopedResourceListResult;
+
+// @public
+export interface PrivateLinkScopeOperationStatus {
+    get(asyncOperationId: string, resourceGroupName: string, options?: PrivateLinkScopeOperationStatusGetOptionalParams): Promise<PrivateLinkScopeOperationStatusGetResponse>;
+}
+
+// @public
+export interface PrivateLinkScopeOperationStatusGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopeOperationStatusGetResponse = OperationStatus;
+
+// @public
+export interface PrivateLinkScopes {
+    beginDelete(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams): Promise<PrivateLinkScopesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams): Promise<PrivateLinkScopesGetResponse>;
+    list(options?: PrivateLinkScopesListOptionalParams): PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
+    listByResourceGroup(resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
+    updateTags(resourceGroupName: string, scopeName: string, privateLinkScopeTags: TagsResourcePrivateLinkScope, options?: PrivateLinkScopesUpdateTagsOptionalParams): Promise<PrivateLinkScopesUpdateTagsResponse>;
+}
+
+// @public
+export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesCreateOrUpdateResponse = AzureMonitorPrivateLinkScope;
+
+// @public
+export interface PrivateLinkScopesDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface PrivateLinkScopesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PrivateLinkScopesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesGetResponse = AzureMonitorPrivateLinkScope;
+
+// @public
+export interface PrivateLinkScopesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesListByResourceGroupNextResponse = AzureMonitorPrivateLinkScopeListResult;
+
+// @public
+export interface PrivateLinkScopesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesListByResourceGroupResponse = AzureMonitorPrivateLinkScopeListResult;
+
+// @public
+export interface PrivateLinkScopesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesListNextResponse = AzureMonitorPrivateLinkScopeListResult;
+
+// @public
+export interface PrivateLinkScopesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesListResponse = AzureMonitorPrivateLinkScopeListResult;
+
+// @public
+export interface PrivateLinkScopesUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkScopesUpdateTagsResponse = AzureMonitorPrivateLinkScope;
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
@@ -1224,7 +1578,8 @@ export interface ProactiveDetectionConfigurationsUpdateOptionalParams extends co
 export type ProactiveDetectionConfigurationsUpdateResponse = ApplicationInsightsComponentProactiveDetectionConfiguration;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1241,6 +1596,22 @@ export interface Resource {
     readonly name?: string;
     readonly type?: string;
 }
+
+// @public
+export interface ScopedResource extends ProxyResource {
+    linkedResourceId?: string;
+    readonly provisioningState?: ScopedResourcePropertiesProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface ScopedResourceListResult {
+    readonly nextLink?: string;
+    readonly value?: ScopedResource[];
+}
+
+// @public
+export type ScopedResourcePropertiesProvisioningState = string;
 
 // @public
 export type StorageType = string;
@@ -1263,12 +1634,19 @@ export interface TagsResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TagsResourcePrivateLinkScope {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface TrackedResource extends Resource {
     location: string;
-};
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface UserAssignedIdentity {
@@ -1277,20 +1655,22 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export type WebTest = WebtestsResource & {
-    kind?: WebTestKind;
-    syntheticMonitorId?: string;
-    webTestName?: string;
+export interface WebTest extends WebtestsResource {
+    configuration?: WebTestPropertiesConfiguration;
     description?: string;
     enabled?: boolean;
     frequency?: number;
-    timeout?: number;
-    webTestKind?: WebTestKind;
-    retryEnabled?: boolean;
+    kind?: WebTestKind;
     locations?: WebTestGeolocation[];
-    configuration?: WebTestPropertiesConfiguration;
     readonly provisioningState?: string;
-};
+    request?: WebTestPropertiesRequest;
+    retryEnabled?: boolean;
+    syntheticMonitorId?: string;
+    timeout?: number;
+    validationRules?: WebTestPropertiesValidationRules;
+    webTestKind?: WebTestKind;
+    webTestName?: string;
+}
 
 // @public
 export interface WebTestGeolocation {
@@ -1298,7 +1678,7 @@ export interface WebTestGeolocation {
 }
 
 // @public
-export type WebTestKind = "ping" | "multistep";
+export type WebTestKind = "ping" | "multistep" | "standard";
 
 // @public
 export interface WebTestListResult {
@@ -1321,6 +1701,32 @@ export type WebTestLocationsListResponse = ApplicationInsightsWebTestLocationsLi
 // @public
 export interface WebTestPropertiesConfiguration {
     webTest?: string;
+}
+
+// @public
+export interface WebTestPropertiesRequest {
+    followRedirects?: boolean;
+    headers?: HeaderField[];
+    httpVerb?: string;
+    parseDependentRequests?: boolean;
+    requestBody?: string;
+    requestUrl?: string;
+}
+
+// @public
+export interface WebTestPropertiesValidationRules {
+    contentValidation?: WebTestPropertiesValidationRulesContentValidation;
+    expectedHttpStatusCode?: number;
+    ignoreHttpsStatusCode?: boolean;
+    sSLCertRemainingLifetimeCheck?: number;
+    sSLCheck?: boolean;
+}
+
+// @public
+export interface WebTestPropertiesValidationRulesContentValidation {
+    contentMatch?: string;
+    ignoreCase?: boolean;
+    passIfTextFound?: boolean;
 }
 
 // @public
@@ -1413,20 +1819,20 @@ export interface WebTestsUpdateTagsOptionalParams extends coreClient.OperationOp
 export type WebTestsUpdateTagsResponse = WebTest;
 
 // @public
-export type Workbook = WorkbookResource & {
-    readonly systemData?: SystemData;
-    displayName?: string;
-    serializedData?: string;
-    version?: string;
-    readonly timeModified?: Date;
+export interface Workbook extends WorkbookResource {
     category?: string;
-    tagsPropertiesTags?: string[];
-    readonly userId?: string;
+    description?: string;
+    displayName?: string;
+    readonly revision?: string;
+    serializedData?: string;
     sourceId?: string;
     storageUri?: string;
-    description?: string;
-    readonly revision?: string;
-};
+    readonly systemData?: SystemData;
+    tagsPropertiesTags?: string[];
+    readonly timeModified?: Date;
+    readonly userId?: string;
+    version?: string;
+}
 
 // @public
 export interface WorkbookError {
@@ -1436,7 +1842,7 @@ export interface WorkbookError {
 // @public
 export interface WorkbookErrorDefinition {
     readonly code?: string;
-    readonly innerError?: any;
+    readonly innerError?: WorkbookInnerErrorTrace;
     readonly message?: string;
 }
 
@@ -1446,14 +1852,15 @@ export interface WorkbookInnerErrorTrace {
 }
 
 // @public
-export type WorkbookResource = TrackedResource & {
+export interface WorkbookResource extends TrackedResource {
+    etag?: string;
     identity?: WorkbookResourceIdentity;
     kind?: WorkbookSharedTypeKind;
-    etag?: string;
-};
+}
 
 // @public
-export type WorkbookResourceIdentity = ManagedServiceIdentity;
+export interface WorkbookResourceIdentity extends ManagedServiceIdentity {
+}
 
 // @public
 export interface Workbooks {
@@ -1566,15 +1973,15 @@ export interface WorkbooksUpdateOptionalParams extends coreClient.OperationOptio
 export type WorkbooksUpdateResponse = Workbook;
 
 // @public
-export type WorkbookTemplate = WorkbookTemplateResource & {
-    priority?: number;
+export interface WorkbookTemplate extends WorkbookTemplateResource {
     author?: string;
-    templateData?: Record<string, unknown>;
     galleries?: WorkbookTemplateGallery[];
     localized?: {
         [propertyName: string]: WorkbookTemplateLocalizedGallery[];
     };
-};
+    priority?: number;
+    templateData?: Record<string, unknown>;
+}
 
 // @public
 export interface WorkbookTemplateError {
