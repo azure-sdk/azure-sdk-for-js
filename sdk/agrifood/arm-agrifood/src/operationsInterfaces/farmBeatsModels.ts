@@ -7,7 +7,6 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   FarmBeats,
   FarmBeatsModelsListBySubscriptionOptionalParams,
@@ -19,9 +18,7 @@ import {
   FarmBeatsUpdateRequestModel,
   FarmBeatsModelsUpdateOptionalParams,
   FarmBeatsModelsUpdateResponse,
-  FarmBeatsModelsDeleteOptionalParams,
-  FarmBeatsModelsGetOperationResultOptionalParams,
-  FarmBeatsModelsGetOperationResultResponse
+  FarmBeatsModelsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,45 +53,27 @@ export interface FarmBeatsModels {
   ): Promise<FarmBeatsModelsGetResponse>;
   /**
    * Create or update FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param body FarmBeats resource create or update request object.
    * @param options The options parameters.
    */
   createOrUpdate(
-    resourceGroupName: string,
     farmBeatsResourceName: string,
+    resourceGroupName: string,
     body: FarmBeats,
     options?: FarmBeatsModelsCreateOrUpdateOptionalParams
   ): Promise<FarmBeatsModelsCreateOrUpdateResponse>;
   /**
    * Update a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param body Request object.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceGroupName: string,
+  update(
     farmBeatsResourceName: string,
-    body: FarmBeatsUpdateRequestModel,
-    options?: FarmBeatsModelsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<FarmBeatsModelsUpdateResponse>,
-      FarmBeatsModelsUpdateResponse
-    >
-  >;
-  /**
-   * Update a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param body Request object.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
     resourceGroupName: string,
-    farmBeatsResourceName: string,
     body: FarmBeatsUpdateRequestModel,
     options?: FarmBeatsModelsUpdateOptionalParams
   ): Promise<FarmBeatsModelsUpdateResponse>;
@@ -109,17 +88,4 @@ export interface FarmBeatsModels {
     farmBeatsResourceName: string,
     options?: FarmBeatsModelsDeleteOptionalParams
   ): Promise<void>;
-  /**
-   * Get operationResults for a FarmBeats resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param operationResultsId The operation results id.
-   * @param options The options parameters.
-   */
-  getOperationResult(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    operationResultsId: string,
-    options?: FarmBeatsModelsGetOperationResultOptionalParams
-  ): Promise<FarmBeatsModelsGetOperationResultResponse>;
 }

@@ -11,7 +11,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgriFoodRPService } from "../azureAgriFoodRPService";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgriFoodRPService;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgriFoodRPService) {
     this.client = client;
   }
 

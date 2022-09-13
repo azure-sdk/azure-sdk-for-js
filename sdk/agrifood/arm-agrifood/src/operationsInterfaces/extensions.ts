@@ -35,54 +35,54 @@ export interface Extensions {
   ): PagedAsyncIterableIterator<Extension>;
   /**
    * Install extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   create(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsCreateOptionalParams
   ): Promise<ExtensionsCreateResponse>;
   /**
    * Get installed extension details by extension id.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsGetOptionalParams
   ): Promise<ExtensionsGetResponse>;
   /**
    * Upgrade to latest extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   update(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsUpdateOptionalParams
   ): Promise<ExtensionsUpdateResponse>;
   /**
    * Uninstall extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   delete(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsDeleteOptionalParams
   ): Promise<void>;
 }

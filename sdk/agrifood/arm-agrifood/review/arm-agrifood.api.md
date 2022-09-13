@@ -7,17 +7,15 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
 
 // @public (undocumented)
-export class AgriFoodMgmtClient extends coreClient.ServiceClient {
+export class AzureAgriFoodRPService extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AgriFoodMgmtClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureAgriFoodRPServiceOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -31,23 +29,14 @@ export class AgriFoodMgmtClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
     subscriptionId: string;
 }
 
 // @public
-export interface AgriFoodMgmtClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface AzureAgriFoodRPServiceOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
-}
-
-// @public
-export interface ArmAsyncOperation {
-    status?: string;
 }
 
 // @public
@@ -106,6 +95,7 @@ export interface Extension extends ProxyResource {
     readonly extensionCategory?: string;
     readonly extensionId?: string;
     readonly installedExtensionVersion?: string;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -116,11 +106,11 @@ export interface ExtensionListResponse {
 
 // @public
 export interface Extensions {
-    create(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
-    delete(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
+    create(extensionId: string, farmBeatsResourceName: string, resourceGroupName: string, options?: ExtensionsCreateOptionalParams): Promise<ExtensionsCreateResponse>;
+    delete(extensionId: string, farmBeatsResourceName: string, resourceGroupName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
+    get(extensionId: string, farmBeatsResourceName: string, resourceGroupName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     listByFarmBeats(resourceGroupName: string, farmBeatsResourceName: string, options?: ExtensionsListByFarmBeatsOptionalParams): PagedAsyncIterableIterator<Extension>;
-    update(resourceGroupName: string, farmBeatsResourceName: string, extensionId: string, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
+    update(extensionId: string, farmBeatsResourceName: string, resourceGroupName: string, options?: ExtensionsUpdateOptionalParams): Promise<ExtensionsUpdateResponse>;
 }
 
 // @public
@@ -172,12 +162,9 @@ export type ExtensionsUpdateResponse = Extension;
 
 // @public
 export interface FarmBeats extends TrackedResource {
-    identity?: Identity;
     readonly instanceUri?: string;
-    readonly privateEndpointConnections?: PrivateEndpointConnection;
     readonly provisioningState?: ProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccess;
-    sensorIntegration?: SensorIntegration;
+    readonly systemData?: SystemData;
 }
 
 // @public
@@ -191,6 +178,7 @@ export interface FarmBeatsExtension extends ProxyResource {
     readonly farmBeatsExtensionName?: string;
     readonly farmBeatsExtensionVersion?: string;
     readonly publisherId?: string;
+    readonly systemData?: SystemData;
     readonly targetResourceType?: string;
 }
 
@@ -245,14 +233,12 @@ export interface FarmBeatsListResponse {
 
 // @public
 export interface FarmBeatsModels {
-    beginUpdate(resourceGroupName: string, farmBeatsResourceName: string, body: FarmBeatsUpdateRequestModel, options?: FarmBeatsModelsUpdateOptionalParams): Promise<PollerLike<PollOperationState<FarmBeatsModelsUpdateResponse>, FarmBeatsModelsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, farmBeatsResourceName: string, body: FarmBeatsUpdateRequestModel, options?: FarmBeatsModelsUpdateOptionalParams): Promise<FarmBeatsModelsUpdateResponse>;
-    createOrUpdate(resourceGroupName: string, farmBeatsResourceName: string, body: FarmBeats, options?: FarmBeatsModelsCreateOrUpdateOptionalParams): Promise<FarmBeatsModelsCreateOrUpdateResponse>;
+    createOrUpdate(farmBeatsResourceName: string, resourceGroupName: string, body: FarmBeats, options?: FarmBeatsModelsCreateOrUpdateOptionalParams): Promise<FarmBeatsModelsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, farmBeatsResourceName: string, options?: FarmBeatsModelsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, farmBeatsResourceName: string, options?: FarmBeatsModelsGetOptionalParams): Promise<FarmBeatsModelsGetResponse>;
-    getOperationResult(resourceGroupName: string, farmBeatsResourceName: string, operationResultsId: string, options?: FarmBeatsModelsGetOperationResultOptionalParams): Promise<FarmBeatsModelsGetOperationResultResponse>;
     listByResourceGroup(resourceGroupName: string, options?: FarmBeatsModelsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FarmBeats>;
     listBySubscription(options?: FarmBeatsModelsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FarmBeats>;
+    update(farmBeatsResourceName: string, resourceGroupName: string, body: FarmBeatsUpdateRequestModel, options?: FarmBeatsModelsUpdateOptionalParams): Promise<FarmBeatsModelsUpdateResponse>;
 }
 
 // @public
@@ -265,13 +251,6 @@ export type FarmBeatsModelsCreateOrUpdateResponse = FarmBeats;
 // @public
 export interface FarmBeatsModelsDeleteOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export interface FarmBeatsModelsGetOperationResultOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FarmBeatsModelsGetOperationResultResponse = ArmAsyncOperation;
 
 // @public
 export interface FarmBeatsModelsGetOptionalParams extends coreClient.OperationOptions {
@@ -317,41 +296,18 @@ export interface FarmBeatsModelsListBySubscriptionOptionalParams extends coreCli
 export type FarmBeatsModelsListBySubscriptionResponse = FarmBeatsListResponse;
 
 // @public
-export interface FarmBeatsModelsUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface FarmBeatsModelsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
 export type FarmBeatsModelsUpdateResponse = FarmBeats;
 
 // @public
-export interface FarmBeatsUpdateProperties {
-    publicNetworkAccess?: PublicNetworkAccess;
-    sensorIntegration?: SensorIntegration;
-}
-
-// @public
 export interface FarmBeatsUpdateRequestModel {
-    identity?: Identity;
     location?: string;
-    properties?: FarmBeatsUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type?: "SystemAssigned";
 }
 
 // @public
@@ -381,33 +337,9 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownPrivateEndpointConnectionProvisioningState {
-    Creating = "Creating",
-    Deleting = "Deleting",
+export enum KnownProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded"
-}
-
-// @public
-export enum KnownPrivateEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Pending = "Pending",
-    Rejected = "Rejected"
-}
-
-// @public
-export enum KnownProvisioningState {
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownPublicNetworkAccess {
-    Enabled = "Enabled",
-    Hybrid = "Hybrid"
 }
 
 // @public
@@ -468,110 +400,6 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export interface PrivateEndpoint {
-    readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends Resource {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
-}
-
-// @public
-export type PrivateEndpointConnectionProvisioningState = string;
-
-// @public
-export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, farmBeatsResourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, farmBeatsResourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, farmBeatsResourceName: string, privateEndpointConnectionName: string, body: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    get(resourceGroupName: string, farmBeatsResourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    listByResource(resourceGroupName: string, farmBeatsResourceName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListByResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export type PrivateEndpointServiceConnectionStatus = string;
-
-// @public
-export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
-}
-
-// @public
-export interface PrivateLinkResourceListResult {
-    value?: PrivateLinkResource[];
-}
-
-// @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, farmBeatsResourceName: string, subResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    listByResource(resourceGroupName: string, farmBeatsResourceName: string, options?: PrivateLinkResourcesListByResourceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
-}
-
-// @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListByResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkServiceConnectionState {
-    actionsRequired?: string;
-    description?: string;
-    status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
 export type ProvisioningState = string;
 
 // @public
@@ -579,21 +407,10 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export type PublicNetworkAccess = string;
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
-    readonly systemData?: SystemData;
     readonly type?: string;
-}
-
-// @public
-export interface SensorIntegration {
-    enabled?: string;
-    provisioningInfo?: ErrorResponse;
-    readonly provisioningState?: ProvisioningState;
 }
 
 // @public

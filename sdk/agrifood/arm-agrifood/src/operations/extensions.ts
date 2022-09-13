@@ -11,7 +11,7 @@ import { Extensions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgriFoodRPService } from "../azureAgriFoodRPService";
 import {
   Extension,
   ExtensionsListByFarmBeatsNextOptionalParams,
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Extensions operations. */
 export class ExtensionsImpl implements Extensions {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgriFoodRPService;
 
   /**
    * Initialize a new instance of the class Extensions class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgriFoodRPService) {
     this.client = client;
   }
 
@@ -113,76 +113,76 @@ export class ExtensionsImpl implements Extensions {
 
   /**
    * Install extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   create(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsCreateOptionalParams
   ): Promise<ExtensionsCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { extensionId, farmBeatsResourceName, resourceGroupName, options },
       createOperationSpec
     );
   }
 
   /**
    * Get installed extension details by extension id.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsGetOptionalParams
   ): Promise<ExtensionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { extensionId, farmBeatsResourceName, resourceGroupName, options },
       getOperationSpec
     );
   }
 
   /**
    * Upgrade to latest extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   update(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsUpdateOptionalParams
   ): Promise<ExtensionsUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { extensionId, farmBeatsResourceName, resourceGroupName, options },
       updateOperationSpec
     );
   }
 
   /**
    * Uninstall extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
+   * @param farmBeatsResourceName FarmBeats resource name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   delete(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
     extensionId: string,
+    farmBeatsResourceName: string,
+    resourceGroupName: string,
     options?: ExtensionsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
+      { extensionId, farmBeatsResourceName, resourceGroupName, options },
       deleteOperationSpec
     );
   }
@@ -241,10 +241,10 @@ const createOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.extensionId,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -264,10 +264,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.extensionId,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -287,10 +287,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.extensionId,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -309,10 +309,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.extensionId,
     Parameters.farmBeatsResourceName,
-    Parameters.extensionId
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -338,9 +338,9 @@ const listByFarmBeatsOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
+    Parameters.farmBeatsResourceName,
     Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -365,9 +365,9 @@ const listByFarmBeatsNextOperationSpec: coreClient.OperationSpec = {
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.farmBeatsResourceName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

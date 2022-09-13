@@ -10079,7 +10079,7 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-hE60+8FUOvs27D/VtrifObE8lvdK4bQlF08eOgF/ht2RHv1UKfL6WBiPVyn483gx5GNlHnaOyAhqQ8h6urO2PA==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-1/OjmJWalGd8x8xQm6Ie+CDb04HQVSRmP3b9NSu3OsajXeXpWTkKufWHhcPQO2ptNVXs9J2rTIe+kdmpQvKy6A==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
@@ -10098,7 +10098,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
