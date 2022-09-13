@@ -14497,7 +14497,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-zR3IeH9PKKdyMB6ZAI4ofVQfVUdISHmUNqKefMrtICfI+pYrDFlSPJABRaZ6XP73acXZZgVzZddbVAElt0jd8g==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-uL/PEQ10xFzOhgnYk/yqGjQ32JTGxBWT9WtHLhR6RsiPngHv7ecYNkXDWhVjrn/513JJ3sCaJW56kUKC5vGf2A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -14508,6 +14508,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14519,7 +14521,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
