@@ -79,7 +79,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.1.3`;
+    const packageDetails = `azsdk-js-arm-kusto/7.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,7 +126,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-02-01";
+    this.apiVersion = options.apiVersion || "2022-07-07";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
@@ -164,7 +164,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return item.replace(/(?<==).*$/, apiVersion);
+              return "api-version=" + apiVersion;
             } else {
               return item;
             }

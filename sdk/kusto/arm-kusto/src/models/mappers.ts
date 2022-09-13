@@ -568,6 +568,95 @@ export const FollowerDatabaseDefinition: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      tableLevelSharingProperties: {
+        serializedName: "tableLevelSharingProperties",
+        type: {
+          name: "Composite",
+          className: "TableLevelSharingProperties"
+        }
+      },
+      databaseShareOrigin: {
+        serializedName: "databaseShareOrigin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TableLevelSharingProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TableLevelSharingProperties",
+    modelProperties: {
+      tablesToInclude: {
+        serializedName: "tablesToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      tablesToExclude: {
+        serializedName: "tablesToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalTablesToInclude: {
+        serializedName: "externalTablesToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalTablesToExclude: {
+        serializedName: "externalTablesToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      materializedViewsToInclude: {
+        serializedName: "materializedViewsToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      materializedViewsToExclude: {
+        serializedName: "materializedViewsToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1248,81 +1337,6 @@ export const AttachedDatabaseConfigurationListResult: coreClient.CompositeMapper
             type: {
               name: "Composite",
               className: "AttachedDatabaseConfiguration"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TableLevelSharingProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TableLevelSharingProperties",
-    modelProperties: {
-      tablesToInclude: {
-        serializedName: "tablesToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      tablesToExclude: {
-        serializedName: "tablesToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalTablesToInclude: {
-        serializedName: "externalTablesToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalTablesToExclude: {
-        serializedName: "externalTablesToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      materializedViewsToInclude: {
-        serializedName: "materializedViewsToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      materializedViewsToExclude: {
-        serializedName: "materializedViewsToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
             }
           }
         }
@@ -2359,6 +2373,18 @@ export const AttachedDatabaseConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "TableLevelSharingProperties"
         }
+      },
+      databaseNameOverride: {
+        serializedName: "properties.databaseNameOverride",
+        type: {
+          name: "String"
+        }
+      },
+      databaseNamePrefix: {
+        serializedName: "properties.databaseNamePrefix",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2735,6 +2761,27 @@ export const ReadOnlyFollowingDatabase: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      tableLevelSharingProperties: {
+        serializedName: "properties.tableLevelSharingProperties",
+        type: {
+          name: "Composite",
+          className: "TableLevelSharingProperties"
+        }
+      },
+      originalDatabaseName: {
+        serializedName: "properties.originalDatabaseName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      databaseShareOrigin: {
+        serializedName: "properties.databaseShareOrigin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2822,6 +2869,12 @@ export const EventHubDataConnection: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      retrievalStartDate: {
+        serializedName: "properties.retrievalStartDate",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -2887,6 +2940,12 @@ export const IotHubDataConnection: coreClient.CompositeMapper = {
         serializedName: "properties.databaseRouting",
         type: {
           name: "String"
+        }
+      },
+      retrievalStartDate: {
+        serializedName: "properties.retrievalStartDate",
+        type: {
+          name: "DateTime"
         }
       },
       provisioningState: {
