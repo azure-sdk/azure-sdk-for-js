@@ -14,14 +14,18 @@ import {
   PolicyAssignmentsImpl,
   PolicyDefinitionsImpl,
   PolicySetDefinitionsImpl,
-  PolicyExemptionsImpl
+  PolicyExemptionsImpl,
+  VariablesImpl,
+  VariableValuesImpl
 } from "./operations";
 import {
   DataPolicyManifests,
   PolicyAssignments,
   PolicyDefinitions,
   PolicySetDefinitions,
-  PolicyExemptions
+  PolicyExemptions,
+  Variables,
+  VariableValues
 } from "./operationsInterfaces";
 import { PolicyClientOptionalParams } from "./models";
 
@@ -56,7 +60,7 @@ export class PolicyClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policy/5.0.3`;
+    const packageDetails = `azsdk-js-arm-policy/5.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -108,6 +112,8 @@ export class PolicyClient extends coreClient.ServiceClient {
     this.policyDefinitions = new PolicyDefinitionsImpl(this);
     this.policySetDefinitions = new PolicySetDefinitionsImpl(this);
     this.policyExemptions = new PolicyExemptionsImpl(this);
+    this.variables = new VariablesImpl(this);
+    this.variableValues = new VariableValuesImpl(this);
   }
 
   dataPolicyManifests: DataPolicyManifests;
@@ -115,4 +121,6 @@ export class PolicyClient extends coreClient.ServiceClient {
   policyDefinitions: PolicyDefinitions;
   policySetDefinitions: PolicySetDefinitions;
   policyExemptions: PolicyExemptions;
+  variables: Variables;
+  variableValues: VariableValues;
 }
