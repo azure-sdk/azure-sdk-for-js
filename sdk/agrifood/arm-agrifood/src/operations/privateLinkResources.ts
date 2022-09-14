@@ -11,7 +11,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AgriFoodMgmtClient } from "../agriFoodMgmtClient";
+import { AzureAgFoodPlatformRPService } from "../azureAgFoodPlatformRPService";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesListByResourceOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: AgriFoodMgmtClient;
+  private readonly client: AzureAgFoodPlatformRPService;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: AgriFoodMgmtClient) {
+  constructor(client: AzureAgFoodPlatformRPService) {
     this.client = client;
   }
 

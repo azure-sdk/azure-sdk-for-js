@@ -1,5 +1,17 @@
 # Release History
     
+## 1.0.0-beta.2 (2022-09-14)
+    
+**Features**
+
+  - Added Interface AzureAgFoodPlatformRPServiceOptionalParams
+  - Added Class AzureAgFoodPlatformRPService
+
+**Breaking Changes**
+
+  - Deleted Class AgriFoodMgmtClient
+    
+    
 ## 1.0.0-beta.1 (2022-08-31)
 
 The package of @azure/arm-agrifood is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
