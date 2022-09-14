@@ -1783,6 +1783,103 @@ export const EntityQueryTemplateList: coreClient.CompositeMapper = {
   }
 };
 
+export const FileImportList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileImportList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileImport"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FileMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileMetadata",
+    modelProperties: {
+      fileFormat: {
+        serializedName: "fileFormat",
+        type: {
+          name: "String"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "String"
+        }
+      },
+      fileSize: {
+        serializedName: "fileSize",
+        type: {
+          name: "Number"
+        }
+      },
+      fileContentUri: {
+        serializedName: "fileContentUri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      deleteStatus: {
+        serializedName: "deleteStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ValidationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationError",
+    modelProperties: {
+      recordIndex: {
+        serializedName: "recordIndex",
+        type: {
+          name: "Number"
+        }
+      },
+      errorMessages: {
+        serializedName: "errorMessages",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IncidentList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3582,6 +3679,35 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const SummaryList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummaryList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Summary"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AlertRuleTemplateDataSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3715,6 +3841,13 @@ export const QueryBasedAlertRuleTemplateProperties: coreClient.CompositeMapper =
           name: "Composite",
           className: "AlertDetailsOverride"
         }
+      },
+      eventGroupingSettings: {
+        serializedName: "eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
+        }
       }
     }
   }
@@ -3793,6 +3926,21 @@ export const AlertDetailsOverride: coreClient.CompositeMapper = {
       },
       alertSeverityColumnName: {
         serializedName: "alertSeverityColumnName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventGroupingSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGroupingSettings",
+    modelProperties: {
+      aggregationKind: {
+        serializedName: "aggregationKind",
         type: {
           name: "String"
         }
@@ -4253,15 +4401,31 @@ export const ScheduledAlertRuleCommonProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const EventGroupingSettings: coreClient.CompositeMapper = {
+export const AutomationRuleBooleanCondition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGroupingSettings",
+    className: "AutomationRuleBooleanCondition",
     modelProperties: {
-      aggregationKind: {
-        serializedName: "aggregationKind",
+      operator: {
+        serializedName: "operator",
         type: {
           name: "String"
+        }
+      },
+      innerConditions: {
+        constraints: {
+          MinItems: 2,
+          MaxItems: 10
+        },
+        serializedName: "innerConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRuleCondition"
+            }
+          }
         }
       }
     }
@@ -4341,6 +4505,42 @@ export const AutomationRulePropertyArrayChangedValuesCondition: coreClient.Compo
         serializedName: "changeType",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomationRulePropertyArrayValuesCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationRulePropertyArrayValuesCondition",
+    modelProperties: {
+      arrayType: {
+        serializedName: "arrayType",
+        type: {
+          name: "String"
+        }
+      },
+      arrayConditionType: {
+        serializedName: "arrayConditionType",
+        type: {
+          name: "String"
+        }
+      },
+      itemConditions: {
+        constraints: {
+          MaxItems: 10
+        },
+        serializedName: "itemConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRuleCondition"
+            }
+          }
         }
       }
     }
@@ -5949,6 +6149,110 @@ export const EntityQueryTemplate: coreClient.CompositeMapper = {
   }
 };
 
+export const FileImport: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileImport",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      ingestionMode: {
+        serializedName: "properties.ingestionMode",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "properties.contentType",
+        type: {
+          name: "String"
+        }
+      },
+      createdTimeUTC: {
+        serializedName: "properties.createdTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      errorFile: {
+        serializedName: "properties.errorFile",
+        type: {
+          name: "Composite",
+          className: "FileMetadata"
+        }
+      },
+      errorsPreview: {
+        serializedName: "properties.errorsPreview",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationError"
+            }
+          }
+        }
+      },
+      importFile: {
+        serializedName: "properties.importFile",
+        type: {
+          name: "Composite",
+          className: "FileMetadata"
+        }
+      },
+      ingestedRecordCount: {
+        serializedName: "properties.ingestedRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      source: {
+        serializedName: "properties.source",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      totalRecordCount: {
+        serializedName: "properties.totalRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      validRecordCount: {
+        serializedName: "properties.validRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesValidUntilTimeUTC: {
+        serializedName: "properties.filesValidUntilTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      importValidUntilTimeUTC: {
+        serializedName: "properties.importValidUntilTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const OfficeConsent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6004,6 +6308,27 @@ export const ActionRequestProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const BooleanConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "Boolean",
+  type: {
+    name: "Composite",
+    className: "BooleanConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRuleBooleanCondition"
+        }
+      }
+    }
+  }
+};
+
 export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper = {
   serializedName: "PropertyArrayChanged",
   type: {
@@ -6019,6 +6344,27 @@ export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper
         type: {
           name: "Composite",
           className: "AutomationRulePropertyArrayChangedValuesCondition"
+        }
+      }
+    }
+  }
+};
+
+export const PropertyArrayConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "PropertyArray",
+  type: {
+    name: "Composite",
+    className: "PropertyArrayConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRulePropertyArrayValuesCondition"
         }
       }
     }
@@ -10811,6 +11157,117 @@ export const DataConnector: coreClient.CompositeMapper = {
   }
 };
 
+export const Summary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Summary",
+    modelProperties: {
+      ...ResourceWithEtag.type.modelProperties,
+      summaryId: {
+        serializedName: "properties.summaryId",
+        type: {
+          name: "String"
+        }
+      },
+      summaryName: {
+        serializedName: "properties.summaryName",
+        type: {
+          name: "String"
+        }
+      },
+      sourceInfo: {
+        serializedName: "properties.sourceInfo",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      searchKey: {
+        serializedName: "properties.searchKey",
+        type: {
+          name: "String"
+        }
+      },
+      tactics: {
+        serializedName: "properties.tactics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      techniques: {
+        serializedName: "properties.techniques",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      relationName: {
+        serializedName: "properties.relationName",
+        type: {
+          name: "String"
+        }
+      },
+      relationId: {
+        serializedName: "properties.relationId",
+        type: {
+          name: "String"
+        }
+      },
+      summaryDescription: {
+        serializedName: "properties.summaryDescription",
+        type: {
+          name: "String"
+        }
+      },
+      rawContent: {
+        serializedName: "properties.rawContent",
+        type: {
+          name: "String"
+        }
+      },
+      typePropertiesType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      isDeleted: {
+        serializedName: "properties.isDeleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      tenantId: {
+        serializedName: "properties.tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      summaryStatus: {
+        serializedName: "properties.summaryStatus",
+        type: {
+          name: "String"
+        }
+      },
+      uploadStatus: {
+        serializedName: "properties.uploadStatus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MLBehaviorAnalyticsAlertRuleTemplate: coreClient.CompositeMapper = {
   serializedName: "MLBehaviorAnalytics",
   type: {
@@ -11482,6 +11939,13 @@ export const NrtAlertRuleTemplate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AlertDetailsOverride"
+        }
+      },
+      eventGroupingSettings: {
+        serializedName: "properties.eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
         }
       }
     }
@@ -14289,6 +14753,13 @@ export const NrtAlertRule: coreClient.CompositeMapper = {
           name: "Composite",
           className: "AlertDetailsOverride"
         }
+      },
+      eventGroupingSettings: {
+        serializedName: "properties.eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
+        }
       }
     }
   }
@@ -15618,6 +16089,21 @@ export const WatchlistsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const SummariesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SummariesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   AutomationRuleCondition: AutomationRuleCondition,
   AutomationRuleAction: AutomationRuleAction,
@@ -15627,7 +16113,9 @@ export let discriminators = {
   "Resource.AlertRuleTemplate": AlertRuleTemplate,
   "Resource.Entity": Entity,
   "Resource.EntityQueryTemplate": EntityQueryTemplate,
+  "AutomationRuleCondition.Boolean": BooleanConditionProperties,
   "AutomationRuleCondition.PropertyArrayChanged": PropertyArrayChangedConditionProperties,
+  "AutomationRuleCondition.PropertyArray": PropertyArrayConditionProperties,
   "AutomationRuleCondition.PropertyChanged": PropertyChangedConditionProperties,
   "AutomationRuleCondition.Property": PropertyConditionProperties,
   "AutomationRuleAction.ModifyProperties": AutomationRuleModifyPropertiesAction,

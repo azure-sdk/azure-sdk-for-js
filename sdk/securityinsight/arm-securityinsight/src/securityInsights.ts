@@ -31,6 +31,7 @@ import {
   EntityRelationsImpl,
   EntityQueriesImpl,
   EntityQueryTemplatesImpl,
+  FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
   MetadataImpl,
@@ -47,7 +48,8 @@ import {
   WatchlistItemsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
-  OperationsImpl
+  OperationsImpl,
+  SummariesImpl
 } from "./operations";
 import {
   AlertRules,
@@ -66,6 +68,7 @@ import {
   EntityRelations,
   EntityQueries,
   EntityQueryTemplates,
+  FileImports,
   IncidentComments,
   IncidentRelations,
   Metadata,
@@ -82,7 +85,8 @@ import {
   WatchlistItems,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
-  Operations
+  Operations,
+  Summaries
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
 
@@ -138,41 +142,34 @@ export class SecurityInsights extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-11-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
@@ -189,6 +186,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.entityRelations = new EntityRelationsImpl(this);
     this.entityQueries = new EntityQueriesImpl(this);
     this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
     this.metadata = new MetadataImpl(this);
@@ -216,6 +214,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.summaries = new SummariesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -263,6 +262,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
   entityRelations: EntityRelations;
   entityQueries: EntityQueries;
   entityQueryTemplates: EntityQueryTemplates;
+  fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
   metadata: Metadata;
@@ -280,4 +280,5 @@ export class SecurityInsights extends coreClient.ServiceClient {
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
   operations: Operations;
+  summaries: Summaries;
 }
