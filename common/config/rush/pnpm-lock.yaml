@@ -3949,7 +3949,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220912
+      typescript: 4.9.0-dev.20220914
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8881,8 +8881,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220912:
-    resolution: {integrity: sha512-B1WnNBtZgqkG48/Z1v4VQWxZSjJl+iJdgafU/8mLFOZyinS5Jejz04TucADMOTufHaIc4USMcYALrAg03Twg1A==}
+  /typescript/4.9.0-dev.20220914:
+    resolution: {integrity: sha512-U1GcTQISGDyNlwr/OUTQVKFGMjL5eYrzT4nTptRn6lcaiRwO0+zmdHD3FMf6ZdiV5wZMMU706GH08EgiBufIqw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10761,7 +10761,7 @@ packages:
     dev: false
 
   file:projects/arm-changes.tgz:
-    resolution: {integrity: sha512-GjRZp1vTGS8ob6+d9JPg6a4LlbRmyEUnbqqK8melwrygg3PU1tAXFTE547m4vYiOVd/tARv7Z3Ty6cvykdGrAg==, tarball: file:projects/arm-changes.tgz}
+    resolution: {integrity: sha512-q954rPRrrtpQT9P1vrvRh6HGCRPrf1Weg0u3FVZXaN1hPGsIoQQTV+JiIYClqED6NRvqgIoL5tTmZNsOCMsoxA==, tarball: file:projects/arm-changes.tgz}
     name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
@@ -10772,6 +10772,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10783,7 +10785,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12021,7 +12022,7 @@ packages:
     dev: false
 
   file:projects/arm-features.tgz:
-    resolution: {integrity: sha512-koQB0eiTj4i4mpQQo+oM4b7D4L/dLlBH5MVN4B+P6W+q+aZb2gJXnUtqsisvl+hqMHUP6hPxKN9MyuhACUZTng==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-pXd4ph1yeWjZZXVHFqRyJQKhW0Af5H/lZUFrKBHi4FIrXl2cYa/+p9cDET1jaRt0f9Hx47uOuwRsw0EAy8UZqA==, tarball: file:projects/arm-features.tgz}
     name: '@rush-temp/arm-features'
     version: 0.0.0
     dependencies:
@@ -12032,6 +12033,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12043,7 +12046,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12536,7 +12538,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-aKiMEyhgNzp2uO6X9Axy3v8+I94B2o5DAa1v3+HWsDc8A/5XbBs3Jned7WOm/4ngqlziQA4vFywQ9QeEvtzQFQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-oWL1R2yyJ2emsloDY4qAdTikYioELbMf12rxso6Vd1sZircrx7o5PN0KukR477z/d2G6zgxVeVXNcykuGCNlmg==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -12547,6 +12549,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12558,7 +12562,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12617,7 +12620,7 @@ packages:
     dev: false
 
   file:projects/arm-locks.tgz:
-    resolution: {integrity: sha512-7KM4vQCCbyWcab2W8c20NoCTeCgCyUoFok1I1SHyiCbizm+tH6K46AD0tYHJM/kxmqudivJzxM247ESyo4odTg==, tarball: file:projects/arm-locks.tgz}
+    resolution: {integrity: sha512-sdcyJgfiCUdNZos3GN3OzZlcTmj7eaq6T8xONHi5Eam2u5r0Xj9ExgA+Tum5z85B8Ai1hBYgC4KmRTAjTTAcvQ==, tarball: file:projects/arm-locks.tgz}
     name: '@rush-temp/arm-locks'
     version: 0.0.0
     dependencies:
@@ -12628,6 +12631,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12639,7 +12644,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -12778,7 +12782,7 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-Ae7b+w5w8IF29B7dfC1xaVlwO+1CLRSI1agwbPv2hBu/lchiHJuOmYKPS8/6myIM2MZltBqjLicn/chIzHXRgQ==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-7VRBFJqsA3IcXTqcAqYMOUvkmWLEkkVAu3kVJrXuPzSKk/A7qMKWMyoRKYutK5x05ji5owY1faMySlm9xJmWsw==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
@@ -12789,6 +12793,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12800,7 +12806,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14104,7 +14109,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-subscriptions.tgz:
-    resolution: {integrity: sha512-ajIKIo1wNiuaRAE2pzPY8FkB6TfD2oQQyj5Lso9u3ccmqoJiFmIF4xEbOIYQ32rkBuAzWiVLfGoWgLNSVzHASQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
+    resolution: {integrity: sha512-U9eBEM0KGFNRN1w3i+gaoQlxv69Z3tKvhFpBY9qJqZ8i1kGF2abMuFhs/HSN/T/VV+TYKvGESmSfucytt0WqIQ==, tarball: file:projects/arm-resources-subscriptions.tgz}
     name: '@rush-temp/arm-resources-subscriptions'
     version: 0.0.0
     dependencies:
@@ -14115,6 +14120,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14126,12 +14133,11 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-epl4txrifrImepCL/xH7kk1Xo2X10yGZJOFBm0C6gRiuF7smFfbqqUQm+7aEbh3QC8f1FM6Wb97zESnQRwzqAA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-AUQjIEZKPTThcVQdSUeIi7c6QhHSwFSot82yJj+8QpbGrKTPISvbOB6Js+ZLPIDElZjYvUJS4iM4Csgb5xSycw==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -14142,6 +14148,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14153,7 +14161,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14875,7 +14882,7 @@ packages:
     dev: false
 
   file:projects/arm-templatespecs.tgz:
-    resolution: {integrity: sha512-nCCIxGrlUhe08M2vSmRUolW0g+aoL8z9UHPnVCbpCUm9/PT2rxbS3zkOC8uy3DZm6wqNXpMTvM8PET33BxH0UQ==, tarball: file:projects/arm-templatespecs.tgz}
+    resolution: {integrity: sha512-3K/xCdgg7/WlRPzBUUbR9yPh2uoFOuoQJg3ouuQ2FQeLnjAaYcTm0Bw2mw69+21Vx4whcEXwnG94ir9gxKDW8w==, tarball: file:projects/arm-templatespecs.tgz}
     name: '@rush-temp/arm-templatespecs'
     version: 0.0.0
     dependencies:
@@ -14886,6 +14893,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14897,7 +14906,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -17957,7 +17965,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ACRt0wrz261MTNDcEEtDfYkqhDTiiRw20AhsdJ2nkKTQwtECihm6lxFOuC3n+/2WSWp9qgEpi8bSIHrN1n/r2w==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-YpnKzYo6JuUUrhzh2YmZJba2rxDSueRobUdxEUOAcpCzQX4lSqzQp5/4tC/6e6ZQjL+UNxoC9nLTBeGMic9ybw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -17982,7 +17990,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-dewHjtVi92xQNZXFTBBg2mElIhlItaacuMnkQC0ow0RMJWfyBwd6nVuONNPG0SKH1653tZGysRT3a54qdiejqg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Ox0X3U3YxqUTmWjuhPnBzrxvEGtjVbFLu9iYrHtt3k/pYhEd3Xw1Oos/cFo0KVysPW7hqzK8mFDjHRsoAhb/uA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18000,12 +18008,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-9KuLR0nT5kWloC46ScHq4HD/VJXATHFewmRU1tK6WWqeyqhlSrWLgRcZ93H1Mn7v2bK6Njb7BMl2cmvZrpb1BQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-yDs9WjNGJcxpAl1fEm06qafAKla/DIUw+gOt2Wp1HDM79rJUXubFJv99W0Kr+K/+3ljFE86F/qEUEOe9RSm22w==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
