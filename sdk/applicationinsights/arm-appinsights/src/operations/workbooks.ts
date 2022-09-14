@@ -458,7 +458,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     Parameters.canFetchContent,
     Parameters.tags,
     Parameters.category,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
@@ -481,12 +481,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.tags,
     Parameters.category,
     Parameters.sourceId,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -503,11 +503,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.canFetchContent, Parameters.apiVersion3],
+  queryParameters: [Parameters.canFetchContent, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -524,11 +524,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -550,11 +550,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookProperties1,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion3],
+  queryParameters: [Parameters.sourceId, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -566,6 +566,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}",
   httpMethod: "PATCH",
   responses: {
+    200: {
+      bodyMapper: Mappers.Workbook
+    },
     201: {
       bodyMapper: Mappers.Workbook
     },
@@ -574,11 +577,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.workbookUpdateParameters,
-  queryParameters: [Parameters.sourceId, Parameters.apiVersion3],
+  queryParameters: [Parameters.sourceId, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -597,11 +600,11 @@ const revisionsListOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
@@ -619,11 +622,11 @@ const revisionGetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.revisionId
   ],
@@ -645,7 +648,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     Parameters.canFetchContent,
     Parameters.tags,
     Parameters.category,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [
     Parameters.$host,
@@ -671,12 +674,12 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.tags,
     Parameters.category,
     Parameters.sourceId,
-    Parameters.apiVersion3
+    Parameters.apiVersion5
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -693,11 +696,11 @@ const revisionsListNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.nextLink
   ],
