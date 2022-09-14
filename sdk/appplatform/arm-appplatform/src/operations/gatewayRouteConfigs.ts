@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BuildServiceBuilder } from "../operationsInterfaces";
+import { GatewayRouteConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,27 +15,25 @@ import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BuilderResource,
-  BuildServiceBuilderListNextOptionalParams,
-  BuildServiceBuilderListOptionalParams,
-  BuildServiceBuilderGetOptionalParams,
-  BuildServiceBuilderGetResponse,
-  BuildServiceBuilderCreateOrUpdateOptionalParams,
-  BuildServiceBuilderCreateOrUpdateResponse,
-  BuildServiceBuilderDeleteOptionalParams,
-  BuildServiceBuilderListResponse,
-  BuildServiceBuilderListDeploymentsOptionalParams,
-  BuildServiceBuilderListDeploymentsResponse,
-  BuildServiceBuilderListNextResponse
+  GatewayRouteConfigResource,
+  GatewayRouteConfigsListNextOptionalParams,
+  GatewayRouteConfigsListOptionalParams,
+  GatewayRouteConfigsGetOptionalParams,
+  GatewayRouteConfigsGetResponse,
+  GatewayRouteConfigsCreateOrUpdateOptionalParams,
+  GatewayRouteConfigsCreateOrUpdateResponse,
+  GatewayRouteConfigsDeleteOptionalParams,
+  GatewayRouteConfigsListResponse,
+  GatewayRouteConfigsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BuildServiceBuilder operations. */
-export class BuildServiceBuilderImpl implements BuildServiceBuilder {
+/** Class containing GatewayRouteConfigs operations. */
+export class GatewayRouteConfigsImpl implements GatewayRouteConfigs {
   private readonly client: AppPlatformManagementClient;
 
   /**
-   * Initialize a new instance of the class BuildServiceBuilder class.
+   * Initialize a new instance of the class GatewayRouteConfigs class.
    * @param client Reference to the service client
    */
   constructor(client: AppPlatformManagementClient) {
@@ -43,23 +41,23 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * List KPack builders result.
+   * Handle requests to list all Spring Cloud Gateway route configs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): PagedAsyncIterableIterator<BuilderResource> {
+    gatewayName: string,
+    options?: GatewayRouteConfigsListOptionalParams
+  ): PagedAsyncIterableIterator<GatewayRouteConfigResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
-      buildServiceName,
+      gatewayName,
       options
     );
     return {
@@ -73,7 +71,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
-          buildServiceName,
+          gatewayName,
           options
         );
       }
@@ -83,13 +81,13 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   private async *listPagingPage(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): AsyncIterableIterator<BuilderResource[]> {
+    gatewayName: string,
+    options?: GatewayRouteConfigsListOptionalParams
+  ): AsyncIterableIterator<GatewayRouteConfigResource[]> {
     let result = await this._list(
       resourceGroupName,
       serviceName,
-      buildServiceName,
+      gatewayName,
       options
     );
     yield result.value || [];
@@ -98,7 +96,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
       result = await this._listNext(
         resourceGroupName,
         serviceName,
-        buildServiceName,
+        gatewayName,
         continuationToken,
         options
       );
@@ -110,13 +108,13 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): AsyncIterableIterator<BuilderResource> {
+    gatewayName: string,
+    options?: GatewayRouteConfigsListOptionalParams
+  ): AsyncIterableIterator<GatewayRouteConfigResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
-      buildServiceName,
+      gatewayName,
       options
     )) {
       yield* page;
@@ -124,60 +122,56 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Get a KPack builder.
+   * Get the Spring Cloud Gateway route configs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param routeConfigName The name of the Spring Cloud Gateway route config.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderGetOptionalParams
-  ): Promise<BuildServiceBuilderGetResponse> {
+    gatewayName: string,
+    routeConfigName: string,
+    options?: GatewayRouteConfigsGetOptionalParams
+  ): Promise<GatewayRouteConfigsGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        builderName,
-        options
-      },
+      { resourceGroupName, serviceName, gatewayName, routeConfigName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a KPack builder.
+   * Create the default Spring Cloud Gateway route configs or update the existing Spring Cloud Gateway
+   * route configs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param routeConfigName The name of the Spring Cloud Gateway route config.
+   * @param gatewayRouteConfigResource The Spring Cloud Gateway route config for the create or update
+   *                                   operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
+    gatewayName: string,
+    routeConfigName: string,
+    gatewayRouteConfigResource: GatewayRouteConfigResource,
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>,
-      BuildServiceBuilderCreateOrUpdateResponse
+      PollOperationState<GatewayRouteConfigsCreateOrUpdateResponse>,
+      GatewayRouteConfigsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BuildServiceBuilderCreateOrUpdateResponse> => {
+    ): Promise<GatewayRouteConfigsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -218,9 +212,9 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
       {
         resourceGroupName,
         serviceName,
-        buildServiceName,
-        builderName,
-        builderResource,
+        gatewayName,
+        routeConfigName,
+        gatewayRouteConfigResource,
         options
       },
       createOrUpdateOperationSpec
@@ -234,49 +228,51 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Create or update a KPack builder.
+   * Create the default Spring Cloud Gateway route configs or update the existing Spring Cloud Gateway
+   * route configs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param builderResource The target builder for the create or update operation
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param routeConfigName The name of the Spring Cloud Gateway route config.
+   * @param gatewayRouteConfigResource The Spring Cloud Gateway route config for the create or update
+   *                                   operation
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    builderResource: BuilderResource,
-    options?: BuildServiceBuilderCreateOrUpdateOptionalParams
-  ): Promise<BuildServiceBuilderCreateOrUpdateResponse> {
+    gatewayName: string,
+    routeConfigName: string,
+    gatewayRouteConfigResource: GatewayRouteConfigResource,
+    options?: GatewayRouteConfigsCreateOrUpdateOptionalParams
+  ): Promise<GatewayRouteConfigsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
-      buildServiceName,
-      builderName,
-      builderResource,
+      gatewayName,
+      routeConfigName,
+      gatewayRouteConfigResource,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a KPack builder.
+   * Delete the Spring Cloud Gateway route config.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param routeConfigName The name of the Spring Cloud Gateway route config.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    gatewayName: string,
+    routeConfigName: string,
+    options?: GatewayRouteConfigsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -319,13 +315,7 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
 
     const lro = new LroImpl(
       sendOperation,
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        builderName,
-        options
-      },
+      { resourceGroupName, serviceName, gatewayName, routeConfigName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -337,76 +327,48 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
   }
 
   /**
-   * Delete a KPack builder.
+   * Delete the Spring Cloud Gateway route config.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param routeConfigName The name of the Spring Cloud Gateway route config.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderDeleteOptionalParams
+    gatewayName: string,
+    routeConfigName: string,
+    options?: GatewayRouteConfigsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
-      buildServiceName,
-      builderName,
+      gatewayName,
+      routeConfigName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List KPack builders result.
+   * Handle requests to list all Spring Cloud Gateway route configs.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
-    options?: BuildServiceBuilderListOptionalParams
-  ): Promise<BuildServiceBuilderListResponse> {
+    gatewayName: string,
+    options?: GatewayRouteConfigsListOptionalParams
+  ): Promise<GatewayRouteConfigsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, options },
+      { resourceGroupName, serviceName, gatewayName, options },
       listOperationSpec
-    );
-  }
-
-  /**
-   * List deployments that are using the builder.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
-   * @param builderName The name of the builder resource.
-   * @param options The options parameters.
-   */
-  listDeployments(
-    resourceGroupName: string,
-    serviceName: string,
-    buildServiceName: string,
-    builderName: string,
-    options?: BuildServiceBuilderListDeploymentsOptionalParams
-  ): Promise<BuildServiceBuilderListDeploymentsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        buildServiceName,
-        builderName,
-        options
-      },
-      listDeploymentsOperationSpec
     );
   }
 
@@ -415,19 +377,19 @@ export class BuildServiceBuilderImpl implements BuildServiceBuilder {
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serviceName The name of the Service resource.
-   * @param buildServiceName The name of the build service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
     serviceName: string,
-    buildServiceName: string,
+    gatewayName: string,
     nextLink: string,
-    options?: BuildServiceBuilderListNextOptionalParams
-  ): Promise<BuildServiceBuilderListNextResponse> {
+    options?: GatewayRouteConfigsListNextOptionalParams
+  ): Promise<GatewayRouteConfigsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, buildServiceName, nextLink, options },
+      { resourceGroupName, serviceName, gatewayName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -437,11 +399,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.GatewayRouteConfigResource
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -453,42 +415,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.gatewayName,
+    Parameters.routeConfigName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.GatewayRouteConfigResource
     },
     201: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.GatewayRouteConfigResource
     },
     202: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.GatewayRouteConfigResource
     },
     204: {
-      bodyMapper: Mappers.BuilderResource
+      bodyMapper: Mappers.GatewayRouteConfigResource
     },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.builderResource,
+  requestBody: Parameters.gatewayRouteConfigResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.gatewayName,
+    Parameters.routeConfigName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -496,7 +458,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs/{routeConfigName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -513,19 +475,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.gatewayName,
+    Parameters.routeConfigName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResourceCollection
+      bodyMapper: Mappers.GatewayRouteConfigResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -537,31 +499,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.buildServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listDeploymentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/listUsingDeployments",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeploymentList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -571,7 +509,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuilderResourceCollection
+      bodyMapper: Mappers.GatewayRouteConfigResourceCollection
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -584,7 +522,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.buildServiceName
+    Parameters.gatewayName
   ],
   headerParameters: [Parameters.accept],
   serializer
