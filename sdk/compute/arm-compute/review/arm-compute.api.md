@@ -1173,6 +1173,7 @@ export interface CreationData {
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
+    performancePlus?: boolean;
     securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
@@ -1470,6 +1471,7 @@ export interface DisallowedConfiguration {
 // @public
 export interface Disk extends Resource {
     burstingEnabled?: boolean;
+    readonly burstingEnabledTime?: Date;
     completionPercent?: number;
     creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
@@ -1489,6 +1491,7 @@ export interface Disk extends Resource {
     readonly managedByExtended?: string[];
     maxShares?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
     osType?: OperatingSystemTypes;
     readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     readonly provisioningState?: string;
@@ -2024,6 +2027,7 @@ export interface DiskUpdate {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     maxShares?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
     osType?: OperatingSystemTypes;
     readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -4992,7 +4996,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5046,6 +5050,7 @@ export interface Snapshot extends Resource {
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
     incremental?: boolean;
+    readonly incrementalSnapshotFamilyId?: string;
     readonly managedBy?: string;
     networkAccessPolicy?: NetworkAccessPolicy;
     osType?: OperatingSystemTypes;
@@ -5346,6 +5351,7 @@ export interface SubResourceWithColocationStatus extends SubResource {
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
     architecture?: Architecture;
+    diskControllerTypes?: string;
 }
 
 // @public
