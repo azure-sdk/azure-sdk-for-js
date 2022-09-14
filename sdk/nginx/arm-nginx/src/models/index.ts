@@ -27,7 +27,8 @@ export interface NginxCertificate {
 }
 
 export interface NginxCertificateProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   keyVirtualPath?: string;
   certificateVirtualPath?: string;
   keyVaultSecretId?: string;
@@ -92,8 +93,10 @@ export interface NginxConfiguration {
 }
 
 export interface NginxConfigurationProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
+  protectedFiles?: NginxConfigurationFile[];
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }
@@ -145,7 +148,8 @@ export interface UserIdentityProperties {
 }
 
 export interface NginxDeploymentProperties {
-  provisioningState?: ProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly provisioningState?: ProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nginxVersion?: string;
   /** The managed resource group to deploy VNet injection related network resources. */

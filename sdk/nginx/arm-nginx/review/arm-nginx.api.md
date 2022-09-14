@@ -275,8 +275,7 @@ export interface NginxCertificateProperties {
     keyVaultSecretId?: string;
     // (undocumented)
     keyVirtualPath?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
@@ -321,7 +320,8 @@ export interface NginxConfigurationProperties {
     // (undocumented)
     package?: NginxConfigurationPackage;
     // (undocumented)
-    provisioningState?: ProvisioningState;
+    protectedFiles?: NginxConfigurationFile[];
+    readonly provisioningState?: ProvisioningState;
     // (undocumented)
     rootFile?: string;
 }
@@ -364,8 +364,7 @@ export interface NginxDeploymentProperties {
     // (undocumented)
     networkProfile?: NginxNetworkProfile;
     readonly nginxVersion?: string;
-    // (undocumented)
-    provisioningState?: ProvisioningState;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public (undocumented)
