@@ -1,15 +1,237 @@
 # Release History
+    
+## 20.0.0 (2022-09-15)
+    
+**Features**
 
-## 19.1.1 (Unreleased)
+  - Added operation group ContainerServices
+  - Added Interface ContainerService
+  - Added Interface ContainerServiceAgentPoolProfile
+  - Added Interface ContainerServiceCustomProfile
+  - Added Interface ContainerServiceDiagnosticsProfile
+  - Added Interface ContainerServiceLinuxProfile
+  - Added Interface ContainerServiceListResult
+  - Added Interface ContainerServiceMasterProfile
+  - Added Interface ContainerServiceOrchestratorProfile
+  - Added Interface ContainerServicePrincipalProfile
+  - Added Interface ContainerServicesCreateOrUpdateOptionalParams
+  - Added Interface ContainerServicesDeleteOptionalParams
+  - Added Interface ContainerServicesGetOptionalParams
+  - Added Interface ContainerServicesListByResourceGroupNextOptionalParams
+  - Added Interface ContainerServicesListByResourceGroupOptionalParams
+  - Added Interface ContainerServicesListNextOptionalParams
+  - Added Interface ContainerServicesListOptionalParams
+  - Added Interface ContainerServiceSshConfiguration
+  - Added Interface ContainerServiceSshPublicKey
+  - Added Interface ContainerServiceVMDiagnostics
+  - Added Interface ContainerServiceWindowsProfile
+  - Added Type Alias ContainerServiceMasterProfileCount
+  - Added Type Alias ContainerServiceOrchestratorTypes
+  - Added Type Alias ContainerServicesCreateOrUpdateResponse
+  - Added Type Alias ContainerServicesGetResponse
+  - Added Type Alias ContainerServicesListByResourceGroupNextResponse
+  - Added Type Alias ContainerServicesListByResourceGroupResponse
+  - Added Type Alias ContainerServicesListNextResponse
+  - Added Type Alias ContainerServicesListResponse
+  - Added Type Alias ContainerServiceVMSizeTypes
+  - Interface ComputeManagementClientOptionalParams has a new optional parameter apiVersion
+  - Class ComputeManagementClient has a new parameter apiVersion
+  - Class ComputeManagementClient has a new parameter containerServices
+  - Added Enum KnownContainerServiceMasterProfileCount
+  - Added Enum KnownContainerServiceVMSizeTypes
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AvailabilitySets
+  - Removed operation group CapacityReservationGroups
+  - Removed operation group CapacityReservations
+  - Removed operation group CloudServiceOperatingSystems
+  - Removed operation group CloudServiceRoleInstances
+  - Removed operation group CloudServiceRoles
+  - Removed operation group CloudServices
+  - Removed operation group CloudServicesUpdateDomain
+  - Removed operation group CommunityGalleries
+  - Removed operation group CommunityGalleryImages
+  - Removed operation group CommunityGalleryImageVersions
+  - Removed operation group DedicatedHostGroups
+  - Removed operation group DedicatedHosts
+  - Removed operation group DiskAccesses
+  - Removed operation group DiskEncryptionSets
+  - Removed operation group DiskRestorePointOperations
+  - Removed operation group Disks
+  - Removed operation group Galleries
+  - Removed operation group GalleryApplications
+  - Removed operation group GalleryApplicationVersions
+  - Removed operation group GalleryImages
+  - Removed operation group GalleryImageVersions
+  - Removed operation group GallerySharingProfile
+  - Removed operation group Images
+  - Removed operation group LogAnalytics
+  - Removed operation group Operations
+  - Removed operation group ProximityPlacementGroups
+  - Removed operation group ResourceSkus
+  - Removed operation group RestorePointCollections
+  - Removed operation group RestorePoints
+  - Removed operation group SharedGalleries
+  - Removed operation group SharedGalleryImages
+  - Removed operation group SharedGalleryImageVersions
+  - Removed operation group Snapshots
+  - Removed operation group SshPublicKeys
+  - Removed operation group UsageOperations
+  - Removed operation group VirtualMachineExtensionImages
+  - Removed operation group VirtualMachineExtensions
+  - Removed operation group VirtualMachineImages
+  - Removed operation group VirtualMachineImagesEdgeZone
+  - Removed operation group VirtualMachineRunCommands
+  - Removed operation group VirtualMachines
+  - Removed operation group VirtualMachineScaleSetExtensions
+  - Removed operation group VirtualMachineScaleSetRollingUpgrades
+  - Removed operation group VirtualMachineScaleSets
+  - Removed operation group VirtualMachineScaleSetVMExtensions
+  - Removed operation group VirtualMachineScaleSetVMRunCommands
+  - Removed operation group VirtualMachineScaleSetVMs
+  - Removed operation group VirtualMachineSizes
+  - Class ComputeManagementClient no longer has parameter availabilitySets
+  - Class ComputeManagementClient no longer has parameter capacityReservationGroups
+  - Class ComputeManagementClient no longer has parameter capacityReservations
+  - Class ComputeManagementClient no longer has parameter cloudServiceOperatingSystems
+  - Class ComputeManagementClient no longer has parameter cloudServiceRoleInstances
+  - Class ComputeManagementClient no longer has parameter cloudServiceRoles
+  - Class ComputeManagementClient no longer has parameter cloudServices
+  - Class ComputeManagementClient no longer has parameter cloudServicesUpdateDomain
+  - Class ComputeManagementClient no longer has parameter communityGalleries
+  - Class ComputeManagementClient no longer has parameter communityGalleryImages
+  - Class ComputeManagementClient no longer has parameter communityGalleryImageVersions
+  - Class ComputeManagementClient no longer has parameter dedicatedHostGroups
+  - Class ComputeManagementClient no longer has parameter dedicatedHosts
+  - Class ComputeManagementClient no longer has parameter diskAccesses
+  - Class ComputeManagementClient no longer has parameter diskEncryptionSets
+  - Class ComputeManagementClient no longer has parameter diskRestorePointOperations
+  - Class ComputeManagementClient no longer has parameter disks
+  - Class ComputeManagementClient no longer has parameter galleries
+  - Class ComputeManagementClient no longer has parameter galleryApplications
+  - Class ComputeManagementClient no longer has parameter galleryApplicationVersions
+  - Class ComputeManagementClient no longer has parameter galleryImages
+  - Class ComputeManagementClient no longer has parameter galleryImageVersions
+  - Class ComputeManagementClient no longer has parameter gallerySharingProfile
+  - Class ComputeManagementClient no longer has parameter images
+  - Class ComputeManagementClient no longer has parameter logAnalytics
+  - Class ComputeManagementClient no longer has parameter operations
+  - Class ComputeManagementClient no longer has parameter proximityPlacementGroups
+  - Class ComputeManagementClient no longer has parameter resourceSkus
+  - Class ComputeManagementClient no longer has parameter restorePointCollections
+  - Class ComputeManagementClient no longer has parameter restorePoints
+  - Class ComputeManagementClient no longer has parameter sharedGalleries
+  - Class ComputeManagementClient no longer has parameter sharedGalleryImages
+  - Class ComputeManagementClient no longer has parameter sharedGalleryImageVersions
+  - Class ComputeManagementClient no longer has parameter snapshots
+  - Class ComputeManagementClient no longer has parameter sshPublicKeys
+  - Class ComputeManagementClient no longer has parameter usageOperations
+  - Class ComputeManagementClient no longer has parameter virtualMachineExtensionImages
+  - Class ComputeManagementClient no longer has parameter virtualMachineExtensions
+  - Class ComputeManagementClient no longer has parameter virtualMachineImages
+  - Class ComputeManagementClient no longer has parameter virtualMachineImagesEdgeZone
+  - Class ComputeManagementClient no longer has parameter virtualMachineRunCommands
+  - Class ComputeManagementClient no longer has parameter virtualMachines
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSetExtensions
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSetRollingUpgrades
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSets
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSetVMExtensions
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSetVMRunCommands
+  - Class ComputeManagementClient no longer has parameter virtualMachineScaleSetVMs
+  - Class ComputeManagementClient no longer has parameter virtualMachineSizes
+  - Removed Enum KnownAccessLevel
+  - Removed Enum KnownAggregatedReplicationState
+  - Removed Enum KnownArchitecture
+  - Removed Enum KnownArchitectureTypes
+  - Removed Enum KnownAvailabilitySetSkuTypes
+  - Removed Enum KnownCapacityReservationGroupInstanceViewTypes
+  - Removed Enum KnownCapacityReservationInstanceViewTypes
+  - Removed Enum KnownCloudServiceSlotType
+  - Removed Enum KnownCloudServiceUpgradeMode
+  - Removed Enum KnownConfidentialVMEncryptionType
+  - Removed Enum KnownConsistencyModeTypes
+  - Removed Enum KnownCopyCompletionErrorReason
+  - Removed Enum KnownDataAccessAuthMode
+  - Removed Enum KnownDeleteOptions
+  - Removed Enum KnownDiffDiskOptions
+  - Removed Enum KnownDiffDiskPlacement
+  - Removed Enum KnownDiskCreateOption
+  - Removed Enum KnownDiskCreateOptionTypes
+  - Removed Enum KnownDiskDeleteOptionTypes
+  - Removed Enum KnownDiskDetachOptionTypes
+  - Removed Enum KnownDiskEncryptionSetIdentityType
+  - Removed Enum KnownDiskEncryptionSetType
+  - Removed Enum KnownDiskSecurityTypes
+  - Removed Enum KnownDiskState
+  - Removed Enum KnownDiskStorageAccountTypes
+  - Removed Enum KnownEncryptionType
+  - Removed Enum KnownExecutionState
+  - Removed Enum KnownExpandTypesForGetCapacityReservationGroups
+  - Removed Enum KnownExpandTypesForGetVMScaleSets
+  - Removed Enum KnownExtendedLocationType
+  - Removed Enum KnownExtendedLocationTypes
+  - Removed Enum KnownGalleryExpandParams
+  - Removed Enum KnownGalleryExtendedLocationType
+  - Removed Enum KnownGalleryProvisioningState
+  - Removed Enum KnownGallerySharingPermissionTypes
+  - Removed Enum KnownHyperVGeneration
+  - Removed Enum KnownHyperVGenerationType
+  - Removed Enum KnownHyperVGenerationTypes
+  - Removed Enum KnownIPVersion
+  - Removed Enum KnownIPVersions
+  - Removed Enum KnownLinuxPatchAssessmentMode
+  - Removed Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Removed Enum KnownLinuxVMGuestPatchMode
+  - Removed Enum KnownNetworkAccessPolicy
+  - Removed Enum KnownNetworkApiVersion
+  - Removed Enum KnownOperatingSystemType
+  - Removed Enum KnownOrchestrationMode
+  - Removed Enum KnownOrchestrationServiceNames
+  - Removed Enum KnownOrchestrationServiceState
+  - Removed Enum KnownOrchestrationServiceStateAction
+  - Removed Enum KnownPatchAssessmentState
+  - Removed Enum KnownPatchInstallationState
+  - Removed Enum KnownPatchOperationStatus
+  - Removed Enum KnownPrivateEndpointConnectionProvisioningState
+  - Removed Enum KnownPrivateEndpointServiceConnectionStatus
+  - Removed Enum KnownProximityPlacementGroupType
+  - Removed Enum KnownPublicIPAddressSkuName
+  - Removed Enum KnownPublicIPAddressSkuTier
+  - Removed Enum KnownPublicIPAllocationMethod
+  - Removed Enum KnownPublicNetworkAccess
+  - Removed Enum KnownRepairAction
+  - Removed Enum KnownReplicationMode
+  - Removed Enum KnownReplicationState
+  - Removed Enum KnownReplicationStatusTypes
+  - Removed Enum KnownRestorePointCollectionExpandOptions
+  - Removed Enum KnownRestorePointExpandOptions
+  - Removed Enum KnownSecurityEncryptionTypes
+  - Removed Enum KnownSecurityTypes
+  - Removed Enum KnownSelectPermissions
+  - Removed Enum KnownSharedGalleryHostCaching
+  - Removed Enum KnownSharedToValues
+  - Removed Enum KnownSharingProfileGroupTypes
+  - Removed Enum KnownSharingState
+  - Removed Enum KnownSharingUpdateOperationTypes
+  - Removed Enum KnownSnapshotStorageAccountTypes
+  - Removed Enum KnownStorageAccountType
+  - Removed Enum KnownStorageAccountTypes
+  - Removed Enum KnownVirtualMachineEvictionPolicyTypes
+  - Removed Enum KnownVirtualMachinePriorityTypes
+  - Removed Enum KnownVirtualMachineScaleSetScaleInRules
+  - Removed Enum KnownVirtualMachineSizeTypes
+  - Removed Enum KnownVmDiskTypes
+  - Removed Enum KnownVMGuestPatchClassificationLinux
+  - Removed Enum KnownVMGuestPatchClassificationWindows
+  - Removed Enum KnownVMGuestPatchRebootBehavior
+  - Removed Enum KnownVMGuestPatchRebootSetting
+  - Removed Enum KnownVMGuestPatchRebootStatus
+  - Removed Enum KnownWindowsPatchAssessmentMode
+  - Removed Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Removed Enum KnownWindowsVMGuestPatchMode
+    
+    
 ## 19.1.0 (2022-06-27)
     
 **Features**
