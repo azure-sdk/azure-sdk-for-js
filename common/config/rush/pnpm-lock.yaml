@@ -3951,7 +3951,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220912
+      typescript: 4.9.0-dev.20220915
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8883,8 +8883,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220912:
-    resolution: {integrity: sha512-B1WnNBtZgqkG48/Z1v4VQWxZSjJl+iJdgafU/8mLFOZyinS5Jejz04TucADMOTufHaIc4USMcYALrAg03Twg1A==}
+  /typescript/4.9.0-dev.20220915:
+    resolution: {integrity: sha512-LF91yAKWayNiea7oza0gyHyPEVIkorxhbjWV6k/nDtseepQxGM8MZVjKGFleko0Ve4Fha8vQhnxRPkF8NftIHA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10790,7 +10790,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-MsUqKhZRz/N+z9NC1YYRwfPG2mSfZ4aUMCk9SGJrfJFGkShEp0UD3ElcLfi5AabL1ZXPT0L4EZKOT5PfvxC3bg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-Os8pMeUKWkeL03AHySA5scua/kJrrBFs4eHqqZJqSYnLwWMcIHI4gexC+64ARilvJ0Q6UUcmUpDWkJ2g6FHCiQ==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -14446,7 +14446,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-N5tZVyTLwzPkY7j/PO/vq9J5t8Wy8m81e+tKimcS7BKZqEcYuMm2SlUz9e0wx9+9utIu4kNsgrRq5Me5tJBF8g==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-ItddUObD+fUIYJzy7kQQuSZamNx5UY39Qpk7aYZ3pStOLrTL6y0vlQBToxLcZeGzRm9Cmyvk8zuNfXeYGwObGA==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -14457,6 +14457,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14468,7 +14470,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -17986,7 +17987,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-ACRt0wrz261MTNDcEEtDfYkqhDTiiRw20AhsdJ2nkKTQwtECihm6lxFOuC3n+/2WSWp9qgEpi8bSIHrN1n/r2w==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-YpnKzYo6JuUUrhzh2YmZJba2rxDSueRobUdxEUOAcpCzQX4lSqzQp5/4tC/6e6ZQjL+UNxoC9nLTBeGMic9ybw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -18011,7 +18012,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-dewHjtVi92xQNZXFTBBg2mElIhlItaacuMnkQC0ow0RMJWfyBwd6nVuONNPG0SKH1653tZGysRT3a54qdiejqg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-Ox0X3U3YxqUTmWjuhPnBzrxvEGtjVbFLu9iYrHtt3k/pYhEd3Xw1Oos/cFo0KVysPW7hqzK8mFDjHRsoAhb/uA==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18029,12 +18030,11 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-9KuLR0nT5kWloC46ScHq4HD/VJXATHFewmRU1tK6WWqeyqhlSrWLgRcZ93H1Mn7v2bK6Njb7BMl2cmvZrpb1BQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-yDs9WjNGJcxpAl1fEm06qafAKla/DIUw+gOt2Wp1HDM79rJUXubFJv99W0Kr+K/+3ljFE86F/qEUEOe9RSm22w==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
