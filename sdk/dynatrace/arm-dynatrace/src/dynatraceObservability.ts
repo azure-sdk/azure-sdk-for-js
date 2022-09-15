@@ -60,7 +60,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dynatrace/1.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-dynatrace/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -107,7 +107,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2021-09-01";
     this.monitors = new MonitorsImpl(this);
     this.operations = new OperationsImpl(this);
     this.tagRules = new TagRulesImpl(this);
