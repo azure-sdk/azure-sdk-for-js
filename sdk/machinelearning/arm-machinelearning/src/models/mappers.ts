@@ -1760,6 +1760,7 @@ export const Compute: coreClient.CompositeMapper = {
       },
       disableLocalAuth: {
         serializedName: "disableLocalAuth",
+        readOnly: true,
         type: {
           name: "Boolean"
         }
@@ -4723,6 +4724,7 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         readOnly: true,
+        nullable: true,
         type: {
           name: "String"
         }
@@ -4734,8 +4736,76 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
       action: {
         serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      triggerType: {
+        serializedName: "triggerType",
+        type: {
+          name: "String"
+        }
+      },
+      recurrence: {
+        serializedName: "recurrence",
+        type: {
+          name: "Composite",
+          className: "Recurrence"
+        }
+      },
+      cron: {
+        serializedName: "cron",
+        type: {
+          name: "Composite",
+          className: "Cron"
+        }
+      },
+      schedule: {
+        serializedName: "schedule",
+        type: {
+          name: "Composite",
+          className: "ScheduleBase"
+        }
+      }
+    }
+  }
+};
+
+export const Recurrence: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Recurrence",
+    modelProperties: {
+      frequency: {
+        serializedName: "frequency",
+        type: {
+          name: "String"
+        }
+      },
+      interval: {
+        serializedName: "interval",
+        type: {
+          name: "Number"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
         type: {
           name: "String"
         }
@@ -4744,7 +4814,88 @@ export const ComputeStartStopSchedule: coreClient.CompositeMapper = {
         serializedName: "schedule",
         type: {
           name: "Composite",
-          className: "ScheduleBase"
+          className: "RecurrenceSchedule"
+        }
+      }
+    }
+  }
+};
+
+export const RecurrenceSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecurrenceSchedule",
+    modelProperties: {
+      minutes: {
+        serializedName: "minutes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      hours: {
+        serializedName: "hours",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      weekDays: {
+        serializedName: "weekDays",
+        nullable: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Enum",
+              allowedValues: [
+                "Sunday",
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Cron: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Cron",
+    modelProperties: {
+      startTime: {
+        serializedName: "startTime",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      timeZone: {
+        defaultValue: "UTC",
+        serializedName: "timeZone",
+        type: {
+          name: "String"
+        }
+      },
+      expression: {
+        serializedName: "expression",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8135,9 +8286,9 @@ export const KubernetesOnlineDeployment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KubernetesOnlineDeployment",
-    uberParent: "OnlineDeploymentProperties",
+    uberParent: "EndpointDeploymentPropertiesBase",
     polymorphicDiscriminator:
-      OnlineDeploymentProperties.type.polymorphicDiscriminator,
+      EndpointDeploymentPropertiesBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...OnlineDeploymentProperties.type.modelProperties,
       containerResourceRequirements: {
@@ -8156,9 +8307,9 @@ export const ManagedOnlineDeployment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManagedOnlineDeployment",
-    uberParent: "OnlineDeploymentProperties",
+    uberParent: "EndpointDeploymentPropertiesBase",
     polymorphicDiscriminator:
-      OnlineDeploymentProperties.type.polymorphicDiscriminator,
+      EndpointDeploymentPropertiesBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...OnlineDeploymentProperties.type.modelProperties
     }
@@ -8262,7 +8413,7 @@ export const DataVersionBaseProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataVersionBaseProperties",
-    uberParent: "AssetBase",
+    uberParent: "ResourceBase",
     polymorphicDiscriminator: {
       serializedName: "dataType",
       clientName: "dataType"
@@ -8383,8 +8534,8 @@ export const AzureBlobDatastore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureBlobDatastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatastoreProperties.type.modelProperties,
       accountName: {
@@ -8430,8 +8581,8 @@ export const AzureDataLakeGen1Datastore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureDataLakeGen1Datastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatastoreProperties.type.modelProperties,
       serviceDataAccessAuthIdentity: {
@@ -8459,8 +8610,8 @@ export const AzureDataLakeGen2Datastore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureDataLakeGen2Datastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatastoreProperties.type.modelProperties,
       accountName: {
@@ -8512,8 +8663,8 @@ export const AzureFileDatastore: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureFileDatastore",
-    uberParent: "DatastoreProperties",
-    polymorphicDiscriminator: DatastoreProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DatastoreProperties.type.modelProperties,
       accountName: {
@@ -8565,8 +8716,8 @@ export const CommandJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommandJob",
-    uberParent: "JobBaseProperties",
-    polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobBaseProperties.type.modelProperties,
       codeId: {
@@ -8660,8 +8811,8 @@ export const PipelineJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PipelineJob",
-    uberParent: "JobBaseProperties",
-    polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobBaseProperties.type.modelProperties,
       inputs: {
@@ -8707,8 +8858,8 @@ export const SweepJob: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SweepJob",
-    uberParent: "JobBaseProperties",
-    polymorphicDiscriminator: JobBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobBaseProperties.type.modelProperties,
       earlyTermination: {
@@ -8779,9 +8930,8 @@ export const MLTableData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLTableData",
-    uberParent: "DataVersionBaseProperties",
-    polymorphicDiscriminator:
-      DataVersionBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataVersionBaseProperties.type.modelProperties,
       referencedUris: {
@@ -8805,9 +8955,8 @@ export const UriFileDataVersion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFileDataVersion",
-    uberParent: "DataVersionBaseProperties",
-    polymorphicDiscriminator:
-      DataVersionBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataVersionBaseProperties.type.modelProperties
     }
@@ -8819,9 +8968,8 @@ export const UriFolderDataVersion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UriFolderDataVersion",
-    uberParent: "DataVersionBaseProperties",
-    polymorphicDiscriminator:
-      DataVersionBaseProperties.type.polymorphicDiscriminator,
+    uberParent: "ResourceBase",
+    polymorphicDiscriminator: ResourceBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataVersionBaseProperties.type.modelProperties
     }
@@ -9379,17 +9527,17 @@ export let discriminators = {
   "JobInput.literal": LiteralJobInput,
   "JobLimits.Command": CommandJobLimits,
   "JobLimits.Sweep": SweepJobLimits,
-  "OnlineDeploymentProperties.Kubernetes": KubernetesOnlineDeployment,
-  "OnlineDeploymentProperties.Managed": ManagedOnlineDeployment,
-  "AssetBase.DataVersionBaseProperties": DataVersionBaseProperties,
-  "DatastoreProperties.AzureBlob": AzureBlobDatastore,
-  "DatastoreProperties.AzureDataLakeGen1": AzureDataLakeGen1Datastore,
-  "DatastoreProperties.AzureDataLakeGen2": AzureDataLakeGen2Datastore,
-  "DatastoreProperties.AzureFile": AzureFileDatastore,
-  "JobBaseProperties.Command": CommandJob,
-  "JobBaseProperties.Pipeline": PipelineJob,
-  "JobBaseProperties.Sweep": SweepJob,
-  "DataVersionBaseProperties.mltable": MLTableData,
-  "DataVersionBaseProperties.uri_file": UriFileDataVersion,
-  "DataVersionBaseProperties.uri_folder": UriFolderDataVersion
+  "EndpointDeploymentPropertiesBase.Kubernetes": KubernetesOnlineDeployment,
+  "EndpointDeploymentPropertiesBase.Managed": ManagedOnlineDeployment,
+  "ResourceBase.DataVersionBaseProperties": DataVersionBaseProperties,
+  "ResourceBase.AzureBlob": AzureBlobDatastore,
+  "ResourceBase.AzureDataLakeGen1": AzureDataLakeGen1Datastore,
+  "ResourceBase.AzureDataLakeGen2": AzureDataLakeGen2Datastore,
+  "ResourceBase.AzureFile": AzureFileDatastore,
+  "ResourceBase.Command": CommandJob,
+  "ResourceBase.Pipeline": PipelineJob,
+  "ResourceBase.Sweep": SweepJob,
+  "ResourceBase.mltable": MLTableData,
+  "ResourceBase.uri_file": UriFileDataVersion,
+  "ResourceBase.uri_folder": UriFolderDataVersion
 };
