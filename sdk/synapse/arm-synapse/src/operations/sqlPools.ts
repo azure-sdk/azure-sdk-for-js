@@ -661,6 +661,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.SqlPool
     },
+    404: {
+      isError: true
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
