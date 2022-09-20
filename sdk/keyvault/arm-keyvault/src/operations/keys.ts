@@ -189,7 +189,9 @@ export class KeysImpl implements Keys {
    * versions, and does not update existing keys.
    * @param resourceGroupName The name of the resource group which contains the specified key vault.
    * @param vaultName The name of the key vault which contains the key to be created.
-   * @param keyName The name of the key to be created.
+   * @param keyName The name of the key to be created. The value you provide may be copied globally for
+   *                the purpose of running the service. The value provided should not include personally identifiable or
+   *                sensitive information.
    * @param parameters The parameters used to create the specified key.
    * @param options The options parameters.
    */
