@@ -8,18 +8,32 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  Diagnostics,
+  ContainerAppsDiagnosticsListDetectorsOptionalParams,
   Revision,
-  ContainerAppsRevisionsListRevisionsOptionalParams,
-  ContainerAppsRevisionsGetRevisionOptionalParams,
-  ContainerAppsRevisionsGetRevisionResponse,
-  ContainerAppsRevisionsActivateRevisionOptionalParams,
-  ContainerAppsRevisionsDeactivateRevisionOptionalParams,
-  ContainerAppsRevisionsRestartRevisionOptionalParams
+  ContainerAppsDiagnosticsListRevisionsOptionalParams,
+  ContainerAppsDiagnosticsGetDetectorOptionalParams,
+  ContainerAppsDiagnosticsGetDetectorResponse,
+  ContainerAppsDiagnosticsGetRevisionOptionalParams,
+  ContainerAppsDiagnosticsGetRevisionResponse,
+  ContainerAppsDiagnosticsGetRootOptionalParams,
+  ContainerAppsDiagnosticsGetRootResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ContainerAppsRevisions. */
-export interface ContainerAppsRevisions {
+/** Interface representing a ContainerAppsDiagnostics. */
+export interface ContainerAppsDiagnostics {
+  /**
+   * Get the list of diagnostics for a given Container App.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App for which detector info is needed.
+   * @param options The options parameters.
+   */
+  listDetectors(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsDiagnosticsListDetectorsOptionalParams
+  ): PagedAsyncIterableIterator<Diagnostics>;
   /**
    * Get the Revisions for a given Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -29,8 +43,21 @@ export interface ContainerAppsRevisions {
   listRevisions(
     resourceGroupName: string,
     containerAppName: string,
-    options?: ContainerAppsRevisionsListRevisionsOptionalParams
+    options?: ContainerAppsDiagnosticsListRevisionsOptionalParams
   ): PagedAsyncIterableIterator<Revision>;
+  /**
+   * Get a diagnostics result of a Container App.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param detectorName Name of the Container App Detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    containerAppName: string,
+    detectorName: string,
+    options?: ContainerAppsDiagnosticsGetDetectorOptionalParams
+  ): Promise<ContainerAppsDiagnosticsGetDetectorResponse>;
   /**
    * Get a revision of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -42,45 +69,17 @@ export interface ContainerAppsRevisions {
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    options?: ContainerAppsRevisionsGetRevisionOptionalParams
-  ): Promise<ContainerAppsRevisionsGetRevisionResponse>;
+    options?: ContainerAppsDiagnosticsGetRevisionOptionalParams
+  ): Promise<ContainerAppsDiagnosticsGetRevisionResponse>;
   /**
-   * Activates a revision for a Container App
+   * Get the properties of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
-  activateRevision(
+  getRoot(
     resourceGroupName: string,
     containerAppName: string,
-    revisionName: string,
-    options?: ContainerAppsRevisionsActivateRevisionOptionalParams
-  ): Promise<void>;
-  /**
-   * Deactivates a revision for a Container App
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param revisionName Name of the Container App Revision.
-   * @param options The options parameters.
-   */
-  deactivateRevision(
-    resourceGroupName: string,
-    containerAppName: string,
-    revisionName: string,
-    options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams
-  ): Promise<void>;
-  /**
-   * Restarts a revision for a Container App
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param revisionName Name of the Container App Revision.
-   * @param options The options parameters.
-   */
-  restartRevision(
-    resourceGroupName: string,
-    containerAppName: string,
-    revisionName: string,
-    options?: ContainerAppsRevisionsRestartRevisionOptionalParams
-  ): Promise<void>;
+    options?: ContainerAppsDiagnosticsGetRootOptionalParams
+  ): Promise<ContainerAppsDiagnosticsGetRootResponse>;
 }
