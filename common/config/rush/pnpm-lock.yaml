@@ -69,6 +69,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -378,6 +379,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -3951,7 +3953,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220919
+      typescript: 4.9.0-dev.20220920
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8883,8 +8885,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220919:
-    resolution: {integrity: sha512-W+bcsHdefNwUVjTzmimk/I3GuYjC8ubm1RKBI097N6iEBwoc/vPMAoCArc24Zc2cbuFc01TKO75240wCXNYAkA==}
+  /typescript/4.9.0-dev.20220920:
+    resolution: {integrity: sha512-vpkbCShHXW+Y0eWB8gHb9vmjDI+3ELVYY7aLZIFdO/IP1+Oa0TrZ39UXX7V8/ShrnoleQOc+ZaTNOs+JR54+qQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11560,6 +11562,33 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-dataprotectionplatform.tgz:
+    resolution: {integrity: sha512-Ob7au52kc08TwZdQuzJSjRkRJdOQQltTURROkReFVseSfF1Kl+wP9IFo+yEQh3mkyqu2JfAuYJH91rO6w0Ek/A==, tarball: file:projects/arm-dataprotectionplatform.tgz}
+    name: '@rush-temp/arm-dataprotectionplatform'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.17.0
+    transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
