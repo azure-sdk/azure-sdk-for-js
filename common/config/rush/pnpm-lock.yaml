@@ -3951,7 +3951,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220916
+      typescript: 4.9.0-dev.20220919
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8883,8 +8883,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220916:
-    resolution: {integrity: sha512-UuHLjqwsPLARYlNFwXEblQsiPFPRbZEx8dbitbfbx5l++DCAL2/HZdZ3VMWAS84KRFCwUxpYXdD0EvBU5S79KQ==}
+  /typescript/4.9.0-dev.20220919:
+    resolution: {integrity: sha512-W+bcsHdefNwUVjTzmimk/I3GuYjC8ubm1RKBI097N6iEBwoc/vPMAoCArc24Zc2cbuFc01TKO75240wCXNYAkA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11483,7 +11483,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-G4fblHqK1dTj3H63TU3rG+q4HL1r6yHIWUywZA1YQFrK4nKn1/CEQ4WREjLXgSIt6znfy0DkSy7CvqQPB5gFFw==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-6JJuO19aEGkVOfEXt5DxndbMTazWRESu4DiJui+9azO6V8bdhFHG+VbPs44m4upZgw+hxz7bF+b0VdVdUaZ1ow==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -11502,7 +11502,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
