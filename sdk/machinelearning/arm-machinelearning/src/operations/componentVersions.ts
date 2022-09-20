@@ -11,7 +11,7 @@ import { ComponentVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import {
   ComponentVersion,
   ComponentVersionsListNextOptionalParams,
@@ -28,13 +28,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ComponentVersions operations. */
 export class ComponentVersionsImpl implements ComponentVersions {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class ComponentVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 

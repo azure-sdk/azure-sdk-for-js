@@ -36,11 +36,14 @@ import {
   EnvironmentContainersImpl,
   EnvironmentVersionsImpl,
   JobsImpl,
+  LabelingJobsImpl,
   ModelContainersImpl,
   ModelVersionsImpl,
   OnlineEndpointsImpl,
   OnlineDeploymentsImpl,
-  WorkspaceFeaturesImpl
+  SchedulesImpl,
+  WorkspaceFeaturesImpl,
+  RegistriesImpl
 } from "./operations";
 import {
   Operations,
@@ -64,21 +67,24 @@ import {
   EnvironmentContainers,
   EnvironmentVersions,
   Jobs,
+  LabelingJobs,
   ModelContainers,
   ModelVersions,
   OnlineEndpoints,
   OnlineDeployments,
-  WorkspaceFeatures
+  Schedules,
+  WorkspaceFeatures,
+  Registries
 } from "./operationsInterfaces";
-import { AzureMachineLearningWorkspacesOptionalParams } from "./models";
+import { AzureMachineLearningServicesOptionalParams } from "./models";
 
-export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
+export class AzureMachineLearningServices extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the AzureMachineLearningWorkspaces class.
+   * Initializes a new instance of the AzureMachineLearningServices class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -86,7 +92,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureMachineLearningWorkspacesOptionalParams
+    options?: AzureMachineLearningServicesOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -99,12 +105,12 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: AzureMachineLearningWorkspacesOptionalParams = {
+    const defaults: AzureMachineLearningServicesOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/2.0.1`;
+    const packageDetails = `azsdk-js-arm-machinelearning/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -124,41 +130,34 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-05-01";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
@@ -180,11 +179,14 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.environmentContainers = new EnvironmentContainersImpl(this);
     this.environmentVersions = new EnvironmentVersionsImpl(this);
     this.jobs = new JobsImpl(this);
+    this.labelingJobs = new LabelingJobsImpl(this);
     this.modelContainers = new ModelContainersImpl(this);
     this.modelVersions = new ModelVersionsImpl(this);
     this.onlineEndpoints = new OnlineEndpointsImpl(this);
     this.onlineDeployments = new OnlineDeploymentsImpl(this);
+    this.schedules = new SchedulesImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
+    this.registries = new RegistriesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -237,9 +239,12 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   environmentContainers: EnvironmentContainers;
   environmentVersions: EnvironmentVersions;
   jobs: Jobs;
+  labelingJobs: LabelingJobs;
   modelContainers: ModelContainers;
   modelVersions: ModelVersions;
   onlineEndpoints: OnlineEndpoints;
   onlineDeployments: OnlineDeployments;
+  schedules: Schedules;
   workspaceFeatures: WorkspaceFeatures;
+  registries: Registries;
 }

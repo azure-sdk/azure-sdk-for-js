@@ -11,7 +11,7 @@ import { Jobs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
+import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Jobs operations. */
 export class JobsImpl implements Jobs {
-  private readonly client: AzureMachineLearningWorkspaces;
+  private readonly client: AzureMachineLearningServices;
 
   /**
    * Initialize a new instance of the class Jobs class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMachineLearningWorkspaces) {
+  constructor(client: AzureMachineLearningServices) {
     this.client = client;
   }
 
@@ -371,7 +371,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.listViewType,
     Parameters.jobType,
-    Parameters.tag
+    Parameters.tag,
+    Parameters.scheduled,
+    Parameters.scheduleId
   ],
   urlParameters: [
     Parameters.$host,
@@ -497,7 +499,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.skip,
     Parameters.listViewType,
     Parameters.jobType,
-    Parameters.tag
+    Parameters.tag,
+    Parameters.scheduled,
+    Parameters.scheduleId
   ],
   urlParameters: [
     Parameters.$host,

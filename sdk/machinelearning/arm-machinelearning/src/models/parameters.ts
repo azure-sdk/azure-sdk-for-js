@@ -18,6 +18,7 @@ import {
   QuotaUpdateParameters as QuotaUpdateParametersMapper,
   ComputeResource as ComputeResourceMapper,
   ClusterUpdateParameters as ClusterUpdateParametersMapper,
+  IdleShutdownSetting as IdleShutdownSettingMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   WorkspaceConnectionPropertiesV2BasicResource as WorkspaceConnectionPropertiesV2BasicResourceMapper,
   PartialMinimalTrackedResourceWithIdentity as PartialMinimalTrackedResourceWithIdentityMapper,
@@ -34,13 +35,18 @@ import {
   EnvironmentContainer as EnvironmentContainerMapper,
   EnvironmentVersion as EnvironmentVersionMapper,
   JobBase as JobBaseMapper,
+  LabelingJob as LabelingJobMapper,
+  ExportSummary as ExportSummaryMapper,
   ModelContainer as ModelContainerMapper,
   ModelVersion as ModelVersionMapper,
   OnlineEndpoint as OnlineEndpointMapper,
   RegenerateEndpointKeysRequest as RegenerateEndpointKeysRequestMapper,
   PartialMinimalTrackedResourceWithSku as PartialMinimalTrackedResourceWithSkuMapper,
   OnlineDeployment as OnlineDeploymentMapper,
-  DeploymentLogsRequest as DeploymentLogsRequestMapper
+  DeploymentLogsRequest as DeploymentLogsRequestMapper,
+  Schedule as ScheduleMapper,
+  PartialRegistryPartialTrackedResource as PartialRegistryPartialTrackedResourceMapper,
+  Registry as RegistryMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -70,7 +76,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-05-01",
+    defaultValue: "2022-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -219,6 +225,28 @@ export const underlyingResourceAction: OperationQueryParameter = {
   }
 };
 
+export const customServices: OperationParameter = {
+  parameterPath: "customServices",
+  mapper: {
+    serializedName: "customServices",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "Composite",
+          className: "CustomService"
+        }
+      }
+    }
+  }
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdleShutdownSettingMapper
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -235,7 +263,7 @@ export const properties: OperationParameter = {
   mapper: PrivateEndpointConnectionMapper
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: WorkspaceConnectionPropertiesV2BasicResourceMapper
 };
@@ -571,6 +599,26 @@ export const tag: OperationQueryParameter = {
   }
 };
 
+export const scheduled: OperationQueryParameter = {
+  parameterPath: ["options", "scheduled"],
+  mapper: {
+    serializedName: "scheduled",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const scheduleId: OperationQueryParameter = {
+  parameterPath: ["options", "scheduleId"],
+  mapper: {
+    serializedName: "scheduleId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const id: OperationURLParameter = {
   parameterPath: "id",
   mapper: {
@@ -601,7 +649,39 @@ export const id1: OperationURLParameter = {
   }
 };
 
+export const includeJobInstructions: OperationQueryParameter = {
+  parameterPath: ["options", "includeJobInstructions"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "includeJobInstructions",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const includeLabelCategories: OperationQueryParameter = {
+  parameterPath: ["options", "includeLabelCategories"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "includeLabelCategories",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const body14: OperationParameter = {
+  parameterPath: "body",
+  mapper: LabelingJobMapper
+};
+
+export const body15: OperationParameter = {
+  parameterPath: "body",
+  mapper: ExportSummaryMapper
+};
+
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: ModelContainerMapper
 };
@@ -666,7 +746,7 @@ export const feed: OperationQueryParameter = {
   }
 };
 
-export const body15: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: ModelVersionMapper
 };
@@ -701,27 +781,67 @@ export const orderBy2: OperationQueryParameter = {
   }
 };
 
-export const body16: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: "body",
   mapper: OnlineEndpointMapper
 };
 
-export const body17: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: "body",
   mapper: RegenerateEndpointKeysRequestMapper
 };
 
-export const body18: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: PartialMinimalTrackedResourceWithSkuMapper
 };
 
-export const body19: OperationParameter = {
+export const body21: OperationParameter = {
   parameterPath: "body",
   mapper: OnlineDeploymentMapper
 };
 
-export const body20: OperationParameter = {
+export const body22: OperationParameter = {
   parameterPath: "body",
   mapper: DeploymentLogsRequestMapper
+};
+
+export const body23: OperationParameter = {
+  parameterPath: "body",
+  mapper: ScheduleMapper
+};
+
+export const registryName: OperationURLParameter = {
+  parameterPath: "registryName",
+  mapper: {
+    serializedName: "registryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body24: OperationParameter = {
+  parameterPath: "body",
+  mapper: PartialRegistryPartialTrackedResourceMapper
+};
+
+export const registryName1: OperationURLParameter = {
+  parameterPath: "registryName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_]{0,254}$")
+    },
+    serializedName: "registryName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body25: OperationParameter = {
+  parameterPath: "body",
+  mapper: RegistryMapper
 };
