@@ -698,6 +698,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "VaultPropertiesRedundancySettings"
         }
+      },
+      securitySettings: {
+        serializedName: "securitySettings",
+        type: {
+          name: "Composite",
+          className: "SecuritySettings"
+        }
       }
     }
   }
@@ -1072,6 +1079,37 @@ export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
       crossRegionRestore: {
         serializedName: "crossRegionRestore",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecuritySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecuritySettings",
+    modelProperties: {
+      immutabilitySettings: {
+        serializedName: "immutabilitySettings",
+        type: {
+          name: "Composite",
+          className: "ImmutabilitySettings"
+        }
+      }
+    }
+  }
+};
+
+export const ImmutabilitySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImmutabilitySettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
         type: {
           name: "String"
         }
