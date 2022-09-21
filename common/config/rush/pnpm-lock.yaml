@@ -14337,7 +14337,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-ZqVQues2QB65uYFKHuKJqkrMGvElXhpietIUUX8CHRoipKB8XrFW/F/FSa6eygFb9FA/4RpB8bJInm1TKcqtkQ==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-B8+qpCsFuifIAa2Q8sT6GGHqYD01XI1cuCQz7eL0i6OI4kNWekHQU+f6wsAEN6/AuK69Pg627Bmvl/OecA28EA==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -14348,6 +14348,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14359,7 +14361,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
