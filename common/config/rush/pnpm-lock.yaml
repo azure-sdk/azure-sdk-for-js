@@ -13580,7 +13580,7 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-V+Q2+33Y9bMqoKUmZlKmMGgHZbXmMtXWPaIDzTHmuc8pqZJ7HflIucXyN14XygFpSGH8J8cwecVAAPmKlErxAA==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-myOe3SC48EHvXAbWiZa2wafS8gZIbdLkqO2OJHesosmUm6+tEacXbBWhiD4djXjibdIxQa3AZW3qGpxfE0NuQg==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
@@ -13591,6 +13591,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13602,7 +13604,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

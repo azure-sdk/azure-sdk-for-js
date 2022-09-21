@@ -16,22 +16,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   PolicyState,
+  PolicyStatesNextLinkOptionalParams,
   PolicyStatesResource,
-  PolicyStatesListQueryResultsForManagementGroupNextOptionalParams,
   PolicyStatesListQueryResultsForManagementGroupOptionalParams,
-  PolicyStatesListQueryResultsForSubscriptionNextOptionalParams,
   PolicyStatesListQueryResultsForSubscriptionOptionalParams,
-  PolicyStatesListQueryResultsForResourceGroupNextOptionalParams,
   PolicyStatesListQueryResultsForResourceGroupOptionalParams,
-  PolicyStatesListQueryResultsForResourceNextOptionalParams,
   PolicyStatesListQueryResultsForResourceOptionalParams,
-  PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams,
   PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParams,
-  PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams,
   PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
-  PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams,
   PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
-  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams,
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   PolicyStatesListQueryResultsForManagementGroupResponse,
   PolicyStatesSummaryResourceType,
@@ -60,14 +53,7 @@ import {
   PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
   PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams,
   PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse,
-  PolicyStatesListQueryResultsForManagementGroupNextResponse,
-  PolicyStatesListQueryResultsForSubscriptionNextResponse,
-  PolicyStatesListQueryResultsForResourceGroupNextResponse,
-  PolicyStatesListQueryResultsForResourceNextResponse,
-  PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse,
-  PolicyStatesListQueryResultsForPolicyDefinitionNextResponse,
-  PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse,
-  PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
+  PolicyStatesNextLinkResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -131,12 +117,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForManagementGroupNext(
-        policyStatesResource,
-        managementGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -204,12 +185,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForSubscriptionNext(
-        policyStatesResource,
-        subscriptionId,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -283,13 +259,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForResourceGroupNext(
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -359,12 +329,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForResourceNext(
-        policyStatesResource,
-        resourceId,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -438,13 +403,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForPolicySetDefinitionNext(
-        policyStatesResource,
-        subscriptionId,
-        policySetDefinitionName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -520,13 +479,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForPolicyDefinitionNext(
-        policyStatesResource,
-        subscriptionId,
-        policyDefinitionName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -602,13 +555,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
-        policyStatesResource,
-        subscriptionId,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -690,14 +637,7 @@ export class PolicyStatesImpl implements PolicyStates {
     yield result.value || [];
     let continuationToken = result.odataNextLink;
     while (continuationToken) {
-      result = await this._listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        continuationToken,
-        options
-      );
+      result = await this._nextLink(continuationToken, options);
       continuationToken = result.odataNextLink;
       yield result.value || [];
     }
@@ -1256,225 +1196,17 @@ export class PolicyStatesImpl implements PolicyStates {
   }
 
   /**
-   * ListQueryResultsForManagementGroupNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param managementGroupName Management group name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForManagementGroup method.
+   * Subsequent post calls to the next link
+   * @param nextLink Next link for list operation.
    * @param options The options parameters.
    */
-  private _listQueryResultsForManagementGroupNext(
-    policyStatesResource: PolicyStatesResource,
-    managementGroupName: string,
+  private _nextLink(
     nextLink: string,
-    options?: PolicyStatesListQueryResultsForManagementGroupNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForManagementGroupNextResponse> {
+    options?: PolicyStatesNextLinkOptionalParams
+  ): Promise<PolicyStatesNextLinkResponse> {
     return this.client.sendOperationRequest(
-      { policyStatesResource, managementGroupName, nextLink, options },
-      listQueryResultsForManagementGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForSubscriptionNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForSubscription method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForSubscriptionNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForSubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { policyStatesResource, subscriptionId, nextLink, options },
-      listQueryResultsForSubscriptionNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForResourceGroupNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param resourceGroupName Resource group name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForResourceGroupNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    resourceGroupName: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        nextLink,
-        options
-      },
-      listQueryResultsForResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForResourceNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param resourceId Resource ID.
-   * @param nextLink The nextLink from the previous successful call to the ListQueryResultsForResource
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForResourceNext(
-    policyStatesResource: PolicyStatesResource,
-    resourceId: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForResourceNextResponse> {
-    return this.client.sendOperationRequest(
-      { policyStatesResource, resourceId, nextLink, options },
-      listQueryResultsForResourceNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForPolicySetDefinitionNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param policySetDefinitionName Policy set definition name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForPolicySetDefinition method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForPolicySetDefinitionNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    policySetDefinitionName: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        policyStatesResource,
-        subscriptionId,
-        policySetDefinitionName,
-        nextLink,
-        options
-      },
-      listQueryResultsForPolicySetDefinitionNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForPolicyDefinitionNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param policyDefinitionName Policy definition name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForPolicyDefinition method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForPolicyDefinitionNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    policyDefinitionName: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams
-  ): Promise<PolicyStatesListQueryResultsForPolicyDefinitionNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        policyStatesResource,
-        subscriptionId,
-        policyDefinitionName,
-        nextLink,
-        options
-      },
-      listQueryResultsForPolicyDefinitionNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForSubscriptionLevelPolicyAssignmentNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param policyAssignmentName Policy assignment name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForSubscriptionLevelPolicyAssignment method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForSubscriptionLevelPolicyAssignmentNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    policyAssignmentName: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse
-  > {
-    return this.client.sendOperationRequest(
-      {
-        policyStatesResource,
-        subscriptionId,
-        policyAssignmentName,
-        nextLink,
-        options
-      },
-      listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec
-    );
-  }
-
-  /**
-   * ListQueryResultsForResourceGroupLevelPolicyAssignmentNext
-   * @param policyStatesResource The virtual resource under PolicyStates resource type. In a given time
-   *                             range, 'latest' represents the latest policy state(s), whereas 'default' represents all policy
-   *                             state(s).
-   * @param subscriptionId Microsoft Azure subscription ID.
-   * @param resourceGroupName Resource group name.
-   * @param policyAssignmentName Policy assignment name.
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListQueryResultsForResourceGroupLevelPolicyAssignment method.
-   * @param options The options parameters.
-   */
-  private _listQueryResultsForResourceGroupLevelPolicyAssignmentNext(
-    policyStatesResource: PolicyStatesResource,
-    subscriptionId: string,
-    resourceGroupName: string,
-    policyAssignmentName: string,
-    nextLink: string,
-    options?: PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
-  ): Promise<
-    PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse
-  > {
-    return this.client.sendOperationRequest(
-      {
-        policyStatesResource,
-        subscriptionId,
-        resourceGroupName,
-        policyAssignmentName,
-        nextLink,
-        options
-      },
-      listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec
+      { nextLink, options },
+      nextLinkOperationSpec
     );
   }
 }
@@ -2008,9 +1740,9 @@ const summarizeForResourceGroupLevelPolicyAssignmentOperationSpec: coreClient.Op
   headerParameters: [Parameters.accept],
   serializer
 };
-const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
+const nextLinkOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
-  httpMethod: "GET",
+  httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.PolicyStatesQueryResults
@@ -2019,252 +1751,8 @@ const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationS
       bodyMapper: Mappers.QueryFailure
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.nextLink,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken,
-    Parameters.expand
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.nextLink,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicySetDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policySetDefinitionName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForPolicyDefinitionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyDefinitionName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupLevelPolicyAssignmentNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyStatesQueryResults
-    },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [
-    Parameters.top,
-    Parameters.filter,
-    Parameters.apiVersion2,
-    Parameters.orderBy,
-    Parameters.select,
-    Parameters.fromParam,
-    Parameters.to,
-    Parameters.apply,
-    Parameters.skipToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
-    Parameters.subscriptionId1,
-    Parameters.authorizationNamespace,
-    Parameters.policyAssignmentName,
-    Parameters.policyStatesResource
-  ],
+  queryParameters: [Parameters.apiVersion2, Parameters.skipToken],
+  urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
