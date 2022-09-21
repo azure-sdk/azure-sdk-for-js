@@ -1384,7 +1384,8 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "type",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["SystemAssigned", "UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
