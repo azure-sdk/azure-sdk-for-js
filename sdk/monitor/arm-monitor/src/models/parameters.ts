@@ -25,8 +25,8 @@ import {
   EnableRequest as EnableRequestMapper,
   MetricAlertResource as MetricAlertResourceMapper,
   MetricAlertResourcePatch as MetricAlertResourcePatchMapper,
-  LogSearchRuleResource as LogSearchRuleResourceMapper,
-  LogSearchRuleResourcePatch as LogSearchRuleResourcePatchMapper,
+  ScheduledQueryRuleResource as ScheduledQueryRuleResourceMapper,
+  ScheduledQueryRuleResourcePatch as ScheduledQueryRuleResourcePatchMapper,
   AzureMonitorPrivateLinkScope as AzureMonitorPrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -150,10 +150,9 @@ export const nextLink: OperationURLParameter = {
 };
 
 export const timespan: OperationQueryParameter = {
-  parameterPath: "timespan",
+  parameterPath: ["options", "timespan"],
   mapper: {
     serializedName: "timespan",
-    required: true,
     type: {
       name: "String"
     }
@@ -161,32 +160,29 @@ export const timespan: OperationQueryParameter = {
 };
 
 export const interval: OperationQueryParameter = {
-  parameterPath: "interval",
+  parameterPath: ["options", "interval"],
   mapper: {
     serializedName: "interval",
-    required: true,
     type: {
       name: "TimeSpan"
     }
   }
 };
 
-export const metricNamespace: OperationQueryParameter = {
-  parameterPath: "metricNamespace",
+export const metricnamespace: OperationQueryParameter = {
+  parameterPath: ["options", "metricnamespace"],
   mapper: {
-    serializedName: "metricNamespace",
-    required: true,
+    serializedName: "metricnamespace",
     type: {
       name: "String"
     }
   }
 };
 
-export const metricName: OperationQueryParameter = {
-  parameterPath: "metricName",
+export const metricnames: OperationQueryParameter = {
+  parameterPath: ["options", "metricnames"],
   mapper: {
-    serializedName: "metricName",
-    required: true,
+    serializedName: "metricnames",
     type: {
       name: "String"
     }
@@ -418,46 +414,6 @@ export const apiVersion5: OperationQueryParameter = {
   }
 };
 
-export const metricnamespace: OperationQueryParameter = {
-  parameterPath: ["options", "metricnamespace"],
-  mapper: {
-    serializedName: "metricnamespace",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const timespan1: OperationQueryParameter = {
-  parameterPath: ["options", "timespan"],
-  mapper: {
-    serializedName: "timespan",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const interval1: OperationQueryParameter = {
-  parameterPath: ["options", "interval"],
-  mapper: {
-    serializedName: "interval",
-    type: {
-      name: "TimeSpan"
-    }
-  }
-};
-
-export const metricnames: OperationQueryParameter = {
-  parameterPath: ["options", "metricnames"],
-  mapper: {
-    serializedName: "metricnames",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const aggregation1: OperationQueryParameter = {
   parameterPath: ["options", "aggregation"],
   mapper: {
@@ -554,15 +510,10 @@ export const statusName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: LogSearchRuleResourceMapper
-};
-
 export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-04-16",
+    defaultValue: "2022-06-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -571,9 +522,14 @@ export const apiVersion8: OperationQueryParameter = {
   }
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ScheduledQueryRuleResourceMapper
+};
+
 export const parameters7: OperationParameter = {
   parameterPath: "parameters",
-  mapper: LogSearchRuleResourcePatchMapper
+  mapper: ScheduledQueryRuleResourcePatchMapper
 };
 
 export const apiVersion9: OperationQueryParameter = {

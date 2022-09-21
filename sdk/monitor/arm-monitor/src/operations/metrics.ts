@@ -55,12 +55,12 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.timespan,
+    Parameters.interval,
+    Parameters.metricnamespace,
+    Parameters.metricnames,
     Parameters.filter1,
     Parameters.apiVersion5,
-    Parameters.metricnamespace,
-    Parameters.timespan1,
-    Parameters.interval1,
-    Parameters.metricnames,
     Parameters.aggregation1,
     Parameters.top,
     Parameters.orderby,

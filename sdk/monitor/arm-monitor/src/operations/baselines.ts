@@ -101,11 +101,11 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.filter1,
+    Parameters.timespan,
+    Parameters.interval,
     Parameters.metricnamespace,
-    Parameters.timespan1,
-    Parameters.interval1,
     Parameters.metricnames,
+    Parameters.filter1,
     Parameters.aggregation1,
     Parameters.resultType,
     Parameters.sensitivities,

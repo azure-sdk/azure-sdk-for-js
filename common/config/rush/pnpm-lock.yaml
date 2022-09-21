@@ -13119,7 +13119,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-Qc2E0ysraHPrhujtZ/zTxdcmmcdTjy/obZZdzLwtwZeCTM3RWN0MBWb1pkBC9+fqXFsFYXkOnT6yOyHmQyWKqw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-UW+7cWTVD7JZlIfoq10Q4Y3KhZiZ3bNO6sO9aEeOwlfQcn6wbqqs8bieE/UiLo66SyF5h2v9HDYzvoBvJKxfng==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -13140,7 +13140,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
