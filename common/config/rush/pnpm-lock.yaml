@@ -13283,7 +13283,7 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-eZYlpqpVKcLHW+51jRluEMrmNwUcMgj5O50EEmWFVlZyFMsNAO/FRkI9UqJd6Ez+gB5sR0Su/mIbOn3OCxs0IQ==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-OYruJktfIM9ck8IUD3gvmUQJF6fe45qIPVK/fHDppjX5tU3l2RzyTMGE88R3O3rgF0vq8IYLnEos7JRKc85ttw==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -13302,7 +13302,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
