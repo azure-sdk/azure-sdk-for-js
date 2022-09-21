@@ -13742,7 +13742,7 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-SlVYmH5L1TRwjp/jjfEnSoZhP4nDLJ0+MqH/1KufC7ofdZI7oJNsXvFw4Thly61qub4STzXbjgB4AZD0zLF3lw==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-xWOSvYWXbqTcGM/OukW/4FleBtkZOZ6ELME2LYU2lVM95wpe7SnuuZHYIg7+7YoGOAE/ufn+ePie8SYYiayjIA==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
@@ -13753,6 +13753,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -13764,7 +13766,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
