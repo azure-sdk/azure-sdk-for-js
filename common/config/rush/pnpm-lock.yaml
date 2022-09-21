@@ -12471,7 +12471,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-QIm6hXIyYSODrwQapGif5AsREdlTxmhPF4yycw1Cv1titytE8lqe5wYWzYpIaHf78Pq3me48nZccofVuTgF9BQ==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-XLesyTkalkR48wmXrbmD9DLEw6dpGpkpAGC9m0xgBnmaVcboMYMK6XbJNvmkZqa39F1TadKtgRjfALJFiIPJ8A==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -12482,6 +12482,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12493,7 +12495,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
