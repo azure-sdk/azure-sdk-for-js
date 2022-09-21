@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { BatchEndpoints } from "../operationsInterfaces";
+import { Schedules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,30 +15,25 @@ import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  BatchEndpoint,
-  BatchEndpointsListNextOptionalParams,
-  BatchEndpointsListOptionalParams,
-  BatchEndpointsListResponse,
-  BatchEndpointsDeleteOptionalParams,
-  BatchEndpointsGetOptionalParams,
-  BatchEndpointsGetResponse,
-  PartialMinimalTrackedResourceWithIdentity,
-  BatchEndpointsUpdateOptionalParams,
-  BatchEndpointsUpdateResponse,
-  BatchEndpointsCreateOrUpdateOptionalParams,
-  BatchEndpointsCreateOrUpdateResponse,
-  BatchEndpointsListKeysOptionalParams,
-  BatchEndpointsListKeysResponse,
-  BatchEndpointsListNextResponse
+  Schedule,
+  SchedulesListNextOptionalParams,
+  SchedulesListOptionalParams,
+  SchedulesListResponse,
+  SchedulesDeleteOptionalParams,
+  SchedulesGetOptionalParams,
+  SchedulesGetResponse,
+  SchedulesCreateOrUpdateOptionalParams,
+  SchedulesCreateOrUpdateResponse,
+  SchedulesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing BatchEndpoints operations. */
-export class BatchEndpointsImpl implements BatchEndpoints {
+/** Class containing Schedules operations. */
+export class SchedulesImpl implements Schedules {
   private readonly client: AzureMachineLearningServices;
 
   /**
-   * Initialize a new instance of the class BatchEndpoints class.
+   * Initialize a new instance of the class Schedules class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServices) {
@@ -46,7 +41,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
+   * List schedules in specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -54,8 +49,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): PagedAsyncIterableIterator<BatchEndpoint> {
+    options?: SchedulesListOptionalParams
+  ): PagedAsyncIterableIterator<Schedule> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
@@ -73,8 +68,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): AsyncIterableIterator<BatchEndpoint[]> {
+    options?: SchedulesListOptionalParams
+  ): AsyncIterableIterator<Schedule[]> {
     let result = await this._list(resourceGroupName, workspaceName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -93,8 +88,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): AsyncIterableIterator<BatchEndpoint> {
+    options?: SchedulesListOptionalParams
+  ): AsyncIterableIterator<Schedule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       workspaceName,
@@ -105,7 +100,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Lists Batch inference endpoint in the workspace.
+   * List schedules in specified workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
@@ -113,8 +108,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: BatchEndpointsListOptionalParams
-  ): Promise<BatchEndpointsListResponse> {
+    options?: SchedulesListOptionalParams
+  ): Promise<SchedulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
       listOperationSpec
@@ -122,17 +117,17 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    name: string,
+    options?: SchedulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -175,7 +170,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, options },
+      { resourceGroupName, workspaceName, name, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -187,167 +182,70 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Delete Batch Inference Endpoint (asynchronous).
+   * Delete schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsDeleteOptionalParams
+    name: string,
+    options?: SchedulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
-      endpointName,
+      name,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a batch inference endpoint by name.
+   * Get schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch Endpoint.
+   * @param name Schedule name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsGetOptionalParams
-  ): Promise<BatchEndpointsGetResponse> {
+    name: string,
+    options?: SchedulesGetOptionalParams
+  ): Promise<SchedulesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
+      { resourceGroupName, workspaceName, name, options },
       getOperationSpec
     );
   }
 
   /**
-   * Update a batch inference endpoint (asynchronous).
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<BatchEndpointsUpdateResponse>,
-      BatchEndpointsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Update a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Mutable batch inference endpoint definition object.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    body: PartialMinimalTrackedResourceWithIdentity,
-    options?: BatchEndpointsUpdateOptionalParams
-  ): Promise<BatchEndpointsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      body,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Creates a batch inference endpoint (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
+    name: string,
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<BatchEndpointsCreateOrUpdateResponse>,
-      BatchEndpointsCreateOrUpdateResponse
+      PollOperationState<SchedulesCreateOrUpdateResponse>,
+      SchedulesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<BatchEndpointsCreateOrUpdateResponse> => {
+    ): Promise<SchedulesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -385,7 +283,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, endpointName, body, options },
+      { resourceGroupName, workspaceName, name, body, options },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -397,47 +295,28 @@ export class BatchEndpointsImpl implements BatchEndpoints {
   }
 
   /**
-   * Creates a batch inference endpoint (asynchronous).
+   * Create or update schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Name for the Batch inference endpoint.
-   * @param body Batch inference endpoint definition object.
+   * @param name Schedule name.
+   * @param body Schedule definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    endpointName: string,
-    body: BatchEndpoint,
-    options?: BatchEndpointsCreateOrUpdateOptionalParams
-  ): Promise<BatchEndpointsCreateOrUpdateResponse> {
+    name: string,
+    body: Schedule,
+    options?: SchedulesCreateOrUpdateOptionalParams
+  ): Promise<SchedulesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       workspaceName,
-      endpointName,
+      name,
       body,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists batch Inference Endpoint keys.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param endpointName Inference Endpoint name.
-   * @param options The options parameters.
-   */
-  listKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    endpointName: string,
-    options?: BatchEndpointsListKeysOptionalParams
-  ): Promise<BatchEndpointsListKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, endpointName, options },
-      listKeysOperationSpec
-    );
   }
 
   /**
@@ -451,8 +330,8 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: BatchEndpointsListNextOptionalParams
-  ): Promise<BatchEndpointsListNextResponse> {
+    options?: SchedulesListNextOptionalParams
+  ): Promise<SchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
       listNextOperationSpec
@@ -464,17 +343,21 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip,
+    Parameters.listViewType1
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -486,7 +369,7 @@ const listOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -503,18 +386,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Schedule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -526,100 +409,43 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName
+    Parameters.name
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    201: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    202: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    204: {
-      bodyMapper: Mappers.BatchEndpoint
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body8,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName1
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Schedule
     },
     201: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Schedule
     },
     202: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Schedule
     },
     204: {
-      bodyMapper: Mappers.BatchEndpoint
+      bodyMapper: Mappers.Schedule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body9,
+  requestBody: Parameters.body23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.endpointName1
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/listkeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.EndpointAuthKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -627,13 +453,17 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BatchEndpointTrackedResourceArmPaginatedResult
+      bodyMapper: Mappers.ScheduleResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.count],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip,
+    Parameters.listViewType1
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

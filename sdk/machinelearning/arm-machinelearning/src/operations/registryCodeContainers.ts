@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Jobs } from "../operationsInterfaces";
+import { RegistryCodeContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,26 +15,25 @@ import { AzureMachineLearningServices } from "../azureMachineLearningServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  JobBase,
-  JobsListNextOptionalParams,
-  JobsListOptionalParams,
-  JobsListResponse,
-  JobsDeleteOptionalParams,
-  JobsGetOptionalParams,
-  JobsGetResponse,
-  JobsCreateOrUpdateOptionalParams,
-  JobsCreateOrUpdateResponse,
-  JobsCancelOptionalParams,
-  JobsListNextResponse
+  CodeContainer,
+  RegistryCodeContainersListNextOptionalParams,
+  RegistryCodeContainersListOptionalParams,
+  RegistryCodeContainersListResponse,
+  RegistryCodeContainersDeleteOptionalParams,
+  RegistryCodeContainersGetOptionalParams,
+  RegistryCodeContainersGetResponse,
+  RegistryCodeContainersCreateOrUpdateOptionalParams,
+  RegistryCodeContainersCreateOrUpdateResponse,
+  RegistryCodeContainersListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Jobs operations. */
-export class JobsImpl implements Jobs {
+/** Class containing RegistryCodeContainers operations. */
+export class RegistryCodeContainersImpl implements RegistryCodeContainers {
   private readonly client: AzureMachineLearningServices;
 
   /**
-   * Initialize a new instance of the class Jobs class.
+   * Initialize a new instance of the class RegistryCodeContainers class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMachineLearningServices) {
@@ -42,17 +41,17 @@ export class JobsImpl implements Jobs {
   }
 
   /**
-   * Lists Jobs in the workspace.
+   * List containers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: JobsListOptionalParams
-  ): PagedAsyncIterableIterator<JobBase> {
-    const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): PagedAsyncIterableIterator<CodeContainer> {
+    const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
         return iter.next();
@@ -61,23 +60,23 @@ export class JobsImpl implements Jobs {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, workspaceName, options);
+        return this.listPagingPage(resourceGroupName, registryName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: JobsListOptionalParams
-  ): AsyncIterableIterator<JobBase[]> {
-    let result = await this._list(resourceGroupName, workspaceName, options);
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): AsyncIterableIterator<CodeContainer[]> {
+    let result = await this._list(resourceGroupName, registryName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        workspaceName,
+        registryName,
         continuationToken,
         options
       );
@@ -88,12 +87,12 @@ export class JobsImpl implements Jobs {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: JobsListOptionalParams
-  ): AsyncIterableIterator<JobBase> {
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): AsyncIterableIterator<CodeContainer> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      workspaceName,
+      registryName,
       options
     )) {
       yield* page;
@@ -101,34 +100,34 @@ export class JobsImpl implements Jobs {
   }
 
   /**
-   * Lists Jobs in the workspace.
+   * List containers.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: JobsListOptionalParams
-  ): Promise<JobsListResponse> {
+    registryName: string,
+    options?: RegistryCodeContainersListOptionalParams
+  ): Promise<RegistryCodeContainersListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
+      { resourceGroupName, registryName, options },
       listOperationSpec
     );
   }
 
   /**
-   * Deletes a Job (asynchronous).
+   * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    options?: JobsDeleteOptionalParams
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -171,7 +170,7 @@ export class JobsImpl implements Jobs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, id, options },
+      { resourceGroupName, registryName, codeName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -183,84 +182,70 @@ export class JobsImpl implements Jobs {
   }
 
   /**
-   * Deletes a Job (asynchronous).
+   * Delete container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    options?: JobsDeleteOptionalParams
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      workspaceName,
-      id,
+      registryName,
+      codeName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Gets a Job by name/id.
+   * Get container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    options?: JobsGetOptionalParams
-  ): Promise<JobsGetResponse> {
+    registryName: string,
+    codeName: string,
+    options?: RegistryCodeContainersGetOptionalParams
+  ): Promise<RegistryCodeContainersGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, id, options },
+      { resourceGroupName, registryName, codeName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates and executes a Job.
+   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
-   * @param body Job definition object.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
+   * @param body Container entity to create or update.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    body: JobBase,
-    options?: JobsCreateOrUpdateOptionalParams
-  ): Promise<JobsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, id, body, options },
-      createOrUpdateOperationSpec
-    );
-  }
-
-  /**
-   * Cancels a Job (asynchronous).
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
-   * @param options The options parameters.
-   */
-  async beginCancel(
-    resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    options?: JobsCancelOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    registryName: string,
+    codeName: string,
+    body: CodeContainer,
+    options?: RegistryCodeContainersCreateOrUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegistryCodeContainersCreateOrUpdateResponse>,
+      RegistryCodeContainersCreateOrUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<RegistryCodeContainersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -298,35 +283,37 @@ export class JobsImpl implements Jobs {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, workspaceName, id, options },
-      cancelOperationSpec
+      { resourceGroupName, registryName, codeName, body, options },
+      createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Cancels a Job (asynchronous).
+   * Create or update container.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param id The name and identifier for the Job. This is case-sensitive.
+   * @param registryName Name of Azure Machine Learning registry.
+   * @param codeName Container name.
+   * @param body Container entity to create or update.
    * @param options The options parameters.
    */
-  async beginCancelAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    workspaceName: string,
-    id: string,
-    options?: JobsCancelOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginCancel(
+    registryName: string,
+    codeName: string,
+    body: CodeContainer,
+    options?: RegistryCodeContainersCreateOrUpdateOptionalParams
+  ): Promise<RegistryCodeContainersCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      workspaceName,
-      id,
+      registryName,
+      codeName,
+      body,
       options
     );
     return poller.pollUntilDone();
@@ -335,18 +322,18 @@ export class JobsImpl implements Jobs {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param registryName Name of Azure Machine Learning registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    workspaceName: string,
+    registryName: string,
     nextLink: string,
-    options?: JobsListNextOptionalParams
-  ): Promise<JobsListNextResponse> {
+    options?: RegistryCodeContainersListNextOptionalParams
+  ): Promise<RegistryCodeContainersListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, nextLink, options },
+      { resourceGroupName, registryName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -356,37 +343,29 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobBaseResourceArmPaginatedResult
+      bodyMapper: Mappers.CodeContainerResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType,
-    Parameters.jobType,
-    Parameters.tag,
-    Parameters.scheduled,
-    Parameters.scheduleId
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -402,19 +381,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.id
+    Parameters.registryName,
+    Parameters.codeName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobBase
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -425,62 +404,44 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.id
+    Parameters.registryName,
+    Parameters.codeName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.JobBase
+      bodyMapper: Mappers.CodeContainer
     },
     201: {
-      bodyMapper: Mappers.JobBase
+      bodyMapper: Mappers.CodeContainer
+    },
+    202: {
+      bodyMapper: Mappers.CodeContainer
+    },
+    204: {
+      bodyMapper: Mappers.CodeContainer
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.id1
+    Parameters.registryName,
+    Parameters.codeName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}/cancel",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.id
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -488,27 +449,19 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.JobBaseResourceArmPaginatedResult
+      bodyMapper: Mappers.CodeContainerResourceArmPaginatedResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.listViewType,
-    Parameters.jobType,
-    Parameters.tag,
-    Parameters.scheduled,
-    Parameters.scheduleId
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.registryName
   ],
   headerParameters: [Parameters.accept],
   serializer
