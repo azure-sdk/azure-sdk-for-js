@@ -14040,7 +14040,7 @@ packages:
     dev: false
 
   file:projects/arm-resourcegraph.tgz:
-    resolution: {integrity: sha512-0ECZkn0Vu/MMysUtodUMIulb/vYcwG+kzLPlbh9CLw0LU6lbzjpTyk0nrx9jGMMzj+sYjS3qBzIirlyMoa0GIg==, tarball: file:projects/arm-resourcegraph.tgz}
+    resolution: {integrity: sha512-H0rA1aTQzhuvVa7hIQbq0Mra5C1y0HaQh17wvVp1KDi5ClQ5qYiFNzp6b8nvuxi9qbMzrMsvgjB6U/b8hu+UfQ==, tarball: file:projects/arm-resourcegraph.tgz}
     name: '@rush-temp/arm-resourcegraph'
     version: 0.0.0
     dependencies:
@@ -14051,6 +14051,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14062,7 +14064,6 @@ packages:
       uglify-js: 3.17.0
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
