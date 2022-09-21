@@ -12452,7 +12452,7 @@ packages:
     dev: false
 
   file:projects/arm-healthbot.tgz:
-    resolution: {integrity: sha512-bSRFWf9ALcE+ahVin7mP3Wz1zlsa/4TxlmGLaJXuTJFJ+xQvvJwCNuS52exhAW6/HmOUAaOdBfwXoRP/2Kwrhg==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-+IY3Erpvsm/gNCEfdr5RKq7aKcj3Zp4oq+3sOwsx0w6/kfsQFFpXHMVUhgJ3ikt/gd1jDo/7+QSKLH3lV475XA==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
@@ -12464,6 +12464,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12475,7 +12477,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
