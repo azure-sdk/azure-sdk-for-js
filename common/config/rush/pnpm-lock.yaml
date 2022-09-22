@@ -4099,7 +4099,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220921
+      typescript: 4.9.0-dev.20220922
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9060,8 +9060,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220921:
-    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
+  /typescript/4.9.0-dev.20220922:
+    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10229,7 +10229,7 @@ packages:
     dev: false
 
   file:projects/arm-advisor.tgz:
-    resolution: {integrity: sha512-kW6b/l2MTM3hp9RK0OazE0VKVCjYzppnyOawmuaroMD8cTDdwS8LpI7PCbR60fi6fRWLW9hy+Dfz5abVGo6irw==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-6puB75PafYFrffvirG5G2/vDK5WhE3qNC2YAtyxriHlBSiUXI0t3xH56ji/q6msSNBpDP9ibljYQB5lBpqKQnw==, tarball: file:projects/arm-advisor.tgz}
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
@@ -10240,6 +10240,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10251,7 +10253,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
