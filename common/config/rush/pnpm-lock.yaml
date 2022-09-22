@@ -4099,7 +4099,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220921
+      typescript: 4.9.0-dev.20220922
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9060,8 +9060,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220921:
-    resolution: {integrity: sha512-0WdiNgM0YfgPURswuah1JJfnDwa6e7Ki0DJcfAEruw17mACMCJw2F7vK/4jLcd1uIl4La3ZIPnA7dOyM7y5Skg==}
+  /typescript/4.9.0-dev.20220922:
+    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14121,7 +14121,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-d+ex8sh5G7PLClGTy7nxGd5oftJoPSpi13ovAm4RNkn2PYmqCrs0v3AxLgsDqAFPDsz2C9heNi/hNCVgtkPf/A==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-QtyJPlPOBDp2VCQ1pWPFfulRPiIV/0aN3PulzMeoiZFJgdmhOp0BqzcI2eqh9rfKm3IpORV06tutuEHibUPUKA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -14141,7 +14141,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
