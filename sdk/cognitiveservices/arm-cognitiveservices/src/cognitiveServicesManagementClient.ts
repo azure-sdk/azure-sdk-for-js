@@ -78,7 +78,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.2.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/7.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,7 +125,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-10-01";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
@@ -153,7 +153,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
             if (item.indexOf("api-version") > -1) {
-              return item.replace(/(?<==).*$/, apiVersion);
+              return "api-version=" + apiVersion;
             } else {
               return item;
             }
