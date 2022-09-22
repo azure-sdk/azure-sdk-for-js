@@ -10396,7 +10396,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-p6hsQrOTCjIBoSXig5D7c75CNYHYE/PoYnoZTCp9/7L65LQPsBE2oYGu1LJyXBMveQDH7dMRAYom5zC5+uk9RA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-cTSZDpPVjhGQdBWgLuzFu3Y21IHtA2gnGlSXflNTW7zD+FDPKv12VfHeYhAJrCECWzuIrDEUK/g2iHW3wDk1dA==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -10417,7 +10417,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
