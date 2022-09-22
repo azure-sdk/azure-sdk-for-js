@@ -73,6 +73,7 @@ import {
   IntegrationRuntimeAuthKeysOperationsImpl,
   IntegrationRuntimeMonitoringDataOperationsImpl,
   IntegrationRuntimeStatusOperationsImpl,
+  GetImpl,
   SparkConfigurationImpl,
   SparkConfigurationsImpl,
   KustoOperationsImpl,
@@ -148,6 +149,7 @@ import {
   IntegrationRuntimeAuthKeysOperations,
   IntegrationRuntimeMonitoringDataOperations,
   IntegrationRuntimeStatusOperations,
+  Get,
   SparkConfiguration,
   SparkConfigurations,
   KustoOperations,
@@ -192,7 +194,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/8.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -358,6 +360,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.integrationRuntimeStatusOperations = new IntegrationRuntimeStatusOperationsImpl(
       this
     );
+    this.get = new GetImpl(this);
     this.sparkConfiguration = new SparkConfigurationImpl(this);
     this.sparkConfigurations = new SparkConfigurationsImpl(this);
     this.kustoOperations = new KustoOperationsImpl(this);
@@ -439,6 +442,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   integrationRuntimeAuthKeysOperations: IntegrationRuntimeAuthKeysOperations;
   integrationRuntimeMonitoringDataOperations: IntegrationRuntimeMonitoringDataOperations;
   integrationRuntimeStatusOperations: IntegrationRuntimeStatusOperations;
+  get: Get;
   sparkConfiguration: SparkConfiguration;
   sparkConfigurations: SparkConfigurations;
   kustoOperations: KustoOperations;

@@ -69,6 +69,7 @@ export * from "./integrationRuntimeConnectionInfos";
 export * from "./integrationRuntimeAuthKeysOperations";
 export * from "./integrationRuntimeMonitoringDataOperations";
 export * from "./integrationRuntimeStatusOperations";
+export * from "./get";
 export * from "./sparkConfiguration";
 export * from "./sparkConfigurations";
 export * from "./kustoOperations";
