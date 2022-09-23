@@ -1,11 +1,14 @@
 # Release History
+    
+## 2.1.0 (2022-09-23)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-**features**
-
-  - Bug fix
-
+  - Added Interface AttestationProvider
+  - Added Interface PrivateEndpointConnection
+  - Added Interface TrackedResource
+    
+    
 ## 2.0.0 (2021-12-30)
 
 The package of @azure/arm-attestation is using our next generation design principles since version 2.0.0, which contains breaking changes.
