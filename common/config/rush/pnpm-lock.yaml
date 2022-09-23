@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
+  '@rush-temp/adp': file:./projects/adp.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:./projects/ai-document-translator.tgz
@@ -312,6 +313,7 @@ specifiers:
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
+  '@rush-temp/adp': file:projects/adp.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
   '@rush-temp/ai-document-translator': file:projects/ai-document-translator.tgz
@@ -4045,7 +4047,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220922
+      typescript: 4.9.0-dev.20220923
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8989,8 +8991,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220922:
-    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
+  /typescript/4.9.0-dev.20220923:
+    resolution: {integrity: sha512-BaTN9dPBZugYsJFXtoEFz85E7WsalhCrJT3IcrGj+d3LVrwVCOqiFxY/uNfhWkvJ4apXqjQrgiXiYxtPL/TKSw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9571,6 +9573,33 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/adp.tgz:
+    resolution: {integrity: sha512-7p/in851mW2HpEupyOz2gVkovxWdrCjxnmREPuhX+wRawU5HjYpiDSxaCByltlO46+LdUjPP51UxTbKRmzwQRw==, tarball: file:projects/adp.tgz}
+    name: '@rush-temp/adp'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.16.3
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
     dev: false
 
   file:projects/agrifood-farming.tgz:
