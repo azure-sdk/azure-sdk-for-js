@@ -5544,9 +5544,8 @@ export const JarUploadedUserSourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JarUploadedUserSourceInfo",
-    uberParent: "UploadedUserSourceInfo",
-    polymorphicDiscriminator:
-      UploadedUserSourceInfo.type.polymorphicDiscriminator,
+    uberParent: "UserSourceInfo",
+    polymorphicDiscriminator: UserSourceInfo.type.polymorphicDiscriminator,
     modelProperties: {
       ...UploadedUserSourceInfo.type.modelProperties,
       runtimeVersion: {
@@ -5570,9 +5569,8 @@ export const SourceUploadedUserSourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SourceUploadedUserSourceInfo",
-    uberParent: "UploadedUserSourceInfo",
-    polymorphicDiscriminator:
-      UploadedUserSourceInfo.type.polymorphicDiscriminator,
+    uberParent: "UserSourceInfo",
+    polymorphicDiscriminator: UserSourceInfo.type.polymorphicDiscriminator,
     modelProperties: {
       ...UploadedUserSourceInfo.type.modelProperties,
       artifactSelector: {
@@ -5596,9 +5594,8 @@ export const NetCoreZipUploadedUserSourceInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NetCoreZipUploadedUserSourceInfo",
-    uberParent: "UploadedUserSourceInfo",
-    polymorphicDiscriminator:
-      UploadedUserSourceInfo.type.polymorphicDiscriminator,
+    uberParent: "UserSourceInfo",
+    polymorphicDiscriminator: UserSourceInfo.type.polymorphicDiscriminator,
     modelProperties: {
       ...UploadedUserSourceInfo.type.modelProperties,
       netCoreMainEntryPath: {
@@ -5633,7 +5630,7 @@ export let discriminators = {
   "ProbeAction.HTTPGetAction": HttpGetAction,
   "ProbeAction.ExecAction": ExecAction,
   "ProbeAction.TCPSocketAction": TCPSocketAction,
-  "UploadedUserSourceInfo.Jar": JarUploadedUserSourceInfo,
-  "UploadedUserSourceInfo.Source": SourceUploadedUserSourceInfo,
-  "UploadedUserSourceInfo.NetCoreZip": NetCoreZipUploadedUserSourceInfo
+  "UserSourceInfo.Jar": JarUploadedUserSourceInfo,
+  "UserSourceInfo.Source": SourceUploadedUserSourceInfo,
+  "UserSourceInfo.NetCoreZip": NetCoreZipUploadedUserSourceInfo
 };
