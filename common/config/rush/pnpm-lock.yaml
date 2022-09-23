@@ -4045,7 +4045,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220922
+      typescript: 4.9.0-dev.20220923
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8989,8 +8989,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220922:
-    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
+  /typescript/4.9.0-dev.20220923:
+    resolution: {integrity: sha512-BaTN9dPBZugYsJFXtoEFz85E7WsalhCrJT3IcrGj+d3LVrwVCOqiFxY/uNfhWkvJ4apXqjQrgiXiYxtPL/TKSw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10582,12 +10582,12 @@ packages:
     dev: false
 
   file:projects/arm-automanage.tgz:
-    resolution: {integrity: sha512-d09zkWw8MHd3iUJt8bpBnaS7fQgDSwBHhmg8pvooJqkhBXkYn8abh3os0zvYooHXWIVIXtMoOD96pLM7I8WwpQ==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-/BCqOd4HuA3lHSJ73K+Hde+FuYj66OieX269FsZRC/NOa00PYPeJxhIg4WZqMNNMccb9ZE4P4yJ1ldf2Hu3Z6Q==, tarball: file:projects/arm-automanage.tgz}
     name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
@@ -10601,7 +10601,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
