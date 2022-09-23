@@ -4045,7 +4045,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220922
+      typescript: 4.9.0-dev.20220923
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8989,8 +8989,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220922:
-    resolution: {integrity: sha512-ELbWdlXaMl1//2wr2U09JIcPFFyifR8PEzVUGvQInfWVjRMalJJD28DRjp0yc4ZVdDcmQATO/pSQG0rRkr1z6A==}
+  /typescript/4.9.0-dev.20220923:
+    resolution: {integrity: sha512-BaTN9dPBZugYsJFXtoEFz85E7WsalhCrJT3IcrGj+d3LVrwVCOqiFxY/uNfhWkvJ4apXqjQrgiXiYxtPL/TKSw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10354,12 +10354,12 @@ packages:
     dev: false
 
   file:projects/arm-appinsights.tgz:
-    resolution: {integrity: sha512-pPpY7vB1WhGCmsKnwW+AFVblBYJWBAyTQ4QkhH7kLEn4VtBoWuGplanfVVmcCxkc+WT3dSr1g/oFx9pjRJOFAA==, tarball: file:projects/arm-appinsights.tgz}
+    resolution: {integrity: sha512-LB7aBmBDCO+y1eToeXDFvzOPI2BrXnT1mz5QToyKgKDUKLdKxrN2goHeVnT99jIyHKgPlhnJeDNC6tjSgEI7Fg==, tarball: file:projects/arm-appinsights.tgz}
     name: '@rush-temp/arm-appinsights'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
