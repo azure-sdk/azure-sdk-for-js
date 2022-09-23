@@ -17,7 +17,9 @@ import {
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
-  ManagedEnvironmentsUpdateOptionalParams
+  ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsGetAuthTokenOptionalParams,
+  ManagedEnvironmentsGetAuthTokenResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -129,4 +131,15 @@ export interface ManagedEnvironments {
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
   ): Promise<void>;
+  /**
+   * Checks if resource name is available.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsGetAuthTokenOptionalParams
+  ): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
 }
