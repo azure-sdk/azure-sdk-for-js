@@ -22,11 +22,15 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
-  ComputeRestartOptionalParams
+  ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -176,6 +180,21 @@ export interface ComputeOperations {
     options?: ComputeDeleteOptionalParams
   ): Promise<void>;
   /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams
+  ): Promise<void>;
+  /**
    * Gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -265,5 +284,20 @@ export interface ComputeOperations {
     workspaceName: string,
     computeName: string,
     options?: ComputeRestartOptionalParams
+  ): Promise<void>;
+  /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams
   ): Promise<void>;
 }
