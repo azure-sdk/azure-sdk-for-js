@@ -7,6 +7,8 @@
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface AADCheckRequirements extends DataConnectorsCheckRequirements {
@@ -238,8 +240,18 @@ export type AlertDetail = string;
 export interface AlertDetailsOverride {
     alertDescriptionFormat?: string;
     alertDisplayNameFormat?: string;
+    alertDynamicProperties?: AlertPropertyMapping[];
     alertSeverityColumnName?: string;
     alertTacticsColumnName?: string;
+}
+
+// @public
+export type AlertProperty = string;
+
+// @public
+export interface AlertPropertyMapping {
+    alertProperty?: AlertProperty;
+    value?: string;
 }
 
 // @public
@@ -458,13 +470,24 @@ export interface AutomationRuleAction {
 // @public (undocumented)
 export type AutomationRuleActionUnion = AutomationRuleAction | AutomationRuleModifyPropertiesAction | AutomationRuleRunPlaybookAction;
 
+// @public (undocumented)
+export interface AutomationRuleBooleanCondition {
+    // (undocumented)
+    innerConditions?: AutomationRuleConditionUnion[];
+    // (undocumented)
+    operator?: AutomationRuleBooleanConditionSupportedOperator;
+}
+
+// @public
+export type AutomationRuleBooleanConditionSupportedOperator = string;
+
 // @public
 export interface AutomationRuleCondition {
-    conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
+    conditionType: "Boolean" | "PropertyArrayChanged" | "PropertyArray" | "PropertyChanged" | "Property";
 }
 
 // @public (undocumented)
-export type AutomationRuleConditionUnion = AutomationRuleCondition | PropertyArrayChangedConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
+export type AutomationRuleConditionUnion = AutomationRuleCondition | BooleanConditionProperties | PropertyArrayChangedConditionProperties | PropertyArrayConditionProperties | PropertyChangedConditionProperties | PropertyConditionProperties;
 
 // @public
 export interface AutomationRuleModifyPropertiesAction extends AutomationRuleAction {
@@ -485,6 +508,22 @@ export interface AutomationRulePropertyArrayChangedValuesCondition {
     arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
     // (undocumented)
     changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
+}
+
+// @public
+export type AutomationRulePropertyArrayConditionSupportedArrayConditionType = string;
+
+// @public
+export type AutomationRulePropertyArrayConditionSupportedArrayType = string;
+
+// @public (undocumented)
+export interface AutomationRulePropertyArrayValuesCondition {
+    // (undocumented)
+    arrayConditionType?: AutomationRulePropertyArrayConditionSupportedArrayConditionType;
+    // (undocumented)
+    arrayType?: AutomationRulePropertyArrayConditionSupportedArrayType;
+    // (undocumented)
+    itemConditions?: AutomationRuleConditionUnion[];
 }
 
 // @public
@@ -822,6 +861,13 @@ export interface BookmarkTimelineItem extends EntityTimelineItem {
     labels?: string[];
     notes?: string;
     startTimeUtc?: Date;
+}
+
+// @public
+export interface BooleanConditionProperties extends AutomationRuleCondition {
+    // (undocumented)
+    conditionProperties?: AutomationRuleBooleanCondition;
+    conditionType: "Boolean";
 }
 
 // @public
@@ -1174,6 +1220,9 @@ export interface DataTypeDefinitions {
 
 // @public
 export type DataTypeState = string;
+
+// @public
+export type DeleteStatus = string;
 
 // @public
 export type DeliveryAction = "Unknown" | "DeliveredAsSpam" | "Delivered" | "Blocked" | "Replaced";
@@ -1774,6 +1823,9 @@ export interface FileEntityProperties extends EntityCommonProperties {
 }
 
 // @public
+export type FileFormat = string;
+
+// @public
 export type FileHashAlgorithm = string;
 
 // @public
@@ -1790,6 +1842,98 @@ export interface FileHashEntity extends Entity {
 export interface FileHashEntityProperties extends EntityCommonProperties {
     readonly algorithm?: FileHashAlgorithm;
     readonly hashValue?: string;
+}
+
+// @public
+export interface FileImport extends Resource {
+    contentType?: FileImportContentType;
+    readonly createdTimeUTC?: Date;
+    readonly errorFile?: FileMetadata;
+    readonly errorsPreview?: ValidationError[];
+    readonly filesValidUntilTimeUTC?: Date;
+    importFile?: FileMetadata;
+    readonly importValidUntilTimeUTC?: Date;
+    readonly ingestedRecordCount?: number;
+    ingestionMode?: IngestionMode;
+    source?: string;
+    readonly state?: FileImportState;
+    readonly totalRecordCount?: number;
+    readonly validRecordCount?: number;
+}
+
+// @public
+export type FileImportContentType = string;
+
+// @public
+export interface FileImportList {
+    readonly nextLink?: string;
+    value: FileImport[];
+}
+
+// @public
+export interface FileImports {
+    beginDelete(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams): Promise<PollerLike<PollOperationState<FileImportsDeleteResponse>, FileImportsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsDeleteOptionalParams): Promise<FileImportsDeleteResponse>;
+    create(resourceGroupName: string, workspaceName: string, fileImportId: string, fileImport: FileImport, options?: FileImportsCreateOptionalParams): Promise<FileImportsCreateResponse>;
+    get(resourceGroupName: string, workspaceName: string, fileImportId: string, options?: FileImportsGetOptionalParams): Promise<FileImportsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: FileImportsListOptionalParams): PagedAsyncIterableIterator<FileImport>;
+}
+
+// @public
+export interface FileImportsCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileImportsCreateResponse = FileImport;
+
+// @public
+export interface FileImportsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FileImportsDeleteResponse = FileImport;
+
+// @public
+export interface FileImportsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FileImportsGetResponse = FileImport;
+
+// @public
+export interface FileImportsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type FileImportsListNextResponse = FileImportList;
+
+// @public
+export interface FileImportsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    orderby?: string;
+    skipToken?: string;
+    top?: number;
+}
+
+// @public
+export type FileImportsListResponse = FileImportList;
+
+// @public
+export type FileImportState = string;
+
+// @public
+export interface FileMetadata {
+    readonly deleteStatus?: DeleteStatus;
+    readonly fileContentUri?: string;
+    fileFormat?: FileFormat;
+    fileName?: string;
+    fileSize?: number;
 }
 
 // @public
@@ -2311,6 +2455,9 @@ export type IncidentsRunPlaybookResponse = Record<string, unknown>;
 export type IncidentStatus = string;
 
 // @public
+export type IngestionMode = string;
+
+// @public
 export interface InsightQueryItem extends EntityQueryItem {
     kind: "Insight";
     properties?: InsightQueryItemProperties;
@@ -2529,6 +2676,19 @@ export enum KnownAlertDetail {
 }
 
 // @public
+export enum KnownAlertProperty {
+    AlertLink = "AlertLink",
+    ConfidenceLevel = "ConfidenceLevel",
+    ConfidenceScore = "ConfidenceScore",
+    ExtendedLinks = "ExtendedLinks",
+    ProductComponentName = "ProductComponentName",
+    ProductName = "ProductName",
+    ProviderName = "ProviderName",
+    RemediationSteps = "RemediationSteps",
+    Techniques = "Techniques"
+}
+
+// @public
 export enum KnownAlertRuleKind {
     Fusion = "Fusion",
     MicrosoftSecurityIncidentCreation = "MicrosoftSecurityIncidentCreation",
@@ -2585,6 +2745,12 @@ export enum KnownAttackTactic {
 }
 
 // @public
+export enum KnownAutomationRuleBooleanConditionSupportedOperator {
+    And = "And",
+    Or = "Or"
+}
+
+// @public
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
     Alerts = "Alerts",
     Comments = "Comments",
@@ -2595,6 +2761,17 @@ export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
 // @public
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType {
     Added = "Added"
+}
+
+// @public
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType {
+    AnyItem = "AnyItem"
+}
+
+// @public
+export enum KnownAutomationRulePropertyArrayConditionSupportedArrayType {
+    CustomDetails = "CustomDetails",
+    CustomDetailValues = "CustomDetailValues"
 }
 
 // @public
@@ -2647,6 +2824,8 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
     HostNetBiosName = "HostNetBiosName",
     HostNTDomain = "HostNTDomain",
     HostOSVersion = "HostOSVersion",
+    IncidentCustomDetailsKey = "IncidentCustomDetailsKey",
+    IncidentCustomDetailsValue = "IncidentCustomDetailsValue",
     IncidentDescription = "IncidentDescription",
     IncidentLabel = "IncidentLabel",
     IncidentProviderName = "IncidentProviderName",
@@ -2655,6 +2834,7 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
     IncidentStatus = "IncidentStatus",
     IncidentTactics = "IncidentTactics",
     IncidentTitle = "IncidentTitle",
+    IncidentUpdatedBySource = "IncidentUpdatedBySource",
     IoTDeviceId = "IoTDeviceId",
     IoTDeviceModel = "IoTDeviceModel",
     IoTDeviceName = "IoTDeviceName",
@@ -2683,7 +2863,9 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
 
 // @public
 export enum KnownConditionType {
+    Boolean = "Boolean",
     Property = "Property",
+    PropertyArray = "PropertyArray",
     PropertyArrayChanged = "PropertyArrayChanged",
     PropertyChanged = "PropertyChanged"
 }
@@ -2775,6 +2957,13 @@ export enum KnownDataConnectorLicenseState {
 export enum KnownDataTypeState {
     Disabled = "Disabled",
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDeleteStatus {
+    Deleted = "Deleted",
+    NotDeleted = "NotDeleted",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -2925,12 +3114,37 @@ export enum KnownEventGroupingAggregationKind {
 }
 
 // @public
+export enum KnownFileFormat {
+    CSV = "CSV",
+    Json = "JSON",
+    Unspecified = "Unspecified"
+}
+
+// @public
 export enum KnownFileHashAlgorithm {
     MD5 = "MD5",
     SHA1 = "SHA1",
     SHA256 = "SHA256",
     SHA256AC = "SHA256AC",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownFileImportContentType {
+    BasicIndicator = "BasicIndicator",
+    StixIndicator = "StixIndicator",
+    Unspecified = "Unspecified"
+}
+
+// @public
+export enum KnownFileImportState {
+    FatalError = "FatalError",
+    Ingested = "Ingested",
+    IngestedWithErrors = "IngestedWithErrors",
+    InProgress = "InProgress",
+    Invalid = "Invalid",
+    Unspecified = "Unspecified",
+    WaitingForUpload = "WaitingForUpload"
 }
 
 // @public
@@ -2973,6 +3187,13 @@ export enum KnownIncidentStatus {
     Active = "Active",
     Closed = "Closed",
     New = "New"
+}
+
+// @public
+export enum KnownIngestionMode {
+    IngestAnyValidRecords = "IngestAnyValidRecords",
+    IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
+    Unspecified = "Unspecified"
 }
 
 // @public
@@ -3354,7 +3575,7 @@ export interface MalwareEntityProperties extends EntityCommonProperties {
 // @public (undocumented)
 export interface ManualTriggerRequestBody {
     // (undocumented)
-    logicAppsResourceId?: string;
+    logicAppsResourceId: string;
     // (undocumented)
     tenantId?: string;
 }
@@ -3737,9 +3958,11 @@ export interface NrtAlertRule extends AlertRule {
     displayName?: string;
     enabled?: boolean;
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     incidentConfiguration?: IncidentConfiguration;
     readonly lastModifiedUtc?: Date;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -3759,9 +3982,11 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
     description?: string;
     displayName?: string;
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     readonly lastUpdatedDateUTC?: Date;
     query?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4098,6 +4323,13 @@ export interface PropertyArrayChangedConditionProperties extends AutomationRuleC
 }
 
 // @public
+export interface PropertyArrayConditionProperties extends AutomationRuleCondition {
+    // (undocumented)
+    conditionProperties?: AutomationRulePropertyArrayValuesCondition;
+    conditionType: "PropertyArray";
+}
+
+// @public
 export interface PropertyChangedConditionProperties extends AutomationRuleCondition {
     // (undocumented)
     conditionProperties?: AutomationRulePropertyValuesChangedCondition;
@@ -4121,7 +4353,9 @@ export interface QueryBasedAlertRuleTemplateProperties {
         [propertyName: string]: string;
     };
     entityMappings?: EntityMapping[];
+    eventGroupingSettings?: EventGroupingSettings;
     query?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     version?: string;
 }
@@ -4267,6 +4501,7 @@ export interface ScheduledAlertRule extends AlertRule {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     suppressionDuration?: string;
     suppressionEnabled?: boolean;
@@ -4288,6 +4523,7 @@ export interface ScheduledAlertRuleCommonProperties {
     query?: string;
     queryFrequency?: string;
     queryPeriod?: string;
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     triggerOperator?: TriggerOperator;
     triggerThreshold?: number;
@@ -4325,6 +4561,7 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
     queryFrequency?: string;
     queryPeriod?: string;
     requiredDataConnectors?: AlertRuleTemplateDataSource[];
+    sentinelEntitiesMappings?: SentinelEntityMapping[];
     severity?: AlertSeverity;
     status?: TemplateStatus;
     tactics?: AttackTactic[];
@@ -4409,10 +4646,12 @@ export interface SecurityAlertTimelineItem extends EntityTimelineItem {
     description?: string;
     displayName: string;
     endTimeUtc: Date;
+    readonly intent?: KillChainIntent;
     kind: "SecurityAlert";
     productName?: string;
     severity: AlertSeverity;
     startTimeUtc: Date;
+    techniques?: string[];
     timeGenerated: Date;
 }
 
@@ -4473,6 +4712,8 @@ export class SecurityInsights extends coreClient.ServiceClient {
     entityQueryTemplates: EntityQueryTemplates;
     // (undocumented)
     entityRelations: EntityRelations;
+    // (undocumented)
+    fileImports: FileImports;
     // (undocumented)
     incidentComments: IncidentComments;
     // (undocumented)
@@ -4580,6 +4821,11 @@ export type SecurityMLAnalyticsSettingsListResponse = SecurityMLAnalyticsSetting
 
 // @public (undocumented)
 export type SecurityMLAnalyticsSettingUnion = SecurityMLAnalyticsSetting | AnomalySecurityMLAnalyticsSettings;
+
+// @public
+export interface SentinelEntityMapping {
+    columnName?: string;
+}
 
 // @public
 export interface SentinelOnboardingState extends ResourceWithEtag {
@@ -5251,6 +5497,12 @@ export interface UserInfo {
     readonly email?: string;
     readonly name?: string;
     objectId?: string;
+}
+
+// @public
+export interface ValidationError {
+    readonly errorMessages?: string[];
+    recordIndex?: number;
 }
 
 // @public
