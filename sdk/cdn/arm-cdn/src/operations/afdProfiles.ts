@@ -20,6 +20,9 @@ import {
   CheckHostNameAvailabilityInput,
   AfdProfilesCheckHostNameAvailabilityOptionalParams,
   AfdProfilesCheckHostNameAvailabilityResponse,
+  ValidateSecretInput,
+  AfdProfilesValidateSecretOptionalParams,
+  AfdProfilesValidateSecretResponse,
   AfdProfilesListResourceUsageNextResponse
 } from "../models";
 
@@ -152,6 +155,26 @@ export class AfdProfilesImpl implements AfdProfiles {
   }
 
   /**
+   * Validate a Secret in the profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
+   * @param validateSecretInput The Secret source.
+   * @param options The options parameters.
+   */
+  validateSecret(
+    resourceGroupName: string,
+    profileName: string,
+    validateSecretInput: ValidateSecretInput,
+    options?: AfdProfilesValidateSecretOptionalParams
+  ): Promise<AfdProfilesValidateSecretResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, profileName, validateSecretInput, options },
+      validateSecretOperationSpec
+    );
+  }
+
+  /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
@@ -209,6 +232,30 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.checkHostNameAvailabilityInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.profileName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const validateSecretOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/validateSecret",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateSecretOutput
+    },
+    default: {
+      bodyMapper: Mappers.AfdErrorResponse
+    }
+  },
+  requestBody: Parameters.validateSecretInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

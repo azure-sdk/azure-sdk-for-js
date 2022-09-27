@@ -12,7 +12,10 @@ import {
   AfdProfilesListResourceUsageOptionalParams,
   CheckHostNameAvailabilityInput,
   AfdProfilesCheckHostNameAvailabilityOptionalParams,
-  AfdProfilesCheckHostNameAvailabilityResponse
+  AfdProfilesCheckHostNameAvailabilityResponse,
+  ValidateSecretInput,
+  AfdProfilesValidateSecretOptionalParams,
+  AfdProfilesValidateSecretResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,4 +47,18 @@ export interface AfdProfiles {
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
     options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
   ): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
+  /**
+   * Validate a Secret in the profile.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
+   * @param validateSecretInput The Secret source.
+   * @param options The options parameters.
+   */
+  validateSecret(
+    resourceGroupName: string,
+    profileName: string,
+    validateSecretInput: ValidateSecretInput,
+    options?: AfdProfilesValidateSecretOptionalParams
+  ): Promise<AfdProfilesValidateSecretResponse>;
 }
