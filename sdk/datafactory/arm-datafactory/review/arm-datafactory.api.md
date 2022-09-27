@@ -174,9 +174,7 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AmazonRdsForSqlServerSource";
 }
 
@@ -1001,9 +999,7 @@ export interface AzureSqlSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "AzureSqlSink";
@@ -1018,9 +1014,7 @@ export interface AzureSqlSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AzureSqlSource";
 }
 
@@ -7240,9 +7234,7 @@ export interface SqlMISink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlMISink";
@@ -7257,9 +7249,7 @@ export interface SqlMISource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlMISource";
 }
 
@@ -7289,9 +7279,7 @@ export interface SqlServerSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlServerSink";
@@ -7306,9 +7294,7 @@ export interface SqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlServerSource";
 }
 
@@ -7333,9 +7319,7 @@ export interface SqlSink extends CopySink {
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
     sqlWriterUseTableLock?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlSink";
@@ -7350,9 +7334,7 @@ export interface SqlSource extends TabularSource {
     partitionSettings?: SqlPartitionSettings;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlSource";
 }
 

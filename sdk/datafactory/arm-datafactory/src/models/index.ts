@@ -3208,14 +3208,6 @@ export interface SapTablePartitionSettings {
   maxPartitionsNumber?: any;
 }
 
-/** SQL stored procedure parameter. */
-export interface StoredProcedureParameter {
-  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
-  value?: any;
-  /** Stored procedure parameter type. */
-  type?: StoredProcedureParameterType;
-}
-
 /** The settings that will be leveraged for Sql source partitioning. */
 export interface SqlPartitionSettings {
   /** The name of the column in integer or datetime type that will be used for proceeding partitioning. If not specified, the primary key of the table is auto-detected and used as the partition column. Type: string (or Expression with resultType string). */
@@ -3306,6 +3298,14 @@ export interface ImportSettings {
   type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
+}
+
+/** SQL stored procedure parameter. */
+export interface StoredProcedureParameter {
+  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Stored procedure parameter type. */
+  type?: StoredProcedureParameterType;
 }
 
 /** Specify the name and value of custom metadata item. */
@@ -9013,9 +9013,7 @@ export interface SqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9039,9 +9037,7 @@ export interface SqlServerSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9065,9 +9061,7 @@ export interface AzureSqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9091,9 +9085,7 @@ export interface SqlMISink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -10257,9 +10249,7 @@ export interface SqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10277,9 +10267,7 @@ export interface SqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10297,9 +10285,7 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10317,9 +10303,7 @@ export interface AzureSqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10337,9 +10321,7 @@ export interface SqlMISource extends TabularSource {
   /** Name of the stored procedure for a Azure SQL Managed Instance source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -12070,39 +12052,6 @@ export enum KnownSalesforceSourceReadBehavior {
  */
 export type SalesforceSourceReadBehavior = string;
 
-/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
-export enum KnownStoredProcedureParameterType {
-  /** String */
-  String = "String",
-  /** Int */
-  Int = "Int",
-  /** Int64 */
-  Int64 = "Int64",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Guid */
-  Guid = "Guid",
-  /** Boolean */
-  Boolean = "Boolean",
-  /** Date */
-  Date = "Date"
-}
-
-/**
- * Defines values for StoredProcedureParameterType. \
- * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **String** \
- * **Int** \
- * **Int64** \
- * **Decimal** \
- * **Guid** \
- * **Boolean** \
- * **Date**
- */
-export type StoredProcedureParameterType = string;
-
 /** Known values of {@link CassandraSourceReadConsistencyLevels} that the service accepts. */
 export enum KnownCassandraSourceReadConsistencyLevels {
   /** ALL */
@@ -12144,6 +12093,39 @@ export enum KnownCassandraSourceReadConsistencyLevels {
  * **LOCAL_SERIAL**
  */
 export type CassandraSourceReadConsistencyLevels = string;
+
+/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
+export enum KnownStoredProcedureParameterType {
+  /** String */
+  String = "String",
+  /** Int */
+  Int = "Int",
+  /** Int64 */
+  Int64 = "Int64",
+  /** Decimal */
+  Decimal = "Decimal",
+  /** Guid */
+  Guid = "Guid",
+  /** Boolean */
+  Boolean = "Boolean",
+  /** Date */
+  Date = "Date"
+}
+
+/**
+ * Defines values for StoredProcedureParameterType. \
+ * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Int** \
+ * **Int64** \
+ * **Decimal** \
+ * **Guid** \
+ * **Boolean** \
+ * **Date**
+ */
+export type StoredProcedureParameterType = string;
 
 /** Known values of {@link SapCloudForCustomerSinkWriteBehavior} that the service accepts. */
 export enum KnownSapCloudForCustomerSinkWriteBehavior {
