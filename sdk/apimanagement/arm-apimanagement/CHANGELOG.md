@@ -1,9 +1,10 @@
 # Release History
     
-## 8.1.0 (2022-08-03)
+## 8.1.0 (2022-09-27)
     
 **Features**
 
+  - Added operation group GlobalSchema
   - Added Interface AccessInformationContract
   - Added Interface ApiContract
   - Added Interface ApiContractProperties
@@ -37,6 +38,17 @@
   - Added Interface GatewayCertificateAuthorityContract
   - Added Interface GatewayContract
   - Added Interface GatewayHostnameConfigurationContract
+  - Added Interface GlobalSchemaCollection
+  - Added Interface GlobalSchemaContract
+  - Added Interface GlobalSchemaCreateOrUpdateHeaders
+  - Added Interface GlobalSchemaCreateOrUpdateOptionalParams
+  - Added Interface GlobalSchemaDeleteOptionalParams
+  - Added Interface GlobalSchemaGetEntityTagHeaders
+  - Added Interface GlobalSchemaGetEntityTagOptionalParams
+  - Added Interface GlobalSchemaGetHeaders
+  - Added Interface GlobalSchemaGetOptionalParams
+  - Added Interface GlobalSchemaListByServiceNextOptionalParams
+  - Added Interface GlobalSchemaListByServiceOptionalParams
   - Added Interface GroupContract
   - Added Interface IdentityProviderContract
   - Added Interface IdentityProviderContractProperties
@@ -87,6 +99,14 @@
   - Added Interface UserContractProperties
   - Added Interface UserCreateParameterProperties
   - Added Interface UserUpdateParametersProperties
+  - Added Type Alias GlobalSchemaCreateOrUpdateResponse
+  - Added Type Alias GlobalSchemaGetEntityTagResponse
+  - Added Type Alias GlobalSchemaGetResponse
+  - Added Type Alias GlobalSchemaListByServiceNextResponse
+  - Added Type Alias GlobalSchemaListByServiceResponse
+  - Added Type Alias SchemaType
+  - Class ApiManagementClient has a new parameter globalSchema
+  - Added Enum KnownSchemaType
     
 ## 8.0.1 (2022-04-06)
 
