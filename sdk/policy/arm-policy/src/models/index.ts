@@ -505,6 +505,94 @@ export interface PolicyExemptionListResult {
   readonly nextLink?: string;
 }
 
+/** The variable. */
+export interface Variable {
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The ID of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/variables).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Variable column definitions. */
+  columns: PolicyVariableColumn[];
+}
+
+/** The variable column. */
+export interface PolicyVariableColumn {
+  /** The name of this policy variable column. */
+  columnName: string;
+}
+
+/** List of variables. */
+export interface VariableListResult {
+  /** An array of variables. */
+  value?: Variable[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The variable value. */
+export interface VariableValue {
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The ID of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the variable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource (Microsoft.Authorization/variables/values).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Variable value column value array. */
+  values: PolicyVariableValueColumnValue[];
+}
+
+/** The name value tuple for this variable value column. */
+export interface PolicyVariableValueColumnValue {
+  /** Column name for the variable value */
+  columnName: string;
+  /** Column value for the variable value; this can be an integer, double, boolean, null or a string. */
+  columnValue: any;
+}
+
+/** List of variable values. */
+export interface VariableValueListResult {
+  /** An array of variable values. */
+  value?: VariableValue[];
+  /**
+   * The URL to use for getting the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Known values of {@link AliasPathTokenType} that the service accepts. */
 export enum KnownAliasPathTokenType {
   /** The token type is not specified. */
@@ -1188,6 +1276,134 @@ export interface PolicyExemptionsListForManagementGroupNextOptionalParams
 
 /** Contains response data for the listForManagementGroupNext operation. */
 export type PolicyExemptionsListForManagementGroupNextResponse = PolicyExemptionListResult;
+
+/** Optional parameters. */
+export interface VariablesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariablesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VariablesCreateOrUpdateResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VariablesGetResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariablesCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type VariablesCreateOrUpdateAtManagementGroupResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type VariablesGetAtManagementGroupResponse = Variable;
+
+/** Optional parameters. */
+export interface VariablesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VariablesListResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type VariablesListForManagementGroupResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VariablesListNextResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariablesListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type VariablesListForManagementGroupNextResponse = VariableListResult;
+
+/** Optional parameters. */
+export interface VariableValuesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariableValuesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type VariableValuesCreateOrUpdateResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VariableValuesGetResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VariableValuesListResponse = VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesListForManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroup operation. */
+export type VariableValuesListForManagementGroupResponse = VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesDeleteAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAtManagementGroup operation. */
+export type VariableValuesCreateOrUpdateAtManagementGroupResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesGetAtManagementGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAtManagementGroup operation. */
+export type VariableValuesGetAtManagementGroupResponse = VariableValue;
+
+/** Optional parameters. */
+export interface VariableValuesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type VariableValuesListNextResponse = VariableValueListResult;
+
+/** Optional parameters. */
+export interface VariableValuesListForManagementGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForManagementGroupNext operation. */
+export type VariableValuesListForManagementGroupNextResponse = VariableValueListResult;
 
 /** Optional parameters. */
 export interface PolicyClientOptionalParams
