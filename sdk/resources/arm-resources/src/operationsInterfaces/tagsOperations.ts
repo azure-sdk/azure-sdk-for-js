@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   TagDetails,
   TagsListOptionalParams,
@@ -91,7 +92,24 @@ export interface TagsOperations {
    * @param parameters Wrapper resource for tags API requests and responses.
    * @param options The options parameters.
    */
-  createOrUpdateAtScope(
+  beginCreateOrUpdateAtScope(
+    scope: string,
+    parameters: TagsResource,
+    options?: TagsCreateOrUpdateAtScopeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TagsCreateOrUpdateAtScopeResponse>,
+      TagsCreateOrUpdateAtScopeResponse
+    >
+  >;
+  /**
+   * This operation allows adding or replacing the entire set of tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags API requests and responses.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAtScopeAndWait(
     scope: string,
     parameters: TagsResource,
     options?: TagsCreateOrUpdateAtScopeOptionalParams
@@ -106,7 +124,27 @@ export interface TagsOperations {
    * @param parameters Wrapper resource for tags patch API request only.
    * @param options The options parameters.
    */
-  updateAtScope(
+  beginUpdateAtScope(
+    scope: string,
+    parameters: TagsPatchResource,
+    options?: TagsUpdateAtScopeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<TagsUpdateAtScopeResponse>,
+      TagsUpdateAtScopeResponse
+    >
+  >;
+  /**
+   * This operation allows replacing, merging or selectively deleting tags on the specified resource or
+   * subscription. The specified entity can have a maximum of 50 tags at the end of the operation. The
+   * 'replace' option replaces the entire set of existing tags with a new set. The 'merge' option allows
+   * adding tags with new names and updating the values of tags with existing names. The 'delete' option
+   * allows selectively deleting tags based on given names or name/value pairs.
+   * @param scope The resource scope.
+   * @param parameters Wrapper resource for tags patch API request only.
+   * @param options The options parameters.
+   */
+  beginUpdateAtScopeAndWait(
     scope: string,
     parameters: TagsPatchResource,
     options?: TagsUpdateAtScopeOptionalParams
@@ -125,7 +163,16 @@ export interface TagsOperations {
    * @param scope The resource scope.
    * @param options The options parameters.
    */
-  deleteAtScope(
+  beginDeleteAtScope(
+    scope: string,
+    options?: TagsDeleteAtScopeOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Deletes the entire set of tags on a resource or subscription.
+   * @param scope The resource scope.
+   * @param options The options parameters.
+   */
+  beginDeleteAtScopeAndWait(
     scope: string,
     options?: TagsDeleteAtScopeOptionalParams
   ): Promise<void>;
