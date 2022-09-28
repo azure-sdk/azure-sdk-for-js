@@ -392,6 +392,8 @@ export interface ReservationsProperties {
   purchaseDate?: Date;
   splitProperties?: ReservationSplitProperties;
   mergeProperties?: ReservationMergeProperties;
+  swapProperties?: ReservationSwapProperties;
+  appliedScopeProperties?: AppliedScopeProperties;
   /** Subscription that will be charged for purchasing Reservation */
   billingScopeId?: string;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
@@ -432,6 +434,22 @@ export interface ReservationMergeProperties {
   mergeDestination?: string;
   /** Resource Ids of the Source Reservation's merged to form this Reservation. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
   mergeSources?: string[];
+}
+
+export interface ReservationSwapProperties {
+  /** Resource Id of the Source Reservation that gets swapped. Format of the resource Id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapSource?: string;
+  /** Reservation Resource Id that the original resource gets swapped to. Format of the resource Id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
+  swapDestination?: string;
+}
+
+export interface AppliedScopeProperties {
+  /** Tenant ID of the applied scope type */
+  tenantId?: string;
+  /** Management group ID of the format /providers/Microsoft.Management/managementGroups/{managementGroupId} */
+  managementGroupId?: string;
+  /** Management group display name */
+  displayName?: string;
 }
 
 export interface RenewPropertiesResponse {

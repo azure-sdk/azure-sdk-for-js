@@ -1,15 +1,15 @@
 # Release History
+    
+## 7.3.0 (2022-09-28)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AppliedScopeProperties
+  - Added Interface ReservationSwapProperties
+  - Interface ReservationsProperties has a new optional parameter appliedScopeProperties
+  - Interface ReservationsProperties has a new optional parameter swapProperties
+    
+    
 ## 7.2.0 (2022-09-19)
     
 **Features**

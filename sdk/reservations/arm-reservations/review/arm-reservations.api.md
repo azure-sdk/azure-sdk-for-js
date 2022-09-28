@@ -26,6 +26,13 @@ export interface AppliedReservations {
     readonly type?: string;
 }
 
+// @public (undocumented)
+export interface AppliedScopeProperties {
+    displayName?: string;
+    managementGroupId?: string;
+    tenantId?: string;
+}
+
 // @public
 export type AppliedScopeType = string;
 
@@ -1331,6 +1338,8 @@ export type ReservationSplitResponse = ReservationResponse[];
 
 // @public
 export interface ReservationsProperties {
+    // (undocumented)
+    appliedScopeProperties?: AppliedScopeProperties;
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     archived?: boolean;
@@ -1360,6 +1369,8 @@ export interface ReservationsProperties {
     skuDescription?: string;
     // (undocumented)
     splitProperties?: ReservationSplitProperties;
+    // (undocumented)
+    swapProperties?: ReservationSwapProperties;
     term?: ReservationTerm;
     readonly userFriendlyAppliedScopeType?: string;
     readonly userFriendlyRenewState?: string;
@@ -1384,6 +1395,12 @@ export interface ReservationSummary {
     readonly pendingCount?: number;
     readonly processingCount?: number;
     readonly succeededCount?: number;
+}
+
+// @public (undocumented)
+export interface ReservationSwapProperties {
+    swapDestination?: string;
+    swapSource?: string;
 }
 
 // @public

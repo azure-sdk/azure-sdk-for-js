@@ -66,7 +66,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-reservations/7.2.1`;
+    const packageDetails = `azsdk-js-arm-reservations/7.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -86,34 +86,27 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
 
     // Assigning values to Constant parameters

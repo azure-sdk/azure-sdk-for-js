@@ -1160,6 +1160,20 @@ export const ReservationsProperties: coreClient.CompositeMapper = {
           className: "ReservationMergeProperties"
         }
       },
+      swapProperties: {
+        serializedName: "swapProperties",
+        type: {
+          name: "Composite",
+          className: "ReservationSwapProperties"
+        }
+      },
+      appliedScopeProperties: {
+        serializedName: "appliedScopeProperties",
+        type: {
+          name: "Composite",
+          className: "AppliedScopeProperties"
+        }
+      },
       billingScopeId: {
         serializedName: "billingScopeId",
         type: {
@@ -1269,6 +1283,54 @@ export const ReservationMergeProperties: coreClient.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ReservationSwapProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationSwapProperties",
+    modelProperties: {
+      swapSource: {
+        serializedName: "swapSource",
+        type: {
+          name: "String"
+        }
+      },
+      swapDestination: {
+        serializedName: "swapDestination",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AppliedScopeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AppliedScopeProperties",
+    modelProperties: {
+      tenantId: {
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      managementGroupId: {
+        serializedName: "managementGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
         }
       }
     }
