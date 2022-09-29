@@ -200,7 +200,7 @@ export interface RedisCommonPropertiesRedisConfiguration {
   [property: string]: any;
   /** Specifies whether the rdb backup is enabled */
   rdbBackupEnabled?: string;
-  /** Specifies the frequency for creating rdb backup */
+  /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
   rdbBackupFrequency?: string;
   /** Specifies the maximum number of snapshots for rdb backup */
   rdbBackupMaxSnapshotCount?: string;
