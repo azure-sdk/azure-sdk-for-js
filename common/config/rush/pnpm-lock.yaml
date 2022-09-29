@@ -14073,17 +14073,19 @@ packages:
     dev: false
 
   file:projects/arm-resourcegraph.tgz:
-    resolution: {integrity: sha512-gyMQAJ6GPIZv1lpo2HPSuCzwKumbSp2+6V50vX2mwO/kQbP4t01D6t3+8jGWDfQgXt3ttb+DTJ2OzlAuKPNYzA==, tarball: file:projects/arm-resourcegraph.tgz}
+    resolution: {integrity: sha512-H0rA1aTQzhuvVa7hIQbq0Mra5C1y0HaQh17wvVp1KDi5ClQ5qYiFNzp6b8nvuxi9qbMzrMsvgjB6U/b8hu+UfQ==, tarball: file:projects/arm-resourcegraph.tgz}
     name: '@rush-temp/arm-resourcegraph'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14095,7 +14097,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
