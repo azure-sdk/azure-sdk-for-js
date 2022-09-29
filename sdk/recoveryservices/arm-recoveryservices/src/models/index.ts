@@ -224,6 +224,28 @@ export interface CheckNameAvailabilityResult {
   message?: string;
 }
 
+/** Capabilities information */
+export interface CapabilitiesProperties {
+  dnsZones?: DNSZone[];
+}
+
+/** DNSZone information */
+export interface DNSZone {
+  /** Subresource type for vault AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
+  subResource?: VaultSubResourceType;
+}
+
+/** Base class for request and response capabilities information for Microsoft.RecoveryServices */
+export interface ResourceCapabilitiesBase {
+  /** Describes the Resource type: Microsoft.RecoveryServices/Vaults */
+  type: string;
+}
+
+/** Capabilities properties in response */
+export interface CapabilitiesResponseProperties {
+  dnsZones?: DNSZoneResponse[];
+}
+
 /** The response model for a list of Vaults. */
 export interface VaultList {
   value?: Vault[];
@@ -301,10 +323,14 @@ export interface VaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupStorageVersion?: BackupStorageVersion;
+  /** property to enable or disable resource provider inbound network traffic from public clients */
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Monitoring Settings of the vault */
   monitoringSettings?: MonitoringSettings;
   /** The redundancy Settings of a Vault */
   redundancySettings?: VaultPropertiesRedundancySettings;
+  /** Security Settings of the vault */
+  securitySettings?: SecuritySettings;
 }
 
 /** Details for upgrading vault. */
@@ -402,6 +428,8 @@ export interface PrivateEndpointConnection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** Group Ids for the Private Endpoint */
+  groupIds?: VaultSubResourceType[];
 }
 
 /** The Private Endpoint network resource that is linked to the Private Endpoint connection. */
@@ -517,6 +545,17 @@ export interface VaultPropertiesRedundancySettings {
   readonly crossRegionRestore?: CrossRegionRestore;
 }
 
+/** Security Settings of the vault */
+export interface SecuritySettings {
+  /** Immutability Settings of a vault */
+  immutabilitySettings?: ImmutabilitySettings;
+}
+
+/** Immutability Settings of vault */
+export interface ImmutabilitySettings {
+  state?: ImmutabilityState;
+}
+
 /** Identifies the unique system identifier for each Azure resource. */
 export interface Sku {
   /** Name of SKU is RS0 (Recovery Services 0th version) and the tier is standard tier. They do not have affect on backend storage redundancy or any other vault settings. To manage storage redundancy, use the backupstorageconfig */
@@ -548,7 +587,7 @@ export interface SystemData {
 }
 
 /** ARM Resource. */
-export interface Resource {
+export interface RecoveryServicesResource {
   /**
    * Resource Id represents the complete path to the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -702,8 +741,27 @@ export interface ResourceCertificateAndAcsDetails
   globalAcsRPRealm: string;
 }
 
+/** DNSZone information for Microsoft.RecoveryServices */
+export interface DNSZoneResponse extends DNSZone {
+  /** The private link resource Private link DNS zone names. */
+  requiredZoneNames?: string[];
+}
+
+/** Input to get capabilities information for Microsoft.RecoveryServices */
+export interface ResourceCapabilities extends ResourceCapabilitiesBase {
+  /** Capabilities information */
+  properties?: CapabilitiesProperties;
+}
+
+/** Capabilities response for Microsoft.RecoveryServices */
+export interface CapabilitiesResponse extends ResourceCapabilitiesBase {
+  /** Capabilities properties in response */
+  properties?: CapabilitiesResponseProperties;
+}
+
 /** Tracked resource with location. */
-export interface TrackedResource extends Resource {
+export interface RecoveryServicesTrackedResource
+  extends RecoveryServicesResource {
   /** Resource location. */
   location: string;
   /** Resource tags. */
@@ -711,7 +769,7 @@ export interface TrackedResource extends Resource {
 }
 
 /** Tracked resource with location. */
-export interface PatchTrackedResource extends Resource {
+export interface PatchTrackedResource extends RecoveryServicesResource {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
@@ -719,7 +777,7 @@ export interface PatchTrackedResource extends Resource {
 }
 
 /** Vault extended information. */
-export interface VaultExtendedInfoResource extends Resource {
+export interface VaultExtendedInfoResource extends RecoveryServicesResource {
   /** Integrity key. */
   integrityKey?: string;
   /** Encryption key. */
@@ -731,7 +789,7 @@ export interface VaultExtendedInfoResource extends Resource {
 }
 
 /** Resource information, as returned by the resource provider. */
-export interface Vault extends TrackedResource {
+export interface Vault extends RecoveryServicesTrackedResource {
   /** Identity for the resource. */
   identity?: IdentityData;
   /** Properties of the vault. */
@@ -781,6 +839,27 @@ export enum KnownAuthType {
  * **AzureActiveDirectory**
  */
 export type AuthType = string;
+
+/** Known values of {@link VaultSubResourceType} that the service accepts. */
+export enum KnownVaultSubResourceType {
+  /** AzureBackup */
+  AzureBackup = "AzureBackup",
+  /** AzureBackupSecondary */
+  AzureBackupSecondary = "AzureBackup_secondary",
+  /** AzureSiteRecovery */
+  AzureSiteRecovery = "AzureSiteRecovery"
+}
+
+/**
+ * Defines values for VaultSubResourceType. \
+ * {@link KnownVaultSubResourceType} can be used interchangeably with VaultSubResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureBackup** \
+ * **AzureBackup_secondary** \
+ * **AzureSiteRecovery**
+ */
+export type VaultSubResourceType = string;
 
 /** Known values of {@link ResourceIdentityType} that the service accepts. */
 export enum KnownResourceIdentityType {
@@ -995,6 +1074,24 @@ export enum KnownBackupStorageVersion {
  */
 export type BackupStorageVersion = string;
 
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
 /** Known values of {@link AlertsState} that the service accepts. */
 export enum KnownAlertsState {
   /** Enabled */
@@ -1051,6 +1148,27 @@ export enum KnownCrossRegionRestore {
  * **Disabled**
  */
 export type CrossRegionRestore = string;
+
+/** Known values of {@link ImmutabilityState} that the service accepts. */
+export enum KnownImmutabilityState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Unlocked */
+  Unlocked = "Unlocked",
+  /** Locked */
+  Locked = "Locked"
+}
+
+/**
+ * Defines values for ImmutabilityState. \
+ * {@link KnownImmutabilityState} can be used interchangeably with ImmutabilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Unlocked** \
+ * **Locked**
+ */
+export type ImmutabilityState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
@@ -1169,6 +1287,13 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams
 
 /** Contains response data for the checkNameAvailability operation. */
 export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
+
+/** Optional parameters. */
+export interface RecoveryServicesCapabilitiesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the capabilities operation. */
+export type RecoveryServicesCapabilitiesResponse = CapabilitiesResponse;
 
 /** Optional parameters. */
 export interface VaultsListBySubscriptionIdOptionalParams

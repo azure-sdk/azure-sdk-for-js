@@ -38,8 +38,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns the list of private link resources that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -98,8 +97,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns the list of private link resources that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -116,8 +114,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * Returns a specified private link resource that need to be created for Backup and SiteRecovery
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param privateLinkResourceName
    * @param options The options parameters.
@@ -136,8 +133,7 @@ export class PrivateLinkResourcesOperationsImpl
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -173,8 +169,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vaultName
+    Parameters.vaultName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -195,8 +191,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.vaultName,
+    Parameters.resourceGroupName1,
     Parameters.privateLinkResourceName
   ],
   headerParameters: [Parameters.accept],
@@ -217,8 +213,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.vaultName,
+    Parameters.resourceGroupName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

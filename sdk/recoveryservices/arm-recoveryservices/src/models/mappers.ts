@@ -523,6 +523,79 @@ export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
   }
 };
 
+export const CapabilitiesProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesProperties",
+    modelProperties: {
+      dnsZones: {
+        serializedName: "dnsZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DNSZone"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DNSZone: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DNSZone",
+    modelProperties: {
+      subResource: {
+        serializedName: "subResource",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCapabilitiesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceCapabilitiesBase",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesResponseProperties",
+    modelProperties: {
+      dnsZones: {
+        serializedName: "dnsZones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DNSZoneResponse"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const VaultList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -685,6 +758,12 @@ export const VaultProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
       monitoringSettings: {
         serializedName: "monitoringSettings",
         type: {
@@ -697,6 +776,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VaultPropertiesRedundancySettings"
+        }
+      },
+      securitySettings: {
+        serializedName: "securitySettings",
+        type: {
+          name: "Composite",
+          className: "SecuritySettings"
         }
       }
     }
@@ -843,6 +929,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateLinkServiceConnectionState"
+        }
+      },
+      groupIds: {
+        serializedName: "groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1080,6 +1177,37 @@ export const VaultPropertiesRedundancySettings: coreClient.CompositeMapper = {
   }
 };
 
+export const SecuritySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecuritySettings",
+    modelProperties: {
+      immutabilitySettings: {
+        serializedName: "immutabilitySettings",
+        type: {
+          name: "Composite",
+          className: "ImmutabilitySettings"
+        }
+      }
+    }
+  }
+};
+
+export const ImmutabilitySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImmutabilitySettings",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1165,10 +1293,10 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const RecoveryServicesResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "RecoveryServicesResource",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -1590,12 +1718,67 @@ export const ResourceCertificateAndAcsDetails: coreClient.CompositeMapper = {
   }
 };
 
-export const TrackedResource: coreClient.CompositeMapper = {
+export const DNSZoneResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TrackedResource",
+    className: "DNSZoneResponse",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...DNSZone.type.modelProperties,
+      requiredZoneNames: {
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceCapabilities",
+    modelProperties: {
+      ...ResourceCapabilitiesBase.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CapabilitiesProperties"
+        }
+      }
+    }
+  }
+};
+
+export const CapabilitiesResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CapabilitiesResponse",
+    modelProperties: {
+      ...ResourceCapabilitiesBase.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CapabilitiesResponseProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RecoveryServicesTrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RecoveryServicesTrackedResource",
+    modelProperties: {
+      ...RecoveryServicesResource.type.modelProperties,
       location: {
         serializedName: "location",
         required: true,
@@ -1619,7 +1802,7 @@ export const PatchTrackedResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PatchTrackedResource",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...RecoveryServicesResource.type.modelProperties,
       location: {
         serializedName: "location",
         type: {
@@ -1642,7 +1825,7 @@ export const VaultExtendedInfoResource: coreClient.CompositeMapper = {
     name: "Composite",
     className: "VaultExtendedInfoResource",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...RecoveryServicesResource.type.modelProperties,
       integrityKey: {
         serializedName: "properties.integrityKey",
         type: {
@@ -1676,7 +1859,7 @@ export const Vault: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Vault",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...RecoveryServicesTrackedResource.type.modelProperties,
       identity: {
         serializedName: "identity",
         type: {

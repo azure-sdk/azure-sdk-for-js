@@ -6,14 +6,14 @@ Recovery Services Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservices/arm-recoveryservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-recoveryservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
