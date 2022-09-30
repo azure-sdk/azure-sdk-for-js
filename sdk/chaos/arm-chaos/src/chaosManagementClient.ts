@@ -16,19 +16,19 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   CapabilitiesImpl,
+  CapabilityTypesImpl,
   ExperimentsImpl,
   OperationsImpl,
-  TargetsImpl,
   TargetTypesImpl,
-  CapabilityTypesImpl
+  TargetsImpl
 } from "./operations";
 import {
   Capabilities,
+  CapabilityTypes,
   Experiments,
   Operations,
-  Targets,
   TargetTypes,
-  CapabilityTypes
+  Targets
 } from "./operationsInterfaces";
 import { ChaosManagementClientOptionalParams } from "./models";
 
@@ -84,47 +84,40 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.capabilities = new CapabilitiesImpl(this);
+    this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.targets = new TargetsImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
-    this.capabilityTypes = new CapabilityTypesImpl(this);
+    this.targets = new TargetsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -157,9 +150,9 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   }
 
   capabilities: Capabilities;
+  capabilityTypes: CapabilityTypes;
   experiments: Experiments;
   operations: Operations;
-  targets: Targets;
   targetTypes: TargetTypes;
-  capabilityTypes: CapabilityTypes;
+  targets: Targets;
 }
