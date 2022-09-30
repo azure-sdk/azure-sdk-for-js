@@ -3897,7 +3897,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220929
+      typescript: 4.9.0-dev.20220930
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8829,8 +8829,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220929:
-    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
+  /typescript/4.9.0-dev.20220930:
+    resolution: {integrity: sha512-rYlFj6/BJohmUALnr/M54Ch1YJ5xgaTZvGKvKbk2KI0wnwJMr62dKv9DD9YUUGwd0VPVPXj4QsTOY1nWk21zVw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -13344,12 +13344,12 @@ packages:
     dev: false
 
   file:projects/arm-networkfunction.tgz:
-    resolution: {integrity: sha512-7ZRZRmkWZ3oW+Myz/brKCV+WVHIB3Nn4jxLzZTKbWAHmCw8JbuFThAmYU8t6vopRUWqreT3Y0HqkPjAsSWIotg==, tarball: file:projects/arm-networkfunction.tgz}
+    resolution: {integrity: sha512-edkIYZdg0cLONmAUQrjsXBsgLG5UdWUpCBtLQ4ALaemiD44NN0KhGqVRXcO9vEGlVecULPfA/TOLpb7i+3fleg==, tarball: file:projects/arm-networkfunction.tgz}
     name: '@rush-temp/arm-networkfunction'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
