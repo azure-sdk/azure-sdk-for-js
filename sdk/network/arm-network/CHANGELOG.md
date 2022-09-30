@@ -1,6 +1,6 @@
 # Release History
     
-## 30.0.0 (2022-09-29)
+## 30.0.0 (2022-09-30)
     
 **Features**
 
@@ -145,8 +145,6 @@
   - Interface DdosSettings no longer has parameter ddosCustomPolicy
   - Interface DdosSettings no longer has parameter protectedIP
   - Interface DdosSettings no longer has parameter protectionCoverage
-  - Interface AdminRule has a new required parameter kind
-  - Interface DefaultAdminRule has a new required parameter kind
   - Removed Enum KnownDdosCustomPolicyProtocol
   - Removed Enum KnownDdosCustomPolicyTriggerSensitivityOverride
   - Removed Enum KnownDdosSettingsProtectionCoverage

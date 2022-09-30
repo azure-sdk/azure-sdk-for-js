@@ -11183,8 +11183,6 @@ export interface NetworkRule extends FirewallPolicyRule {
 
 /** Network admin rule. */
 export interface AdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Custom";
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
   /** Network protocol this rule applies to. */
@@ -11212,8 +11210,6 @@ export interface AdminRule extends BaseAdminRule {
 
 /** Network default admin rule. */
 export interface DefaultAdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Default";
   /**
    * A description for this rule. Restricted to 140 chars.
    * NOTE: This property will not be serialized. It can only be populated by the server.

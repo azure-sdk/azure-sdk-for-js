@@ -120,7 +120,6 @@ export interface AdminRule extends BaseAdminRule {
     destinationPortRanges?: string[];
     destinations?: AddressPrefixItem[];
     direction?: SecurityConfigurationRuleDirection;
-    kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -3017,7 +3016,6 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly destinations?: AddressPrefixItem[];
     readonly direction?: SecurityConfigurationRuleDirection;
     flag?: string;
-    kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
