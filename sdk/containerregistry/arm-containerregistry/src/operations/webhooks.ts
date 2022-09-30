@@ -687,7 +687,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.webhookName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -733,7 +733,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.webhookName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
