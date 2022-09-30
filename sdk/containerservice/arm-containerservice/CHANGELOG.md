@@ -1,17 +1,9 @@
 # Release History
-
-## 18.0.0-beta.3 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 18.0.0-beta.2 (2022-09-29)
+    
+## 17.2.0-beta.1 (2022-09-30)
     
 **Features**
 
-  - Added operation group FleetMembers
-  - Added operation group Fleets
   - Added operation group ManagedClusterSnapshots
   - Added operation group TrustedAccessRoleBindings
   - Added operation group TrustedAccessRoles
@@ -22,34 +14,8 @@
   - Added Interface AgentPoolNetworkProfile
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
   - Added Interface AgentPoolWindowsProfile
-  - Added Interface AzureEntityResource
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
-  - Added Interface Fleet
-  - Added Interface FleetCredentialResult
-  - Added Interface FleetCredentialResults
-  - Added Interface FleetHubProfile
-  - Added Interface FleetListResult
-  - Added Interface FleetMember
-  - Added Interface FleetMembersCreateOrUpdateOptionalParams
-  - Added Interface FleetMembersDeleteOptionalParams
-  - Added Interface FleetMembersGetOptionalParams
-  - Added Interface FleetMembersListByFleetNextOptionalParams
-  - Added Interface FleetMembersListByFleetOptionalParams
-  - Added Interface FleetMembersListResult
-  - Added Interface FleetPatch
-  - Added Interface FleetsCreateOrUpdateOptionalParams
-  - Added Interface FleetsDeleteOptionalParams
-  - Added Interface FleetsGetOptionalParams
-  - Added Interface FleetsListByResourceGroupNextOptionalParams
-  - Added Interface FleetsListByResourceGroupOptionalParams
-  - Added Interface FleetsListCredentialsOptionalParams
-  - Added Interface FleetsListNextOptionalParams
-  - Added Interface FleetsListOptionalParams
-  - Added Interface FleetsUpdateOptionalParams
   - Added Interface GuardrailsProfile
   - Added Interface IPTag
   - Added Interface ManagedClusterAzureMonitorProfile
@@ -93,20 +59,7 @@
   - Added Interface TrustedAccessRolesListOptionalParams
   - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
-  - Added Type Alias FleetMemberProvisioningState
-  - Added Type Alias FleetMembersCreateOrUpdateResponse
-  - Added Type Alias FleetMembersGetResponse
-  - Added Type Alias FleetMembersListByFleetNextResponse
-  - Added Type Alias FleetMembersListByFleetResponse
-  - Added Type Alias FleetProvisioningState
-  - Added Type Alias FleetsCreateOrUpdateResponse
-  - Added Type Alias FleetsGetResponse
-  - Added Type Alias FleetsListByResourceGroupNextResponse
-  - Added Type Alias FleetsListByResourceGroupResponse
-  - Added Type Alias FleetsListCredentialsResponse
-  - Added Type Alias FleetsListNextResponse
-  - Added Type Alias FleetsListResponse
-  - Added Type Alias FleetsUpdateResponse
+  - Added Type Alias EbpfDataplane
   - Added Type Alias IpvsScheduler
   - Added Type Alias Level
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
@@ -132,6 +85,7 @@
   - Interface AgentPool has a new optional parameter networkProfile
   - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ContainerServiceNetworkProfile has a new optional parameter ebpfDataplane
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
   - Interface ManagedCluster has a new optional parameter azureMonitorProfile
@@ -156,15 +110,12 @@
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfile has a new optional parameter blobCSIDriver
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
-  - Class ContainerServiceClient has a new parameter fleetMembers
-  - Class ContainerServiceClient has a new parameter fleets
   - Class ContainerServiceClient has a new parameter managedClusterSnapshots
   - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
   - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
-  - Added Enum KnownFleetMemberProvisioningState
-  - Added Enum KnownFleetProvisioningState
+  - Added Enum KnownEbpfDataplane
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownLevel
   - Added Enum KnownMode
@@ -174,11 +125,6 @@
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
-
-**Breaking Changes**
-
-  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
-  - Class ContainerServiceClient no longer has parameter apiVersion
     
     
 ## 17.1.0 (2022-08-25)
