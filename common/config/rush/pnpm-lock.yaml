@@ -12589,17 +12589,19 @@ packages:
     dev: false
 
   file:projects/arm-loadtestservice.tgz:
-    resolution: {integrity: sha512-qxs7+yOzEIoACzajyRFSYucff3NJOdgHrO8cT4g/PJzzWTiHffccGQx8xosAdUNa7xQgJbSDOoe0Sc0BoKt8kw==, tarball: file:projects/arm-loadtestservice.tgz}
+    resolution: {integrity: sha512-benRcY/O8zsYhY+DlkitcIRM9Ht5lIvGKug3+S88We77Z48TwN9MiUj68aY9J3dBI6Pqsbi2YY36/YBx2OKYBg==, tarball: file:projects/arm-loadtestservice.tgz}
     name: '@rush-temp/arm-loadtestservice'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.2
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12611,7 +12613,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
