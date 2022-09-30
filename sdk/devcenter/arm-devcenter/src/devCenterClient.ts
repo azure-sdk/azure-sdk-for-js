@@ -23,6 +23,7 @@ import {
   ImageVersionsImpl,
   CatalogsImpl,
   EnvironmentTypesImpl,
+  ProjectAllowedEnvironmentTypesImpl,
   ProjectEnvironmentTypesImpl,
   DevBoxDefinitionsImpl,
   OperationsImpl,
@@ -42,6 +43,7 @@ import {
   ImageVersions,
   Catalogs,
   EnvironmentTypes,
+  ProjectAllowedEnvironmentTypes,
   ProjectEnvironmentTypes,
   DevBoxDefinitions,
   Operations,
@@ -107,41 +109,34 @@ export class DevCenterClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -150,6 +145,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.imageVersions = new ImageVersionsImpl(this);
     this.catalogs = new CatalogsImpl(this);
     this.environmentTypes = new EnvironmentTypesImpl(this);
+    this.projectAllowedEnvironmentTypes = new ProjectAllowedEnvironmentTypesImpl(
+      this
+    );
     this.projectEnvironmentTypes = new ProjectEnvironmentTypesImpl(this);
     this.devBoxDefinitions = new DevBoxDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
@@ -198,6 +196,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
   imageVersions: ImageVersions;
   catalogs: Catalogs;
   environmentTypes: EnvironmentTypes;
+  projectAllowedEnvironmentTypes: ProjectAllowedEnvironmentTypes;
   projectEnvironmentTypes: ProjectEnvironmentTypes;
   devBoxDefinitions: DevBoxDefinitions;
   operations: Operations;
