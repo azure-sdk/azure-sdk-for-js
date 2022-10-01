@@ -530,7 +530,7 @@ const getValidationDetailsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.privateLinkScopeId
   ],
   headerParameters: [Parameters.accept],

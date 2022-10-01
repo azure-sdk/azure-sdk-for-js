@@ -4063,7 +4063,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220929
+      typescript: 4.9.0-dev.20221001
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9078,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220929:
-    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
+  /typescript/4.9.0-dev.20221001:
+    resolution: {integrity: sha512-FpEHIJz2YHKbWgSmEsR6sZaFSEf+f3r89oGl8L+Elfin97XC/gPZllSUkUrc2N53SiMb0RS/U/QXbimMAXSJCQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12586,18 +12586,20 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-UPduExgg6zWJkD190J5/q6ZDD6FchTbCb/PvCl84AnwXW3X+FpiJmYvC9THZ1spLLrlAhF1uOh2PVlzHOojy3Q==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-xBz9s6xGCAdHymYpJjMumY21nPLFXW0wVO9WdUUjCakatwhKjk4/T8tMW4bh5SsGI0FZVtTFx6fazV0A5qvaVg==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12609,7 +12611,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 

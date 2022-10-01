@@ -8,6 +8,7 @@
 
 export * from "./machines";
 export * from "./machineExtensions";
+export * from "./extensionMetadata";
 export * from "./operations";
 export * from "./privateLinkScopes";
 export * from "./privateLinkResources";
