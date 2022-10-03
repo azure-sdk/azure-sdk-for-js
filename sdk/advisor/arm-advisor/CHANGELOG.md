@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.1.0 (2022-10-03)
+    
+**Features**
 
-## 3.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ConfigData
+  - Added Interface PredictionRequest
+  - Added Interface PredictionResponse
+  - Added Interface PredictOptionalParams
+  - Added Interface ResourceRecommendationBase
+  - Added Interface SuppressionContract
+  - Added Type Alias Duration
+  - Added Type Alias PredictionType
+  - Added Type Alias PredictResponse
+  - Added Enum KnownDuration
+  - Added Enum KnownPredictionType
+    
 ## 3.0.2 (2022-09-30)
 
 **Bugs Fixed**

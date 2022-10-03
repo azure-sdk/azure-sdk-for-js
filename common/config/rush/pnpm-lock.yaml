@@ -4063,7 +4063,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220929
+      typescript: 4.9.0-dev.20221003
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9078,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220929:
-    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
+  /typescript/4.9.0-dev.20221003:
+    resolution: {integrity: sha512-VnpykPljJAPfKMPEKYFPLIXAltuE/+H8e4MFqZ/DJugrGW6JDVphIr+kbVL061cKJKDB+vJs7QuNQXqkea0AUA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10256,17 +10256,19 @@ packages:
     dev: false
 
   file:projects/arm-advisor.tgz:
-    resolution: {integrity: sha512-xnexSrkxHEjQOevHW15YPdltHEkIQmh/lTrvWfM15/1g+sMjP3tM5YSKfj1p23/lNW2ko51DnQewx6meGWXC7Q==, tarball: file:projects/arm-advisor.tgz}
+    resolution: {integrity: sha512-6puB75PafYFrffvirG5G2/vDK5WhE3qNC2YAtyxriHlBSiUXI0t3xH56ji/q6msSNBpDP9ibljYQB5lBpqKQnw==, tarball: file:projects/arm-advisor.tgz}
     name: '@rush-temp/arm-advisor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10278,7 +10280,6 @@ packages:
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
