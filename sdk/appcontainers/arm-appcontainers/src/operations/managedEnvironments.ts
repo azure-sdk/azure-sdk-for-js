@@ -28,6 +28,8 @@ import {
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
   ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsGetAuthTokenOptionalParams,
+  ManagedEnvironmentsGetAuthTokenResponse,
   ManagedEnvironmentsListBySubscriptionNextResponse,
   ManagedEnvironmentsListByResourceGroupNextResponse
 } from "../models";
@@ -447,6 +449,23 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
   }
 
   /**
+   * Checks if resource name is available.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsGetAuthTokenOptionalParams
+  ): Promise<ManagedEnvironmentsGetAuthTokenResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, environmentName, options },
+      getAuthTokenOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -620,6 +639,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getAuthTokenOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/getAuthtoken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvironmentAuthToken
+    },
+    404: {
+      isError: true
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.environmentName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

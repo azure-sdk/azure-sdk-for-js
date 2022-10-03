@@ -20,12 +20,20 @@ import {
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
   DaprComponentsImpl,
+  ContainerAppsDiagnosticsImpl,
+  ManagedEnvironmentDiagnosticsImpl,
+  ManagedEnvironmentsDiagnosticsImpl,
   OperationsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   NamespacesImpl,
   ManagedEnvironmentsStoragesImpl,
-  ContainerAppsSourceControlsImpl
+  ContainerAppsSourceControlsImpl,
+  ConnectedEnvironmentsImpl,
+  ConnectedEnvironmentsCertificatesImpl,
+  ConnectedEnvironmentsDaprComponentsImpl,
+  ConnectedEnvironmentsStoragesImpl,
+  BillingMetersImpl
 } from "./operations";
 import {
   ContainerAppsAuthConfigs,
@@ -33,12 +41,20 @@ import {
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
   DaprComponents,
+  ContainerAppsDiagnostics,
+  ManagedEnvironmentDiagnostics,
+  ManagedEnvironmentsDiagnostics,
   Operations,
   ManagedEnvironments,
   Certificates,
   Namespaces,
   ManagedEnvironmentsStorages,
-  ContainerAppsSourceControls
+  ContainerAppsSourceControls,
+  ConnectedEnvironments,
+  ConnectedEnvironmentsCertificates,
+  ConnectedEnvironmentsDaprComponents,
+  ConnectedEnvironmentsStorages,
+  BillingMeters
 } from "./operationsInterfaces";
 import { ContainerAppsAPIClientOptionalParams } from "./models";
 
@@ -74,12 +90,15 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/1.1.2`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -91,41 +110,34 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-06-01-preview";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.containerApps = new ContainerAppsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
@@ -133,6 +145,13 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       this
     );
     this.daprComponents = new DaprComponentsImpl(this);
+    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
+    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
+      this
+    );
+    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
@@ -143,6 +162,17 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
       this
     );
+    this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
+    this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
+      this
+    );
+    this.connectedEnvironmentsDaprComponents = new ConnectedEnvironmentsDaprComponentsImpl(
+      this
+    );
+    this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
+      this
+    );
+    this.billingMeters = new BillingMetersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -179,10 +209,18 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
   daprComponents: DaprComponents;
+  containerAppsDiagnostics: ContainerAppsDiagnostics;
+  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
+  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
   operations: Operations;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   namespaces: Namespaces;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
+  connectedEnvironments: ConnectedEnvironments;
+  connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
+  connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
+  connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
+  billingMeters: BillingMeters;
 }
