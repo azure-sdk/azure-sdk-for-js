@@ -16,12 +16,10 @@ import {
   Extension,
   ExtensionsListByFarmBeatsNextOptionalParams,
   ExtensionsListByFarmBeatsOptionalParams,
-  ExtensionsCreateOptionalParams,
-  ExtensionsCreateResponse,
+  ExtensionsCreateOrUpdateOptionalParams,
+  ExtensionsCreateOrUpdateResponse,
   ExtensionsGetOptionalParams,
   ExtensionsGetResponse,
-  ExtensionsUpdateOptionalParams,
-  ExtensionsUpdateResponse,
   ExtensionsDeleteOptionalParams,
   ExtensionsListByFarmBeatsResponse,
   ExtensionsListByFarmBeatsNextResponse
@@ -112,21 +110,23 @@ export class ExtensionsImpl implements Extensions {
   }
 
   /**
-   * Install extension.
+   * Install or Update extension. AdditionalApiProperties are merged patch and if the extension is
+   * updated to a new version then the obsolete entries will be auto deleted from
+   * AdditionalApiProperties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
-  create(
+  createOrUpdate(
     resourceGroupName: string,
     farmBeatsResourceName: string,
     extensionId: string,
-    options?: ExtensionsCreateOptionalParams
-  ): Promise<ExtensionsCreateResponse> {
+    options?: ExtensionsCreateOrUpdateOptionalParams
+  ): Promise<ExtensionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, farmBeatsResourceName, extensionId, options },
-      createOperationSpec
+      createOrUpdateOperationSpec
     );
   }
 
@@ -146,25 +146,6 @@ export class ExtensionsImpl implements Extensions {
     return this.client.sendOperationRequest(
       { resourceGroupName, farmBeatsResourceName, extensionId, options },
       getOperationSpec
-    );
-  }
-
-  /**
-   * Upgrade to latest extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsUpdateOptionalParams
-  ): Promise<ExtensionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, farmBeatsResourceName, extensionId, options },
-      updateOperationSpec
     );
   }
 
@@ -226,11 +207,14 @@ export class ExtensionsImpl implements Extensions {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
   httpMethod: "PUT",
   responses: {
+    200: {
+      bodyMapper: Mappers.Extension
+    },
     201: {
       bodyMapper: Mappers.Extension
     },
@@ -238,6 +222,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  requestBody: Parameters.requestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -246,36 +231,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.farmBeatsResourceName,
     Parameters.extensionId
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
   httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Extension
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.farmBeatsResourceName,
-    Parameters.extensionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AgFoodPlatform/farmBeats/{farmBeatsResourceName}/extensions/{extensionId}",
-  httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.Extension

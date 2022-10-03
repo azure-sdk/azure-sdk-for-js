@@ -8,6 +8,20 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Extension Installation Request Body. */
+export interface ExtensionInstallationRequest {
+  /** Extension Version. */
+  extensionVersion?: string;
+  /** Additional Api Properties. */
+  additionalApiProperties?: { [propertyName: string]: ApiProperties };
+}
+
+/** Api properties. */
+export interface ApiProperties {
+  /** Interval in minutes for which the weather data for the api needs to be refreshed. */
+  apiFreshnessWindowInMinutes?: number;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -395,6 +409,11 @@ export interface Extension extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly extensionApiDocsLink?: string;
+  /**
+   * Additional api properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalApiProperties?: { [propertyName: string]: ApiProperties };
 }
 
 /** FarmBeats extension resource. */
@@ -658,11 +677,14 @@ export enum KnownActionType {
 export type ActionType = string;
 
 /** Optional parameters. */
-export interface ExtensionsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExtensionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Extension resource request body. */
+  requestBody?: ExtensionInstallationRequest;
+}
 
-/** Contains response data for the create operation. */
-export type ExtensionsCreateResponse = Extension;
+/** Contains response data for the createOrUpdate operation. */
+export type ExtensionsCreateOrUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsGetOptionalParams
@@ -670,13 +692,6 @@ export interface ExtensionsGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type ExtensionsGetResponse = Extension;
-
-/** Optional parameters. */
-export interface ExtensionsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ExtensionsUpdateResponse = Extension;
 
 /** Optional parameters. */
 export interface ExtensionsDeleteOptionalParams

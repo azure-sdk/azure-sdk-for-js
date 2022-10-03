@@ -10,12 +10,10 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Extension,
   ExtensionsListByFarmBeatsOptionalParams,
-  ExtensionsCreateOptionalParams,
-  ExtensionsCreateResponse,
+  ExtensionsCreateOrUpdateOptionalParams,
+  ExtensionsCreateOrUpdateResponse,
   ExtensionsGetOptionalParams,
   ExtensionsGetResponse,
-  ExtensionsUpdateOptionalParams,
-  ExtensionsUpdateResponse,
   ExtensionsDeleteOptionalParams
 } from "../models";
 
@@ -34,18 +32,20 @@ export interface Extensions {
     options?: ExtensionsListByFarmBeatsOptionalParams
   ): PagedAsyncIterableIterator<Extension>;
   /**
-   * Install extension.
+   * Install or Update extension. AdditionalApiProperties are merged patch and if the extension is
+   * updated to a new version then the obsolete entries will be auto deleted from
+   * AdditionalApiProperties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param farmBeatsResourceName FarmBeats resource name.
    * @param extensionId Id of extension resource.
    * @param options The options parameters.
    */
-  create(
+  createOrUpdate(
     resourceGroupName: string,
     farmBeatsResourceName: string,
     extensionId: string,
-    options?: ExtensionsCreateOptionalParams
-  ): Promise<ExtensionsCreateResponse>;
+    options?: ExtensionsCreateOrUpdateOptionalParams
+  ): Promise<ExtensionsCreateOrUpdateResponse>;
   /**
    * Get installed extension details by extension id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -59,19 +59,6 @@ export interface Extensions {
     extensionId: string,
     options?: ExtensionsGetOptionalParams
   ): Promise<ExtensionsGetResponse>;
-  /**
-   * Upgrade to latest extension.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param farmBeatsResourceName FarmBeats resource name.
-   * @param extensionId Id of extension resource.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    farmBeatsResourceName: string,
-    extensionId: string,
-    options?: ExtensionsUpdateOptionalParams
-  ): Promise<ExtensionsUpdateResponse>;
   /**
    * Uninstall extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -1,5 +1,21 @@
 # Release History
+    
+## 1.0.0-beta.3 (2022-10-03)
+    
+**Features**
 
+  - Added operation Extensions.createOrUpdate
+  - Added Interface ApiProperties
+  - Added Interface ExtensionInstallationRequest
+  - Added Interface ExtensionsCreateOrUpdateOptionalParams
+  - Added Type Alias ExtensionsCreateOrUpdateResponse
+  - Interface Extension has a new optional parameter additionalApiProperties
+
+**Breaking Changes**
+
+  - Removed operation Extensions.create
+  - Removed operation Extensions.update
+    
 ## 1.0.0-beta.2 (2022-09-30)
 
 **Bugs Fixed**
