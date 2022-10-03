@@ -4063,7 +4063,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20220929
+      typescript: 4.9.0-dev.20221003
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9078,8 +9078,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20220929:
-    resolution: {integrity: sha512-D4q6Fx3w/u1eZH22OgSEn2WZReEEUNXtEUWwpKi9sxvS6db58EHUAnUSz/uFD/RSlyPpgUNM5Wg/Rb4oqUiMvw==}
+  /typescript/4.9.0-dev.20221003:
+    resolution: {integrity: sha512-VnpykPljJAPfKMPEKYFPLIXAltuE/+H8e4MFqZ/DJugrGW6JDVphIr+kbVL061cKJKDB+vJs7QuNQXqkea0AUA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10283,12 +10283,12 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-SRUhoa6EzJb8/EF6VQg5dy28StH5phW5eAE48D3XJR6x8G6TsUKjUH4hUVcbueAIdzvScPmnqXzRR9sorGQW/A==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-EBK9oruIKDdZfzohZlOs0I6prTziqDtFwmmh9KuuOi83wvV3OS1kD17pf0Dw57XuV0WknZW336OSLrUDz/J5qg==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.31.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
       '@rollup/plugin-json': 4.1.0_rollup@2.79.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.0
@@ -10302,7 +10302,7 @@ packages:
       rollup: 2.79.0
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.0
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.16.3
     transitivePeerDependencies:
       - '@types/node'
