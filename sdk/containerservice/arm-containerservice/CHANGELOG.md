@@ -1,12 +1,6 @@
 # Release History
-
-## 18.0.0-beta.3 (2022-09-30)
-
-**Bugs Fixed**
-
-  -  fix better user experience of credential scopes in government cloud
-
-## 18.0.0-beta.2 (2022-09-29)
+    
+## 17.2.0-beta.1 (2022-10-04)
     
 **Features**
 
@@ -35,6 +29,7 @@
   - Added Interface FleetListResult
   - Added Interface FleetMember
   - Added Interface FleetMembersCreateOrUpdateOptionalParams
+  - Added Interface FleetMembersDeleteHeaders
   - Added Interface FleetMembersDeleteOptionalParams
   - Added Interface FleetMembersGetOptionalParams
   - Added Interface FleetMembersListByFleetNextOptionalParams
@@ -42,6 +37,7 @@
   - Added Interface FleetMembersListResult
   - Added Interface FleetPatch
   - Added Interface FleetsCreateOrUpdateOptionalParams
+  - Added Interface FleetsDeleteHeaders
   - Added Interface FleetsDeleteOptionalParams
   - Added Interface FleetsGetOptionalParams
   - Added Interface FleetsListByResourceGroupNextOptionalParams
@@ -174,11 +170,6 @@
   - Enum KnownOssku has a new value Mariner
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
-
-**Breaking Changes**
-
-  - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
-  - Class ContainerServiceClient no longer has parameter apiVersion
     
     
 ## 17.1.0 (2022-08-25)

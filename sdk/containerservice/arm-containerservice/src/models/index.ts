@@ -1968,6 +1968,16 @@ export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   azureAsyncOperation?: string;
 }
 
+/** Defines headers for Fleets_delete operation. */
+export interface FleetsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for FleetMembers_delete operation. */
+export interface FleetMembersDeleteHeaders {
+  location?: string;
+}
+
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
   /** Basic */
@@ -4067,6 +4077,8 @@ export interface ContainerServiceClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
+  /** Api Version */
+  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

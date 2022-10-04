@@ -247,6 +247,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
@@ -277,6 +279,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 // @public
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -493,6 +496,12 @@ export interface FleetMembersCreateOrUpdateOptionalParams extends coreClient.Ope
 export type FleetMembersCreateOrUpdateResponse = FleetMember;
 
 // @public
+export interface FleetMembersDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface FleetMembersDeleteOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -559,6 +568,12 @@ export interface FleetsCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type FleetsCreateOrUpdateResponse = Fleet;
+
+// @public
+export interface FleetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface FleetsDeleteOptionalParams extends coreClient.OperationOptions {
