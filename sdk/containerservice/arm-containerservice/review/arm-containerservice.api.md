@@ -205,11 +205,6 @@ export interface AgentPoolWindowsProfile {
 }
 
 // @public
-export interface AzureEntityResource extends Resource {
-    readonly etag?: string;
-}
-
-// @public
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
@@ -247,9 +242,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
-    fleetMembers: FleetMembers;
-    // (undocumented)
-    fleets: Fleets;
+    apiVersion: string;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
@@ -277,6 +270,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 // @public
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -400,26 +394,6 @@ export interface EndpointDetail {
 }
 
 // @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export type Expander = string;
 
 // @public
@@ -430,193 +404,6 @@ export interface ExtendedLocation {
 
 // @public
 export type ExtendedLocationTypes = string;
-
-// @public
-export interface Fleet extends TrackedResource {
-    readonly etag?: string;
-    hubProfile?: FleetHubProfile;
-    readonly provisioningState?: FleetProvisioningState;
-}
-
-// @public
-export interface FleetCredentialResult {
-    readonly name?: string;
-    readonly value?: Uint8Array;
-}
-
-// @public
-export interface FleetCredentialResults {
-    readonly kubeconfigs?: FleetCredentialResult[];
-}
-
-// @public
-export interface FleetHubProfile {
-    dnsPrefix?: string;
-    readonly fqdn?: string;
-    readonly kubernetesVersion?: string;
-}
-
-// @public
-export interface FleetListResult {
-    readonly nextLink?: string;
-    value?: Fleet[];
-}
-
-// @public
-export interface FleetMember extends AzureEntityResource {
-    clusterResourceId?: string;
-    readonly provisioningState?: FleetMemberProvisioningState;
-}
-
-// @public
-export type FleetMemberProvisioningState = string;
-
-// @public
-export interface FleetMembers {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, fleetMemberName: string, parameters: FleetMember, options?: FleetMembersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FleetMembersCreateOrUpdateResponse>, FleetMembersCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, parameters: FleetMember, options?: FleetMembersCreateOrUpdateOptionalParams): Promise<FleetMembersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, fleetName: string, fleetMemberName: string, options?: FleetMembersGetOptionalParams): Promise<FleetMembersGetResponse>;
-    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetMembersListByFleetOptionalParams): PagedAsyncIterableIterator<FleetMember>;
-}
-
-// @public
-export interface FleetMembersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type FleetMembersCreateOrUpdateResponse = FleetMember;
-
-// @public
-export interface FleetMembersDeleteOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FleetMembersGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetMembersGetResponse = FleetMember;
-
-// @public
-export interface FleetMembersListByFleetNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetMembersListByFleetNextResponse = FleetMembersListResult;
-
-// @public
-export interface FleetMembersListByFleetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetMembersListByFleetResponse = FleetMembersListResult;
-
-// @public
-export interface FleetMembersListResult {
-    readonly nextLink?: string;
-    value?: FleetMember[];
-}
-
-// @public
-export interface FleetPatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export type FleetProvisioningState = string;
-
-// @public
-export interface Fleets {
-    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, parameters: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FleetsCreateOrUpdateResponse>, FleetsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, parameters: Fleet, options?: FleetsCreateOrUpdateOptionalParams): Promise<FleetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, fleetName: string, options?: FleetsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, fleetName: string, options?: FleetsGetOptionalParams): Promise<FleetsGetResponse>;
-    list(options?: FleetsListOptionalParams): PagedAsyncIterableIterator<Fleet>;
-    listByResourceGroup(resourceGroupName: string, options?: FleetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Fleet>;
-    listCredentials(resourceGroupName: string, fleetName: string, options?: FleetsListCredentialsOptionalParams): Promise<FleetsListCredentialsResponse>;
-    update(resourceGroupName: string, fleetName: string, options?: FleetsUpdateOptionalParams): Promise<FleetsUpdateResponse>;
-}
-
-// @public
-export interface FleetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    ifNoneMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type FleetsCreateOrUpdateResponse = Fleet;
-
-// @public
-export interface FleetsDeleteOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FleetsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsGetResponse = Fleet;
-
-// @public
-export interface FleetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsListByResourceGroupNextResponse = FleetListResult;
-
-// @public
-export interface FleetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsListByResourceGroupResponse = FleetListResult;
-
-// @public
-export interface FleetsListCredentialsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsListCredentialsResponse = FleetCredentialResults;
-
-// @public
-export interface FleetsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsListNextResponse = FleetListResult;
-
-// @public
-export interface FleetsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FleetsListResponse = FleetListResult;
-
-// @public
-export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions {
-    ifMatch?: string;
-    parameters?: FleetPatch;
-}
-
-// @public
-export type FleetsUpdateResponse = Fleet;
 
 // @public
 export type Format = string;
@@ -888,26 +675,6 @@ export enum KnownExpander {
 // @public
 export enum KnownExtendedLocationTypes {
     EdgeZone = "EdgeZone"
-}
-
-// @public
-export enum KnownFleetMemberProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Joining = "Joining",
-    Leaving = "Leaving",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
-}
-
-// @public
-export enum KnownFleetProvisioningState {
-    Canceled = "Canceled",
-    Creating = "Creating",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
 }
 
 // @public
@@ -1618,6 +1385,7 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
 // @public
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
+    customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
     nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
