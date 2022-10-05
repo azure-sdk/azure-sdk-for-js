@@ -1,15 +1,56 @@
 # Release History
+    
+## 5.1.0-beta.1 (2022-10-05)
+    
+**Features**
 
-## 5.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Variables
+  - Added operation group VariableValues
+  - Added Interface PolicyVariableColumn
+  - Added Interface PolicyVariableValueColumnValue
+  - Added Interface Variable
+  - Added Interface VariableListResult
+  - Added Interface VariablesCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface VariablesCreateOrUpdateOptionalParams
+  - Added Interface VariablesDeleteAtManagementGroupOptionalParams
+  - Added Interface VariablesDeleteOptionalParams
+  - Added Interface VariablesGetAtManagementGroupOptionalParams
+  - Added Interface VariablesGetOptionalParams
+  - Added Interface VariablesListForManagementGroupNextOptionalParams
+  - Added Interface VariablesListForManagementGroupOptionalParams
+  - Added Interface VariablesListNextOptionalParams
+  - Added Interface VariablesListOptionalParams
+  - Added Interface VariableValue
+  - Added Interface VariableValueListResult
+  - Added Interface VariableValuesCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface VariableValuesCreateOrUpdateOptionalParams
+  - Added Interface VariableValuesDeleteAtManagementGroupOptionalParams
+  - Added Interface VariableValuesDeleteOptionalParams
+  - Added Interface VariableValuesGetAtManagementGroupOptionalParams
+  - Added Interface VariableValuesGetOptionalParams
+  - Added Interface VariableValuesListForManagementGroupNextOptionalParams
+  - Added Interface VariableValuesListForManagementGroupOptionalParams
+  - Added Interface VariableValuesListNextOptionalParams
+  - Added Interface VariableValuesListOptionalParams
+  - Added Type Alias VariablesCreateOrUpdateAtManagementGroupResponse
+  - Added Type Alias VariablesCreateOrUpdateResponse
+  - Added Type Alias VariablesGetAtManagementGroupResponse
+  - Added Type Alias VariablesGetResponse
+  - Added Type Alias VariablesListForManagementGroupNextResponse
+  - Added Type Alias VariablesListForManagementGroupResponse
+  - Added Type Alias VariablesListNextResponse
+  - Added Type Alias VariablesListResponse
+  - Added Type Alias VariableValuesCreateOrUpdateAtManagementGroupResponse
+  - Added Type Alias VariableValuesCreateOrUpdateResponse
+  - Added Type Alias VariableValuesGetAtManagementGroupResponse
+  - Added Type Alias VariableValuesGetResponse
+  - Added Type Alias VariableValuesListForManagementGroupNextResponse
+  - Added Type Alias VariableValuesListForManagementGroupResponse
+  - Added Type Alias VariableValuesListNextResponse
+  - Added Type Alias VariableValuesListResponse
+  - Class PolicyClient has a new parameter variables
+  - Class PolicyClient has a new parameter variableValues
+    
 ## 5.0.2 (2022-07-04)
 
 **features**
