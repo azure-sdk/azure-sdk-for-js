@@ -685,7 +685,7 @@ export const Report: coreClient.CompositeMapper = {
         serializedName: "properties.duration",
         readOnly: true,
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
       typePropertiesType: {
