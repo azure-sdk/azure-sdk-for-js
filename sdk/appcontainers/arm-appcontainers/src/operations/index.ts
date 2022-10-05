@@ -7,13 +7,22 @@
  */
 
 export * from "./containerAppsAuthConfigs";
+export * from "./availableWorkloadProfiles";
+export * from "./billingMeters";
+export * from "./connectedEnvironments";
+export * from "./connectedEnvironmentsCertificates";
+export * from "./connectedEnvironmentsDaprComponents";
+export * from "./connectedEnvironmentsStorages";
 export * from "./containerApps";
 export * from "./containerAppsRevisions";
 export * from "./containerAppsRevisionReplicas";
-export * from "./daprComponents";
+export * from "./containerAppsDiagnostics";
+export * from "./managedEnvironmentDiagnostics";
+export * from "./managedEnvironmentsDiagnostics";
 export * from "./operations";
 export * from "./managedEnvironments";
 export * from "./certificates";
 export * from "./namespaces";
+export * from "./daprComponents";
 export * from "./managedEnvironmentsStorages";
 export * from "./containerAppsSourceControls";

@@ -7,33 +7,34 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DaprComponents } from "../operationsInterfaces";
+import { ConnectedEnvironmentsDaprComponents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   DaprComponent,
-  DaprComponentsListNextOptionalParams,
-  DaprComponentsListOptionalParams,
-  DaprComponentsListResponse,
-  DaprComponentsGetOptionalParams,
-  DaprComponentsGetResponse,
-  DaprComponentsCreateOrUpdateOptionalParams,
-  DaprComponentsCreateOrUpdateResponse,
-  DaprComponentsDeleteOptionalParams,
-  DaprComponentsListSecretsOptionalParams,
-  DaprComponentsListSecretsResponse,
-  DaprComponentsListNextResponse
+  ConnectedEnvironmentsDaprComponentsListNextOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListResponse,
+  ConnectedEnvironmentsDaprComponentsGetOptionalParams,
+  ConnectedEnvironmentsDaprComponentsGetResponse,
+  ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse,
+  ConnectedEnvironmentsDaprComponentsDeleteOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
+  ConnectedEnvironmentsDaprComponentsListSecretsResponse,
+  ConnectedEnvironmentsDaprComponentsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing DaprComponents operations. */
-export class DaprComponentsImpl implements DaprComponents {
+/** Class containing ConnectedEnvironmentsDaprComponents operations. */
+export class ConnectedEnvironmentsDaprComponentsImpl
+  implements ConnectedEnvironmentsDaprComponents {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class DaprComponents class.
+   * Initialize a new instance of the class ConnectedEnvironmentsDaprComponents class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -41,19 +42,19 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Get the Dapr Components for a managed environment.
+   * Get the Dapr Components for a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
   ): PagedAsyncIterableIterator<DaprComponent> {
     const iter = this.listPagingAll(
       resourceGroupName,
-      environmentName,
+      connectedEnvironmentName,
       options
     );
     return {
@@ -64,23 +65,31 @@ export class DaprComponentsImpl implements DaprComponents {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, environmentName, options);
+        return this.listPagingPage(
+          resourceGroupName,
+          connectedEnvironmentName,
+          options
+        );
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
   ): AsyncIterableIterator<DaprComponent[]> {
-    let result = await this._list(resourceGroupName, environmentName, options);
+    let result = await this._list(
+      resourceGroupName,
+      connectedEnvironmentName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        environmentName,
+        connectedEnvironmentName,
         continuationToken,
         options
       );
@@ -91,12 +100,12 @@ export class DaprComponentsImpl implements DaprComponents {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DaprComponentsListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
   ): AsyncIterableIterator<DaprComponent> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      environmentName,
+      connectedEnvironmentName,
       options
     )) {
       yield* page;
@@ -104,18 +113,18 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Get the Dapr Components for a managed environment.
+   * Get the Dapr Components for a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: DaprComponentsListOptionalParams
-  ): Promise<DaprComponentsListResponse> {
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDaprComponentsListOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, options },
+      { resourceGroupName, connectedEnvironmentName, options },
       listOperationSpec
     );
   }
@@ -123,41 +132,41 @@ export class DaprComponentsImpl implements DaprComponents {
   /**
    * Get a dapr component.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsGetOptionalParams
-  ): Promise<DaprComponentsGetResponse> {
+    options?: ConnectedEnvironmentsDaprComponentsGetOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
+      { resourceGroupName, connectedEnvironmentName, componentName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates or updates a Dapr Component in a Managed Environment.
+   * Creates or updates a Dapr Component in a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param daprComponentEnvelope Configuration details of the Dapr Component.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
     daprComponentEnvelope: DaprComponent,
-    options?: DaprComponentsCreateOrUpdateOptionalParams
-  ): Promise<DaprComponentsCreateOrUpdateResponse> {
+    options?: ConnectedEnvironmentsDaprComponentsCreateOrUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        environmentName,
+        connectedEnvironmentName,
         componentName,
         daprComponentEnvelope,
         options
@@ -167,20 +176,20 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
-   * Delete a Dapr Component from a Managed Environment.
+   * Delete a Dapr Component from a connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsDeleteOptionalParams
+    options?: ConnectedEnvironmentsDaprComponentsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
+      { resourceGroupName, connectedEnvironmentName, componentName, options },
       deleteOperationSpec
     );
   }
@@ -188,18 +197,18 @@ export class DaprComponentsImpl implements DaprComponents {
   /**
    * List secrets for a dapr component
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param componentName Name of the Dapr Component.
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     componentName: string,
-    options?: DaprComponentsListSecretsOptionalParams
-  ): Promise<DaprComponentsListSecretsResponse> {
+    options?: ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsListSecretsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, componentName, options },
+      { resourceGroupName, connectedEnvironmentName, componentName, options },
       listSecretsOperationSpec
     );
   }
@@ -207,18 +216,18 @@ export class DaprComponentsImpl implements DaprComponents {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the connected environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     nextLink: string,
-    options?: DaprComponentsListNextOptionalParams
-  ): Promise<DaprComponentsListNextResponse> {
+    options?: ConnectedEnvironmentsDaprComponentsListNextOptionalParams
+  ): Promise<ConnectedEnvironmentsDaprComponentsListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, nextLink, options },
+      { resourceGroupName, connectedEnvironmentName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -228,7 +237,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents",
   httpMethod: "GET",
   responses: {
     200: {
@@ -243,14 +252,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents/{componentName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -265,15 +274,15 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.componentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents/{componentName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -289,8 +298,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.componentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -298,7 +307,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents/{componentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -312,15 +321,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.componentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listSecretsOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/listSecrets",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/daprComponents/{componentName}/listSecrets",
   httpMethod: "POST",
   responses: {
     200: {
@@ -335,8 +344,8 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.componentName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.componentName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -358,7 +367,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer

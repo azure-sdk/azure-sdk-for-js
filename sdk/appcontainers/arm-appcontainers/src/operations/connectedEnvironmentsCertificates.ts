@@ -7,34 +7,35 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Certificates } from "../operationsInterfaces";
+import { ConnectedEnvironmentsCertificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import {
   Certificate,
-  CertificatesListNextOptionalParams,
-  CertificatesListOptionalParams,
-  CertificatesListResponse,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
+  ConnectedEnvironmentsCertificatesListNextOptionalParams,
+  ConnectedEnvironmentsCertificatesListOptionalParams,
+  ConnectedEnvironmentsCertificatesListResponse,
+  ConnectedEnvironmentsCertificatesGetOptionalParams,
+  ConnectedEnvironmentsCertificatesGetResponse,
+  ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsCertificatesCreateOrUpdateResponse,
+  ConnectedEnvironmentsCertificatesDeleteOptionalParams,
   CertificatePatch,
-  CertificatesUpdateOptionalParams,
-  CertificatesUpdateResponse,
-  CertificatesListNextResponse
+  ConnectedEnvironmentsCertificatesUpdateOptionalParams,
+  ConnectedEnvironmentsCertificatesUpdateResponse,
+  ConnectedEnvironmentsCertificatesListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Certificates operations. */
-export class CertificatesImpl implements Certificates {
+/** Class containing ConnectedEnvironmentsCertificates operations. */
+export class ConnectedEnvironmentsCertificatesImpl
+  implements ConnectedEnvironmentsCertificates {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class Certificates class.
+   * Initialize a new instance of the class ConnectedEnvironmentsCertificates class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -42,19 +43,19 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the Certificates in a given connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: CertificatesListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams
   ): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listPagingAll(
       resourceGroupName,
-      environmentName,
+      connectedEnvironmentName,
       options
     );
     return {
@@ -65,23 +66,31 @@ export class CertificatesImpl implements Certificates {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(resourceGroupName, environmentName, options);
+        return this.listPagingPage(
+          resourceGroupName,
+          connectedEnvironmentName,
+          options
+        );
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    environmentName: string,
-    options?: CertificatesListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate[]> {
-    let result = await this._list(resourceGroupName, environmentName, options);
+    let result = await this._list(
+      resourceGroupName,
+      connectedEnvironmentName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        environmentName,
+        connectedEnvironmentName,
         continuationToken,
         options
       );
@@ -92,12 +101,12 @@ export class CertificatesImpl implements Certificates {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    environmentName: string,
-    options?: CertificatesListOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      environmentName,
+      connectedEnvironmentName,
       options
     )) {
       yield* page;
@@ -105,18 +114,18 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Get the Certificates in a given managed environment.
+   * Get the Certificates in a given connected environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    environmentName: string,
-    options?: CertificatesListOptionalParams
-  ): Promise<CertificatesListResponse> {
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsCertificatesListOptionalParams
+  ): Promise<ConnectedEnvironmentsCertificatesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, options },
+      { resourceGroupName, connectedEnvironmentName, options },
       listOperationSpec
     );
   }
@@ -124,18 +133,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Get the specified Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
-  ): Promise<CertificatesGetResponse> {
+    options?: ConnectedEnvironmentsCertificatesGetOptionalParams
+  ): Promise<ConnectedEnvironmentsCertificatesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, connectedEnvironmentName, certificateName, options },
       getOperationSpec
     );
   }
@@ -143,18 +152,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Create or Update a Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
-  ): Promise<CertificatesCreateOrUpdateResponse> {
+    options?: ConnectedEnvironmentsCertificatesCreateOrUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, connectedEnvironmentName, certificateName, options },
       createOrUpdateOperationSpec
     );
   }
@@ -162,18 +171,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Deletes the specified Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: ConnectedEnvironmentsCertificatesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, certificateName, options },
+      { resourceGroupName, connectedEnvironmentName, certificateName, options },
       deleteOperationSpec
     );
   }
@@ -181,22 +190,22 @@ export class CertificatesImpl implements Certificates {
   /**
    * Patches a certificate. Currently only patching of tags is supported
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param certificateName Name of the Certificate.
    * @param certificateEnvelope Properties of a certificate that need to be updated
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     certificateName: string,
     certificateEnvelope: CertificatePatch,
-    options?: CertificatesUpdateOptionalParams
-  ): Promise<CertificatesUpdateResponse> {
+    options?: ConnectedEnvironmentsCertificatesUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsCertificatesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        environmentName,
+        connectedEnvironmentName,
         certificateName,
         certificateEnvelope,
         options
@@ -208,18 +217,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param environmentName Name of the Managed Environment.
+   * @param connectedEnvironmentName Name of the Connected Environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    environmentName: string,
+    connectedEnvironmentName: string,
     nextLink: string,
-    options?: CertificatesListNextOptionalParams
-  ): Promise<CertificatesListNextResponse> {
+    options?: ConnectedEnvironmentsCertificatesListNextOptionalParams
+  ): Promise<ConnectedEnvironmentsCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, environmentName, nextLink, options },
+      { resourceGroupName, connectedEnvironmentName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -229,7 +238,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
@@ -244,14 +253,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -266,15 +275,15 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -290,8 +299,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -299,7 +308,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -313,15 +322,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/certificates/{certificateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -337,8 +346,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.certificateName,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -361,7 +370,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
