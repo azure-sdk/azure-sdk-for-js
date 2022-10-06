@@ -8578,110 +8578,6 @@ export const PremierAddOnOfferCollection: coreClient.CompositeMapper = {
   }
 };
 
-export const SkuInfos: coreClient.CompositeMapper = {
-  serializedName: "SkuInfos",
-  type: {
-    name: "Composite",
-    className: "SkuInfos",
-    modelProperties: {
-      resourceType: {
-        serializedName: "resourceType",
-        xmlName: "resourceType",
-        type: {
-          name: "String"
-        }
-      },
-      skus: {
-        serializedName: "skus",
-        xmlName: "skus",
-        xmlElementName: "GlobalCsmSkuDescription",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "GlobalCsmSkuDescription"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const GlobalCsmSkuDescription: coreClient.CompositeMapper = {
-  serializedName: "GlobalCsmSkuDescription",
-  type: {
-    name: "Composite",
-    className: "GlobalCsmSkuDescription",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        xmlName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      tier: {
-        serializedName: "tier",
-        xmlName: "tier",
-        type: {
-          name: "String"
-        }
-      },
-      size: {
-        serializedName: "size",
-        xmlName: "size",
-        type: {
-          name: "String"
-        }
-      },
-      family: {
-        serializedName: "family",
-        xmlName: "family",
-        type: {
-          name: "String"
-        }
-      },
-      capacity: {
-        serializedName: "capacity",
-        xmlName: "capacity",
-        type: {
-          name: "Composite",
-          className: "SkuCapacity"
-        }
-      },
-      locations: {
-        serializedName: "locations",
-        xmlName: "locations",
-        xmlElementName: "GlobalCsmSkuDescriptionLocationsItem",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      capabilities: {
-        serializedName: "capabilities",
-        xmlName: "capabilities",
-        xmlElementName: "Capability",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Capability"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const CsmMoveResourceEnvelope: coreClient.CompositeMapper = {
   serializedName: "CsmMoveResourceEnvelope",
   type: {
@@ -14414,6 +14310,110 @@ export const AppserviceGithubTokenRequest: coreClient.CompositeMapper = {
         xmlName: "state",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GlobalCsmSkuDescription: coreClient.CompositeMapper = {
+  serializedName: "GlobalCsmSkuDescription",
+  type: {
+    name: "Composite",
+    className: "GlobalCsmSkuDescription",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tier: {
+        serializedName: "tier",
+        xmlName: "tier",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        xmlName: "size",
+        type: {
+          name: "String"
+        }
+      },
+      family: {
+        serializedName: "family",
+        xmlName: "family",
+        type: {
+          name: "String"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        xmlName: "capacity",
+        type: {
+          name: "Composite",
+          className: "SkuCapacity"
+        }
+      },
+      locations: {
+        serializedName: "locations",
+        xmlName: "locations",
+        xmlElementName: "GlobalCsmSkuDescriptionLocationsItem",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      capabilities: {
+        serializedName: "capabilities",
+        xmlName: "capabilities",
+        xmlElementName: "Capability",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Capability"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SkuInfos: coreClient.CompositeMapper = {
+  serializedName: "SkuInfos",
+  type: {
+    name: "Composite",
+    className: "SkuInfos",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        xmlName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      skus: {
+        serializedName: "skus",
+        xmlName: "skus",
+        xmlElementName: "GlobalCsmSkuDescription",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GlobalCsmSkuDescription"
+            }
+          }
         }
       }
     }

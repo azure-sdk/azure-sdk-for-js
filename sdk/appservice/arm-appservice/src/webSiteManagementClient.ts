@@ -120,8 +120,6 @@ import {
   ListGeoRegionsResponse,
   ListSiteIdentifiersAssignedToHostNameResponse,
   ListPremierAddOnOffersResponse,
-  ListSkusOptionalParams,
-  ListSkusResponse,
   VnetParameters,
   VerifyHostingEnvironmentVnetOptionalParams,
   VerifyHostingEnvironmentVnetResponse,
@@ -173,12 +171,15 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appservice/13.0.2`;
+    const packageDetails = `azsdk-js-arm-appservice/14.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
@@ -217,7 +218,7 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-09-01";
     this.appServiceCertificateOrders = new AppServiceCertificateOrdersImpl(
       this
     );
@@ -738,14 +739,6 @@ export class WebSiteManagementClient extends coreClient.ServiceClient {
   }
 
   /**
-   * Description for List all SKUs.
-   * @param options The options parameters.
-   */
-  listSkus(options?: ListSkusOptionalParams): Promise<ListSkusResponse> {
-    return this.sendOperationRequest({ options }, listSkusOperationSpec);
-  }
-
-  /**
    * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the
    * Network Security Group rules.
    * @param parameters VNET information
@@ -1151,22 +1144,6 @@ const listPremierAddOnOffersOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PremierAddOnOfferCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSkusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SkuInfos
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
