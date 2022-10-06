@@ -6305,8 +6305,8 @@ export const VideoAnalyzerPreset: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VideoAnalyzerPreset",
-    uberParent: "AudioAnalyzerPreset",
-    polymorphicDiscriminator: AudioAnalyzerPreset.type.polymorphicDiscriminator,
+    uberParent: "Preset",
+    polymorphicDiscriminator: Preset.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioAnalyzerPreset.type.modelProperties,
       insightsToExtract: {
@@ -6324,8 +6324,8 @@ export const JobInputAsset: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobInputAsset",
-    uberParent: "JobInputClip",
-    polymorphicDiscriminator: JobInputClip.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobInputClip.type.modelProperties,
       assetName: {
@@ -6344,8 +6344,8 @@ export const JobInputHttp: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JobInputHttp",
-    uberParent: "JobInputClip",
-    polymorphicDiscriminator: JobInputClip.type.polymorphicDiscriminator,
+    uberParent: "JobInput",
+    polymorphicDiscriminator: JobInput.type.polymorphicDiscriminator,
     modelProperties: {
       ...JobInputClip.type.modelProperties,
       baseUri: {
@@ -6363,8 +6363,8 @@ export const AacAudio: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AacAudio",
-    uberParent: "Audio",
-    polymorphicDiscriminator: Audio.type.polymorphicDiscriminator,
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
     modelProperties: {
       ...Audio.type.modelProperties,
       profile: {
@@ -6382,8 +6382,8 @@ export const H265Video: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "H265Video",
-    uberParent: "Video",
-    polymorphicDiscriminator: Video.type.polymorphicDiscriminator,
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
     modelProperties: {
       ...Video.type.modelProperties,
       sceneChangeDetection: {
@@ -6419,7 +6419,7 @@ export const Image: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Image",
-    uberParent: "Video",
+    uberParent: "Codec",
     polymorphicDiscriminator: {
       serializedName: "@odata\\.type",
       clientName: "odataType"
@@ -6454,8 +6454,8 @@ export const H264Video: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "H264Video",
-    uberParent: "Video",
-    polymorphicDiscriminator: Video.type.polymorphicDiscriminator,
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
     modelProperties: {
       ...Video.type.modelProperties,
       complexity: {
@@ -6583,9 +6583,8 @@ export const SelectAudioTrackByAttribute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectAudioTrackByAttribute",
-    uberParent: "AudioTrackDescriptor",
-    polymorphicDiscriminator:
-      AudioTrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "TrackDescriptor",
+    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioTrackDescriptor.type.modelProperties,
       attribute: {
@@ -6617,9 +6616,8 @@ export const SelectAudioTrackById: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectAudioTrackById",
-    uberParent: "AudioTrackDescriptor",
-    polymorphicDiscriminator:
-      AudioTrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "TrackDescriptor",
+    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...AudioTrackDescriptor.type.modelProperties,
       trackId: {
@@ -6638,9 +6636,8 @@ export const SelectVideoTrackByAttribute: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectVideoTrackByAttribute",
-    uberParent: "VideoTrackDescriptor",
-    polymorphicDiscriminator:
-      VideoTrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "TrackDescriptor",
+    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...VideoTrackDescriptor.type.modelProperties,
       attribute: {
@@ -6672,9 +6669,8 @@ export const SelectVideoTrackById: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SelectVideoTrackById",
-    uberParent: "VideoTrackDescriptor",
-    polymorphicDiscriminator:
-      VideoTrackDescriptor.type.polymorphicDiscriminator,
+    uberParent: "TrackDescriptor",
+    polymorphicDiscriminator: TrackDescriptor.type.polymorphicDiscriminator,
     modelProperties: {
       ...VideoTrackDescriptor.type.modelProperties,
       trackId: {
@@ -6693,8 +6689,8 @@ export const JpgFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JpgFormat",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "Format",
+    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
     modelProperties: {
       ...ImageFormat.type.modelProperties
     }
@@ -6706,8 +6702,8 @@ export const PngFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PngFormat",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "Format",
+    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
     modelProperties: {
       ...ImageFormat.type.modelProperties
     }
@@ -6719,8 +6715,8 @@ export const Mp4Format: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Mp4Format",
-    uberParent: "MultiBitrateFormat",
-    polymorphicDiscriminator: MultiBitrateFormat.type.polymorphicDiscriminator,
+    uberParent: "Format",
+    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultiBitrateFormat.type.modelProperties
     }
@@ -6732,8 +6728,8 @@ export const TransportStreamFormat: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TransportStreamFormat",
-    uberParent: "MultiBitrateFormat",
-    polymorphicDiscriminator: MultiBitrateFormat.type.polymorphicDiscriminator,
+    uberParent: "Format",
+    polymorphicDiscriminator: Format.type.polymorphicDiscriminator,
     modelProperties: {
       ...MultiBitrateFormat.type.modelProperties
     }
@@ -6745,8 +6741,8 @@ export const JpgImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JpgImage",
-    uberParent: "Image",
-    polymorphicDiscriminator: Image.type.polymorphicDiscriminator,
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
     modelProperties: {
       ...Image.type.modelProperties,
       layers: {
@@ -6776,8 +6772,8 @@ export const PngImage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PngImage",
-    uberParent: "Image",
-    polymorphicDiscriminator: Image.type.polymorphicDiscriminator,
+    uberParent: "Codec",
+    polymorphicDiscriminator: Codec.type.polymorphicDiscriminator,
     modelProperties: {
       ...Image.type.modelProperties,
       layers: {
@@ -7066,21 +7062,21 @@ export let discriminators = {
   "Format.#Microsoft.Media.MultiBitrateFormat": MultiBitrateFormat,
   "ClipTime.#Microsoft.Media.AbsoluteClipTime": AbsoluteClipTime,
   "ClipTime.#Microsoft.Media.UtcClipTime": UtcClipTime,
-  "AudioAnalyzerPreset.#Microsoft.Media.VideoAnalyzerPreset": VideoAnalyzerPreset,
-  "JobInputClip.#Microsoft.Media.JobInputAsset": JobInputAsset,
-  "JobInputClip.#Microsoft.Media.JobInputHttp": JobInputHttp,
-  "Audio.#Microsoft.Media.AacAudio": AacAudio,
-  "Video.#Microsoft.Media.H265Video": H265Video,
-  "Video.#Microsoft.Media.Image": Image,
-  "Video.#Microsoft.Media.H264Video": H264Video,
-  "AudioTrackDescriptor.#Microsoft.Media.SelectAudioTrackByAttribute": SelectAudioTrackByAttribute,
-  "AudioTrackDescriptor.#Microsoft.Media.SelectAudioTrackById": SelectAudioTrackById,
-  "VideoTrackDescriptor.#Microsoft.Media.SelectVideoTrackByAttribute": SelectVideoTrackByAttribute,
-  "VideoTrackDescriptor.#Microsoft.Media.SelectVideoTrackById": SelectVideoTrackById,
-  "ImageFormat.#Microsoft.Media.JpgFormat": JpgFormat,
-  "ImageFormat.#Microsoft.Media.PngFormat": PngFormat,
-  "MultiBitrateFormat.#Microsoft.Media.Mp4Format": Mp4Format,
-  "MultiBitrateFormat.#Microsoft.Media.TransportStreamFormat": TransportStreamFormat,
-  "Image.#Microsoft.Media.JpgImage": JpgImage,
-  "Image.#Microsoft.Media.PngImage": PngImage
+  "Preset.#Microsoft.Media.VideoAnalyzerPreset": VideoAnalyzerPreset,
+  "JobInput.#Microsoft.Media.JobInputAsset": JobInputAsset,
+  "JobInput.#Microsoft.Media.JobInputHttp": JobInputHttp,
+  "Codec.#Microsoft.Media.AacAudio": AacAudio,
+  "Codec.#Microsoft.Media.H265Video": H265Video,
+  "Codec.#Microsoft.Media.Image": Image,
+  "Codec.#Microsoft.Media.H264Video": H264Video,
+  "TrackDescriptor.#Microsoft.Media.SelectAudioTrackByAttribute": SelectAudioTrackByAttribute,
+  "TrackDescriptor.#Microsoft.Media.SelectAudioTrackById": SelectAudioTrackById,
+  "TrackDescriptor.#Microsoft.Media.SelectVideoTrackByAttribute": SelectVideoTrackByAttribute,
+  "TrackDescriptor.#Microsoft.Media.SelectVideoTrackById": SelectVideoTrackById,
+  "Format.#Microsoft.Media.JpgFormat": JpgFormat,
+  "Format.#Microsoft.Media.PngFormat": PngFormat,
+  "Format.#Microsoft.Media.Mp4Format": Mp4Format,
+  "Format.#Microsoft.Media.TransportStreamFormat": TransportStreamFormat,
+  "Codec.#Microsoft.Media.JpgImage": JpgImage,
+  "Codec.#Microsoft.Media.PngImage": PngImage
 };
