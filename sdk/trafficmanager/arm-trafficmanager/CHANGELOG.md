@@ -1,15 +1,22 @@
 # Release History
+    
+## 6.1.0 (2022-10-07)
+    
+**Features**
 
-## 6.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Endpoint
+  - Added Interface HeatMapModel
+  - Added Interface Profile
+  - Added Interface ProxyResource
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface TrafficManagerGeographicHierarchy
+  - Added Interface UserMetricsModel
+  - Added Type Alias AlwaysServe
+  - Added Type Alias CreatedByType
+  - Added Enum KnownAlwaysServe
+  - Added Enum KnownCreatedByType
+    
 ## 6.0.1 (2022-05-05)
 
 **Features**

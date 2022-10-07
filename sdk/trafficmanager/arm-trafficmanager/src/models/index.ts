@@ -8,6 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Subnet first address, scope, and/or last address. */
 export interface EndpointPropertiesSubnetsItem {
   /** First address in the subnet. */
@@ -183,18 +199,23 @@ export interface QueryExperience {
 }
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for a ARM tracked top level resource */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The Azure Region where the resource lives */
   location?: string;
-};
+}
 
 /** Class representing a Traffic Manager endpoint. */
-export type Endpoint = ProxyResource & {
+export interface Endpoint extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type 'ExternalEndpoints'. */
   targetResourceId?: string;
   /** The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint. */
@@ -221,16 +242,28 @@ export type Endpoint = ProxyResource & {
   subnets?: EndpointPropertiesSubnetsItem[];
   /** List of custom headers. */
   customHeaders?: EndpointPropertiesCustomHeadersItem[];
-};
+  /** If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method. */
+  alwaysServe?: AlwaysServe;
+}
 
 /** Class representing the Geographic hierarchy used with the Geographic traffic routing method. */
-export type TrafficManagerGeographicHierarchy = ProxyResource & {
+export interface TrafficManagerGeographicHierarchy extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The region at the root of the hierarchy from all the regions in the hierarchy can be retrieved. */
   geographicHierarchy?: Region;
-};
+}
 
 /** Class representing a Traffic Manager HeatMap. */
-export type HeatMapModel = ProxyResource & {
+export interface HeatMapModel extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The beginning of the time window for this HeatMap, inclusive. */
   startTime?: Date;
   /** The ending of the time window for this HeatMap, exclusive. */
@@ -239,16 +272,26 @@ export type HeatMapModel = ProxyResource & {
   endpoints?: HeatMapEndpoint[];
   /** The traffic flows produced in this HeatMap calculation. */
   trafficFlows?: TrafficFlow[];
-};
+}
 
 /** Class representing Traffic Manager User Metrics. */
-export type UserMetricsModel = ProxyResource & {
+export interface UserMetricsModel extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The key returned by the User Metrics operation. */
   key?: string;
-};
+}
 
 /** Class representing a Traffic Manager profile. */
-export type Profile = TrackedResource & {
+export interface Profile extends TrackedResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The status of the Traffic Manager profile. */
   profileStatus?: ProfileStatus;
   /** The traffic routing method of the Traffic Manager profile. */
@@ -265,11 +308,37 @@ export type Profile = TrackedResource & {
   allowedEndpointRecordTypes?: AllowedEndpointRecordType[];
   /** Maximum number of endpoints to be returned for MultiValue routing type. */
   maxReturn?: number;
-};
+}
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link EndpointStatus} that the service accepts. */
 export enum KnownEndpointStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -285,11 +354,17 @@ export type EndpointStatus = string;
 
 /** Known values of {@link EndpointMonitorStatus} that the service accepts. */
 export enum KnownEndpointMonitorStatus {
+  /** CheckingEndpoint */
   CheckingEndpoint = "CheckingEndpoint",
+  /** Online */
   Online = "Online",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Inactive */
   Inactive = "Inactive",
+  /** Stopped */
   Stopped = "Stopped"
 }
 
@@ -307,9 +382,29 @@ export enum KnownEndpointMonitorStatus {
  */
 export type EndpointMonitorStatus = string;
 
+/** Known values of {@link AlwaysServe} that the service accepts. */
+export enum KnownAlwaysServe {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for AlwaysServe. \
+ * {@link KnownAlwaysServe} can be used interchangeably with AlwaysServe,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AlwaysServe = string;
+
 /** Known values of {@link ProfileStatus} that the service accepts. */
 export enum KnownProfileStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -325,11 +420,17 @@ export type ProfileStatus = string;
 
 /** Known values of {@link TrafficRoutingMethod} that the service accepts. */
 export enum KnownTrafficRoutingMethod {
+  /** Performance */
   Performance = "Performance",
+  /** Priority */
   Priority = "Priority",
+  /** Weighted */
   Weighted = "Weighted",
+  /** Geographic */
   Geographic = "Geographic",
+  /** MultiValue */
   MultiValue = "MultiValue",
+  /** Subnet */
   Subnet = "Subnet"
 }
 
@@ -349,10 +450,15 @@ export type TrafficRoutingMethod = string;
 
 /** Known values of {@link ProfileMonitorStatus} that the service accepts. */
 export enum KnownProfileMonitorStatus {
+  /** CheckingEndpoints */
   CheckingEndpoints = "CheckingEndpoints",
+  /** Online */
   Online = "Online",
+  /** Degraded */
   Degraded = "Degraded",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Inactive */
   Inactive = "Inactive"
 }
 
@@ -371,8 +477,11 @@ export type ProfileMonitorStatus = string;
 
 /** Known values of {@link MonitorProtocol} that the service accepts. */
 export enum KnownMonitorProtocol {
+  /** Http */
   Http = "HTTP",
+  /** Https */
   Https = "HTTPS",
+  /** TCP */
   TCP = "TCP"
 }
 
@@ -389,7 +498,9 @@ export type MonitorProtocol = string;
 
 /** Known values of {@link TrafficViewEnrollmentStatus} that the service accepts. */
 export enum KnownTrafficViewEnrollmentStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -405,9 +516,13 @@ export type TrafficViewEnrollmentStatus = string;
 
 /** Known values of {@link AllowedEndpointRecordType} that the service accepts. */
 export enum KnownAllowedEndpointRecordType {
+  /** DomainName */
   DomainName = "DomainName",
+  /** IPv4Address */
   IPv4Address = "IPv4Address",
+  /** IPv6Address */
   IPv6Address = "IPv6Address",
+  /** Any */
   Any = "Any"
 }
 
