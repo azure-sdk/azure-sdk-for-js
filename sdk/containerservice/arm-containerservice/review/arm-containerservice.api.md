@@ -90,6 +90,8 @@ export type AgentPoolMode = string;
 
 // @public
 export interface AgentPoolNetworkProfile {
+    allowedHostPorts?: PortRange[];
+    applicationSecurityGroups?: string[];
     nodePublicIPTags?: IPTag[];
 }
 
@@ -247,6 +249,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
+    apiVersion: string;
+    // (undocumented)
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
@@ -277,6 +281,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 // @public
 export interface ContainerServiceClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
+    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -493,6 +498,12 @@ export interface FleetMembersCreateOrUpdateOptionalParams extends coreClient.Ope
 export type FleetMembersCreateOrUpdateResponse = FleetMember;
 
 // @public
+export interface FleetMembersDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface FleetMembersDeleteOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
     resumeFrom?: string;
@@ -559,6 +570,12 @@ export interface FleetsCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type FleetsCreateOrUpdateResponse = Fleet;
+
+// @public
+export interface FleetsDeleteHeaders {
+    // (undocumented)
+    location?: string;
+}
 
 // @public
 export interface FleetsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -1052,6 +1069,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProtocol {
+    TCP = "TCP",
+    UDP = "UDP"
 }
 
 // @public
@@ -1618,6 +1641,7 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
 // @public
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
+    customCATrustCertificates?: Uint8Array[];
     defender?: ManagedClusterSecurityProfileDefender;
     imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
     nodeRestriction?: ManagedClusterSecurityProfileNodeRestriction;
@@ -2064,6 +2088,13 @@ export interface OutboundEnvironmentEndpointCollection {
 export type OutboundType = string;
 
 // @public
+export interface PortRange {
+    portEnd?: number;
+    portStart?: number;
+    protocol?: Protocol;
+}
+
+// @public
 export interface PowerState {
     code?: Code;
 }
@@ -2159,6 +2190,9 @@ export interface PrivateLinkServiceConnectionState {
     description?: string;
     status?: ConnectionStatus;
 }
+
+// @public
+export type Protocol = string;
 
 // @public
 export type PublicNetworkAccess = string;
