@@ -120,7 +120,6 @@ export interface AdminRule extends BaseAdminRule {
     destinationPortRanges?: string[];
     destinations?: AddressPrefixItem[];
     direction?: SecurityConfigurationRuleDirection;
-    kind: "Custom";
     priority?: number;
     protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -1719,6 +1718,21 @@ export interface AzureFirewallNetworkRuleCollection extends SubResource {
 export type AzureFirewallNetworkRuleProtocol = string;
 
 // @public
+export interface AzureFirewallPacketCaptureFlags {
+    type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+// @public
+export type AzureFirewallPacketCaptureFlagsType = string;
+
+// @public
+export interface AzureFirewallPacketCaptureRule {
+    destinationPorts?: string[];
+    destinations?: string[];
+    sources?: string[];
+}
+
+// @public
 export interface AzureFirewallPublicIPAddress {
     address?: string;
 }
@@ -1739,6 +1753,8 @@ export interface AzureFirewalls {
     beginDeleteAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsDeleteOptionalParams): Promise<void>;
     beginListLearnedPrefixes(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<PollerLike<PollOperationState<AzureFirewallsListLearnedPrefixesResponse>, AzureFirewallsListLearnedPrefixesResponse>>;
     beginListLearnedPrefixesAndWait(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsListLearnedPrefixesOptionalParams): Promise<AzureFirewallsListLearnedPrefixesResponse>;
+    beginPacketCapture(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPacketCaptureAndWait(resourceGroupName: string, azureFirewallName: string, parameters: FirewallPacketCaptureParameters, options?: AzureFirewallsPacketCaptureOptionalParams): Promise<void>;
     beginUpdateTags(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<PollerLike<PollOperationState<AzureFirewallsUpdateTagsResponse>, AzureFirewallsUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, azureFirewallName: string, parameters: TagsObject, options?: AzureFirewallsUpdateTagsOptionalParams): Promise<AzureFirewallsUpdateTagsResponse>;
     get(resourceGroupName: string, azureFirewallName: string, options?: AzureFirewallsGetOptionalParams): Promise<AzureFirewallsGetResponse>;
@@ -1816,6 +1832,12 @@ export interface AzureFirewallsListOptionalParams extends coreClient.OperationOp
 
 // @public
 export type AzureFirewallsListResponse = AzureFirewallListResult;
+
+// @public
+export interface AzureFirewallsPacketCaptureOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface AzureFirewallsUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -3017,7 +3039,6 @@ export interface DefaultAdminRule extends BaseAdminRule {
     readonly destinations?: AddressPrefixItem[];
     readonly direction?: SecurityConfigurationRuleDirection;
     flag?: string;
-    kind: "Default";
     readonly priority?: number;
     readonly protocol?: SecurityConfigurationRuleProtocol;
     readonly provisioningState?: ProvisioningState;
@@ -4138,7 +4159,6 @@ export type ExpressRouteCrossConnectionsUpdateTagsResponse = ExpressRouteCrossCo
 
 // @public
 export interface ExpressRouteGateway extends Resource {
-    allowNonVirtualWanTraffic?: boolean;
     autoScaleConfiguration?: ExpressRouteGatewayPropertiesAutoScaleConfiguration;
     readonly etag?: string;
     expressRouteConnections?: ExpressRouteConnection[];
@@ -4604,6 +4624,17 @@ export type ExtendedLocationTypes = string;
 export interface FilterItems {
     field?: string;
     values?: string[];
+}
+
+// @public
+export interface FirewallPacketCaptureParameters extends SubResource {
+    durationInSeconds?: string;
+    fileName?: string;
+    filters?: AzureFirewallPacketCaptureRule[];
+    flags?: AzureFirewallPacketCaptureFlags[];
+    numberOfPacketsToCapture?: string;
+    protocol?: AzureFirewallNetworkRuleProtocol;
+    sasUrl?: string;
 }
 
 // @public
@@ -6089,6 +6120,16 @@ export enum KnownAzureFirewallNetworkRuleProtocol {
 }
 
 // @public
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+    TcpAct = "tcp-act",
+    TcpFin = "tcp-fin",
+    TcpPush = "tcp-push",
+    TcpRst = "tcp-rst",
+    TcpSyn = "tcp-syn",
+    TcpUrg = "tcp-urg"
+}
+
+// @public
 export enum KnownAzureFirewallRCActionType {
     Allow = "Allow",
     Deny = "Deny"
@@ -6458,7 +6499,8 @@ export enum KnownFirewallPolicyNatRuleCollectionActionType {
 // @public
 export enum KnownFirewallPolicyRuleApplicationProtocolType {
     Http = "Http",
-    Https = "Https"
+    Https = "Https",
+    Mssql = "Mssql"
 }
 
 // @public
@@ -13277,8 +13319,6 @@ export type VirtualNetworkEncryptionEnforcement = string;
 // @public
 export interface VirtualNetworkGateway extends Resource {
     active?: boolean;
-    allowRemoteVnetTraffic?: boolean;
-    allowVirtualWanTraffic?: boolean;
     bgpSettings?: BgpSettings;
     customRoutes?: AddressSpace;
     disableIPSecReplayProtection?: boolean;

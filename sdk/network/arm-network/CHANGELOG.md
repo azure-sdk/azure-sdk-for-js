@@ -1,15 +1,28 @@
 # Release History
+    
+## 31.0.0 (2022-10-10)
+    
+**Features**
 
-## 30.0.1 (Unreleased)
+  - Added operation AzureFirewalls.beginPacketCapture
+  - Added operation AzureFirewalls.beginPacketCaptureAndWait
+  - Added Interface AzureFirewallPacketCaptureFlags
+  - Added Interface AzureFirewallPacketCaptureRule
+  - Added Interface AzureFirewallsPacketCaptureOptionalParams
+  - Added Interface FirewallPacketCaptureParameters
+  - Added Type Alias AzureFirewallPacketCaptureFlagsType
+  - Added Enum KnownAzureFirewallPacketCaptureFlagsType
+  - Enum KnownFirewallPolicyRuleApplicationProtocolType has a new value Mssql
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AdminRule no longer has parameter kind
+  - Interface DefaultAdminRule no longer has parameter kind
+  - Interface ExpressRouteGateway no longer has parameter allowNonVirtualWanTraffic
+  - Interface VirtualNetworkGateway no longer has parameter allowRemoteVnetTraffic
+  - Interface VirtualNetworkGateway no longer has parameter allowVirtualWanTraffic
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**

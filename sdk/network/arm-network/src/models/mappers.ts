@@ -2601,6 +2601,63 @@ export const IPPrefixesList: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureFirewallPacketCaptureFlags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureFlags",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFirewallPacketCaptureRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureFirewallPacketCaptureRule",
+    modelProperties: {
+      sources: {
+        serializedName: "sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinations: {
+        serializedName: "destinations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      destinationPorts: {
+        serializedName: "destinationPorts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const AzureFirewallFqdnTagListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -19892,6 +19949,70 @@ export const AzureFirewallIPConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FirewallPacketCaptureParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FirewallPacketCaptureParameters",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      durationInSeconds: {
+        serializedName: "properties.durationInSeconds",
+        type: {
+          name: "String"
+        }
+      },
+      numberOfPacketsToCapture: {
+        serializedName: "properties.numberOfPacketsToCapture",
+        type: {
+          name: "String"
+        }
+      },
+      sasUrl: {
+        serializedName: "properties.sasUrl",
+        type: {
+          name: "String"
+        }
+      },
+      fileName: {
+        serializedName: "properties.fileName",
+        type: {
+          name: "String"
+        }
+      },
+      protocol: {
+        serializedName: "properties.protocol",
+        type: {
+          name: "String"
+        }
+      },
+      flags: {
+        serializedName: "properties.flags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureFlags"
+            }
+          }
+        }
+      },
+      filters: {
+        serializedName: "properties.filters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureFirewallPacketCaptureRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BastionHostIPConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -27125,18 +27246,6 @@ export const VirtualNetworkGateway: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
-      },
-      allowVirtualWanTraffic: {
-        serializedName: "properties.allowVirtualWanTraffic",
-        type: {
-          name: "Boolean"
-        }
-      },
-      allowRemoteVnetTraffic: {
-        serializedName: "properties.allowRemoteVnetTraffic",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -28452,12 +28561,6 @@ export const ExpressRouteGateway: coreClient.CompositeMapper = {
           name: "Composite",
           className: "VirtualHubId"
         }
-      },
-      allowNonVirtualWanTraffic: {
-        serializedName: "properties.allowNonVirtualWanTraffic",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -29767,8 +29870,8 @@ export const AdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -29867,8 +29970,8 @@ export const DefaultAdminRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DefaultAdminRule",
-    uberParent: "BaseAdminRule",
-    polymorphicDiscriminator: BaseAdminRule.type.polymorphicDiscriminator,
+    uberParent: "ChildResource",
+    polymorphicDiscriminator: ChildResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...BaseAdminRule.type.modelProperties,
       description: {
@@ -30108,6 +30211,6 @@ export let discriminators = {
   "FirewallPolicyRule.ApplicationRule": ApplicationRule,
   "FirewallPolicyRule.NatRule": NatRule,
   "FirewallPolicyRule.NetworkRule": NetworkRule,
-  "BaseAdminRule.Custom": AdminRule,
-  "BaseAdminRule.Default": DefaultAdminRule
+  "ChildResource.Custom": AdminRule,
+  "ChildResource.Default": DefaultAdminRule
 };

@@ -910,6 +910,22 @@ export interface IPPrefixesList {
   ipPrefixes?: string[];
 }
 
+/** Properties of the AzureFirewallRCAction. */
+export interface AzureFirewallPacketCaptureFlags {
+  /** Flags to capture */
+  type?: AzureFirewallPacketCaptureFlagsType;
+}
+
+/** Group of src/dest ips and ports to be captured. */
+export interface AzureFirewallPacketCaptureRule {
+  /** List of source IP addresses/subnets to be captured. */
+  sources?: string[];
+  /** List of destination IP addresses/subnets to be captured. */
+  destinations?: string[];
+  /** List of ports to be captured. */
+  destinationPorts?: string[];
+}
+
 /** Response for ListAzureFirewallFqdnTags API service call. */
 export interface AzureFirewallFqdnTagListResult {
   /** List of Azure Firewall FQDN Tags in a resource group. */
@@ -7251,6 +7267,24 @@ export interface AzureFirewallIPConfiguration extends SubResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Azure Firewall Packet Capture Parameters resource. */
+export interface FirewallPacketCaptureParameters extends SubResource {
+  /** Duration of packet capture in seconds. */
+  durationInSeconds?: string;
+  /** Number of packets to be captured. */
+  numberOfPacketsToCapture?: string;
+  /** Upload capture location */
+  sasUrl?: string;
+  /** Name of file to be uploaded to sasURL */
+  fileName?: string;
+  /** The protocol of packets to capture */
+  protocol?: AzureFirewallNetworkRuleProtocol;
+  /** The tcp-flag type to be captured. Used with protocol TCP */
+  flags?: AzureFirewallPacketCaptureFlags[];
+  /** Rules to filter packet captures. */
+  filters?: AzureFirewallPacketCaptureRule[];
+}
+
 /** IP configuration of an Bastion Host. */
 export interface BastionHostIPConfiguration extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
@@ -10187,10 +10221,6 @@ export interface VirtualNetworkGateway extends Resource {
   natRules?: VirtualNetworkGatewayNatRule[];
   /** EnableBgpRouteTranslationForNat flag. */
   enableBgpRouteTranslationForNat?: boolean;
-  /** Configures this gateway to accept traffic from remote Virtual WAN networks. */
-  allowVirtualWanTraffic?: boolean;
-  /** Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN. */
-  allowRemoteVnetTraffic?: boolean;
 }
 
 /** A common class for general resource information. */
@@ -10675,8 +10705,6 @@ export interface ExpressRouteGateway extends Resource {
   readonly provisioningState?: ProvisioningState;
   /** The Virtual Hub where the ExpressRoute gateway is or will be deployed. */
   virtualHub?: VirtualHubId;
-  /** Configures this gateway to accept traffic from non Virtual WAN networks. */
-  allowNonVirtualWanTraffic?: boolean;
 }
 
 /** Defines web application firewall policy. */
@@ -11183,8 +11211,6 @@ export interface NetworkRule extends FirewallPolicyRule {
 
 /** Network admin rule. */
 export interface AdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Custom";
   /** A description for this rule. Restricted to 140 chars. */
   description?: string;
   /** Network protocol this rule applies to. */
@@ -11212,8 +11238,6 @@ export interface AdminRule extends BaseAdminRule {
 
 /** Network default admin rule. */
 export interface DefaultAdminRule extends BaseAdminRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Default";
   /**
    * A description for this rule. Restricted to 140 chars.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -12473,6 +12497,36 @@ export enum KnownAzureFirewallSkuTier {
  * **Basic**
  */
 export type AzureFirewallSkuTier = string;
+
+/** Known values of {@link AzureFirewallPacketCaptureFlagsType} that the service accepts. */
+export enum KnownAzureFirewallPacketCaptureFlagsType {
+  /** TcpFin */
+  TcpFin = "tcp-fin",
+  /** TcpSyn */
+  TcpSyn = "tcp-syn",
+  /** TcpRst */
+  TcpRst = "tcp-rst",
+  /** TcpPush */
+  TcpPush = "tcp-push",
+  /** TcpAct */
+  TcpAct = "tcp-act",
+  /** TcpUrg */
+  TcpUrg = "tcp-urg"
+}
+
+/**
+ * Defines values for AzureFirewallPacketCaptureFlagsType. \
+ * {@link KnownAzureFirewallPacketCaptureFlagsType} can be used interchangeably with AzureFirewallPacketCaptureFlagsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **tcp-fin** \
+ * **tcp-syn** \
+ * **tcp-rst** \
+ * **tcp-push** \
+ * **tcp-act** \
+ * **tcp-urg**
+ */
+export type AzureFirewallPacketCaptureFlagsType = string;
 
 /** Known values of {@link BastionHostSkuName} that the service accepts. */
 export enum KnownBastionHostSkuName {
@@ -15653,7 +15707,9 @@ export enum KnownFirewallPolicyRuleApplicationProtocolType {
   /** Http */
   Http = "Http",
   /** Https */
-  Https = "Https"
+  Https = "Https",
+  /** Mssql */
+  Mssql = "Mssql"
 }
 
 /**
@@ -15662,7 +15718,8 @@ export enum KnownFirewallPolicyRuleApplicationProtocolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Http** \
- * **Https**
+ * **Https** \
+ * **Mssql**
  */
 export type FirewallPolicyRuleApplicationProtocolType = string;
 
@@ -16297,6 +16354,15 @@ export interface AzureFirewallsListLearnedPrefixesOptionalParams
 
 /** Contains response data for the listLearnedPrefixes operation. */
 export type AzureFirewallsListLearnedPrefixesResponse = IPPrefixesList;
+
+/** Optional parameters. */
+export interface AzureFirewallsPacketCaptureOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface AzureFirewallsListNextOptionalParams
