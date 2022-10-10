@@ -1,15 +1,148 @@
 # Release History
+    
+## 1.0.0-beta.6 (2022-10-10)
+    
+**Features**
 
-## 1.0.0-beta.6 (Unreleased)
+  - Added operation group Get
+  - Added operation group GetRecommendations
+  - Added operation group Update
+  - Added Interface Content
+  - Added Interface GetRecommendationsListOptionalParams
+  - Added Interface GetSingleRecommendationOptionalParams
+  - Added Interface Instructions
+  - Added Interface Recommendation
+  - Added Interface RecommendationList
+  - Added Interface RecommendationPatch
+  - Added Interface RecommendedAction
+  - Added Interface UpdateRecommendationOptionalParams
+  - Added Type Alias Category
+  - Added Type Alias Context
+  - Added Type Alias GetRecommendationsListResponse
+  - Added Type Alias GetSingleRecommendationResponse
+  - Added Type Alias Priority
+  - Added Type Alias State
+  - Added Type Alias UpdateRecommendationResponse
+  - Class SecurityInsights has a new parameter get
+  - Class SecurityInsights has a new parameter getRecommendations
+  - Class SecurityInsights has a new parameter update
+  - Added Enum KnownCategory
+  - Added Enum KnownContext
+  - Added Enum KnownPriority
+  - Added Enum KnownState
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group FileImports
+  - Interface AADDataConnector no longer has parameter kind
+  - Interface AatpDataConnector no longer has parameter kind
+  - Interface AccountEntity no longer has parameter kind
+  - Interface ActivityCustomEntityQuery no longer has parameter kind
+  - Interface ActivityEntityQuery no longer has parameter kind
+  - Interface ActivityEntityQueryTemplate no longer has parameter kind
+  - Interface Anomalies no longer has parameter kind
+  - Interface AnomalySecurityMLAnalyticsSettings no longer has parameter kind
+  - Interface ASCDataConnector no longer has parameter kind
+  - Interface AwsCloudTrailDataConnector no longer has parameter kind
+  - Interface AwsS3DataConnector no longer has parameter kind
+  - Interface AzureResourceEntity no longer has parameter kind
+  - Interface CloudApplicationEntity no longer has parameter kind
+  - Interface CodelessApiPollingDataConnector no longer has parameter kind
+  - Interface CodelessUiDataConnector no longer has parameter kind
+  - Interface DnsEntity no longer has parameter kind
+  - Interface Dynamics365DataConnector no longer has parameter kind
+  - Interface EntityAnalytics no longer has parameter kind
+  - Interface ExpansionEntityQuery no longer has parameter kind
+  - Interface EyesOn no longer has parameter kind
+  - Interface FileEntity no longer has parameter kind
+  - Interface FileHashEntity no longer has parameter kind
+  - Interface FusionAlertRule no longer has parameter kind
+  - Interface FusionAlertRuleTemplate no longer has parameter kind
+  - Interface HostEntity no longer has parameter kind
+  - Interface HuntingBookmark no longer has parameter kind
+  - Interface IoTDataConnector no longer has parameter kind
+  - Interface IoTDeviceEntity no longer has parameter deviceSubType
+  - Interface IoTDeviceEntity no longer has parameter importance
+  - Interface IoTDeviceEntity no longer has parameter isAuthorized
+  - Interface IoTDeviceEntity no longer has parameter isProgramming
+  - Interface IoTDeviceEntity no longer has parameter isScanner
+  - Interface IoTDeviceEntity no longer has parameter kind
+  - Interface IoTDeviceEntity no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntity no longer has parameter owners
+  - Interface IoTDeviceEntity no longer has parameter purdueLayer
+  - Interface IoTDeviceEntity no longer has parameter sensor
+  - Interface IoTDeviceEntity no longer has parameter site
+  - Interface IoTDeviceEntity no longer has parameter zone
+  - Interface IoTDeviceEntityProperties no longer has parameter deviceSubType
+  - Interface IoTDeviceEntityProperties no longer has parameter importance
+  - Interface IoTDeviceEntityProperties no longer has parameter isAuthorized
+  - Interface IoTDeviceEntityProperties no longer has parameter isProgramming
+  - Interface IoTDeviceEntityProperties no longer has parameter isScanner
+  - Interface IoTDeviceEntityProperties no longer has parameter nicEntityIds
+  - Interface IoTDeviceEntityProperties no longer has parameter owners
+  - Interface IoTDeviceEntityProperties no longer has parameter purdueLayer
+  - Interface IoTDeviceEntityProperties no longer has parameter sensor
+  - Interface IoTDeviceEntityProperties no longer has parameter site
+  - Interface IoTDeviceEntityProperties no longer has parameter zone
+  - Interface IpEntity no longer has parameter kind
+  - Interface MailboxEntity no longer has parameter kind
+  - Interface MailClusterEntity no longer has parameter kind
+  - Interface MailMessageEntity no longer has parameter kind
+  - Interface MalwareEntity no longer has parameter kind
+  - Interface McasDataConnector no longer has parameter kind
+  - Interface MdatpDataConnector no longer has parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRule no longer has parameter kind
+  - Interface MicrosoftSecurityIncidentCreationAlertRuleTemplate no longer has parameter kind
+  - Interface MLBehaviorAnalyticsAlertRule no longer has parameter kind
+  - Interface MLBehaviorAnalyticsAlertRuleTemplate no longer has parameter kind
+  - Interface MstiDataConnector no longer has parameter kind
+  - Interface MTPDataConnector no longer has parameter kind
+  - Interface NrtAlertRule no longer has parameter eventGroupingSettings
+  - Interface NrtAlertRule no longer has parameter kind
+  - Interface NrtAlertRuleTemplate no longer has parameter eventGroupingSettings
+  - Interface NrtAlertRuleTemplate no longer has parameter kind
+  - Interface Office365ProjectDataConnector no longer has parameter kind
+  - Interface OfficeATPDataConnector no longer has parameter kind
+  - Interface OfficeDataConnector no longer has parameter kind
+  - Interface OfficeIRMDataConnector no longer has parameter kind
+  - Interface OfficePowerBIDataConnector no longer has parameter kind
+  - Interface ProcessEntity no longer has parameter kind
+  - Interface QueryBasedAlertRuleTemplateProperties no longer has parameter eventGroupingSettings
+  - Interface RegistryKeyEntity no longer has parameter kind
+  - Interface RegistryValueEntity no longer has parameter kind
+  - Interface ScheduledAlertRule no longer has parameter kind
+  - Interface ScheduledAlertRuleTemplate no longer has parameter kind
+  - Interface SecurityAlert no longer has parameter kind
+  - Interface SecurityGroupEntity no longer has parameter kind
+  - Interface SubmissionMailEntity no longer has parameter kind
+  - Interface ThreatIntelligenceAlertRule no longer has parameter kind
+  - Interface ThreatIntelligenceAlertRuleTemplate no longer has parameter kind
+  - Interface ThreatIntelligenceIndicatorModel no longer has parameter kind
+  - Interface TIDataConnector no longer has parameter kind
+  - Interface TiTaxiiDataConnector no longer has parameter kind
+  - Interface Ueba no longer has parameter kind
+  - Interface UrlEntity no longer has parameter kind
+  - Class SecurityInsights no longer has parameter fileImports
+  - Removed Enum KnownAutomationRuleBooleanConditionSupportedOperator
+  - Removed Enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType
+  - Removed Enum KnownAutomationRulePropertyArrayConditionSupportedArrayType
+  - Removed Enum KnownDeleteStatus
+  - Removed Enum KnownDeviceImportance
+  - Removed Enum KnownFileFormat
+  - Removed Enum KnownFileImportContentType
+  - Removed Enum KnownFileImportState
+  - Removed Enum KnownIngestionMode
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value AlertAnalyticRuleIds
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value IncidentCustomDetailsKey
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value IncidentCustomDetailsValue
+  - Enum KnownAutomationRulePropertyConditionSupportedProperty no longer has value IncidentUpdatedBySource
+  - Enum KnownConditionType no longer has value Boolean
+  - Enum KnownConditionType no longer has value PropertyArray
+  - Enum KnownEntityKind no longer has value Nic
+  - Enum KnownEntityType no longer has value Nic
+  - Enum KnownTriggersOn no longer has value Alerts
+    
+    
 ## 1.0.0-beta.5 (2022-09-27)
     
 **Features**

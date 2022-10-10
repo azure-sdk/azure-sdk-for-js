@@ -10,9 +10,7 @@ import * as coreClient from "@azure/core-client";
 
 export type AutomationRuleConditionUnion =
   | AutomationRuleCondition
-  | BooleanConditionProperties
   | PropertyArrayChangedConditionProperties
-  | PropertyArrayConditionProperties
   | PropertyChangedConditionProperties
   | PropertyConditionProperties;
 export type AutomationRuleActionUnion =
@@ -75,8 +73,7 @@ export type EntityUnion =
   | RegistryValueEntity
   | SecurityGroupEntity
   | SubmissionMailEntity
-  | UrlEntity
-  | NicEntity;
+  | UrlEntity;
 export type EntityQueryTemplateUnion =
   | EntityQueryTemplate
   | ActivityEntityQueryTemplate;
@@ -244,12 +241,7 @@ export interface AutomationRuleTriggeringLogic {
 /** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType:
-    | "Boolean"
-    | "PropertyArrayChanged"
-    | "PropertyArray"
-    | "PropertyChanged"
-    | "Property";
+  conditionType: "PropertyArrayChanged" | "PropertyChanged" | "Property";
 }
 
 /** Describes an automation rule action. */
@@ -278,7 +270,7 @@ export interface AutomationRulesList {
 
 export interface ManualTriggerRequestBody {
   tenantId?: string;
-  logicAppsResourceId: string;
+  logicAppsResourceId?: string;
 }
 
 /** List all the bookmarks. */
@@ -732,48 +724,6 @@ export interface EntityQueryTemplateList {
   value: EntityQueryTemplateUnion[];
 }
 
-/** List all the file imports. */
-export interface FileImportList {
-  /**
-   * URL to fetch the next set of file imports.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-  /** Array of file imports. */
-  value: FileImport[];
-}
-
-/** Represents a file. */
-export interface FileMetadata {
-  /** The format of the file */
-  fileFormat?: FileFormat;
-  /** The name of the file. */
-  fileName?: string;
-  /** The size of the file. */
-  fileSize?: number;
-  /**
-   * A URI with a valid SAS token to allow uploading / downloading the file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fileContentUri?: string;
-  /**
-   * Indicates whether the file was deleted from the storage account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deleteStatus?: DeleteStatus;
-}
-
-/** Describes an error encountered in the file during validation. */
-export interface ValidationError {
-  /** The number of the record that has the error. */
-  recordIndex?: number;
-  /**
-   * A list of descriptions of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorMessages?: string[];
-}
-
 /** List all the incidents. */
 export interface IncidentList {
   /**
@@ -1039,6 +989,90 @@ export interface OfficeConsentList {
 export interface SentinelOnboardingStatesList {
   /** Array of Sentinel onboarding states */
   value: SentinelOnboardingState[];
+}
+
+/** A list of recommendations */
+export interface RecommendationList {
+  /** An list of recommendations */
+  value?: Recommendation[];
+}
+
+/** Recommendation object. */
+export interface Recommendation {
+  /** id of recommendation. */
+  id: string;
+  /** Instructions of the recommendation. */
+  instructions: Instructions;
+  /** Content of the recommendation. */
+  content?: Content;
+  /** Id of the resource this recommendation refers to. */
+  resourceId?: string;
+  /** Collection of additional properties for the recommendation. */
+  additionalProperties?: { [propertyName: string]: string };
+  /** Title of the recommendation. */
+  title: string;
+  /** Description of the recommendation. */
+  description: string;
+  /** Title of the recommendation type. */
+  recommendationTypeTitle: string;
+  /** Id of the recommendation type. */
+  recommendationTypeId: string;
+  /** Category of the recommendation. */
+  category: Category;
+  /** Context of the recommendation. */
+  context: Context;
+  /** Id of the workspace this recommendation refers to. */
+  workspaceId: string;
+  /** List of actions to take for this recommendation. */
+  actions: RecommendedAction[];
+  /** State of the recommendation. */
+  state: State;
+  /** Priority of the recommendation. */
+  priority: Priority;
+  /** The time stamp (UTC) when the recommendation was last evaluated. */
+  lastEvaluatedTimeUtc: Date;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
+  /** The timestamp (UTC) after which the recommendation should not be displayed anymore. */
+  displayUntilTimeUtc?: Date;
+  /** Value indicating if the recommendation should be displayed or not. */
+  visible?: boolean;
+}
+
+/** Instructions section of a recommendation. */
+export interface Instructions {
+  /** What actions should be taken to complete the recommendation. */
+  actionsToBePerformed: string;
+  /** Explains why the recommendation is important. */
+  recommendationImportance: string;
+  /** How should the user complete the recommendation. */
+  howToPerformActionDetails?: string;
+}
+
+/** Content section of the recommendation. */
+export interface Content {
+  /** Title of the content. */
+  title: string;
+  /** Description of the content. */
+  description: string;
+}
+
+/** What actions should be taken to complete the recommendation. */
+export interface RecommendedAction {
+  /** Text of the link to complete the action. */
+  linkText: string;
+  /** The Link to complete the action. */
+  linkUrl: string;
+  /** The state of the action. */
+  state?: Priority;
+}
+
+/** Recommendation Fields to update. */
+export interface RecommendationPatch {
+  /** State of the recommendation. */
+  state?: State;
+  /** The time stamp (UTC) when the recommendation should be displayed again. */
+  hideUntilTimeUtc?: Date;
 }
 
 /** List all the SecurityMLAnalyticsSettings */
@@ -1477,8 +1511,6 @@ export interface QueryBasedAlertRuleTemplateProperties {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-  /** The event grouping settings. */
-  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Single entity mapping for the alert rule */
@@ -1507,12 +1539,6 @@ export interface AlertDetailsOverride {
   alertTacticsColumnName?: string;
   /** the column name to take the alert severity from */
   alertSeverityColumnName?: string;
-}
-
-/** Event grouping settings property bag. */
-export interface EventGroupingSettings {
-  /** The event grouping aggregation kinds */
-  aggregationKind?: EventGroupingAggregationKind;
 }
 
 /** Represents a supported source signal configuration in Fusion detection. */
@@ -1658,9 +1684,10 @@ export interface ScheduledAlertRuleCommonProperties {
   alertDetailsOverride?: AlertDetailsOverride;
 }
 
-export interface AutomationRuleBooleanCondition {
-  operator?: AutomationRuleBooleanConditionSupportedOperator;
-  innerConditions?: AutomationRuleConditionUnion[];
+/** Event grouping settings property bag. */
+export interface EventGroupingSettings {
+  /** The event grouping aggregation kinds */
+  aggregationKind?: EventGroupingAggregationKind;
 }
 
 export interface IncidentPropertiesAction {
@@ -1683,12 +1710,6 @@ export interface IncidentPropertiesAction {
 export interface AutomationRulePropertyArrayChangedValuesCondition {
   arrayType?: AutomationRulePropertyArrayChangedConditionSupportedArrayType;
   changeType?: AutomationRulePropertyArrayChangedConditionSupportedChangeType;
-}
-
-export interface AutomationRulePropertyArrayValuesCondition {
-  arrayType?: AutomationRulePropertyArrayConditionSupportedArrayType;
-  arrayConditionType?: AutomationRulePropertyArrayConditionSupportedArrayConditionType;
-  itemConditions?: AutomationRuleConditionUnion[];
 }
 
 export interface AutomationRulePropertyValuesChangedCondition {
@@ -2237,63 +2258,6 @@ export interface EntityQueryTemplate extends Resource {
   kind: EntityQueryTemplateKind;
 }
 
-/** Represents a file import in Azure Security Insights. */
-export interface FileImport extends Resource {
-  /** Describes how to ingest the records in the file. */
-  ingestionMode?: IngestionMode;
-  /** The content type of this file. */
-  contentType?: FileImportContentType;
-  /**
-   * The time the file was imported.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTimeUTC?: Date;
-  /**
-   * Represents the error file (if the import was ingested with errors or failed the validation).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorFile?: FileMetadata;
-  /**
-   * An ordered list of some of the errors that were encountered during validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly errorsPreview?: ValidationError[];
-  /** Represents the imported file. */
-  importFile?: FileMetadata;
-  /**
-   * The number of records that have been successfully ingested.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ingestedRecordCount?: number;
-  /** The source for the data in the file. */
-  source?: string;
-  /**
-   * The state of the file import.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: FileImportState;
-  /**
-   * The number of records in the file.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly totalRecordCount?: number;
-  /**
-   * The number of records that have passed validation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly validRecordCount?: number;
-  /**
-   * The time the files associated with this import are deleted from the storage account.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly filesValidUntilTimeUTC?: Date;
-  /**
-   * The time the file import record is soft deleted from the database and history.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly importValidUntilTimeUTC?: Date;
-}
-
 /** Consent for Office365 tenant that already made. */
 export interface OfficeConsent extends Resource {
   /** The tenantId of the Office365 with the consent. */
@@ -2314,27 +2278,12 @@ export interface ActionRequestProperties extends ActionPropertiesBase {
   triggerUri: string;
 }
 
-/** Describes an automation rule condition that applies a boolean operator (e.g AND, OR) to conditions */
-export interface BooleanConditionProperties extends AutomationRuleCondition {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType: "Boolean";
-  conditionProperties?: AutomationRuleBooleanCondition;
-}
-
 /** Describes an automation rule condition that evaluates an array property's value change */
 export interface PropertyArrayChangedConditionProperties
   extends AutomationRuleCondition {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   conditionType: "PropertyArrayChanged";
   conditionProperties?: AutomationRulePropertyArrayChangedValuesCondition;
-}
-
-/** Describes an automation rule condition that evaluates an array property's value */
-export interface PropertyArrayConditionProperties
-  extends AutomationRuleCondition {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  conditionType: "PropertyArray";
-  conditionProperties?: AutomationRulePropertyArrayValuesCondition;
 }
 
 /** Describes an automation rule condition that evaluates a property's value change */
@@ -2975,58 +2924,6 @@ export interface IoTDeviceEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly protocols?: string[];
-  /**
-   * A list of owners of the IoTDevice entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly owners?: string[];
-  /**
-   * A list of Nic entity ids of the IoTDevice entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nicEntityIds?: string[];
-  /**
-   * The site of the device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly site?: string;
-  /**
-   * The zone location of the device within a site
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly zone?: string;
-  /**
-   * The sensor the device is monitored by
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sensor?: string;
-  /**
-   * The subType of the device ('PLC', 'HMI', 'EWS', etc.)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceSubType?: string;
-  /** Device importance, determines if the device classified as 'crown jewel' */
-  importance?: DeviceImportance;
-  /**
-   * The Purdue Layer of the device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly purdueLayer?: string;
-  /**
-   * Determines whether the device classified as authorized device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isAuthorized?: boolean;
-  /**
-   * Determines whether the device classified as programming device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProgramming?: boolean;
-  /**
-   * Is the device classified as a scanner device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isScanner?: boolean;
 }
 
 /** Ip entity property bag. */
@@ -3444,25 +3341,6 @@ export interface UrlEntityProperties extends EntityCommonProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly url?: string;
-}
-
-/** Nic entity property bag. */
-export interface NicEntityProperties extends EntityCommonProperties {
-  /**
-   * The MAC address of this network interface
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly macAddress?: string;
-  /**
-   * The IP entity id of this network interface
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddressEntityId?: string;
-  /**
-   * A list of VLANs of the network interface entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vlans?: string[];
 }
 
 /** Represents AAD (Azure Active Directory) requirements check request. */
@@ -4366,8 +4244,6 @@ export interface DataConnector extends ResourceWithEtag {
 /** Represents MLBehaviorAnalytics alert rule template. */
 export interface MLBehaviorAnalyticsAlertRuleTemplate
   extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MLBehaviorAnalytics";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4398,8 +4274,6 @@ export interface MLBehaviorAnalyticsAlertRuleTemplate
 
 /** Represents Fusion alert rule template. */
 export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Fusion";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4432,8 +4306,6 @@ export interface FusionAlertRuleTemplate extends AlertRuleTemplate {
 
 /** Represents Threat Intelligence alert rule template. */
 export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4465,8 +4337,6 @@ export interface ThreatIntelligenceAlertRuleTemplate extends AlertRuleTemplate {
 /** Represents MicrosoftSecurityIncidentCreation rule template. */
 export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
   extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftSecurityIncidentCreation";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4499,8 +4369,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRuleTemplate
 
 /** Represents scheduled alert rule template. */
 export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Scheduled";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4551,8 +4419,6 @@ export interface ScheduledAlertRuleTemplate extends AlertRuleTemplate {
 
 /** Represents NRT alert rule template. */
 export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "NRT";
   /** the number of alert rules that were created by this template */
   alertRulesCreatedByTemplateCount?: number;
   /**
@@ -4589,14 +4455,10 @@ export interface NrtAlertRuleTemplate extends AlertRuleTemplate {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-  /** The event grouping settings. */
-  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Represents a security alert entity. */
 export interface SecurityAlert extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SecurityAlert";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4733,8 +4595,6 @@ export interface SecurityAlert extends Entity {
 
 /** Represents a Hunting bookmark entity. */
 export interface HuntingBookmark extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Bookmark";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4771,8 +4631,6 @@ export interface HuntingBookmark extends Entity {
 
 /** Represents an account entity. */
 export interface AccountEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Account";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4847,8 +4705,6 @@ export interface AccountEntity extends Entity {
 
 /** Represents an azure resource entity. */
 export interface AzureResourceEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureResource";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4873,8 +4729,6 @@ export interface AzureResourceEntity extends Entity {
 
 /** Represents a cloud application entity. */
 export interface CloudApplicationEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "CloudApplication";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4904,8 +4758,6 @@ export interface CloudApplicationEntity extends Entity {
 
 /** Represents a dns entity. */
 export interface DnsEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "DnsResolution";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4940,8 +4792,6 @@ export interface DnsEntity extends Entity {
 
 /** Represents a file entity. */
 export interface FileEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "File";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4976,8 +4826,6 @@ export interface FileEntity extends Entity {
 
 /** Represents a file hash entity. */
 export interface FileHashEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "FileHash";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5002,8 +4850,6 @@ export interface FileHashEntity extends Entity {
 
 /** Represents a host entity. */
 export interface HostEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Host";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5060,8 +4906,6 @@ export interface HostEntity extends Entity {
 
 /** Represents an IoT device entity. */
 export interface IoTDeviceEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "IoTDevice";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5157,64 +5001,10 @@ export interface IoTDeviceEntity extends Entity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly protocols?: string[];
-  /**
-   * A list of owners of the IoTDevice entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly owners?: string[];
-  /**
-   * A list of Nic entity ids of the IoTDevice entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nicEntityIds?: string[];
-  /**
-   * The site of the device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly site?: string;
-  /**
-   * The zone location of the device within a site
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly zone?: string;
-  /**
-   * The sensor the device is monitored by
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sensor?: string;
-  /**
-   * The subType of the device ('PLC', 'HMI', 'EWS', etc.)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deviceSubType?: string;
-  /** Device importance, determines if the device classified as 'crown jewel' */
-  importance?: DeviceImportance;
-  /**
-   * The Purdue Layer of the device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly purdueLayer?: string;
-  /**
-   * Determines whether the device classified as authorized device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isAuthorized?: boolean;
-  /**
-   * Determines whether the device classified as programming device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isProgramming?: boolean;
-  /**
-   * Is the device classified as a scanner device
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isScanner?: boolean;
 }
 
 /** Represents an ip entity. */
 export interface IpEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Ip";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5244,8 +5034,6 @@ export interface IpEntity extends Entity {
 
 /** Represents a mailbox entity. */
 export interface MailboxEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Mailbox";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5280,8 +5068,6 @@ export interface MailboxEntity extends Entity {
 
 /** Represents a mail cluster entity. */
 export interface MailClusterEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MailCluster";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5371,8 +5157,6 @@ export interface MailClusterEntity extends Entity {
 
 /** Represents a mail message entity. */
 export interface MailMessageEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MailMessage";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5488,8 +5272,6 @@ export interface MailMessageEntity extends Entity {
 
 /** Represents a malware entity. */
 export interface MalwareEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Malware";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5524,8 +5306,6 @@ export interface MalwareEntity extends Entity {
 
 /** Represents a process entity. */
 export interface ProcessEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Process";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5582,8 +5362,6 @@ export interface ProcessEntity extends Entity {
 
 /** Represents a registry key entity. */
 export interface RegistryKeyEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "RegistryKey";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5608,8 +5386,6 @@ export interface RegistryKeyEntity extends Entity {
 
 /** Represents a registry value entity. */
 export interface RegistryValueEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "RegistryValue";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5644,8 +5420,6 @@ export interface RegistryValueEntity extends Entity {
 
 /** Represents a security group entity. */
 export interface SecurityGroupEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SecurityGroup";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5675,8 +5449,6 @@ export interface SecurityGroupEntity extends Entity {
 
 /** Represents a submission mail entity. */
 export interface SubmissionMailEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "SubmissionMail";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5741,8 +5513,6 @@ export interface SubmissionMailEntity extends Entity {
 
 /** Represents a url entity. */
 export interface UrlEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Url";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5760,41 +5530,8 @@ export interface UrlEntity extends Entity {
   readonly url?: string;
 }
 
-/** Represents an network interface entity. */
-export interface NicEntity extends Entity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Nic";
-  /**
-   * A bag of custom fields that should be part of the entity and will be presented to the user.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalData?: { [propertyName: string]: Record<string, unknown> };
-  /**
-   * The graph item display name which is a short humanly readable description of the graph item instance. This property is optional and might be system generated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly friendlyName?: string;
-  /**
-   * The MAC address of this network interface
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly macAddress?: string;
-  /**
-   * The IP entity id of this network interface
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ipAddressEntityId?: string;
-  /**
-   * A list of VLANs of the network interface entity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vlans?: string[];
-}
-
 /** Represents Activity entity query. */
 export interface ActivityEntityQueryTemplate extends EntityQueryTemplate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -5831,8 +5568,6 @@ export interface PermissionsCustomsItem extends Customs {}
 
 /** Represents MLBehaviorAnalytics alert rule. */
 export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MLBehaviorAnalytics";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5871,8 +5606,6 @@ export interface MLBehaviorAnalyticsAlertRule extends AlertRule {
 
 /** Represents Fusion alert rule. */
 export interface FusionAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Fusion";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5915,8 +5648,6 @@ export interface FusionAlertRule extends AlertRule {
 
 /** Represents Threat Intelligence alert rule. */
 export interface ThreatIntelligenceAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /**
@@ -5955,8 +5686,6 @@ export interface ThreatIntelligenceAlertRule extends AlertRule {
 
 /** Represents MicrosoftSecurityIncidentCreation rule. */
 export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftSecurityIncidentCreation";
   /** the alerts' displayNames on which the cases will be generated */
   displayNamesFilter?: string[];
   /** the alerts' displayNames on which the cases will not be generated */
@@ -5982,8 +5711,6 @@ export interface MicrosoftSecurityIncidentCreationAlertRule extends AlertRule {
 
 /** Represents scheduled alert rule. */
 export interface ScheduledAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Scheduled";
   /** The query that creates alerts for this rule. */
   query?: string;
   /** The frequency (in ISO 8601 duration format) for this alert rule to run. */
@@ -6033,8 +5760,6 @@ export interface ScheduledAlertRule extends AlertRule {
 
 /** Represents NRT alert rule. */
 export interface NrtAlertRule extends AlertRule {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "NRT";
   /** The Name of the alert rule template used to create this rule. */
   alertRuleTemplateName?: string;
   /** The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2> */
@@ -6070,14 +5795,10 @@ export interface NrtAlertRule extends AlertRule {
   entityMappings?: EntityMapping[];
   /** The alert details override settings */
   alertDetailsOverride?: AlertDetailsOverride;
-  /** The event grouping settings. */
-  eventGroupingSettings?: EventGroupingSettings;
 }
 
 /** Represents Expansion entity query. */
 export interface ExpansionEntityQuery extends EntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Expansion";
   /** List of the data sources that are required to run the query */
   dataSources?: string[];
   /** The query display name */
@@ -6094,8 +5815,6 @@ export interface ExpansionEntityQuery extends EntityQuery {
 
 /** Represents Activity entity query. */
 export interface ActivityEntityQuery extends EntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -6128,8 +5847,6 @@ export interface ActivityEntityQuery extends EntityQuery {
 
 /** Represents Activity entity query. */
 export interface ActivityCustomEntityQuery extends CustomEntityQuery {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Activity";
   /** The entity query title */
   title?: string;
   /** The entity query content to display in timeline */
@@ -6163,8 +5880,6 @@ export interface ActivityCustomEntityQuery extends CustomEntityQuery {
 /** Represents Anomaly Security ML Analytics Settings */
 export interface AnomalySecurityMLAnalyticsSettings
   extends SecurityMLAnalyticsSetting {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Anomaly";
   /** The description of the SecurityMLAnalyticsSettings. */
   description?: string;
   /** The display name for settings created by this SecurityMLAnalyticsSettings. */
@@ -6200,8 +5915,6 @@ export interface AnomalySecurityMLAnalyticsSettings
 
 /** Settings with single toggle. */
 export interface Anomalies extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Anomalies";
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6211,8 +5924,6 @@ export interface Anomalies extends Settings {
 
 /** Settings with single toggle. */
 export interface EyesOn extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EyesOn";
   /**
    * Determines whether the setting is enable or disabled.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6222,16 +5933,12 @@ export interface EyesOn extends Settings {
 
 /** Settings with single toggle. */
 export interface EntityAnalytics extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "EntityAnalytics";
   /** The relevant entity providers that are synced */
   entityProviders?: EntityProviders[];
 }
 
 /** Settings with single toggle. */
 export interface Ueba extends Settings {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Ueba";
   /** The relevant data sources that enriched by ueba */
   dataSources?: UebaDataSources[];
 }
@@ -6239,8 +5946,6 @@ export interface Ueba extends Settings {
 /** Threat intelligence indicator entity. */
 export interface ThreatIntelligenceIndicatorModel
   extends ThreatIntelligenceInformation {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "indicator";
   /**
    * A bag of custom fields that should be part of the entity and will be presented to the user.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -6311,8 +6016,6 @@ export interface ThreatIntelligenceIndicatorModel
 
 /** Represents AAD (Azure Active Directory) data connector. */
 export interface AADDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureActiveDirectory";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6321,8 +6024,6 @@ export interface AADDataConnector extends DataConnector {
 
 /** Represents Microsoft Threat Intelligence data connector. */
 export interface MstiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6331,8 +6032,6 @@ export interface MstiDataConnector extends DataConnector {
 
 /** Represents MTP (Microsoft Threat Protection) data connector. */
 export interface MTPDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6341,8 +6040,6 @@ export interface MTPDataConnector extends DataConnector {
 
 /** Represents AATP (Azure Advanced Threat Protection) data connector. */
 export interface AatpDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6351,8 +6048,6 @@ export interface AatpDataConnector extends DataConnector {
 
 /** Represents ASC (Azure Security Center) data connector. */
 export interface ASCDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AzureSecurityCenter";
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
@@ -6361,8 +6056,6 @@ export interface ASCDataConnector extends DataConnector {
 
 /** Represents Amazon Web Services CloudTrail data connector. */
 export interface AwsCloudTrailDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AmazonWebServicesCloudTrail";
   /** The Aws Role Arn (with CloudTrailReadOnly policy) that is used to access the Aws account. */
   awsRoleArn?: string;
   /** The available data types for the connector. */
@@ -6371,8 +6064,6 @@ export interface AwsCloudTrailDataConnector extends DataConnector {
 
 /** Represents Amazon Web Services S3 data connector. */
 export interface AwsS3DataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "AmazonWebServicesS3";
   /** The logs destination table name in LogAnalytics. */
   destinationTable?: string;
   /** The AWS sqs urls for the connector. */
@@ -6385,8 +6076,6 @@ export interface AwsS3DataConnector extends DataConnector {
 
 /** Represents MCAS (Microsoft Cloud App Security) data connector. */
 export interface McasDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftCloudAppSecurity";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6395,8 +6084,6 @@ export interface McasDataConnector extends DataConnector {
 
 /** Represents Dynamics365 data connector. */
 export interface Dynamics365DataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Dynamics365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6405,8 +6092,6 @@ export interface Dynamics365DataConnector extends DataConnector {
 
 /** Represents OfficeATP (Office 365 Advanced Threat Protection) data connector. */
 export interface OfficeATPDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficeATP";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6415,8 +6100,6 @@ export interface OfficeATPDataConnector extends DataConnector {
 
 /** Represents Office Microsoft Project data connector. */
 export interface Office365ProjectDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Office365Project";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6425,8 +6108,6 @@ export interface Office365ProjectDataConnector extends DataConnector {
 
 /** Represents Office Microsoft PowerBI data connector. */
 export interface OfficePowerBIDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficePowerBI";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6435,8 +6116,6 @@ export interface OfficePowerBIDataConnector extends DataConnector {
 
 /** Represents OfficeIRM (Microsoft Insider Risk Management) data connector. */
 export interface OfficeIRMDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "OfficeIRM";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6445,8 +6124,6 @@ export interface OfficeIRMDataConnector extends DataConnector {
 
 /** Represents MDATP (Microsoft Defender Advanced Threat Protection) data connector. */
 export interface MdatpDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "MicrosoftDefenderAdvancedThreatProtection";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6455,8 +6132,6 @@ export interface MdatpDataConnector extends DataConnector {
 
 /** Represents office data connector. */
 export interface OfficeDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "Office365";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The available data types for the connector. */
@@ -6465,8 +6140,6 @@ export interface OfficeDataConnector extends DataConnector {
 
 /** Represents threat intelligence data connector. */
 export interface TIDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligence";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The lookback period for the feed to be imported. */
@@ -6477,8 +6150,6 @@ export interface TIDataConnector extends DataConnector {
 
 /** Data connector to pull Threat intelligence data from TAXII 2.0/2.1 server */
 export interface TiTaxiiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "ThreatIntelligenceTaxii";
   /** The tenant id to connect to, and get the data from. */
   tenantId?: string;
   /** The workspace id. */
@@ -6503,8 +6174,6 @@ export interface TiTaxiiDataConnector extends DataConnector {
 
 /** Represents IoT data connector. */
 export interface IoTDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "IOT";
   /** The available data types for the connector. */
   dataTypes?: AlertsDataTypeOfDataConnector;
   /** The subscription id to connect to, and get the data from. */
@@ -6513,16 +6182,12 @@ export interface IoTDataConnector extends DataConnector {
 
 /** Represents Codeless UI data connector. */
 export interface CodelessUiDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "GenericUI";
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
 }
 
 /** Represents Codeless API Polling data connector. */
 export interface CodelessApiPollingDataConnector extends DataConnector {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "APIPolling";
   /** Config to describe the instructions blade */
   connectorUiConfig?: CodelessUiConnectorConfigProperties;
   /** Config to describe the polling instructions */
@@ -6598,9 +6263,7 @@ export type CreatedByType = string;
 /** Known values of {@link TriggersOn} that the service accepts. */
 export enum KnownTriggersOn {
   /** Trigger on Incidents */
-  Incidents = "Incidents",
-  /** Trigger on Alerts */
-  Alerts = "Alerts"
+  Incidents = "Incidents"
 }
 
 /**
@@ -6608,8 +6271,7 @@ export enum KnownTriggersOn {
  * {@link KnownTriggersOn} can be used interchangeably with TriggersOn,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Incidents**: Trigger on Incidents \
- * **Alerts**: Trigger on Alerts
+ * **Incidents**: Trigger on Incidents
  */
 export type TriggersOn = string;
 
@@ -6635,14 +6297,10 @@ export type TriggersWhen = string;
 export enum KnownConditionType {
   /** Evaluate an object property value */
   Property = "Property",
-  /** Evaluate an object array property value */
-  PropertyArray = "PropertyArray",
   /** Evaluate an object property changed value */
   PropertyChanged = "PropertyChanged",
   /** Evaluate an object array property changed value */
-  PropertyArrayChanged = "PropertyArrayChanged",
-  /** Apply a boolean operator (e.g AND, OR) to conditions */
-  Boolean = "Boolean"
+  PropertyArrayChanged = "PropertyArrayChanged"
 }
 
 /**
@@ -6651,10 +6309,8 @@ export enum KnownConditionType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Property**: Evaluate an object property value \
- * **PropertyArray**: Evaluate an object array property value \
  * **PropertyChanged**: Evaluate an object property changed value \
- * **PropertyArrayChanged**: Evaluate an object array property changed value \
- * **Boolean**: Apply a boolean operator (e.g AND, OR) to conditions
+ * **PropertyArrayChanged**: Evaluate an object array property changed value
  */
 export type ConditionType = string;
 
@@ -6806,9 +6462,7 @@ export enum KnownEntityKind {
   /** Entity represents mailbox in the system. */
   Mailbox = "Mailbox",
   /** Entity represents submission mail in the system. */
-  SubmissionMail = "SubmissionMail",
-  /** Entity represents network interface in the system. */
-  Nic = "Nic"
+  SubmissionMail = "SubmissionMail"
 }
 
 /**
@@ -6836,8 +6490,7 @@ export enum KnownEntityKind {
  * **MailCluster**: Entity represents mail cluster in the system. \
  * **MailMessage**: Entity represents mail message in the system. \
  * **Mailbox**: Entity represents mailbox in the system. \
- * **SubmissionMail**: Entity represents submission mail in the system. \
- * **Nic**: Entity represents network interface in the system.
+ * **SubmissionMail**: Entity represents submission mail in the system.
  */
 export type EntityKind = string;
 
@@ -6963,123 +6616,6 @@ export enum KnownEntityQueryTemplateKind {
  * **Activity**
  */
 export type EntityQueryTemplateKind = string;
-
-/** Known values of {@link IngestionMode} that the service accepts. */
-export enum KnownIngestionMode {
-  /** No records should be ingested when invalid records are detected. */
-  IngestOnlyIfAllAreValid = "IngestOnlyIfAllAreValid",
-  /** Valid records should still be ingested when invalid records are detected. */
-  IngestAnyValidRecords = "IngestAnyValidRecords",
-  /** Unspecified */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for IngestionMode. \
- * {@link KnownIngestionMode} can be used interchangeably with IngestionMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IngestOnlyIfAllAreValid**: No records should be ingested when invalid records are detected. \
- * **IngestAnyValidRecords**: Valid records should still be ingested when invalid records are detected. \
- * **Unspecified**: Unspecified
- */
-export type IngestionMode = string;
-
-/** Known values of {@link FileImportContentType} that the service accepts. */
-export enum KnownFileImportContentType {
-  /** File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. */
-  BasicIndicator = "BasicIndicator",
-  /** File containing STIX indicators. */
-  StixIndicator = "StixIndicator",
-  /** File containing other records. */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for FileImportContentType. \
- * {@link KnownFileImportContentType} can be used interchangeably with FileImportContentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BasicIndicator**: File containing records with the core fields of an indicator, plus the observables to construct the STIX pattern. \
- * **StixIndicator**: File containing STIX indicators. \
- * **Unspecified**: File containing other records.
- */
-export type FileImportContentType = string;
-
-/** Known values of {@link FileFormat} that the service accepts. */
-export enum KnownFileFormat {
-  /** A CSV file. */
-  CSV = "CSV",
-  /** A JSON file. */
-  Json = "JSON",
-  /** A file of other format. */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for FileFormat. \
- * {@link KnownFileFormat} can be used interchangeably with FileFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CSV**: A CSV file. \
- * **JSON**: A JSON file. \
- * **Unspecified**: A file of other format.
- */
-export type FileFormat = string;
-
-/** Known values of {@link DeleteStatus} that the service accepts. */
-export enum KnownDeleteStatus {
-  /** The file was deleted. */
-  Deleted = "Deleted",
-  /** The file was not deleted. */
-  NotDeleted = "NotDeleted",
-  /** Unspecified */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for DeleteStatus. \
- * {@link KnownDeleteStatus} can be used interchangeably with DeleteStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Deleted**: The file was deleted. \
- * **NotDeleted**: The file was not deleted. \
- * **Unspecified**: Unspecified
- */
-export type DeleteStatus = string;
-
-/** Known values of {@link FileImportState} that the service accepts. */
-export enum KnownFileImportState {
-  /** A fatal error has occurred while ingesting the file. */
-  FatalError = "FatalError",
-  /** The file has been ingested. */
-  Ingested = "Ingested",
-  /** The file has been ingested with errors. */
-  IngestedWithErrors = "IngestedWithErrors",
-  /** The file ingestion is in progress. */
-  InProgress = "InProgress",
-  /** The file is invalid. */
-  Invalid = "Invalid",
-  /** Waiting for the file to be uploaded. */
-  WaitingForUpload = "WaitingForUpload",
-  /** Unspecified state. */
-  Unspecified = "Unspecified"
-}
-
-/**
- * Defines values for FileImportState. \
- * {@link KnownFileImportState} can be used interchangeably with FileImportState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **FatalError**: A fatal error has occurred while ingesting the file. \
- * **Ingested**: The file has been ingested. \
- * **IngestedWithErrors**: The file has been ingested with errors. \
- * **InProgress**: The file ingestion is in progress. \
- * **Invalid**: The file is invalid. \
- * **WaitingForUpload**: Waiting for the file to be uploaded. \
- * **Unspecified**: Unspecified state.
- */
-export type FileImportState = string;
 
 /** Known values of {@link IncidentClassification} that the service accepts. */
 export enum KnownIncidentClassification {
@@ -7464,6 +7000,105 @@ export enum KnownOperator {
  * **OR**
  */
 export type Operator = string;
+
+/** Known values of {@link Category} that the service accepts. */
+export enum KnownCategory {
+  /** Onboarding recommendation. */
+  Onboarding = "Onboarding",
+  /** New feature recommendation. */
+  NewFeature = "NewFeature",
+  /** Soc Efficiency recommendation. */
+  SocEfficiency = "SocEfficiency",
+  /** Cost optimization recommendation. */
+  CostOptimization = "CostOptimization",
+  /** Demo recommendation. */
+  Demo = "Demo"
+}
+
+/**
+ * Defines values for Category. \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Onboarding**: Onboarding recommendation. \
+ * **NewFeature**: New feature recommendation. \
+ * **SocEfficiency**: Soc Efficiency recommendation. \
+ * **CostOptimization**: Cost optimization recommendation. \
+ * **Demo**: Demo recommendation.
+ */
+export type Category = string;
+
+/** Known values of {@link Context} that the service accepts. */
+export enum KnownContext {
+  /** Analytics context. */
+  Analytics = "Analytics",
+  /** Incidents context. */
+  Incidents = "Incidents",
+  /** Overview context. */
+  Overview = "Overview",
+  /** No context. */
+  None = "None"
+}
+
+/**
+ * Defines values for Context. \
+ * {@link KnownContext} can be used interchangeably with Context,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Analytics**: Analytics context. \
+ * **Incidents**: Incidents context. \
+ * **Overview**: Overview context. \
+ * **None**: No context.
+ */
+export type Context = string;
+
+/** Known values of {@link Priority} that the service accepts. */
+export enum KnownPriority {
+  /** Low priority for recommendation. */
+  Low = "Low",
+  /** Medium priority for recommendation. */
+  Medium = "Medium",
+  /** High priority for recommendation. */
+  High = "High"
+}
+
+/**
+ * Defines values for Priority. \
+ * {@link KnownPriority} can be used interchangeably with Priority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low**: Low priority for recommendation. \
+ * **Medium**: Medium priority for recommendation. \
+ * **High**: High priority for recommendation.
+ */
+export type Priority = string;
+
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Recommendation is active. */
+  Active = "Active",
+  /** Recommendation is disabled. */
+  Disabled = "Disabled",
+  /** Recommendation has been completed by user. */
+  CompletedByUser = "CompletedByUser",
+  /** Recommendation has been completed by action. */
+  CompletedByAction = "CompletedByAction",
+  /** Recommendation is hidden. */
+  Hidden = "Hidden"
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active**: Recommendation is active. \
+ * **Disabled**: Recommendation is disabled. \
+ * **CompletedByUser**: Recommendation has been completed by user. \
+ * **CompletedByAction**: Recommendation has been completed by action. \
+ * **Hidden**: Recommendation is hidden.
+ */
+export type State = string;
 
 /** Known values of {@link SecurityMLAnalyticsSettingsKind} that the service accepts. */
 export enum KnownSecurityMLAnalyticsSettingsKind {
@@ -7897,24 +7532,6 @@ export enum KnownEntityMappingType {
  */
 export type EntityMappingType = string;
 
-/** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
-export enum KnownEventGroupingAggregationKind {
-  /** SingleAlert */
-  SingleAlert = "SingleAlert",
-  /** AlertPerResult */
-  AlertPerResult = "AlertPerResult"
-}
-
-/**
- * Defines values for EventGroupingAggregationKind. \
- * {@link KnownEventGroupingAggregationKind} can be used interchangeably with EventGroupingAggregationKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SingleAlert** \
- * **AlertPerResult**
- */
-export type EventGroupingAggregationKind = string;
-
 /** Known values of {@link MicrosoftSecurityProductName} that the service accepts. */
 export enum KnownMicrosoftSecurityProductName {
   /** MicrosoftCloudAppSecurity */
@@ -7987,23 +7604,23 @@ export enum KnownAlertDetail {
  */
 export type AlertDetail = string;
 
-/** Known values of {@link AutomationRuleBooleanConditionSupportedOperator} that the service accepts. */
-export enum KnownAutomationRuleBooleanConditionSupportedOperator {
-  /** Evaluates as true if all the item conditions are evaluated as true */
-  And = "And",
-  /** Evaluates as true if at least one of the item conditions are evaluated as true */
-  Or = "Or"
+/** Known values of {@link EventGroupingAggregationKind} that the service accepts. */
+export enum KnownEventGroupingAggregationKind {
+  /** SingleAlert */
+  SingleAlert = "SingleAlert",
+  /** AlertPerResult */
+  AlertPerResult = "AlertPerResult"
 }
 
 /**
- * Defines values for AutomationRuleBooleanConditionSupportedOperator. \
- * {@link KnownAutomationRuleBooleanConditionSupportedOperator} can be used interchangeably with AutomationRuleBooleanConditionSupportedOperator,
+ * Defines values for EventGroupingAggregationKind. \
+ * {@link KnownEventGroupingAggregationKind} can be used interchangeably with EventGroupingAggregationKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **And**: Evaluates as true if all the item conditions are evaluated as true \
- * **Or**: Evaluates as true if at least one of the item conditions are evaluated as true
+ * **SingleAlert** \
+ * **AlertPerResult**
  */
-export type AutomationRuleBooleanConditionSupportedOperator = string;
+export type EventGroupingAggregationKind = string;
 
 /** Known values of {@link AutomationRulePropertyArrayChangedConditionSupportedArrayType} that the service accepts. */
 export enum KnownAutomationRulePropertyArrayChangedConditionSupportedArrayType {
@@ -8043,39 +7660,6 @@ export enum KnownAutomationRulePropertyArrayChangedConditionSupportedChangeType 
  * **Added**: Evaluate the condition on items added to the array
  */
 export type AutomationRulePropertyArrayChangedConditionSupportedChangeType = string;
-
-/** Known values of {@link AutomationRulePropertyArrayConditionSupportedArrayType} that the service accepts. */
-export enum KnownAutomationRulePropertyArrayConditionSupportedArrayType {
-  /** Evaluate the condition on the custom detail keys */
-  CustomDetails = "CustomDetails",
-  /** Evaluate the condition on a custom detail's values */
-  CustomDetailValues = "CustomDetailValues"
-}
-
-/**
- * Defines values for AutomationRulePropertyArrayConditionSupportedArrayType. \
- * {@link KnownAutomationRulePropertyArrayConditionSupportedArrayType} can be used interchangeably with AutomationRulePropertyArrayConditionSupportedArrayType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CustomDetails**: Evaluate the condition on the custom detail keys \
- * **CustomDetailValues**: Evaluate the condition on a custom detail's values
- */
-export type AutomationRulePropertyArrayConditionSupportedArrayType = string;
-
-/** Known values of {@link AutomationRulePropertyArrayConditionSupportedArrayConditionType} that the service accepts. */
-export enum KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType {
-  /** Evaluate the condition as true if any item fulfills it */
-  AnyItem = "AnyItem"
-}
-
-/**
- * Defines values for AutomationRulePropertyArrayConditionSupportedArrayConditionType. \
- * {@link KnownAutomationRulePropertyArrayConditionSupportedArrayConditionType} can be used interchangeably with AutomationRulePropertyArrayConditionSupportedArrayConditionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AnyItem**: Evaluate the condition as true if any item fulfills it
- */
-export type AutomationRulePropertyArrayConditionSupportedArrayConditionType = string;
 
 /** Known values of {@link AutomationRulePropertyChangedConditionSupportedPropertyType} that the service accepts. */
 export enum KnownAutomationRulePropertyChangedConditionSupportedPropertyType {
@@ -8170,12 +7754,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   IncidentLabel = "IncidentLabel",
   /** The provider name of the incident */
   IncidentProviderName = "IncidentProviderName",
-  /** The update source of the incident */
-  IncidentUpdatedBySource = "IncidentUpdatedBySource",
-  /** The incident custom detail key */
-  IncidentCustomDetailsKey = "IncidentCustomDetailsKey",
-  /** The incident custom detail value */
-  IncidentCustomDetailsValue = "IncidentCustomDetailsValue",
   /** The account Azure Active Directory tenant id */
   AccountAadTenantId = "AccountAadTenantId",
   /** The account Azure Active Directory user id */
@@ -8194,8 +7772,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
   AccountUPNSuffix = "AccountUPNSuffix",
   /** The name of the product of the alert */
   AlertProductNames = "AlertProductNames",
-  /** The analytic rule ids of the alert */
-  AlertAnalyticRuleIds = "AlertAnalyticRuleIds",
   /** The Azure resource id */
   AzureResourceResourceId = "AzureResourceResourceId",
   /** The Azure resource subscription id */
@@ -8285,9 +7861,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **IncidentTactics**: The tactics of the incident \
  * **IncidentLabel**: The labels of the incident \
  * **IncidentProviderName**: The provider name of the incident \
- * **IncidentUpdatedBySource**: The update source of the incident \
- * **IncidentCustomDetailsKey**: The incident custom detail key \
- * **IncidentCustomDetailsValue**: The incident custom detail value \
  * **AccountAadTenantId**: The account Azure Active Directory tenant id \
  * **AccountAadUserId**: The account Azure Active Directory user id \
  * **AccountName**: The account name \
@@ -8297,7 +7870,6 @@ export enum KnownAutomationRulePropertyConditionSupportedProperty {
  * **AccountObjectGuid**: The account unique identifier \
  * **AccountUPNSuffix**: The account user principal name suffix \
  * **AlertProductNames**: The name of the product of the alert \
- * **AlertAnalyticRuleIds**: The analytic rule ids of the alert \
  * **AzureResourceResourceId**: The Azure resource id \
  * **AzureResourceSubscriptionId**: The Azure resource subscription id \
  * **CloudApplicationAppId**: The cloud application identifier \
@@ -8381,9 +7953,7 @@ export enum KnownEntityType {
   /** Entity represents mailbox in the system. */
   Mailbox = "Mailbox",
   /** Entity represents submission mail in the system. */
-  SubmissionMail = "SubmissionMail",
-  /** Entity represents network interface in the system. */
-  Nic = "Nic"
+  SubmissionMail = "SubmissionMail"
 }
 
 /**
@@ -8411,8 +7981,7 @@ export enum KnownEntityType {
  * **MailCluster**: Entity represents mail cluster in the system. \
  * **MailMessage**: Entity represents mail message in the system. \
  * **Mailbox**: Entity represents mailbox in the system. \
- * **SubmissionMail**: Entity represents submission mail in the system. \
- * **Nic**: Entity represents network interface in the system.
+ * **SubmissionMail**: Entity represents submission mail in the system.
  */
 export type EntityType = string;
 
@@ -8652,30 +8221,6 @@ export enum KnownFileHashAlgorithm {
  * **SHA256AC**: SHA256 Authenticode hash type
  */
 export type FileHashAlgorithm = string;
-
-/** Known values of {@link DeviceImportance} that the service accepts. */
-export enum KnownDeviceImportance {
-  /** Unknown - Default value */
-  Unknown = "Unknown",
-  /** Low */
-  Low = "Low",
-  /** Normal */
-  Normal = "Normal",
-  /** High */
-  High = "High"
-}
-
-/**
- * Defines values for DeviceImportance. \
- * {@link KnownDeviceImportance} can be used interchangeably with DeviceImportance,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unknown**: Unknown - Default value \
- * **Low**: Low \
- * **Normal**: Normal \
- * **High**: High
- */
-export type DeviceImportance = string;
 
 /** Known values of {@link AntispamMailDirection} that the service accepts. */
 export enum KnownAntispamMailDirection {
@@ -9263,64 +8808,6 @@ export interface EntityQueryTemplatesListNextOptionalParams
 export type EntityQueryTemplatesListNextResponse = EntityQueryTemplateList;
 
 /** Optional parameters. */
-export interface FileImportsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type FileImportsListResponse = FileImportList;
-
-/** Optional parameters. */
-export interface FileImportsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type FileImportsGetResponse = FileImport;
-
-/** Optional parameters. */
-export interface FileImportsCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type FileImportsCreateResponse = FileImport;
-
-/** Optional parameters. */
-export interface FileImportsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type FileImportsDeleteResponse = FileImport;
-
-/** Optional parameters. */
-export interface FileImportsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Filters the results, based on a Boolean condition. Optional. */
-  filter?: string;
-  /** Sorts the results. Optional. */
-  orderby?: string;
-  /** Returns only the first n results. Optional. */
-  top?: number;
-  /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. Optional. */
-  skipToken?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type FileImportsListNextResponse = FileImportList;
-
-/** Optional parameters. */
 export interface IncidentCommentsListOptionalParams
   extends coreClient.OperationOptions {
   /** Filters the results, based on a Boolean condition. Optional. */
@@ -9529,6 +9016,32 @@ export interface SentinelOnboardingStatesListOptionalParams
 
 /** Contains response data for the list operation. */
 export type SentinelOnboardingStatesListResponse = SentinelOnboardingStatesList;
+
+/** Optional parameters. */
+export interface GetRecommendationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type GetRecommendationsListResponse = RecommendationList;
+
+/** Optional parameters. */
+export interface GetSingleRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the singleRecommendation operation. */
+export type GetSingleRecommendationResponse = Recommendation;
+
+/** Optional parameters. */
+export interface UpdateRecommendationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the recommendation operation. */
+export type UpdateRecommendationResponse = Recommendation;
 
 /** Optional parameters. */
 export interface SecurityMLAnalyticsSettingsListOptionalParams
