@@ -3959,7 +3959,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221007
+      typescript: 4.9.0-dev.20221011
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8956,8 +8956,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221007:
-    resolution: {integrity: sha512-WUWBISjoFrMbCYj2tTqFiivW3dDNRLHIXEAKj26BoGYjbperB4jSCyrpTo45FNYcpRM3viCU4Tie8FruXAYZRg==}
+  /typescript/4.9.0-dev.20221011:
+    resolution: {integrity: sha512-ONzbj3hrlLtfCGhDV7zP9FHoVgYo7+zRvphDqNNoqg2B3uqnxw57Ql/zPThRfepFmISdd/P03owzxeBUE48xqA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14696,17 +14696,19 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-A8jaySHrcijlkCaRXD8AIthFoemqC9eX0lSLhZ6w/jw6f5N3BLzBupkhU4iMCX1Il3GhuCgOhced9HqgQEs5aw==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-uL/PEQ10xFzOhgnYk/yqGjQ32JTGxBWT9WtHLhR6RsiPngHv7ecYNkXDWhVjrn/513JJ3sCaJW56kUKC5vGf2A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -14718,7 +14720,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
