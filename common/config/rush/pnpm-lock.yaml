@@ -14005,12 +14005,12 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-xWGySKqk9c6Nxc/AaNJOLb+Uvo7LwHHTez+oy1UcHvrHpxONvFjw3dR+gZS2gpFDCVSLDA+NJzB2RSjE+6IdtA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-QtyJPlPOBDp2VCQ1pWPFfulRPiIV/0aN3PulzMeoiZFJgdmhOp0BqzcI2eqh9rfKm3IpORV06tutuEHibUPUKA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14024,7 +14024,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
