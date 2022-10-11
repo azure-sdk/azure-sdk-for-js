@@ -20,6 +20,9 @@ import {
   ManagedEnvironmentsListBySubscriptionOptionalParams,
   ManagedEnvironmentsListByResourceGroupNextOptionalParams,
   ManagedEnvironmentsListByResourceGroupOptionalParams,
+  WorkloadProfileStates,
+  ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams,
+  ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
   ManagedEnvironmentsListBySubscriptionResponse,
   ManagedEnvironmentsListByResourceGroupResponse,
   ManagedEnvironmentsGetOptionalParams,
@@ -28,8 +31,13 @@ import {
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
   ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsUpdateResponse,
+  ManagedEnvironmentsGetAuthTokenOptionalParams,
+  ManagedEnvironmentsGetAuthTokenResponse,
+  ManagedEnvironmentsListWorkloadProfileStatesResponse,
   ManagedEnvironmentsListBySubscriptionNextResponse,
-  ManagedEnvironmentsListByResourceGroupNextResponse
+  ManagedEnvironmentsListByResourceGroupNextResponse,
+  ManagedEnvironmentsListWorkloadProfileStatesNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -134,6 +142,77 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
   ): AsyncIterableIterator<ManagedEnvironment> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get all workload Profile States for a Premium Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  public listWorkloadProfileStates(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  ): PagedAsyncIterableIterator<WorkloadProfileStates> {
+    const iter = this.listWorkloadProfileStatesPagingAll(
+      resourceGroupName,
+      environmentName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listWorkloadProfileStatesPagingPage(
+          resourceGroupName,
+          environmentName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listWorkloadProfileStatesPagingPage(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  ): AsyncIterableIterator<WorkloadProfileStates[]> {
+    let result = await this._listWorkloadProfileStates(
+      resourceGroupName,
+      environmentName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listWorkloadProfileStatesNext(
+        resourceGroupName,
+        environmentName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listWorkloadProfileStatesPagingAll(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  ): AsyncIterableIterator<WorkloadProfileStates> {
+    for await (const page of this.listWorkloadProfileStatesPagingPage(
+      resourceGroupName,
+      environmentName,
       options
     )) {
       yield* page;
@@ -371,11 +450,16 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsUpdateResponse>,
+      ManagedEnvironmentsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedEnvironmentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -436,7 +520,7 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedEnvironmentsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       environmentName,
@@ -444,6 +528,40 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Checks if resource name is available.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsGetAuthTokenOptionalParams
+  ): Promise<ManagedEnvironmentsGetAuthTokenResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, environmentName, options },
+      getAuthTokenOperationSpec
+    );
+  }
+
+  /**
+   * Get all workload Profile States for a Premium Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  private _listWorkloadProfileStates(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  ): Promise<ManagedEnvironmentsListWorkloadProfileStatesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, environmentName, options },
+      listWorkloadProfileStatesOperationSpec
+    );
   }
 
   /**
@@ -475,6 +593,26 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
+    );
+  }
+
+  /**
+   * ListWorkloadProfileStatesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param nextLink The nextLink from the previous successful call to the ListWorkloadProfileStates
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listWorkloadProfileStatesNext(
+    resourceGroupName: string,
+    environmentName: string,
+    nextLink: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesNextOptionalParams
+  ): Promise<ManagedEnvironmentsListWorkloadProfileStatesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, environmentName, nextLink, options },
+      listWorkloadProfileStatesNextOperationSpec
     );
   }
 }
@@ -602,10 +740,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    201: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    202: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
+    204: {
+      bodyMapper: Mappers.ManagedEnvironment
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -620,6 +766,50 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getAuthTokenOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/getAuthtoken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EnvironmentAuthToken
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.environmentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listWorkloadProfileStatesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/workloadProfileStates",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadProfileStatesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.environmentName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -659,6 +849,28 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listWorkloadProfileStatesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadProfileStatesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer

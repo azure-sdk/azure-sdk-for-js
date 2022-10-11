@@ -12,12 +12,17 @@ import {
   ManagedEnvironment,
   ManagedEnvironmentsListBySubscriptionOptionalParams,
   ManagedEnvironmentsListByResourceGroupOptionalParams,
+  WorkloadProfileStates,
+  ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
   ManagedEnvironmentsGetOptionalParams,
   ManagedEnvironmentsGetResponse,
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
-  ManagedEnvironmentsUpdateOptionalParams
+  ManagedEnvironmentsUpdateOptionalParams,
+  ManagedEnvironmentsUpdateResponse,
+  ManagedEnvironmentsGetAuthTokenOptionalParams,
+  ManagedEnvironmentsGetAuthTokenResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,6 +44,17 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     options?: ManagedEnvironmentsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<ManagedEnvironment>;
+  /**
+   * Get all workload Profile States for a Premium Managed Environment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  listWorkloadProfileStates(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+  ): PagedAsyncIterableIterator<WorkloadProfileStates>;
   /**
    * Get the properties of a Managed Environment used to host container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -115,7 +131,12 @@ export interface ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedEnvironmentsUpdateResponse>,
+      ManagedEnvironmentsUpdateResponse
+    >
+  >;
   /**
    * Patches a Managed Environment using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -128,5 +149,16 @@ export interface ManagedEnvironments {
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedEnvironmentsUpdateResponse>;
+  /**
+   * Checks if resource name is available.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    environmentName: string,
+    options?: ManagedEnvironmentsGetAuthTokenOptionalParams
+  ): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
 }
