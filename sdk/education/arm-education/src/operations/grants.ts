@@ -18,12 +18,23 @@ import {
   GrantsListAllOptionalParams,
   GrantsListNextOptionalParams,
   GrantsListOptionalParams,
+  GrantDetailsV2,
+  GrantsListAllV2NextOptionalParams,
+  GrantsListAllV2OptionalParams,
+  GrantsListV2NextOptionalParams,
+  GrantsListV2OptionalParams,
   GrantsListAllResponse,
   GrantsListResponse,
   GrantsGetOptionalParams,
   GrantsGetResponse,
+  GrantsListAllV2Response,
+  GrantsListV2Response,
+  GrantsGetV2OptionalParams,
+  GrantsGetV2Response,
   GrantsListAllNextResponse,
-  GrantsListNextResponse
+  GrantsListNextResponse,
+  GrantsListAllV2NextResponse,
+  GrantsListV2NextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -156,6 +167,119 @@ export class GrantsImpl implements Grants {
    * Get a list of grants that Microsoft has provided.
    * @param options The options parameters.
    */
+  public listAllV2(
+    options?: GrantsListAllV2OptionalParams
+  ): PagedAsyncIterableIterator<GrantDetailsV2> {
+    const iter = this.listAllV2PagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listAllV2PagingPage(options);
+      }
+    };
+  }
+
+  private async *listAllV2PagingPage(
+    options?: GrantsListAllV2OptionalParams
+  ): AsyncIterableIterator<GrantDetailsV2[]> {
+    let result = await this._listAllV2(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listAllV2Next(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listAllV2PagingAll(
+    options?: GrantsListAllV2OptionalParams
+  ): AsyncIterableIterator<GrantDetailsV2> {
+    for await (const page of this.listAllV2PagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get details for a specific grant linked to the provided billing account and billing profile.
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param options The options parameters.
+   */
+  public listV2(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsListV2OptionalParams
+  ): PagedAsyncIterableIterator<GrantDetailsV2> {
+    const iter = this.listV2PagingAll(
+      billingAccountName,
+      billingProfileName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listV2PagingPage(
+          billingAccountName,
+          billingProfileName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listV2PagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsListV2OptionalParams
+  ): AsyncIterableIterator<GrantDetailsV2[]> {
+    let result = await this._listV2(
+      billingAccountName,
+      billingProfileName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listV2Next(
+        billingAccountName,
+        billingProfileName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listV2PagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsListV2OptionalParams
+  ): AsyncIterableIterator<GrantDetailsV2> {
+    for await (const page of this.listV2PagingPage(
+      billingAccountName,
+      billingProfileName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get a list of grants that Microsoft has provided.
+   * @param options The options parameters.
+   */
   private _listAll(
     options?: GrantsListAllOptionalParams
   ): Promise<GrantsListAllResponse> {
@@ -197,6 +321,53 @@ export class GrantsImpl implements Grants {
   }
 
   /**
+   * Get a list of grants that Microsoft has provided.
+   * @param options The options parameters.
+   */
+  private _listAllV2(
+    options?: GrantsListAllV2OptionalParams
+  ): Promise<GrantsListAllV2Response> {
+    return this.client.sendOperationRequest(
+      { options },
+      listAllV2OperationSpec
+    );
+  }
+
+  /**
+   * Get details for a specific grant linked to the provided billing account and billing profile.
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param options The options parameters.
+   */
+  private _listV2(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsListV2OptionalParams
+  ): Promise<GrantsListV2Response> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      listV2OperationSpec
+    );
+  }
+
+  /**
+   * Get details for a specific grant linked to the provided billing account and billing profile.
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param options The options parameters.
+   */
+  getV2(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsGetV2OptionalParams
+  ): Promise<GrantsGetV2Response> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      getV2OperationSpec
+    );
+  }
+
+  /**
    * ListAllNext
    * @param nextLink The nextLink from the previous successful call to the ListAll method.
    * @param options The options parameters.
@@ -227,6 +398,40 @@ export class GrantsImpl implements Grants {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListAllV2Next
+   * @param nextLink The nextLink from the previous successful call to the ListAllV2 method.
+   * @param options The options parameters.
+   */
+  private _listAllV2Next(
+    nextLink: string,
+    options?: GrantsListAllV2NextOptionalParams
+  ): Promise<GrantsListAllV2NextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listAllV2NextOperationSpec
+    );
+  }
+
+  /**
+   * ListV2Next
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param nextLink The nextLink from the previous successful call to the ListV2 method.
+   * @param options The options parameters.
+   */
+  private _listV2Next(
+    billingAccountName: string,
+    billingProfileName: string,
+    nextLink: string,
+    options?: GrantsListV2NextOptionalParams
+  ): Promise<GrantsListV2NextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, nextLink, options },
+      listV2NextOperationSpec
     );
   }
 }
@@ -291,6 +496,64 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listAllV2OperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Education/grants",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrantListResponseV2
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.includeAllocatedBudget, Parameters.apiVersion1],
+  urlParameters: [Parameters.$host],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listV2OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrantListResponseV2
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.includeAllocatedBudget, Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getV2OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.Education/grants/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrantDetailsV2
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.includeAllocatedBudget, Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -319,6 +582,43 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeAllocatedBudget],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listAllV2NextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrantListResponseV2
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.includeAllocatedBudget, Parameters.apiVersion1],
+  urlParameters: [Parameters.$host, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listV2NextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GrantListResponseV2
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponseBody
+    }
+  },
+  queryParameters: [Parameters.includeAllocatedBudget, Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,

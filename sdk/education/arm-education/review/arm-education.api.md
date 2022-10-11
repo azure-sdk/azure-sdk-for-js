@@ -26,13 +26,15 @@ export class EducationManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: EducationManagementClientOptionalParams);
     // (undocumented)
-    apiVersion: string;
+    grant: Grant;
     // (undocumented)
     grants: Grants;
     // (undocumented)
     joinRequests: JoinRequests;
     // (undocumented)
     labs: Labs;
+    // (undocumented)
+    operationOperations: OperationOperations;
     // (undocumented)
     operations: Operations;
     redeemInvitationCode(parameters: RedeemRequest, options?: RedeemInvitationCodeOptionalParams): Promise<void>;
@@ -45,7 +47,6 @@ export class EducationManagementClient extends coreClient.ServiceClient {
 // @public
 export interface EducationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -61,8 +62,24 @@ export interface ErrorResponseBody {
 }
 
 // @public
+export interface Grant {
+    renewal(billingAccountName: string, billingProfileName: string, options?: GrantRenewalOptionalParams): Promise<GrantRenewalResponse>;
+}
+
+// @public
 export interface GrantDetails extends Resource {
     readonly allocatedBudget?: Amount;
+    readonly effectiveDate?: Date;
+    readonly expirationDate?: Date;
+    readonly offerCap?: Amount;
+    readonly offerType?: GrantType;
+    readonly status?: GrantStatus;
+}
+
+// @public
+export interface GrantDetailsV2 extends Resource {
+    readonly allocatedBudget?: Amount;
+    readonly displayName?: string;
     readonly effectiveDate?: Date;
     readonly expirationDate?: Date;
     readonly offerCap?: Amount;
@@ -77,10 +94,32 @@ export interface GrantListResponse {
 }
 
 // @public
+export interface GrantListResponseV2 {
+    readonly nextLink?: string;
+    readonly value?: GrantDetailsV2[];
+}
+
+// @public
+export interface GrantRenewalHeaders {
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface GrantRenewalOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GrantRenewalResponse = GrantRenewalHeaders;
+
+// @public
 export interface Grants {
     get(billingAccountName: string, billingProfileName: string, options?: GrantsGetOptionalParams): Promise<GrantsGetResponse>;
+    getV2(billingAccountName: string, billingProfileName: string, options?: GrantsGetV2OptionalParams): Promise<GrantsGetV2Response>;
     list(billingAccountName: string, billingProfileName: string, options?: GrantsListOptionalParams): PagedAsyncIterableIterator<GrantDetails>;
     listAll(options?: GrantsListAllOptionalParams): PagedAsyncIterableIterator<GrantDetails>;
+    listAllV2(options?: GrantsListAllV2OptionalParams): PagedAsyncIterableIterator<GrantDetailsV2>;
+    listV2(billingAccountName: string, billingProfileName: string, options?: GrantsListV2OptionalParams): PagedAsyncIterableIterator<GrantDetailsV2>;
 }
 
 // @public
@@ -90,6 +129,14 @@ export interface GrantsGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type GrantsGetResponse = GrantDetails;
+
+// @public
+export interface GrantsGetV2OptionalParams extends coreClient.OperationOptions {
+    includeAllocatedBudget?: boolean;
+}
+
+// @public
+export type GrantsGetV2Response = GrantDetailsV2;
 
 // @public
 export interface GrantsListAllNextOptionalParams extends coreClient.OperationOptions {
@@ -108,6 +155,22 @@ export interface GrantsListAllOptionalParams extends coreClient.OperationOptions
 export type GrantsListAllResponse = GrantListResponse;
 
 // @public
+export interface GrantsListAllV2NextOptionalParams extends coreClient.OperationOptions {
+    includeAllocatedBudget?: boolean;
+}
+
+// @public
+export type GrantsListAllV2NextResponse = GrantListResponseV2;
+
+// @public
+export interface GrantsListAllV2OptionalParams extends coreClient.OperationOptions {
+    includeAllocatedBudget?: boolean;
+}
+
+// @public
+export type GrantsListAllV2Response = GrantListResponseV2;
+
+// @public
 export interface GrantsListNextOptionalParams extends coreClient.OperationOptions {
     includeAllocatedBudget?: boolean;
 }
@@ -122,6 +185,22 @@ export interface GrantsListOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type GrantsListResponse = GrantListResponse;
+
+// @public
+export interface GrantsListV2NextOptionalParams extends coreClient.OperationOptions {
+    includeAllocatedBudget?: boolean;
+}
+
+// @public
+export type GrantsListV2NextResponse = GrantListResponseV2;
+
+// @public
+export interface GrantsListV2OptionalParams extends coreClient.OperationOptions {
+    includeAllocatedBudget?: boolean;
+}
+
+// @public
+export type GrantsListV2Response = GrantListResponseV2;
 
 // @public
 export type GrantStatus = string;
@@ -370,6 +449,11 @@ export interface OperationListResult {
 }
 
 // @public
+export interface OperationOperations {
+    status(operationId: string, options?: OperationStatusOptionalParams): Promise<OperationStatusResponse>;
+}
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
 }
@@ -380,6 +464,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export interface OperationStatusHeaders {
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface OperationStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusResponse = OperationStatusHeaders;
 
 // @public
 export type Origin = string;

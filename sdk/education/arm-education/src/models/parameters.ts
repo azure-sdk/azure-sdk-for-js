@@ -86,6 +86,18 @@ export const billingProfileName: OperationURLParameter = {
   }
 };
 
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-10-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -207,6 +219,17 @@ export const studentLabName: OperationURLParameter = {
   parameterPath: "studentLabName",
   mapper: {
     serializedName: "studentLabName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
     required: true,
     type: {
       name: "String"

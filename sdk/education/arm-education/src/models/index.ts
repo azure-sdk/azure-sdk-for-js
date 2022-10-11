@@ -220,6 +220,20 @@ export interface StudentLabListResult {
   readonly nextLink?: string;
 }
 
+/** List of Grants info. */
+export interface GrantListResponseV2 {
+  /**
+   * The list of labs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: GrantDetailsV2[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Grant details. */
 export interface GrantDetails extends Resource {
   /**
@@ -388,6 +402,61 @@ export interface StudentLabDetails extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly labScope?: string;
+}
+
+/** Grant details. */
+export interface GrantDetailsV2 extends Resource {
+  /**
+   * Grant display name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Offer Cap
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerCap?: Amount;
+  /**
+   * Grant Effective Date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveDate?: Date;
+  /**
+   * Grant Offer Type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly offerType?: GrantType;
+  /**
+   * Expiration Date
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /**
+   * Grant status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: GrantStatus;
+  /**
+   * allocated budget
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocatedBudget?: Amount;
+}
+
+/** Defines headers for Operation_status operation. */
+export interface OperationStatusHeaders {
+  /** GET this URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: string;
+}
+
+/** Defines headers for Grant_renewal operation. */
+export interface GrantRenewalHeaders {
+  /** GET the URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -606,6 +675,35 @@ export interface GrantsGetOptionalParams extends coreClient.OperationOptions {
 export type GrantsGetResponse = GrantDetails;
 
 /** Optional parameters. */
+export interface GrantsListAllV2OptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to include information about budget that has been allocated. */
+  includeAllocatedBudget?: boolean;
+}
+
+/** Contains response data for the listAllV2 operation. */
+export type GrantsListAllV2Response = GrantListResponseV2;
+
+/** Optional parameters. */
+export interface GrantsListV2OptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to include information about budget that has been allocated. */
+  includeAllocatedBudget?: boolean;
+}
+
+/** Contains response data for the listV2 operation. */
+export type GrantsListV2Response = GrantListResponseV2;
+
+/** Optional parameters. */
+export interface GrantsGetV2OptionalParams extends coreClient.OperationOptions {
+  /** May be used to include information about budget that has been allocated. */
+  includeAllocatedBudget?: boolean;
+}
+
+/** Contains response data for the getV2 operation. */
+export type GrantsGetV2Response = GrantDetailsV2;
+
+/** Optional parameters. */
 export interface GrantsListAllNextOptionalParams
   extends coreClient.OperationOptions {
   /** May be used to include information about budget that has been allocated. */
@@ -624,6 +722,26 @@ export interface GrantsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type GrantsListNextResponse = GrantListResponse;
+
+/** Optional parameters. */
+export interface GrantsListAllV2NextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to include information about budget that has been allocated. */
+  includeAllocatedBudget?: boolean;
+}
+
+/** Contains response data for the listAllV2Next operation. */
+export type GrantsListAllV2NextResponse = GrantListResponseV2;
+
+/** Optional parameters. */
+export interface GrantsListV2NextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to include information about budget that has been allocated. */
+  includeAllocatedBudget?: boolean;
+}
+
+/** Contains response data for the listV2Next operation. */
+export type GrantsListV2NextResponse = GrantListResponseV2;
 
 /** Optional parameters. */
 export interface LabsListAllOptionalParams extends coreClient.OperationOptions {
@@ -795,12 +913,24 @@ export interface StudentLabsListAllNextOptionalParams
 export type StudentLabsListAllNextResponse = StudentLabListResult;
 
 /** Optional parameters. */
+export interface OperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the status operation. */
+export type OperationStatusResponse = OperationStatusHeaders;
+
+/** Optional parameters. */
+export interface GrantRenewalOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the renewal operation. */
+export type GrantRenewalResponse = GrantRenewalHeaders;
+
+/** Optional parameters. */
 export interface EducationManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

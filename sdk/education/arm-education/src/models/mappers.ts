@@ -448,6 +448,35 @@ export const StudentLabListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const GrantListResponseV2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GrantListResponseV2",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GrantDetailsV2"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GrantDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -766,6 +795,107 @@ export const StudentLabDetails: coreClient.CompositeMapper = {
       labScope: {
         serializedName: "properties.labScope",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GrantDetailsV2: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GrantDetailsV2",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      displayName: {
+        serializedName: "properties.displayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerCap: {
+        serializedName: "properties.offerCap",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      effectiveDate: {
+        serializedName: "properties.effectiveDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      offerType: {
+        serializedName: "properties.offerType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      expirationDate: {
+        serializedName: "properties.expirationDate",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "properties.status",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      allocatedBudget: {
+        serializedName: "properties.allocatedBudget",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      }
+    }
+  }
+};
+
+export const OperationStatusHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationStatusHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GrantRenewalHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GrantRenewalHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
         type: {
           name: "String"
         }

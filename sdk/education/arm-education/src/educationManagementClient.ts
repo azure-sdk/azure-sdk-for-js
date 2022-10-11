@@ -8,11 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -20,7 +15,9 @@ import {
   LabsImpl,
   JoinRequestsImpl,
   StudentsImpl,
-  StudentLabsImpl
+  StudentLabsImpl,
+  OperationOperationsImpl,
+  GrantImpl
 } from "./operations";
 import {
   Operations,
@@ -28,7 +25,9 @@ import {
   Labs,
   JoinRequests,
   Students,
-  StudentLabs
+  StudentLabs,
+  OperationOperations,
+  Grant
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -40,7 +39,6 @@ import {
 
 export class EducationManagementClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
 
   /**
    * Initializes a new instance of the EducationManagementClient class.
@@ -109,42 +107,14 @@ export class EducationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-12-01-preview";
     this.operations = new OperationsImpl(this);
     this.grants = new GrantsImpl(this);
     this.labs = new LabsImpl(this);
     this.joinRequests = new JoinRequestsImpl(this);
     this.students = new StudentsImpl(this);
     this.studentLabs = new StudentLabsImpl(this);
-    this.addCustomApiVersionPolicy(options.apiVersion);
-  }
-
-  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
-    if (!apiVersion) {
-      return;
-    }
-    const apiVersionPolicy = {
-      name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
-        const param = request.url.split("?");
-        if (param.length > 1) {
-          const newParams = param[1].split("&").map((item) => {
-            if (item.indexOf("api-version") > -1) {
-              return "api-version=" + apiVersion;
-            } else {
-              return item;
-            }
-          });
-          request.url = param[0] + "?" + newParams.join("&");
-        }
-        return next(request);
-      }
-    };
-    this.pipeline.addPolicy(apiVersionPolicy);
+    this.operationOperations = new OperationOperationsImpl(this);
+    this.grant = new GrantImpl(this);
   }
 
   /**
@@ -168,6 +138,8 @@ export class EducationManagementClient extends coreClient.ServiceClient {
   joinRequests: JoinRequests;
   students: Students;
   studentLabs: StudentLabs;
+  operationOperations: OperationOperations;
+  grant: Grant;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

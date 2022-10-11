@@ -11,8 +11,13 @@ import {
   GrantDetails,
   GrantsListAllOptionalParams,
   GrantsListOptionalParams,
+  GrantDetailsV2,
+  GrantsListAllV2OptionalParams,
+  GrantsListV2OptionalParams,
   GrantsGetOptionalParams,
-  GrantsGetResponse
+  GrantsGetResponse,
+  GrantsGetV2OptionalParams,
+  GrantsGetV2Response
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,6 +42,24 @@ export interface Grants {
     options?: GrantsListOptionalParams
   ): PagedAsyncIterableIterator<GrantDetails>;
   /**
+   * Get a list of grants that Microsoft has provided.
+   * @param options The options parameters.
+   */
+  listAllV2(
+    options?: GrantsListAllV2OptionalParams
+  ): PagedAsyncIterableIterator<GrantDetailsV2>;
+  /**
+   * Get details for a specific grant linked to the provided billing account and billing profile.
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param options The options parameters.
+   */
+  listV2(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsListV2OptionalParams
+  ): PagedAsyncIterableIterator<GrantDetailsV2>;
+  /**
    * Get details for a specific grant linked to the provided billing account and billing profile.
    * @param billingAccountName Billing account name.
    * @param billingProfileName Billing profile name.
@@ -47,4 +70,15 @@ export interface Grants {
     billingProfileName: string,
     options?: GrantsGetOptionalParams
   ): Promise<GrantsGetResponse>;
+  /**
+   * Get details for a specific grant linked to the provided billing account and billing profile.
+   * @param billingAccountName Billing account name.
+   * @param billingProfileName Billing profile name.
+   * @param options The options parameters.
+   */
+  getV2(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: GrantsGetV2OptionalParams
+  ): Promise<GrantsGetV2Response>;
 }

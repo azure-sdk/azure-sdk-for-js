@@ -12,3 +12,5 @@ export * from "./labs";
 export * from "./joinRequests";
 export * from "./students";
 export * from "./studentLabs";
+export * from "./operationOperations";
+export * from "./grant";
