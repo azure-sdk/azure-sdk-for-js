@@ -1,15 +1,13 @@
 # Release History
+    
+## 31.0.0 (2022-10-11)
+    
+**Breaking Changes**
 
-## 30.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AdminRule no longer has parameter kind
+  - Interface DefaultAdminRule no longer has parameter kind
+    
+    
 ## 30.0.0 (2022-09-29)
     
 **Features**
