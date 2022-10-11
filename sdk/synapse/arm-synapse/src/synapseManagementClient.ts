@@ -15,7 +15,7 @@ import {
   IpFirewallRulesImpl,
   KeysImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesImpl,
+  PrivateLinkResourcesOperationsImpl,
   PrivateLinkHubPrivateLinkResourcesImpl,
   PrivateLinkHubsImpl,
   PrivateEndpointConnectionsPrivateLinkHubImpl,
@@ -82,7 +82,8 @@ import {
   KustoPoolDatabasesImpl,
   KustoPoolDataConnectionsImpl,
   KustoPoolPrincipalAssignmentsImpl,
-  KustoPoolDatabasePrincipalAssignmentsImpl
+  KustoPoolDatabasePrincipalAssignmentsImpl,
+  KustoPoolPrivateLinkResourcesOperationsImpl
 } from "./operations";
 import {
   AzureADOnlyAuthentications,
@@ -90,7 +91,7 @@ import {
   IpFirewallRules,
   Keys,
   PrivateEndpointConnections,
-  PrivateLinkResources,
+  PrivateLinkResourcesOperations,
   PrivateLinkHubPrivateLinkResources,
   PrivateLinkHubs,
   PrivateEndpointConnectionsPrivateLinkHub,
@@ -157,7 +158,8 @@ import {
   KustoPoolDatabases,
   KustoPoolDataConnections,
   KustoPoolPrincipalAssignments,
-  KustoPoolDatabasePrincipalAssignments
+  KustoPoolDatabasePrincipalAssignments,
+  KustoPoolPrivateLinkResourcesOperations
 } from "./operationsInterfaces";
 import { SynapseManagementClientOptionalParams } from "./models";
 
@@ -192,7 +194,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/8.1.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -244,7 +246,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.ipFirewallRules = new IpFirewallRulesImpl(this);
     this.keys = new KeysImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.privateLinkResourcesOperations = new PrivateLinkResourcesOperationsImpl(
+      this
+    );
     this.privateLinkHubPrivateLinkResources = new PrivateLinkHubPrivateLinkResourcesImpl(
       this
     );
@@ -374,6 +378,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
       this
     );
+    this.kustoPoolPrivateLinkResourcesOperations = new KustoPoolPrivateLinkResourcesOperationsImpl(
+      this
+    );
   }
 
   azureADOnlyAuthentications: AzureADOnlyAuthentications;
@@ -381,7 +388,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   ipFirewallRules: IpFirewallRules;
   keys: Keys;
   privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResources: PrivateLinkResources;
+  privateLinkResourcesOperations: PrivateLinkResourcesOperations;
   privateLinkHubPrivateLinkResources: PrivateLinkHubPrivateLinkResources;
   privateLinkHubs: PrivateLinkHubs;
   privateEndpointConnectionsPrivateLinkHub: PrivateEndpointConnectionsPrivateLinkHub;
@@ -449,4 +456,5 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   kustoPoolDataConnections: KustoPoolDataConnections;
   kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
   kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
+  kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
 }
