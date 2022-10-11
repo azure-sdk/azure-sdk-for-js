@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./configuration";
 export * from "./namespaces";
+export * from "./hybridConnections";
+export * from "./wCFRelays";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./operations";
-export * from "./eventHubs";
-export * from "./disasterRecoveryConfigs";
-export * from "./consumerGroups";
-export * from "./schemaRegistry";
