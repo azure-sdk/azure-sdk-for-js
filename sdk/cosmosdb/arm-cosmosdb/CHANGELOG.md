@@ -1,6 +1,6 @@
 # Release History
     
-## 16.0.0-beta.4 (2022-10-09)
+## 16.0.0-beta.5 (2022-10-11)
     
 **Features**
 
@@ -34,10 +34,6 @@
   - Added operation MongoDBResources.beginMongoDBContainerRedistributeThroughputAndWait
   - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistribution
   - Added operation MongoDBResources.beginMongoDBContainerRetrieveThroughputDistributionAndWait
-  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughput
-  - Added operation MongoDBResources.beginMongoDBDatabaseRedistributeThroughputAndWait
-  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistribution
-  - Added operation MongoDBResources.beginMongoDBDatabaseRetrieveThroughputDistributionAndWait
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKey
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKeyAndWait
   - Added operation SqlResources.beginListSqlContainerPartitionMerge
@@ -46,10 +42,6 @@
   - Added operation SqlResources.beginSqlContainerRedistributeThroughputAndWait
   - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistribution
   - Added operation SqlResources.beginSqlContainerRetrieveThroughputDistributionAndWait
-  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughput
-  - Added operation SqlResources.beginSqlDatabaseRedistributeThroughputAndWait
-  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistribution
-  - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistributionAndWait
   - Added operation SqlResources.getClientEncryptionKey
   - Added operation SqlResources.listClientEncryptionKeys
   - Added operation TableResources.beginRetrieveContinuousBackupInformation
@@ -115,8 +107,6 @@
   - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
   - Added Interface MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams
   - Added Interface MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionOptionalParams
-  - Added Interface MongoDBResourcesMongoDBDatabaseRedistributeThroughputOptionalParams
-  - Added Interface MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionOptionalParams
   - Added Interface PhysicalPartitionId
   - Added Interface PhysicalPartitionStorageInfo
   - Added Interface PhysicalPartitionStorageInfoCollection
@@ -126,7 +116,6 @@
   - Added Interface PhysicalPartitionThroughputInfoResultPropertiesResource
   - Added Interface RedistributeThroughputParameters
   - Added Interface RedistributeThroughputPropertiesResource
-  - Added Interface ResourceRestoreParameters
   - Added Interface RestorableGremlinDatabaseGetResult
   - Added Interface RestorableGremlinDatabasePropertiesResource
   - Added Interface RestorableGremlinDatabasesListOptionalParams
@@ -145,7 +134,6 @@
   - Added Interface RestorableTableResourcesListResult
   - Added Interface RestorableTablesListOptionalParams
   - Added Interface RestorableTablesListResult
-  - Added Interface RestoreParametersBase
   - Added Interface RetrieveThroughputParameters
   - Added Interface RetrieveThroughputPropertiesResource
   - Added Interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
@@ -154,8 +142,6 @@
   - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
   - Added Interface SqlResourcesSqlContainerRedistributeThroughputOptionalParams
   - Added Interface SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
-  - Added Interface SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
-  - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
   - Added Interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
   - Added Type Alias CassandraClustersGetBackupResponse
   - Added Type Alias CassandraClustersListBackupsResponse
@@ -184,8 +170,6 @@
   - Added Type Alias MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
   - Added Type Alias MongoDBResourcesMongoDBContainerRedistributeThroughputResponse
   - Added Type Alias MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse
-  - Added Type Alias MongoDBResourcesMongoDBDatabaseRedistributeThroughputResponse
-  - Added Type Alias MongoDBResourcesMongoDBDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias RestorableGremlinDatabasesListResponse
   - Added Type Alias RestorableGremlinGraphsListResponse
   - Added Type Alias RestorableGremlinResourcesListResponse
@@ -197,8 +181,6 @@
   - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
   - Added Type Alias SqlResourcesSqlContainerRedistributeThroughputResponse
   - Added Type Alias SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
-  - Added Type Alias SqlResourcesSqlDatabaseRedistributeThroughputResponse
-  - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias TableResourcesRetrieveContinuousBackupInformationResponse
   - Added Type Alias ThroughputPolicyType
   - Interface ARMResourceProperties has a new optional parameter identity
@@ -211,20 +193,12 @@
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
   - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
   - Interface LocationProperties has a new optional parameter status
-  - Interface MongoDBCollectionResource has a new optional parameter createMode
-  - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
-  - Interface MongoDBDatabaseResource has a new optional parameter createMode
-  - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
   - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter endTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter startTime
   - Interface RestoreParameters has a new optional parameter gremlinDatabasesToRestore
   - Interface RestoreParameters has a new optional parameter tablesToRestore
   - Interface SqlContainerResource has a new optional parameter clientEncryptionPolicy
-  - Interface SqlContainerResource has a new optional parameter createMode
-  - Interface SqlContainerResource has a new optional parameter restoreParameters
-  - Interface SqlDatabaseResource has a new optional parameter createMode
-  - Interface SqlDatabaseResource has a new optional parameter restoreParameters
   - Class CosmosDBManagementClient has a new parameter dataTransferJobs
   - Class CosmosDBManagementClient has a new parameter graphResources
   - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases
@@ -236,14 +210,14 @@
   - Added Enum KnownDataTransferComponent
   - Added Enum KnownThroughputPolicyType
   - Enum KnownAuthenticationMethod has a new value Ldap
-  - Enum KnownOperationType has a new value Recreate
 
 **Breaking Changes**
 
+  - Interface DatabaseAccountCreateUpdateParameters no longer has parameter enablePartitionMerge
   - Interface DatabaseAccountCreateUpdateParameters no longer has parameter identity
+  - Interface DatabaseAccountGetResults no longer has parameter enablePartitionMerge
   - Interface DatabaseAccountGetResults no longer has parameter identity
-  - Interface RestoreParameters no longer has parameter restoreSource
-  - Interface RestoreParameters no longer has parameter restoreTimestampInUtc
+  - Interface DatabaseAccountUpdateParameters no longer has parameter enablePartitionMerge
     
     
 ## 15.2.0 (2022-09-05)

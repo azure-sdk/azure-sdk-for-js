@@ -287,6 +287,68 @@ export const AnalyticalStorageConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const RestoreParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestoreParameters",
+    modelProperties: {
+      restoreMode: {
+        serializedName: "restoreMode",
+        type: {
+          name: "String"
+        }
+      },
+      restoreSource: {
+        serializedName: "restoreSource",
+        type: {
+          name: "String"
+        }
+      },
+      restoreTimestampInUtc: {
+        serializedName: "restoreTimestampInUtc",
+        type: {
+          name: "DateTime"
+        }
+      },
+      databasesToRestore: {
+        serializedName: "databasesToRestore",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatabaseRestoreResource"
+            }
+          }
+        }
+      },
+      gremlinDatabasesToRestore: {
+        serializedName: "gremlinDatabasesToRestore",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "GremlinDatabaseRestoreResource"
+            }
+          }
+        }
+      },
+      tablesToRestore: {
+        serializedName: "tablesToRestore",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const DatabaseRestoreResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -333,27 +395,6 @@ export const GremlinDatabaseRestoreResource: coreClient.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const RestoreParametersBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestoreParametersBase",
-    modelProperties: {
-      restoreSource: {
-        serializedName: "restoreSource",
-        type: {
-          name: "String"
-        }
-      },
-      restoreTimestampInUtc: {
-        serializedName: "restoreTimestampInUtc",
-        type: {
-          name: "DateTime"
         }
       }
     }
@@ -941,12 +982,6 @@ export const DatabaseAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatabaseAccountKeysMetadata"
-        }
-      },
-      enablePartitionMerge: {
-        serializedName: "properties.enablePartitionMerge",
-        type: {
-          name: "Boolean"
         }
       }
     }
@@ -1766,20 +1801,6 @@ export const SqlDatabaseResource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      restoreParameters: {
-        serializedName: "restoreParameters",
-        type: {
-          name: "Composite",
-          className: "ResourceRestoreParameters"
-        }
-      },
-      createMode: {
-        defaultValue: "Default",
-        serializedName: "createMode",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -2148,20 +2169,6 @@ export const SqlContainerResource: coreClient.CompositeMapper = {
         serializedName: "analyticalStorageTtl",
         type: {
           name: "Number"
-        }
-      },
-      restoreParameters: {
-        serializedName: "restoreParameters",
-        type: {
-          name: "Composite",
-          className: "ResourceRestoreParameters"
-        }
-      },
-      createMode: {
-        defaultValue: "Default",
-        serializedName: "createMode",
-        type: {
-          name: "String"
         }
       }
     }
@@ -2900,20 +2907,6 @@ export const MongoDBDatabaseResource: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      restoreParameters: {
-        serializedName: "restoreParameters",
-        type: {
-          name: "Composite",
-          className: "ResourceRestoreParameters"
-        }
-      },
-      createMode: {
-        defaultValue: "Default",
-        serializedName: "createMode",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -2976,20 +2969,6 @@ export const MongoDBCollectionResource: coreClient.CompositeMapper = {
         serializedName: "analyticalStorageTtl",
         type: {
           name: "Number"
-        }
-      },
-      restoreParameters: {
-        serializedName: "restoreParameters",
-        type: {
-          name: "Composite",
-          className: "ResourceRestoreParameters"
-        }
-      },
-      createMode: {
-        defaultValue: "Default",
-        serializedName: "createMode",
-        type: {
-          name: "String"
         }
       }
     }
@@ -6335,67 +6314,6 @@ export const ProxyResource: coreClient.CompositeMapper = {
   }
 };
 
-export const RestoreParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestoreParameters",
-    modelProperties: {
-      ...RestoreParametersBase.type.modelProperties,
-      restoreMode: {
-        serializedName: "restoreMode",
-        type: {
-          name: "String"
-        }
-      },
-      databasesToRestore: {
-        serializedName: "databasesToRestore",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatabaseRestoreResource"
-            }
-          }
-        }
-      },
-      gremlinDatabasesToRestore: {
-        serializedName: "gremlinDatabasesToRestore",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "GremlinDatabaseRestoreResource"
-            }
-          }
-        }
-      },
-      tablesToRestore: {
-        serializedName: "tablesToRestore",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ResourceRestoreParameters: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ResourceRestoreParameters",
-    modelProperties: {
-      ...RestoreParametersBase.type.modelProperties
-    }
-  }
-};
-
 export const PeriodicModeBackupPolicy: coreClient.CompositeMapper = {
   serializedName: "Periodic",
   type: {
@@ -6755,12 +6673,6 @@ export const DatabaseAccountGetResults: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DatabaseAccountKeysMetadata"
         }
-      },
-      enablePartitionMerge: {
-        serializedName: "properties.enablePartitionMerge",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -7004,12 +6916,6 @@ export const DatabaseAccountCreateUpdateParameters: coreClient.CompositeMapper =
         type: {
           name: "Composite",
           className: "DatabaseAccountKeysMetadata"
-        }
-      },
-      enablePartitionMerge: {
-        serializedName: "properties.enablePartitionMerge",
-        type: {
-          name: "Boolean"
         }
       }
     }
