@@ -1,15 +1,40 @@
 # Release History
+    
+## 6.1.0-beta.1 (2022-10-12)
+    
+**Features**
 
-## 6.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ArmDisasterRecovery
+  - Added Interface MigrationConfigProperties
+  - Added Interface NetworkRuleSet
+  - Added Interface PrivateEndpointConnection
+  - Added Interface ResourceNamespacePatch
+  - Added Interface Rule
+  - Added Interface SBAuthorizationRule
+  - Added Interface SBNamespace
+  - Added Interface SBNamespaceUpdateParameters
+  - Added Interface SBQueue
+  - Added Interface SBSubscription
+  - Added Interface SBTopic
+  - Added Interface SqlRuleAction
+  - Added Interface TrackedResource
+  - Added Type Alias KeySource
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias TlsVersion
+  - Added Enum KnownAccessRights
+  - Added Enum KnownFilterType
+  - Added Enum KnownKeySource
+  - Added Enum KnownKeyType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownProvisioningStateDR
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownRoleDisasterRecovery
+  - Added Enum KnownSkuName
+  - Added Enum KnownSkuTier
+  - Added Enum KnownTlsVersion
+  - Added Enum KnownUnavailableReason
+    
+    
 ## 6.0.0 (2022-05-01)
     
 **Features**

@@ -79,7 +79,7 @@ export interface Encryption {
   /** Properties of KeyVault */
   keyVaultProperties?: KeyVaultProperties[];
   /** Enumerates the possible value of keySource for Encryption */
-  keySource?: "Microsoft.KeyVault";
+  keySource?: KeySource;
   /** Enable Infrastructure Encryption (Double Encryption) */
   requireInfrastructureEncryption?: boolean;
 }
@@ -540,7 +540,7 @@ export interface CheckNameAvailabilityResult {
 }
 
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -552,10 +552,10 @@ export type PrivateEndpointConnection = ProxyResource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
-};
+}
 
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
-export type ArmDisasterRecovery = ProxyResource & {
+export interface ArmDisasterRecovery extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -580,10 +580,10 @@ export type ArmDisasterRecovery = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly role?: RoleDisasterRecovery;
-};
+}
 
 /** Single item in List or Get Migration Config operation */
-export type MigrationConfigProperties = ProxyResource & {
+export interface MigrationConfigProperties extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -608,10 +608,10 @@ export type MigrationConfigProperties = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationState?: string;
-};
+}
 
 /** Description of NetworkRuleSet resource. */
-export type NetworkRuleSet = ProxyResource & {
+export interface NetworkRuleSet extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -627,10 +627,10 @@ export type NetworkRuleSet = ProxyResource & {
   ipRules?: NWRuleSetIpRules[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccessFlag;
-};
+}
 
 /** Description of a namespace authorization rule. */
-export type SBAuthorizationRule = ProxyResource & {
+export interface SBAuthorizationRule extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -638,10 +638,10 @@ export type SBAuthorizationRule = ProxyResource & {
   readonly systemData?: SystemData;
   /** The rights associated with the rule. */
   rights?: AccessRights[];
-};
+}
 
 /** Description of queue Resource. */
-export type SBQueue = ProxyResource & {
+export interface SBQueue extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -709,10 +709,10 @@ export type SBQueue = ProxyResource & {
   forwardTo?: string;
   /** Queue/Topic name to forward the Dead Letter message */
   forwardDeadLetteredMessagesTo?: string;
-};
+}
 
 /** Description of topic resource. */
-export type SBTopic = ProxyResource & {
+export interface SBTopic extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -770,10 +770,10 @@ export type SBTopic = ProxyResource & {
   enablePartitioning?: boolean;
   /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
   enableExpress?: boolean;
-};
+}
 
 /** Description of Rule Resource. */
-export type Rule = ProxyResource & {
+export interface Rule extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -787,10 +787,10 @@ export type Rule = ProxyResource & {
   sqlFilter?: SqlFilter;
   /** Properties of correlationFilter */
   correlationFilter?: CorrelationFilter;
-};
+}
 
 /** Description of subscription resource. */
-export type SBSubscription = ProxyResource & {
+export interface SBSubscription extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -849,29 +849,29 @@ export type SBSubscription = ProxyResource & {
   isClientAffine?: boolean;
   /** Properties specific to client affine subscriptions. */
   clientAffineProperties?: SBClientAffineProperties;
-};
+}
 
 /** The Resource definition. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** The Geo-location where the resource lives */
   location: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** The Resource definition. */
-export type ResourceNamespacePatch = Resource & {
+export interface ResourceNamespacePatch extends Resource {
   /** Resource location */
   location?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage */
-export type SqlRuleAction = Action & {};
+export interface SqlRuleAction extends Action {}
 
 /** Description of a namespace resource. */
-export type SBNamespace = TrackedResource & {
+export interface SBNamespace extends TrackedResource {
   /** Properties of SKU */
   sku?: SBSku;
   /** Properties of BYOK Identity description */
@@ -881,6 +881,8 @@ export type SBNamespace = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /** The minimum TLS version for the cluster to support, e.g. '1.2' */
+  minimumTlsVersion?: TlsVersion;
   /**
    * Provisioning state of the namespace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -921,10 +923,12 @@ export type SBNamespace = TrackedResource & {
   disableLocalAuth?: boolean;
   /** Alternate name for namespace */
   alternateName?: string;
-};
+  /** This determines if traffic is allowed over public network. By default it is enabled. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
 
 /** Description of a namespace resource. */
-export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
+export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
   /** Properties of SKU */
   sku?: SBSku;
   /** Properties of BYOK Identity description */
@@ -967,13 +971,83 @@ export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
   disableLocalAuth?: boolean;
   /** Alternate name for namespace */
   alternateName?: string;
-};
+}
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Premium */
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Premium**
+ */
+export type SkuName = string;
+
+/** Known values of {@link SkuTier} that the service accepts. */
+export enum KnownSkuTier {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Premium */
+  Premium = "Premium"
+}
+
+/**
+ * Defines values for SkuTier. \
+ * {@link KnownSkuTier} can be used interchangeably with SkuTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Premium**
+ */
+export type SkuTier = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  /** None */
+  None = "None"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned** \
+ * **None**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -989,11 +1063,51 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link TlsVersion} that the service accepts. */
+export enum KnownTlsVersion {
+  /** One0 */
+  One0 = "1.0",
+  /** One1 */
+  One1 = "1.1",
+  /** One2 */
+  One2 = "1.2"
+}
+
+/**
+ * Defines values for TlsVersion. \
+ * {@link KnownTlsVersion} can be used interchangeably with TlsVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **1.0** \
+ * **1.1** \
+ * **1.2**
+ */
+export type TlsVersion = string;
+
+/** Known values of {@link KeySource} that the service accepts. */
+export enum KnownKeySource {
+  /** MicrosoftKeyVault */
+  MicrosoftKeyVault = "Microsoft.KeyVault"
+}
+
+/**
+ * Defines values for KeySource. \
+ * {@link KnownKeySource} can be used interchangeably with KeySource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.KeyVault**
+ */
+export type KeySource = string;
+
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -1011,11 +1125,17 @@ export type PrivateLinkConnectionStatus = string;
 
 /** Known values of {@link EndPointProvisioningState} that the service accepts. */
 export enum KnownEndPointProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1033,8 +1153,72 @@ export enum KnownEndPointProvisioningState {
  */
 export type EndPointProvisioningState = string;
 
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **SecuredByPerimeter**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link ProvisioningStateDR} that the service accepts. */
+export enum KnownProvisioningStateDR {
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for ProvisioningStateDR. \
+ * {@link KnownProvisioningStateDR} can be used interchangeably with ProvisioningStateDR,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type ProvisioningStateDR = string;
+
+/** Known values of {@link RoleDisasterRecovery} that the service accepts. */
+export enum KnownRoleDisasterRecovery {
+  /** Primary */
+  Primary = "Primary",
+  /** PrimaryNotReplicating */
+  PrimaryNotReplicating = "PrimaryNotReplicating",
+  /** Secondary */
+  Secondary = "Secondary"
+}
+
+/**
+ * Defines values for RoleDisasterRecovery. \
+ * {@link KnownRoleDisasterRecovery} can be used interchangeably with RoleDisasterRecovery,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **PrimaryNotReplicating** \
+ * **Secondary**
+ */
+export type RoleDisasterRecovery = string;
+
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {
+  /** Default */
   Default = "$default"
 }
 
@@ -1049,7 +1233,9 @@ export type MigrationConfigurationName = string;
 
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -1065,6 +1251,7 @@ export type DefaultAction = string;
 
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -1079,7 +1266,9 @@ export type NetworkRuleIPAction = string;
 
 /** Known values of {@link PublicNetworkAccessFlag} that the service accepts. */
 export enum KnownPublicNetworkAccessFlag {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1092,27 +1281,93 @@ export enum KnownPublicNetworkAccessFlag {
  * **Disabled**
  */
 export type PublicNetworkAccessFlag = string;
-/** Defines values for SkuName. */
-export type SkuName = "Basic" | "Standard" | "Premium";
-/** Defines values for SkuTier. */
-export type SkuTier = "Basic" | "Standard" | "Premium";
-/** Defines values for ManagedServiceIdentityType. */
-export type ManagedServiceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
-/** Defines values for ProvisioningStateDR. */
-export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
-/** Defines values for RoleDisasterRecovery. */
-export type RoleDisasterRecovery =
-  | "Primary"
-  | "PrimaryNotReplicating"
-  | "Secondary";
-/** Defines values for AccessRights. */
-export type AccessRights = "Manage" | "Send" | "Listen";
-/** Defines values for KeyType. */
-export type KeyType = "PrimaryKey" | "SecondaryKey";
+
+/** Known values of {@link AccessRights} that the service accepts. */
+export enum KnownAccessRights {
+  /** Manage */
+  Manage = "Manage",
+  /** Send */
+  Send = "Send",
+  /** Listen */
+  Listen = "Listen"
+}
+
+/**
+ * Defines values for AccessRights. \
+ * {@link KnownAccessRights} can be used interchangeably with AccessRights,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manage** \
+ * **Send** \
+ * **Listen**
+ */
+export type AccessRights = string;
+
+/** Known values of {@link KeyType} that the service accepts. */
+export enum KnownKeyType {
+  /** PrimaryKey */
+  PrimaryKey = "PrimaryKey",
+  /** SecondaryKey */
+  SecondaryKey = "SecondaryKey"
+}
+
+/**
+ * Defines values for KeyType. \
+ * {@link KnownKeyType} can be used interchangeably with KeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrimaryKey** \
+ * **SecondaryKey**
+ */
+export type KeyType = string;
+
+/** Known values of {@link FilterType} that the service accepts. */
+export enum KnownFilterType {
+  /** SqlFilter */
+  SqlFilter = "SqlFilter",
+  /** CorrelationFilter */
+  CorrelationFilter = "CorrelationFilter"
+}
+
+/**
+ * Defines values for FilterType. \
+ * {@link KnownFilterType} can be used interchangeably with FilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SqlFilter** \
+ * **CorrelationFilter**
+ */
+export type FilterType = string;
+
+/** Known values of {@link UnavailableReason} that the service accepts. */
+export enum KnownUnavailableReason {
+  /** None */
+  None = "None",
+  /** InvalidName */
+  InvalidName = "InvalidName",
+  /** SubscriptionIsDisabled */
+  SubscriptionIsDisabled = "SubscriptionIsDisabled",
+  /** NameInUse */
+  NameInUse = "NameInUse",
+  /** NameInLockdown */
+  NameInLockdown = "NameInLockdown",
+  /** TooManyNamespaceInCurrentSubscription */
+  TooManyNamespaceInCurrentSubscription = "TooManyNamespaceInCurrentSubscription"
+}
+
+/**
+ * Defines values for UnavailableReason. \
+ * {@link KnownUnavailableReason} can be used interchangeably with UnavailableReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **InvalidName** \
+ * **SubscriptionIsDisabled** \
+ * **NameInUse** \
+ * **NameInLockdown** \
+ * **TooManyNamespaceInCurrentSubscription**
+ */
+export type UnavailableReason = string;
 /** Defines values for EntityStatus. */
 export type EntityStatus =
   | "Active"
@@ -1124,16 +1379,6 @@ export type EntityStatus =
   | "Deleting"
   | "Renaming"
   | "Unknown";
-/** Defines values for FilterType. */
-export type FilterType = "SqlFilter" | "CorrelationFilter";
-/** Defines values for UnavailableReason. */
-export type UnavailableReason =
-  | "None"
-  | "InvalidName"
-  | "SubscriptionIsDisabled"
-  | "NameInUse"
-  | "NameInLockdown"
-  | "TooManyNamespaceInCurrentSubscription";
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams

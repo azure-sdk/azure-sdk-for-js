@@ -44,15 +44,13 @@ export const SBSku: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["Basic", "Standard", "Premium"]
+          name: "String"
         }
       },
       tier: {
         serializedName: "tier",
         type: {
-          name: "Enum",
-          allowedValues: ["Basic", "Standard", "Premium"]
+          name: "String"
         }
       },
       capacity: {
@@ -87,13 +85,7 @@ export const Identity: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          name: "String"
         }
       },
       userAssignedIdentities: {
@@ -196,7 +188,6 @@ export const Encryption: coreClient.CompositeMapper = {
       },
       keySource: {
         defaultValue: "Microsoft.KeyVault",
-        isConstant: true,
         serializedName: "keySource",
         type: {
           name: "String"
@@ -929,8 +920,7 @@ export const RegenerateAccessKeyParameters: coreClient.CompositeMapper = {
         serializedName: "keyType",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["PrimaryKey", "SecondaryKey"]
+          name: "String"
         }
       },
       key: {
@@ -1286,15 +1276,7 @@ export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
       reason: {
         serializedName: "reason",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "None",
-            "InvalidName",
-            "SubscriptionIsDisabled",
-            "NameInUse",
-            "NameInLockdown",
-            "TooManyNamespaceInCurrentSubscription"
-          ]
+          name: "String"
         }
       }
     }
@@ -1355,8 +1337,7 @@ export const ArmDisasterRecovery: coreClient.CompositeMapper = {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: ["Accepted", "Succeeded", "Failed"]
+          name: "String"
         }
       },
       pendingReplicationOperationsCount: {
@@ -1382,8 +1363,7 @@ export const ArmDisasterRecovery: coreClient.CompositeMapper = {
         serializedName: "properties.role",
         readOnly: true,
         type: {
-          name: "Enum",
-          allowedValues: ["Primary", "PrimaryNotReplicating", "Secondary"]
+          name: "String"
         }
       }
     }
@@ -1519,8 +1499,7 @@ export const SBAuthorizationRule: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Enum",
-              allowedValues: ["Manage", "Send", "Listen"]
+              name: "String"
             }
           }
         }
@@ -1854,8 +1833,7 @@ export const Rule: coreClient.CompositeMapper = {
       filterType: {
         serializedName: "properties.filterType",
         type: {
-          name: "Enum",
-          allowedValues: ["SqlFilter", "CorrelationFilter"]
+          name: "String"
         }
       },
       sqlFilter: {
@@ -2108,6 +2086,12 @@ export const SBNamespace: coreClient.CompositeMapper = {
           className: "SystemData"
         }
       },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2183,6 +2167,13 @@ export const SBNamespace: coreClient.CompositeMapper = {
       },
       alternateName: {
         serializedName: "properties.alternateName",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
         }
