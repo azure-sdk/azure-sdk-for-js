@@ -1,16 +1,6 @@
 # Release History
-
-## 18.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 18.0.0-beta.2 (2022-09-29)
+    
+## 18.0.0-beta.3 (2022-10-12)
     
 **Features**
 
@@ -83,6 +73,7 @@
   - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
+  - Added Interface PortRange
   - Added Interface TrustedAccessRole
   - Added Interface TrustedAccessRoleBinding
   - Added Interface TrustedAccessRoleBindingListResult
@@ -97,6 +88,7 @@
   - Added Interface TrustedAccessRolesListOptionalParams
   - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
+  - Added Type Alias EbpfDataplane
   - Added Type Alias FleetMemberProvisioningState
   - Added Type Alias FleetMembersCreateOrUpdateResponse
   - Added Type Alias FleetMembersGetResponse
@@ -122,6 +114,7 @@
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
   - Added Type Alias Mode
   - Added Type Alias NetworkPluginMode
+  - Added Type Alias Protocol
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
   - Added Type Alias TrustedAccessRoleBindingsGetResponse
@@ -136,6 +129,7 @@
   - Interface AgentPool has a new optional parameter networkProfile
   - Interface AgentPool has a new optional parameter windowsProfile
   - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ContainerServiceNetworkProfile has a new optional parameter ebpfDataplane
   - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
   - Interface ContainerServiceNetworkProfile has a new optional parameter networkPluginMode
   - Interface ManagedCluster has a new optional parameter azureMonitorProfile
@@ -155,6 +149,7 @@
   - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
   - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
   - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
   - Interface ManagedClusterSecurityProfile has a new optional parameter imageCleaner
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
@@ -167,12 +162,14 @@
   - Class ContainerServiceClient has a new parameter trustedAccessRoles
   - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
+  - Added Enum KnownEbpfDataplane
   - Added Enum KnownFleetMemberProvisioningState
   - Added Enum KnownFleetProvisioningState
   - Added Enum KnownIpvsScheduler
   - Added Enum KnownLevel
   - Added Enum KnownMode
   - Added Enum KnownNetworkPluginMode
+  - Added Enum KnownProtocol
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownUpdateMode
   - Enum KnownOssku has a new value Mariner
