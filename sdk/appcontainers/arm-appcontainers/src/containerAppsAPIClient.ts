@@ -16,27 +16,45 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import {
   ContainerAppsAuthConfigsImpl,
+  AvailableWorkloadProfilesImpl,
+  BillingMetersImpl,
+  ConnectedEnvironmentsImpl,
+  ConnectedEnvironmentsCertificatesImpl,
+  ConnectedEnvironmentsDaprComponentsImpl,
+  ConnectedEnvironmentsStoragesImpl,
   ContainerAppsImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
-  DaprComponentsImpl,
+  ContainerAppsDiagnosticsImpl,
+  ManagedEnvironmentDiagnosticsImpl,
+  ManagedEnvironmentsDiagnosticsImpl,
   OperationsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
   NamespacesImpl,
+  DaprComponentsImpl,
   ManagedEnvironmentsStoragesImpl,
   ContainerAppsSourceControlsImpl
 } from "./operations";
 import {
   ContainerAppsAuthConfigs,
+  AvailableWorkloadProfiles,
+  BillingMeters,
+  ConnectedEnvironments,
+  ConnectedEnvironmentsCertificates,
+  ConnectedEnvironmentsDaprComponents,
+  ConnectedEnvironmentsStorages,
   ContainerApps,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
-  DaprComponents,
+  ContainerAppsDiagnostics,
+  ManagedEnvironmentDiagnostics,
+  ManagedEnvironmentsDiagnostics,
   Operations,
   ManagedEnvironments,
   Certificates,
   Namespaces,
+  DaprComponents,
   ManagedEnvironmentsStorages,
   ContainerAppsSourceControls
 } from "./operationsInterfaces";
@@ -74,7 +92,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appcontainers/1.1.3`;
+    const packageDetails = `azsdk-js-arm-appcontainers/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -94,52 +112,64 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     };
     super(optionsWithDefaults);
 
-    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-    }
-    if (
-      !options ||
-      !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
-      !bearerTokenAuthenticationPolicyFound
-    ) {
-      this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-      });
-      this.pipeline.addPolicy(
-        coreRestPipeline.bearerTokenAuthenticationPolicy({
-          credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
-          challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
-      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-10-01";
     this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
+    this.availableWorkloadProfiles = new AvailableWorkloadProfilesImpl(this);
+    this.billingMeters = new BillingMetersImpl(this);
+    this.connectedEnvironments = new ConnectedEnvironmentsImpl(this);
+    this.connectedEnvironmentsCertificates = new ConnectedEnvironmentsCertificatesImpl(
+      this
+    );
+    this.connectedEnvironmentsDaprComponents = new ConnectedEnvironmentsDaprComponentsImpl(
+      this
+    );
+    this.connectedEnvironmentsStorages = new ConnectedEnvironmentsStoragesImpl(
+      this
+    );
     this.containerApps = new ContainerAppsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
       this
     );
-    this.daprComponents = new DaprComponentsImpl(this);
+    this.containerAppsDiagnostics = new ContainerAppsDiagnosticsImpl(this);
+    this.managedEnvironmentDiagnostics = new ManagedEnvironmentDiagnosticsImpl(
+      this
+    );
+    this.managedEnvironmentsDiagnostics = new ManagedEnvironmentsDiagnosticsImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
     this.namespaces = new NamespacesImpl(this);
+    this.daprComponents = new DaprComponentsImpl(this);
     this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this
     );
@@ -178,14 +208,23 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   }
 
   containerAppsAuthConfigs: ContainerAppsAuthConfigs;
+  availableWorkloadProfiles: AvailableWorkloadProfiles;
+  billingMeters: BillingMeters;
+  connectedEnvironments: ConnectedEnvironments;
+  connectedEnvironmentsCertificates: ConnectedEnvironmentsCertificates;
+  connectedEnvironmentsDaprComponents: ConnectedEnvironmentsDaprComponents;
+  connectedEnvironmentsStorages: ConnectedEnvironmentsStorages;
   containerApps: ContainerApps;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
-  daprComponents: DaprComponents;
+  containerAppsDiagnostics: ContainerAppsDiagnostics;
+  managedEnvironmentDiagnostics: ManagedEnvironmentDiagnostics;
+  managedEnvironmentsDiagnostics: ManagedEnvironmentsDiagnostics;
   operations: Operations;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
   namespaces: Namespaces;
+  daprComponents: DaprComponents;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
   containerAppsSourceControls: ContainerAppsSourceControls;
 }

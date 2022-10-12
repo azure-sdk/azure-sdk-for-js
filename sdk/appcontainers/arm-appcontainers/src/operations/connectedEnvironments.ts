@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ContainerApps } from "../operationsInterfaces";
+import { ConnectedEnvironments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,36 +15,34 @@ import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  ContainerApp,
-  ContainerAppsListBySubscriptionNextOptionalParams,
-  ContainerAppsListBySubscriptionOptionalParams,
-  ContainerAppsListByResourceGroupNextOptionalParams,
-  ContainerAppsListByResourceGroupOptionalParams,
-  ContainerAppsListBySubscriptionResponse,
-  ContainerAppsListByResourceGroupResponse,
-  ContainerAppsGetOptionalParams,
-  ContainerAppsGetResponse,
-  ContainerAppsCreateOrUpdateOptionalParams,
-  ContainerAppsCreateOrUpdateResponse,
-  ContainerAppsDeleteOptionalParams,
-  ContainerAppsUpdateOptionalParams,
-  ContainerAppsListCustomHostNameAnalysisOptionalParams,
-  ContainerAppsListCustomHostNameAnalysisResponse,
-  ContainerAppsListSecretsOptionalParams,
-  ContainerAppsListSecretsResponse,
-  ContainerAppsGetAuthTokenOptionalParams,
-  ContainerAppsGetAuthTokenResponse,
-  ContainerAppsListBySubscriptionNextResponse,
-  ContainerAppsListByResourceGroupNextResponse
+  ConnectedEnvironment,
+  ConnectedEnvironmentsListBySubscriptionNextOptionalParams,
+  ConnectedEnvironmentsListBySubscriptionOptionalParams,
+  ConnectedEnvironmentsListByResourceGroupNextOptionalParams,
+  ConnectedEnvironmentsListByResourceGroupOptionalParams,
+  ConnectedEnvironmentsListBySubscriptionResponse,
+  ConnectedEnvironmentsListByResourceGroupResponse,
+  ConnectedEnvironmentsGetOptionalParams,
+  ConnectedEnvironmentsGetResponse,
+  ConnectedEnvironmentsCreateOrUpdateOptionalParams,
+  ConnectedEnvironmentsCreateOrUpdateResponse,
+  ConnectedEnvironmentsDeleteOptionalParams,
+  ConnectedEnvironmentsUpdateOptionalParams,
+  ConnectedEnvironmentsUpdateResponse,
+  CheckNameAvailabilityRequest,
+  ConnectedEnvironmentsCheckNameAvailabilityOptionalParams,
+  ConnectedEnvironmentsCheckNameAvailabilityResponse,
+  ConnectedEnvironmentsListBySubscriptionNextResponse,
+  ConnectedEnvironmentsListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ContainerApps operations. */
-export class ContainerAppsImpl implements ContainerApps {
+/** Class containing ConnectedEnvironments operations. */
+export class ConnectedEnvironmentsImpl implements ConnectedEnvironments {
   private readonly client: ContainerAppsAPIClient;
 
   /**
-   * Initialize a new instance of the class ContainerApps class.
+   * Initialize a new instance of the class ConnectedEnvironments class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerAppsAPIClient) {
@@ -52,12 +50,12 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given subscription.
+   * Get all connectedEnvironments for a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<ContainerApp> {
+    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
+  ): PagedAsyncIterableIterator<ConnectedEnvironment> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -73,8 +71,8 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<ContainerApp[]> {
+    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<ConnectedEnvironment[]> {
     let result = await this._listBySubscription(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -86,22 +84,22 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): AsyncIterableIterator<ContainerApp> {
+    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
+  ): AsyncIterableIterator<ConnectedEnvironment> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Get the Container Apps in a given resource group.
+   * Get all connectedEnvironments in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ContainerApp> {
+    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
+  ): PagedAsyncIterableIterator<ConnectedEnvironment> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -118,8 +116,8 @@ export class ContainerAppsImpl implements ContainerApps {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ContainerApp[]> {
+    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ConnectedEnvironment[]> {
     let result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -136,8 +134,8 @@ export class ContainerAppsImpl implements ContainerApps {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ContainerApp> {
+    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
+  ): AsyncIterableIterator<ConnectedEnvironment> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       options
@@ -147,12 +145,12 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given subscription.
+   * Get all connectedEnvironments for a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ContainerAppsListBySubscriptionOptionalParams
-  ): Promise<ContainerAppsListBySubscriptionResponse> {
+    options?: ConnectedEnvironmentsListBySubscriptionOptionalParams
+  ): Promise<ConnectedEnvironmentsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
@@ -160,14 +158,14 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the Container Apps in a given resource group.
+   * Get all connectedEnvironments in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
-  ): Promise<ContainerAppsListByResourceGroupResponse> {
+    options?: ConnectedEnvironmentsListByResourceGroupOptionalParams
+  ): Promise<ConnectedEnvironmentsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
@@ -175,44 +173,44 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Get the properties of a Container App.
+   * Get the properties of an connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsGetOptionalParams
-  ): Promise<ContainerAppsGetResponse> {
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsGetOptionalParams
+  ): Promise<ConnectedEnvironmentsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
+      { resourceGroupName, connectedEnvironmentName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Create or update a Container App.
+   * Creates or updates an connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties used to create a container app
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param environmentEnvelope Configuration details of the connectedEnvironment.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
+    connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironment,
+    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ContainerAppsCreateOrUpdateResponse>,
-      ContainerAppsCreateOrUpdateResponse
+      PollOperationState<ConnectedEnvironmentsCreateOrUpdateResponse>,
+      ConnectedEnvironmentsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ContainerAppsCreateOrUpdateResponse> => {
+    ): Promise<ConnectedEnvironmentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -250,7 +248,12 @@ export class ContainerAppsImpl implements ContainerApps {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, containerAppName, containerAppEnvelope, options },
+      {
+        resourceGroupName,
+        connectedEnvironmentName,
+        environmentEnvelope,
+        options
+      },
       createOrUpdateOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -262,37 +265,37 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Create or update a Container App.
+   * Creates or updates an connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties used to create a container app
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
+   * @param environmentEnvelope Configuration details of the connectedEnvironment.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsCreateOrUpdateOptionalParams
-  ): Promise<ContainerAppsCreateOrUpdateResponse> {
+    connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironment,
+    options?: ConnectedEnvironmentsCreateOrUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      containerAppName,
-      containerAppEnvelope,
+      connectedEnvironmentName,
+      environmentEnvelope,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete a Container App.
+   * Delete an connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -335,7 +338,7 @@ export class ContainerAppsImpl implements ContainerApps {
 
     const lro = new LroImpl(
       sendOperation,
-      { resourceGroupName, containerAppName, options },
+      { resourceGroupName, connectedEnvironmentName, options },
       deleteOperationSpec
     );
     const poller = new LroEngine(lro, {
@@ -347,159 +350,62 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Delete a Container App.
+   * Delete an connectedEnvironment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsDeleteOptionalParams
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      containerAppName,
+      connectedEnvironmentName,
       options
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Patches a Container App using JSON Merge Patch
+   * Patches a Managed Environment. Only patching of tags is supported currently
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param connectedEnvironmentName Name of the connectedEnvironment.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  update(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, containerAppName, containerAppEnvelope, options },
+    connectedEnvironmentName: string,
+    options?: ConnectedEnvironmentsUpdateOptionalParams
+  ): Promise<ConnectedEnvironmentsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, connectedEnvironmentName, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
   }
 
   /**
-   * Patches a Container App using JSON Merge Patch
+   * Checks if resource connectedEnvironmentName is available.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param connectedEnvironmentName Name of the Managed Environment.
+   * @param checkNameAvailabilityRequest The check connectedEnvironmentName availability request.
    * @param options The options parameters.
    */
-  async beginUpdateAndWait(
+  checkNameAvailability(
     resourceGroupName: string,
-    containerAppName: string,
-    containerAppEnvelope: ContainerApp,
-    options?: ContainerAppsUpdateOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      containerAppName,
-      containerAppEnvelope,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Analyzes a custom hostname for a Container App
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param options The options parameters.
-   */
-  listCustomHostNameAnalysis(
-    resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsListCustomHostNameAnalysisOptionalParams
-  ): Promise<ContainerAppsListCustomHostNameAnalysisResponse> {
+    connectedEnvironmentName: string,
+    checkNameAvailabilityRequest: CheckNameAvailabilityRequest,
+    options?: ConnectedEnvironmentsCheckNameAvailabilityOptionalParams
+  ): Promise<ConnectedEnvironmentsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      listCustomHostNameAnalysisOperationSpec
-    );
-  }
-
-  /**
-   * List secrets for a container app
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param options The options parameters.
-   */
-  listSecrets(
-    resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsListSecretsOptionalParams
-  ): Promise<ContainerAppsListSecretsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      listSecretsOperationSpec
-    );
-  }
-
-  /**
-   * Get auth token for a container app
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param containerAppName Name of the Container App.
-   * @param options The options parameters.
-   */
-  getAuthToken(
-    resourceGroupName: string,
-    containerAppName: string,
-    options?: ContainerAppsGetAuthTokenOptionalParams
-  ): Promise<ContainerAppsGetAuthTokenResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, options },
-      getAuthTokenOperationSpec
+      {
+        resourceGroupName,
+        connectedEnvironmentName,
+        checkNameAvailabilityRequest,
+        options
+      },
+      checkNameAvailabilityOperationSpec
     );
   }
 
@@ -510,8 +416,8 @@ export class ContainerAppsImpl implements ContainerApps {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ContainerAppsListBySubscriptionNextOptionalParams
-  ): Promise<ContainerAppsListBySubscriptionNextResponse> {
+    options?: ConnectedEnvironmentsListBySubscriptionNextOptionalParams
+  ): Promise<ConnectedEnvironmentsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec
@@ -527,8 +433,8 @@ export class ContainerAppsImpl implements ContainerApps {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ContainerAppsListByResourceGroupNextOptionalParams
-  ): Promise<ContainerAppsListByResourceGroupNextResponse> {
+    options?: ConnectedEnvironmentsListByResourceGroupNextOptionalParams
+  ): Promise<ConnectedEnvironmentsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
@@ -539,11 +445,12 @@ export class ContainerAppsImpl implements ContainerApps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.App/containerApps",
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.App/connectedEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ConnectedEnvironmentCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -556,11 +463,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ConnectedEnvironmentCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -577,14 +484,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
-    },
-    404: {
-      isError: true
+      bodyMapper: Mappers.ConnectedEnvironment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -595,39 +499,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ConnectedEnvironment
     },
     201: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ConnectedEnvironment
     },
     202: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ConnectedEnvironment
     },
     204: {
-      bodyMapper: Mappers.ContainerApp
+      bodyMapper: Mappers.ConnectedEnvironment
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.containerAppEnvelope,
+  requestBody: Parameters.environmentEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -635,7 +539,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -651,103 +555,55 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.ConnectedEnvironment
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.containerAppEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName
+    Parameters.connectedEnvironmentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/connectedEnvironments/{connectedEnvironmentName}/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResponse
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.checkNameAvailabilityRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.connectedEnvironmentName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const listCustomHostNameAnalysisOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listCustomHostNameAnalysis",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomHostnameAnalysisResult
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.customHostname],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listSecretsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/listSecrets",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecretsCollection
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getAuthTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContainerAppAuthToken
-    },
-    404: {
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.containerAppName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -755,7 +611,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ConnectedEnvironmentCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -775,7 +631,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAppCollection
+      bodyMapper: Mappers.ConnectedEnvironmentCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
