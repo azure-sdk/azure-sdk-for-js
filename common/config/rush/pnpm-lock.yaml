@@ -10216,12 +10216,12 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-D02fwUKdfZ5mr42jcZ8xJTP9tMPXAhTpUA4IXKx7fkk9SbNwjkw71OT6avGUvXuIiFLYNfajjcRPTibgOGD1cA==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-eqSrNGQnJyfR3sHJeqOjwaYAHB3ZqmqW2Vo7WFi7Pz9a7n4uQCmZuzD3DtnN7/8MsTAHVjsdDwnfGHjOTtsCRw==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10235,7 +10235,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.0
-      typescript: 4.6.4
+      typescript: 4.2.4
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
@@ -18680,7 +18680,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3tvMIhTyvuOTgKK9O8L0ohZnspDLQ9sJZZxk8pbqqf+2qGbEvN2CT/VdM/Lh2d4HuFhxSkeVbJgnk9KAr99PpQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-FlPn+HxK47mnvSCUz513u4gm5jfgfRmy1dRwKkdWCGiRIZ4VjCYC2JxCTEd6FAA/OhEgMBcY1xm0LAYqoTiFgg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
