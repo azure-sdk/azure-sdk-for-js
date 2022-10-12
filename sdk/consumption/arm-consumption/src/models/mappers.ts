@@ -218,13 +218,6 @@ export const BudgetFilter: coreClient.CompositeMapper = {
           }
         }
       },
-      not: {
-        serializedName: "not",
-        type: {
-          name: "Composite",
-          className: "BudgetFilterProperties"
-        }
-      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -2385,72 +2378,6 @@ export const ManagementGroupAggregatedCostResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CreditSummary: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreditSummary",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      balanceSummary: {
-        serializedName: "properties.balanceSummary",
-        type: {
-          name: "Composite",
-          className: "CreditBalanceSummary"
-        }
-      },
-      pendingCreditAdjustments: {
-        serializedName: "properties.pendingCreditAdjustments",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      expiredCredit: {
-        serializedName: "properties.expiredCredit",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      pendingEligibleCharges: {
-        serializedName: "properties.pendingEligibleCharges",
-        type: {
-          name: "Composite",
-          className: "Amount"
-        }
-      },
-      creditCurrency: {
-        serializedName: "properties.creditCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      billingCurrency: {
-        serializedName: "properties.billingCurrency",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      reseller: {
-        serializedName: "properties.reseller",
-        type: {
-          name: "Composite",
-          className: "Reseller"
-        }
-      },
-      eTag: {
-        serializedName: "properties.eTag",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Budget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2851,6 +2778,72 @@ export const LotSummary: coreClient.CompositeMapper = {
   }
 };
 
+export const CreditSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreditSummary",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      balanceSummary: {
+        serializedName: "properties.balanceSummary",
+        type: {
+          name: "Composite",
+          className: "CreditBalanceSummary"
+        }
+      },
+      pendingCreditAdjustments: {
+        serializedName: "properties.pendingCreditAdjustments",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      expiredCredit: {
+        serializedName: "properties.expiredCredit",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      pendingEligibleCharges: {
+        serializedName: "properties.pendingEligibleCharges",
+        type: {
+          name: "Composite",
+          className: "Amount"
+        }
+      },
+      creditCurrency: {
+        serializedName: "properties.creditCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      billingCurrency: {
+        serializedName: "properties.billingCurrency",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      reseller: {
+        serializedName: "properties.reseller",
+        type: {
+          name: "Composite",
+          className: "Reseller"
+        }
+      },
+      eTagPropertiesETag: {
+        serializedName: "properties.eTag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ReservationTransaction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3023,7 +3016,6 @@ export const ReservationTransaction: coreClient.CompositeMapper = {
 };
 
 export const ModernReservationTransaction: coreClient.CompositeMapper = {
-  serializedName: "Modern",
   type: {
     name: "Composite",
     className: "ModernReservationTransaction",
@@ -3237,8 +3229,8 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyUsageDetail",
-    uberParent: "UsageDetail",
-    polymorphicDiscriminator: UsageDetail.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...UsageDetail.type.modelProperties,
       billingAccountId: {
@@ -3542,6 +3534,20 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      benefitId: {
+        serializedName: "properties.benefitId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      benefitName: {
+        serializedName: "properties.benefitName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       pricingModel: {
         serializedName: "properties.pricingModel",
         readOnly: true,
@@ -3558,8 +3564,8 @@ export const ModernUsageDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernUsageDetail",
-    uberParent: "UsageDetail",
-    polymorphicDiscriminator: UsageDetail.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...UsageDetail.type.modelProperties,
       billingAccountId: {
@@ -4075,9 +4081,8 @@ export const LegacyReservationRecommendation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyReservationRecommendation",
-    uberParent: "ReservationRecommendation",
-    polymorphicDiscriminator:
-      ReservationRecommendation.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       lookBackPeriod: {
@@ -4200,9 +4205,8 @@ export const ModernReservationRecommendation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernReservationRecommendation",
-    uberParent: "ReservationRecommendation",
-    polymorphicDiscriminator:
-      ReservationRecommendation.type.polymorphicDiscriminator,
+    uberParent: "Resource",
+    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ReservationRecommendation.type.modelProperties,
       locationPropertiesLocation: {
@@ -4332,8 +4336,8 @@ export const LegacyChargeSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LegacyChargeSummary",
-    uberParent: "ChargeSummary",
-    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
+    uberParent: "ProxyResource",
+    polymorphicDiscriminator: ProxyResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChargeSummary.type.modelProperties,
       billingPeriodId: {
@@ -4394,8 +4398,8 @@ export const ModernChargeSummary: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ModernChargeSummary",
-    uberParent: "ChargeSummary",
-    polymorphicDiscriminator: ChargeSummary.type.polymorphicDiscriminator,
+    uberParent: "ProxyResource",
+    polymorphicDiscriminator: ProxyResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...ChargeSummary.type.modelProperties,
       billingPeriodId: {
@@ -4496,10 +4500,8 @@ export let discriminators = {
   "ProxyResource.ChargeSummary": ChargeSummary,
   "LegacyReservationRecommendationProperties.Single": LegacySingleScopeReservationRecommendationProperties,
   "LegacyReservationRecommendationProperties.Shared": LegacySharedScopeReservationRecommendationProperties,
-  "UsageDetail.legacy": LegacyUsageDetail,
-  "UsageDetail.modern": ModernUsageDetail,
-  "ReservationRecommendation.legacy": LegacyReservationRecommendation,
-  "ReservationRecommendation.modern": ModernReservationRecommendation,
-  "ChargeSummary.legacy": LegacyChargeSummary,
-  "ChargeSummary.modern": ModernChargeSummary
+  "Resource.legacy": LegacyReservationRecommendation,
+  "Resource.modern": ModernReservationRecommendation,
+  "ProxyResource.legacy": LegacyChargeSummary,
+  "ProxyResource.modern": ModernChargeSummary
 };
