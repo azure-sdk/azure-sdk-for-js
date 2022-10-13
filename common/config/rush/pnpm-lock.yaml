@@ -73,6 +73,7 @@ specifiers:
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:./projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:./projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:./projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:./projects/arm-devspaces.tgz
@@ -387,6 +388,7 @@ dependencies:
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
+  '@rush-temp/arm-devhub': file:projects/arm-devhub.tgz
   '@rush-temp/arm-deviceprovisioningservices': file:projects/arm-deviceprovisioningservices.tgz
   '@rush-temp/arm-deviceupdate': file:projects/arm-deviceupdate.tgz
   '@rush-temp/arm-devspaces': file:projects/arm-devspaces.tgz
@@ -11774,6 +11776,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-devhub.tgz:
+    resolution: {integrity: sha512-UAyx7DXEGbaSIPuMFHCUQJF7mWfuG8wvmDi/1hBxZlywlscY1YEV2Db4nXMwAAI5jNqImoxDkAi+IoE8DLRTQQ==, tarball: file:projects/arm-devhub.tgz}
+    name: '@rush-temp/arm-devhub'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.17.2
+    transitivePeerDependencies:
+      - '@types/node'
+      - supports-color
+    dev: false
+
   file:projects/arm-deviceprovisioningservices.tgz:
     resolution: {integrity: sha512-53bIZARkaTdNa44xHTcHoP42jNw0UvR9yO4dF/FBIyN80WKAZEVEUTOuGJh8joe6jXr8bG8EjBajo7pBFp+gOA==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
@@ -17792,7 +17821,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-NF3pWFm+ODKaJQc7MMoI4Hukq5DOvBI6oQqiKD2gmpLB/ZVR0WNg18qXL6/lDFezbEs10C9zt1NGwedJs4MIow==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-v3glHx0xQIrA2MuKdkiOj3A4teHM1h05OC94rPJ6qNCwRGiIMzSUVx33YKVza11yocKJGrdU4+I3LH5XYEmIbA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18685,7 +18714,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3tvMIhTyvuOTgKK9O8L0ohZnspDLQ9sJZZxk8pbqqf+2qGbEvN2CT/VdM/Lh2d4HuFhxSkeVbJgnk9KAr99PpQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-FlPn+HxK47mnvSCUz513u4gm5jfgfRmy1dRwKkdWCGiRIZ4VjCYC2JxCTEd6FAA/OhEgMBcY1xm0LAYqoTiFgg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
