@@ -3961,7 +3961,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.9.0-dev.20221012
+      typescript: 4.9.0-dev.20221013
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8958,8 +8958,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.9.0-dev.20221012:
-    resolution: {integrity: sha512-EqJR8s/4zlC8nKMNB3ImSY/lv0bKnEJ2H4UPHzDC306qKgIRexh2Q/446811kG++20Q4TiFhV7LjLSBtgA3OrA==}
+  /typescript/4.9.0-dev.20221013:
+    resolution: {integrity: sha512-4Bo+yrQ+bCi8y2jB4oUajM4uxhluhGgTV0gESr/H8tvpOUqM0kT9swHxlc5fTXnzJFxQi8dbUg5rIfIQXakW2g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15081,17 +15081,19 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-jweJRopzNOZvC2sEpiPUsUrcnVcTL8n2ywSNf/YzZb0Iu9vp8b10F0CEaJ+DpQ18pIjfmHXlFHySnuuhw8AMeA==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-8QprjgDHhkTmuEtmmte1JCUYYl4roFZA/sghR96UIfq7PL6eWVCyriAlPsK2QXKOJ924r8oM/LZlGfTVvvC4/w==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.32.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.3
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -15103,7 +15105,6 @@ packages:
       uglify-js: 3.17.2
     transitivePeerDependencies:
       - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -17821,7 +17822,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-NF3pWFm+ODKaJQc7MMoI4Hukq5DOvBI6oQqiKD2gmpLB/ZVR0WNg18qXL6/lDFezbEs10C9zt1NGwedJs4MIow==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-v3glHx0xQIrA2MuKdkiOj3A4teHM1h05OC94rPJ6qNCwRGiIMzSUVx33YKVza11yocKJGrdU4+I3LH5XYEmIbA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -18714,7 +18715,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-3tvMIhTyvuOTgKK9O8L0ohZnspDLQ9sJZZxk8pbqqf+2qGbEvN2CT/VdM/Lh2d4HuFhxSkeVbJgnk9KAr99PpQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-FlPn+HxK47mnvSCUz513u4gm5jfgfRmy1dRwKkdWCGiRIZ4VjCYC2JxCTEd6FAA/OhEgMBcY1xm0LAYqoTiFgg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
